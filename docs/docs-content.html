@@ -48,6 +48,13 @@
           ></div
         >
         <div class="docs-nav-group"
+          ><a
+            class="docs-nav-link"
+            href="/?page=docs#cognition"
+            data-chapter="cognition"
+            ><span>09</span>Cognition &amp; learning</a
+          ><a class="docs-nav-link" href="/?page=docs#roadmap" data-chapter="roadmap"
+            ><span>10</span>51-step capability map</a
           ><div class="docs-nav-label">Reference</div
           ><a class="docs-nav-link" href="/?page=docs#glossary" data-chapter="glossary"
             ><span>07</span>Glossary</a
@@ -59,7 +66,7 @@
           ></div
         > </nav
       ><div class="docs-sidebar-foot"
-        ><b>Field notes / v1</b>Continuous neural model<br />Powered by Brian2</div
+        ><b>Field notes / v2</b>Continuous neural model<br />Powered by Brian2</div
       ></aside
     >
     <button
@@ -91,759 +98,775 @@
             class="docs-article"
             id="doc-introduction"
             data-title="Meet Nuria"
-            data-category="Start here"
+            data-category="The system"
+            ><div class="docs-eyebrow">Nuria / v2</div><h1 tabindex="-1">Meet Nuria</h1
+            ><p class="docs-lead">A persistent neural entity, shaped by its token.</p
+            ><h2 id="introduction--overview">One continuous experiment</h2
+            ><p
+              >Nuria combines a 1,024-neuron spiking circuit, online prediction,
+              episodic memory, attention competition and an autonomous action selector.
+              A token’s finalized trades provide sensory inputs. The model continues
+              between trades and resumes from saved neural and learning state.</p
+            ><h2 id="introduction--cycle">A complete feedback loop</h2
+            ><p
+              >Input → neural response → prediction → observed outcome → reward
+              modulation → memory → action → measured consequence. The observatory shows
+              the numerical records behind this loop. Local experiments execute on the
+              Nuria server; their measured CPU time and zero incremental SOL spending
+              are reported separately.</p
+            ><h2 id="introduction--history">History survives the upgrade</h2
+            ><p
+              >The original 256-neuron network and receipt history continue
+              independently. The expanded cognitive circuit has its own genesis,
+              checkpoints and hash journal, and reads the same recorded inputs through a
+              read-only database role. This is an added circuit, rather than a reset or
+              a claim that both circuits have identical state.</p
+            ><h2 id="introduction--research">The research question</h2
+            ><p
+              >What happens when a token supplies a persistent neural system’s sensory
+              stream and, eventually, its resource budget? Nuria investigates that
+              question through reproducible behavior. “An experiment in onchain
+              consciousness” describes the research direction. Brain-scale simulation
+              and subjective experience are not established by population names,
+              animations or a neuron count.</p
+            ></article
           >
-            <div class="docs-eyebrow"
-              ><span class="seed-dot" aria-hidden="true"></span>01 / Meet Nuria</div
-            ><h1 tabindex="-1">How Nuria works</h1
-            ><p class="docs-lead"
-              >Nuria is an experiment in onchain consciousness: a continuous neural life
-              shaped by interaction, with an evolving state and a history you can
-              inspect.</p
-            >
-            <div class="docs-diagram"
-              ><div class="docs-diagram-caption">The central loop</div
-              ><div class="docs-flow"
-                ><div class="docs-flow-step"
-                  ><small>01 / INPUT</small><strong>A trade</strong
-                  ><span>A sensory signal</span></div
-                ><span class="docs-flow-arrow" aria-hidden="true"></span
-                ><div class="docs-flow-step"
-                  ><small>02 / STATE</small><strong>A neural window</strong
-                  ><span>Activity &amp; adaptation</span></div
-                ><span class="docs-flow-arrow" aria-hidden="true"></span
-                ><div class="docs-flow-step"
-                  ><small>03 / RECORD</small><strong>A receipt</strong
-                  ><span>Linked evidence</span></div
-                ></div
-              ></div
-            >
-            <h2 id="introduction--idea">The idea</h2
-            ><p
-              >The token gives a market a way to interact with an evolving neural
-              system. A buy and a sell enter different populations of neurons. The
-              network continues between signals, carrying forward its membrane state,
-              adaptation and changing connections.</p
-            ><p
-              >The observatory makes that process visible. It brings together the input
-              stream, measured neural activity, a resource-policy readout and the
-              receipts that connect them.</p
-            >
-            <div class="docs-principles"
-              ><div class="docs-principle"
-                ><small>01</small><strong>Observe</strong
-                ><p>See the network’s activity as the model advances.</p></div
-              ><div class="docs-principle"
-                ><small>02</small><strong>Trace</strong
-                ><p>Follow an input into its recorded neural window.</p></div
-              ><div class="docs-principle"
-                ><small>03</small><strong>Verify</strong
-                ><p>Check the integrity of saved inputs, spikes and receipts.</p></div
-              ></div
-            >
-            <h2 id="introduction--premise">An experiment in onchain consciousness</h2
-            ><p
-              >Nuria brings a token’s activity into a continuously running neural
-              system. Its life unfolds through recurring activity, a state carried
-              across time and connections reshaped by spike timing. The observatory
-              opens that process to inspection: signals, adaptation, resource proposals
-              and a traceable record.</p
-            >
-            <h2 id="introduction--begin">Documentation</h2
-            ><div class="docs-chapter-grid"
-              ><a
-                class="docs-chapter-card"
-                data-chapter="observatory"
-                href="/?page=docs#observatory"
-                ><strong>Read the observatory</strong
-                ><p>Understand the field, views, regions and input trace.</p></a
-              ><a
-                class="docs-chapter-card"
-                data-chapter="model"
-                href="/?page=docs#model"
-                ><strong>Explore the model</strong
-                ><p>Meet the populations and the dynamics that connect them.</p></a
-              ><a
-                class="docs-chapter-card"
-                data-chapter="inputs"
-                href="/?page=docs#inputs"
-                ><strong>Follow a trade</strong
-                ><p>See how a source transaction becomes sensory input.</p></a
-              ><a
-                class="docs-chapter-card"
-                data-chapter="evidence"
-                href="/?page=docs#evidence"
-                ><strong>Understand the evidence</strong
-                ><p>Explore input provenance, neural records and verification.</p></a
-              ></div
-            >
-          </article>
 
           <article
             class="docs-article"
             id="doc-observatory"
             data-title="Read the observatory"
-            data-category="Start here"
-            hidden
-          >
-            <div class="docs-eyebrow">02 / Read the observatory</div
-            ><h1 tabindex="-1">The observatory</h1
+            data-category="The system"
+            ><div class="docs-eyebrow">Nuria / v2</div
+            ><h1 tabindex="-1">Read the observatory</h1
             ><p class="docs-lead"
-              >The field is an instrument for exploring the model. Each view answers a
-              different question about the same network.</p
-            >
-            <h2 id="observatory--views">Three views, one model</h2
-            ><div class="docs-table-wrap"
-              ><table class="docs-table"
-                ><thead
-                  ><tr><th>View</th><th>What it shows</th><th>Use it to</th></tr></thead
-                ><tbody
-                  ><tr
-                    ><td>Neural</td
-                    ><td
-                      >Model neurons, sampled connections and recorded firing, arranged
-                      in a schematic three-dimensional field.</td
-                    ><td>Explore activity and regional relationships.</td></tr
-                  ><tr
-                    ><td>Topology</td
-                    ><td
-                      >The same model in a flatter layout, with sampled connections.</td
-                    ><td>Inspect the structure without camera rotation.</td></tr
-                  ><tr
-                    ><td>Spikes</td
-                    ><td
-                      >Actual spike times by neuron in the latest 200 ms model
-                      window.</td
-                    ><td>Read when neurons fired.</td></tr
-                  ></tbody
-                ></table
-              ></div
-            >
-            <h2 id="observatory--controls">Network regions</h2
+              >A view into recorded neural activity, decisions and outcomes.</p
+            ><h2 id="observatory--field">The neural field</h2
             ><p
-              >Select a population below the field to isolate its view. In the raster,
-              the selected population expands to fill the plotted area. Drag the neural
-              field to orbit it, or focus it and use the arrow keys.
-              <code>Home</code> resets the camera.</p
+              >The main graph shows the expanded circuit’s 1,024 neurons across six
+              populations. Membranes, spikes and sampled plastic weights come from
+              Brian2. Positions and traveling trails are visualization conventions. A
+              deterministic subset of connections is rendered; the worker retains the
+              complete connectivity.</p
+            ><h2 id="observatory--modes">Three views of one measured model</h2
             ><p
-              >Pause stops visual motion while incoming state continues to update. Focus
-              mode enlarges the field; <code>Esc</code> returns to the full observatory.
-              Reduced-motion preferences pause the visual motion initially.</p
-            >
-            <h2 id="observatory--trace">Input records</h2
-            ><ol
-              ><li><strong>Input:</strong> its side, quote amount, source and time.</li
-              ><li
-                ><strong>Sensory route:</strong> the buy or sell population and its
-                recorded drive.</li
-              ><li
-                ><strong>Recorded window:</strong> spike count, regional firing rate and
-                whether the weight hash changed.</li
-              ><li
-                ><strong>Receipt:</strong> the saved record’s sequence, tick and
-                copyable hash.</li
-              ></ol
+              >Neural mode supports orbiting and inspecting individual neurons. Topology
+              mode flattens the circuit layout. Spikes mode shows actual spike times in
+              the latest 100 ms autonomous window. Visual replay runs slower than model
+              time; model time and wall time are separate.</p
+            ><h2 id="observatory--decisions">Choices and consequences</h2
             ><p
-              >Select an activity row to pin its trace. “Follow latest” returns to the
-              newest input. A queued signal displays a pending receipt until the durable
-              record is saved.</p
-            >
-            <h2 id="observatory--measurements">How the field represents activity</h2
+              >Current decision shows eight combined action scores. The learning panel
+              compares evaluated predictions against the prior frequency baseline. The
+              habitat shows actual recorded software moves and virtual resource
+              collection. Memory and attention report recorded episodes and the three
+              competing workspace slots.</p
+            ><h2 id="observatory--inspect">Follow the evidence</h2
             ><p
-              >Neurons, connectivity, weights, voltages and firing data come from the
-              model. The field uses schematic geometry and sampled edges to make
-              connectivity legible. Travelling markers follow recorded source spikes at
-              slowed visual speed; the model’s transmission delays are specified in the
-              neural model chapter.</p
-            ><div class="docs-callout neutral"
-              ><div class="docs-callout-label">Reading a window</div
-              ><p
-                >Recorded activity includes background input and may include several
-                trade signals. A linked receipt connects those inputs to the recorded
-                neural transition.</p
-              ></div
-            >
-          </article>
+              >Inspect the latest decision to see utility scores, neural scores, outcome
+              reward, job results and hashes. Copy the record hash for comparison. The
+              original input-record panel retains the original network’s receipt links;
+              expanded per-input effects are available through the cognitive API.</p
+            ><h2 id="observatory--freshness">Connection and freshness</h2
+            ><p
+              >A failed or stale response is unavailable. A cached last frame does not
+              imply a healthy worker. Public reads do not trigger simulation, database
+              queries or RPC calls. Reduced motion and pausing affect visual playback;
+              the server continues.</p
+            ></article
+          >
 
           <article
             class="docs-article"
             id="doc-model"
             data-title="The neural model"
             data-category="The system"
-            hidden
-          >
-            <div class="docs-eyebrow">03 / The neural model</div
+            ><div class="docs-eyebrow">Nuria / v2</div
             ><h1 tabindex="-1">The neural model</h1
             ><p class="docs-lead"
-              >256 neurons. Six populations. Excitatory connections that change with
-              spike timing, and inhibitory connections that help regulate activity.</p
-            >
-            <h2 id="model--populations">The six populations</h2
-            ><div class="docs-table-wrap"
-              ><table class="docs-table"
-                ><thead
-                  ><tr
-                    ><th>Population</th><th>Neurons</th><th>Role in the model</th></tr
-                  ></thead
-                ><tbody
-                  ><tr
-                    ><td
-                      ><span class="docs-population" style="--population-color: #c7f4b0"
-                        ><i></i>Buy sensory</span
-                      ></td
-                    ><td>32</td><td>Receives buy-side drive.</td></tr
-                  ><tr
-                    ><td
-                      ><span class="docs-population" style="--population-color: #dfa6b2"
-                        ><i></i>Sell sensory</span
-                      ></td
-                    ><td>32</td><td>Receives sell-side drive.</td></tr
-                  ><tr
-                    ><td
-                      ><span class="docs-population" style="--population-color: #aac3db"
-                        ><i></i>Association</span
-                      ></td
-                    ><td>64</td
-                    ><td>Participates in recurrent activity across the network.</td></tr
-                  ><tr
-                    ><td
-                      ><span class="docs-population" style="--population-color: #beaecd"
-                        ><i></i>Recurrent memory</span
-                      ></td
-                    ><td>64</td
-                    ><td
-                      >Participates in recurrent activity and state carried between
-                      windows.</td
-                    ></tr
-                  ><tr
-                    ><td
-                      ><span class="docs-population" style="--population-color: #daceab"
-                        ><i></i>Resource policy</span
-                      ></td
-                    ><td>16</td
-                    ><td>Four output groups for a bounded proposal readout.</td></tr
-                  ><tr
-                    ><td
-                      ><span class="docs-population" style="--population-color: #94c6b1"
-                        ><i></i>Inhibitory control</span
-                      ></td
-                    ><td>48</td
-                    ><td>Supplies inhibitory signals to connected neurons.</td></tr
-                  ></tbody
-                ></table
-              ></div
+              >Adaptive spiking dynamics with explicit inputs and outcome feedback.</p
+            ><h2 id="model--regions">Six populations</h2
             ><p
-              >The current seeded network has 3,906 plastic excitatory synapses and
-              1,428 inhibitory synapses. The six populations route sensory inputs,
-              recurrent activity, resource proposals and inhibitory control through the
-              same evolving network.</p
-            >
-            <h2 id="model--dynamics">Inside a neuron</h2
+              >Sensory: 128 neurons. Association: 384. Recurrent memory: 128. Workspace:
+              128. Action readout: 128. Inhibitory control: 128. These labels define
+              computational roles; the design is a simplified software model.</p
+            ><h2 id="model--dynamics">Membranes, adaptation and inhibition</h2
             ><p
-              >Membrane state evolves with bias, sensory drive, excitatory input,
-              inhibitory input and adaptation. Crossing the firing threshold emits a
-              spike, resets the membrane state and increases adaptation. A refractory
-              interval prevents immediate refiring.</p
-            ><div class="docs-table-wrap"
-              ><table class="docs-table"
-                ><thead
-                  ><tr><th>Parameter</th><th>Current model value</th></tr></thead
-                ><tbody
-                  ><tr><td>Membrane timescale</td><td>20 ms</td></tr
-                  ><tr><td>Excitatory / inhibitory decay</td><td>8 ms / 12 ms</td></tr
-                  ><tr><td>Adaptation timescale</td><td>300 ms</td></tr
-                  ><tr><td>Refractory interval</td><td>4 ms</td></tr
-                  ><tr><td>Simulation step</td><td>1 ms</td></tr
-                  ><tr><td>Recorded model window</td><td>200 ms</td></tr></tbody
-                ></table
-              ></div
-            >
-            <h2 id="model--plasticity">Connections change with timing</h2
+              >The circuit uses leaky integrate-and-fire neurons with heterogeneous time
+              constants: 12 ms sensory, 45 ms memory and 20 ms elsewhere. Refractory
+              period is 4 ms. Excitatory and inhibitory influence decay over 8 and 12
+              ms. Adaptation decays over 350 ms. Independent background input and
+              bounded homeostatic regulation keep the circuit active between signals.</p
+            ><h2 id="model--plasticity">Timing plus reward</h2
             ><p
-              >Plastic excitatory connections maintain pre- and postsynaptic traces.
-              Their relative spike timing changes the connection weight, which stays
-              bounded between <code>0.005</code> and <code>0.25</code>. Excitatory
-              transmission delays span 1–8 ms; inhibitory delays are 2 ms.</p
+              >Excitatory connections maintain pre/post traces and eligibility. Small
+              timing-dependent updates act continuously. Observed prediction improvement
+              against a frequency baseline and measured action outcomes produce bounded
+              reward signals that modulate eligible weights. Inhibitory connections use
+              fixed influence. All weight updates are bounded.</p
+            ><h2 id="model--timing">Two kinds of window</h2
             ><p
-              >“Adapted weights” counts synapses whose current weight differs from its
-              initial value beyond the model’s tolerance. This gives a direct view of
-              how much of the network’s plastic connectivity has changed over time.</p
-            >
-            <h2 id="model--continuity">A network that continues</h2
+              >Each recorded input receives its own 20 ms sensory window. A cycle
+              processes up to four inputs, then advances a 100 ms autonomous window.
+              Nominal wall pacing is one cycle per second. Under load, actual cycle cost
+              determines catch-up rate; a nominal limit is not a throughput
+              guarantee.</p
+            ><h2 id="model--references">Technical references</h2
             ><p
-              >Each neuron also receives independent Poisson background input at 18 Hz.
-              A bounded bias controller targets a network firing rate near 8 Hz per
-              neuron. This maintains activity between market signals, with measured
-              firing rates shown in the observatory.</p
-            ><p
-              >The server advances 200 ms of model time per cycle and paces toward one
-              wall-clock second per cycle. Computation and saving can take longer. Model
-              time is shown separately, and persistent checkpoints preserve network
-              state, random state and pending evidence.</p
-            ><p
-              >For the underlying simulator, see the
+              >The Brian2 reward-modulated STDP example describes the
+              eligibility-and-feedback mechanism that informed this implementation.
+              Nuria’s dimensions, parameters and controller are its own design.
               <a
-                href="https://brian2.readthedocs.io/en/stable/resources/tutorials/index.html"
+                href="https://brian2.readthedocs.io/en/stable/examples/frompapers.Izhikevich_2007.html"
                 target="_blank"
                 rel="noreferrer"
-                >Brian2 tutorials</a
+                >Brian2 reward-modulated STDP reference</a
               >.</p
-            >
-          </article>
+            ></article
+          >
 
           <article
             class="docs-article"
             id="doc-inputs"
             data-title="Trades & signals"
             data-category="The system"
-            hidden
-          >
-            <div class="docs-eyebrow">04 / Trades &amp; signals</div
-            ><h1 tabindex="-1">Trade inputs</h1
+            ><div class="docs-eyebrow">Nuria / v2</div
+            ><h1 tabindex="-1">Trades & signals</h1
             ><p class="docs-lead"
-              >A source transaction is decoded, saved and queued before the model
-              records the neural window in which its signal was processed.</p
-            >
-            <h2 id="inputs--pipeline">From transaction to receipt</h2
-            ><ol
-              ><li
-                ><strong>Discover:</strong> locate the configured mint’s bonding curve
-                and matching PumpSwap pools.</li
-              ><li
-                ><strong>Read:</strong> scan finalized transaction signatures and fetch
-                their transactions.</li
-              ><li
-                ><strong>Decode:</strong> extract matching, program-scoped trade events.
-                Failed transactions are excluded.</li
-              ><li
-                ><strong>Queue:</strong> save each uniquely identified input for
-                processing.</li
-              ><li
-                ><strong>Record:</strong> link the input to a durable neural
-                receipt.</li
-              ></ol
+              >Finalized Solana evidence enters a durable queue before either circuit
+              reads it.</p
+            ><h2 id="inputs--reader">What the trade reader checks</h2
             ><p
-              >The reader uses pinned Pump and PumpSwap interface definitions. Trade
-              identification checks the exact mint, executing program and decoded event
-              against those interfaces.</p
-            >
-            <h2 id="inputs--drive">How amount becomes drive</h2
+              >The reader decodes Pump and PumpSwap events against the included official
+              interfaces, checks the exact configured mint and supported pools, and uses
+              finalized transaction evidence. Failed or unresolved transactions remain
+              pending. Coverage is stated explicitly; every possible venue is not
+              automatically covered.</p
+            ><h2 id="inputs--encoding">Individual sensory effects</h2
             ><p
-              >Buy-side amounts stimulate the first 32 neurons. Sell-side amounts
-              stimulate the next 32. The amount is transformed into bounded drive using
-              a logarithmic mapping.</p
-            ><div class="docs-formula"
-              >gain = min(1.5, 0.25 + 0.45 × ln(1 + amount))</div
+              >The expanded circuit encodes side, amount, creator fee and a
+              deterministic event-ID texture. Each input has its own before/after
+              neural-state projection hashes, source payload hash and recorded spikes.
+              Duplicate IDs are idempotent; changed contents or ordering for a recorded
+              ID are rejected.</p
+            ><h2 id="inputs--causal">A matched replay is a specific test</h2
             ><p
-              >Inputs processed in the same window add to their side’s drive, capped at
-              3. Each input keeps its own evidence record even when several share a
-              neural window. The current amount mapping supports SOL quotes; other quote
-              units remain marked as unsupported until their mapping is verified.</p
-            >
-            <h2 id="inputs--coverage">Coverage and arrival time</h2
+              >The compare action runs a recorded input and a no-input control from the
+              same current neural and random state. It restores the input branch
+              afterward. The result measures that controlled perturbation. It does not
+              reconstruct the transaction’s original historical counterfactual, and the
+              event-ID texture is software encoding rather than economic
+              significance.</p
+            ><h2 id="inputs--streams">Test and live are separated</h2
             ><p
-              >The reader’s coverage is the configured mint’s Pump bonding curve and
-              discovered PumpSwap pools. The polling target is six seconds, plus
-              finalization, fetching, decoding and any historical backlog. Pool
-              rediscovery runs on a 60-second interval.</p
-            ><div class="docs-callout"
-              ><div class="docs-callout-label">Read the connection state</div
-              ><p
-                >“Connected” describes the reader’s state. Historical catch-up,
-                unresolved transactions and source errors remain visible in inspection.
-                Missing or incomplete evidence stays unknown.</p
-              ></div
-            >
-            <h2 id="inputs--simulation">Simulation inputs</h2
+              >When no mint is connected, the existing engine supplies tagged test
+              inputs. Test and live prediction learners have separate weights, momentum,
+              pending predictions and metrics. Simulated accrual is not a wallet
+              receipt. A mint can be connected without erasing prior history.</p
+            ><h2 id="inputs--latency">Finality, decoding and backlog</h2
             ><p
-              >Simulation signals use the same neural queue and receipt pipeline. Each
-              carries its simulation source label. Configuring a real mint switches off
-              test controls and enables the finalized transaction stream; real trade
-              records carry their source signatures.</p
-            ><p
-              >Protocol interfaces are documented in the
-              <a
-                href="https://github.com/pump-fun/pump-public-docs"
-                target="_blank"
-                rel="noreferrer"
-                >official Pump public documentation</a
-              >.</p
-            >
-          </article>
+              >Blockchain finality, RPC pagination, provider limits and queue lag affect
+              latency. The model does not promise instantaneous coverage. The cognitive
+              status reports its source cursor and backlog. Missing transaction evidence
+              stays unresolved rather than being counted as an empty trade.</p
+            ></article
+          >
 
           <article
             class="docs-article"
             id="doc-resources"
             data-title="Fees & resources"
             data-category="The system"
-            hidden
-          >
-            <div class="docs-eyebrow">05 / Fees &amp; resources</div
-            ><h1 tabindex="-1">Fees and resource proposals</h1
+            ><div class="docs-eyebrow">Nuria / v2</div
+            ><h1 tabindex="-1">Fees & resources</h1
             ><p class="docs-lead"
-              >The resource layer connects creator fees with Nuria’s next possibilities:
-              more compute, new experiments, a reserve, or continued observation. Neural
-              activity selects the proposal.</p
-            >
-            <h2 id="resources--ledger">Fee accounting</h2
-            ><div class="docs-table-wrap"
-              ><table class="docs-table"
-                ><thead
-                  ><tr><th>Layer</th><th>What it means</th></tr></thead
-                ><tbody
-                  ><tr
-                    ><td>Protocol fee</td
-                    ><td
-                      >The trading protocol’s charge and its own destinations.</td
-                    ></tr
-                  ><tr
-                    ><td>Creator fee accrual</td
-                    ><td
-                      >The creator-fee amount reported by a decoded trade event.</td
-                    ></tr
-                  ><tr
-                    ><td>Claimable balance</td
-                    ><td
-                      >Funds available through the relevant claim mechanism, requiring
-                      separate verification.</td
-                    ></tr
-                  ><tr
-                    ><td>Wallet receipt</td
-                    ><td>Funds actually received by the designated wallet.</td></tr
-                  ><tr
-                    ><td>Allocation proposal</td
-                    ><td
-                      >A bounded resource suggestion from the policy population.</td
-                    ></tr
-                  ><tr
-                    ><td>Executed spending</td
-                    ><td
-                      >A separate authorized payment with transaction evidence.</td
-                    ></tr
-                  ></tbody
-                ></table
-              ></div
+              >A treasury balance, fee payout and payment are different kinds of
+              evidence.</p
+            ><h2 id="resources--flow">From a trade to usable funds</h2
             ><p
-              >The Resources view tracks each ledger layer separately. Accrual comes
-              from decoded trade events; wallet receipts come from observed funds.
-              Missing wallet data displays as unknown.</p
-            >
-            <h2 id="resources--readout">Four possible outputs</h2
+              >Pump trading may accrue creator fees to protocol-controlled vaults or
+              configured fee-sharing recipients. Accrual does not mean the treasury has
+              received the funds. A claim or distribution must transfer them to the
+              exact beneficiary. The configured mint, launch mode, fee-sharing
+              configuration and current creator wallet must be checked before connecting
+              the fee path.</p
+            ><h2 id="resources--wallet">What the observer measures</h2
             ><p
-              >The 16 policy neurons are divided into four groups of four. Their spike
-              counts are compared each window. The group with the highest count selects
-              a proposal; if all counts are zero, the readout selects observation.</p
-            ><div class="docs-chapter-grid"
-              ><div class="docs-chapter-card"
-                ><strong>Compute</strong
-                ><p>Propose earmarking resources for computation.</p></div
-              ><div class="docs-chapter-card"
-                ><strong>Experiments</strong
-                ><p>Propose earmarking resources for a new experiment.</p></div
-              ><div class="docs-chapter-card"
-                ><strong>Reserve</strong
-                ><p>Propose keeping resources in reserve.</p></div
-              ><div class="docs-chapter-card"
-                ><strong>Observe</strong
-                ><p
-                  >Propose continued observation without a compute or experiment
-                  earmark.</p
-                ></div
-              ></div
-            >
-            <h2 id="resources--bounds">Bounded proposals</h2
+              >The read-only Helius observer can report a finalized balance for a
+              configured wallet. Balance stays unknown while the wallet is absent,
+              evidence is stale or RPC fails. Deposits are not automatically attributed
+              to creator income: a third party can send money or trigger a
+              permissionless payout.</p
+            ><h2 id="resources--local">What already runs autonomously</h2
             ><p
-              >Compute and experiment proposals are limited to 25% of an available
-              budget, with the rest reserved. Each window produces an alternative
-              proposal. The interface leaves allocation amounts unknown until actual
-              wallet funds are available.</p
-            ><div class="docs-callout neutral"
-              ><div class="docs-callout-label">Proposal and execution</div
-              ><p
-                >The live policy layer produces allocation proposals. Signing, fee
-                claims and spending are disabled. An executed allocation requires an
-                authorized payment mechanism and its own transaction evidence.</p
-              ></div
-            >
-            <h2 id="resources--fees">Verify the exact fee arrangement</h2
+              >The action selector can explore, forage, predict, replay, experiment,
+              rest, compare or reserve. Local jobs execute within the server’s included
+              capacity and publish actual CPU and wall time. Virtual habitat rewards and
+              model energy are separate from SOL. Local jobs currently spend zero
+              SOL.</p
+            ><h2 id="resources--payments">Prepared payment boundaries</h2
             ><p
-              >The launch’s actual fee configuration, recipients and contract version
-              must be verified. Live fee reporting uses the exact launch’s configuration
-              and decoded event fields. Simulation accrual uses a test rate of 0.3%,
-              recorded separately from actual wallet funds.</p
+              >The payment gate checks recipient allowlists, positive integer lamports,
+              expiry, fresh balance, per-action and daily caps, a reserve floor, unique
+              intent IDs and unique jobs. SQLite reservations prevent concurrent
+              over-allocation and replay. The transaction builder produces one unsigned
+              system transfer. It does not sign or broadcast.</p
+            ><h2 id="resources--authority">Connecting autonomous financial execution</h2
             ><p
-              >Pump’s interfaces include differing fee arrangements, including
-              holder-reward configurations. Event fields must be interpreted against the
-              exact launch rather than assumed to represent funds payable to Nuria. See
-              the
+              >A live treasury requires public mint and fee-wallet addresses, a
+              dedicated funded spending wallet, published limits and allowed recipients,
+              and an isolated signer. The public API and cognitive model receive no
+              signing key. A signer must independently verify intent, fresh balance, fee
+              and policy, simulate the exact message, and reconcile uncertain
+              submissions before retrying. Once configured, actions within the policy
+              need no individual human approval. The current SOL rail is prepared and
+              disabled.</p
+            ><h2 id="resources--protocol">Protocol reference</h2
+            ><p
+              >Current Pump fee collection and sharing rules are documented by the
+              protocol. The exact deployment must be verified rather than inferred from
+              the ticker.
               <a
-                href="https://github.com/pump-fun/pump-public-docs"
+                href="https://github.com/pump-fun/pump-public-docs/blob/main/docs/instructions/COLLECT_CREATOR_FEE.md"
                 target="_blank"
                 rel="noreferrer"
-                >protocol’s current documentation</a
+                >Creator-fee collection</a
+              >
+              ·
+              <a
+                href="https://github.com/pump-fun/pump-public-docs/blob/main/docs/instructions/CREATOR_FEE_SHARING.md"
+                target="_blank"
+                rel="noreferrer"
+                >Fee sharing</a
               >.</p
-            >
-          </article>
+            ></article
+          >
 
           <article
             class="docs-article"
             id="doc-evidence"
             data-title="Receipts & evidence"
             data-category="The system"
-            hidden
-          >
-            <div class="docs-eyebrow">06 / Receipts &amp; evidence</div
-            ><h1 tabindex="-1">Receipts and verification</h1
+            ><div class="docs-eyebrow">Nuria / v2</div
+            ><h1 tabindex="-1">Receipts & evidence</h1
             ><p class="docs-lead"
-              >Receipts connect saved inputs, neural state transitions and recorded
-              spike windows in a local hash chain.</p
-            >
-            <h2 id="evidence--contents">Inside a receipt</h2
+              >A durable record connects input, neural response, decision and
+              consequence.</p
+            ><h2 id="evidence--journal">The cognitive journal</h2
             ><p
-              >Each record includes a sequence, tick, UTC timestamp, model identity,
-              source hash, input identifiers and evidence hashes. It also records
-              sensory drive, before-and-after membrane and weight hashes, the
-              spike-window hash, measured metrics and the policy readout.</p
-            ><div class="docs-code"
-              ><div class="docs-code-head"
-                ><span>Receipt fields / illustrative shape</span
-                ><button data-copy-code>Copy</button></div
-              >><pre><code>{
-  "seq": "receipt sequence",
-  "previous_hash": "preceding receipt hash",
-  "hash": "this receipt hash",
-  "input_ids": ["linked input identifier"],
-  "before_weights_sha256": "before-state hash",
-  "after_weights_sha256": "after-state hash",
-  "spikes_sha256": "recorded window hash",
-  "metrics": { "spikes": "count", "rate_hz": "rate" },
-  "funds_spent": 0
-}</code></pre></div
+              >Canonical records include their kind and chain to the previous record’s
+              SHA-256. Input records bind source payload and spike hashes. Decision
+              records contain the complete published scoring rule, selected action,
+              outcome and neural-state projection hash. Compressed spike arrays are
+              retained privately for verification.</p
+            ><h2 id="evidence--checkpoint">Atomic recovery</h2
             ><p
-              >This is a field guide with descriptive placeholders. Use the exported
-              evidence for actual receipt payloads, measurement types and raw spike
-              windows.</p
-            >
-            <h2 id="evidence--verify">What verification checks</h2
-            ><ul
-              ><li>Receipt sequences and parent-hash continuity.</li
-              ><li>Each stored receipt’s hash against its encoded payload.</li
-              ><li>Raw spike evidence against its recorded hash.</li
-              ><li
-                >Input evidence hashes and the receipt to which each input is
-                linked.</li
-              ></ul
+              >Inputs, episodes, learning state, cognitive records and the Brian2
+              checkpoint commit together in SQLite. Normal checkpoint interval is five
+              cycles. A crash rolls back pending inputs and restores the prior neural
+              state so they can be replayed. Status distinguishes the latest tick from
+              the committed tick and cursor. Missing or inconsistent checkpoints refuse
+              a reset.</p
+            ><h2 id="evidence--audit">Full and incremental checks</h2
             ><p
-              >“Verify records” checks the saved local chain. Recent ticks may still
-              await their durable checkpoint, which is separate from an already saved
-              receipt.</p
-            >
-            <h2 id="evidence--exports">Export and inspect</h2
+              >Startup checks the complete local journal. Periodic checks extend from
+              the last verified head. Incremental verification does not recheck every
+              historical row each interval; a full audit is required to detect older
+              storage tampering. The status publishes the verification mode and verified
+              sequence.</p
+            ><h2 id="evidence--scope">The scope of a hash</h2
             ><p
-              >The evidence export contains the latest 300 durable ticks, their input
-              evidence and raw spike windows. Complete history remains on the private
-              server. The network-state export is a JSON snapshot of the model and
-              topology.</p
+              >Hashes demonstrate internal consistency against the recorded head. They
+              do not provide an independent witness, a guarantee against operator
+              rewriting, or an onchain attestation. Neural-state projection hashes cover
+              selected neural variables and model time; complete delayed queues and
+              random state are retained in trusted checkpoints.</p
+            ><h2 id="evidence--backup">Private recovery</h2
             ><p
-              >For a specific signal, copy its full receipt hash and note the receipt
-              sequence. Use the server-held history to inspect receipts beyond the
-              recent window.</p
-            >
-            <h2 id="evidence--scope">The research and its evidence</h2
-            ><div class="docs-callout neutral"
-              ><div class="docs-callout-label">Research scope</div
-              ><p
-                >The evidence establishes recorded inputs, neural dynamics and the
-                integrity of the server-held history. Subjective experience remains an
-                open research question. Receipts are currently stored on the server;
-                independent witnesses and Solana anchoring remain unconnected.</p
-              ></div
+              >Online SQLite backups contain a consistent cognitive checkpoint and
+              journal. The original circuit uses its existing PostgreSQL snapshot and
+              matching checkpoint. Both are included in encrypted private recovery
+              archives. They have separate heads and are not claimed to be one
+              simultaneous cross-database snapshot.</p
+            ><h2 id="evidence--api">Read-only public routes</h2
             ><p
-              >A receipt connects inputs to a window containing both sensory drive and
-              ongoing background activity. Measuring one input’s isolated causal effect
-              calls for a controlled comparison with a matched window.</p
-            >
-          </article>
+              ><code>/api/cognition/status</code>, <code>/api/cognition/topology</code>,
+              <code>/api/cognition/decisions</code>,
+              <code>/api/cognition/effects</code>,
+              <code>/api/cognition/benchmark</code> and
+              <code>/api/treasury</code> expose bounded cached evidence. Public routes
+              cannot invoke an experiment, inject a trade or prepare a payment.</p
+            ></article
+          >
 
           <article
             class="docs-article"
             id="doc-glossary"
             data-title="Glossary"
-            data-category="Reference"
-            hidden
+            data-category="The system"
+            ><div class="docs-eyebrow">Nuria / v2</div><h1 tabindex="-1">Glossary</h1
+            ><p class="docs-lead">The terms used in Nuria’s measurements.</p
+            ><h2 id="glossary--neuron">Spiking neuron</h2
+            ><p
+              >A simulated unit whose membrane variable integrates drive and fires at a
+              threshold. It has adaptation and a refractory period. It is not a
+              biological cell.</p
+            ><h2 id="glossary--eligibility">Eligibility and reward</h2
+            ><p
+              >Eligibility records recent synaptic timing that can be modulated by later
+              feedback. A reward is a defined numerical outcome; it is not a statement
+              that the system experienced pleasure.</p
+            ><h2 id="glossary--brier">Brier error and prequential evaluation</h2
+            ><p
+              >Brier error is the squared difference between predicted probability and
+              observed binary outcome. Lower is better. Prequential evaluation scores a
+              stored prediction before training on its newly observed outcome. The
+              frequency baseline uses only previously observed events.</p
+            ><h2 id="glossary--workspace">Workspace and memory</h2
+            ><p
+              >Three high-salience candidates receive broadcast slots and influence
+              neural drives. Episodic memory stores input features and retrieves a
+              bounded candidate set by similarity and importance. Recurrent neural
+              memory remains a separate mechanism.</p
+            ><h2 id="glossary--action">Hybrid action selection</h2
+            ><p
+              >A published combination of goal utilities and normalized
+              action-population spikes selects an action. The current weighting is 65%
+              utility and 35% neural score. It is not a pure neural planner: habitat
+              movement uses an explicit local path planner.</p
+            ><h2 id="glossary--time">Tick, model time and wall time</h2
+            ><p
+              >A tick is a cognitive cycle. Model time measures simulated neuron
+              dynamics. Wall time measures real elapsed execution. The two do not
+              progress at the same speed.</p
+            ></article
           >
-            <div class="docs-eyebrow">07 / Glossary</div><h1 tabindex="-1">Glossary</h1
-            ><p class="docs-lead"
-              >A short reference for the measurements and records you’ll encounter.</p
-            >
-            <h2 id="glossary--model">Model terms</h2
-            ><dl
-              ><div class="docs-definition"
-                ><dt>Neuron</dt
-                ><dd
-                  >A computational neuron with membrane dynamics, a firing threshold and
-                  a refractory interval.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Spike</dt
-                ><dd
-                  >A recorded firing event from a model neuron at a particular model
-                  time.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Synapse</dt
-                ><dd
-                  >A model connection that transmits excitatory or inhibitory influence
-                  between neurons.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Plasticity</dt
-                ><dd
-                  >Change in a connection’s weight through the model’s spike-timing
-                  rule.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Sensory drive</dt
-                ><dd
-                  >The bounded signal applied to the buy or sell population for a
-                  processed input batch.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Firing rate</dt
-                ><dd
-                  >Spikes divided by the population size and model-window duration,
-                  expressed in Hz per neuron.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Activity entropy</dt
-                ><dd
-                  >A normalized summary of how firing rates are distributed across the
-                  six populations.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Model window</dt
-                ><dd
-                  >The 200 ms interval of simulated time covered by a recorded tick.</dd
-                ></div
-              ></dl
-            >
-            <h2 id="glossary--records">Record terms</h2
-            ><dl
-              ><div class="docs-definition"
-                ><dt>Tick</dt
-                ><dd>One advancement of the server’s neural simulation.</dd></div
-              ><div class="docs-definition"
-                ><dt>Receipt</dt
-                ><dd
-                  >A hash-linked record of a model window and the inputs processed
-                  within it.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Checkpoint</dt
-                ><dd
-                  >A persistent recovery snapshot of network state and pending
-                  evidence.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Finalized</dt
-                ><dd
-                  >The Solana commitment level requested by Nuria’s source reader.</dd
-                ></div
-              ><div class="docs-definition"
-                ><dt>Unknown</dt
-                ><dd
-                  >Evidence is unavailable, unsupported, missing or incomplete; the
-                  interface preserves that status.</dd
-                ></div
-              ></dl
-            >
-          </article>
 
           <article
             class="docs-article"
             id="doc-questions"
             data-title="Common questions"
-            data-category="Reference"
-            hidden
-          >
-            <div class="docs-eyebrow">08 / Common questions</div
+            data-category="The system"
+            ><div class="docs-eyebrow">Nuria / v2</div
             ><h1 tabindex="-1">Common questions</h1
             ><p class="docs-lead"
-              >Direct answers about the experiment and the evidence behind it.</p
-            >
-            <div class="docs-question"
-              ><h2 id="questions--consciousness">Why onchain consciousness?</h2
-              ><p
-                >It is the question behind Nuria: how could a persistent neural entity
-                evolve through its interactions with a token’s market? The experiment
-                makes its ongoing activity, changing connections and recorded history
-                visible. The evidence chapter defines what those records establish.</p
-              ></div
-            >
-            <div class="docs-question"
-              ><h2 id="questions--biology">How do Nuria’s neurons run?</h2
-              ><p
-                >Brian2 advances 256 computational neurons on the server. Their membrane
-                dynamics, adaptation, refractory periods, excitation, inhibition and
-                spike-timing plasticity create the activity shown in the field.</p
-              ></div
-            >
-            <div class="docs-question"
-              ><h2 id="questions--background"
-                >Why does the field move between trades?</h2
-              ><p
-                >The network is recurrent and receives ongoing background input. Its
-                activity continues between market signals. The display uses the latest
-                measured state and spike window.</p
-              ></div
-            >
-            <div class="docs-question"
-              ><h2 id="questions--latency">Does a trade arrive instantly?</h2
-              ><p
-                >The reader requests finalized transactions and targets a one-second
-                polling interval. Finalization, fetching, decoding and backlog add
-                latency. The inspection panel shows the supported source coverage and
-                current backlog.</p
-              ></div
-            >
-            <div class="docs-question"
-              ><h2 id="questions--vote">How does a trade steer Nuria?</h2
-              ><p
-                >Buys and sells stimulate different sensory populations. Their bounded
-                drive enters a recurrent network, whose activity changes with its
-                existing state. Governance rights and payment authorization require
-                separately defined contracts and permissions.</p
-              ></div
-            >
-            <div class="docs-question"
-              ><h2 id="questions--autonomy">Can Nuria spend the fees?</h2
-              ><p
-                >The policy population produces bounded proposals. Transaction signing,
-                fee claims and spending are disabled. An executed payment would require
-                a separate authorized mechanism and transaction evidence.</p
-              ></div
-            >
-            <div class="docs-question"
-              ><h2 id="questions--continuous">Does it stop when I close the site?</h2
-              ><p
-                >The engine runs on the server, independently of the browser.
-                Checkpoints preserve its state. The site reports the server’s latest
-                state, freshness, waiting states and errors.</p
-              ></div
-            >
-            <div class="docs-question"
-              ><h2 id="questions--learning">How does Nuria evolve?</h2
-              ><p
-                >Relative spike timing changes plastic connection weights. Membrane
-                state, adaptation, synaptic traces and random state carry forward
-                between windows and through saved checkpoints. The observatory reports
-                those changes, while task performance can be evaluated with controlled
-                experiments.</p
-              ></div
-            >
-          </article>
+              >Practical answers about the experiment and its current boundaries.</p
+            ><h2 id="questions--closed">Does it stop when I close the page?</h2
+            ><p
+              >No. Dedicated server workers maintain the neural state, memory, learning
+              and journal. The browser renders cached public evidence.</p
+            ><h2 id="questions--learn">Does changing a weight prove useful learning?</h2
+            ><p
+              >No. Useful learning requires an objective and held-out or prequential
+              measurement. Nuria includes controlled readout tasks, an actual-neuron
+              feature benchmark with neural ablation, and separately reported live/test
+              prediction metrics. Results may improve or worsen.</p
+            ><h2 id="questions--llm">Is it an LLM writing a personality?</h2
+            ><p
+              >The decision record is generated from actual numerical scores and
+              measured outcomes. The active neural engine and action selector do not
+              call a language model. Its explanation is a factual template, not a
+              fabricated internal monologue. Language models can generalize; calling all
+              of them mere text replay would be inaccurate.</p
+            ><h2 id="questions--first"
+              >Is this the first conscious token or a full human brain?</h2
+            ><p
+              >Those are not established scientific results. Nuria’s defensible hook is
+              a persistent token-driven neural entity that learns, acts and records
+              consequences. No “5D” or “8D” scientific classification is used.
+              Complexity and autonomous behavior do not alone establish subjective
+              experience.</p
+            ><h2 id="questions--scale"
+              >Can one server run forever at 100,000 trades a day?</h2
+            ><p
+              >The current circuit is designed for bounded public reads and backlogged
+              processing. A bounded actual-model benchmark measures replay throughput;
+              daily figures are projections until a full end-to-end soak verifies them.
+              Durable history consumes finite storage, so long-term operation requires
+              monitored capacity, approved retention or archive expansion and provider
+              coverage.</p
+            ><h2 id="questions--next">What changes next?</h2
+            ><p
+              >The 51-step capability map separates working mechanisms from evaluation
+              and future research. Every new mechanism needs a useful behavioral target,
+              a failure test, a resource budget and a public record. Adding unexplained
+              neuron count is not a substitute for measured capability.</p
+            ></article
+          >
 
-          <nav class="docs-pager" id="docsPager" aria-label="Adjacent chapters"></nav
+          <article
+            class="docs-article"
+            id="doc-cognition"
+            data-title="Cognition & learning"
+            data-category="The system"
+            ><div class="docs-eyebrow">Nuria / v2</div
+            ><h1 tabindex="-1">Cognition & learning</h1
+            ><p class="docs-lead"
+              >Prediction, memory and action operate as a measured feedback loop.</p
+            ><h2 id="cognition--forecast">Forecast before observation</h2
+            ><p
+              >Each source has an independent online logistic readout over 64 neural
+              features and eight structured features. The current input produces a
+              probability for the next input’s side. That stored prediction is evaluated
+              when the next same-source outcome arrives, then the readout updates. No
+              future side is visible at prediction time.</p
+            ><h2 id="cognition--memory">Retrieve relevant episodes</h2
+            ><p
+              >Each event creates an episode with compressed neural features, context
+              and importance. Recall scores up to 128 recent candidates in the matching
+              side/amount context. Recalled features drive the recurrent-memory
+              population. Novelty decreases with context visits; prediction surprise
+              raises an episode’s importance.</p
+            ><h2 id="cognition--attention">Compete for attention</h2
+            ><p
+              >Prediction uncertainty, recent surprise, resource pressure and context
+              novelty compete for three broadcast slots. This workspace affects neural
+              drive. Action utilities use those same measured variables alongside
+              learned action values and cost estimates.</p
+            ><h2 id="cognition--act">Choose and execute</h2
+            ><p
+              >Every five cycles, 65% goal utility plus 35% normalized action-region
+              spikes select among eight actions. Explore/forage move in the software
+              habitat. Replay re-stimulates an episode. Compare runs a matched causal
+              probe. Experiment runs a held-out controlled readout task. Rest/reserve
+              adjust model resource variables; prediction continues for observed
+              inputs.</p
+            ><h2 id="cognition--feedback">Consequences change future behavior</h2
+            ><p
+              >Prediction improvement relative to the prior frequency baseline modulates
+              synaptic eligibility. Habitat and completed-job outcomes update reward
+              estimates, action values, cost estimates, model energy and fatigue. These
+              variables influence later neural drives and action arbitration.</p
+            ><h2 id="cognition--evaluation">Evaluate the mechanism, not the story</h2
+            ><p
+              >The actual-neuron benchmark trains a next-side readout from spike
+              features, freezes test weights and removes neural features for an
+              ablation. It reports held-out accuracy and Brier error on controlled
+              alternation and persistence. Separate fixture tests exercise delayed cues
+              and regime reversal. Market prediction, general intelligence and
+              consciousness need different evidence.</p
+            ></article
+          ><article
+            class="docs-article"
+            id="doc-roadmap"
+            data-title="51-step capability map"
+            data-category="Research"
+            ><div class="docs-eyebrow">Nuria / development</div
+            ><h1 tabindex="-1">51-step capability map</h1
+            ><p class="docs-lead"
+              >A development map for increasingly capable token-driven neural behavior.
+              Status describes evidence and implementation, not a ladder of
+              consciousness.</p
+            ><h2 id="roadmap--status">Read the status</h2
+            ><p
+              >Active means the mechanism is implemented. Evaluation means a bounded
+              experiment exists and needs broader validation. Prepared means the code is
+              tested but live configuration is missing. Research means a concrete
+              objective and gate remain before implementation or activation.</p
+            ><h2 id="roadmap--map">Capability map</h2
+            ><div class="docs-table-wrap"
+              ><table
+                ><thead
+                  ><tr
+                    ><th>Step</th><th>Capability</th><th>Status</th
+                    ><th>Evidence or next gate</th></tr
+                  ></thead
+                ><tbody
+                  ><tr
+                    ><td>01</td><td>Persistent membrane dynamics</td><td>Active</td
+                    ><td
+                      >Neural variables and random state resume from a trusted
+                      checkpoint.</td
+                    ></tr
+                  ><tr
+                    ><td>02</td><td>Recurrent excitation and inhibition</td
+                    ><td>Active</td
+                    ><td
+                      >Six-population 1024-neuron circuit with complete connectivity in
+                      the worker.</td
+                    ></tr
+                  ><tr
+                    ><td>03</td><td>Multi-timescale dynamics</td><td>Active</td
+                    ><td
+                      >Sensory, memory and association use different time constants.</td
+                    ></tr
+                  ><tr
+                    ><td>04</td><td>Spike-timing plasticity</td><td>Active</td
+                    ><td>Timing traces change bounded excitatory weights.</td></tr
+                  ><tr
+                    ><td>05</td><td>Eligibility-based feedback</td><td>Active</td
+                    ><td>Observed rewards modulate recently eligible synapses.</td></tr
+                  ><tr
+                    ><td>06</td><td>Homeostatic control</td><td>Active</td
+                    ><td>Bounded bias feedback regulates population firing.</td></tr
+                  ><tr
+                    ><td>07</td><td>Finalized trade reader</td><td>Active</td
+                    ><td
+                      >Exact configured mint and supported protocol events; missing
+                      coverage remains unresolved.</td
+                    ></tr
+                  ><tr
+                    ><td>08</td><td>Individual event encoding</td><td>Active</td
+                    ><td
+                      >Each input has its own sensory window and event-ID texture.</td
+                    ></tr
+                  ><tr
+                    ><td>09</td><td>Idempotent source history</td><td>Active</td
+                    ><td
+                      >Changed or reordered duplicate inputs refuse continuation.</td
+                    ></tr
+                  ><tr
+                    ><td>10</td><td>Causal perturbation probes</td><td>Active</td
+                    ><td
+                      >Matched current-state input and no-input replay with RNG
+                      restoration.</td
+                    ></tr
+                  ><tr
+                    ><td>11</td><td>Neural feature extraction</td><td>Active</td
+                    ><td
+                      >64 spike-derived features feed the predictor and memory.</td
+                    ></tr
+                  ><tr
+                    ><td>12</td><td>Prequential prediction</td><td>Active</td
+                    ><td
+                      >Stored forecast is scored before its next observed outcome trains
+                      the readout.</td
+                    ></tr
+                  ><tr
+                    ><td>13</td><td>Source-isolated learning</td><td>Active</td
+                    ><td
+                      >Test and live readouts have independent weights and
+                      statistics.</td
+                    ></tr
+                  ><tr
+                    ><td>14</td><td>Calibrated measurement</td><td>Active</td
+                    ><td
+                      >Brier error, baseline error and probability bins expose
+                      mistakes.</td
+                    ></tr
+                  ><tr
+                    ><td>15</td><td>Persistent episodic memory</td><td>Active</td
+                    ><td
+                      >Inputs, feature vectors and importance survive restart.</td
+                    ></tr
+                  ><tr
+                    ><td>16</td><td>Similarity-based recall</td><td>Active</td
+                    ><td
+                      >Bounded context-specific candidates are scored by similarity and
+                      importance.</td
+                    ></tr
+                  ><tr
+                    ><td>17</td><td>Replay actions</td><td>Active</td
+                    ><td>Selected past inputs re-stimulate the neural circuit.</td></tr
+                  ><tr
+                    ><td>18</td><td>Novelty signals</td><td>Active</td
+                    ><td
+                      >Context visits reduce novelty rather than novelty being a
+                      narrative label.</td
+                    ></tr
+                  ><tr
+                    ><td>19</td><td>Workspace competition</td><td>Active</td
+                    ><td>Three selected salience slots affect neural drive.</td></tr
+                  ><tr
+                    ><td>20</td><td>Uncertainty-driven arbitration</td><td>Active</td
+                    ><td
+                      >Prediction uncertainty competes with surprise and resource
+                      pressure.</td
+                    ></tr
+                  ><tr
+                    ><td>21</td><td>Published hybrid action selection</td><td>Active</td
+                    ><td
+                      >65% utility and 35% neural score, with a deterministic tie
+                      rule.</td
+                    ></tr
+                  ><tr
+                    ><td>22</td><td>Learned action values</td><td>Active</td
+                    ><td>Observed rewards update future utility estimates.</td></tr
+                  ><tr
+                    ><td>23</td><td>Measured action costs</td><td>Active</td
+                    ><td
+                      >Runtime updates cost estimates used in action selection.</td
+                    ></tr
+                  ><tr
+                    ><td>24</td><td>Resource regulation</td><td>Active</td
+                    ><td
+                      >Explicit model energy and fatigue affect activity and rest.</td
+                    ></tr
+                  ><tr
+                    ><td>25</td><td>Software embodiment</td><td>Active</td
+                    ><td
+                      >Actions change habitat position, visitation and virtual resource
+                      collection.</td
+                    ></tr
+                  ><tr
+                    ><td>26</td><td>Autonomous local experiments</td><td>Active</td
+                    ><td
+                      >Bounded controlled tasks execute and return measured results.</td
+                    ></tr
+                  ><tr
+                    ><td>27</td><td>Actual-neuron evaluation</td><td>Evaluation</td
+                    ><td
+                      >Held-out controlled spike-feature tasks with neural ablation;
+                      broader task suite remains open.</td
+                    ></tr
+                  ><tr
+                    ><td>28</td><td>Public decision evidence</td><td>Active</td
+                    ><td
+                      >Numerical selection, outcome and model projection hashes are
+                      published.</td
+                    ></tr
+                  ><tr
+                    ><td>29</td><td>Atomic recovery</td><td>Active</td
+                    ><td
+                      >Journal, learning, memory and neural checkpoint commit
+                      together.</td
+                    ></tr
+                  ><tr
+                    ><td>30</td><td>Bounded read-only web path</td><td>Active</td
+                    ><td
+                      >Visitors read cached evidence and cannot trigger RPC, jobs or
+                      signing.</td
+                    ></tr
+                  ><tr
+                    ><td>31</td><td>Treasury observation</td><td>Prepared</td
+                    ><td
+                      >Read-only finalized wallet balance requires the exact mint and
+                      creator-wallet configuration.</td
+                    ></tr
+                  ><tr
+                    ><td>32</td><td>Creator-fee attribution</td><td>Research</td
+                    ><td
+                      >Verify protocol beneficiary and exact payout instructions;
+                      distinguish random deposits and permissionless callers.</td
+                    ></tr
+                  ><tr
+                    ><td>33</td><td>Durable spending reservations</td><td>Prepared</td
+                    ><td
+                      >Independent caps, reserve floor, unique jobs and replay
+                      protection are tested.</td
+                    ></tr
+                  ><tr
+                    ><td>34</td><td>Unsigned single-transfer rail</td><td>Prepared</td
+                    ><td
+                      >Only a fixed system-transfer message is prepared; no signing or
+                      broadcast.</td
+                    ></tr
+                  ><tr
+                    ><td>35</td><td>Isolated autonomous signer</td><td>Research</td
+                    ><td
+                      >Dedicated funded wallet, provider contract and independently
+                      enforced policy are prerequisites.</td
+                    ></tr
+                  ><tr
+                    ><td>36</td><td>Paid job outcome verification</td><td>Research</td
+                    ><td
+                      >Require a verifiable delivered result before treating a payment
+                      as useful work.</td
+                    ></tr
+                  ><tr
+                    ><td>37</td><td>Independent public attestation</td><td>Research</td
+                    ><td
+                      >Publish externally witnessed heads and optional chain anchors
+                      with a defined cost budget.</td
+                    ></tr
+                  ><tr
+                    ><td>38</td><td>Learned transition models</td><td>Research</td
+                    ><td
+                      >Predict habitat transitions from experience and test against a
+                      held-out map.</td
+                    ></tr
+                  ><tr
+                    ><td>39</td><td>Multi-step planning</td><td>Research</td
+                    ><td
+                      >Compare learned planning against the current explicit local path
+                      planner.</td
+                    ></tr
+                  ><tr
+                    ><td>40</td><td>Attention efficacy tests</td><td>Research</td
+                    ><td
+                      >Ablate workspace broadcasts and measure an independent task
+                      effect.</td
+                    ></tr
+                  ><tr
+                    ><td>41</td><td>Memory consolidation</td><td>Research</td
+                    ><td
+                      >Distill older episodes into slower representation without
+                      destroying their evidence.</td
+                    ></tr
+                  ><tr
+                    ><td>42</td><td>Continual-learning retention</td><td>Research</td
+                    ><td
+                      >Measure forgetting across task changes before enabling new
+                      objectives.</td
+                    ></tr
+                  ><tr
+                    ><td>43</td><td>Adaptive goal weighting</td><td>Research</td
+                    ><td
+                      >Learn arbitration weights under stable published safety and
+                      resource limits.</td
+                    ></tr
+                  ><tr
+                    ><td>44</td><td>Uncertainty-aware interventions</td><td>Research</td
+                    ><td
+                      >Select experiments by expected information gain and verify actual
+                      gains.</td
+                    ></tr
+                  ><tr
+                    ><td>45</td><td>Causal model learning</td><td>Research</td
+                    ><td
+                      >Learn intervention effects beyond the current matched
+                      perturbation report.</td
+                    ></tr
+                  ><tr
+                    ><td>46</td><td>Counterfactual action evaluation</td
+                    ><td>Research</td
+                    ><td
+                      >Compare prospective actions without treating a chosen replay as
+                      original-history proof.</td
+                    ></tr
+                  ><tr
+                    ><td>47</td><td>Multi-modal perception</td><td>Research</td
+                    ><td
+                      >Add authorized structured signals with provenance, rate limits
+                      and a useful behavioral objective.</td
+                    ></tr
+                  ><tr
+                    ><td>48</td><td>Social interaction tasks</td><td>Research</td
+                    ><td
+                      >Evaluate coordination with other independent entities in a
+                      bounded environment.</td
+                    ></tr
+                  ><tr
+                    ><td>49</td><td>Long-horizon resource planning</td><td>Research</td
+                    ><td
+                      >Measure budget prediction and reserve preservation over changing
+                      cost regimes.</td
+                    ></tr
+                  ><tr
+                    ><td>50</td><td>Independent capability replication</td
+                    ><td>Research</td
+                    ><td
+                      >Reproduce outcomes from public code and fixed benchmarks on
+                      separate hardware.</td
+                    ></tr
+                  ><tr
+                    ><td>51</td><td>Open-ended cumulative development</td
+                    ><td>Research</td
+                    ><td
+                      >Expand only with measured capability, retained continuity,
+                      explicit failure boundaries and independent evaluation.</td
+                    ></tr
+                  ></tbody
+                ></table
+              ></div
+            ><h2 id="roadmap--standard">The standard for adding a capability</h2
+            ><p
+              >Define the behavioral target, use a held-out or prequential measurement,
+              compare a baseline, ablate the proposed mechanism, publish failures and
+              account for resources. More neurons or a richer visual alone do not
+              satisfy that standard.</p
+            ></article
+          ><nav class="docs-pager" id="docsPager" aria-label="Adjacent chapters"></nav
           ><footer class="docs-footer"
             ><span>Nuria / documentation</span
             ><a href="/#neural-field">Return to the observatory </a></footer

@@ -1,0 +1,308 @@
+[
+  {
+    "step": 1,
+    "capability": "Persistent membrane dynamics",
+    "status": "Active",
+    "evidence_or_gate": "Neural variables and random state resume from a trusted checkpoint."
+  },
+  {
+    "step": 2,
+    "capability": "Recurrent excitation and inhibition",
+    "status": "Active",
+    "evidence_or_gate": "Six-population 1024-neuron circuit with complete connectivity in the worker."
+  },
+  {
+    "step": 3,
+    "capability": "Multi-timescale dynamics",
+    "status": "Active",
+    "evidence_or_gate": "Sensory, memory and association use different time constants."
+  },
+  {
+    "step": 4,
+    "capability": "Spike-timing plasticity",
+    "status": "Active",
+    "evidence_or_gate": "Timing traces change bounded excitatory weights."
+  },
+  {
+    "step": 5,
+    "capability": "Eligibility-based feedback",
+    "status": "Active",
+    "evidence_or_gate": "Observed rewards modulate recently eligible synapses."
+  },
+  {
+    "step": 6,
+    "capability": "Homeostatic control",
+    "status": "Active",
+    "evidence_or_gate": "Bounded bias feedback regulates population firing."
+  },
+  {
+    "step": 7,
+    "capability": "Finalized trade reader",
+    "status": "Active",
+    "evidence_or_gate": "Exact configured mint and supported protocol events; missing coverage remains unresolved."
+  },
+  {
+    "step": 8,
+    "capability": "Individual event encoding",
+    "status": "Active",
+    "evidence_or_gate": "Each input has its own sensory window and event-ID texture."
+  },
+  {
+    "step": 9,
+    "capability": "Idempotent source history",
+    "status": "Active",
+    "evidence_or_gate": "Changed or reordered duplicate inputs refuse continuation."
+  },
+  {
+    "step": 10,
+    "capability": "Causal perturbation probes",
+    "status": "Active",
+    "evidence_or_gate": "Matched current-state input and no-input replay with RNG restoration."
+  },
+  {
+    "step": 11,
+    "capability": "Neural feature extraction",
+    "status": "Active",
+    "evidence_or_gate": "64 spike-derived features feed the predictor and memory."
+  },
+  {
+    "step": 12,
+    "capability": "Prequential prediction",
+    "status": "Active",
+    "evidence_or_gate": "Stored forecast is scored before its next observed outcome trains the readout."
+  },
+  {
+    "step": 13,
+    "capability": "Source-isolated learning",
+    "status": "Active",
+    "evidence_or_gate": "Test and live readouts have independent weights and statistics."
+  },
+  {
+    "step": 14,
+    "capability": "Calibrated measurement",
+    "status": "Active",
+    "evidence_or_gate": "Brier error, baseline error and probability bins expose mistakes."
+  },
+  {
+    "step": 15,
+    "capability": "Persistent episodic memory",
+    "status": "Active",
+    "evidence_or_gate": "Inputs, feature vectors and importance survive restart."
+  },
+  {
+    "step": 16,
+    "capability": "Similarity-based recall",
+    "status": "Active",
+    "evidence_or_gate": "Bounded context-specific candidates are scored by similarity and importance."
+  },
+  {
+    "step": 17,
+    "capability": "Replay actions",
+    "status": "Active",
+    "evidence_or_gate": "Selected past inputs re-stimulate the neural circuit."
+  },
+  {
+    "step": 18,
+    "capability": "Novelty signals",
+    "status": "Active",
+    "evidence_or_gate": "Context visits reduce novelty rather than novelty being a narrative label."
+  },
+  {
+    "step": 19,
+    "capability": "Workspace competition",
+    "status": "Active",
+    "evidence_or_gate": "Three selected salience slots affect neural drive."
+  },
+  {
+    "step": 20,
+    "capability": "Uncertainty-driven arbitration",
+    "status": "Active",
+    "evidence_or_gate": "Prediction uncertainty competes with surprise and resource pressure."
+  },
+  {
+    "step": 21,
+    "capability": "Published hybrid action selection",
+    "status": "Active",
+    "evidence_or_gate": "65% utility and 35% neural score, with a deterministic tie rule."
+  },
+  {
+    "step": 22,
+    "capability": "Learned action values",
+    "status": "Active",
+    "evidence_or_gate": "Observed rewards update future utility estimates."
+  },
+  {
+    "step": 23,
+    "capability": "Measured action costs",
+    "status": "Active",
+    "evidence_or_gate": "Runtime updates cost estimates used in action selection."
+  },
+  {
+    "step": 24,
+    "capability": "Resource regulation",
+    "status": "Active",
+    "evidence_or_gate": "Explicit model energy and fatigue affect activity and rest."
+  },
+  {
+    "step": 25,
+    "capability": "Software embodiment",
+    "status": "Active",
+    "evidence_or_gate": "Actions change habitat position, visitation and virtual resource collection."
+  },
+  {
+    "step": 26,
+    "capability": "Autonomous local experiments",
+    "status": "Active",
+    "evidence_or_gate": "Bounded controlled tasks execute and return measured results."
+  },
+  {
+    "step": 27,
+    "capability": "Actual-neuron evaluation",
+    "status": "Evaluation",
+    "evidence_or_gate": "Held-out controlled spike-feature tasks with neural ablation; broader task suite remains open."
+  },
+  {
+    "step": 28,
+    "capability": "Public decision evidence",
+    "status": "Active",
+    "evidence_or_gate": "Numerical selection, outcome and model projection hashes are published."
+  },
+  {
+    "step": 29,
+    "capability": "Atomic recovery",
+    "status": "Active",
+    "evidence_or_gate": "Journal, learning, memory and neural checkpoint commit together."
+  },
+  {
+    "step": 30,
+    "capability": "Bounded read-only web path",
+    "status": "Active",
+    "evidence_or_gate": "Visitors read cached evidence and cannot trigger RPC, jobs or signing."
+  },
+  {
+    "step": 31,
+    "capability": "Treasury observation",
+    "status": "Prepared",
+    "evidence_or_gate": "Read-only finalized wallet balance requires the exact mint and creator-wallet configuration."
+  },
+  {
+    "step": 32,
+    "capability": "Creator-fee attribution",
+    "status": "Research",
+    "evidence_or_gate": "Verify protocol beneficiary and exact payout instructions; distinguish random deposits and permissionless callers."
+  },
+  {
+    "step": 33,
+    "capability": "Durable spending reservations",
+    "status": "Prepared",
+    "evidence_or_gate": "Independent caps, reserve floor, unique jobs and replay protection are tested."
+  },
+  {
+    "step": 34,
+    "capability": "Unsigned single-transfer rail",
+    "status": "Prepared",
+    "evidence_or_gate": "Only a fixed system-transfer message is prepared; no signing or broadcast."
+  },
+  {
+    "step": 35,
+    "capability": "Isolated autonomous signer",
+    "status": "Research",
+    "evidence_or_gate": "Dedicated funded wallet, provider contract and independently enforced policy are prerequisites."
+  },
+  {
+    "step": 36,
+    "capability": "Paid job outcome verification",
+    "status": "Research",
+    "evidence_or_gate": "Require a verifiable delivered result before treating a payment as useful work."
+  },
+  {
+    "step": 37,
+    "capability": "Independent public attestation",
+    "status": "Research",
+    "evidence_or_gate": "Publish externally witnessed heads and optional chain anchors with a defined cost budget."
+  },
+  {
+    "step": 38,
+    "capability": "Learned transition models",
+    "status": "Research",
+    "evidence_or_gate": "Predict habitat transitions from experience and test against a held-out map."
+  },
+  {
+    "step": 39,
+    "capability": "Multi-step planning",
+    "status": "Research",
+    "evidence_or_gate": "Compare learned planning against the current explicit local path planner."
+  },
+  {
+    "step": 40,
+    "capability": "Attention efficacy tests",
+    "status": "Research",
+    "evidence_or_gate": "Ablate workspace broadcasts and measure an independent task effect."
+  },
+  {
+    "step": 41,
+    "capability": "Memory consolidation",
+    "status": "Research",
+    "evidence_or_gate": "Distill older episodes into slower representation without destroying their evidence."
+  },
+  {
+    "step": 42,
+    "capability": "Continual-learning retention",
+    "status": "Research",
+    "evidence_or_gate": "Measure forgetting across task changes before enabling new objectives."
+  },
+  {
+    "step": 43,
+    "capability": "Adaptive goal weighting",
+    "status": "Research",
+    "evidence_or_gate": "Learn arbitration weights under stable published safety and resource limits."
+  },
+  {
+    "step": 44,
+    "capability": "Uncertainty-aware interventions",
+    "status": "Research",
+    "evidence_or_gate": "Select experiments by expected information gain and verify actual gains."
+  },
+  {
+    "step": 45,
+    "capability": "Causal model learning",
+    "status": "Research",
+    "evidence_or_gate": "Learn intervention effects beyond the current matched perturbation report."
+  },
+  {
+    "step": 46,
+    "capability": "Counterfactual action evaluation",
+    "status": "Research",
+    "evidence_or_gate": "Compare prospective actions without treating a chosen replay as original-history proof."
+  },
+  {
+    "step": 47,
+    "capability": "Multi-modal perception",
+    "status": "Research",
+    "evidence_or_gate": "Add authorized structured signals with provenance, rate limits and a useful behavioral objective."
+  },
+  {
+    "step": 48,
+    "capability": "Social interaction tasks",
+    "status": "Research",
+    "evidence_or_gate": "Evaluate coordination with other independent entities in a bounded environment."
+  },
+  {
+    "step": 49,
+    "capability": "Long-horizon resource planning",
+    "status": "Research",
+    "evidence_or_gate": "Measure budget prediction and reserve preservation over changing cost regimes."
+  },
+  {
+    "step": 50,
+    "capability": "Independent capability replication",
+    "status": "Research",
+    "evidence_or_gate": "Reproduce outcomes from public code and fixed benchmarks on separate hardware."
+  },
+  {
+    "step": 51,
+    "capability": "Open-ended cumulative development",
+    "status": "Research",
+    "evidence_or_gate": "Expand only with measured capability, retained continuity, explicit failure boundaries and independent evaluation."
+  }
+]

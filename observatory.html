@@ -2476,7 +2476,8 @@
                   ></div
                 >
                 <p class="thread-note"
-                  >Each input links to its source, neural response and saved receipt.</p
+                  >Original 256-neuron receipt history. The expanded model records each
+                  input separately in its cognitive journal.</p
                 ></aside
               ></div
             >
@@ -2509,6 +2510,7 @@
               <span id="updateTime">Awaiting server</span></span
             ><span>Continuous Brian2 model / server hosted</span></div
           >
+          <!--COGNITION_VIEW-->
           <section class="workspace" id="workspace"
             ><div class="workspace-top"
               ><div class="tabs" role="tablist" aria-label="Nuria workspace"
@@ -2582,14 +2584,15 @@
                     ><span class="badge" id="budgetSource">Wallet receipts</span></div
                   ><div class="fee-value"
                     ><span id="feeTotal">—</span
-                    ><span class="unit">SOL received</span></div
+                    ><span class="unit">SOL balance</span></div
                   ><div class="flow"
                     ><span>Trade</span><b></b><span>Creator fee</span><b></b
                     ><span>Resources</span></div
                   ><p class="footnote"
                     >Creator fees can fund compute and experiments. This balance shows
-                    funds actually received by the connected wallet. An unavailable
-                    wallet balance stays unknown.</p
+                    finalized funds held by the connected wallet; fee income requires
+                    separate payout evidence. An unavailable wallet balance stays
+                    unknown.</p
                   ><div class="wallet-row"
                     ><span>Creator fee wallet</span
                     ><strong id="creatorWallet">Not connected</strong></div
@@ -2597,7 +2600,7 @@
                     ><span>Observed creator fee accrual</span
                     ><strong id="observedFees">Unknown</strong></div
                   ><div class="wallet-row"
-                    ><span>Actual funds received</span
+                    ><span>Verified creator income</span
                     ><strong id="fundsReceived"
                       >Unknown · wallet not connected</strong
                     ></div
@@ -2605,7 +2608,7 @@
                 ><div
                   ><div class="policy-head"
                     ><h3>Resource proposal</h3
-                    ><span class="badge">Neural proposal</span></div
+                    ><span class="badge">Goal + neural scores</span></div
                   ><div class="policy-choice" id="policyChoice">Observe</div
                   ><div class="policy-body"
                     ><div class="allocation-ring" id="allocationRing"
@@ -2614,21 +2617,22 @@
                       ></div
                     ><div
                       ><div class="allocation"
-                        ><div><i style="--budget-color: #c5fba4"></i>Compute</div
+                        ><div><i style="--budget-color: #c5fba4"></i>Local CPU</div
                         ><strong id="computeAmount">—</strong></div
                       ><div class="allocation"
-                        ><div><i style="--budget-color: #a8bde0"></i>Experiments</div
+                        ><div><i style="--budget-color: #a8bde0"></i>Completed jobs</div
                         ><strong id="experimentsAmount">—</strong></div
                       ><div class="allocation"
-                        ><div><i style="--budget-color: #425b46"></i>Reserve</div
+                        ><div><i style="--budget-color: #425b46"></i>Payment rail</div
                         ><strong id="reserveAmount">—</strong></div
                       ></div
                     ></div
                   ><div class="policy-scores" id="scores"></div
                   ><p class="policy-note"
-                    >The highest-spiking output population selects a proposal. Compute
-                    and experiments are bounded to 25% of an available budget. Amounts
-                    remain unknown until a wallet is connected. Spending is disabled.</p
+                    >Published goal utilities and neural scores select actions. Local
+                    jobs execute and return measured outcomes. SOL payments require a
+                    dedicated treasury, funded limits, allowed recipients and an
+                    isolated signer.</p
                   ></div
                 ></div
               ></div
@@ -2745,8 +2749,10 @@
                 ><p
                   >Nuria explores onchain consciousness through continuous neural
                   activity, persistent state and changing connections. The token’s
-                  market becomes a sensory stream; its resource layer connects fees with
-                  proposals for compute, experiments and reserves.</p
+                  market becomes a sensory stream; its cognition layer learns from
+                  outcomes, retrieves episodes and executes local experiments. The
+                  treasury interface separates balance, fee provenance and payment
+                  authority.</p
                 ></div
               ></div
             ></details
@@ -2756,6 +2762,11 @@
             ><span class="footer-caption">Nuria / neural observatory</span
             ><div class="footer-links"
               ><a href="/?page=docs">Docs</a
+              ><a
+                href="https://github.com/trynuria/nuria"
+                target="_blank"
+                rel="noreferrer"
+                >GitHub</a
               ><a href="#modelInspection" id="openInspection">Inspect the model</a
               ><a href="#overview">Back to top </a></div
             ></footer
@@ -2806,6 +2817,8 @@
       ];
       const colors = {
         buy: "#c7f4b0",
+        sensory: "#c5fba4",
+        workspace: "#e9cf99",
         sell: "#dfa6b2",
         association: "#aac3db",
         memory: "#beaecd",
@@ -2814,6 +2827,8 @@
       };
       const shortNames = {
         buy: "Buy input",
+        sensory: "Sensory",
+        workspace: "Workspace",
         sell: "Sell input",
         association: "Association",
         memory: "Memory",
@@ -2839,7 +2854,7 @@
         $("neuronTip").textContent =
           mode === "spikes"
             ? id === "all"
-              ? "Recorded spike times · latest 200 ms."
+              ? "Recorded spike times · latest neural window."
               : shortNames[id] + " · recorded spike times."
             : id === "all"
               ? "Drag to orbit.\nArrow keys rotate."
@@ -3064,13 +3079,14 @@
         ctx.fillText("N U R I A  /  N E U R A L  O B S E R V A T O R Y", x, h - 18);
       }
       function drawSpikes(w, h, cursor = 0) {
+        const span = (state?.window_ms || 100) / 1000;
         const left = 40,
           right = w - 25,
           top = 122,
           bottom = h - 125;
         const chosen = topology.regions.find((region) => region.id === selected),
           first = chosen?.start || 0,
-          last = chosen?.end || 256,
+          last = chosen?.end || 1024,
           range = last - first;
         ctx.font = "12px ui-monospace,monospace";
         ctx.lineWidth = 0.6;
@@ -3097,12 +3113,16 @@
           ctx.stroke();
           ctx.fillStyle = "#738477";
           ctx.textAlign = "center";
-          ctx.fillText(k * 50 + " ms", x, bottom + 18);
+          ctx.fillText(
+            Math.round((k * (state?.window_ms || 100)) / 4) + " ms",
+            x,
+            bottom + 18,
+          );
         }
         for (const spike of frameSpikes) {
           const n = topology.nodes[spike.id];
           if (selected !== "all" && n.region !== selected) continue;
-          const x = left + ((right - left) * spike.time) / 0.2,
+          const x = left + ((right - left) * spike.time) / span,
             y = top + ((bottom - top) * (spike.id - first + 0.5)) / range;
           const seen = paused || cursor >= spike.time;
           ctx.globalAlpha = seen ? 0.85 : 0.17;
@@ -3110,8 +3130,8 @@
           ctx.fillRect(x - 0.6, y - 1.7, 1.2, 3.4);
         }
         ctx.globalAlpha = 1;
-        if (!paused && cursor < 0.2) {
-          const x = left + ((right - left) * cursor) / 0.2,
+        if (!paused && cursor < span) {
+          const x = left + ((right - left) * cursor) / span,
             g = ctx.createLinearGradient(x - 20, 0, x, 0);
           g.addColorStop(0, "#c5fba400");
           g.addColorStop(1, "#c5fba414");
@@ -3190,12 +3210,15 @@
             state.phase === "error"
               ? "Engine stopped — evidence retained"
               : "Waiting for fresh neural state";
-        const cursor = paused ? 0 : Math.min(0.28, ((now - frameStart) / 1450) * 0.2);
+        const span = (state?.window_ms || 100) / 1000;
+        const cursor = paused
+          ? 0
+          : Math.min(span * 1.4, ((now - frameStart) / 1000) * span);
         if ($("replayFill"))
           $("replayFill").style.width =
-            (paused ? 0 : Math.min(100, (cursor / 0.2) * 100)) + "%";
+            (paused ? 0 : Math.min(100, (cursor / span) * 100)) + "%";
         if (mode === "spikes") {
-          drawSpikes(w, h, fresh ? cursor : 0.2);
+          drawSpikes(w, h, fresh ? cursor : span);
           return;
         }
         const scale = project(w, h, motionClock);
@@ -3498,51 +3521,45 @@
           $("regionBar-" + r.id).style.width =
             Math.min(100, ((s.metrics?.regional_rates?.[i] || 0) / 30) * 100) + "%";
         }
-        $("policyChoice").textContent = s.policy?.choice || "Observe";
+        const c = s.cognition,
+          decision = c?.last_decision?.decision,
+          treasury = c?.treasury;
+        $("policyChoice").textContent = decision?.action || "Observing";
         $("scores").replaceChildren();
-        ["compute", "experiments", "reserve", "observe"].forEach((name, i) => {
+        for (const [name, value] of Object.entries(decision?.combined_scores || {})) {
           const score = document.createElement("div");
-          score.className = "score" + (s.policy?.choice === name ? " active" : "");
-          const value = document.createElement("strong");
-          value.textContent = s.policy?.scores?.[i] ?? "—";
-          score.append(document.createTextNode(name), value);
+          score.className = "score" + (decision.action === name ? " active" : "");
+          const strong = document.createElement("strong");
+          strong.textContent = Number(value).toFixed(3);
+          score.append(document.createTextNode(name), strong);
           $("scores").append(score);
-        });
-        const actual = s.treasury?.actual_received_sol,
-          earmark =
-            s.policy?.choice === "compute" || s.policy?.choice === "experiments"
-              ? 0.25
-              : 0,
-          alloc = {
-            compute: s.policy?.choice === "compute" ? actual * earmark : 0,
-            experiments: s.policy?.choice === "experiments" ? actual * earmark : 0,
-            reserve: actual * (1 - earmark),
-          };
-        $("feeTotal").textContent = Number.isFinite(s.treasury?.actual_received_sol)
-          ? s.treasury.actual_received_sol.toFixed(6)
+        }
+        $("feeTotal").textContent = Number.isFinite(treasury?.balance_sol)
+          ? treasury.balance_sol.toFixed(6)
           : "—";
         $("observedFees").textContent = Number.isFinite(
           s.treasury?.live_observed_accrual?.SOL,
         )
           ? money(s.treasury.live_observed_accrual.SOL)
           : "Unknown";
-        $("creatorWallet").textContent = s.treasury?.creator_wallet || "Not connected";
+        $("creatorWallet").textContent = treasury?.wallet || "Not connected";
         $("fundsReceived").textContent = Number.isFinite(
-          s.treasury?.actual_received_sol,
+          treasury?.verified_fee_receipts,
         )
-          ? money(s.treasury.actual_received_sol)
-          : "Unknown · not connected";
-        for (const name of ["compute", "experiments", "reserve"])
-          $(name + "Amount").textContent = Number.isFinite(
-            s.treasury?.actual_received_sol,
-          )
-            ? money(alloc[name])
-            : "—";
-        const compute = s.policy?.choice === "compute" ? 25 : 0,
-          experiments = s.policy?.choice === "experiments" ? 25 : 0;
-        $("allocationPercent").textContent = Math.round(compute + experiments) + "%";
+          ? money(treasury.verified_fee_receipts)
+          : "Unknown";
+        $("computeAmount").textContent =
+          fmt(c?.experiments?.latest?.cpu_seconds, 3) + " s / last job";
+        $("experimentsAmount").textContent = fmt(c?.experiments?.completed);
+        $("reserveAmount").textContent = treasury?.policy?.enabled
+          ? "Connected"
+          : "Awaiting configuration";
+        const energy = Number.isFinite(c?.resources?.energy)
+          ? c.resources.energy * 100
+          : 0;
+        $("allocationPercent").textContent = Math.round(energy) + "%";
         $("allocationRing").style.background =
-          `conic-gradient(#c5fba4 0% ${compute}%,#a8bde0 ${compute}% ${compute + experiments}%,#425b46 ${compute + experiments}% 100%)`;
+          `conic-gradient(#c5fba4 0% ${energy}%,#203629 ${energy}% 100%)`;
         $("head").textContent = s.receipt_head || "Waiting for the latest receipt.";
         $("receiptCount").textContent = fmt(s.durable_receipts);
         $("spikeTotal").textContent = fmt(s.spikes_total);
@@ -3593,12 +3610,12 @@
           new Date(e.created_utc).toLocaleTimeString();
         $("traceRegion").textContent =
           (e.side === "buy" ? "Buy" : "Sell") +
-          " sensory population" +
+          " route in the original 256-neuron history" +
           (receipt
             ? " · recorded drive " +
               fmt(receipt.sensory_drive?.[e.side === "buy" ? 0 : 1], 4)
             : "");
-        const ri = topology?.regions.findIndex((r) => r.id === e.side) ?? -1;
+        const ri = e.side === "buy" ? 0 : 1;
         $("traceSpikes").textContent = fmt(receipt?.metrics?.spikes);
         $("traceRate").textContent = fmt(
           ri >= 0 ? receipt?.metrics?.regional_rates?.[ri] : null,
@@ -3693,7 +3710,7 @@
             selectedInput = e.id;
             followingLatest = false;
             renderTrace();
-            chooseRegion(e.side);
+            chooseRegion("sensory");
             $("neural-field").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
           });
           $("events").append(row);
@@ -3711,7 +3728,7 @@
       });
       $("traceFocus").addEventListener("click", () => {
         const e = selectedEvent();
-        if (e) chooseRegion(e.side);
+        if (e) chooseRegion("sensory");
         canvas.focus({ preventScroll: true });
       });
       async function copyValue(value, button) {
@@ -3736,15 +3753,22 @@
         "click",
         () => ($("modelInspection").open = true),
       );
+      /*COGNITION_CLIENT*/
       async function poll() {
         if (polling) return;
         polling = true;
         try {
           if (!topology?.nodes) {
-            topology = await fetchJSON("/api/topology");
+            topology = await fetchJSON("/api/cognition/topology");
             structure();
           }
-          render(await fetchJSON("/api/status"));
+          const [legacy, cognitive] = await Promise.all([
+            fetchJSON("/api/status"),
+            fetchJSON("/api/cognition/status"),
+          ]);
+          legacyState = legacy;
+          renderCognition(cognitive);
+          render(neuralView(cognitive, legacy));
           if (eventCounter++ % 3 === 0) await loadEvents();
         } catch (error) {
           $("statusPill").textContent = "Connection unavailable";
@@ -3814,7 +3838,7 @@
         canvas.setAttribute(
           "aria-label",
           next === "spikes"
-            ? "Actual recorded spike times by neuron in the latest 200 ms window"
+            ? "Actual recorded spike times by neuron in the latest neural window"
             : next === "topology"
               ? "Schematic two-dimensional view of actual model neurons and sampled connections"
               : "Actual Brian2 neurons and sampled connections in a schematic three-dimensional view; drag or use arrow keys to rotate",
@@ -3823,7 +3847,7 @@
         $("frameLabel").textContent = paused
           ? "Motion paused · live data continues"
           : next === "spikes"
-            ? "Recorded spike raster · 200 ms window"
+            ? "Recorded spike raster · latest window"
             : "";
       }
       $("viewNeural").addEventListener("click", () => setMode("neural"));

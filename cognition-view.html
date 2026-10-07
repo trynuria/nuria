@@ -1,0 +1,90 @@
+<section class="cognitive-section" id="cognition" aria-labelledby="cognitionTitle">
+  <div class="cognitive-heading"
+    ><div
+      ><span class="section-index">02 /</span
+      ><h2 id="cognitionTitle">Memory. Choice. Consequence.</h2></div
+    ><span id="cogPhase" class="badge">Connecting</span></div
+  >
+  <p class="cognitive-intro"
+    >Nuria forecasts the next input, retrieves past experiences and chooses what to do
+    next. Outcomes feed back into its connections and action values. Each decision
+    records the scores that produced it.</p
+  >
+  <div class="cognitive-grid">
+    <article class="cognitive-card decision-card"
+      ><div class="micro">CURRENT DECISION</div
+      ><div class="decision-action" id="cogAction">—</div
+      ><p id="cogReason" class="decision-reason">Waiting for a recorded decision.</p
+      ><div class="decision-scores" id="cogScores"></div
+      ><div class="cognitive-card-foot"
+        ><span id="cogDecisionId">—</span
+        ><button class="copy-btn" id="copyDecision" disabled>Copy hash</button></div
+      ></article
+    >
+    <article class="cognitive-card learning-card"
+      ><div class="micro">LEARNING FROM INPUTS</div
+      ><div class="cognitive-stats"
+        ><div
+          ><strong id="cogPrediction">—</strong><span>next buy probability</span></div
+        ><div
+          ><strong id="cogEvaluated">—</strong><span>predictions evaluated</span></div
+        ><div
+          ><strong id="cogBrier">—</strong
+          ><span>Brier error / lower is better</span></div
+        ><div
+          ><strong id="cogBaseline">—</strong><span>frequency baseline error</span></div
+        ></div
+      ><canvas
+        id="learningChart"
+        aria-label="Prediction error against baseline for the latest observed inputs"
+      ></canvas
+      ><p class="cognitive-footnote" id="cogLearningSource"
+        >Awaiting source-specific measurements.</p
+      ></article
+    >
+    <article class="cognitive-card habitat-card"
+      ><div class="cognitive-card-top"
+        ><div class="micro">SOFTWARE HABITAT</div
+        ><span id="cogMoves">— moves</span></div
+      ><canvas
+        id="habitat"
+        aria-label="Nuria's measured position, visited cells and virtual resources in its software habitat"
+      ></canvas
+      ><div class="habitat-key"
+        ><span><i class="habitat-agent"></i>Nuria</span
+        ><span><i class="habitat-resource"></i>Virtual resource</span
+        ><span id="cogCollected">— collected</span></div
+      ><p class="cognitive-footnote"
+        >The action selector chooses when to explore or forage. The local path planner
+        selects the move.</p
+      ></article
+    >
+    <article class="cognitive-card memory-card"
+      ><div class="micro">MEMORY &amp; ATTENTION</div
+      ><div class="memory-total"
+        ><strong id="cogEpisodes">—</strong><span>recorded episodes</span></div
+      ><div class="workspace-slots" id="cogWorkspace"></div
+      ><div class="cognitive-memory-row"
+        ><span>Model energy</span><strong id="cogEnergy">—</strong></div
+      ><div class="cognitive-memory-row"
+        ><span>Completed local jobs</span><strong id="cogJobs">—</strong></div
+      ><div class="cognitive-memory-row"
+        ><span>Recorded SOL spending</span><strong id="cogSpent">0 SOL</strong></div
+      ><p class="cognitive-footnote"
+        >Energy regulates compute activity. Treasury funds have separate balances,
+        limits and receipts.</p
+      ></article
+    >
+  </div>
+  <div class="cognitive-evidence"
+    ><details
+      ><summary>Inspect the latest decision</summary
+      ><pre id="cogDecisionJSON">Awaiting a decision.</pre></details
+    ><div
+      ><span id="cogContinuity">Checking continuity</span
+      ><a href="https://github.com/trynuria/nuria" target="_blank" rel="noreferrer"
+        >Source code</a
+      ><a href="/?page=docs#cognition">How it learns</a></div
+    ></div
+  >
+</section>

@@ -9,6 +9,15 @@ ROOT = Path(__file__).parent
 def build(root: Path = ROOT) -> None:
     source = (root / "observatory.html").read_text()
     docs = (root / "docs/docs-content.html").read_text()
+    source = source.replace(
+        "<!--COGNITION_VIEW-->", (root / "cognition-view.html").read_text()
+    )
+    source = source.replace(
+        "</style>", (root / "cognition-view.css").read_text() + "\n</style>", 1
+    )
+    source = source.replace(
+        "/*COGNITION_CLIENT*/", (root / "cognition-view.js").read_text()
+    )
     css = (root / "docs/docs.css").read_text()
     client = (root / "docs/docs.js").read_text()
 

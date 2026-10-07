@@ -55,6 +55,20 @@ subprocess.run(
     check=True,
     timeout=360,
 )
+subprocess.run(
+    [
+        "sudo",
+        "-u",
+        "nuria-cognition",
+        "/opt/nuria/venv/bin/python",
+        "-m",
+        "cognition.backup",
+        "/var/lib/nuria/cognition/backup/current.sqlite3",
+    ],
+    cwd="/opt/nuria/app",
+    check=True,
+    timeout=60,
+)
 archive = io.BytesIO()
 if (STAGE / "database.dump").stat().st_size > 512 * 1024**2:
     raise SystemExit(
@@ -63,6 +77,10 @@ if (STAGE / "database.dump").stat().st_size > 512 * 1024**2:
 with tarfile.open(fileobj=archive, mode="w:gz") as tar:
     tar.add(STAGE, arcname="snapshot")
     tar.add("/opt/nuria/app", arcname="app")
+    tar.add(
+        "/var/lib/nuria/cognition/backup/current.sqlite3",
+        arcname="cognition/cognition.sqlite3",
+    )
 plain = archive.getvalue()
 recipient = serialization.load_pem_public_key(
     Path("/etc/nuria/backup-recipient.pem").read_bytes()

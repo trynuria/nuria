@@ -10,6 +10,12 @@ from urllib.parse import urlparse
 PUBLIC = Path(os.environ["NURIA_PUBLIC"])
 ROUTES = {
     "/api/status": "status.json",
+    "/api/cognition/status": "cognition/status.json",
+    "/api/cognition/topology": "cognition/topology.json",
+    "/api/cognition/decisions": "cognition/decisions.json",
+    "/api/cognition/effects": "cognition/effects.json",
+    "/api/cognition/benchmark": "cognition/benchmark.json",
+    "/api/treasury": "treasury/treasury.json",
     "/api/topology": "topology.json",
     "/api/events": "events.json",
     "/api/receipts": "receipts.json",
@@ -24,7 +30,9 @@ def load(name):
     now = time.monotonic()
     if name not in CACHE or now - CACHE[name][0] > 1:
         path = (
-            PUBLIC
+            PUBLIC / name
+            if "/" in name
+            else PUBLIC
             / (
                 "engine"
                 if name
@@ -59,13 +67,21 @@ class Handler(BaseHTTPRequestHandler):
             if path == "/healthz":
                 raw, stamp = load("status.json")
                 state = json.loads(raw)
-                ok = state.get("phase") == "running" and time.time() - stamp < 15
+                cognitive_raw, cognitive_stamp = load("cognition/status.json")
+                cognitive = json.loads(cognitive_raw)
+                ok = (
+                    state.get("phase") == "running"
+                    and time.time() - stamp < 15
+                    and cognitive.get("phase") == "running"
+                    and time.time() - cognitive_stamp < 15
+                )
                 return self.send(
                     json.dumps(
                         {
                             "healthy": ok,
                             "updated_utc": state.get("updated_utc"),
                             "tick": state.get("tick"),
+                            "cognitive_tick": cognitive.get("tick"),
                         }
                     ).encode(),
                     200 if ok else 503,
@@ -73,7 +89,7 @@ class Handler(BaseHTTPRequestHandler):
             if path not in ROUTES:
                 return self.send(b'{"error":"Not found"}', 404)
             raw, stamp = load(ROUTES[path])
-            if path == "/api/status":
+            if path in ("/api/status", "/api/cognition/status"):
                 state = json.loads(raw)
                 try:
                     state["deployment"] = json.loads(
@@ -82,8 +98,17 @@ class Handler(BaseHTTPRequestHandler):
                 except (OSError, ValueError):
                     pass
                 raw = json.dumps(state, separators=(",", ":")).encode()
-            if path.startswith("/api/") and time.time() - stamp > (
-                900 if path == "/api/verify" else 15
+            if (
+                path.startswith("/api/")
+                and path not in ("/api/cognition/topology", "/api/cognition/benchmark")
+                and time.time() - stamp
+                > (
+                    900
+                    if path == "/api/verify"
+                    else 60
+                    if path == "/api/treasury"
+                    else 15
+                )
             ):
                 return self.send(b'{"error":"Evidence unavailable or stale"}', 503)
             self.send(
@@ -103,4 +128,6 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 
-ThreadingHTTPServer(("127.0.0.1", 3040), Handler).serve_forever()
+ThreadingHTTPServer(
+    ("127.0.0.1", int(os.environ.get("NURIA_API_PORT", "3040"))), Handler
+).serve_forever()

@@ -345,6 +345,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   ];
   const colors = {
     buy: "#c7f4b0",
+    sensory: "#c5fba4",
+    workspace: "#e9cf99",
     sell: "#dfa6b2",
     association: "#aac3db",
     memory: "#beaecd",
@@ -353,6 +355,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   };
   const shortNames = {
     buy: "Buy input",
+    sensory: "Sensory",
+    workspace: "Workspace",
     sell: "Sell input",
     association: "Association",
     memory: "Memory",
@@ -378,7 +382,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("neuronTip").textContent =
       mode === "spikes"
         ? id === "all"
-          ? "Recorded spike times · latest 200 ms."
+          ? "Recorded spike times · latest neural window."
           : shortNames[id] + " · recorded spike times."
         : id === "all"
           ? "Drag to orbit.\nArrow keys rotate."
@@ -603,13 +607,14 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     ctx.fillText("N U R I A  /  N E U R A L  O B S E R V A T O R Y", x, h - 18);
   }
   function drawSpikes(w, h, cursor = 0) {
+    const span = (state?.window_ms || 100) / 1000;
     const left = 40,
       right = w - 25,
       top = 122,
       bottom = h - 125;
     const chosen = topology.regions.find((region) => region.id === selected),
       first = chosen?.start || 0,
-      last = chosen?.end || 256,
+      last = chosen?.end || 1024,
       range = last - first;
     ctx.font = "12px ui-monospace,monospace";
     ctx.lineWidth = 0.6;
@@ -636,12 +641,16 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ctx.stroke();
       ctx.fillStyle = "#738477";
       ctx.textAlign = "center";
-      ctx.fillText(k * 50 + " ms", x, bottom + 18);
+      ctx.fillText(
+        Math.round((k * (state?.window_ms || 100)) / 4) + " ms",
+        x,
+        bottom + 18,
+      );
     }
     for (const spike of frameSpikes) {
       const n = topology.nodes[spike.id];
       if (selected !== "all" && n.region !== selected) continue;
-      const x = left + ((right - left) * spike.time) / 0.2,
+      const x = left + ((right - left) * spike.time) / span,
         y = top + ((bottom - top) * (spike.id - first + 0.5)) / range;
       const seen = paused || cursor >= spike.time;
       ctx.globalAlpha = seen ? 0.85 : 0.17;
@@ -649,8 +658,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ctx.fillRect(x - 0.6, y - 1.7, 1.2, 3.4);
     }
     ctx.globalAlpha = 1;
-    if (!paused && cursor < 0.2) {
-      const x = left + ((right - left) * cursor) / 0.2,
+    if (!paused && cursor < span) {
+      const x = left + ((right - left) * cursor) / span,
         g = ctx.createLinearGradient(x - 20, 0, x, 0);
       g.addColorStop(0, "#c5fba400");
       g.addColorStop(1, "#c5fba414");
@@ -726,12 +735,15 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         state.phase === "error"
           ? "Engine stopped — evidence retained"
           : "Waiting for fresh neural state";
-    const cursor = paused ? 0 : Math.min(0.28, ((now - frameStart) / 1450) * 0.2);
+    const span = (state?.window_ms || 100) / 1000;
+    const cursor = paused
+      ? 0
+      : Math.min(span * 1.4, ((now - frameStart) / 1000) * span);
     if ($("replayFill"))
       $("replayFill").style.width =
-        (paused ? 0 : Math.min(100, (cursor / 0.2) * 100)) + "%";
+        (paused ? 0 : Math.min(100, (cursor / span) * 100)) + "%";
     if (mode === "spikes") {
-      drawSpikes(w, h, fresh ? cursor : 0.2);
+      drawSpikes(w, h, fresh ? cursor : span);
       return;
     }
     const scale = project(w, h, motionClock);
@@ -1026,45 +1038,41 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       $("regionBar-" + r.id).style.width =
         Math.min(100, ((s.metrics?.regional_rates?.[i] || 0) / 30) * 100) + "%";
     }
-    $("policyChoice").textContent = s.policy?.choice || "Observe";
+    const c = s.cognition,
+      decision = c?.last_decision?.decision,
+      treasury = c?.treasury;
+    $("policyChoice").textContent = decision?.action || "Observing";
     $("scores").replaceChildren();
-    ["compute", "experiments", "reserve", "observe"].forEach((name, i) => {
+    for (const [name, value] of Object.entries(decision?.combined_scores || {})) {
       const score = document.createElement("div");
-      score.className = "score" + (s.policy?.choice === name ? " active" : "");
-      const value = document.createElement("strong");
-      value.textContent = s.policy?.scores?.[i] ?? "—";
-      score.append(document.createTextNode(name), value);
+      score.className = "score" + (decision.action === name ? " active" : "");
+      const strong = document.createElement("strong");
+      strong.textContent = Number(value).toFixed(3);
+      score.append(document.createTextNode(name), strong);
       $("scores").append(score);
-    });
-    const actual = s.treasury?.actual_received_sol,
-      earmark =
-        s.policy?.choice === "compute" || s.policy?.choice === "experiments" ? 0.25 : 0,
-      alloc = {
-        compute: s.policy?.choice === "compute" ? actual * earmark : 0,
-        experiments: s.policy?.choice === "experiments" ? actual * earmark : 0,
-        reserve: actual * (1 - earmark),
-      };
-    $("feeTotal").textContent = Number.isFinite(s.treasury?.actual_received_sol)
-      ? s.treasury.actual_received_sol.toFixed(6)
+    }
+    $("feeTotal").textContent = Number.isFinite(treasury?.balance_sol)
+      ? treasury.balance_sol.toFixed(6)
       : "—";
     $("observedFees").textContent = Number.isFinite(
       s.treasury?.live_observed_accrual?.SOL,
     )
       ? money(s.treasury.live_observed_accrual.SOL)
       : "Unknown";
-    $("creatorWallet").textContent = s.treasury?.creator_wallet || "Not connected";
-    $("fundsReceived").textContent = Number.isFinite(s.treasury?.actual_received_sol)
-      ? money(s.treasury.actual_received_sol)
-      : "Unknown · not connected";
-    for (const name of ["compute", "experiments", "reserve"])
-      $(name + "Amount").textContent = Number.isFinite(s.treasury?.actual_received_sol)
-        ? money(alloc[name])
-        : "—";
-    const compute = s.policy?.choice === "compute" ? 25 : 0,
-      experiments = s.policy?.choice === "experiments" ? 25 : 0;
-    $("allocationPercent").textContent = Math.round(compute + experiments) + "%";
+    $("creatorWallet").textContent = treasury?.wallet || "Not connected";
+    $("fundsReceived").textContent = Number.isFinite(treasury?.verified_fee_receipts)
+      ? money(treasury.verified_fee_receipts)
+      : "Unknown";
+    $("computeAmount").textContent =
+      fmt(c?.experiments?.latest?.cpu_seconds, 3) + " s / last job";
+    $("experimentsAmount").textContent = fmt(c?.experiments?.completed);
+    $("reserveAmount").textContent = treasury?.policy?.enabled
+      ? "Connected"
+      : "Awaiting configuration";
+    const energy = Number.isFinite(c?.resources?.energy) ? c.resources.energy * 100 : 0;
+    $("allocationPercent").textContent = Math.round(energy) + "%";
     $("allocationRing").style.background =
-      `conic-gradient(#c5fba4 0% ${compute}%,#a8bde0 ${compute}% ${compute + experiments}%,#425b46 ${compute + experiments}% 100%)`;
+      `conic-gradient(#c5fba4 0% ${energy}%,#203629 ${energy}% 100%)`;
     $("head").textContent = s.receipt_head || "Waiting for the latest receipt.";
     $("receiptCount").textContent = fmt(s.durable_receipts);
     $("spikeTotal").textContent = fmt(s.spikes_total);
@@ -1115,12 +1123,12 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       new Date(e.created_utc).toLocaleTimeString();
     $("traceRegion").textContent =
       (e.side === "buy" ? "Buy" : "Sell") +
-      " sensory population" +
+      " route in the original 256-neuron history" +
       (receipt
         ? " · recorded drive " +
           fmt(receipt.sensory_drive?.[e.side === "buy" ? 0 : 1], 4)
         : "");
-    const ri = topology?.regions.findIndex((r) => r.id === e.side) ?? -1;
+    const ri = e.side === "buy" ? 0 : 1;
     $("traceSpikes").textContent = fmt(receipt?.metrics?.spikes);
     $("traceRate").textContent = fmt(
       ri >= 0 ? receipt?.metrics?.regional_rates?.[ri] : null,
@@ -1209,7 +1217,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         selectedInput = e.id;
         followingLatest = false;
         renderTrace();
-        chooseRegion(e.side);
+        chooseRegion("sensory");
         $("neural-field").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
       });
       $("events").append(row);
@@ -1226,7 +1234,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   });
   $("traceFocus").addEventListener("click", () => {
     const e = selectedEvent();
-    if (e) chooseRegion(e.side);
+    if (e) chooseRegion("sensory");
     canvas.focus({ preventScroll: true });
   });
   async function copyValue(value, button) {
@@ -1251,15 +1259,213 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     "click",
     () => ($("modelInspection").open = true),
   );
+  let cognitionState = null,
+    legacyState = null,
+    cognitiveDecisionHash = null;
+  function cognitiveNode(tag, text, className) {
+    const element = document.createElement(tag);
+    if (text !== undefined) element.textContent = text;
+    if (className) element.className = className;
+    return element;
+  }
+  function drawHabitat(s) {
+    const c = $("habitat"),
+      d = resize(c),
+      x = c.getContext("2d");
+    x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
+    x.clearRect(0, 0, d.w, d.h);
+    const size = s.size || 12,
+      cell = Math.min(d.w / size, d.h / size) - 2,
+      side = cell * size,
+      left = (d.w - side) / 2,
+      top = (d.h - side) / 2;
+    for (let j = 0; j < size; j++)
+      for (let i = 0; i < size; i++) {
+        const visits = s.visits?.[j]?.[i] || 0;
+        x.fillStyle = visits
+          ? `rgba(144,194,124,${Math.min(0.32, 0.04 + visits * 0.018)})`
+          : "#142319";
+        x.fillRect(left + i * cell, top + j * cell, cell - 2, cell - 2);
+      }
+    for (const [i, j] of s.resources || []) {
+      x.fillStyle = "#c3a56e";
+      x.fillRect(
+        left + (i + 0.33) * cell,
+        top + (j + 0.33) * cell,
+        cell * 0.24,
+        cell * 0.24,
+      );
+    }
+    if (s.position) {
+      const [i, j] = s.position;
+      x.fillStyle = "#d6efb7";
+      x.shadowBlur = 12;
+      x.shadowColor = "#a5ce87";
+      x.beginPath();
+      x.arc(
+        left + (i + 0.45) * cell,
+        top + (j + 0.45) * cell,
+        cell * 0.2,
+        0,
+        Math.PI * 2,
+      );
+      x.fill();
+      x.shadowBlur = 0;
+    }
+  }
+  function drawLearning(rows) {
+    const c = $("learningChart"),
+      d = resize(c),
+      x = c.getContext("2d");
+    x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
+    x.clearRect(0, 0, d.w, d.h);
+    if (rows.length < 2) return;
+    for (const [key, color] of [
+      ["baseline_brier", "#6c7b6a"],
+      ["brier", "#b5d99e"],
+    ]) {
+      x.beginPath();
+      rows.forEach((r, i) => {
+        const px = (i / (rows.length - 1)) * d.w,
+          py = d.h - 5 - Math.min(1, r[key]) * (d.h - 10);
+        i ? x.lineTo(px, py) : x.moveTo(px, py);
+      });
+      x.strokeStyle = color;
+      x.lineWidth = 1.3;
+      x.stroke();
+    }
+  }
+  function renderCognition(c) {
+    cognitionState = c;
+    $("cogPhase").textContent =
+      c.phase === "running" ? "Continuous cognition" : "Evidence unavailable";
+    const decision = c.last_decision,
+      selection = decision?.decision;
+    $("cogAction").textContent = selection?.action || "Observing";
+    $("cogReason").textContent =
+      decision?.explanation || "Collecting the first decision record.";
+    const scores = $("cogScores");
+    scores.replaceChildren();
+    for (const [action, value] of Object.entries(selection?.combined_scores || {})) {
+      const item = cognitiveNode("div", undefined, "decision-score"),
+        line = cognitiveNode("i"),
+        bar = cognitiveNode("span");
+      item.append(
+        cognitiveNode("span", action),
+        cognitiveNode("b", Number(value).toFixed(3)),
+      );
+      bar.style.width = Math.max(0, Math.min(100, value * 100)) + "%";
+      line.append(bar);
+      item.append(line);
+      scores.append(item);
+    }
+    cognitiveDecisionHash = decision?.hash || null;
+    $("copyDecision").disabled = !cognitiveDecisionHash;
+    $("cogDecisionId").textContent = decision
+      ? `Record ${fmt(decision.seq)} · tick ${fmt(decision.tick)}`
+      : "Awaiting record";
+    $("cogDecisionJSON").textContent = decision
+      ? JSON.stringify(decision, null, 2)
+      : "Awaiting a decision.";
+    const sources = c.learning?.sources || {},
+      source = Object.keys(sources).find((k) => k !== "test") || "test",
+      learning = sources[source],
+      metrics = learning?.metrics?.[source];
+    $("cogPrediction").textContent =
+      learning?.prediction?.probability !== undefined
+        ? (learning.prediction.probability * 100).toFixed(1) + "%"
+        : "—";
+    $("cogEvaluated").textContent = fmt(metrics?.evaluated);
+    $("cogBrier").textContent = fmt(metrics?.brier, 4);
+    $("cogBaseline").textContent = fmt(metrics?.baseline_brier, 4);
+    $("cogLearningSource").textContent =
+      source === "test"
+        ? "Test-stream measurements. Green: prediction error. Gray: baseline. Live learning uses separate weights."
+        : `${source} · observed next-input outcomes; prediction quality can rise or fall.`;
+    drawLearning(learning?.history || []);
+    $("cogEpisodes").textContent = fmt(c.memory?.episodes);
+    $("cogWorkspace").replaceChildren();
+    for (const slot of c.workspace?.selected || []) {
+      const row = cognitiveNode("div", undefined, "workspace-slot");
+      row.append(
+        cognitiveNode("span", slot.kind),
+        cognitiveNode("b", Number(slot.salience).toFixed(3)),
+      );
+      $("cogWorkspace").append(row);
+    }
+    $("cogEnergy").textContent = Number.isFinite(c.resources?.energy)
+      ? (c.resources.energy * 100).toFixed(1) + "%"
+      : "—";
+    $("cogJobs").textContent = fmt(c.experiments?.completed);
+    $("cogSpent").textContent = money(
+      c.treasury?.spent_lamports === undefined ? null : c.treasury.spent_lamports / 1e9,
+    );
+    $("cogMoves").textContent = fmt(c.habitat?.moves) + " moves";
+    $("cogCollected").textContent = fmt(c.habitat?.collected) + " collected";
+    drawHabitat(c.habitat || {});
+    $("cogContinuity").textContent =
+      `Saved tick ${fmt(c.committed_tick)} · ${fmt(c.pending_ticks)} pending · input ${fmt(c.committed_cursor)}`;
+  }
+  function neuralView(c, legacy) {
+    const n = c.neural || {},
+      rates = n.regional_rates || [],
+      total = (n.counts || []).reduce((a, b) => a + b, 0),
+      entropy = total
+        ? (n.counts || []).reduce(
+            (a, v) => (v ? a - (v / total) * Math.log2(v / total) : a),
+            0,
+          )
+        : 0;
+    return {
+      ...legacy,
+      ...n,
+      phase: c.phase,
+      updated_utc: c.updated_utc,
+      tick: c.tick,
+      neurons: c.neurons,
+      synapses: c.synapses,
+      sim_seconds: n.sim_seconds,
+      weights: n.sampled_weights,
+      history: c.history,
+      spikes_total: c.spikes_total,
+      cognition: c,
+      metrics: {
+        rate_hz: n.rate_hz,
+        changed_synapses: n.changed_synapses,
+        regional_rates: rates,
+        mean_weight: n.mean_weight,
+        activity_entropy: entropy,
+      },
+    };
+  }
+  $("copyDecision").addEventListener("click", () =>
+    copyValue(cognitiveDecisionHash, $("copyDecision")),
+  );
+  window.addEventListener("resize", () => {
+    if (cognitionState) {
+      drawHabitat(cognitionState.habitat || {});
+      const source =
+        Object.keys(cognitionState.learning?.sources || {}).find((k) => k !== "test") ||
+        "test";
+      drawLearning(cognitionState.learning?.sources?.[source]?.history || []);
+    }
+  });
+
   async function poll() {
     if (polling) return;
     polling = true;
     try {
       if (!topology?.nodes) {
-        topology = await fetchJSON("/api/topology");
+        topology = await fetchJSON("/api/cognition/topology");
         structure();
       }
-      render(await fetchJSON("/api/status"));
+      const [legacy, cognitive] = await Promise.all([
+        fetchJSON("/api/status"),
+        fetchJSON("/api/cognition/status"),
+      ]);
+      legacyState = legacy;
+      renderCognition(cognitive);
+      render(neuralView(cognitive, legacy));
       if (eventCounter++ % 3 === 0) await loadEvents();
     } catch (error) {
       $("statusPill").textContent = "Connection unavailable";
@@ -1328,7 +1534,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     canvas.setAttribute(
       "aria-label",
       next === "spikes"
-        ? "Actual recorded spike times by neuron in the latest 200 ms window"
+        ? "Actual recorded spike times by neuron in the latest neural window"
         : next === "topology"
           ? "Schematic two-dimensional view of actual model neurons and sampled connections"
           : "Actual Brian2 neurons and sampled connections in a schematic three-dimensional view; drag or use arrow keys to rotate",
@@ -1337,7 +1543,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("frameLabel").textContent = paused
       ? "Motion paused · live data continues"
       : next === "spikes"
-        ? "Recorded spike raster · 200 ms window"
+        ? "Recorded spike raster · latest window"
         : "";
   }
   $("viewNeural").addEventListener("click", () => setMode("neural"));

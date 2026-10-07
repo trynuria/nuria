@@ -1,61 +1,56 @@
 # Architecture
 
-Nuria separates ingestion, simulation, verification and public reads. Each process has one responsibility and receives only the credentials it needs.
+Two independent circuits read the same durable finalized input queue. The original 256-neuron circuit retains its complete existing history. A read-only PostgreSQL role supplies the expanded cognitive circuit, which owns a separate SQLite journal and trusted Brian2 checkpoint. Its own genesis is published; the two histories are never treated as the same neural state.
 
-## Data flow
+## Cognitive cycle
 
-1. The trade reader discovers the configured mint's Pump bonding curve and PumpSwap pools. It scans finalized signatures using persisted cursors, fetches transaction evidence and decodes supported program events.
-2. Each decoded trade enters the durable queue under `signature:event_index`. Conflicting retries do not create new inputs. Transactions that cannot be decoded remain pending for retry; unavailable evidence is not treated as an empty trade.
-3. The engine consumes up to 100 queued inputs per model window. Buys and sells produce separate, logarithmically scaled drives, each bounded to 3.
-4. Brian2 advances 200 ms of model time. The engine records raw spikes, input evidence hashes, membrane hashes, weight hashes, regional metrics and policy scores.
-5. A checkpoint carries the network, random state, pending receipts and continuity metadata. The engine commits pending receipts to the durable store and links each input to its receipt.
-6. The verifier checks persisted input, spike and receipt integrity. It publishes a bounded export of the latest 300 durable ticks outside HTTP request handling.
-7. The API serves cached files. A visitor cannot directly reach the database, RPC credential or neural writer.
+Each cycle reads at most four inputs in event order. Each valid input gets an independent 20 ms sensory window, source-specific forecast, episode and input-effect record. Side, amount, fee and event-ID texture enter sensory drive. Recalled features stimulate the memory population. A 100 ms autonomous window follows.
 
-## Neural dynamics
+Every five cycles, 65% goal utility and 35% normalized action-region spikes select one of eight actions. Habitat moves use an explicit local planner. Replay and matched probes operate on recorded episodes. Controlled local readout tasks execute with measured CPU/wall time. Observed prediction improvement and action consequences modulate synaptic eligibility and learned action values.
 
-The model uses 256 leaky integrate-and-fire neurons with a 20 ms membrane time constant, 4 ms refractory period and adaptation decaying over 300 ms. Excitatory and inhibitory state decay over 8 ms and 12 ms respectively.
+Source-specific readouts prevent test training from changing live predictor weights. Shared neural dynamics still reflect all recorded inputs; source separation does not claim separate physical circuits for test and live.
 
-Excitatory source neurons occupy indices 0–207. Connections are sampled with probability 0.075, exclude self-connections, and carry spike-timing plasticity. Inhibitory sources occupy indices 208–255, connect with probability 0.12, and use fixed influence. Independent 18 Hz Poisson input supplies background activity.
+## Circuit parameters
 
-The policy population occupies indices 192–207, split into four groups of four. Their spike counts select `compute`, `experiments`, `reserve` or `observe`. A nonzero tie is resolved in that order; all-zero scores select `observe`. The readout produces proposals and does not execute payments.
+| Population         | Range    | Membrane time constant |
+| ------------------ | -------- | ---------------------- |
+| Sensory            | 0–127    | 12 ms                  |
+| Association        | 128–511  | 20 ms                  |
+| Recurrent memory   | 512–639  | 45 ms                  |
+| Workspace          | 640–767  | 20 ms                  |
+| Action readout     | 768–895  | 20 ms                  |
+| Inhibitory control | 896–1023 | 20 ms                  |
 
-Population names define circuit organization. Task competence requires an external objective, evaluation protocol and measured results.
+Refractory period is 4 ms. Excitatory/inhibitory decay is 8/12 ms. Adaptation decay is 350 ms. Excitatory connections sample probability 0.025 from sources below 896, with 1–12 ms delays, STDP traces and reward eligibility. Inhibitory sources use probability 0.05 and 2 ms delays. Self-connections are excluded. Homeostatic bias and background rates are bounded.
 
-## Continuity and integrity
+## Commit and recovery
 
-- There is one authoritative neural writer.
-- Input IDs are unique and processed inputs retain their receipt association.
-- Receipt sequences are contiguous. Each hash covers the previous hash and the canonical payload.
-- Input IDs and input hashes must have matching lengths.
-- Spike evidence is checked against the hash of its uncompressed canonical representation.
-- Existing receipts with a missing checkpoint refuse an automatic reset.
-- Model or topology disagreement with a checkpoint refuses an automatic reset.
-- Checkpoint restore includes Brian2's random state.
-- Checkpoints use Python serialization and must be trusted before loading.
+SQLite uses WAL and full synchronous commits. Inputs, effects, memory, learning metadata, journal head and serialized network commit every five cycles. A graceful shutdown commits the pending state. A crash rolls back the uncommitted transaction; the prior network and cursor restore together. Status exposes latest and committed ticks separately. An exclusive file lock prevents competing workers.
 
-Local integrity verifies consistency within the recorded history. Independent attestation and Solana anchoring require additional systems.
+Checkpoint hash, model version and topology are checked before trusted deserialization. Missing or mismatched checkpoints refuse a reset. The neural projection hash covers membrane, conductance, adaptation, bias, drives, time constants, weights, traces, eligibility, model time and offset; delayed queues and RNG are covered by the full checkpoint, rather than that projection.
 
-## Storage and permissions
+Startup audits the complete cognitive chain. Periodic checks extend the previous verified head. They do not silently claim that every historical row was rescanned. Input source payload and raw spike hashes are bound to records, and record kind is inside the hashed payload.
 
-Production uses PostgreSQL. The engine writes neural history and consumes inputs. The ingestor writes source cursors, transaction status and queue entries; it does not update neural receipts. The verification role reads evidence. The API has no database credential.
+## Service boundaries
 
-SQLite supports an offline engine simulation. The separate ingestor and verification-worker entry points require PostgreSQL, so an offline engine does not supply their endpoints automatically.
+| Service           | Authority                                                         |
+| ----------------- | ----------------------------------------------------------------- |
+| Original engine   | Original neural history and receipt writes                        |
+| Ingestor          | Protocol RPC, transaction queue and source cursors                |
+| Cognitive worker  | SELECT on input queue; writes only its state and public cache     |
+| Verifier          | Read original evidence and publish bounded verification exports   |
+| Treasury observer | Read-only finalized wallet RPC; no database or signer             |
+| API               | Read bounded cached files; no RPC, database or signing credential |
+| Backup            | Consistent snapshots and private encrypted upload                 |
 
-## Freshness and public reads
+The public interface cannot enqueue inputs, run jobs or prepare payments. Missing or stale evidence returns unavailable. The original and cognitive status require a running phase and fresh cache for aggregate health. Immutable topology and benchmark artifacts are not treated as rolling live status.
 
-Engine status, topology, events and recent receipts are cached separately from verification exports. Public model API data older than 15 seconds is unavailable; verification data has a 900-second bound. The health endpoint also requires a running engine phase. Missing files and malformed JSON return an unavailable response.
+## Capacity and retention
 
-HTTP requests do not trigger simulation, database queries, complete-history scans or RPC calls. Download endpoints expose bounded evidence, not private databases or recovery archives.
+The circuit has a nominal four-input-per-cycle limit and one-second pacing. Measured cycle cost determines actual capacity. The original reader uses eight fetch workers and a shared 15-request-per-second limiter; RPC coverage is an independent bound. Public endpoints use cached bounded files and never replay the neural model for a visitor.
 
-## Fee accounting
+A bounded server benchmark checks actual input processing, checkpoint commits, source cursor and full journal integrity. A daily projection does not establish a 24-hour provider-to-browser soak. Record size and disk growth must be monitored. Capacity thresholds fail with evidence retained; automatic deletion or unlimited-storage claims are not part of the design.
 
-Protocol fees, decoded creator-fee accrual, claimable funds, treasury receipts and executed spending are separate quantities. A trade event's creator fee is not evidence that money has reached a wallet. The current model reports treasury receipt and creator wallet as unknown and leaves spending disabled.
+## Backups
 
-The backup implementation encrypts an application snapshot before upload and checks the uploaded ciphertext against the local archive. Its destination is private configuration supplied through `NURIA_BACKUP_BUCKET`; provider credentials are outside source control.
-
-## Capacity
-
-The reader uses eight fetch workers with a shared 15-request-per-second limiter. Pagination is bounded per address per scan, and unresolved transactions remain queued. The simulator's nominal 100-input window limit is separate from RPC fetch throughput and does not establish an end-to-end throughput guarantee.
-
-Persistent history grows with recorded activity. Capacity planning needs measured queue lag, source coverage, database growth, checkpoint cost and API cache behavior. A high-volume claim requires a representative load test.
+The original circuit retains its PostgreSQL snapshot and matching checkpoint. The cognitive service uses SQLite's online backup to copy a committed network and journal. Both enter the encrypted private archive with separate heads. Recovery must verify and restore each circuit independently. The backup recipient is public; its private recovery key stays off the server.

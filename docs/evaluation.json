@@ -1,0 +1,60 @@
+{
+  "created_utc": "2026-10-07T19:53:54.568846+00:00",
+  "neural_tasks": [
+    {
+      "task": "alternation",
+      "train": 160,
+      "held_out": 80,
+      "accuracy": 0.925,
+      "brier": 0.16005413932368057,
+      "neural_ablation_brier": 0.25008628958277884,
+      "chance_brier": 0.25,
+      "structured_side_feature": false,
+      "test_weights_frozen": true,
+      "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result"
+    },
+    {
+      "task": "persistence",
+      "train": 160,
+      "held_out": 80,
+      "accuracy": 0.8875,
+      "brier": 0.1729050852773871,
+      "neural_ablation_brier": 0.23618998783667988,
+      "chance_brier": 0.25,
+      "structured_side_feature": false,
+      "test_weights_frozen": true,
+      "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result"
+    }
+  ],
+  "capacity": {
+    "inputs": 100,
+    "seconds": 25.18559560200083,
+    "inputs_per_second_unpaced": 3.970523531794327,
+    "cycle_p95_seconds": 1.104471,
+    "target_rate_per_second": 1.1574074074074074,
+    "paced_inputs_per_day_upper_bound": 343475.2210654625,
+    "persisted_cursor": 100,
+    "journal_valid": true,
+    "disk_bytes": 12931830,
+    "scope": "Bounded actual-model replay; daily number is a projection, not a 24-hour end-to-end RPC soak"
+  },
+  "evaluation_code_snapshot_sha256": "e0babd4348850abd677145ecb414b5a122cef062b996b61bfa2e9279569b7f28",
+  "larger_capacity_check": {
+    "code_snapshot_sha256": "70c136a65cfcce2f2d7135c4fc52e572ef626d2dab505c57214bef33d48e04dc",
+    "inputs": 1000,
+    "seconds": 262.07065944200076,
+    "inputs_per_second_unpaced": 3.8157648098768244,
+    "cycle_p95_seconds": 1.18771,
+    "target_rate_per_second": 1.1574074074074074,
+    "paced_inputs_per_day_upper_bound": 329878.83000775764,
+    "persisted_cursor": 1000,
+    "journal_valid": true,
+    "disk_bytes": 16767762,
+    "scope": "Bounded actual-model replay; daily number is a projection, not a 24-hour end-to-end RPC soak"
+  },
+  "host_limits": {
+    "cpu_quota_cores": 1,
+    "memory_limit_gib": 1
+  },
+  "scope": "Controlled neural evaluation and bounded server replay. No RPC calls, live trading, subjective-experience claim or full-day end-to-end soak."
+}
