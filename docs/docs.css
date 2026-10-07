@@ -211,8 +211,8 @@
   margin-bottom: 12px;
 }
 .docs-article h1 {
-  font: normal clamp(36px, 3.8vw, 50px)/1.1 var(--serif);
-  letter-spacing: -0.045em;
+  font: 450 clamp(32px, 3.4vw, 44px)/1.16 var(--sans);
+  letter-spacing: -0.03em;
   color: var(--paper);
   margin-bottom: 20px;
   max-width: 620px;
@@ -1061,4 +1061,31 @@
 }
 .docs-search-hint {
   flex-wrap: wrap;
+}
+
+/* Reading surfaces share the observatory's neutral palette. */
+.docs-page {
+  --line: #2a3032;
+  --dim: #84908a;
+  --muted: #a6afaa;
+}
+.docs-search-trigger,
+.docs-code,
+.docs-diagram,
+.docs-chapter-card,
+.docs-search-box {
+  background: #101315;
+  border-color: var(--line);
+}
+.docs-nav-link:hover,
+.docs-nav-link[aria-current="page"] {
+  background: #1a211d;
+}
+.docs-chapter-card {
+  border-radius: 8px;
+}
+.docs-callout,
+.docs-callout.neutral {
+  background: #121817;
+  border-color: var(--line);
 }

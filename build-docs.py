@@ -22,6 +22,8 @@ def build(root: Path = ROOT) -> None:
         + (root / "discovery-view.css").read_text()
         + "\n"
         + (root / "observatory-design.css").read_text()
+        + "\n"
+        + (root / "observatory-polish.css").read_text()
         + "\n</style>",
         1,
     )
@@ -41,15 +43,15 @@ def build(root: Path = ROOT) -> None:
         raise ValueError("Observatory logo is missing")
     footer_logo = (
         logo_match.group()
-        .replace('id="leaf"', 'id="footer-leaf"')
-        .replace("url(#leaf)", "url(#footer-leaf)")
+        .replace('id="neural-mark"', 'id="footer-neural-mark"')
+        .replace("url(#neural-mark)", "url(#footer-neural-mark)")
     )
     source = source.replace("{{FOOTER_LOGO}}", footer_logo)
     docs_logo = (
         logo_match.group()
         .replace('href="#overview"', 'href="/"')
-        .replace('id="leaf"', 'id="docs-leaf"')
-        .replace("url(#leaf)", "url(#docs-leaf)")
+        .replace('id="neural-mark"', 'id="docs-neural-mark"')
+        .replace("url(#neural-mark)", "url(#docs-neural-mark)")
     )
     docs = docs.replace("{{LOGO}}", docs_logo)
     source = source.replace("</style>", css + "\n</style>", 1)

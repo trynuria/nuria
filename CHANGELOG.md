@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.4 — 2026-10-08
+
+- Simplified the hero and navigation, unified instrument panels and increased label readability.
+- Reserved space for live measurements and repaired clipped panel notes across small-screen layouts.
+- Replaced the earlier leaf symbol with the neural monogram in the observatory, docs and favicon.
+- Added the Nuria cover and an architecture diagram to the repository introduction.
+- Published the static presentation without restarting workers or changing experimental histories.
+
 ## 0.4.3 — 2026-10-08
 
 - Updated the site, metadata, documentation and repository introduction to “An onchain consciousness experiment.”
