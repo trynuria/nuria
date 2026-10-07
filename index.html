@@ -3576,6 +3576,402 @@
           gap: 12px;
         }
       }
+      /* Neural field: fixed instrument layout around the recorded-window view. */
+      .stage {
+        height: 650px;
+      }
+      .field {
+        background: #0c1114;
+      }
+      #network {
+        touch-action: pan-y;
+        cursor: grab;
+      }
+      #network.dragging {
+        cursor: grabbing;
+      }
+      .field-top {
+        top: 23px;
+      }
+      .field-meta {
+        max-width: 65%;
+      }
+      .frame-label {
+        height: 14px;
+        font: 10px/14px var(--mono);
+        color: #697c72;
+        margin-top: 6px;
+      }
+      .replay-line {
+        display: none;
+      }
+      .field-time span {
+        font-size: 13px;
+      }
+      .field-readings {
+        position: absolute;
+        left: 25px;
+        top: 92px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        pointer-events: none;
+        font: 10px var(--mono);
+        color: #63796d;
+      }
+      .field-readings strong {
+        color: #a9bcac;
+        display: inline-block;
+        width: 37px;
+        font-weight: 400;
+        text-align: right;
+        margin-right: 7px;
+        font-variant-numeric: tabular-nums;
+      }
+      .field-bottom {
+        bottom: 16px;
+        min-height: 34px;
+      }
+      .field-note {
+        font: 10px/1.6 var(--mono);
+        max-width: 280px;
+      }
+      .window-caption {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 104px;
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+        font: 9px var(--mono);
+        color: #6c8074;
+      }
+      .window-caption > span:last-child {
+        width: 120px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .playback-select {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font: 10px var(--mono);
+        color: #788c80;
+      }
+      .playback-select select {
+        width: 93px;
+        height: 32px;
+        border: 1px solid #2b3934;
+        border-radius: 6px;
+        background: #111b19;
+        color: #a7baa9;
+        font: 10px var(--mono);
+        padding: 0 7px;
+        cursor: pointer;
+      }
+      .field-text-btn {
+        height: 34px;
+        padding: 0 12px;
+        background: #121d19;
+        border: 1px solid #2b3934;
+        color: #b0c3af;
+        border-radius: 6px;
+        font-size: 10px;
+        cursor: pointer;
+      }
+      .field-text-btn:hover {
+        background: #213127;
+      }
+      .field-controls .icon-btn {
+        width: 34px;
+        height: 34px;
+      }
+      .inspection {
+        display: block;
+        position: absolute;
+        top: 87px;
+        right: 25px;
+        left: auto;
+        width: 215px;
+        padding: 15px;
+        pointer-events: none;
+        background: #101b19f5;
+        border: 1px solid #455d4c;
+        border-radius: 8px;
+        font: 10px/1.5 var(--mono);
+        color: #94a896;
+        box-shadow: 0 10px 40px #0005;
+      }
+      .inspection[hidden] {
+        display: none;
+      }
+      .inspection.is-pinned {
+        pointer-events: auto;
+      }
+      .inspect-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #d4e0c9;
+        font: 12px var(--sans);
+        height: 20px;
+      }
+      .inspect-head button {
+        background: none;
+        border: 0;
+        padding: 0;
+        color: #96ad98;
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        font-size: 20px;
+      }
+      .inspect-select {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        margin: 9px 0 3px;
+        border-top: 1px solid #2d4034;
+      }
+      .inspect-select input {
+        width: 70px;
+        height: 28px;
+        background: #0a1411;
+        color: #d7e4ce;
+        border: 1px solid #3b5040;
+        border-radius: 4px;
+        font: 12px var(--mono);
+        padding: 3px 7px;
+      }
+      .inspection dl {
+        margin: 0;
+        padding: 0;
+      }
+      .inspection dl > div {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 4px 0;
+      }
+      .inspection dt {
+        color: #7c9782;
+      }
+      .inspection dd {
+        margin: 0;
+        color: #c0d0b7;
+        font-variant-numeric: tabular-nums;
+      }
+      .inspect-foot {
+        font-size: 9px;
+        margin-top: 9px;
+        padding-top: 10px;
+        border-top: 1px solid #2d4034;
+        color: #607c66;
+      }
+      @media (max-width: 700px) {
+        .stage {
+          height: 564px;
+        }
+        .field-readings {
+          left: 17px;
+          top: 81px;
+          font-size: 9px;
+        }
+        .field-readings strong {
+          width: 32px;
+        }
+        .field-bottom {
+          left: 16px;
+          right: 16px;
+          flex-wrap: wrap;
+          gap: 8px;
+          bottom: 13px;
+        }
+        .field-note {
+          max-width: 100%;
+          height: 14px;
+          font-size: 9px;
+        }
+        .field-controls {
+          justify-content: flex-end;
+          width: 100%;
+          gap: 5px;
+        }
+        .playback-select {
+          margin-right: auto;
+          font-size: 9px;
+          gap: 6px;
+        }
+        .playback-select select {
+          width: 87px;
+          height: 30px;
+          font-size: 9px;
+        }
+        .field-controls .icon-btn,
+        .field-text-btn {
+          height: 30px;
+        }
+        .field-controls .icon-btn {
+          width: 30px;
+        }
+        .field-text-btn {
+          padding: 0 10px;
+          font-size: 9px;
+        }
+        .window-caption {
+          bottom: 130px;
+          left: 17px;
+          right: 17px;
+          font-size: 8px;
+        }
+        .inspection {
+          top: 82px;
+          right: 17px;
+          width: 206px;
+          padding: 12px;
+        }
+        .frame-label {
+          font-size: 9px;
+        }
+      }
+      @media (max-width: 360px) {
+        .field-top {
+          left: 14px;
+          right: 14px;
+        }
+        .field-time {
+          min-width: 75px;
+        }
+        .field-time span {
+          width: 75px;
+          font-size: 11px;
+        }
+        .field-meta .micro {
+          font-size: 9px;
+        }
+        .playback-select {
+          gap: 4px;
+        }
+        .playback-select select {
+          width: 77px;
+        }
+        .field-controls {
+          gap: 4px;
+        }
+      }
+      .field-notes {
+        display: grid;
+        gap: 5px;
+      }
+      .field-layers {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+      }
+      .field-layers button {
+        padding: 0;
+        background: none;
+        border: 0;
+        font-size: 10px;
+        color: #6b8074;
+        cursor: pointer;
+        line-height: 16px;
+      }
+      .field-layers button[aria-pressed="true"] {
+        color: #c2d3b8;
+      }
+      .layer-key {
+        font: 9px/12px var(--mono);
+        color: #6f8577;
+        height: 12px;
+      }
+      .field-notes .field-note {
+        display: none;
+      }
+      .field-controls {
+        align-self: end;
+      }
+      @media (max-width: 700px) {
+        .field-notes {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          gap: 12px;
+          height: 18px;
+        }
+        .field-layers {
+          gap: 13px;
+          flex: none;
+        }
+        .field-layers button {
+          font-size: 9px;
+        }
+        .layer-key {
+          font-size: 8px;
+          line-height: 12px;
+          margin-left: auto;
+          max-width: 150px;
+          text-align: right;
+        }
+      }
+      @media (max-width: 430px) {
+        .layer-key {
+          display: none;
+        }
+      }
+      .stage-head {
+        flex-wrap: nowrap;
+      }
+      .stage-title {
+        width: auto;
+        min-width: 0;
+      }
+      .window-caption {
+        bottom: 126px;
+      }
+      @media (max-width: 700px) {
+        .window-caption {
+          bottom: 146px;
+        }
+      }
+      @media (max-width: 430px) {
+        .playback-select > span {
+          display: none;
+        }
+        .playback-select {
+          gap: 0;
+        }
+        .field-controls .icon-btn {
+          width: 27px;
+        }
+        .field-text-btn {
+          padding-inline: 9px;
+        }
+      }
+      @media (max-width: 360px) {
+        .field-bottom {
+          left: 12px;
+          right: 12px;
+        }
+        .field-controls .icon-btn {
+          width: 26px;
+        }
+      }
+      .inspection dl > div {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        min-height: 23px;
+      }
+      .inspection dt {
+        font-size: 9px;
+      }
+      .inspection dd {
+        white-space: nowrap;
+        font-size: 10px;
+      }
 
       /* Nuria field notes: a quiet reading surface around the living observatory. */
       .visually-hidden {
@@ -4766,18 +5162,75 @@
                     ><div class="field-meta"
                       ><div class="micro" id="graphBadge"
                         >Connecting to the neural engine</div
-                      ><div class="frame-label" id="frameLabel" hidden></div
+                      ><div class="frame-label" id="frameLabel"
+                        >Recorded window · 22× slower</div
                       ><div class="replay-line" aria-hidden="true"
                         ><span id="replayFill"></span></div></div
                     ><div class="field-time"
                       >MODEL TIME<span id="simTime">—</span></div
                     ></div
                   ><div class="field-status" id="fieldStatus">Connecting to Nuria</div
-                  ><div class="inspection" id="inspection"></div
+                  ><div class="field-readings" aria-label="Recorded neural window">
+                    <span><strong id="windowSpikes">—</strong> spikes</span
+                    ><span><strong id="windowActive">—</strong> active neurons</span>
+                  </div>
+                  <div class="inspection" id="inspection" hidden>
+                    <div class="inspect-head"
+                      ><span id="inspectTitle">Neuron</span
+                      ><button id="inspectClose" aria-label="Close neuron inspector"
+                        >×</button
+                      ></div
+                    >
+                    <label class="inspect-select"
+                      >Neuron ID<input
+                        id="inspectId"
+                        type="number"
+                        min="0"
+                        max="1023"
+                        value="0"
+                        inputmode="numeric"
+                    /></label>
+                    <dl
+                      ><div><dt>Membrane v</dt><dd id="inspectVoltage">—</dd></div
+                      ><div><dt>Spikes in window</dt><dd id="inspectSpikes">—</dd></div
+                      ><div
+                        ><dt>Sampled connections</dt
+                        ><dd id="inspectConnections">—</dd></div
+                      ><div
+                        ><dt>Mean outgoing w</dt><dd id="inspectWeight">—</dd></div
+                      ></dl
+                    >
+                    <div class="inspect-foot" id="inspectTick">Captured tick —</div>
+                  </div>
+                  <div id="windowCaption" class="window-caption"
+                    ><span id="sampleCount">Sampled synapses</span
+                    ><span id="playbackTime">000 / 100 ms</span></div
                   ><div class="field-bottom"
-                    ><div class="field-note" id="neuronTip"
-                      >Drag to orbit.<br />Arrow keys rotate.</div
+                    ><div class="field-notes"
+                      ><div
+                        class="field-layers"
+                        id="fieldLayers"
+                        aria-label="Neural field layer"
+                        ><button data-layer="firing" aria-pressed="true">Firing</button
+                        ><button data-layer="voltage" aria-pressed="false"
+                          >Membrane</button
+                        ><button data-layer="weights" aria-pressed="false"
+                          >Weights</button
+                        ></div
+                      ><div class="layer-key" id="layerKey"
+                        >Spike flashes · recorded synaptic delays</div
+                      ><div class="field-note" id="neuronTip"
+                        >Drag to orbit · click a neuron to inspect</div
+                      ></div
                     ><div class="field-controls"
+                      ><label class="playback-select"
+                        ><span>Replay</span
+                        ><select id="playbackRate" aria-label="Spike replay speed"
+                          ><option value="22">22× slow</option
+                          ><option value="10">10× slow</option
+                          ><option value="1">Real time</option></select
+                        ></label
+                      ><button id="inspectOpen" class="field-text-btn">Inspect</button
                       ><button
                         class="icon-btn"
                         id="motion"
@@ -5499,16 +5952,39 @@
                   ><p
                     >The main graph shows the expanded circuit’s 1,024 neurons across
                     six populations. Membranes, spikes and sampled plastic weights come
-                    from Brian2. Positions and traveling trails are visualization
-                    conventions. A deterministic subset of connections is rendered; the
-                    worker retains the complete connectivity.</p
+                    from Brian2. The spatial arrangement is schematic. Flashes use
+                    recorded source spikes; signal heads follow each sampled
+                    connection’s recorded synaptic delay. A traveling signal does not
+                    establish that the target fired because of that source. A
+                    deterministic subset of connections is rendered; the worker retains
+                    the complete connectivity.</p
                   ><h2 id="observatory--modes">Three views of one measured model</h2
                   ><p
-                    >Neural mode supports orbiting and inspecting individual neurons.
-                    Topology mode flattens the circuit layout. Spikes mode shows actual
-                    spike times in the latest 100 ms autonomous window. Visual replay
-                    runs slower than model time; model time and wall time are
-                    separate.</p
+                    >Neural mode provides a depth-shaded, orbitable view of the six
+                    populations. Every displayed edge comes from the published topology
+                    sample. Topology flattens the same arrangement; Spikes plots
+                    recorded time against neuron ID. The small raster underneath Neural
+                    and Topology shows the same recorded window.</p
+                  ><p
+                    >Firing highlights measured spikes. Membrane maps the recorded,
+                    dimensionless membrane variable v from blue to ivory. Weights uses
+                    line thickness for current sampled weight and sage or lilac for
+                    increases or decreases between received snapshots; those differences
+                    are not a complete account of plastic changes inside each worker
+                    window.</p
+                  ><p
+                    >Replay offers 22× slower, 10× slower and real-time playback. Model
+                    time is separate from wall time. The browser receives the newest
+                    cached window, rather than replaying every window the worker has
+                    produced. A short window can finish before the next snapshot
+                    arrives.</p
+                  ><p
+                    >Click a neuron to pin its inspector, or use Inspect and enter its
+                    ID. The inspector shows its recorded membrane value, spike count,
+                    sampled incoming and outgoing connections and mean sampled outgoing
+                    excitatory weight. These connection counts describe the display
+                    sample, not the neuron’s full connectivity. Drag or use arrow keys
+                    to orbit; Home resets the view.</p
                   ><h2 id="observatory--decisions">Choices and consequences</h2
                   ><p
                     >Current decision shows eight combined action scores. The learning
@@ -5527,8 +6003,11 @@
                   ><p
                     >A failed or stale response is unavailable. A cached last frame does
                     not imply a healthy worker. Public reads do not trigger simulation,
-                    database queries or RPC calls. Reduced motion and pausing affect
-                    visual playback; the server continues.</p
+                    database queries or RPC calls. Reduced motion starts with a held
+                    snapshot. Pause captures the current neural window and holds its
+                    recorded values while the server and other panels continue. Resume
+                    returns to the newest state. An off-screen field stops drawing until
+                    it is visible again.</p
                   ></article
                 >
 
@@ -6778,7 +7257,6 @@
           weightedEdges = [],
           lastTick = -1,
           frameStart = 0,
-          lastReceived = 0,
           lastPaint = 0,
           zoom = 1,
           hover = -1,
@@ -6789,25 +7267,16 @@
           selected = "all",
           paused = reduced,
           motionClock = 0,
-          pointer = { x: 0, y: 0 },
           activeTab = "experience";
-        const centers = [
-          [-0.75, 0.27, -0.1],
-          [-0.75, -0.3, 0.02],
-          [-0.05, 0.28, -0.08],
-          [0.05, -0.29, 0.1],
-          [0.79, 0.01, 0.08],
-          [0.1, 0.0, 0.45],
-        ];
         const colors = {
           buy: "#c7f4b0",
-          sensory: "#bdd6a0",
-          workspace: "#cbbf99",
+          sensory: "#bdcf9f",
+          workspace: "#d8c18b",
           sell: "#dfa6b2",
-          association: "#a9bebc",
-          memory: "#b8afc4",
-          policy: "#c5ceb7",
-          inhibition: "#89b2a3",
+          association: "#b8d2cb",
+          memory: "#b9b0d8",
+          policy: "#c8dba4",
+          inhibition: "#96b6d2",
         };
         const shortNames = {
           buy: "Buy input",
@@ -6821,7 +7290,11 @@
         };
         function resize(c) {
           const r = c.getBoundingClientRect(),
-            dpr = Math.min(devicePixelRatio || 1, 2);
+            dpr = Math.min(
+              devicePixelRatio || 1,
+              2,
+              Math.sqrt(4000000 / Math.max(1, r.width * r.height)),
+            );
           const w = Math.round(r.width * dpr),
             h = Math.round(r.height * dpr);
           if (c.width !== w || c.height !== h) {
@@ -6830,38 +7303,204 @@
           }
           return { w: r.width, h: r.height, dpr };
         }
+        /* Deterministic geometry and recorded-window operations, shared by the renderer and tests. */
+        const NeuralMath = (() => {
+          const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+          const fract = (v) => v - Math.floor(v);
+          const hash = (id, salt = 0) =>
+            fract(Math.sin(id * 127.1 + salt * 311.7) * 43758.5453);
+          const lobes = [
+            [-0.99, 0.08, 0.08, 0.38, 0.61, 0.44],
+            [-0.28, 0.29, -0.06, 0.66, 0.62, 0.63],
+            [0.5, 0.49, -0.14, 0.4, 0.36, 0.48],
+            [0.19, -0.13, 0.49, 0.4, 0.37, 0.29],
+            [0.99, -0.12, 0.02, 0.37, 0.49, 0.46],
+            [-0.05, -0.65, -0.17, 0.72, 0.24, 0.41],
+          ];
+          function layout(nodes, regions) {
+            return nodes.map((node) => {
+              const ri = regions.findIndex((r) => r.id === node.region);
+              const region = regions[ri],
+                lobe = lobes[ri % lobes.length];
+              const j = node.id - region.start,
+                count = region.end - region.start;
+              const latitude = 1 - (2 * (j + 0.5)) / count;
+              const angle = j * 2.399963229728653;
+              const ring = Math.sqrt(Math.max(0, 1 - latitude * latitude));
+              const fold = 0.88 + 0.12 * Math.cos(angle * 3 + latitude * 9);
+              const shell =
+                hash(node.id, 7) > 0.24
+                  ? 0.88 + hash(node.id, 11) * 0.12
+                  : 0.36 + hash(node.id, 19) * 0.39;
+              return {
+                id: node.id,
+                region: node.region,
+                ri,
+                x: lobe[0] + Math.cos(angle) * ring * lobe[3] * fold * shell,
+                y: lobe[1] + latitude * lobe[4] * shell,
+                z: lobe[2] + Math.sin(angle) * ring * lobe[5] * fold * shell,
+              };
+            });
+          }
+          function project(p, yaw, pitch, scale, x, y, perspective = true) {
+            const cy = Math.cos(yaw),
+              sy = Math.sin(yaw),
+              cp = Math.cos(pitch),
+              sp = Math.sin(pitch);
+            const rx = p.x * cy + p.z * sy,
+              rz = -p.x * sy + p.z * cy;
+            const ry = p.y * cp - rz * sp,
+              z = p.y * sp + rz * cp;
+            const depth = perspective ? 3.6 / (3.6 - z * 0.95) : 1;
+            return { x: x + rx * scale * depth, y: y - ry * scale * depth, z, depth };
+          }
+          function recordedFrame(s, nodeCount) {
+            const span = Math.max(0.001, Number(s.window_ms || 100) / 1000);
+            const spikes = (s.spikes || [])
+              .filter(
+                ([time, id]) =>
+                  Number.isFinite(time) &&
+                  time >= 0 &&
+                  time <= span &&
+                  Number.isInteger(id) &&
+                  id >= 0 &&
+                  id < nodeCount,
+              )
+              .map(([time, id]) => ({ time, id }));
+            const byNeuron = Array.from({ length: nodeCount }, () => []);
+            for (const spike of spikes) byNeuron[spike.id].push(spike.time);
+            for (const times of byNeuron) times.sort((a, b) => a - b);
+            return {
+              tick: s.tick,
+              simSeconds: s.sim_seconds,
+              updated: s.updated_utc,
+              phase: s.phase,
+              span,
+              spikes,
+              byNeuron,
+              voltages: (s.voltages || []).slice(),
+              weights: (s.weights || []).slice(),
+              counts: byNeuron.map((times) => times.length),
+              rates: (s.metrics?.regional_rates || []).slice(),
+            };
+          }
+          function energy(times, cursor, decay = 0.008) {
+            let result = 0;
+            for (const time of times || []) {
+              const age = cursor - time;
+              if (age >= 0 && age < decay * 5)
+                result = Math.max(result, Math.exp(-age / decay));
+            }
+            return result;
+          }
+          function transit(times, cursor, delayMs) {
+            const delay = Number(delayMs) / 1000;
+            if (!(delay > 0)) return null;
+            for (let i = (times?.length || 0) - 1; i >= 0; i--) {
+              const age = cursor - times[i];
+              if (age >= 0 && age <= delay) return age / delay;
+            }
+            return null;
+          }
+          function hit(points, x, y, radius = 10) {
+            let id = -1,
+              best = Infinity;
+            for (let i = 0; i < points.length; i++) {
+              const p = points[i];
+              const distance = Math.hypot(p.x - x, p.y - y);
+              const score = distance - p.z * 1.5;
+              if (distance <= radius && score < best) {
+                id = i;
+                best = score;
+              }
+            }
+            return id;
+          }
+          function bezier(c, t) {
+            const q = 1 - t;
+            return {
+              x:
+                q * q * q * c.a.x +
+                3 * q * q * t * c.c1.x +
+                3 * q * t * t * c.c2.x +
+                t * t * t * c.b.x,
+              y:
+                q * q * q * c.a.y +
+                3 * q * q * t * c.c1.y +
+                3 * q * t * t * c.c2.y +
+                t * t * t * c.b.y,
+            };
+          }
+          return {
+            clamp,
+            hash,
+            layout,
+            project,
+            recordedFrame,
+            energy,
+            transit,
+            hit,
+            bezier,
+          };
+        })();
+        if (typeof module !== "undefined" && module.exports)
+          module.exports = NeuralMath;
+
+        /* Recorded neurons and sampled synapses. Spatial arrangement is a schematic. */
+        const clamp = NeuralMath.clamp;
+        let camera = { yaw: 0, pitch: 0 },
+          cameraEase = { yaw: 0, pitch: 0 },
+          zoomEase = 1;
+        let dragging = null,
+          manualUntil = 0,
+          pinned = -1,
+          neuralFrame = null;
+        let frameSpikes = [],
+          spikesByNeuron = [],
+          displayVoltage = [],
+          spriteCache = new Map();
+        let regionCenters = [],
+          projectedCenters = [],
+          edgeCurves = [],
+          nodeOrder = [];
+        let lastHudPaint = 0,
+          fieldVisible = true,
+          playbackRate = 22;
+        let lastInspectorId = -1;
+        let fieldInvalidated = true,
+          lastFieldFresh = null,
+          lastCamera = { yaw: 0, pitch: 0 };
+        let fieldLayer = "firing",
+          weightDeltas = [],
+          renderSamples = [];
+        let latestEventId = null,
+          latestReceiptCue = null;
+
         function chooseRegion(id) {
+          if (selected !== id) pinned = -1;
           selected = id;
           hover = -1;
           for (const button of $("legend").querySelectorAll("button"))
             button.setAttribute("aria-pressed", String(button.dataset.region === id));
           $("neuronTip").textContent =
             mode === "spikes"
-              ? id === "all"
-                ? "Recorded spike times · latest neural window."
-                : shortNames[id] + " · recorded spike times."
+              ? "Spike time × neuron ID"
               : id === "all"
-                ? "Drag to orbit.\nArrow keys rotate."
-                : shortNames[id] + " highlighted. Hover to inspect.";
+                ? "Drag to orbit · click a neuron to inspect"
+                : shortNames[id] + " · connected regions remain visible";
         }
         function structure() {
           if (!topology?.nodes) return;
-          basePoints = topology.nodes.map((n) => {
-            const ri = topology.regions.findIndex((r) => r.id === n.region),
-              r = topology.regions[ri],
-              j = n.id - r.start,
-              count = r.end - r.start,
-              z = 1 - (2 * (j + 0.5)) / count,
-              phi = j * 2.399963,
-              ring = Math.sqrt(1 - z * z),
-              c = centers[ri],
-              radius = ri === 4 ? 0.23 : ri === 5 ? 0.4 : 0.48;
+          basePoints = NeuralMath.layout(topology.nodes, topology.regions).map((p) => ({
+            ...p,
+            color: colors[p.region],
+          }));
+          regionCenters = topology.regions.map((r) => {
+            const members = basePoints.filter((p) => p.region === r.id);
             return {
-              x: c[0] + Math.cos(phi) * ring * radius,
-              y: c[1] + z * radius * 0.8,
-              z: c[2] + Math.sin(phi) * ring * radius * 0.65,
-              region: n.region,
-              color: colors[n.region],
+              x: members.reduce((v, p) => v + p.x, 0) / members.length,
+              y: members.reduce((v, p) => v + p.y, 0) / members.length,
+              z: members.reduce((v, p) => v + p.z, 0) / members.length,
             };
           });
           let wi = 0;
@@ -6909,444 +7548,555 @@
             row.append(label, bar, value);
             $("regions").append(row);
           }
+          $("inspectId").max = String(topology.nodes.length - 1);
+          $("sampleCount").textContent =
+            fmt(topology.edges.length) + " sampled synapses";
         }
-        // Nuria observatory renderer. Geometry and travelling trails are illustrative;
-        // node state, connectivity, weights and spike times come from Brian2.
-        let camera = { yaw: 0, pitch: 0 },
-          cameraEase = { yaw: 0, pitch: 0 },
-          zoomEase = 1,
-          dragging = null;
-        let drawTime = 0,
-          frameSpikes = [],
-          spikesByNeuron = [],
-          displayVoltage = [],
-          spriteCache = new Map();
-        let manualUntil = 0,
-          latestEventId = null,
-          latestReceiptCue = null;
-        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-        function ingestFrame(s) {
-          frameSpikes = (s.spikes || []).map(([time, id]) => ({ time, id }));
-          spikesByNeuron = Array.from({ length: s.neurons || 256 }, () => []);
-          for (const spike of frameSpikes)
-            if (spikesByNeuron[spike.id]) spikesByNeuron[spike.id].push(spike.time);
-          if (!displayVoltage.length) displayVoltage = (s.voltages || []).slice();
+        function ingestFrame(s, force = false) {
+          if (paused && neuralFrame && !force) return;
+          fieldInvalidated = true;
+          const previousWeights = neuralFrame?.weights || [];
+          neuralFrame = NeuralMath.recordedFrame(
+            s,
+            topology?.nodes?.length || s.neurons || 1024,
+          );
+          weightDeltas = neuralFrame.weights.map((w, i) =>
+            Number.isFinite(previousWeights[i]) ? w - previousWeights[i] : 0,
+          );
+          frameSpikes = neuralFrame.spikes;
+          spikesByNeuron = neuralFrame.byNeuron;
+          if (!displayVoltage.length) displayVoltage = neuralFrame.voltages.slice();
         }
         function project(w, h, time) {
-          const idle = !dragging && Date.now() > manualUntil;
-          const targetYaw =
-            camera.yaw + 0.25 + (idle && !reduced ? Math.sin(time / 19000) * 0.12 : 0);
-          const targetPitch =
-            camera.pitch -
-            0.13 +
-            (idle && !reduced ? Math.cos(time / 23000) * 0.06 : 0);
-          cameraEase.yaw += (targetYaw - cameraEase.yaw) * 0.07;
-          cameraEase.pitch += (targetPitch - cameraEase.pitch) * 0.07;
-          zoomEase += (zoom - zoomEase) * 0.085;
-          const scale = Math.min(w * 0.355, h * 0.46) * zoomEase;
-          const cy = Math.cos(mode === "topology" ? 0 : cameraEase.yaw),
-            sy = Math.sin(mode === "topology" ? 0 : cameraEase.yaw);
-          const cp = Math.cos(mode === "topology" ? 0 : cameraEase.pitch),
-            sp = Math.sin(mode === "topology" ? 0 : cameraEase.pitch);
-          points = basePoints.map((p) => {
-            let x = p.x * cy + p.z * sy,
-              z = -p.x * sy + p.z * cy,
-              y = p.y * cp - z * sp;
-            z = p.y * sp + z * cp;
-            const depth = mode === "topology" ? 1 : 2.9 / (2.9 - z * 0.72);
+          const idle = !dragging && Date.now() > manualUntil && !paused;
+          const yaw =
+            camera.yaw + 0.34 + (idle && !reduced ? Math.sin(time / 27000) * 0.28 : 0);
+          const pitch =
+            camera.pitch - 0.16 + (idle && !reduced ? Math.cos(time / 32000) * 0.1 : 0);
+          const ease = paused ? 1 : 0.09;
+          if (paused) {
+            cameraEase.yaw += camera.yaw - lastCamera.yaw;
+            cameraEase.pitch += camera.pitch - lastCamera.pitch;
+            zoomEase = zoom;
+          } else {
+            cameraEase.yaw += (yaw - cameraEase.yaw) * ease;
+            cameraEase.pitch += (pitch - cameraEase.pitch) * ease;
+            zoomEase += (zoom - zoomEase) * ease;
+          }
+          lastCamera = { ...camera };
+          const scale =
+            Math.min(w * (w < 720 ? 0.34 : 0.3), (h - 145) * 0.46) * zoomEase;
+          const projectPoint = (p) =>
+            NeuralMath.project(
+              p,
+              mode === "topology" ? 0 : cameraEase.yaw,
+              mode === "topology" ? 0 : cameraEase.pitch,
+              scale,
+              w * 0.5,
+              (h - 90) * 0.52,
+              mode !== "topology",
+            );
+          points = basePoints.map((p) => ({ ...p, ...projectPoint(p) }));
+          projectedCenters = regionCenters.map(projectPoint);
+          edgeCurves = weightedEdges.map((item) => {
+            const a = points[item.edge[0]],
+              b = points[item.edge[1]];
+            const same = a.ri === b.ri,
+              ca = projectedCenters[a.ri],
+              cb = projectedCenters[b.ri];
+            const bend =
+              (NeuralMath.hash(item.index, 3) - 0.5) * scale * (same ? 0.12 : 0.05);
+            const pull = mode === "topology" ? 0.05 : same ? 0.32 : 0.72;
             return {
-              x: w * 0.5 + x * scale * depth,
-              y: h * 0.49 - y * scale * depth,
-              z,
-              depth,
-              region: p.region,
-              color: p.color,
+              a,
+              b,
+              c1: {
+                x: a.x + (ca.x - a.x) * pull + (b.x - a.x) * 0.12 + bend,
+                y: a.y + (ca.y - a.y) * pull + (b.y - a.y) * 0.12 - bend,
+              },
+              c2: {
+                x: b.x + (cb.x - b.x) * pull + (a.x - b.x) * 0.12 - bend,
+                y: b.y + (cb.y - b.y) * pull + (a.y - b.y) * 0.12 - bend,
+              },
             };
           });
+          nodeOrder = points.map((p) => p.id).sort((a, b) => points[a].z - points[b].z);
           return scale;
         }
         function glowSprite(color) {
           if (spriteCache.has(color)) return spriteCache.get(color);
           const sprite = document.createElement("canvas");
-          sprite.width = sprite.height = 80;
+          sprite.width = sprite.height = 64;
           const c = sprite.getContext("2d"),
-            g = c.createRadialGradient(40, 40, 0, 40, 40, 40);
+            g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
           g.addColorStop(0, color + "ff");
-          g.addColorStop(0.09, color + "df");
-          g.addColorStop(0.25, color + "62");
-          g.addColorStop(0.6, color + "12");
+          g.addColorStop(0.08, color + "e0");
+          g.addColorStop(0.22, color + "66");
+          g.addColorStop(0.52, color + "17");
           g.addColorStop(1, color + "00");
           c.fillStyle = g;
-          c.fillRect(0, 0, 80, 80);
+          c.fillRect(0, 0, 64, 64);
           spriteCache.set(color, sprite);
           return sprite;
         }
-        function edgeCurve(item) {
-          const a = points[item.edge[0]],
-            b = points[item.edge[1]],
-            bend = mode === "topology" ? 0 : ((item.index % 7) - 3) * 2.2;
-          return {
-            a,
-            b,
-            c: {
-              x: (a.x + b.x) / 2 + bend,
-              y: (a.y + b.y) / 2 - bend - (a.z + b.z) * 4,
-            },
-          };
-        }
-        function curvePoint(curve, t) {
-          const q = 1 - t;
-          return {
-            x: q * q * curve.a.x + 2 * q * t * curve.c.x + t * t * curve.b.x,
-            y: q * q * curve.a.y + 2 * q * t * curve.c.y + t * t * curve.b.y,
-          };
-        }
         function traceCurve(curve) {
           ctx.moveTo(curve.a.x, curve.a.y);
-          ctx.quadraticCurveTo(curve.c.x, curve.c.y, curve.b.x, curve.b.y);
+          ctx.bezierCurveTo(
+            curve.c1.x,
+            curve.c1.y,
+            curve.c2.x,
+            curve.c2.y,
+            curve.b.x,
+            curve.b.y,
+          );
         }
-        function spikeEnergy(id, cursor, fresh) {
-          if (!fresh || paused) return 0;
-          let energy = 0;
-          for (const time of spikesByNeuron[id] || []) {
-            const age = cursor - time;
-            if (age >= 0 && age < 0.07)
-              energy = Math.max(energy, Math.exp(-age / 0.027));
-          }
-          return energy;
-        }
-        function regionalAtmosphere(w, h) {
-          if (mode === "topology") return;
-          ctx.globalCompositeOperation = "screen";
-          for (const [r, i] of topology.regions.map((r, i) => [r, i])) {
-            if (selected !== "all" && selected !== r.id) continue;
-            let x = 0,
-              y = 0;
-            for (let id = r.start; id < r.end; id++) {
-              x += points[id].x;
-              y += points[id].y;
+        function drawBackdrop(w, h, scale) {
+          ctx.save();
+          const x = w / 2,
+            y = (h - 90) * 0.52;
+          const g = ctx.createRadialGradient(x, y, scale * 0.2, x, y, scale * 1.65);
+          g.addColorStop(0, "#67867710");
+          g.addColorStop(0.6, "#67867705");
+          g.addColorStop(1, "#67867700");
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, w, h);
+          ctx.strokeStyle = "#a3b8af0b";
+          ctx.lineWidth = 0.6;
+          const step = 32;
+          for (let xx = 16; xx < w; xx += step)
+            for (let yy = 88; yy < h - 100; yy += step) {
+              ctx.beginPath();
+              ctx.moveTo(xx - 1, yy);
+              ctx.lineTo(xx + 1, yy);
+              ctx.stroke();
             }
-            x /= r.end - r.start;
-            y /= r.end - r.start;
-            const radius = Math.min(w * 0.28, h * 0.27),
-              rate = state.metrics?.regional_rates?.[i] || 0;
-            ctx.globalAlpha = 0.025 + Math.min(0.045, rate / 300);
+          ctx.globalCompositeOperation = "screen";
+          for (let i = 0; i < projectedCenters.length; i++) {
+            const r = topology.regions[i];
+            if (selected !== "all" && selected !== r.id) continue;
+            const p = projectedCenters[i],
+              size = scale * (i === 1 ? 1.2 : 0.75);
+            ctx.globalAlpha = 0.025 + Math.min(0.04, (neuralFrame.rates[i] || 0) / 400);
             ctx.drawImage(
               glowSprite(colors[r.id]),
-              x - radius,
-              y - radius,
-              radius * 2,
-              radius * 2,
+              p.x - size / 2,
+              p.y - size / 2,
+              size,
+              size,
             );
           }
-          ctx.globalAlpha = 1;
-          ctx.globalCompositeOperation = "source-over";
+          ctx.restore();
         }
-        function fieldGuides(w, h, scale) {
-          const x = w * 0.5,
-            y = h * 0.49;
-          ctx.strokeStyle = "#7e998229";
-          ctx.lineWidth = 0.65;
-          for (const side of [-1, 1]) {
-            const px = x + side * Math.min(scale * 1.38, w * 0.44);
-            ctx.beginPath();
-            ctx.moveTo(px, y - 6);
-            ctx.lineTo(px, y + 6);
-            ctx.moveTo(px - 3, y);
-            ctx.lineTo(px + 3, y);
-            ctx.stroke();
-          }
-        }
-        function drawSpikes(w, h, cursor = 0) {
-          const span = (state?.window_ms || 100) / 1000;
-          const left = 40,
-            right = w - 25,
-            top = 122,
-            bottom = h - 125;
-          const chosen = topology.regions.find((region) => region.id === selected),
-            first = chosen?.start || 0,
-            last = chosen?.end || 1024,
-            range = last - first;
-          ctx.font = "12px ui-monospace,monospace";
-          ctx.lineWidth = 0.6;
-          for (const r of topology.regions) {
-            if (chosen && chosen.id !== r.id) continue;
-            const y = top + (bottom - top) * ((r.start - first) / range),
-              end = top + (bottom - top) * ((r.end - first) / range);
-            ctx.globalAlpha = 0.025;
-            ctx.fillStyle = colors[r.id];
-            ctx.fillRect(left, y, right - left, end - y);
-            ctx.globalAlpha = 1;
-            ctx.strokeStyle = "#96a68d14";
-            ctx.beginPath();
-            ctx.moveTo(left, y);
-            ctx.lineTo(right, y);
-            ctx.stroke();
-          }
-          for (let k = 0; k <= 4; k++) {
-            const x = left + ((right - left) * k) / 4;
-            ctx.strokeStyle = "#a2b39d15";
-            ctx.beginPath();
-            ctx.moveTo(x, top);
-            ctx.lineTo(x, bottom);
-            ctx.stroke();
-            ctx.fillStyle = "#738477";
-            ctx.textAlign = "center";
-            ctx.fillText(
-              Math.round((k * (state?.window_ms || 100)) / 4) + " ms",
-              x,
-              bottom + 18,
-            );
-          }
-          for (const spike of frameSpikes) {
-            const n = topology.nodes[spike.id];
-            if (selected !== "all" && n.region !== selected) continue;
-            const x = left + ((right - left) * spike.time) / span,
-              y = top + ((bottom - top) * (spike.id - first + 0.5)) / range;
-            const seen = paused || cursor >= spike.time;
-            ctx.globalAlpha = seen ? 0.85 : 0.17;
-            ctx.fillStyle = colors[n.region];
-            ctx.fillRect(x - 0.6, y - 1.7, 1.2, 3.4);
-          }
-          ctx.globalAlpha = 1;
-          if (!paused && cursor < span) {
-            const x = left + ((right - left) * cursor) / span,
-              g = ctx.createLinearGradient(x - 20, 0, x, 0);
-            g.addColorStop(0, "#c5fba400");
-            g.addColorStop(1, "#c5fba414");
-            ctx.fillStyle = g;
-            ctx.fillRect(x - 20, top, 20, bottom - top);
-            ctx.strokeStyle = "#c5fba483";
-            ctx.beginPath();
-            ctx.moveTo(x, top);
-            ctx.lineTo(x, bottom);
-            ctx.stroke();
-          }
-          ctx.fillStyle = "#74897a";
-          ctx.textAlign = "left";
-          ctx.fillText(
-            range +
-              " NEURONS" +
-              (chosen ? " / " + shortNames[chosen.id].toUpperCase() : ""),
-            left,
-            top - 13,
-          );
-          ctx.fillText("ACTUAL SPIKE TIMES / LATEST WINDOW", left, bottom + 35);
-        }
-        function drawRegionLabels(w, h) {
-          if (selected === "all" && w < 750) return;
-          ctx.font = "12px ui-monospace,monospace";
-          for (const [r, i] of topology.regions.map((r, i) => [r, i])) {
-            if (selected !== "all" && selected !== r.id) continue;
-            let x = 0,
-              y = 0;
-            for (let id = r.start; id < r.end; id++) {
-              x += points[id].x;
-              y += points[id].y;
-            }
-            x /= r.end - r.start;
-            y /= r.end - r.start;
-            const side = x > w / 2 ? 1 : -1,
-              tx = clamp(x + side * 46, 90, w - 110),
-              ty = clamp(y - 35, 100, h - 90);
-            ctx.strokeStyle = colors[r.id] + "55";
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(tx, ty);
-            ctx.lineTo(tx + side * 16, ty);
-            ctx.stroke();
-            ctx.textAlign = side > 0 ? "left" : "right";
-            const label = shortNames[r.id].toUpperCase(),
-              reading = fmt(state.metrics?.regional_rates?.[i], 1) + " Hz";
-            ctx.strokeStyle = "#080f0dee";
-            ctx.lineWidth = 4;
-            ctx.strokeText(label, tx + side * 20, ty - 5);
-            ctx.strokeText(reading, tx + side * 20, ty + 12);
-            ctx.fillStyle = colors[r.id];
-            ctx.fillText(label, tx + side * 20, ty - 5);
-            ctx.fillStyle = "#b4c5b0";
-            ctx.fillText(reading, tx + side * 20, ty + 12);
-          }
-        }
-        function draw(now) {
-          requestAnimationFrame(draw);
-          if (document.hidden || now - lastPaint < 32) return;
-          const elapsed = Math.min(50, now - lastPaint);
-          lastPaint = now;
-          if (!paused) motionClock += elapsed;
-          const { w, h, dpr } = resize(canvas);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          ctx.clearRect(0, 0, w, h);
-          if (!topology || !state) return;
-          const fresh =
-            state.phase === "running" &&
-            Date.now() - Date.parse(state.updated_utc) < 15000;
-          const status = $("fieldStatus");
-          status.classList.toggle("hidden", fresh);
-          if (!fresh)
-            status.textContent =
-              state.phase === "error"
-                ? "Engine stopped — evidence retained"
-                : "Waiting for fresh neural state";
-          const span = (state?.window_ms || 100) / 1000;
-          const cursor = paused
-            ? 0
-            : Math.min(span * 1.4, ((now - frameStart) / 2200) * span);
-          if ($("replayFill"))
-            $("replayFill").style.width =
-              (paused ? 0 : Math.min(100, (cursor / span) * 100)) + "%";
-          if (mode === "spikes") {
-            drawSpikes(w, h, fresh ? cursor : span);
-            return;
-          }
-          const scale = project(w, h, motionClock);
-          regionalAtmosphere(w, h);
-          fieldGuides(w, h, scale);
-          const related = (n) => selected === "all" || n.region === selected;
-          const activity = points.map((p, id) => spikeEnergy(id, cursor, fresh));
+        function drawSynapses(activity, fresh, cursor) {
+          const inspected = pinned >= 0 ? pinned : hover;
+          const related = (p) => selected === "all" || p.region === selected;
           ctx.lineCap = "round";
           for (const item of weightedEdges) {
             const e = item.edge,
               a = points[e[0]],
               b = points[e[1]],
-              relevant = related(a) || related(b),
-              inspect = hover >= 0 && (e[0] === hover || e[1] === hover);
-            if (!inspect && mode !== "topology" && item.index % 2 !== 0) continue;
+              curve = edgeCurves[item.index];
+            const inspect =
+              inspected >= 0 && (e[0] === inspected || e[1] === inspected);
+            const relevant = related(a) || related(b);
             const weight =
               item.weightIndex >= 0
-                ? (state.weights?.[item.weightIndex] ?? 0.05)
+                ? (neuralFrame.weights[item.weightIndex] ?? 0.05)
                 : 0.08;
-            const alpha = relevant
-              ? Math.min(
-                  0.26,
-                  0.05 + weight * 1.1 + activity[e[0]] * 0.1 + (a.z + b.z) * 0.025,
-                )
-              : 0.007;
-            ctx.lineWidth = inspect ? 1.1 : e[2] === "inh" ? 0.35 : 0.35 + weight * 0.8;
+            const depth = clamp(0.55 + (a.z + b.z) * 0.25, 0.2, 1);
+            const dim = !relevant || (inspected >= 0 && !inspect);
+            const changed =
+              item.weightIndex >= 0 ? weightDeltas[item.weightIndex] || 0 : 0;
+            const alpha = dim
+              ? 0.015
+              : inspect
+                ? 0.65
+                : clamp(0.075 + weight * 1.25, 0.07, 0.26) * depth;
             ctx.strokeStyle = inspect
-              ? "#deffd1ab"
+              ? e[2] === "inh"
+                ? "#a5bff2b0"
+                : "#e4ead3b0"
               : e[2] === "inh"
-                ? "rgba(125,163,153," + (relevant ? 0.06 : 0.006) + ")"
-                : "rgba(160,188,168," + alpha + ")";
+                ? `rgba(142,171,209,${alpha * 0.55})`
+                : `rgba(181,204,192,${alpha})`;
+            if (fieldLayer === "weights" && !dim && !inspect) {
+              ctx.strokeStyle =
+                changed > 0.00001
+                  ? "#d0dca080"
+                  : changed < -0.00001
+                    ? "#bc9fbe80"
+                    : `rgba(163,183,177,${clamp(weight * 5, 0.04, 0.5) * depth})`;
+            }
+            ctx.lineWidth = inspect
+              ? 1.15
+              : fieldLayer === "weights"
+                ? 0.35 + clamp(weight, 0, 0.15) * 10
+                : 0.45 + Math.min(0.07, weight) * 3;
             ctx.beginPath();
-            traceCurve(edgeCurve(item));
+            traceCurve(curve);
             ctx.stroke();
           }
-          // A sampled travelling trace follows a real source spike along a real edge.
-          // Its travel duration is a visual convention, not a measured axonal delay.
-          if (fresh && !paused) {
-            ctx.globalCompositeOperation = "lighter";
-            let emitted = 0;
-            for (const item of weightedEdges) {
-              if (item.index % 7 !== 0 || emitted > 110) continue;
-              const e = item.edge;
-              if (!related(points[e[0]]) && !related(points[e[1]])) continue;
-              let time = null;
-              for (const t of spikesByNeuron[e[0]] || [])
-                if (cursor - t >= 0 && cursor - t < 0.045) time = t;
-              if (time === null) continue;
-              const travel = (cursor - time) / 0.045,
-                curve = edgeCurve(item),
-                color = points[e[0]].color;
-              ctx.strokeStyle = color + "8f";
-              ctx.lineWidth = 0.8;
-              ctx.beginPath();
-              for (let k = 0; k <= 7; k++) {
-                const p = curvePoint(
-                  curve,
-                  clamp(travel - 0.16 + (k / 7) * 0.16, 0, 1),
-                );
-                if (k === 0) ctx.moveTo(p.x, p.y);
-                else ctx.lineTo(p.x, p.y);
-              }
-              ctx.stroke();
-              const p = curvePoint(curve, travel);
-              ctx.globalAlpha = 0.6;
-              ctx.drawImage(glowSprite(color), p.x - 6, p.y - 6, 12, 12);
-              ctx.globalAlpha = 1;
-              emitted++;
+          if (!fresh || paused || fieldLayer !== "firing") return;
+          ctx.save();
+          ctx.globalCompositeOperation = "lighter";
+          let emitted = 0;
+          for (const item of weightedEdges) {
+            const e = item.edge,
+              a = points[e[0]],
+              b = points[e[1]];
+            if (!related(a) && !related(b)) continue;
+            if (inspected >= 0 && e[0] !== inspected && e[1] !== inspected) continue;
+            const travel = NeuralMath.transit(spikesByNeuron[e[0]], cursor, e[3]);
+            if (travel === null || emitted >= 160) continue;
+            const curve = edgeCurves[item.index],
+              color = e[2] === "inh" ? "#9caee2" : a.color;
+            ctx.globalAlpha = 0.55;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1.0;
+            ctx.beginPath();
+            for (let k = 0; k <= 5; k++) {
+              const p = NeuralMath.bezier(
+                curve,
+                clamp(travel - 0.24 + (k / 5) * 0.24, 0, 1),
+              );
+              if (k === 0) ctx.moveTo(p.x, p.y);
+              else ctx.lineTo(p.x, p.y);
             }
-            ctx.globalCompositeOperation = "source-over";
+            ctx.stroke();
+            const p = NeuralMath.bezier(curve, travel);
+            ctx.globalAlpha = 0.72;
+            ctx.drawImage(glowSprite(color), p.x - 5, p.y - 5, 10, 10);
+            emitted++;
           }
-          const order = topology.nodes
-            .map((n) => n.id)
-            .sort((a, b) => points[a].z - points[b].z);
-          for (const id of order) {
+          ctx.restore();
+        }
+        function drawNeurons(activity) {
+          const inspected = pinned >= 0 ? pinned : hover;
+          const neighbors =
+            inspected >= 0
+              ? new Set(
+                  weightedEdges
+                    .filter(({ edge: e }) => e[0] === inspected || e[1] === inspected)
+                    .flatMap(({ edge: e }) => e.slice(0, 2)),
+                )
+              : null;
+          for (const id of nodeOrder) {
             const p = points[id],
-              active = activity[id],
-              dim = !related(p),
-              actualV = Math.max(0, state.voltages?.[id] ?? 0);
+              active = fieldLayer === "firing" ? activity[id] : 0;
+            const dim =
+              (selected !== "all" && p.region !== selected) ||
+              (neighbors && !neighbors.has(id));
+            const actualV = Number.isFinite(neuralFrame.voltages[id])
+              ? neuralFrame.voltages[id]
+              : 0;
             displayVoltage[id] =
               (displayVoltage[id] ?? actualV) +
-              (actualV - (displayVoltage[id] ?? actualV)) * 0.09;
-            const radius =
-              (0.72 + Math.min(1.2, displayVoltage[id]) * 0.48 + active * 0.85) *
-              p.depth;
-            if (!dim) {
-              const intensity = paused
-                ? Math.min(0.17, (spikesByNeuron[id]?.length || 0) * 0.035)
-                : active * 0.9;
-              if (intensity > 0.018) {
-                const glow = 5 + active * 11;
-                ctx.globalCompositeOperation = "screen";
-                ctx.globalAlpha = intensity;
-                ctx.drawImage(
-                  glowSprite(p.color),
-                  p.x - glow,
-                  p.y - glow,
-                  glow * 2,
-                  glow * 2,
-                );
-                ctx.globalCompositeOperation = "source-over";
-              }
-            }
+              (actualV - (displayVoltage[id] ?? actualV)) * (paused ? 1 : 0.12);
+            const voltage = clamp(displayVoltage[id], 0, 1.2),
+              depth = clamp(0.58 + p.z * 0.48, 0.22, 1);
+            const radius = (0.9 + voltage * 0.46 + active * 0.95) * p.depth;
             ctx.globalAlpha = dim
               ? 0.1
-              : clamp(
-                  0.4 + displayVoltage[id] * 0.3 + active * 0.6 + p.z * 0.24,
-                  0.16,
-                  1,
-                );
-            ctx.fillStyle = active > 0.08 || selected !== "all" ? p.color : "#b9c9bb";
+              : depth * (0.48 + voltage * 0.38) + active * 0.5;
+            if (!dim && active > 0.018) {
+              const size = (7 + active * 13) * p.depth;
+              ctx.globalCompositeOperation = "screen";
+              ctx.globalAlpha = active * 0.85;
+              ctx.drawImage(
+                glowSprite(p.color),
+                p.x - size / 2,
+                p.y - size / 2,
+                size,
+                size,
+              );
+              ctx.globalCompositeOperation = "source-over";
+              ctx.globalAlpha = clamp(depth + active, 0, 1);
+            }
+            ctx.fillStyle =
+              active > 0.25
+                ? "#f7fff2"
+                : fieldLayer === "voltage"
+                  ? voltage > 0.8
+                    ? "#e5eeb0"
+                    : voltage > 0.45
+                      ? "#8ab8a9"
+                      : "#506b82"
+                  : p.color;
             ctx.beginPath();
             ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
             ctx.fill();
-            if (active > 0.2 && !dim) {
-              ctx.globalAlpha = active * 0.8;
-              ctx.fillStyle = "#f6fff0";
+            if (!dim && p.z > 0.2 && radius > 1.25) {
+              ctx.strokeStyle = p.color;
+              ctx.globalAlpha = 0.14;
+              ctx.lineWidth = 0.5;
               ctx.beginPath();
-              ctx.arc(p.x, p.y, 0.8 * p.depth, 0, Math.PI * 2);
-              ctx.fill();
+              ctx.arc(p.x, p.y, radius + 1.5, 0, Math.PI * 2);
+              ctx.stroke();
             }
-            ctx.globalAlpha = 1;
-            if (id === hover) {
-              ctx.strokeStyle = "#eef6df";
+            if (id === inspected) {
+              ctx.globalAlpha = 1;
+              ctx.strokeStyle = "#eef5dd";
               ctx.lineWidth = 0.8;
               ctx.beginPath();
-              ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
+              ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, 12, -0.3, 0.7);
               ctx.stroke();
             }
           }
-          drawRegionLabels(w, h);
+          ctx.globalAlpha = 1;
+        }
+        function drawRegionLabels(w, h, scale) {
+          if (w < 720) return;
+          const anchors = [
+            [-1.46, 0.42],
+            [-0.61, 1.1],
+            [0.81, 0.94],
+            [0.59, -0.61],
+            [1.49, -0.11],
+            [-0.68, -0.95],
+          ];
+          ctx.font = "10px ui-monospace,monospace";
+          for (let i = 0; i < topology.regions.length; i++) {
+            const r = topology.regions[i];
+            if (selected !== "all" && selected !== r.id) continue;
+            const p = projectedCenters[i],
+              anchor = anchors[i],
+              side = anchor[0] > 0 ? 1 : -1;
+            const x = clamp(w * 0.5 + anchor[0] * scale, 110, w - 110),
+              y = clamp((h - 90) * 0.52 - anchor[1] * scale, 102, h - 141);
+            ctx.strokeStyle = colors[r.id] + "40";
+            ctx.lineWidth = 0.65;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(x - side * 12, y);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.fillStyle = colors[r.id];
+            ctx.textAlign = side > 0 ? "left" : "right";
+            ctx.fillText(shortNames[r.id].toUpperCase(), x + side * 7, y - 5);
+            ctx.fillStyle = "#87978e";
+            ctx.fillText(fmt(neuralFrame.rates[i], 1) + " Hz", x + side * 7, y + 11);
+            ctx.fillStyle = colors[r.id] + "a0";
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        function drawRaster(w, h, cursor, compact = false) {
+          const chosen = topology.regions.find((r) => r.id === selected),
+            first = chosen?.start || 0,
+            last = chosen?.end || topology.nodes.length,
+            range = last - first;
+          const left = compact ? 20 : 52,
+            right = w - (compact ? 20 : 25),
+            top = compact ? h - (w < 700 ? 142 : 122) : 154,
+            bottom = compact ? h - (w < 700 ? 110 : 90) : h - 117;
+          ctx.save();
+          ctx.font = "10px ui-monospace,monospace";
+          ctx.lineWidth = 0.5;
+          for (const r of topology.regions) {
+            if (chosen && chosen.id !== r.id) continue;
+            const y = top + ((bottom - top) * (r.start - first)) / range,
+              end = top + ((bottom - top) * (r.end - first)) / range;
+            ctx.fillStyle = colors[r.id] + (compact ? "09" : "0c");
+            ctx.fillRect(left, y, right - left, end - y);
+            ctx.strokeStyle = "#a5b8ab1a";
+            ctx.beginPath();
+            ctx.moveTo(left, y);
+            ctx.lineTo(right, y);
+            ctx.stroke();
+            if (!compact) {
+              ctx.textAlign = "right";
+              ctx.fillStyle = colors[r.id];
+              ctx.fillText(String(r.start), left - 8, y + 8);
+            }
+          }
+          for (let k = 0; k <= 4; k++) {
+            const x = left + ((right - left) * k) / 4;
+            ctx.strokeStyle = "#a3b6aa1a";
+            ctx.beginPath();
+            ctx.moveTo(x, top);
+            ctx.lineTo(x, bottom);
+            ctx.stroke();
+            ctx.textAlign = k === 0 ? "left" : k === 4 ? "right" : "center";
+            ctx.fillStyle = "#65746d";
+            ctx.fillText(
+              Math.round((neuralFrame.span * 1000 * k) / 4) + " ms",
+              x,
+              bottom + 14,
+            );
+          }
+          for (const spike of frameSpikes) {
+            const n = topology.nodes[spike.id];
+            if (chosen && chosen.id !== n.region) continue;
+            const x = left + ((right - left) * spike.time) / neuralFrame.span,
+              y = top + ((bottom - top) * (spike.id - first + 0.5)) / range;
+            ctx.globalAlpha = paused || cursor >= spike.time ? 0.85 : 0.19;
+            ctx.fillStyle = colors[n.region];
+            ctx.fillRect(x - 0.6, y - (compact ? 0.6 : 1.4), 1.2, compact ? 1.2 : 2.8);
+          }
+          ctx.globalAlpha = 1;
+          if (!paused && cursor <= neuralFrame.span) {
+            const x = left + ((right - left) * cursor) / neuralFrame.span;
+            ctx.strokeStyle = "#d6e6be99";
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(x, top - 3);
+            ctx.lineTo(x, bottom);
+            ctx.stroke();
+          }
+          if (!compact) {
+            ctx.textAlign = "left";
+            ctx.fillStyle = "#9daa9c";
+            ctx.fillText("NEURON ID", left, top - 17);
+            ctx.fillText(
+              "Recorded spike times · " + range + " neurons",
+              left,
+              bottom + 37,
+            );
+          }
+          ctx.restore();
+        }
+        function updateInspector() {
+          const id = pinned >= 0 ? pinned : hover,
+            tip = $("inspection");
+          if (id < 0 || !neuralFrame) {
+            tip.hidden = true;
+            return;
+          }
+          tip.hidden = false;
+          const n = topology.nodes[id],
+            edges = weightedEdges.filter(({ edge: e }) => e[0] === id || e[1] === id),
+            incoming = edges.filter(({ edge: e }) => e[1] === id),
+            outgoing = edges.filter(({ edge: e }) => e[0] === id);
+          $("inspectTitle").textContent = shortNames[n.region];
+          if (lastInspectorId !== id) {
+            if (Number($("inspectId").value) !== id) $("inspectId").value = String(id);
+            lastInspectorId = id;
+          }
+          $("inspectVoltage").textContent = Number.isFinite(neuralFrame.voltages[id])
+            ? neuralFrame.voltages[id].toFixed(4)
+            : "Unknown";
+          $("inspectSpikes").textContent = String(neuralFrame.counts[id]);
+          $("inspectConnections").textContent =
+            incoming.length + " in / " + outgoing.length + " out";
+          const weights = outgoing
+            .filter((e) => e.weightIndex >= 0)
+            .map((e) => neuralFrame.weights[e.weightIndex])
+            .filter(Number.isFinite);
+          $("inspectWeight").textContent = weights.length
+            ? (weights.reduce((a, b) => a + b, 0) / weights.length).toFixed(5)
+            : "—";
+          $("inspectTick").textContent = "Captured tick " + fmt(neuralFrame.tick);
+          tip.classList.toggle("is-pinned", pinned >= 0);
+        }
+        function draw(now) {
+          requestAnimationFrame(draw);
+          if (document.hidden || !fieldVisible || now - lastPaint < 16) return;
+          const paintStart = performance.now();
+          const elapsed = Math.min(50, now - lastPaint);
+          lastPaint = now;
+          if (!paused) motionClock += elapsed;
+          const { w, h, dpr } = resize(canvas);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          if (!topology || !neuralFrame) return;
+          const fresh =
+            state?.phase === "running" &&
+            Date.now() - Date.parse(state.updated_utc) < 15000;
+          if (paused && !fieldInvalidated && lastFieldFresh === fresh) return;
+          fieldInvalidated = false;
+          lastFieldFresh = fresh;
+          ctx.clearRect(0, 0, w, h);
+          const status = $("fieldStatus");
+          status.classList.toggle("hidden", fresh);
+          if (!fresh)
+            status.textContent =
+              state?.phase === "error"
+                ? "Engine stopped — evidence retained"
+                : "Waiting for fresh neural state";
+          const cursor = paused
+            ? neuralFrame.span
+            : clamp((now - frameStart) / 1000 / playbackRate, 0, neuralFrame.span);
+          const activity = spikesByNeuron.map((times) =>
+            fresh && !paused ? NeuralMath.energy(times, cursor) : 0,
+          );
+          if (mode === "spikes") drawRaster(w, h, cursor);
+          else {
+            const scale = project(w, h, motionClock);
+            drawBackdrop(w, h, scale);
+            drawSynapses(activity, fresh, cursor);
+            drawNeurons(activity);
+            drawRegionLabels(w, h, scale);
+            drawRaster(w, h, cursor, true);
+          }
+          renderSamples.push(performance.now() - paintStart);
+          if (renderSamples.length > 120) renderSamples.shift();
+          if (now - lastHudPaint > 100) {
+            canvas.dataset.renderMs = (
+              renderSamples.reduce((a, b) => a + b, 0) / renderSamples.length
+            ).toFixed(2);
+            canvas.dataset.renderP95 = [...renderSamples]
+              .sort((a, b) => a - b)
+              [Math.floor(renderSamples.length * 0.95)].toFixed(2);
+            canvas.dataset.windowTick = String(neuralFrame.tick);
+            lastHudPaint = now;
+            const recorded = frameSpikes.filter(
+              (s) => selected === "all" || topology.nodes[s.id].region === selected,
+            );
+            $("windowSpikes").textContent = fmt(recorded.length);
+            $("windowActive").textContent = fmt(
+              new Set(recorded.map((s) => s.id)).size,
+            );
+            $("playbackTime").textContent =
+              (cursor * 1000).toFixed(0).padStart(3, "0") +
+              " / " +
+              Math.round(neuralFrame.span * 1000) +
+              " ms";
+            $("frameLabel").textContent = paused
+              ? "Snapshot held · tick " + fmt(neuralFrame.tick)
+              : playbackRate === 1
+                ? "Recorded window · model speed"
+                : "Recorded window · " + playbackRate + "× slower";
+            $("replayFill").style.width =
+              Math.min(100, (cursor / neuralFrame.span) * 100) + "%";
+            updateInspector();
+          }
           if (!fresh) {
-            ctx.fillStyle = "#0b0d0e99";
+            ctx.fillStyle = "#0b0f1255";
             ctx.fillRect(0, 0, w, h);
           }
         }
         function bindOrbit() {
+          if (typeof ResizeObserver !== "undefined")
+            new ResizeObserver(() => {
+              fieldInvalidated = true;
+            }).observe(canvas);
+          for (const event of ["click", "change", "keydown", "pointermove"])
+            $("neural-field").addEventListener(event, () => {
+              fieldInvalidated = true;
+            });
+          if (typeof IntersectionObserver !== "undefined")
+            new IntersectionObserver(
+              ([entry]) => {
+                fieldVisible = entry.isIntersecting;
+              },
+              { rootMargin: "100px" },
+            ).observe(canvas);
           canvas.addEventListener("pointerdown", (event) => {
-            if (mode === "spikes") return;
+            if (mode === "spikes" || event.button !== 0) return;
             dragging = {
               x: event.clientX,
               y: event.clientY,
               yaw: camera.yaw,
               pitch: camera.pitch,
               moved: false,
+              pointerId: event.pointerId,
             };
             canvas.setPointerCapture(event.pointerId);
             canvas.classList.add("dragging");
-            manualUntil = Date.now() + 8000;
+            manualUntil = Date.now() + 12000;
           });
           canvas.addEventListener("pointermove", (event) => {
             if (mode === "spikes") return;
@@ -7356,37 +8106,33 @@
             if (dragging) {
               const dx = event.clientX - dragging.x,
                 dy = event.clientY - dragging.y;
-              dragging.moved = Math.abs(dx) + Math.abs(dy) > 3;
+              dragging.moved = dragging.moved || Math.abs(dx) + Math.abs(dy) > 5;
               if (dragging.moved) {
-                camera.yaw = dragging.yaw + dx * 0.009;
-                camera.pitch = clamp(dragging.pitch + dy * 0.007, -0.65, 0.65);
+                camera.yaw = dragging.yaw + dx * 0.006;
+                camera.pitch = clamp(dragging.pitch + dy * 0.006, -1.2, 1.2);
                 hover = -1;
-                $("inspection").style.display = "none";
               }
-              manualUntil = Date.now() + 8000;
+              manualUntil = Date.now() + 12000;
               return;
             }
-            hover = points.findIndex((p) => Math.hypot(p.x - x, p.y - y) < 9);
-            const tip = $("inspection");
-            if (hover >= 0 && state) {
-              const n = topology.nodes[hover];
-              tip.replaceChildren();
-              const title = document.createElement("strong");
-              title.textContent =
-                shortNames[n.region] + " / neuron " + String(hover).padStart(3, "0");
-              const reading = document.createElement("div");
-              reading.textContent =
-                "Membrane " + Number(state.voltages?.[hover] ?? 0).toFixed(3);
-              const spikes = document.createElement("div");
-              spikes.textContent =
-                (state.counts?.[hover] ?? 0) + " spikes / latest window";
-              tip.append(title, reading, spikes);
-              tip.style.left = clamp(x + 12, 8, rect.width - 213) + "px";
-              tip.style.top = clamp(y - 30, 65, rect.height - 100) + "px";
-              tip.style.display = "block";
-            } else tip.style.display = "none";
+            if (event.pointerType === "mouse" && pinned < 0) {
+              hover = NeuralMath.hit(points, x, y, 8);
+              updateInspector();
+            }
           });
-          const end = () => {
+          const end = (event) => {
+            if (dragging && !dragging.moved && event.type === "pointerup") {
+              const rect = canvas.getBoundingClientRect();
+              const id = NeuralMath.hit(
+                points,
+                event.clientX - rect.left,
+                event.clientY - rect.top,
+                12,
+              );
+              pinned = id;
+              hover = -1;
+              updateInspector();
+            }
             dragging = null;
             canvas.classList.remove("dragging");
           };
@@ -7394,32 +8140,87 @@
           canvas.addEventListener("pointercancel", end);
           canvas.addEventListener("pointerleave", () => {
             hover = -1;
-            $("inspection").style.display = "none";
+            if (pinned < 0) updateInspector();
           });
           canvas.addEventListener("keydown", (event) => {
             if (mode === "spikes") return;
             if (
-              ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home"].includes(
-                event.key,
-              )
+              [
+                "ArrowLeft",
+                "ArrowRight",
+                "ArrowUp",
+                "ArrowDown",
+                "Home",
+                "Escape",
+              ].includes(event.key)
             ) {
               event.preventDefault();
-              manualUntil = Date.now() + 8000;
+              manualUntil = Date.now() + 12000;
               if (event.key === "ArrowLeft") camera.yaw -= 0.18;
               if (event.key === "ArrowRight") camera.yaw += 0.18;
               if (event.key === "ArrowUp")
-                camera.pitch = clamp(camera.pitch - 0.12, -0.65, 0.65);
+                camera.pitch = clamp(camera.pitch - 0.12, -1.2, 1.2);
               if (event.key === "ArrowDown")
-                camera.pitch = clamp(camera.pitch + 0.12, -0.65, 0.65);
+                camera.pitch = clamp(camera.pitch + 0.12, -1.2, 1.2);
               if (event.key === "Home") resetCamera();
+              if (event.key === "Escape") {
+                pinned = -1;
+                hover = -1;
+                updateInspector();
+              }
             }
           });
+          for (const button of $("fieldLayers").querySelectorAll("button"))
+            button.addEventListener("click", () => {
+              fieldLayer = button.dataset.layer;
+              for (const item of $("fieldLayers").querySelectorAll("button"))
+                item.setAttribute("aria-pressed", String(item === button));
+              $("layerKey").textContent =
+                fieldLayer === "voltage"
+                  ? "Membrane v · low blue / high ivory"
+                  : fieldLayer === "weights"
+                    ? "Weight Δ · stronger sage / weaker lilac"
+                    : "Spike flashes · recorded synaptic delays";
+            });
           $("resetView").addEventListener("click", resetCamera);
+          $("inspectOpen").addEventListener("click", () => {
+            if (!neuralFrame) return;
+            pinned = neuralFrame.counts.indexOf(Math.max(...neuralFrame.counts));
+            hover = -1;
+            updateInspector();
+            $("inspectId").focus();
+          });
+          $("inspectClose").addEventListener("click", () => {
+            pinned = -1;
+            hover = -1;
+            updateInspector();
+            $("inspectOpen").focus();
+          });
+          $("inspectId").addEventListener("change", () => {
+            const id = Number($("inspectId").value);
+            if (Number.isInteger(id) && id >= 0 && id < points.length) {
+              pinned = id;
+              hover = -1;
+              updateInspector();
+            }
+          });
+          $("playbackRate").addEventListener("change", () => {
+            playbackRate = Number($("playbackRate").value);
+            frameStart = performance.now();
+          });
+          window.addEventListener("blur", () => {
+            dragging = null;
+            hover = -1;
+            canvas.classList.remove("dragging");
+          });
         }
         function resetCamera() {
           camera = { yaw: 0, pitch: 0 };
           zoom = 1;
           manualUntil = 0;
+          pinned = -1;
+          hover = -1;
+          updateInspector();
         }
 
         function drawHistory() {
@@ -7459,7 +8260,6 @@
             frameStart = performance.now();
           }
           state = s;
-          lastReceived = Date.now();
           const live = !!s.feed?.mint,
             healthy =
               s.phase === "running" && Date.now() - Date.parse(s.updated_utc) < 15000;
@@ -7499,7 +8299,9 @@
           $("neurons").textContent = fmt(s.neurons);
           $("synapses").textContent = fmt(s.synapses);
           $("changed").textContent = fmt(s.metrics?.changed_synapses);
-          $("simTime").textContent = fmt(s.sim_seconds, 1) + " s";
+          $("simTime").textContent =
+            fmt(paused && neuralFrame ? neuralFrame.simSeconds : s.sim_seconds, 1) +
+            " s";
           $("rate").textContent = fmt(s.metrics?.rate_hz, 1);
           $("tick").textContent = "TICK " + fmt(s.tick);
           $("entropy").textContent = fmt(s.metrics?.activity_entropy, 3);
@@ -8097,7 +8899,8 @@
           for (const id of ["zoomIn", "zoomOut", "resetView"])
             $(id).classList.toggle("hidden", next === "spikes");
           chooseRegion(selected);
-          $("inspection").style.display = "none";
+          if (next === "spikes") pinned = -1;
+          updateInspector();
           for (const [name, id] of [
             ["neural", "viewNeural"],
             ["topology", "viewTopology"],
@@ -8112,20 +8915,27 @@
                 ? "Schematic two-dimensional view of actual model neurons and sampled connections"
                 : "Actual Brian2 neurons and sampled connections in a schematic three-dimensional view; drag or use arrow keys to rotate",
           );
-          $("frameLabel").hidden = !paused && next !== "spikes";
+          $("frameLabel").hidden = false;
           $("frameLabel").textContent = paused
-            ? "Motion paused · live data continues"
-            : next === "spikes"
-              ? "Recorded spike raster · latest window"
-              : "";
+            ? "Snapshot held · tick " + fmt(neuralFrame?.tick)
+            : playbackRate === 1
+              ? "Recorded window · model speed"
+              : "Recorded window · " + playbackRate + "× slower";
+          $("inspectOpen").classList.toggle("hidden", next === "spikes");
+          $("fieldLayers").classList.toggle("hidden", next === "spikes");
+          $("layerKey").classList.toggle("hidden", next === "spikes");
+          $("windowCaption").classList.toggle("hidden", next === "spikes");
         }
         $("viewNeural").addEventListener("click", () => setMode("neural"));
         $("viewTopology").addEventListener("click", () => setMode("topology"));
         $("viewSpikes").addEventListener("click", () => setMode("spikes"));
-        $("zoomIn").addEventListener("click", () => (zoom = Math.min(1.5, zoom + 0.1)));
+        $("zoomIn").addEventListener(
+          "click",
+          () => (zoom = Math.min(2.2, zoom + 0.15)),
+        );
         $("zoomOut").addEventListener(
           "click",
-          () => (zoom = Math.max(0.65, zoom - 0.1)),
+          () => (zoom = Math.max(0.6, zoom - 0.15)),
         );
         $("focus").addEventListener("click", () => {
           const focused = document.body.classList.toggle("focus-mode");
@@ -8143,6 +8953,10 @@
         });
         $("motion").addEventListener("click", () => {
           paused = !paused;
+          if (!paused && state) {
+            ingestFrame(state, true);
+            frameStart = performance.now();
+          }
           $("motion").setAttribute("aria-pressed", String(paused));
           $("motion").setAttribute(
             "aria-label",

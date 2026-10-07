@@ -23,6 +23,8 @@ def build(root: Path = ROOT) -> None:
     source = source.replace(
         "/*COGNITION_CLIENT*/", (root / "cognition-view.js").read_text()
     )
+    source = source.replace("/*NEURAL_MATH*/", (root / "neural-math.js").read_text())
+    source = source.replace("/*NEURAL_FIELD*/", (root / "neural-field.js").read_text())
     css = (root / "docs/docs.css").read_text()
     client = (root / "docs/docs.js").read_text()
 

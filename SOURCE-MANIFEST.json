@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "scope": "Nuria learning release; runtime histories, secrets and private infrastructure are excluded",
+  "scope": "Nuria source release; runtime histories, secrets and private infrastructure are excluded",
   "baseline_commit": "e30346af50a0b8ca6db0c71974e385c737828fb3",
   "deployment_identity": "Live API reports component commits, deployment time and source hashes; the original circuit retains its historical startup identity",
   "changes": [
@@ -10,7 +10,8 @@
     "Updated observatory, documentation, capability map and bounded evaluation evidence",
     "Streaming compatible encrypted recovery archives with bounded upload readback and both circuit snapshots",
     "Full-width neural field, detailed measured connection rendering, compact responsive instruments and expandable receipts",
-    "Source-specific adaptive forecast council, fair stronger baselines and fresh-seed memory/attention ablations; failed and null neural results retained"
+    "Source-specific adaptive forecast council, fair stronger baselines and fresh-seed memory/attention ablations; failed and null neural results retained",
+    "Depth-shaded neural field with recorded synaptic timing, membrane and weight layers, shared spike raster, held-window inspection and off-screen rendering suspension"
   ],
   "files": [
     {
@@ -39,7 +40,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "45f7a4eda8b56129ca0c16d5302b96f605b29e9b4d7ddd60f0720b446fb9b7cd"
+      "published_sha256": "40d6f4c7958c6d1e0bfc18ce1218004938c4969818275ba4f1852d59404279f9"
     },
     {
       "path": "api.py",
@@ -59,7 +60,7 @@
     },
     {
       "path": "build-docs.py",
-      "published_sha256": "bd8d9efc46002a6fd38b1d303cdde24c32e0b93753f04d3d213f0d238b501ba6"
+      "published_sha256": "3e42c97bc98fb9b08fd15077b5686aea777db9405088d909ab69f0a7e143aba7"
     },
     {
       "path": "cognition-view.css",
@@ -131,7 +132,7 @@
     },
     {
       "path": "docs-script-check.js",
-      "published_sha256": "7a613afc2880b394717aab9dc542a26380f0a166b6374a2069540e5a873e9a5c"
+      "published_sha256": "f715cbd49a8b7be11e7d093fc929552b781dfd0ff400ce3a1e94f08e6a6dff90"
     },
     {
       "path": "docs/architecture.md",
@@ -147,7 +148,7 @@
     },
     {
       "path": "docs/docs-content.html",
-      "published_sha256": "48de1172d60d6f145e31033cf0e0b259ff6de4d0abfdaa16b549bd2cb9cf7470"
+      "published_sha256": "7463121f3fde387cf25c7caea3594b3084675ee9743277c89c5b4e71f55fd1dc"
     },
     {
       "path": "docs/docs.css",
@@ -191,7 +192,7 @@
     },
     {
       "path": "index.html",
-      "published_sha256": "967b0c7d4fdd9f17c1b5f13bd8a6558d661340f52aa0e1afed5f42137733b9c7"
+      "published_sha256": "7792bd8aeb7c16d1eb9741c75ab5134b4101a9c3b6ae6fb6628e818eeb282e17"
     },
     {
       "path": "ingest.py",
@@ -206,20 +207,28 @@
       "published_sha256": "3c60933ef21ac5fca2bd4ea245b0a028305c9ab147296316725aaf36043de41b"
     },
     {
+      "path": "neural-field.js",
+      "published_sha256": "da5da694594054deaa4673aec3dcdb9acbd8f0197497edfa1847fbb0ce84b0e3"
+    },
+    {
+      "path": "neural-math.js",
+      "published_sha256": "d19543d60ebe9074de28c5354d63caa1fc64d8fb82a13e15519648df12c95d68"
+    },
+    {
       "path": "observatory-design.css",
-      "published_sha256": "f4bba1655d3ca11de85dd5621f76c4a9df2fa61a524b9d651fcd44acf9023aae"
+      "published_sha256": "d54723aae5f665dd588d077b3f589472d4879496284909adf145e77ac5b32cfd"
     },
     {
       "path": "observatory.html",
-      "published_sha256": "3da279334759af59f7516d3375f0dec28b245df6af98326918465856ac80f62c"
+      "published_sha256": "552cebf553af5e9ac55be8340f49695fa8ffbd9a5401242686b9c0db5d6f7b90"
     },
     {
       "path": "package-lock.json",
-      "published_sha256": "5e89fa811b882fc1e1aa30e67e55329f2a4597da1e59eaa9c35448d7cf9b40c7"
+      "published_sha256": "404f5bfc7d69f88b219a3fd96cc10cf5d634eb711750e87437211a0338e480d3"
     },
     {
       "path": "package.json",
-      "published_sha256": "00ae192898cc01013a4c54bb6feef115ffbd6dad98dd301912a88906fefdca24"
+      "published_sha256": "7067261831556b37fa3b3a310363abbfe0a785b59be4858dfdac3834e863d7e6"
     },
     {
       "path": "publish.py",
@@ -264,6 +273,10 @@
     {
       "path": "store.py",
       "published_sha256": "d02d3a720c2e4039cfb2a2a9865c47dd122c04541bb0917ba070747ed99b4516"
+    },
+    {
+      "path": "tests/neural-field.test.cjs",
+      "published_sha256": "bf00db09c5768b4f5c6e07ef9648d5f5e1b954d04ddfec9448162460c05701af"
     },
     {
       "path": "tests/test_cognition.py",

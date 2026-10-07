@@ -71,6 +71,14 @@ flowchart LR
 
 See [architecture](docs/architecture.md), [spending boundaries](docs/spending.md), [evaluation](docs/evaluation.md) and [development gates](docs/capability-map.md).
 
+## Neural field
+
+The observatory renders every neuron and the 1,856 connections in its published topology sample. A deterministic spatial arrangement separates the six populations; it is a schematic, rather than anatomical reconstruction. The firing layer replays recorded spike times and source signals at each sampled synapse’s model delay. Membrane and weight layers expose the underlying recorded values. The raster uses the same window as the field.
+
+The visitor can orbit, filter populations, inspect an exact neuron ID, change replay speed or hold a snapshot. Pausing preserves the field’s tick and values while the worker continues. Off-screen fields stop drawing, and reduced-motion preferences start in snapshot mode. Rendering targets 60 fps with a bounded pixel buffer; no visitor interaction advances the neural model.
+
+`neural-math.js` contains deterministic geometry, projection and recorded-time operations. `neural-field.js` owns drawing and interaction; the build embeds both in the static page. Frontend tests check identity preservation, signal timing, invalid records, hit selection and snapshot continuity.
+
 ## Source map
 
 | Source                                                           | Responsibility                                                        |

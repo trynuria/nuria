@@ -145,15 +145,35 @@
             ><p
               >The main graph shows the expanded circuit’s 1,024 neurons across six
               populations. Membranes, spikes and sampled plastic weights come from
-              Brian2. Positions and traveling trails are visualization conventions. A
-              deterministic subset of connections is rendered; the worker retains the
-              complete connectivity.</p
+              Brian2. The spatial arrangement is schematic. Flashes use recorded source
+              spikes; signal heads follow each sampled connection’s recorded synaptic
+              delay. A traveling signal does not establish that the target fired because
+              of that source. A deterministic subset of connections is rendered; the
+              worker retains the complete connectivity.</p
             ><h2 id="observatory--modes">Three views of one measured model</h2
             ><p
-              >Neural mode supports orbiting and inspecting individual neurons. Topology
-              mode flattens the circuit layout. Spikes mode shows actual spike times in
-              the latest 100 ms autonomous window. Visual replay runs slower than model
-              time; model time and wall time are separate.</p
+              >Neural mode provides a depth-shaded, orbitable view of the six
+              populations. Every displayed edge comes from the published topology
+              sample. Topology flattens the same arrangement; Spikes plots recorded time
+              against neuron ID. The small raster underneath Neural and Topology shows
+              the same recorded window.</p
+            ><p
+              >Firing highlights measured spikes. Membrane maps the recorded,
+              dimensionless membrane variable v from blue to ivory. Weights uses line
+              thickness for current sampled weight and sage or lilac for increases or
+              decreases between received snapshots; those differences are not a complete
+              account of plastic changes inside each worker window.</p
+            ><p
+              >Replay offers 22× slower, 10× slower and real-time playback. Model time
+              is separate from wall time. The browser receives the newest cached window,
+              rather than replaying every window the worker has produced. A short window
+              can finish before the next snapshot arrives.</p
+            ><p
+              >Click a neuron to pin its inspector, or use Inspect and enter its ID. The
+              inspector shows its recorded membrane value, spike count, sampled incoming
+              and outgoing connections and mean sampled outgoing excitatory weight.
+              These connection counts describe the display sample, not the neuron’s full
+              connectivity. Drag or use arrow keys to orbit; Home resets the view.</p
             ><h2 id="observatory--decisions">Choices and consequences</h2
             ><p
               >Current decision shows eight combined action scores. The learning panel
@@ -171,8 +191,10 @@
             ><p
               >A failed or stale response is unavailable. A cached last frame does not
               imply a healthy worker. Public reads do not trigger simulation, database
-              queries or RPC calls. Reduced motion and pausing affect visual playback;
-              the server continues.</p
+              queries or RPC calls. Reduced motion starts with a held snapshot. Pause
+              captures the current neural window and holds its recorded values while the
+              server and other panels continue. Resume returns to the newest state. An
+              off-screen field stops drawing until it is visible again.</p
             ></article
           >
 
