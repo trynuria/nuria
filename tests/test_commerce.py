@@ -348,6 +348,7 @@ class CommerceTests(unittest.TestCase):
         self.assertIsNone(select_job(policy, cognition, decision, now, ledger))
         cognition["learning"]["sources"][SOURCE] = {"prediction": {"probability": 0.5}}
         self.assertIsNotNone(select_job(policy, cognition, decision, now, ledger))
+        self.assertIsNone(select_job(policy, cognition, decision, now - 3, ledger))
         with self.assertRaises(ValueError):
             select_job(policy, cognition, {**decision, "hash": "a" * 64}, now, ledger)
 

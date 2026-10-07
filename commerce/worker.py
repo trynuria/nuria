@@ -38,7 +38,7 @@ def select_job(policy, cognition, decision, now, ledger):
     ).hexdigest() != decision.get("hash"):
         raise ValueError("Cognitive decision integrity failed")
     stamp = datetime.fromisoformat(decision["utc"]).timestamp()
-    if cognition.get("phase") != "running" or not 0 <= now - stamp <= 30:
+    if cognition.get("phase") != "running" or not -2 <= now - stamp <= 30:
         return None
     chain = cognition.get("learning", {}).get("sources", {}).get(SOURCE)
     if not chain or not chain.get("prediction"):
