@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2 — 2026-10-08
+
+- Aligned the observatory, documentation and repository around “Building the first conscious token,” with the research ambition distinguished from measured results.
+- Reused the header’s exact symbol and vector wordmark in the footer, including matching alignment and proportions.
+- Published the presentation update without restarting neural workers or changing their histories.
+
 ## 0.3.0 — 2026-10-08
 
 - Added a source-specific forecast council with conditional outcome memory, learned specialist attention and a stronger repeat-probability baseline.

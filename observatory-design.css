@@ -604,6 +604,7 @@
 .footer {
   color: #67796b;
   border-color: #28372c;
+  flex-wrap: wrap;
 }
 .focus-mode .stage {
   height: calc(100dvh - 180px);
@@ -978,6 +979,12 @@
     font-size: 8px;
   }
 }
+@media (max-width: 420px) {
+  .header .logo .wordmark-svg,
+  .footer .logo .wordmark-svg {
+    width: 85px;
+  }
+}
 @media (max-width: 360px) {
   .header {
     padding-inline: 12px;
@@ -989,10 +996,14 @@
   .header .nav a {
     font-size: 11px;
   }
-  .header .wordmark-svg {
+  .header .nav a[data-open] {
+    display: none;
+  }
+  .header .logo .wordmark-svg,
+  .footer .logo .wordmark-svg {
     width: 70px;
   }
-  .header .logo-mark {
+  .logo .logo-mark {
     width: 20px;
   }
   .cognitive-grid {

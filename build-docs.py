@@ -39,6 +39,12 @@ def build(root: Path = ROOT) -> None:
     logo_match = re.search(r'<a\b(?=[^>]*\bclass="logo")[^>]*>.*?</a\s*>', source, re.S)
     if logo_match is None:
         raise ValueError("Observatory logo is missing")
+    footer_logo = (
+        logo_match.group()
+        .replace('id="leaf"', 'id="footer-leaf"')
+        .replace("url(#leaf)", "url(#footer-leaf)")
+    )
+    source = source.replace("{{FOOTER_LOGO}}", footer_logo)
     docs_logo = (
         logo_match.group()
         .replace('href="#overview"', 'href="/"')
