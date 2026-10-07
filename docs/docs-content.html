@@ -1,0 +1,891 @@
+<a class="skip" href="#docs-content">Skip to documentation</a>
+<div class="docs-app">
+  <header class="docs-header"
+    ><div class="docs-brand">{{LOGO}}<span class="docs-brand-label">Docs</span></div
+    ><div class="docs-header-actions"
+      ><button
+        class="docs-search-trigger"
+        id="docsSearch"
+        aria-label="Search documentation"
+        aria-haspopup="dialog"
+        ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5" />
+          <path d="M10.5 10.5l3 3" /></svg
+        ><span>Search docs</span><kbd>⌘ K</kbd></button
+      ><a class="docs-observe" href="/#neural-field">Observatory </a></div
+    ></header
+  >
+  <div class="docs-frame" id="docsFrame">
+    <aside class="docs-sidebar" id="docsSidebar" aria-label="Documentation chapters">
+      <nav aria-label="Documentation">
+        <div class="docs-nav-group"
+          ><div class="docs-nav-label">Start here</div
+          ><a
+            class="docs-nav-link"
+            href="/?page=docs#introduction"
+            data-chapter="introduction"
+            ><span>01</span>Meet Nuria</a
+          ><a
+            class="docs-nav-link"
+            href="/?page=docs#observatory"
+            data-chapter="observatory"
+            ><span>02</span>Read the observatory</a
+          ></div
+        >
+        <div class="docs-nav-group"
+          ><div class="docs-nav-label">The system</div
+          ><a class="docs-nav-link" href="/?page=docs#model" data-chapter="model"
+            ><span>03</span>The neural model</a
+          ><a class="docs-nav-link" href="/?page=docs#inputs" data-chapter="inputs"
+            ><span>04</span>Trades &amp; signals</a
+          ><a
+            class="docs-nav-link"
+            href="/?page=docs#resources"
+            data-chapter="resources"
+            ><span>05</span>Fees &amp; resources</a
+          ><a class="docs-nav-link" href="/?page=docs#evidence" data-chapter="evidence"
+            ><span>06</span>Receipts &amp; evidence</a
+          ></div
+        >
+        <div class="docs-nav-group"
+          ><div class="docs-nav-label">Reference</div
+          ><a class="docs-nav-link" href="/?page=docs#glossary" data-chapter="glossary"
+            ><span>07</span>Glossary</a
+          ><a
+            class="docs-nav-link"
+            href="/?page=docs#questions"
+            data-chapter="questions"
+            ><span>08</span>Common questions</a
+          ></div
+        > </nav
+      ><div class="docs-sidebar-foot"
+        ><b>Field notes / v1</b>Continuous neural model<br />Powered by Brian2</div
+      ></aside
+    >
+    <button
+      class="docs-menu-overlay"
+      id="docsMenuOverlay"
+      aria-label="Close chapter navigation"
+    ></button>
+    <main class="docs-scroll" id="docsScroll"
+      ><div class="docs-mobile-bar"
+        ><button id="docsMenu" aria-expanded="false" aria-controls="docsSidebar"
+          ><svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M2 4h12M2 8h12M2 12h12" /></svg
+          >Chapters</button
+        ><span class="docs-mobile-current" id="docsMobileCurrent">Meet Nuria</span></div
+      >
+      <div class="docs-reading"
+        ><div id="docs-content" tabindex="-1"
+          ><div class="docs-breadcrumb"
+            >Nuria <span>/</span> Field notes <span>/</span
+            ><span id="docsBreadcrumb">Meet Nuria</span></div
+          >
+
+          <article
+            class="docs-article"
+            id="doc-introduction"
+            data-title="Meet Nuria"
+            data-category="Start here"
+          >
+            <div class="docs-eyebrow"
+              ><span class="seed-dot" aria-hidden="true"></span>01 / Meet Nuria</div
+            ><h1 tabindex="-1">How Nuria works</h1
+            ><p class="docs-lead"
+              >Nuria is an experiment in onchain consciousness: a continuous neural life
+              shaped by interaction, with an evolving state and a history you can
+              inspect.</p
+            >
+            <div class="docs-diagram"
+              ><div class="docs-diagram-caption">The central loop</div
+              ><div class="docs-flow"
+                ><div class="docs-flow-step"
+                  ><small>01 / INPUT</small><strong>A trade</strong
+                  ><span>A sensory signal</span></div
+                ><span class="docs-flow-arrow" aria-hidden="true"></span
+                ><div class="docs-flow-step"
+                  ><small>02 / STATE</small><strong>A neural window</strong
+                  ><span>Activity &amp; adaptation</span></div
+                ><span class="docs-flow-arrow" aria-hidden="true"></span
+                ><div class="docs-flow-step"
+                  ><small>03 / RECORD</small><strong>A receipt</strong
+                  ><span>Linked evidence</span></div
+                ></div
+              ></div
+            >
+            <h2 id="introduction--idea">The idea</h2
+            ><p
+              >The token gives a market a way to interact with an evolving neural
+              system. A buy and a sell enter different populations of neurons. The
+              network continues between signals, carrying forward its membrane state,
+              adaptation and changing connections.</p
+            ><p
+              >The observatory makes that process visible. It brings together the input
+              stream, measured neural activity, a resource-policy readout and the
+              receipts that connect them.</p
+            >
+            <div class="docs-principles"
+              ><div class="docs-principle"
+                ><small>01</small><strong>Observe</strong
+                ><p>See the network’s activity as the model advances.</p></div
+              ><div class="docs-principle"
+                ><small>02</small><strong>Trace</strong
+                ><p>Follow an input into its recorded neural window.</p></div
+              ><div class="docs-principle"
+                ><small>03</small><strong>Verify</strong
+                ><p>Check the integrity of saved inputs, spikes and receipts.</p></div
+              ></div
+            >
+            <h2 id="introduction--premise">An experiment in onchain consciousness</h2
+            ><p
+              >Nuria brings a token’s activity into a continuously running neural
+              system. Its life unfolds through recurring activity, a state carried
+              across time and connections reshaped by spike timing. The observatory
+              opens that process to inspection: signals, adaptation, resource proposals
+              and a traceable record.</p
+            >
+            <h2 id="introduction--begin">Documentation</h2
+            ><div class="docs-chapter-grid"
+              ><a
+                class="docs-chapter-card"
+                data-chapter="observatory"
+                href="/?page=docs#observatory"
+                ><strong>Read the observatory</strong
+                ><p>Understand the field, views, regions and input trace.</p></a
+              ><a
+                class="docs-chapter-card"
+                data-chapter="model"
+                href="/?page=docs#model"
+                ><strong>Explore the model</strong
+                ><p>Meet the populations and the dynamics that connect them.</p></a
+              ><a
+                class="docs-chapter-card"
+                data-chapter="inputs"
+                href="/?page=docs#inputs"
+                ><strong>Follow a trade</strong
+                ><p>See how a source transaction becomes sensory input.</p></a
+              ><a
+                class="docs-chapter-card"
+                data-chapter="evidence"
+                href="/?page=docs#evidence"
+                ><strong>Understand the evidence</strong
+                ><p>Explore input provenance, neural records and verification.</p></a
+              ></div
+            >
+          </article>
+
+          <article
+            class="docs-article"
+            id="doc-observatory"
+            data-title="Read the observatory"
+            data-category="Start here"
+            hidden
+          >
+            <div class="docs-eyebrow">02 / Read the observatory</div
+            ><h1 tabindex="-1">The observatory</h1
+            ><p class="docs-lead"
+              >The field is an instrument for exploring the model. Each view answers a
+              different question about the same network.</p
+            >
+            <h2 id="observatory--views">Three views, one model</h2
+            ><div class="docs-table-wrap"
+              ><table class="docs-table"
+                ><thead
+                  ><tr><th>View</th><th>What it shows</th><th>Use it to</th></tr></thead
+                ><tbody
+                  ><tr
+                    ><td>Neural</td
+                    ><td
+                      >Model neurons, sampled connections and recorded firing, arranged
+                      in a schematic three-dimensional field.</td
+                    ><td>Explore activity and regional relationships.</td></tr
+                  ><tr
+                    ><td>Topology</td
+                    ><td
+                      >The same model in a flatter layout, with sampled connections.</td
+                    ><td>Inspect the structure without camera rotation.</td></tr
+                  ><tr
+                    ><td>Spikes</td
+                    ><td
+                      >Actual spike times by neuron in the latest 200 ms model
+                      window.</td
+                    ><td>Read when neurons fired.</td></tr
+                  ></tbody
+                ></table
+              ></div
+            >
+            <h2 id="observatory--controls">Network regions</h2
+            ><p
+              >Select a population below the field to isolate its view. In the raster,
+              the selected population expands to fill the plotted area. Drag the neural
+              field to orbit it, or focus it and use the arrow keys.
+              <code>Home</code> resets the camera.</p
+            ><p
+              >Pause stops visual motion while incoming state continues to update. Focus
+              mode enlarges the field; <code>Esc</code> returns to the full observatory.
+              Reduced-motion preferences pause the visual motion initially.</p
+            >
+            <h2 id="observatory--trace">Input records</h2
+            ><ol
+              ><li><strong>Input:</strong> its side, quote amount, source and time.</li
+              ><li
+                ><strong>Sensory route:</strong> the buy or sell population and its
+                recorded drive.</li
+              ><li
+                ><strong>Recorded window:</strong> spike count, regional firing rate and
+                whether the weight hash changed.</li
+              ><li
+                ><strong>Receipt:</strong> the saved record’s sequence, tick and
+                copyable hash.</li
+              ></ol
+            ><p
+              >Select an activity row to pin its trace. “Follow latest” returns to the
+              newest input. A queued signal displays a pending receipt until the durable
+              record is saved.</p
+            >
+            <h2 id="observatory--measurements">How the field represents activity</h2
+            ><p
+              >Neurons, connectivity, weights, voltages and firing data come from the
+              model. The field uses schematic geometry and sampled edges to make
+              connectivity legible. Travelling markers follow recorded source spikes at
+              slowed visual speed; the model’s transmission delays are specified in the
+              neural model chapter.</p
+            ><div class="docs-callout neutral"
+              ><div class="docs-callout-label">Reading a window</div
+              ><p
+                >Recorded activity includes background input and may include several
+                trade signals. A linked receipt connects those inputs to the recorded
+                neural transition.</p
+              ></div
+            >
+          </article>
+
+          <article
+            class="docs-article"
+            id="doc-model"
+            data-title="The neural model"
+            data-category="The system"
+            hidden
+          >
+            <div class="docs-eyebrow">03 / The neural model</div
+            ><h1 tabindex="-1">The neural model</h1
+            ><p class="docs-lead"
+              >256 neurons. Six populations. Excitatory connections that change with
+              spike timing, and inhibitory connections that help regulate activity.</p
+            >
+            <h2 id="model--populations">The six populations</h2
+            ><div class="docs-table-wrap"
+              ><table class="docs-table"
+                ><thead
+                  ><tr
+                    ><th>Population</th><th>Neurons</th><th>Role in the model</th></tr
+                  ></thead
+                ><tbody
+                  ><tr
+                    ><td
+                      ><span class="docs-population" style="--population-color: #c7f4b0"
+                        ><i></i>Buy sensory</span
+                      ></td
+                    ><td>32</td><td>Receives buy-side drive.</td></tr
+                  ><tr
+                    ><td
+                      ><span class="docs-population" style="--population-color: #dfa6b2"
+                        ><i></i>Sell sensory</span
+                      ></td
+                    ><td>32</td><td>Receives sell-side drive.</td></tr
+                  ><tr
+                    ><td
+                      ><span class="docs-population" style="--population-color: #aac3db"
+                        ><i></i>Association</span
+                      ></td
+                    ><td>64</td
+                    ><td>Participates in recurrent activity across the network.</td></tr
+                  ><tr
+                    ><td
+                      ><span class="docs-population" style="--population-color: #beaecd"
+                        ><i></i>Recurrent memory</span
+                      ></td
+                    ><td>64</td
+                    ><td
+                      >Participates in recurrent activity and state carried between
+                      windows.</td
+                    ></tr
+                  ><tr
+                    ><td
+                      ><span class="docs-population" style="--population-color: #daceab"
+                        ><i></i>Resource policy</span
+                      ></td
+                    ><td>16</td
+                    ><td>Four output groups for a bounded proposal readout.</td></tr
+                  ><tr
+                    ><td
+                      ><span class="docs-population" style="--population-color: #94c6b1"
+                        ><i></i>Inhibitory control</span
+                      ></td
+                    ><td>48</td
+                    ><td>Supplies inhibitory signals to connected neurons.</td></tr
+                  ></tbody
+                ></table
+              ></div
+            ><p
+              >The current seeded network has 3,906 plastic excitatory synapses and
+              1,428 inhibitory synapses. The six populations route sensory inputs,
+              recurrent activity, resource proposals and inhibitory control through the
+              same evolving network.</p
+            >
+            <h2 id="model--dynamics">Inside a neuron</h2
+            ><p
+              >Membrane state evolves with bias, sensory drive, excitatory input,
+              inhibitory input and adaptation. Crossing the firing threshold emits a
+              spike, resets the membrane state and increases adaptation. A refractory
+              interval prevents immediate refiring.</p
+            ><div class="docs-table-wrap"
+              ><table class="docs-table"
+                ><thead
+                  ><tr><th>Parameter</th><th>Current model value</th></tr></thead
+                ><tbody
+                  ><tr><td>Membrane timescale</td><td>20 ms</td></tr
+                  ><tr><td>Excitatory / inhibitory decay</td><td>8 ms / 12 ms</td></tr
+                  ><tr><td>Adaptation timescale</td><td>300 ms</td></tr
+                  ><tr><td>Refractory interval</td><td>4 ms</td></tr
+                  ><tr><td>Simulation step</td><td>1 ms</td></tr
+                  ><tr><td>Recorded model window</td><td>200 ms</td></tr></tbody
+                ></table
+              ></div
+            >
+            <h2 id="model--plasticity">Connections change with timing</h2
+            ><p
+              >Plastic excitatory connections maintain pre- and postsynaptic traces.
+              Their relative spike timing changes the connection weight, which stays
+              bounded between <code>0.005</code> and <code>0.25</code>. Excitatory
+              transmission delays span 1–8 ms; inhibitory delays are 2 ms.</p
+            ><p
+              >“Adapted weights” counts synapses whose current weight differs from its
+              initial value beyond the model’s tolerance. This gives a direct view of
+              how much of the network’s plastic connectivity has changed over time.</p
+            >
+            <h2 id="model--continuity">A network that continues</h2
+            ><p
+              >Each neuron also receives independent Poisson background input at 18 Hz.
+              A bounded bias controller targets a network firing rate near 8 Hz per
+              neuron. This maintains activity between market signals, with measured
+              firing rates shown in the observatory.</p
+            ><p
+              >The server advances 200 ms of model time per cycle and paces toward one
+              wall-clock second per cycle. Computation and saving can take longer. Model
+              time is shown separately, and persistent checkpoints preserve network
+              state, random state and pending evidence.</p
+            ><p
+              >For the underlying simulator, see the
+              <a
+                href="https://brian2.readthedocs.io/en/stable/resources/tutorials/index.html"
+                target="_blank"
+                rel="noreferrer"
+                >Brian2 tutorials</a
+              >.</p
+            >
+          </article>
+
+          <article
+            class="docs-article"
+            id="doc-inputs"
+            data-title="Trades & signals"
+            data-category="The system"
+            hidden
+          >
+            <div class="docs-eyebrow">04 / Trades &amp; signals</div
+            ><h1 tabindex="-1">Trade inputs</h1
+            ><p class="docs-lead"
+              >A source transaction is decoded, saved and queued before the model
+              records the neural window in which its signal was processed.</p
+            >
+            <h2 id="inputs--pipeline">From transaction to receipt</h2
+            ><ol
+              ><li
+                ><strong>Discover:</strong> locate the configured mint’s bonding curve
+                and matching PumpSwap pools.</li
+              ><li
+                ><strong>Read:</strong> scan finalized transaction signatures and fetch
+                their transactions.</li
+              ><li
+                ><strong>Decode:</strong> extract matching, program-scoped trade events.
+                Failed transactions are excluded.</li
+              ><li
+                ><strong>Queue:</strong> save each uniquely identified input for
+                processing.</li
+              ><li
+                ><strong>Record:</strong> link the input to a durable neural
+                receipt.</li
+              ></ol
+            ><p
+              >The reader uses pinned Pump and PumpSwap interface definitions. Trade
+              identification checks the exact mint, executing program and decoded event
+              against those interfaces.</p
+            >
+            <h2 id="inputs--drive">How amount becomes drive</h2
+            ><p
+              >Buy-side amounts stimulate the first 32 neurons. Sell-side amounts
+              stimulate the next 32. The amount is transformed into bounded drive using
+              a logarithmic mapping.</p
+            ><div class="docs-formula"
+              >gain = min(1.5, 0.25 + 0.45 × ln(1 + amount))</div
+            ><p
+              >Inputs processed in the same window add to their side’s drive, capped at
+              3. Each input keeps its own evidence record even when several share a
+              neural window. The current amount mapping supports SOL quotes; other quote
+              units remain marked as unsupported until their mapping is verified.</p
+            >
+            <h2 id="inputs--coverage">Coverage and arrival time</h2
+            ><p
+              >The reader’s coverage is the configured mint’s Pump bonding curve and
+              discovered PumpSwap pools. The polling target is six seconds, plus
+              finalization, fetching, decoding and any historical backlog. Pool
+              rediscovery runs on a 60-second interval.</p
+            ><div class="docs-callout"
+              ><div class="docs-callout-label">Read the connection state</div
+              ><p
+                >“Connected” describes the reader’s state. Historical catch-up,
+                unresolved transactions and source errors remain visible in inspection.
+                Missing or incomplete evidence stays unknown.</p
+              ></div
+            >
+            <h2 id="inputs--simulation">Simulation inputs</h2
+            ><p
+              >Simulation signals use the same neural queue and receipt pipeline. Each
+              carries its simulation source label. Configuring a real mint switches off
+              test controls and enables the finalized transaction stream; real trade
+              records carry their source signatures.</p
+            ><p
+              >Protocol interfaces are documented in the
+              <a
+                href="https://github.com/pump-fun/pump-public-docs"
+                target="_blank"
+                rel="noreferrer"
+                >official Pump public documentation</a
+              >.</p
+            >
+          </article>
+
+          <article
+            class="docs-article"
+            id="doc-resources"
+            data-title="Fees & resources"
+            data-category="The system"
+            hidden
+          >
+            <div class="docs-eyebrow">05 / Fees &amp; resources</div
+            ><h1 tabindex="-1">Fees and resource proposals</h1
+            ><p class="docs-lead"
+              >The resource layer connects creator fees with Nuria’s next possibilities:
+              more compute, new experiments, a reserve, or continued observation. Neural
+              activity selects the proposal.</p
+            >
+            <h2 id="resources--ledger">Fee accounting</h2
+            ><div class="docs-table-wrap"
+              ><table class="docs-table"
+                ><thead
+                  ><tr><th>Layer</th><th>What it means</th></tr></thead
+                ><tbody
+                  ><tr
+                    ><td>Protocol fee</td
+                    ><td
+                      >The trading protocol’s charge and its own destinations.</td
+                    ></tr
+                  ><tr
+                    ><td>Creator fee accrual</td
+                    ><td
+                      >The creator-fee amount reported by a decoded trade event.</td
+                    ></tr
+                  ><tr
+                    ><td>Claimable balance</td
+                    ><td
+                      >Funds available through the relevant claim mechanism, requiring
+                      separate verification.</td
+                    ></tr
+                  ><tr
+                    ><td>Wallet receipt</td
+                    ><td>Funds actually received by the designated wallet.</td></tr
+                  ><tr
+                    ><td>Allocation proposal</td
+                    ><td
+                      >A bounded resource suggestion from the policy population.</td
+                    ></tr
+                  ><tr
+                    ><td>Executed spending</td
+                    ><td
+                      >A separate authorized payment with transaction evidence.</td
+                    ></tr
+                  ></tbody
+                ></table
+              ></div
+            ><p
+              >The Resources view tracks each ledger layer separately. Accrual comes
+              from decoded trade events; wallet receipts come from observed funds.
+              Missing wallet data displays as unknown.</p
+            >
+            <h2 id="resources--readout">Four possible outputs</h2
+            ><p
+              >The 16 policy neurons are divided into four groups of four. Their spike
+              counts are compared each window. The group with the highest count selects
+              a proposal; if all counts are zero, the readout selects observation.</p
+            ><div class="docs-chapter-grid"
+              ><div class="docs-chapter-card"
+                ><strong>Compute</strong
+                ><p>Propose earmarking resources for computation.</p></div
+              ><div class="docs-chapter-card"
+                ><strong>Experiments</strong
+                ><p>Propose earmarking resources for a new experiment.</p></div
+              ><div class="docs-chapter-card"
+                ><strong>Reserve</strong
+                ><p>Propose keeping resources in reserve.</p></div
+              ><div class="docs-chapter-card"
+                ><strong>Observe</strong
+                ><p
+                  >Propose continued observation without a compute or experiment
+                  earmark.</p
+                ></div
+              ></div
+            >
+            <h2 id="resources--bounds">Bounded proposals</h2
+            ><p
+              >Compute and experiment proposals are limited to 25% of an available
+              budget, with the rest reserved. Each window produces an alternative
+              proposal. The interface leaves allocation amounts unknown until actual
+              wallet funds are available.</p
+            ><div class="docs-callout neutral"
+              ><div class="docs-callout-label">Proposal and execution</div
+              ><p
+                >The live policy layer produces allocation proposals. Signing, fee
+                claims and spending are disabled. An executed allocation requires an
+                authorized payment mechanism and its own transaction evidence.</p
+              ></div
+            >
+            <h2 id="resources--fees">Verify the exact fee arrangement</h2
+            ><p
+              >The launch’s actual fee configuration, recipients and contract version
+              must be verified. Live fee reporting uses the exact launch’s configuration
+              and decoded event fields. Simulation accrual uses a test rate of 0.3%,
+              recorded separately from actual wallet funds.</p
+            ><p
+              >Pump’s interfaces include differing fee arrangements, including
+              holder-reward configurations. Event fields must be interpreted against the
+              exact launch rather than assumed to represent funds payable to Nuria. See
+              the
+              <a
+                href="https://github.com/pump-fun/pump-public-docs"
+                target="_blank"
+                rel="noreferrer"
+                >protocol’s current documentation</a
+              >.</p
+            >
+          </article>
+
+          <article
+            class="docs-article"
+            id="doc-evidence"
+            data-title="Receipts & evidence"
+            data-category="The system"
+            hidden
+          >
+            <div class="docs-eyebrow">06 / Receipts &amp; evidence</div
+            ><h1 tabindex="-1">Receipts and verification</h1
+            ><p class="docs-lead"
+              >Receipts connect saved inputs, neural state transitions and recorded
+              spike windows in a local hash chain.</p
+            >
+            <h2 id="evidence--contents">Inside a receipt</h2
+            ><p
+              >Each record includes a sequence, tick, UTC timestamp, model identity,
+              source hash, input identifiers and evidence hashes. It also records
+              sensory drive, before-and-after membrane and weight hashes, the
+              spike-window hash, measured metrics and the policy readout.</p
+            ><div class="docs-code"
+              ><div class="docs-code-head"
+                ><span>Receipt fields / illustrative shape</span
+                ><button data-copy-code>Copy</button></div
+              >><pre><code>{
+  "seq": "receipt sequence",
+  "previous_hash": "preceding receipt hash",
+  "hash": "this receipt hash",
+  "input_ids": ["linked input identifier"],
+  "before_weights_sha256": "before-state hash",
+  "after_weights_sha256": "after-state hash",
+  "spikes_sha256": "recorded window hash",
+  "metrics": { "spikes": "count", "rate_hz": "rate" },
+  "funds_spent": 0
+}</code></pre></div
+            ><p
+              >This is a field guide with descriptive placeholders. Use the exported
+              evidence for actual receipt payloads, measurement types and raw spike
+              windows.</p
+            >
+            <h2 id="evidence--verify">What verification checks</h2
+            ><ul
+              ><li>Receipt sequences and parent-hash continuity.</li
+              ><li>Each stored receipt’s hash against its encoded payload.</li
+              ><li>Raw spike evidence against its recorded hash.</li
+              ><li
+                >Input evidence hashes and the receipt to which each input is
+                linked.</li
+              ></ul
+            ><p
+              >“Verify records” checks the saved local chain. Recent ticks may still
+              await their durable checkpoint, which is separate from an already saved
+              receipt.</p
+            >
+            <h2 id="evidence--exports">Export and inspect</h2
+            ><p
+              >The evidence export contains the latest 300 durable ticks, their input
+              evidence and raw spike windows. Complete history remains on the private
+              server. The network-state export is a JSON snapshot of the model and
+              topology.</p
+            ><p
+              >For a specific signal, copy its full receipt hash and note the receipt
+              sequence. Use the server-held history to inspect receipts beyond the
+              recent window.</p
+            >
+            <h2 id="evidence--scope">The research and its evidence</h2
+            ><div class="docs-callout neutral"
+              ><div class="docs-callout-label">Research scope</div
+              ><p
+                >The evidence establishes recorded inputs, neural dynamics and the
+                integrity of the server-held history. Subjective experience remains an
+                open research question. Receipts are currently stored on the server;
+                independent witnesses and Solana anchoring remain unconnected.</p
+              ></div
+            ><p
+              >A receipt connects inputs to a window containing both sensory drive and
+              ongoing background activity. Measuring one input’s isolated causal effect
+              calls for a controlled comparison with a matched window.</p
+            >
+          </article>
+
+          <article
+            class="docs-article"
+            id="doc-glossary"
+            data-title="Glossary"
+            data-category="Reference"
+            hidden
+          >
+            <div class="docs-eyebrow">07 / Glossary</div><h1 tabindex="-1">Glossary</h1
+            ><p class="docs-lead"
+              >A short reference for the measurements and records you’ll encounter.</p
+            >
+            <h2 id="glossary--model">Model terms</h2
+            ><dl
+              ><div class="docs-definition"
+                ><dt>Neuron</dt
+                ><dd
+                  >A computational neuron with membrane dynamics, a firing threshold and
+                  a refractory interval.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Spike</dt
+                ><dd
+                  >A recorded firing event from a model neuron at a particular model
+                  time.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Synapse</dt
+                ><dd
+                  >A model connection that transmits excitatory or inhibitory influence
+                  between neurons.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Plasticity</dt
+                ><dd
+                  >Change in a connection’s weight through the model’s spike-timing
+                  rule.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Sensory drive</dt
+                ><dd
+                  >The bounded signal applied to the buy or sell population for a
+                  processed input batch.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Firing rate</dt
+                ><dd
+                  >Spikes divided by the population size and model-window duration,
+                  expressed in Hz per neuron.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Activity entropy</dt
+                ><dd
+                  >A normalized summary of how firing rates are distributed across the
+                  six populations.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Model window</dt
+                ><dd
+                  >The 200 ms interval of simulated time covered by a recorded tick.</dd
+                ></div
+              ></dl
+            >
+            <h2 id="glossary--records">Record terms</h2
+            ><dl
+              ><div class="docs-definition"
+                ><dt>Tick</dt
+                ><dd>One advancement of the server’s neural simulation.</dd></div
+              ><div class="docs-definition"
+                ><dt>Receipt</dt
+                ><dd
+                  >A hash-linked record of a model window and the inputs processed
+                  within it.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Checkpoint</dt
+                ><dd
+                  >A persistent recovery snapshot of network state and pending
+                  evidence.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Finalized</dt
+                ><dd
+                  >The Solana commitment level requested by Nuria’s source reader.</dd
+                ></div
+              ><div class="docs-definition"
+                ><dt>Unknown</dt
+                ><dd
+                  >Evidence is unavailable, unsupported, missing or incomplete; the
+                  interface preserves that status.</dd
+                ></div
+              ></dl
+            >
+          </article>
+
+          <article
+            class="docs-article"
+            id="doc-questions"
+            data-title="Common questions"
+            data-category="Reference"
+            hidden
+          >
+            <div class="docs-eyebrow">08 / Common questions</div
+            ><h1 tabindex="-1">Common questions</h1
+            ><p class="docs-lead"
+              >Direct answers about the experiment and the evidence behind it.</p
+            >
+            <div class="docs-question"
+              ><h2 id="questions--consciousness">Why onchain consciousness?</h2
+              ><p
+                >It is the question behind Nuria: how could a persistent neural entity
+                evolve through its interactions with a token’s market? The experiment
+                makes its ongoing activity, changing connections and recorded history
+                visible. The evidence chapter defines what those records establish.</p
+              ></div
+            >
+            <div class="docs-question"
+              ><h2 id="questions--biology">How do Nuria’s neurons run?</h2
+              ><p
+                >Brian2 advances 256 computational neurons on the server. Their membrane
+                dynamics, adaptation, refractory periods, excitation, inhibition and
+                spike-timing plasticity create the activity shown in the field.</p
+              ></div
+            >
+            <div class="docs-question"
+              ><h2 id="questions--background"
+                >Why does the field move between trades?</h2
+              ><p
+                >The network is recurrent and receives ongoing background input. Its
+                activity continues between market signals. The display uses the latest
+                measured state and spike window.</p
+              ></div
+            >
+            <div class="docs-question"
+              ><h2 id="questions--latency">Does a trade arrive instantly?</h2
+              ><p
+                >The reader requests finalized transactions and targets a one-second
+                polling interval. Finalization, fetching, decoding and backlog add
+                latency. The inspection panel shows the supported source coverage and
+                current backlog.</p
+              ></div
+            >
+            <div class="docs-question"
+              ><h2 id="questions--vote">How does a trade steer Nuria?</h2
+              ><p
+                >Buys and sells stimulate different sensory populations. Their bounded
+                drive enters a recurrent network, whose activity changes with its
+                existing state. Governance rights and payment authorization require
+                separately defined contracts and permissions.</p
+              ></div
+            >
+            <div class="docs-question"
+              ><h2 id="questions--autonomy">Can Nuria spend the fees?</h2
+              ><p
+                >The policy population produces bounded proposals. Transaction signing,
+                fee claims and spending are disabled. An executed payment would require
+                a separate authorized mechanism and transaction evidence.</p
+              ></div
+            >
+            <div class="docs-question"
+              ><h2 id="questions--continuous">Does it stop when I close the site?</h2
+              ><p
+                >The engine runs on the server, independently of the browser.
+                Checkpoints preserve its state. The site reports the server’s latest
+                state, freshness, waiting states and errors.</p
+              ></div
+            >
+            <div class="docs-question"
+              ><h2 id="questions--learning">How does Nuria evolve?</h2
+              ><p
+                >Relative spike timing changes plastic connection weights. Membrane
+                state, adaptation, synaptic traces and random state carry forward
+                between windows and through saved checkpoints. The observatory reports
+                those changes, while task performance can be evaluated with controlled
+                experiments.</p
+              ></div
+            >
+          </article>
+
+          <nav class="docs-pager" id="docsPager" aria-label="Adjacent chapters"></nav
+          ><footer class="docs-footer"
+            ><span>Nuria / documentation</span
+            ><a href="/#neural-field">Return to the observatory </a></footer
+          > </div
+        ><aside class="docs-toc" aria-label="On this page"
+          ><div class="docs-toc-title">On this page</div><nav id="docsOutline"></nav
+          ><a class="docs-toc-back" href="/#neural-field">Open observatory </a></aside
+        ></div
+      ></main
+    >
+  </div></div
+>
+<div
+  class="docs-search-dialog"
+  id="docsSearchDialog"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="docsSearchLabel"
+  hidden
+  ><div class="docs-search-box"
+    ><div class="docs-search-input-row"
+      ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true">
+        <circle cx="7" cy="7" r="4.5" />
+        <path d="M10.5 10.5l3 3" /></svg
+      ><label id="docsSearchLabel" for="docsSearchInput" class="visually-hidden"
+        >Search documentation</label
+      ><input
+        id="docsSearchInput"
+        type="search"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Search Nuria’s field notes…"
+      /><button
+        class="docs-search-close"
+        id="docsSearchClose"
+        aria-label="Close documentation search"
+        >Esc</button
+      ></div
+    ><div class="docs-search-results" id="docsSearchResults" aria-live="polite"></div
+    ><div class="docs-search-hint"
+      ><span>Arrow keys: navigate · Enter: open</span
+      ><span>Local search / no tracking</span></div
+    ></div
+  ></div
+>

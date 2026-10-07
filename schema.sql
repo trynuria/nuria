@@ -1,0 +1,14 @@
+CREATE TABLE inputs(id text PRIMARY KEY,kind text NOT NULL,payload text NOT NULL,created_utc text NOT NULL,receipt bigint,event_order bigserial UNIQUE);
+CREATE INDEX inputs_pending ON inputs(event_order) WHERE receipt IS NULL;
+CREATE INDEX inputs_receipt ON inputs(receipt);
+CREATE TABLE receipts(seq bigint PRIMARY KEY,previous_hash text NOT NULL,hash text UNIQUE NOT NULL,payload text NOT NULL);
+CREATE TABLE spike_windows(seq bigint PRIMARY KEY,data bytea NOT NULL);
+CREATE TABLE source_cursors(address text PRIMARY KEY,signature text NOT NULL);
+CREATE TABLE scan_progress(address text PRIMARY KEY,newest text NOT NULL,before_signature text NOT NULL);
+CREATE TABLE transactions(signature text PRIMARY KEY,slot bigint,status text NOT NULL,detail text,attempts integer DEFAULT 0,event_order bigserial UNIQUE,retry_after double precision NOT NULL DEFAULT 0);
+CREATE INDEX transactions_pending ON transactions(slot,event_order) WHERE status='pending';
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO nuria_ingest,nuria_verify;
+GRANT INSERT ON inputs,transactions TO nuria_ingest;
+GRANT UPDATE ON transactions TO nuria_ingest;
+GRANT INSERT,UPDATE ON source_cursors,scan_progress TO nuria_ingest;
+GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO nuria_ingest;

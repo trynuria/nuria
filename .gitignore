@@ -1,0 +1,23 @@
+# Private runtime state and credentials
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+*.key
+*.pem
+*.pkl
+*.sqlite3*
+*.dump
+*.nuria.enc
+pump-source.json
+run/
+checkpoints/
+deployment/
+infrastructure/
+*.pre-*
+.DS_Store
+node_modules/
+.test-state/
+.ruff_cache/
+*.log
