@@ -1,0 +1,104 @@
+.commerce-panel {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+.commerce-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 32px;
+}
+.commerce-heading h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+.commerce-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 24px 0;
+  gap: 16px;
+}
+.commerce-stats div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.commerce-stats span,
+.commerce-wallet > span {
+  color: var(--muted);
+  font-size: 11px;
+}
+.commerce-stats strong {
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.commerce-wallet {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 32px;
+  min-width: 0;
+}
+.commerce-wallet code {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--muted);
+}
+.commerce-wallet .copy-btn {
+  width: 100px;
+  flex-shrink: 0;
+}
+.commerce-note {
+  margin: 16px 0;
+  height: 46px;
+  overflow: auto;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--muted);
+}
+.commerce-panel details {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  font-size: 12px;
+}
+.commerce-panel pre {
+  max-height: 240px;
+  overflow: auto;
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .commerce-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 24px;
+  }
+  .commerce-wallet {
+    flex-wrap: wrap;
+  }
+  .commerce-wallet > span {
+    width: 100%;
+  }
+  .commerce-heading {
+    align-items: flex-start;
+  }
+  .commerce-heading .badge {
+    max-width: 160px;
+    text-align: right;
+  }
+}

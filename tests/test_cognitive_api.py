@@ -19,13 +19,16 @@ class CognitiveApiTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.public = ROOT / ".test-state" / uuid.uuid4().hex
-        for name in ("engine", "cognition", "treasury", "discovery"):
+        for name in ("engine", "cognition", "treasury", "discovery", "commerce"):
             (cls.public / name).mkdir(parents=True, exist_ok=True)
         cls.state = {"phase": "running", "tick": 12, "updated_utc": "fixture"}
         for folder in ("engine", "cognition"):
             (cls.public / folder / "status.json").write_text(json.dumps(cls.state))
         (cls.public / "cognition" / "effects.json").write_text("[]")
         (cls.public / "discovery" / "status.json").write_text(json.dumps(cls.state))
+        (cls.public / "commerce" / "status.json").write_text(
+            json.dumps({"phase": "guarded", "financial_execution": False})
+        )
         with socket.socket() as channel:
             channel.bind(("127.0.0.1", 0))
             cls.port = channel.getsockname()[1]
@@ -99,3 +102,12 @@ class CognitiveApiTests(unittest.TestCase):
         with self.assertRaises(urllib.error.HTTPError) as failure:
             self.get("/api/cognition/../../README.md")
         self.assertEqual(failure.exception.code, 404)
+
+    def test_commerce_only_publishes_cached_evidence(self):
+        self.assertFalse(self.get("/api/commerce")["financial_execution"])
+        request = urllib.request.Request(
+            f"http://127.0.0.1:{self.port}/api/commerce", data=b"{}", method="POST"
+        )
+        with self.assertRaises(urllib.error.HTTPError) as failure:
+            urllib.request.urlopen(request, timeout=2)
+        self.assertEqual(failure.exception.code, 405)

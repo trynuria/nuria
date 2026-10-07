@@ -17,6 +17,7 @@ ROUTES = {
     "/api/cognition/benchmark": "cognition/benchmark.json",
     "/api/discovery": "discovery/status.json",
     "/api/treasury": "treasury/treasury.json",
+    "/api/commerce": "commerce/status.json",
     "/api/topology": "topology.json",
     "/api/events": "events.json",
     "/api/receipts": "receipts.json",
@@ -112,7 +113,7 @@ class Handler(BaseHTTPRequestHandler):
                     900
                     if path == "/api/verify"
                     else 60
-                    if path == "/api/treasury"
+                    if path in ("/api/treasury", "/api/commerce")
                     else 15
                 )
             ):

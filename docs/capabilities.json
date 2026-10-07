@@ -188,14 +188,14 @@
   {
     "step": 32,
     "capability": "Creator-fee attribution",
-    "status": "Research",
-    "evidence_or_gate": "Verify protocol beneficiary and exact payout instructions; distinguish random deposits and permissionless callers."
+    "status": "Prepared",
+    "evidence_or_gate": "Live Pump creator/mode checks and unsigned standard claims; mint-specific attribution, unsupported modes and automatic collection remain activation gates."
   },
   {
     "step": 33,
     "capability": "Durable spending reservations",
     "status": "Prepared",
-    "evidence_or_gate": "Independent caps, reserve floor, unique jobs and replay protection are tested."
+    "evidence_or_gate": "Durable SOL and USDC limits, reserve floor, unique decisions, ambiguous payment reconciliation and restart protection are tested; spending disabled."
   },
   {
     "step": 34,
@@ -206,14 +206,14 @@
   {
     "step": 35,
     "capability": "Isolated autonomous signer",
-    "status": "Research",
-    "evidence_or_gate": "Dedicated funded wallet, provider contract and independently enforced policy are prerequisites."
+    "status": "Prepared",
+    "evidence_or_gate": "Isolated exact Solana USDC x402 signer adapter and guarded service installed; no production key or funded provider configured."
   },
   {
     "step": 36,
     "capability": "Paid job outcome verification",
-    "status": "Research",
-    "evidence_or_gate": "Require a verifiable delivered result before treating a payment as useful work."
+    "status": "Prepared",
+    "evidence_or_gate": "Payment, delivery hashes and delayed paid-forecast outcomes are implemented and tested offline; a real provider and funded production test remain required."
   },
   {
     "step": 37,

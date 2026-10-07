@@ -24,6 +24,8 @@ def build(root: Path = ROOT) -> None:
         + (root / "observatory-design.css").read_text()
         + "\n"
         + (root / "observatory-polish.css").read_text()
+        + "\n"
+        + (root / "commerce-view.css").read_text()
         + "\n</style>",
         1,
     )
@@ -32,6 +34,9 @@ def build(root: Path = ROOT) -> None:
     )
     source = source.replace(
         "/*DISCOVERY_CLIENT*/", (root / "discovery-view.js").read_text()
+    )
+    source = source.replace(
+        "/*COMMERCE_CLIENT*/", (root / "commerce-view.js").read_text()
     )
     source = source.replace("/*NEURAL_MATH*/", (root / "neural-math.js").read_text())
     source = source.replace("/*NEURAL_FIELD*/", (root / "neural-field.js").read_text())

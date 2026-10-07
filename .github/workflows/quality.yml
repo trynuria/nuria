@@ -31,3 +31,8 @@ jobs:
           npm run check:frontend
           npm run build
           git diff --exit-code -- index.html docs-script-check.js
+      - name: Check isolated Solana payment SDK
+        run: |
+          python -m venv .commerce-venv
+          .commerce-venv/bin/python -m pip install -r commerce/requirements.lock
+          .commerce-venv/bin/python -m unittest discover -s commerce/tests -v

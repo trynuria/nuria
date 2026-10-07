@@ -5166,6 +5166,111 @@
         height: 212px;
       }
 
+      .commerce-panel {
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        min-width: 0;
+      }
+      .commerce-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        min-height: 32px;
+      }
+      .commerce-heading h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .commerce-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin: 24px 0;
+        gap: 16px;
+      }
+      .commerce-stats div {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .commerce-stats span,
+      .commerce-wallet > span {
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .commerce-stats strong {
+        font-size: 20px;
+        line-height: 26px;
+        font-weight: 400;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .commerce-wallet {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 32px;
+        min-width: 0;
+      }
+      .commerce-wallet code {
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .commerce-wallet .copy-btn {
+        width: 100px;
+        flex-shrink: 0;
+      }
+      .commerce-note {
+        margin: 16px 0;
+        height: 46px;
+        overflow: auto;
+        font-size: 12px;
+        line-height: 20px;
+        color: var(--muted);
+      }
+      .commerce-panel details {
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+        font-size: 12px;
+      }
+      .commerce-panel pre {
+        max-height: 240px;
+        overflow: auto;
+        font-size: 11px;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      @media (max-width: 600px) {
+        .commerce-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          row-gap: 24px;
+        }
+        .commerce-wallet {
+          flex-wrap: wrap;
+        }
+        .commerce-wallet > span {
+          width: 100%;
+        }
+        .commerce-heading {
+          align-items: flex-start;
+        }
+        .commerce-heading .badge {
+          max-width: 160px;
+          text-align: right;
+        }
+      }
+
       /* Nuria field notes: a quiet reading surface around the living observatory. */
       .visually-hidden {
         position: absolute;
@@ -6905,6 +7010,36 @@
                     isolated signer.</p
                   ></div
                 ></div
+              ><section class="commerce-panel" aria-labelledby="commerceTitle"
+                ><div class="commerce-heading"
+                  ><h3 id="commerceTitle">Paid jobs</h3
+                  ><span class="badge" id="commercePhase">Checking evidence</span></div
+                ><div class="commerce-stats"
+                  ><div
+                    ><span>Spending balance</span
+                    ><strong id="commerceBalance">—</strong></div
+                  ><div
+                    ><span>Verified payments</span
+                    ><strong id="commerceSpent">—</strong></div
+                  ><div
+                    ><span>Delivered results</span
+                    ><strong id="commerceDelivered">—</strong></div
+                  ><div
+                    ><span>Evaluated outcomes</span
+                    ><strong id="commerceEvaluated">—</strong></div
+                  ></div
+                ><div class="commerce-wallet"
+                  ><span>Spending wallet</span
+                  ><code id="commerceWallet">Not configured</code
+                  ><button class="copy-btn" id="copyCommerceWallet" disabled
+                    >Copy</button
+                  ></div
+                ><p class="commerce-note" id="commerceNote"
+                  >Waiting for independent payment evidence.</p
+                ><details
+                  ><summary>Policy and purchase records</summary
+                  ><pre id="commerceRecords">No evidence received.</pre>
+                </details></section
               ></div
             >
 
@@ -7513,73 +7648,132 @@
                   id="doc-resources"
                   data-title="Fees & resources"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
-                  ><h1 tabindex="-1">Fees & resources</h1
-                  ><p class="docs-lead"
-                    >A treasury balance, fee payout and payment are different kinds of
-                    evidence.</p
-                  ><h2 id="resources--flow">From a trade to usable funds</h2
-                  ><p
-                    >Pump trading may accrue creator fees to protocol-controlled vaults
-                    or configured fee-sharing recipients. Accrual does not mean the
-                    treasury has received the funds. A claim or distribution must
-                    transfer them to the exact beneficiary. The configured mint, launch
-                    mode, fee-sharing configuration and current creator wallet must be
-                    checked before connecting the fee path.</p
-                  ><h2 id="resources--wallet">What the observer measures</h2
-                  ><p
-                    >The read-only Helius observer can report a finalized balance for a
-                    configured wallet. Balance stays unknown while the wallet is absent,
-                    evidence is stale or RPC fails. Deposits are not automatically
-                    attributed to creator income: a third party can send money or
-                    trigger a permissionless payout.</p
-                  ><h2 id="resources--local">What already runs autonomously</h2
-                  ><p
-                    >The action selector can explore, forage, predict, replay,
-                    experiment, rest, compare or reserve. Local jobs execute within the
-                    server’s included capacity and publish actual CPU and wall time.
-                    Virtual habitat rewards and model energy are separate from SOL.
-                    Local jobs currently spend zero SOL.</p
-                  ><h2 id="resources--payments">Prepared payment boundaries</h2
-                  ><p
-                    >The payment gate checks recipient allowlists, positive integer
-                    lamports, expiry, fresh balance, per-action and daily caps, a
-                    reserve floor, unique intent IDs and unique jobs. SQLite
-                    reservations prevent concurrent over-allocation and replay. The
-                    transaction builder produces one unsigned system transfer. It does
-                    not sign or broadcast.</p
-                  ><h2 id="resources--authority"
-                    >Connecting autonomous financial execution</h2
-                  ><p
-                    >A live treasury requires public mint and fee-wallet addresses, a
-                    dedicated funded spending wallet, published limits and allowed
-                    recipients, and an isolated signer. The public API and cognitive
-                    model receive no signing key. A signer must independently verify
-                    intent, fresh balance, fee and policy, simulate the exact message,
-                    and reconcile uncertain submissions before retrying. Once
-                    configured, actions within the policy need no individual human
-                    approval. The current SOL rail is prepared and disabled.</p
-                  ><h2 id="resources--protocol">Protocol reference</h2
-                  ><p
-                    >Current Pump fee collection and sharing rules are documented by the
-                    protocol. The exact deployment must be verified rather than inferred
-                    from the ticker.
-                    <a
-                      href="https://github.com/pump-fun/pump-public-docs/blob/main/docs/instructions/COLLECT_CREATOR_FEE.md"
+                >
+                  <div class="docs-eyebrow">Nuria / Finance</div
+                  ><h1 tabindex="-1">Fees & resources</h1>
+                  <p class="docs-lead"
+                    >A purchase has three outcomes to verify: payment, delivery and
+                    usefulness.</p
+                  >
+                  <h2 id="resources--flow">From trades to purchases</h2>
+                  <p
+                    >Creator fees accrue inside Pump-controlled vaults. Collection
+                    transfers those funds to the configured beneficiary. A separate
+                    spending wallet holds a limited operating balance. Nuria can use
+                    that balance for approved jobs. A trade, vault balance, creator
+                    payout and provider payment are separate records.</p
+                  >
+                  <p
+                    >The current adapter checks the live Pump curve creator and explicit
+                    mode fields. It prepares an unsigned native-SOL claim only for a
+                    reviewed standard mode and a pinned deployed program. Fee-sharing,
+                    holder rewards, legacy layouts and PumpSwap collection remain
+                    separate activation checks. A creator vault can hold fees from more
+                    than one token; its balance is not automatically Nuria income.</p
+                  >
+                  <h2 id="resources--payments">What x402 does</h2>
+                  <p
+                    >A provider returns HTTP 402 with a price and payment terms. Nuria
+                    accepts only the configured Solana network, USDC mint, provider
+                    recipient and facilitator fee payer. The isolated service reserves
+                    the price, inspects the SDK’s exact transfer, simulates it and sends
+                    the signed payment to that provider. The facilitator covers the
+                    transaction fee and submits it.</p
+                  >
+                  <p
+                    >Finalized RPC evidence must contain Nuria’s authorization and the
+                    exact outgoing and incoming USDC amounts. A successful HTTP response
+                    alone does not prove payment. A finalized payment alone does not
+                    prove a useful result.</p
+                  >
+                  <h2 id="resources--local">How jobs affect decisions</h2>
+                  <p
+                    >The initial external job contract is a time-limited probability
+                    forecast for the configured token. A matching cognitive action,
+                    uncertainty, surprise, learned provider value and price determine
+                    whether a job is worth trying. Simulated inputs cannot trigger
+                    purchases.</p
+                  >
+                  <p
+                    >A valid delivered forecast is compared with a later finalized trade
+                    and Nuria’s recorded local forecast. Measured improvement minus a
+                    published cost penalty updates the purchasing action’s value once.
+                    Invalid data earns no delivery credit. Missing history, unknown
+                    settlement or a missing future trade cannot establish success. This
+                    operational comparison is not a controlled research benchmark or
+                    evidence of consciousness.</p
+                  >
+                  <h2 id="resources--authority">Limits and key isolation</h2>
+                  <p
+                    >The payment worker runs under a separate service identity. It has
+                    no public listener or general signing endpoint. Its policy fixes
+                    providers, recipients, per-job and UTC daily limits, reserve floor
+                    and cooldown. The public API and neural worker hold no wallet
+                    signing key. Anyone able to change that policy or replace the signer
+                    retains ultimate administrative control.</p
+                  >
+                  <p
+                    >Each authorization is recorded before disclosure. Ambiguous
+                    payments stay reserved across restarts and day boundaries. They are
+                    reconciled rather than automatically paid again. Purchase records,
+                    result hashes, policy and the local integrity chain are published at
+                    <code>/api/commerce</code>.</p
+                  >
+                  <h2 id="resources--conversion">SOL and USDC are separate</h2>
+                  <p
+                    >The x402 rail pays native Solana USDC. Pump fees may arrive as SOL
+                    or wrapped SOL. An unsigned claim does not fund USDC purchases.
+                    Automatic SOL-to-USDC conversion and automatic funding from the
+                    collection wallet are not connected. Jupiter integration needs
+                    project API access, a reviewed swap adapter and separate swap
+                    limits. A small USDC operating balance can enable the first paid-job
+                    test without pretending that conversion is already automatic.</p
+                  >
+                  <h2 id="resources--activation">Current activation state</h2>
+                  <p
+                    >Financial execution is disabled. Activation requires the exact mint
+                    and verified fee beneficiary, a dedicated spending wallet and
+                    signer, approved limits and a funded USDC account, and a real
+                    provider delivering the supported result contract. No paid job or
+                    real transfer is claimed by the offline tests.</p
+                  >
+                  <p
+                    >Local experiments continue on included server capacity and report
+                    zero incremental SOL spending. Squads, managed signing, token
+                    buybacks, subscriptions and physical purchases are not active
+                    integrations.</p
+                  >
+                  <h2 id="resources--protocol">References</h2>
+                  <p
+                    ><a
+                      href="https://github.com/pump-fun/pump-public-docs"
                       target="_blank"
                       rel="noreferrer"
-                      >Creator-fee collection</a
+                      >Pump protocol</a
                     >
                     ·
                     <a
-                      href="https://github.com/pump-fun/pump-public-docs/blob/main/docs/instructions/CREATOR_FEE_SHARING.md"
+                      href="https://docs.x402.org/getting-started/quickstart-for-buyers"
                       target="_blank"
                       rel="noreferrer"
-                      >Fee sharing</a
-                    >.</p
-                  ></article
-                >
-
+                      >x402 buyers</a
+                    >
+                    ·
+                    <a
+                      href="https://developers.jup.ag/docs/swap"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Jupiter swaps</a
+                    >
+                    ·
+                    <a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/spending.md"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Execution specification</a
+                    ></p
+                  >
+                </article>
                 <article
                   class="docs-article"
                   id="doc-evidence"
@@ -8329,17 +8523,19 @@
                             and creator-wallet configuration.</td
                           ></tr
                         ><tr
-                          ><td>32</td><td>Creator-fee attribution</td><td>Research</td
+                          ><td>32</td><td>Creator-fee attribution</td><td>Prepared</td
                           ><td
-                            >Verify protocol beneficiary and exact payout instructions;
-                            distinguish random deposits and permissionless callers.</td
+                            >Live Pump creator/mode checks and unsigned standard claims;
+                            mint-specific attribution, unsupported modes and automatic
+                            collection remain activation gates.</td
                           ></tr
                         ><tr
                           ><td>33</td><td>Durable spending reservations</td
                           ><td>Prepared</td
                           ><td
-                            >Independent caps, reserve floor, unique jobs and replay
-                            protection are tested.</td
+                            >Durable SOL and USDC limits, reserve floor, unique
+                            decisions, ambiguous payment reconciliation and restart
+                            protection are tested; spending disabled.</td
                           ></tr
                         ><tr
                           ><td>34</td><td>Unsigned single-transfer rail</td
@@ -8350,17 +8546,19 @@
                           ></tr
                         ><tr
                           ><td>35</td><td>Isolated autonomous signer</td
-                          ><td>Research</td
+                          ><td>Prepared</td
                           ><td
-                            >Dedicated funded wallet, provider contract and
-                            independently enforced policy are prerequisites.</td
+                            >Isolated exact Solana USDC x402 signer adapter and guarded
+                            service installed; no production key or funded provider
+                            configured.</td
                           ></tr
                         ><tr
                           ><td>36</td><td>Paid job outcome verification</td
-                          ><td>Research</td
+                          ><td>Prepared</td
                           ><td
-                            >Require a verifiable delivered result before treating a
-                            payment as useful work.</td
+                            >Payment, delivery hashes and delayed paid-forecast outcomes
+                            are implemented and tested offline; a real provider and
+                            funded production test remain required.</td
                           ></tr
                         ><tr
                           ><td>37</td><td>Independent public attestation</td
@@ -10550,6 +10748,90 @@
         }
         pollDiscovery();
         setInterval(pollDiscovery, 5000);
+
+        let commerceWallet = null;
+        const commerceMoney = (value) =>
+          Number.isInteger(value)
+            ? `${(value / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 })} USDC`
+            : "—";
+        async function pollCommerce() {
+          if (document.hidden) return;
+          try {
+            const evidence = await fetchJSON("/api/commerce");
+            if (!(Date.now() - Date.parse(evidence.updated_utc) < 60000))
+              throw Error("Stale commerce evidence");
+            const counts = evidence.counts || {};
+            $("commercePhase").textContent =
+              evidence.phase === "unknown"
+                ? "Evidence unavailable"
+                : evidence.financial_execution
+                  ? "Execution enabled"
+                  : "Execution off";
+            $("commerceBalance").textContent = commerceMoney(
+              evidence.usdc_balance?.micro_usdc,
+            );
+            $("commerceSpent").textContent = commerceMoney(evidence.settled_micro_usdc);
+            $("commerceDelivered").textContent = fmt(
+              (counts.delivered || 0) + (counts.evaluated || 0),
+            );
+            $("commerceEvaluated").textContent = fmt(counts.evaluated || 0);
+            commerceWallet = evidence.policy?.spending_wallet || null;
+            $("commerceWallet").textContent = commerceWallet || "Not configured";
+            $("commerceWallet").title = commerceWallet || "";
+            $("copyCommerceWallet").disabled = !commerceWallet;
+            $("creatorWallet").textContent =
+              evidence.policy?.creator_wallet || "Not configured";
+            $("creatorWallet").title = evidence.policy?.creator_wallet || "";
+            const names = {
+              mint: "mint",
+              creator_wallet: "fee wallet",
+              spending_wallet: "spending wallet",
+              verified_provider: "provider",
+              spending_limits: "limits",
+              isolated_signing_key: "signer",
+              USDC_funding: "USDC funding",
+            };
+            $("commerceNote").textContent =
+              evidence.error ||
+              (evidence.missing?.length
+                ? `To connect: ${evidence.missing.map((item) => names[item] || item).join(", ")}.`
+                : "Payments, delivered data and evaluated outcomes have separate records. SOL conversion is not connected.");
+            $("commerceRecords").textContent = JSON.stringify(
+              {
+                policy: evidence.policy,
+                rails: evidence.rails,
+                fee_path: evidence.fee_path,
+                integrity: evidence.integrity,
+                records: evidence.records,
+                learning_rule: evidence.learning_rule,
+              },
+              null,
+              2,
+            );
+          } catch (_) {
+            $("commercePhase").textContent = "Evidence unavailable";
+            for (const name of [
+              "commerceBalance",
+              "commerceSpent",
+              "commerceDelivered",
+              "commerceEvaluated",
+            ])
+              $(name).textContent = "—";
+            $("commerceNote").textContent =
+              "Payment evidence is unavailable. Balances and outcomes are unknown.";
+          }
+        }
+        $("copyCommerceWallet").addEventListener("click", async () => {
+          if (!commerceWallet) return;
+          try {
+            await navigator.clipboard.writeText(commerceWallet);
+            $("copyCommerceWallet").textContent = "Copied";
+          } catch (_) {
+            $("copyCommerceWallet").textContent = "Select address";
+          }
+        });
+        pollCommerce();
+        setInterval(pollCommerce, 10000);
 
         async function poll() {
           if (polling) return;

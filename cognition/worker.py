@@ -62,6 +62,8 @@ class Organism:
         self.habitat = Habitat(metadata.get("habitat"))
         self.experiments = Experiments(metadata.get("experiments"))
         self.last_decision = metadata.get("last_decision")
+        self.commerce_cursor = int(metadata.get("commerce_cursor", 0))
+        self.commerce_outcomes = int(metadata.get("commerce_outcomes", 0))
         self.last_effects = []
         self.features = metadata.get("features", [0.0] * 64)
         self.memory_summary = self.memory.summary()
@@ -165,6 +167,40 @@ class Organism:
         )
         self.cursor = order
         return effect
+
+    def commercial_feedback(self, records: list[dict]) -> None:
+        """Credit a paid action once, in the same transaction as its checkpoint.
+
+        Delayed payments update goal values rather than unrelated spike eligibility.
+        """
+        for record in sorted(records, key=lambda row: row.get("seq", 0)):
+            seq, reward = record.get("seq"), record.get("reward")
+            action = record.get("action")
+            if type(seq) is not int or seq <= self.commerce_cursor:
+                continue
+            if (
+                action not in self.resources.action_values
+                or type(reward) not in (int, float)
+                or not np.isfinite(reward)
+                or not -1 <= reward <= 1
+                or not isinstance(record.get("job_id"), str)
+                or len(record.get("result_sha256", "")) != 64
+                or type(record.get("amount_micro_usdc")) is not int
+                or record["amount_micro_usdc"] <= 0
+            ):
+                raise RuntimeError("Paid outcome evidence is malformed")
+            self.resources.outcome(action, reward, 0)
+            self.journal.append(
+                "paid_outcome",
+                {
+                    **record,
+                    "utc": utc(),
+                    "tick": self.tick,
+                    "scope": "Verified paid forecast outcome credits the purchasing action; no delayed synaptic-credit claim",
+                },
+            )
+            self.commerce_cursor = seq
+            self.commerce_outcomes += 1
 
     def cycle(
         self,
@@ -297,6 +333,8 @@ class Organism:
             "habitat": self.habitat.state(),
             "experiments": self.experiments.state(),
             "last_decision": self.last_decision,
+            "commerce_cursor": self.commerce_cursor,
+            "commerce_outcomes": self.commerce_outcomes,
             "features": self.features,
         }
         self.journal.save(metadata, raw)
@@ -362,6 +400,7 @@ class Organism:
             "record_seq": self.journal.seq,
             "integrity": self.ledger_check,
             "treasury": treasury or public_treasury(),
+            "paid_outcomes": self.commerce_outcomes,
             "upstream": {
                 "tick": (upstream or {}).get("tick"),
                 "genesis_utc": (upstream or {}).get("genesis_utc"),
@@ -422,6 +461,15 @@ def main() -> None:
                 )
             except (OSError, ValueError):
                 treasury = public_treasury()
+            commerce_path = Path(
+                os.environ.get("NURIA_COMMERCE_STATUS", "/nonexistent")
+            )
+            if (
+                commerce_path.exists()
+                and 0 <= time.time() - commerce_path.stat().st_mtime < 30
+            ):
+                commerce = json.loads(commerce_path.read_text())
+                organism.commercial_feedback(commerce.get("feedback", []))
             result = organism.cycle(
                 [(order, json.loads(raw)) for order, raw in rows],
                 treasury,

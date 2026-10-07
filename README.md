@@ -54,7 +54,9 @@ Protocol accrual, claimable vault funds, treasury balance, attributed creator-fe
 
 The read-only observer can fetch a finalized balance after an exact mint and creator wallet are configured. Missing or stale evidence stays unknown. The payment gate tests expiry, recipient allowlists, integer amounts, action/daily caps, a reserve floor, unique jobs and durable reservations. The transaction builder produces a single unsigned SOL transfer.
 
-**There is no active signer or payment broadcaster. Local jobs spend zero SOL.** Live financial autonomy requires a dedicated funded spending wallet, published limits, allowed recipients and an isolated service that independently validates and simulates each intent. Actions inside that policy can then execute without individual human approval. Signing keys must never enter the public API or cognitive worker.
+**Financial execution is disabled. Local jobs spend zero SOL.** The isolated commerce service implements exact Solana USDC x402 purchases, durable reservations, pre-sign message inspection, simulation, finalized settlement checks and delivery/outcome records. Activation requires the exact token, a dedicated funded spending wallet, approved limits, an isolated signer and a compatible provider. The public API and cognitive worker receive no signing key.
+
+The first external job is a structured, time-limited token forecast. Actual later finalized outcomes can update the purchasing action’s learned value once. A fixture test is not a paid production purchase. Pump claim preparation is unsigned; automatic collection-wallet funding and SOL-to-USDC swaps are not connected. See [the execution contract](docs/spending.md).
 
 ## Architecture
 
@@ -73,6 +75,11 @@ flowchart LR
   Original --> Cache[Public evidence cache]
   Journal --> Cache
   Observer[Read-only treasury observer] --> Cache
+  Actions --> Commerce[Isolated commerce worker — disabled]
+  Commerce --> Provider[Configured x402 provider]
+  Provider --> Results[Payment, delivery and measured outcome]
+  Results --> Cognition
+  Commerce --> Cache
   Cache --> API[Read-only API]
   API --> UI[Observatory]
 ```
@@ -89,21 +96,22 @@ The visitor can orbit, filter populations, inspect an exact neuron ID, change re
 
 ## Source map
 
-| Source                                                           | Responsibility                                                                   |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `cognition/brain.py`                                             | Spiking circuit, reward eligibility, checkpoints and matched probes              |
-| `cognition/worker.py`                                            | Single cognitive writer and feedback loop                                        |
-| `cognition/discovery.py`, `spike_sensor.py`, `lab_worker.py`     | Isolated hidden-world decisions, measured sensory spikes and durable lab history |
-| `cognition/learning.py`                                          | Source-specific readouts and controlled fixture tasks                            |
-| `cognition/memory.py`, `policy.py`, `world.py`, `jobs.py`        | Recall, workspace, arbitration, habitat and local jobs                           |
-| `cognition/journal.py`, `backup.py`                              | Cognitive integrity records and consistent SQLite snapshots                      |
-| `cognition/fee_observer.py`, `treasury.py`, `payments.py`        | Read-only balances, published limits and unsigned payment preparation            |
-| `life.py`, `engine.py`                                           | Original circuit, receipts and continuity                                        |
-| `pump_feed.py`, `ingest.py`, `store.py`                          | Protocol decoding and durable finalized input ingestion                          |
-| `verify_worker.py`, `api.py`, `publish.py`                       | Verification and bounded cached public reads                                     |
-| `observatory.html`, `cognition-view.*`, `docs/`, `build-docs.py` | Static observatory and documentation sources                                     |
-| `scripts/benchmark_cognition.py`, `tests/`                       | Bounded evaluations and regression checks                                        |
-| `scripts/evaluate_discovery.py`, `discovery-view.*`              | Fresh-world paired validation and live lab evidence                              |
+| Source                                                           | Responsibility                                                                                     |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `cognition/brain.py`                                             | Spiking circuit, reward eligibility, checkpoints and matched probes                                |
+| `cognition/worker.py`                                            | Single cognitive writer and feedback loop                                                          |
+| `cognition/discovery.py`, `spike_sensor.py`, `lab_worker.py`     | Isolated hidden-world decisions, measured sensory spikes and durable lab history                   |
+| `cognition/learning.py`                                          | Source-specific readouts and controlled fixture tasks                                              |
+| `cognition/memory.py`, `policy.py`, `world.py`, `jobs.py`        | Recall, workspace, arbitration, habitat and local jobs                                             |
+| `cognition/journal.py`, `backup.py`                              | Cognitive integrity records and consistent SQLite snapshots                                        |
+| `cognition/fee_observer.py`, `treasury.py`, `payments.py`        | Read-only balances, published limits and unsigned payment preparation                              |
+| `commerce/`                                                      | Isolated exact x402 execution, Pump claim planning, purchase accounting and measured paid outcomes |
+| `life.py`, `engine.py`                                           | Original circuit, receipts and continuity                                                          |
+| `pump_feed.py`, `ingest.py`, `store.py`                          | Protocol decoding and durable finalized input ingestion                                            |
+| `verify_worker.py`, `api.py`, `publish.py`                       | Verification and bounded cached public reads                                                       |
+| `observatory.html`, `cognition-view.*`, `docs/`, `build-docs.py` | Static observatory and documentation sources                                                       |
+| `scripts/benchmark_cognition.py`, `tests/`                       | Bounded evaluations and regression checks                                                          |
+| `scripts/evaluate_discovery.py`, `discovery-view.*`              | Fresh-world paired validation and live lab evidence                                                |
 
 ## Recovery and evidence
 

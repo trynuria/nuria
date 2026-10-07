@@ -88,6 +88,22 @@ if Path("/var/lib/nuria/discovery/cognition.sqlite3").exists():
 recipient = serialization.load_pem_public_key(
     Path("/etc/nuria/backup-recipient.pem").read_bytes()
 )
+commerce_backup = Path("/var/lib/nuria/commerce/backup/current.sqlite3")
+if Path("/var/lib/nuria/commerce/commerce.sqlite3").exists():
+    subprocess.run(
+        [
+            "sudo",
+            "-u",
+            "nuria-commerce",
+            "/opt/nuria/commerce-venv/bin/python",
+            "-m",
+            "commerce.backup",
+            str(commerce_backup),
+        ],
+        cwd=str(Path(__file__).resolve().parent),
+        check=True,
+        timeout=60,
+    )
 sealed = BASE / (STAMP + ".nuria.enc")
 sealed_metadata = seal_archive(
     [
@@ -103,7 +119,13 @@ sealed_metadata = seal_archive(
         [(discovery_backup, "discovery/cognition.sqlite3")]
         if discovery_backup.exists()
         else []
+    )
+    + (
+        [(commerce_backup, "commerce/commerce.sqlite3")]
+        if commerce_backup.exists()
+        else []
     ),
+    # The spending key is deliberately outside these source and snapshot roots.
     recipient,
     sealed,
 )

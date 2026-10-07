@@ -125,6 +125,50 @@ class NeuralTests(unittest.TestCase):
         self.assertEqual(actual["after_state_sha256"], expected["after_state_sha256"])
         self.assertEqual(resumed.cursor, 5)
 
+    def test_paid_outcomes_commit_once_with_checkpoint(self):
+        directory = fresh()
+        organism = Organism(directory, "a" * 64)
+        record = {
+            "seq": 7,
+            "job_id": "fixture-job",
+            "action": "predict",
+            "reward": 0.25,
+            "amount_micro_usdc": 1000,
+            "result_sha256": "b" * 64,
+        }
+        organism.commercial_feedback([record])
+        organism.save()
+        expected = organism.resources.action_values["predict"]
+        organism.journal.db.close()
+        resumed = Organism(directory, "new-reviewed-source")
+        self.addCleanup(resumed.journal.db.close)
+        resumed.commercial_feedback([record])
+        self.assertEqual(resumed.resources.action_values["predict"], expected)
+        self.assertEqual(resumed.commerce_outcomes, 1)
+        self.assertEqual(len(resumed.journal.recent("paid_outcome")), 1)
+
+    def test_uncommitted_paid_feedback_rolls_back_with_neural_state(self):
+        directory = fresh()
+        organism = Organism(directory, "a" * 64)
+        original = organism.resources.action_values["predict"]
+        record = {
+            "seq": 7,
+            "job_id": "fixture-job",
+            "action": "predict",
+            "reward": 0.25,
+            "amount_micro_usdc": 1000,
+            "result_sha256": "b" * 64,
+        }
+        organism.commercial_feedback([record])
+        organism.journal.db.close()
+        resumed = Organism(directory, "a" * 64)
+        self.addCleanup(resumed.journal.db.close)
+        self.assertEqual(resumed.resources.action_values["predict"], original)
+        self.assertEqual(resumed.commerce_cursor, 0)
+        resumed.commercial_feedback([record])
+        resumed.save()
+        self.assertEqual(resumed.commerce_outcomes, 1)
+
     def test_matched_probe_restores_actual_branch_and_changes_state(self):
         brain = AdaptiveBrain(fresh())
         result = brain.counterfactual(event())

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — 2026-10-08
+
+- Added an isolated Solana USDC x402 buyer with exact invoice checks, pre-sign instruction inspection and simulation.
+- Added durable payment reservations, settlement reconciliation, delivery hashes and measured paid-forecast outcomes.
+- Connected paid outcome credit to cognitive action values with checkpointed replay protection.
+- Added read-only Pump beneficiary/mode checks and a pinned-program unsigned standard claim builder.
+- Published paid-job evidence and a resource panel; financial execution remains disabled pending addresses, limits, funding and a compatible provider.
+- Kept SOL conversion, automatic treasury funding and unsupported collection modes explicit activation gaps.
+
 ## 0.4.4 — 2026-10-08
 
 - Simplified the hero and navigation, unified instrument panels and increased label readability.

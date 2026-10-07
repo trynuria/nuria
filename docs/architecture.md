@@ -37,17 +37,20 @@ Startup audits the complete cognitive chain. Periodic checks extend the previous
 
 ## Service boundaries
 
-| Service           | Authority                                                         |
-| ----------------- | ----------------------------------------------------------------- |
-| Original engine   | Original neural history and receipt writes                        |
-| Ingestor          | Protocol RPC, transaction queue and source cursors                |
-| Cognitive worker  | SELECT on input queue; writes only its state and public cache     |
-| Verifier          | Read original evidence and publish bounded verification exports   |
-| Treasury observer | Read-only finalized wallet RPC; no database or signer             |
-| API               | Read bounded cached files; no RPC, database or signing credential |
-| Backup            | Consistent snapshots and private encrypted upload                 |
+| Service           | Authority                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| Original engine   | Original neural history and receipt writes                                                  |
+| Ingestor          | Protocol RPC, transaction queue and source cursors                                          |
+| Cognitive worker  | SELECT on input queue; writes only its state and public cache                               |
+| Verifier          | Read original evidence and publish bounded verification exports                             |
+| Treasury observer | Read-only finalized wallet RPC; no database or signer                                       |
+| Commerce worker   | Fixed paid-job catalog, isolated hot-wallet adapter, durable limits and exact USDC evidence |
+| API               | Read bounded cached files; no RPC, database or signing credential                           |
+| Backup            | Consistent snapshots and private encrypted upload                                           |
 
 The public interface cannot enqueue inputs, run jobs or prepare payments. Missing or stale evidence returns unavailable. The original and cognitive status require a running phase and fresh cache for aggregate health. Immutable topology and benchmark artifacts are not treated as rolling live status.
+
+The commerce worker reads fresh public cognitive decisions and can execute only configured exact Solana USDC jobs. Its private ledger records authorization before disclosure and distinguishes payment, delivery and evaluation. Verified paid outcomes enter cognitive action values with a checkpointed sequence cursor; delayed payment results do not modify unrelated synaptic eligibility traces. The public API reads `commerce/status.json` with a 60-second freshness gate. Financial execution is disabled; collection broadcasting, automatic wallet funding, SOL conversion and Squads are not connected. See [spending](spending.md) for the concrete activation requirements and custody limits.
 
 ## Capacity and retention
 
@@ -58,3 +61,5 @@ A bounded server benchmark checks actual input processing, checkpoint commits, s
 ## Backups
 
 The original circuit retains its PostgreSQL snapshot and matching checkpoint. The cognitive service uses SQLite's online backup to copy a committed network and journal. Both enter the encrypted private archive with separate heads. Recovery must verify and restore each circuit independently. The backup recipient is public; its private recovery key stays off the server.
+
+The commerce ledger also uses a consistent SQLite snapshot and local hash-chain verification before entering the existing encrypted archive. Wallet signing files are excluded and need a separately controlled recovery procedure before provisioning.

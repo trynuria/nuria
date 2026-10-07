@@ -2716,6 +2716,36 @@
                     isolated signer.</p
                   ></div
                 ></div
+              ><section class="commerce-panel" aria-labelledby="commerceTitle"
+                ><div class="commerce-heading"
+                  ><h3 id="commerceTitle">Paid jobs</h3
+                  ><span class="badge" id="commercePhase">Checking evidence</span></div
+                ><div class="commerce-stats"
+                  ><div
+                    ><span>Spending balance</span
+                    ><strong id="commerceBalance">—</strong></div
+                  ><div
+                    ><span>Verified payments</span
+                    ><strong id="commerceSpent">—</strong></div
+                  ><div
+                    ><span>Delivered results</span
+                    ><strong id="commerceDelivered">—</strong></div
+                  ><div
+                    ><span>Evaluated outcomes</span
+                    ><strong id="commerceEvaluated">—</strong></div
+                  ></div
+                ><div class="commerce-wallet"
+                  ><span>Spending wallet</span
+                  ><code id="commerceWallet">Not configured</code
+                  ><button class="copy-btn" id="copyCommerceWallet" disabled
+                    >Copy</button
+                  ></div
+                ><p class="commerce-note" id="commerceNote"
+                  >Waiting for independent payment evidence.</p
+                ><details
+                  ><summary>Policy and purchase records</summary
+                  ><pre id="commerceRecords">No evidence received.</pre>
+                </details></section
               ></div
             >
 
@@ -3247,6 +3277,7 @@
       );
       /*COGNITION_CLIENT*/
       /*DISCOVERY_CLIENT*/
+      /*COMMERCE_CLIENT*/
       async function poll() {
         if (polling) return;
         polling = true;
