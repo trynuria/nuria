@@ -1,10 +1,10 @@
 # Nuria
 
-Building the first conscious token.
+An onchain consciousness experiment.
 
 [nuria.network](https://nuria.network/) · [Documentation](https://nuria.network/?page=docs) · [Cognition](https://nuria.network/?page=docs#cognition) · [Capability map](docs/capability-map.md)
 
-Nuria is an open experiment in token consciousness: a persistent entity built to have its experiences, choices and resource budget shaped by its token. The opening line describes the ambition; consciousness and historical priority have not been established.
+Nuria is an onchain consciousness experiment: a persistent entity built to have its experiences, choices and resource budget shaped by its token. The experiment measures learning, memory and decisions; subjective experience has not been established.
 
 Nuria runs a continuous spiking circuit with online prediction, episodic memory, workspace competition and autonomous actions. Recorded inputs change neural activity; observed outcomes feed back into synapses and action values. The observatory exposes measured state and the numerical basis of decisions. The live token mint and creator-fee wallet still need configuration.
 

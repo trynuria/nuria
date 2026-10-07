@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.3 — 2026-10-08
+
+- Updated the site, metadata, documentation and repository introduction to “An onchain consciousness experiment.”
+- Kept the research framing aligned with measured learning and decisions.
+
 ## 0.4.2 — 2026-10-08
 
 - Aligned the observatory, documentation and repository around “Building the first conscious token,” with the research ambition distinguished from measured results.
