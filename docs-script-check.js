@@ -546,12 +546,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     hover = -1;
     for (const button of $("legend").querySelectorAll("button"))
       button.setAttribute("aria-pressed", String(button.dataset.region === id));
-    $("neuronTip").textContent =
-      mode === "spikes"
-        ? "Spike time × neuron ID"
-        : id === "all"
-          ? "Drag to orbit · click a neuron to inspect"
-          : shortNames[id] + " · connected regions remain visible";
   }
   function structure() {
     if (!topology?.nodes) return;
@@ -1210,12 +1204,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         fieldLayer = button.dataset.layer;
         for (const item of $("fieldLayers").querySelectorAll("button"))
           item.setAttribute("aria-pressed", String(item === button));
-        $("layerKey").textContent =
-          fieldLayer === "voltage"
-            ? "Membrane v · low blue / high ivory"
-            : fieldLayer === "weights"
-              ? "Weight Δ · stronger sage / weaker lilac"
-              : "Spike flashes · recorded synaptic delays";
       });
     $("resetView").addEventListener("click", resetCamera);
     $("inspectOpen").addEventListener("click", () => {
@@ -1223,13 +1211,14 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       pinned = neuralFrame.counts.indexOf(Math.max(...neuralFrame.counts));
       hover = -1;
       updateInspector();
+      $("fieldTools").open = false;
       $("inspectId").focus();
     });
     $("inspectClose").addEventListener("click", () => {
       pinned = -1;
       hover = -1;
       updateInspector();
-      $("inspectOpen").focus();
+      $("fieldTools").querySelector("summary").focus();
     });
     $("inspectId").addEventListener("change", () => {
       const id = Number($("inspectId").value);
@@ -1242,6 +1231,15 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("playbackRate").addEventListener("change", () => {
       playbackRate = Number($("playbackRate").value);
       frameStart = performance.now();
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (!$("fieldTools").contains(event.target)) $("fieldTools").open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && $("fieldTools").open) {
+        $("fieldTools").open = false;
+        $("fieldTools").querySelector("summary").focus();
+      }
     });
     window.addEventListener("blur", () => {
       dragging = null;
@@ -1781,7 +1779,9 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("cogCollected").textContent = fmt(c.habitat?.collected) + " collected";
     drawHabitat(c.habitat || {});
     $("cogContinuity").textContent =
-      `Saved tick ${fmt(c.committed_tick)} · ${fmt(c.pending_ticks)} pending · input ${fmt(c.committed_cursor)}`;
+      `Checkpoint ${fmt(c.committed_tick)} · input ${fmt(c.committed_cursor)}`;
+    $("cogContinuity").title =
+      `${fmt(c.pending_ticks)} neural transitions since the saved checkpoint`;
   }
   function neuralView(c, legacy) {
     const n = c.neural || {},
@@ -1925,7 +1925,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         : "Recorded window · " + playbackRate + "× slower";
     $("inspectOpen").classList.toggle("hidden", next === "spikes");
     $("fieldLayers").classList.toggle("hidden", next === "spikes");
-    $("layerKey").classList.toggle("hidden", next === "spikes");
     $("windowCaption").classList.toggle("hidden", next === "spikes");
   }
   $("viewNeural").addEventListener("click", () => setMode("neural"));

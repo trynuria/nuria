@@ -2357,8 +2357,7 @@
             aria-label="Nuria neural observatory"
           >
             <div class="stage-head"
-              ><div class="stage-title"
-                ><span class="section-index">01</span><h2>Neural activity</h2></div
+              ><div class="stage-title"><h2>Neural activity</h2></div
               ><div class="stage-actions"
                 ><div class="segmented" aria-label="Neural visualization mode"
                   ><button id="viewNeural" aria-pressed="true">Neural</button
@@ -2428,8 +2427,8 @@
                     ><span id="sampleCount">Sampled synapses</span
                     ><span id="playbackTime">000 / 100 ms</span></div
                   ><div class="field-bottom"
-                    ><div class="field-notes"
-                      ><div
+                    ><div class="field-controls">
+                      <div
                         class="field-layers"
                         id="fieldLayers"
                         aria-label="Neural field layer"
@@ -2439,38 +2438,57 @@
                         ><button data-layer="weights" aria-pressed="false"
                           >Weights</button
                         ></div
-                      ><div class="layer-key" id="layerKey"
-                        >Spike flashes · recorded synaptic delays</div
-                      ><div class="field-note" id="neuronTip"
-                        >Drag to orbit · click a neuron to inspect</div
-                      ></div
-                    ><div class="field-controls"
-                      ><label class="playback-select"
-                        ><span>Replay</span
-                        ><select id="playbackRate" aria-label="Spike replay speed"
-                          ><option value="22">22× slow</option
-                          ><option value="10">10× slow</option
-                          ><option value="1">Real time</option></select
-                        ></label
-                      ><button id="inspectOpen" class="field-text-btn">Inspect</button
-                      ><button
+                      >
+                      <button
                         class="icon-btn"
                         id="motion"
                         aria-label="Pause visual motion"
                         aria-pressed="false"
                         ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                          <path d="M6 3v10M10 3v10" stroke-width="1.5" /></svg></button
-                      ><button class="icon-btn" id="zoomOut" aria-label="Zoom out"
-                        ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                          <path d="M3 8h10" /></svg></button
-                      ><button class="icon-btn" id="zoomIn" aria-label="Zoom in"
-                        ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                          <path d="M3 8h10M8 3v10" /></svg></button
-                      ><button
-                        class="icon-btn"
-                        id="resetView"
-                        aria-label="Reset neural view"
-                        ><span class="reset-label">Reset</span></button
+                          <path d="M6 3v10M10 3v10" stroke-width="1.5" /></svg
+                      ></button>
+                      <details class="field-tools" id="fieldTools"
+                        ><summary aria-label="More view controls"
+                          ><svg viewBox="0 0 16 16" fill="currentColor">
+                            <circle cx="3" cy="8" r="1" />
+                            <circle cx="8" cy="8" r="1" />
+                            <circle cx="13" cy="8" r="1" /></svg></summary
+                        ><div class="field-tool-menu">
+                          <label class="playback-select"
+                            ><span>Replay speed</span
+                            ><select id="playbackRate" aria-label="Spike replay speed"
+                              ><option value="22">22× slow</option
+                              ><option value="10">10× slow</option
+                              ><option value="1">Real time</option></select
+                            ></label
+                          >
+                          <button id="inspectOpen" class="field-text-btn"
+                            >Inspect neuron</button
+                          >
+                          <div class="field-tool-row"
+                            ><button class="icon-btn" id="zoomOut" aria-label="Zoom out"
+                              ><svg
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                stroke="currentColor"
+                              >
+                                <path d="M3 8h10" /></svg></button
+                            ><span>Zoom</span
+                            ><button class="icon-btn" id="zoomIn" aria-label="Zoom in"
+                              ><svg
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                stroke="currentColor"
+                              >
+                                <path d="M3 8h10M8 3v10" /></svg></button
+                          ></div>
+                          <button
+                            class="field-text-btn"
+                            id="resetView"
+                            aria-label="Reset neural view"
+                            >Reset view</button
+                          >
+                        </div></details
                       ></div
                     ></div
                   ></div
@@ -2493,7 +2511,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">01 / The input</div
+                    ><div class="step-label">The input</div
                     ><div class="signal-value" id="traceInput">Awaiting a signal</div
                     ><div class="thread-detail" id="traceAmount">—</div
                     ><div class="thread-source" id="traceSource"
@@ -2502,7 +2520,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">02 / Sensory route</div
+                    ><div class="step-label">Sensory route</div
                     ><div class="thread-detail" id="traceRegion"
                       >Signals enter separate buy and sell populations.</div
                     ><button class="text-link follow-btn" id="traceFocus"
@@ -2511,7 +2529,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">03 / Recorded window</div
+                    ><div class="step-label">Recorded window</div
                     ><div class="thread-metrics"
                       ><div><strong id="traceSpikes">—</strong><span>spikes</span></div
                       ><div
@@ -2523,7 +2541,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">04 / The receipt</div
+                    ><div class="step-label">The receipt</div
                     ><div class="thread-detail" id="traceReceipt"
                       >Waiting for the input record.</div
                     ><div class="receipt-hash" id="traceHash"></div
@@ -2545,7 +2563,7 @@
             <div class="instrument-strip"
               ><div class="instrument"
                 ><div
-                  ><div class="micro">Network pulse</div
+                  ><div class="micro">Firing rate</div
                   ><strong
                     ><span id="rate">—</span><span class="unit">Hz</span></strong
                   ></div
@@ -2557,10 +2575,9 @@
               ><div class="instrument"
                 ><div class="micro">Neurons</div><strong id="neurons">—</strong></div
               ><div class="instrument"
-                ><div class="micro">Connections</div
-                ><strong id="synapses">—</strong></div
+                ><div class="micro">Synapses</div><strong id="synapses">—</strong></div
               ><div class="instrument"
-                ><div class="micro">Adapted weights</div
+                ><div class="micro">Weight updates</div
                 ><strong id="changed">—</strong></div
               ></div
             ></section
@@ -2581,21 +2598,21 @@
                   aria-selected="true"
                   aria-controls="panel-experience"
                   tabindex="0"
-                  ><span>02 /</span>Activity</button
+                  >Activity</button
                 ><button
                   id="tab-resources"
                   role="tab"
                   aria-selected="false"
                   aria-controls="panel-resources"
                   tabindex="-1"
-                  ><span>03 /</span>Resources</button
+                  >Resources</button
                 ><button
                   id="tab-evidence"
                   role="tab"
                   aria-selected="false"
                   aria-controls="panel-evidence"
                   tabindex="-1"
-                  ><span>04 /</span>Verify</button
+                  >Verify</button
                 ></div
               ><div class="workspace-caption">INPUTS AND NETWORK STATE</div></div
             >
@@ -3324,7 +3341,6 @@
             : "Recorded window · " + playbackRate + "× slower";
         $("inspectOpen").classList.toggle("hidden", next === "spikes");
         $("fieldLayers").classList.toggle("hidden", next === "spikes");
-        $("layerKey").classList.toggle("hidden", next === "spikes");
         $("windowCaption").classList.toggle("hidden", next === "spikes");
       }
       $("viewNeural").addEventListener("click", () => setMode("neural"));

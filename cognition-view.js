@@ -212,7 +212,9 @@ function renderCognition(c) {
   $("cogCollected").textContent = fmt(c.habitat?.collected) + " collected";
   drawHabitat(c.habitat || {});
   $("cogContinuity").textContent =
-    `Saved tick ${fmt(c.committed_tick)} · ${fmt(c.pending_ticks)} pending · input ${fmt(c.committed_cursor)}`;
+    `Checkpoint ${fmt(c.committed_tick)} · input ${fmt(c.committed_cursor)}`;
+  $("cogContinuity").title =
+    `${fmt(c.pending_ticks)} neural transitions since the saved checkpoint`;
 }
 function neuralView(c, legacy) {
   const n = c.neural || {},

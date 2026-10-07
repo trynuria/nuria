@@ -34,12 +34,6 @@ function chooseRegion(id) {
   hover = -1;
   for (const button of $("legend").querySelectorAll("button"))
     button.setAttribute("aria-pressed", String(button.dataset.region === id));
-  $("neuronTip").textContent =
-    mode === "spikes"
-      ? "Spike time × neuron ID"
-      : id === "all"
-        ? "Drag to orbit · click a neuron to inspect"
-        : shortNames[id] + " · connected regions remain visible";
 }
 function structure() {
   if (!topology?.nodes) return;
@@ -686,12 +680,6 @@ function bindOrbit() {
       fieldLayer = button.dataset.layer;
       for (const item of $("fieldLayers").querySelectorAll("button"))
         item.setAttribute("aria-pressed", String(item === button));
-      $("layerKey").textContent =
-        fieldLayer === "voltage"
-          ? "Membrane v · low blue / high ivory"
-          : fieldLayer === "weights"
-            ? "Weight Δ · stronger sage / weaker lilac"
-            : "Spike flashes · recorded synaptic delays";
     });
   $("resetView").addEventListener("click", resetCamera);
   $("inspectOpen").addEventListener("click", () => {
@@ -699,13 +687,14 @@ function bindOrbit() {
     pinned = neuralFrame.counts.indexOf(Math.max(...neuralFrame.counts));
     hover = -1;
     updateInspector();
+    $("fieldTools").open = false;
     $("inspectId").focus();
   });
   $("inspectClose").addEventListener("click", () => {
     pinned = -1;
     hover = -1;
     updateInspector();
-    $("inspectOpen").focus();
+    $("fieldTools").querySelector("summary").focus();
   });
   $("inspectId").addEventListener("change", () => {
     const id = Number($("inspectId").value);
@@ -718,6 +707,15 @@ function bindOrbit() {
   $("playbackRate").addEventListener("change", () => {
     playbackRate = Number($("playbackRate").value);
     frameStart = performance.now();
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (!$("fieldTools").contains(event.target)) $("fieldTools").open = false;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && $("fieldTools").open) {
+      $("fieldTools").open = false;
+      $("fieldTools").querySelector("summary").focus();
+    }
   });
   window.addEventListener("blur", () => {
     dragging = null;

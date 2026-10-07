@@ -3972,6 +3972,341 @@
         white-space: nowrap;
         font-size: 10px;
       }
+      /* Keep the field toolbar quiet; secondary controls live in its view menu. */
+      .field-bottom {
+        justify-content: flex-end;
+        min-height: 28px;
+        bottom: 16px;
+      }
+      .field-controls {
+        width: auto;
+        align-self: auto;
+        align-items: center;
+        gap: 15px;
+      }
+      .field-layers {
+        gap: 17px;
+        padding-right: 17px;
+        border-right: 1px solid #2c3932;
+      }
+      .field-layers button {
+        font-size: 11px;
+        line-height: 28px;
+      }
+      .field-controls .icon-btn {
+        width: 28px;
+        height: 28px;
+        border: 0;
+        border-radius: 4px;
+        background: transparent;
+        color: #91a28e;
+      }
+      .field-controls .icon-btn:hover {
+        background: #1b2921;
+        color: #d5dfcd;
+      }
+      .field-tools {
+        position: relative;
+      }
+      .field-tools > summary {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        color: #91a28e;
+        border-radius: 4px;
+        cursor: pointer;
+        list-style: none;
+      }
+      .field-tools > summary::-webkit-details-marker {
+        display: none;
+      }
+      .field-tools > summary svg {
+        width: 16px;
+        height: 16px;
+      }
+      .field-tools[open] > summary,
+      .field-tools > summary:hover {
+        color: #d5dfcd;
+        background: #1b2921;
+      }
+      .field-tool-menu {
+        position: absolute;
+        bottom: 39px;
+        right: 0;
+        width: 203px;
+        padding: 13px;
+        display: grid;
+        gap: 11px;
+        border: 1px solid #344739;
+        border-radius: 7px;
+        background: #121d18fc;
+        box-shadow: 0 8px 32px #0005;
+        z-index: 5;
+      }
+      .field-tool-menu .playback-select {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        margin: 0;
+      }
+      .field-tool-menu .playback-select > span {
+        display: inline;
+      }
+      .field-tool-menu .playback-select select {
+        width: 85px;
+        height: 28px;
+      }
+      .field-tool-menu .field-text-btn {
+        width: 100%;
+        height: 28px;
+        font-size: 10px;
+        background: transparent;
+        border-color: #2b3a30;
+      }
+      .field-tool-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font: 10px var(--mono);
+        color: #849783;
+      }
+      @media (max-width: 700px) {
+        .field-bottom {
+          flex-wrap: nowrap;
+        }
+        .field-controls {
+          width: auto;
+          gap: 13px;
+        }
+        .field-layers {
+          gap: 15px;
+          padding-right: 14px;
+        }
+        .field-layers button {
+          font-size: 10px;
+        }
+      }
+      @media (max-width: 360px) {
+        .field-controls {
+          gap: 10px;
+        }
+        .field-layers {
+          gap: 12px;
+          padding-right: 11px;
+        }
+      }
+      /* A single line of quiet measurements, rather than four oversized instruments. */
+      .instrument-strip {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 61px;
+        padding: 16px 24px;
+        gap: 34px;
+        background: #101515;
+      }
+      .instrument {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        min-height: 24px;
+        padding: 0;
+        border: 0;
+        gap: 8px;
+      }
+      .instrument strong {
+        order: 1;
+        display: block;
+        min-height: 24px;
+        height: 24px;
+        font: 500 17px/24px var(--sans);
+        letter-spacing: -0.35px;
+        color: #c2cdbf;
+      }
+      .instrument .micro {
+        order: 2;
+        font: 11px/24px var(--sans);
+        color: #738277;
+        white-space: nowrap;
+      }
+      .instrument:first-child {
+        margin-right: auto;
+        gap: 17px;
+      }
+      .instrument:first-child > div {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: baseline;
+        min-width: 0;
+        gap: 8px;
+      }
+      .instrument:first-child strong {
+        display: flex;
+        align-items: baseline;
+        gap: 3px;
+      }
+      .instrument:first-child .unit {
+        font-size: 10px;
+        color: #829080;
+        margin: 0;
+      }
+      .activity-chart {
+        flex: none;
+        width: 100px;
+        height: 23px;
+        opacity: 0.55;
+      }
+      .cognitive-evidence {
+        display: grid;
+        grid-template-columns: max-content max-content 1fr;
+        gap: 0 24px;
+        margin-top: 15px;
+      }
+      .cognitive-evidence > details {
+        margin: 0;
+        min-width: 0;
+      }
+      .cognitive-evidence > details + details {
+        margin: 0;
+      }
+      .cognitive-evidence > details[open] {
+        grid-column: 1 / -1;
+      }
+      .cognitive-evidence summary {
+        width: fit-content;
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        font: 11px/18px var(--sans);
+        color: #97ab98;
+      }
+      .cognitive-evidence summary:hover,
+      .cognitive-evidence details[open] > summary {
+        color: #c8d8be;
+      }
+      .cognitive-evidence summary::-webkit-details-marker {
+        display: none;
+      }
+      .cognitive-evidence pre {
+        margin: 7px 0 12px;
+        width: 100%;
+      }
+      .cognitive-evidence > div {
+        grid-column: 1 / -1;
+        height: 44px;
+        min-height: 44px;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        font-size: 10px;
+        border-top: 1px solid #233128;
+        margin-top: 8px;
+      }
+      .cognitive-evidence > div > span {
+        font: 10px/20px var(--mono);
+        color: #6e8573;
+        min-height: 20px;
+        height: 20px;
+      }
+      .cognitive-evidence a {
+        color: #91a98b;
+        font-size: 11px;
+        line-height: 20px;
+      }
+      @media (max-width: 900px) {
+        .instrument-strip {
+          gap: 22px;
+        }
+        .activity-chart {
+          width: 70px;
+        }
+      }
+      @media (max-width: 700px) {
+        .instrument-strip {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          height: 78px;
+          padding: 12px 17px;
+          gap: 5px 20px;
+        }
+        .instrument,
+        .instrument:last-child {
+          display: flex;
+          min-width: 0;
+          gap: 7px;
+        }
+        .instrument:first-child {
+          margin: 0;
+          gap: 0;
+        }
+        .instrument strong {
+          font-size: 15px;
+          height: 23px;
+          min-height: 23px;
+          line-height: 23px;
+        }
+        .instrument .micro {
+          font-size: 10px;
+          line-height: 23px;
+        }
+        .activity-chart {
+          display: none;
+        }
+        .cognitive-evidence > div {
+          height: 64px;
+          min-height: 64px;
+          padding: 9px 0;
+          display: grid;
+          grid-template-columns: max-content max-content 1fr;
+          gap: 2px 20px;
+        }
+        .cognitive-evidence > div > span {
+          grid-column: 1 / -1;
+          margin: 0;
+        }
+        .cognitive-evidence {
+          gap: 0 22px;
+        }
+      }
+      @media (max-width: 360px) {
+        .instrument-strip {
+          padding-inline: 13px;
+          gap: 5px 10px;
+        }
+        .instrument .micro {
+          font-size: 9px;
+        }
+      }
+      .instrument > strong {
+        width: 62px;
+        flex-shrink: 0;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .instrument:first-child #rate {
+        display: inline-block;
+        min-width: 30px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .cognitive-section {
+        padding-bottom: 18px;
+      }
+      #cognition + .workspace {
+        margin-top: 14px;
+      }
+      @media (max-width: 700px) {
+        .instrument > strong {
+          width: 48px;
+          font-size: 14px;
+        }
+      }
 
       /* Nuria field notes: a quiet reading surface around the living observatory. */
       .visually-hidden {
@@ -5135,8 +5470,7 @@
             aria-label="Nuria neural observatory"
           >
             <div class="stage-head"
-              ><div class="stage-title"
-                ><span class="section-index">01</span><h2>Neural activity</h2></div
+              ><div class="stage-title"><h2>Neural activity</h2></div
               ><div class="stage-actions"
                 ><div class="segmented" aria-label="Neural visualization mode"
                   ><button id="viewNeural" aria-pressed="true">Neural</button
@@ -5206,8 +5540,8 @@
                     ><span id="sampleCount">Sampled synapses</span
                     ><span id="playbackTime">000 / 100 ms</span></div
                   ><div class="field-bottom"
-                    ><div class="field-notes"
-                      ><div
+                    ><div class="field-controls">
+                      <div
                         class="field-layers"
                         id="fieldLayers"
                         aria-label="Neural field layer"
@@ -5217,38 +5551,57 @@
                         ><button data-layer="weights" aria-pressed="false"
                           >Weights</button
                         ></div
-                      ><div class="layer-key" id="layerKey"
-                        >Spike flashes · recorded synaptic delays</div
-                      ><div class="field-note" id="neuronTip"
-                        >Drag to orbit · click a neuron to inspect</div
-                      ></div
-                    ><div class="field-controls"
-                      ><label class="playback-select"
-                        ><span>Replay</span
-                        ><select id="playbackRate" aria-label="Spike replay speed"
-                          ><option value="22">22× slow</option
-                          ><option value="10">10× slow</option
-                          ><option value="1">Real time</option></select
-                        ></label
-                      ><button id="inspectOpen" class="field-text-btn">Inspect</button
-                      ><button
+                      >
+                      <button
                         class="icon-btn"
                         id="motion"
                         aria-label="Pause visual motion"
                         aria-pressed="false"
                         ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                          <path d="M6 3v10M10 3v10" stroke-width="1.5" /></svg></button
-                      ><button class="icon-btn" id="zoomOut" aria-label="Zoom out"
-                        ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                          <path d="M3 8h10" /></svg></button
-                      ><button class="icon-btn" id="zoomIn" aria-label="Zoom in"
-                        ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                          <path d="M3 8h10M8 3v10" /></svg></button
-                      ><button
-                        class="icon-btn"
-                        id="resetView"
-                        aria-label="Reset neural view"
-                        ><span class="reset-label">Reset</span></button
+                          <path d="M6 3v10M10 3v10" stroke-width="1.5" /></svg
+                      ></button>
+                      <details class="field-tools" id="fieldTools"
+                        ><summary aria-label="More view controls"
+                          ><svg viewBox="0 0 16 16" fill="currentColor">
+                            <circle cx="3" cy="8" r="1" />
+                            <circle cx="8" cy="8" r="1" />
+                            <circle cx="13" cy="8" r="1" /></svg></summary
+                        ><div class="field-tool-menu">
+                          <label class="playback-select"
+                            ><span>Replay speed</span
+                            ><select id="playbackRate" aria-label="Spike replay speed"
+                              ><option value="22">22× slow</option
+                              ><option value="10">10× slow</option
+                              ><option value="1">Real time</option></select
+                            ></label
+                          >
+                          <button id="inspectOpen" class="field-text-btn"
+                            >Inspect neuron</button
+                          >
+                          <div class="field-tool-row"
+                            ><button class="icon-btn" id="zoomOut" aria-label="Zoom out"
+                              ><svg
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                stroke="currentColor"
+                              >
+                                <path d="M3 8h10" /></svg></button
+                            ><span>Zoom</span
+                            ><button class="icon-btn" id="zoomIn" aria-label="Zoom in"
+                              ><svg
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                stroke="currentColor"
+                              >
+                                <path d="M3 8h10M8 3v10" /></svg></button
+                          ></div>
+                          <button
+                            class="field-text-btn"
+                            id="resetView"
+                            aria-label="Reset neural view"
+                            >Reset view</button
+                          >
+                        </div></details
                       ></div
                     ></div
                   ></div
@@ -5271,7 +5624,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">01 / The input</div
+                    ><div class="step-label">The input</div
                     ><div class="signal-value" id="traceInput">Awaiting a signal</div
                     ><div class="thread-detail" id="traceAmount">—</div
                     ><div class="thread-source" id="traceSource"
@@ -5280,7 +5633,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">02 / Sensory route</div
+                    ><div class="step-label">Sensory route</div
                     ><div class="thread-detail" id="traceRegion"
                       >Signals enter separate buy and sell populations.</div
                     ><button class="text-link follow-btn" id="traceFocus"
@@ -5289,7 +5642,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">03 / Recorded window</div
+                    ><div class="step-label">Recorded window</div
                     ><div class="thread-metrics"
                       ><div><strong id="traceSpikes">—</strong><span>spikes</span></div
                       ><div
@@ -5301,7 +5654,7 @@
                   >
                   <div class="thread-step"
                     ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">04 / The receipt</div
+                    ><div class="step-label">The receipt</div
                     ><div class="thread-detail" id="traceReceipt"
                       >Waiting for the input record.</div
                     ><div class="receipt-hash" id="traceHash"></div
@@ -5323,7 +5676,7 @@
             <div class="instrument-strip"
               ><div class="instrument"
                 ><div
-                  ><div class="micro">Network pulse</div
+                  ><div class="micro">Firing rate</div
                   ><strong
                     ><span id="rate">—</span><span class="unit">Hz</span></strong
                   ></div
@@ -5335,10 +5688,9 @@
               ><div class="instrument"
                 ><div class="micro">Neurons</div><strong id="neurons">—</strong></div
               ><div class="instrument"
-                ><div class="micro">Connections</div
-                ><strong id="synapses">—</strong></div
+                ><div class="micro">Synapses</div><strong id="synapses">—</strong></div
               ><div class="instrument"
-                ><div class="micro">Adapted weights</div
+                ><div class="micro">Weight updates</div
                 ><strong id="changed">—</strong></div
               ></div
             ></section
@@ -5355,9 +5707,7 @@
             aria-labelledby="cognitionTitle"
           >
             <div class="cognitive-heading"
-              ><div
-                ><span class="section-index">02</span
-                ><h2 id="cognitionTitle">Learning and decisions</h2></div
+              ><div><h2 id="cognitionTitle">Learning and decisions</h2></div
               ><span id="cogPhase" class="badge">Connecting</span></div
             >
             <p class="cognitive-intro"
@@ -5441,10 +5791,10 @@
             </div>
             <div class="cognitive-evidence"
               ><details
-                ><summary>Inspect the latest decision</summary
+                ><summary>Decision record</summary
                 ><pre id="cogDecisionJSON">Awaiting a decision.</pre></details
               ><details
-                ><summary>Inspect the forecast</summary
+                ><summary>Forecast record</summary
                 ><pre id="cogForecastJSON">Awaiting a forecast.</pre></details
               ><div
                 ><span id="cogContinuity">Checking continuity</span
@@ -5452,8 +5802,8 @@
                   href="https://github.com/trynuria/nuria"
                   target="_blank"
                   rel="noreferrer"
-                  >Source code</a
-                ><a href="/?page=docs#cognition">How it learns</a></div
+                  >GitHub</a
+                ><a href="/?page=docs#cognition">Learning docs</a></div
               ></div
             >
           </section>
@@ -5467,21 +5817,21 @@
                   aria-selected="true"
                   aria-controls="panel-experience"
                   tabindex="0"
-                  ><span>02 /</span>Activity</button
+                  >Activity</button
                 ><button
                   id="tab-resources"
                   role="tab"
                   aria-selected="false"
                   aria-controls="panel-resources"
                   tabindex="-1"
-                  ><span>03 /</span>Resources</button
+                  >Resources</button
                 ><button
                   id="tab-evidence"
                   role="tab"
                   aria-selected="false"
                   aria-controls="panel-evidence"
                   tabindex="-1"
-                  ><span>04 /</span>Verify</button
+                  >Verify</button
                 ></div
               ><div class="workspace-caption">INPUTS AND NETWORK STATE</div></div
             >
@@ -5813,33 +6163,33 @@
                   class="docs-nav-link"
                   href="/?page=docs#introduction"
                   data-chapter="introduction"
-                  ><span>01</span>Meet Nuria</a
+                  >Meet Nuria</a
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#observatory"
                   data-chapter="observatory"
-                  ><span>02</span>Read the observatory</a
+                  >Read the observatory</a
                 ></div
               >
               <div class="docs-nav-group"
                 ><div class="docs-nav-label">The system</div
                 ><a class="docs-nav-link" href="/?page=docs#model" data-chapter="model"
-                  ><span>03</span>The neural model</a
+                  >The neural model</a
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#inputs"
                   data-chapter="inputs"
-                  ><span>04</span>Trades &amp; signals</a
+                  >Trades &amp; signals</a
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#resources"
                   data-chapter="resources"
-                  ><span>05</span>Fees &amp; resources</a
+                  >Fees &amp; resources</a
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#evidence"
                   data-chapter="evidence"
-                  ><span>06</span>Receipts &amp; evidence</a
+                  >Receipts &amp; evidence</a
                 ></div
               >
               <div class="docs-nav-group"
@@ -5847,23 +6197,23 @@
                   class="docs-nav-link"
                   href="/?page=docs#cognition"
                   data-chapter="cognition"
-                  ><span>09</span>Cognition &amp; learning</a
+                  >Cognition &amp; learning</a
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#roadmap"
                   data-chapter="roadmap"
-                  ><span>10</span>Development gates</a
+                  >Development gates</a
                 ><div class="docs-nav-label">Reference</div
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#glossary"
                   data-chapter="glossary"
-                  ><span>07</span>Glossary</a
+                  >Glossary</a
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#questions"
                   data-chapter="questions"
-                  ><span>08</span>Common questions</a
+                  >Common questions</a
                 ></div
               > </nav
             ><div class="docs-sidebar-foot"
@@ -5979,12 +6329,13 @@
                     produced. A short window can finish before the next snapshot
                     arrives.</p
                   ><p
-                    >Click a neuron to pin its inspector, or use Inspect and enter its
-                    ID. The inspector shows its recorded membrane value, spike count,
-                    sampled incoming and outgoing connections and mean sampled outgoing
-                    excitatory weight. These connection counts describe the display
-                    sample, not the neuron’s full connectivity. Drag or use arrow keys
-                    to orbit; Home resets the view.</p
+                    >Click a neuron to pin its inspector, or open the view menu, choose
+                    Inspect neuron and enter its ID. The inspector shows its recorded
+                    membrane value, spike count, sampled incoming and outgoing
+                    connections and mean sampled outgoing excitatory weight. These
+                    connection counts describe the display sample, not the neuron’s full
+                    connectivity. Drag or use arrow keys to orbit; Home resets the
+                    view.</p
                   ><h2 id="observatory--decisions">Choices and consequences</h2
                   ><p
                     >Current decision shows eight combined action scores. The learning
@@ -7482,12 +7833,6 @@
           hover = -1;
           for (const button of $("legend").querySelectorAll("button"))
             button.setAttribute("aria-pressed", String(button.dataset.region === id));
-          $("neuronTip").textContent =
-            mode === "spikes"
-              ? "Spike time × neuron ID"
-              : id === "all"
-                ? "Drag to orbit · click a neuron to inspect"
-                : shortNames[id] + " · connected regions remain visible";
         }
         function structure() {
           if (!topology?.nodes) return;
@@ -8175,12 +8520,6 @@
               fieldLayer = button.dataset.layer;
               for (const item of $("fieldLayers").querySelectorAll("button"))
                 item.setAttribute("aria-pressed", String(item === button));
-              $("layerKey").textContent =
-                fieldLayer === "voltage"
-                  ? "Membrane v · low blue / high ivory"
-                  : fieldLayer === "weights"
-                    ? "Weight Δ · stronger sage / weaker lilac"
-                    : "Spike flashes · recorded synaptic delays";
             });
           $("resetView").addEventListener("click", resetCamera);
           $("inspectOpen").addEventListener("click", () => {
@@ -8188,13 +8527,14 @@
             pinned = neuralFrame.counts.indexOf(Math.max(...neuralFrame.counts));
             hover = -1;
             updateInspector();
+            $("fieldTools").open = false;
             $("inspectId").focus();
           });
           $("inspectClose").addEventListener("click", () => {
             pinned = -1;
             hover = -1;
             updateInspector();
-            $("inspectOpen").focus();
+            $("fieldTools").querySelector("summary").focus();
           });
           $("inspectId").addEventListener("change", () => {
             const id = Number($("inspectId").value);
@@ -8207,6 +8547,15 @@
           $("playbackRate").addEventListener("change", () => {
             playbackRate = Number($("playbackRate").value);
             frameStart = performance.now();
+          });
+          document.addEventListener("pointerdown", (event) => {
+            if (!$("fieldTools").contains(event.target)) $("fieldTools").open = false;
+          });
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && $("fieldTools").open) {
+              $("fieldTools").open = false;
+              $("fieldTools").querySelector("summary").focus();
+            }
           });
           window.addEventListener("blur", () => {
             dragging = null;
@@ -8774,7 +9123,9 @@
           $("cogCollected").textContent = fmt(c.habitat?.collected) + " collected";
           drawHabitat(c.habitat || {});
           $("cogContinuity").textContent =
-            `Saved tick ${fmt(c.committed_tick)} · ${fmt(c.pending_ticks)} pending · input ${fmt(c.committed_cursor)}`;
+            `Checkpoint ${fmt(c.committed_tick)} · input ${fmt(c.committed_cursor)}`;
+          $("cogContinuity").title =
+            `${fmt(c.pending_ticks)} neural transitions since the saved checkpoint`;
         }
         function neuralView(c, legacy) {
           const n = c.neural || {},
@@ -8923,7 +9274,6 @@
               : "Recorded window · " + playbackRate + "× slower";
           $("inspectOpen").classList.toggle("hidden", next === "spikes");
           $("fieldLayers").classList.toggle("hidden", next === "spikes");
-          $("layerKey").classList.toggle("hidden", next === "spikes");
           $("windowCaption").classList.toggle("hidden", next === "spikes");
         }
         $("viewNeural").addEventListener("click", () => setMode("neural"));
