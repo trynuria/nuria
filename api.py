@@ -15,6 +15,7 @@ ROUTES = {
     "/api/cognition/decisions": "cognition/decisions.json",
     "/api/cognition/effects": "cognition/effects.json",
     "/api/cognition/benchmark": "cognition/benchmark.json",
+    "/api/discovery": "discovery/status.json",
     "/api/treasury": "treasury/treasury.json",
     "/api/topology": "topology.json",
     "/api/events": "events.json",
@@ -69,11 +70,15 @@ class Handler(BaseHTTPRequestHandler):
                 state = json.loads(raw)
                 cognitive_raw, cognitive_stamp = load("cognition/status.json")
                 cognitive = json.loads(cognitive_raw)
+                discovery_raw, discovery_stamp = load("discovery/status.json")
+                discovery = json.loads(discovery_raw)
                 ok = (
                     state.get("phase") == "running"
                     and time.time() - stamp < 15
                     and cognitive.get("phase") == "running"
                     and time.time() - cognitive_stamp < 15
+                    and discovery.get("phase") == "running"
+                    and time.time() - discovery_stamp < 15
                 )
                 return self.send(
                     json.dumps(
@@ -82,6 +87,7 @@ class Handler(BaseHTTPRequestHandler):
                             "updated_utc": state.get("updated_utc"),
                             "tick": state.get("tick"),
                             "cognitive_tick": cognitive.get("tick"),
+                            "discovery_trial": discovery.get("trials"),
                         }
                     ).encode(),
                     200 if ok else 503,

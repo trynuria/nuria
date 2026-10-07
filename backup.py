@@ -67,6 +67,24 @@ subprocess.run(
     check=True,
     timeout=60,
 )
+discovery_backup = Path("/var/lib/nuria/discovery/backup/current.sqlite3")
+if Path("/var/lib/nuria/discovery/cognition.sqlite3").exists():
+    subprocess.run(
+        [
+            "sudo",
+            "-u",
+            "nuria-discovery",
+            "env",
+            "NURIA_COGNITION_DATA=/var/lib/nuria/discovery",
+            "/opt/nuria/venv/bin/python",
+            "-m",
+            "cognition.backup",
+            str(discovery_backup),
+        ],
+        cwd=str(Path(__file__).resolve().parent),
+        check=True,
+        timeout=60,
+    )
 recipient = serialization.load_pem_public_key(
     Path("/etc/nuria/backup-recipient.pem").read_bytes()
 )
@@ -80,7 +98,12 @@ sealed_metadata = seal_archive(
             Path("/var/lib/nuria/cognition/backup/current.sqlite3"),
             "cognition/cognition.sqlite3",
         ),
-    ],
+    ]
+    + (
+        [(discovery_backup, "discovery/cognition.sqlite3")]
+        if discovery_backup.exists()
+        else []
+    ),
     recipient,
     sealed,
 )

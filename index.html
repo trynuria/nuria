@@ -2557,6 +2557,215 @@
         }
       }
 
+      .discovery-section {
+        padding: 36px 0 24px;
+        border-top: 1px solid var(--line);
+        scroll-margin-top: 28px;
+      }
+      .lab-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+      .lab-topline > span {
+        font:
+          11px ui-monospace,
+          monospace;
+        color: #8d9d90;
+        white-space: nowrap;
+      }
+      .lab-tabs {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .lab-tabs button {
+        border: 0;
+        background: transparent;
+        color: #8d9d90;
+        padding: 7px 10px;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+      .lab-tabs button[aria-pressed="true"] {
+        color: #dae5d6;
+        background: #213025;
+      }
+      .lab-tabs button:focus-visible {
+        outline: 1px solid #bfd5ab;
+        outline-offset: 2px;
+      }
+      .lab-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .lab-panel {
+        height: 350px;
+        box-sizing: border-box;
+        min-width: 0;
+        padding: 22px 24px;
+        border: 1px solid #29362b;
+        border-radius: 4px;
+        background: #0d1710;
+      }
+      .lab-description {
+        margin: 12px 0 20px;
+        height: 36px;
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 18px;
+        color: #8d9d90;
+      }
+      .lab-matrix {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 4px;
+        height: 188px;
+      }
+      .lab-matrix > div {
+        border-radius: 2px;
+        display: grid;
+        place-items: center;
+        font:
+          10px ui-monospace,
+          monospace;
+        font-variant-numeric: tabular-nums;
+        color: #cbdcc2;
+      }
+      .lab-matrix-key {
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+        font-size: 10px;
+        color: #869b8a;
+        margin-top: 14px;
+      }
+      .lab-matrix-key i {
+        display: inline-block;
+        width: 28px;
+        height: 5px;
+        background: linear-gradient(to right, #152619, #6b975a);
+        margin: 0 4px;
+      }
+      .lab-comparisons {
+        display: grid;
+        gap: 11px;
+        height: 191px;
+      }
+      .lab-comparison {
+        display: grid;
+        grid-template-columns: 145px minmax(10px, 1fr) 46px;
+        gap: 12px;
+        align-items: center;
+        font-size: 11px;
+        color: #93a295;
+        min-width: 0;
+      }
+      .lab-comparison b {
+        text-align: right;
+        font:
+          11px ui-monospace,
+          monospace;
+        font-variant-numeric: tabular-nums;
+        color: #cbdcc2;
+      }
+      .lab-comparison i {
+        height: 3px;
+        display: block;
+        background: #26392b;
+      }
+      .lab-comparison i span {
+        display: block;
+        height: 100%;
+        background: #748e6b;
+      }
+      .lab-comparison:first-child {
+        color: #d6e3cc;
+      }
+      .lab-comparison:first-child i span {
+        background: #bbd5a3;
+      }
+      .lab-result {
+        font-size: 11px;
+        line-height: 18px;
+        height: 36px;
+        margin: 17px 0 0;
+        color: #a2b398;
+        overflow: hidden;
+      }
+      .lab-readings {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+        padding: 23px 0 17px;
+      }
+      .lab-readings > div {
+        display: flex;
+        align-items: baseline;
+        gap: 9px;
+        min-width: 0;
+      }
+      .lab-readings strong {
+        font:
+          15px ui-monospace,
+          monospace;
+        color: #d2ddcb;
+        font-variant-numeric: tabular-nums;
+        min-width: 48px;
+      }
+      .lab-readings span {
+        font-size: 10px;
+        color: #869b8a;
+      }
+      .lab-scope {
+        font-size: 11px;
+        line-height: 20px;
+        color: #819686;
+        max-width: 800px;
+        margin: 4px 0 10px;
+      }
+      .lab-evidence {
+        margin-top: 4px;
+      }
+      @media (max-width: 700px) {
+        .lab-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        .lab-panel {
+          padding: 20px;
+        }
+        .lab-topline {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .lab-tabs button {
+          padding: 7px 8px;
+          font-size: 11px;
+        }
+        .lab-readings {
+          grid-template-columns: 1fr 1fr;
+          gap: 18px;
+        }
+        .lab-readings > div {
+          flex-direction: column;
+          gap: 5px;
+        }
+        .lab-comparison {
+          grid-template-columns: 125px minmax(10px, 1fr) 42px;
+          gap: 8px;
+          font-size: 10px;
+        }
+        .lab-matrix-key {
+          font-size: 9px;
+        }
+      }
+
       /* Observatory presentation. Measurements reserve their space between updates. */
       :root {
         --bg: #0b0d0e;
@@ -5808,6 +6017,89 @@
             >
           </section>
 
+          <section
+            class="discovery-section"
+            id="discovery"
+            aria-labelledby="discoveryTitle"
+          >
+            <div class="cognitive-heading"
+              ><h2 id="discoveryTitle">Discovery lab</h2
+              ><span id="labPhase" class="badge">Connecting</span></div
+            >
+            <p class="cognitive-intro"
+              >Hidden rules. Choices with costs. Rewards that arrive later.</p
+            >
+            <div class="lab-topline"
+              ><div class="lab-tabs" role="group" aria-label="Discovery task"
+                ><button type="button" data-lab-task="association" aria-pressed="true"
+                  >Association</button
+                ><button type="button" data-lab-task="occlusion" aria-pressed="false"
+                  >Occlusion</button
+                ><button type="button" data-lab-task="reversal" aria-pressed="false"
+                  >Reversal</button
+                ><button type="button" data-lab-task="scarcity" aria-pressed="false"
+                  >Scarcity</button
+                ></div
+              ><span id="labTrials">— trials</span></div
+            >
+            <div class="lab-grid">
+              <article class="lab-panel"
+                ><div class="micro">LEARNED OUTCOMES</div
+                ><p class="lab-description" id="labTaskDescription"
+                  >Learn which choice works for each remembered cue.</p
+                ><div
+                  class="lab-matrix"
+                  id="labMatrix"
+                  role="img"
+                  aria-label="Learned success probability for eight cues and four choices"
+                ></div
+                ><div class="lab-matrix-key"
+                  ><span>8 cues · 4 choices</span
+                  ><span>Darker / uncertain <i></i> Higher success</span></div
+                ></article
+              >
+              <article class="lab-panel"
+                ><div class="micro">PAIRED CONTROLS</div
+                ><p class="lab-description"
+                  >Net virtual reward per settled choice. Higher is better.</p
+                ><div class="lab-comparisons" id="labComparisons"></div
+                ><p class="lab-result" id="labResult"
+                  >Awaiting settled outcomes.</p
+                ></article
+              >
+            </div>
+            <div class="lab-readings"
+              ><div><strong id="labSettled">—</strong><span>settled choices</span></div
+              ><div
+                ><strong id="labProbes">—</strong><span>information probes</span></div
+              ><div
+                ><strong id="labChanges">—</strong><span>change detections</span></div
+              ><div
+                ><strong id="labBalance">—</strong><span>virtual credits</span></div
+              ></div
+            >
+            <p class="lab-scope"
+              >A separate 256-neuron sensory circuit feeds learned decisions. The main
+              circuit changes virtual probe costs. Credits are experimental; no SOL is
+              spent.</p
+            >
+            <div class="cognitive-evidence lab-evidence"
+              ><details
+                ><summary>Experiment record</summary
+                ><pre id="labRecord">Awaiting evidence.</pre></details
+              ><div
+                ><span id="labContinuity">Checking continuity</span
+                ><a href="/?page=docs#discovery">Experiment docs</a
+                ><a
+                  href="https://github.com/trynuria/nuria/blob/main/docs/discovery.md"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Protocol &amp; results</a
+                ></div
+              ></div
+            >
+          </section>
+
           <section class="workspace" id="workspace"
             ><div class="workspace-top"
               ><div class="tabs" role="tablist" aria-label="Nuria workspace"
@@ -6198,6 +6490,11 @@
                   href="/?page=docs#cognition"
                   data-chapter="cognition"
                   >Cognition &amp; learning</a
+                ><a
+                  class="docs-nav-link"
+                  href="/?page=docs#discovery"
+                  data-chapter="discovery"
+                  >Discovery lab</a
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#roadmap"
@@ -6858,6 +7155,222 @@
                     configured, and the model spends no SOL. Consciousness and a whole
                     human-brain simulation are not established.</p
                   ></article
+                ><article
+                  class="docs-article"
+                  id="doc-discovery"
+                  data-title="Discovery lab"
+                  data-category="Research"
+                  ><div class="docs-eyebrow">Nuria / experiments</div
+                  ><h1 tabindex="-1">Discovery lab</h1>
+                  <p class="docs-lead"
+                    >What does Nuria do when it cannot see the full situation, and its
+                    old choices stop working?</p
+                  >
+                  <h2 id="discovery--loop">Choose before knowing the outcome</h2>
+                  <p
+                    >Eight cues and four choices form a partially observed world. A cue
+                    is followed by a distractor. The controller remembers a
+                    spike-derived representation, estimates each choice’s success, and
+                    acts. Some cues are hidden; it can pay virtual credits to inspect
+                    them. The selected choice’s reward arrives two to five same-task
+                    decisions later. Only then can that outcome train the learner.</p
+                  >
+                  <p
+                    >The lab uses its own 256-neuron Brian2 sensory circuit. It receives
+                    cue stimulation, recurrent signals, inhibition and noise, with no
+                    action-utility drive. Its learned decoder uses recorded spike counts
+                    and membrane values. The original 256-neuron circuit and main
+                    1,024-neuron circuit keep their histories and genesis times.</p
+                  >
+                  <h2 id="discovery--capabilities">Ten mechanisms with consequences</h2>
+                  <div class="docs-table-wrap"
+                    ><table class="docs-table"
+                      ><thead
+                        ><tr><th>Mechanism</th><th>Consequence</th></tr></thead
+                      ><tbody>
+                        <tr
+                          ><td>Partial observation</td
+                          ><td>Relevant cues can be missing.</td></tr
+                        >
+                        <tr
+                          ><td>Learned outcomes</td
+                          ><td
+                            >Action values change from actual selected rewards.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Uncertainty</td
+                          ><td
+                            >Uncertain choices receive a bounded exploration bonus.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Active sensing</td
+                          ><td
+                            >The estimated benefit of an observation must exceed its
+                            price.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Resource budget</td
+                          ><td
+                            >Probes and choices spend virtual credits; balances cannot
+                            go negative.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Delayed credit</td
+                          ><td
+                            >Each pending choice keeps its original belief and
+                            forecast.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Cue memory</td
+                          ><td
+                            >A stored spike representation survives the distractor.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Continual adaptation</td
+                          ><td
+                            >Discounting and a surprise detector reduce obsolete
+                            beliefs.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Curriculum</td
+                          ><td
+                            >Observed reward deficits and a coverage bonus select the
+                            next task.</td
+                          ></tr
+                        >
+                        <tr
+                          ><td>Paired controls</td
+                          ><td
+                            >Independent branches reveal what each mechanism
+                            contributes.</td
+                          ></tr
+                        >
+                      </tbody></table
+                    ></div
+                  >
+                  <h2 id="discovery--worlds">The world can change</h2>
+                  <p
+                    >Association tests visible cues. Occlusion tests missing
+                    information. Reversal changes the useful choices without warning.
+                    Scarcity changes both useful choices and information prices. The
+                    learner never receives the current hidden mapping, phase or unused
+                    reward outcomes. Those fields are audit evidence, outside its policy
+                    input.</p
+                  >
+                  <p
+                    >The main circuit’s fresh firing rate changes the virtual probe
+                    price by at most 0.1 credits. Each trial records the source tick,
+                    input cursor and receipt head. This is a software perturbation; it
+                    does not merge neural histories. An unconfigured mint remains
+                    unconfigured.</p
+                  >
+                  <h2 id="discovery--controls">A simpler model can win</h2>
+                  <p
+                    >Seven branches see matched worlds and exploratory draws: spike
+                    memory, direct symbolic memory, no cue memory, no probes, no
+                    adaptation, frozen outcome learning and random choices. Each has its
+                    own budget, decoder and outcome model. One branch’s paid observation
+                    cannot teach another branch. The symbolic controller receives the
+                    same visible cue directly, providing a strong alternative to the
+                    neural representation.</p
+                  >
+                  <p
+                    >Net virtual reward includes costs. Optimal-oracle regret is
+                    computed only for auditing and never enters the curriculum or choice
+                    rule. The adaptive curriculum uses observed rewards. Numerical
+                    records describe the computation; no language model generates an
+                    invented thought process.</p
+                  >
+                  <h2 id="discovery--validation">Evidence, including failures</h2>
+                  <p
+                    >A locally frozen and hashed protocol evaluates 12 fresh world
+                    seeds, four tasks and 1,200 decisions per task. The first 240
+                    decisions are warmup; all 960 later decisions are scored after
+                    delayed settlement. Evaluation replays 144 actual Brian2 feature
+                    windows. The live worker simulates fresh windows for every trial.
+                    This comparison does not test STDP or long recurrent memory.</p
+                  >
+                  <div class="docs-table-wrap"
+                    ><table class="docs-table"
+                      ><thead
+                        ><tr
+                          ><th>Task</th><th>Spike memory</th><th>Symbolic memory</th
+                          ><th>No memory</th><th>No adaptation</th></tr
+                        ></thead
+                      ><tbody
+                        ><tr
+                          ><td>Association</td><td>0.8070</td><td>0.8070</td
+                          ><td>0.3805</td><td>0.8070</td></tr
+                        ><tr
+                          ><td>Occlusion</td><td>0.7473</td><td>0.7481</td
+                          ><td>0.4426</td><td>0.7481</td></tr
+                        ><tr
+                          ><td>Reversal</td><td>0.6260</td><td>0.6245</td><td>0.3641</td
+                          ><td>0.3609</td></tr
+                        ><tr
+                          ><td>Scarcity</td><td>0.5863</td><td>0.5866</td><td>0.3694</td
+                          ><td>0.3871</td></tr
+                        ></tbody
+                      ></table
+                    ></div
+                  ><p
+                    >Higher net virtual reward is better. Cue retention beats its
+                    removal on every task and all 12 seeds. Probes help on the three
+                    partially observed tasks. Adaptation and continued outcome learning
+                    help after rule reversals. These are useful behavioral effects
+                    within these worlds.</p
+                  ><p
+                    ><strong>The neural-superiority gate failed.</strong> Spike memory
+                    matches the symbolic controller on association and differs by less
+                    than 0.0015 mean reward elsewhere. Its paired interval does not
+                    establish a neural advantage. This result is published alongside the
+                    improvements.</p
+                  >
+                  <p
+                    ><a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/discovery.md"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Full experiment specification</a
+                    >
+                    and
+                    <a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/discovery-evaluation.json"
+                      target="_blank"
+                      rel="noreferrer"
+                      >every validation trial</a
+                    >
+                    include source hashes, controls and limitations. Earlier failed
+                    development runs remain public.</p
+                  >
+                  <h2 id="discovery--continuity">It continues on the server</h2>
+                  <p
+                    >The independent worker saves learners, delayed rewards, curriculum
+                    state, journal and complete sensory circuit together. A missing or
+                    inconsistent checkpoint refuses an automatic reset.
+                    <code>/api/discovery</code> serves bounded cached records and
+                    rejects evidence older than 15 seconds. The worker has its own
+                    unprivileged account, CPU and memory limits, and no external network
+                    access. Its consistent checkpoint is included in the encrypted
+                    backup path.</p
+                  >
+                  <h2 id="discovery--next">The next unknowns</h2>
+                  <p
+                    >This is a designed software world whose hidden rules are unknown to
+                    its learner. New task families, learned multi-step planning, social
+                    coordination, robust neural-plasticity gains and independent
+                    replication remain open. Useful decisions do not establish
+                    subjective consciousness. Virtual credits are not SOL: the mint, fee
+                    wallet and independently limited signer are still needed for
+                    external paid actions.</p
+                  > </article
                 ><article
                   class="docs-article"
                   id="doc-roadmap"
@@ -9172,6 +9685,126 @@
             drawLearning(cognitionState.learning?.sources?.[source]?.history || []);
           }
         });
+
+        let discoveryState = null,
+          discoveryTask = "association",
+          discoveryRequest = false,
+          discoveryAvailable = false;
+        const discoveryLabels = {
+          spike_memory: "Spike memory",
+          symbolic_memory: "Symbolic memory",
+          no_memory: "No cue memory",
+          no_probes: "No probes",
+          no_adaptation: "No adaptation",
+          frozen_learning: "Frozen learning",
+          random: "Random choices",
+        };
+        const discoveryDescriptions = {
+          association: "Learn which choice works for each remembered cue.",
+          occlusion:
+            "Some cues are hidden. Decide whether information is worth its cost.",
+          reversal:
+            "The useful choices change without warning. Learn from new outcomes.",
+          scarcity: "Conditions change, and information can become expensive.",
+        };
+        function renderDiscovery() {
+          const s = discoveryState;
+          if (!s) return;
+          const fresh =
+            discoveryAvailable &&
+            s.phase === "running" &&
+            Date.now() - Date.parse(s.updated_utc) < 15000;
+          $("labPhase").textContent = fresh ? "Running" : "Evidence unavailable";
+          $("labTrials").textContent = fmt(s.trials) + " trials";
+          $("labTaskDescription").textContent = discoveryDescriptions[discoveryTask];
+          const models = s.tasks?.[discoveryTask] || {},
+            model = models.spike_memory;
+          $("labMatrix").replaceChildren();
+          for (let cue = 0; cue < 8; cue++)
+            for (let arm = 0; arm < 4; arm++) {
+              const value = model?.learned_success?.[cue]?.[arm];
+              const cell = cognitiveNode(
+                "div",
+                Number.isFinite(value) ? Math.round(value * 100) + "%" : "—",
+              );
+              const strength = Number.isFinite(value) ? value : 0;
+              cell.style.background = `rgba(145,187,117,${0.04 + 0.42 * strength})`;
+              cell.title = `Cue ${cue + 1}, choice ${arm + 1}; success ${Number.isFinite(value) ? value.toFixed(3) : "unknown"}; uncertainty ${model?.outcome_uncertainty?.[cue]?.[arm]?.toFixed(3) || "unknown"}`;
+              $("labMatrix").append(cell);
+            }
+          $("labComparisons").replaceChildren();
+          for (const [branch, label] of Object.entries(discoveryLabels)) {
+            const value = models[branch]?.mean_net_reward;
+            const row = cognitiveNode("div", undefined, "lab-comparison"),
+              line = cognitiveNode("i"),
+              bar = cognitiveNode("span");
+            bar.style.width = Math.max(0, Math.min(100, (value || 0) * 100)) + "%";
+            line.append(bar);
+            row.append(
+              cognitiveNode("span", label),
+              line,
+              cognitiveNode("b", Number.isFinite(value) ? value.toFixed(3) : "—"),
+            );
+            $("labComparisons").append(row);
+          }
+          const symbol = models.symbolic_memory?.mean_net_reward,
+            spike = model?.mean_net_reward;
+          $("labResult").textContent = !fresh
+            ? "Last recorded values. Current experiment evidence is unavailable."
+            : model?.settled >= 40 && Number.isFinite(symbol) && Number.isFinite(spike)
+              ? `Spike memory ${spike >= symbol ? "+" : "−"}${Math.abs(spike - symbol).toFixed(3)} versus symbolic memory. Live observations; fresh-seed validation is in the docs.`
+              : "Gathering outcomes. A useful neural advantage must be earned against the symbolic control.";
+          cognitiveCount("labSettled", model?.settled);
+          cognitiveCount("labProbes", model?.probes);
+          cognitiveCount("labChanges", model?.detected_changes);
+          $("labBalance").textContent = Number.isFinite(model?.virtual_balance)
+            ? model.virtual_balance.toFixed(1)
+            : "—";
+          $("labContinuity").textContent = `Saved trial ${fmt(s.record_seq)}`;
+          $("labRecord").textContent = JSON.stringify(
+            {
+              genesis_utc: s.genesis_utc,
+              source_sha256: s.source_sha256,
+              record_head: s.record_head,
+              integrity: s.integrity,
+              sensor: s.sensor,
+              last_trial: s.last_trial,
+              scope: s.scope,
+            },
+            null,
+            2,
+          );
+        }
+        document.querySelectorAll("[data-lab-task]").forEach((button) =>
+          button.addEventListener("click", () => {
+            discoveryTask = button.dataset.labTask;
+            document
+              .querySelectorAll("[data-lab-task]")
+              .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+            renderDiscovery();
+          }),
+        );
+        async function pollDiscovery() {
+          if (discoveryRequest || document.hidden) return;
+          discoveryRequest = true;
+          try {
+            const response = await fetch("/api/discovery", {
+              signal: AbortSignal.timeout(5000),
+            });
+            if (!response.ok) throw new Error("Discovery evidence unavailable");
+            discoveryState = await response.json();
+            discoveryAvailable = true;
+            renderDiscovery();
+          } catch {
+            discoveryAvailable = false;
+            renderDiscovery();
+            $("labPhase").textContent = "Evidence unavailable";
+          } finally {
+            discoveryRequest = false;
+          }
+        }
+        pollDiscovery();
+        setInterval(pollDiscovery, 5000);
 
         async function poll() {
           if (polling) return;

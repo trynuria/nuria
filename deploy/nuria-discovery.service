@@ -1,0 +1,42 @@
+[Unit]
+Description=Nuria isolated decision discovery laboratory
+After=nuria-cognition.service
+
+[Service]
+User=nuria-discovery
+Group=nuria-discovery
+SupplementaryGroups=nuria-code nuria-public
+WorkingDirectory=/opt/nuria/discovery-current
+ExecStart=/opt/nuria/venv/bin/python -m cognition.lab_worker
+Environment=NURIA_DISCOVERY_DATA=/var/lib/nuria/discovery
+Environment=NURIA_DISCOVERY_PUBLIC=/var/lib/nuria/public/discovery
+Environment=NURIA_DISCOVERY_UPSTREAM=/var/lib/nuria/public/cognition/status.json
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=OMP_NUM_THREADS=1
+Environment=MKL_NUM_THREADS=1
+Environment=MPLCONFIGDIR=/var/lib/nuria/discovery/matplotlib
+Environment=TMPDIR=/var/lib/nuria/discovery
+ReadWritePaths=/var/lib/nuria/discovery /var/lib/nuria/public/discovery
+RestrictAddressFamilies=AF_UNIX
+MemoryMax=512M
+CPUQuota=50%
+Nice=10
+TasksMax=32
+TimeoutStopSec=45
+UMask=0027
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

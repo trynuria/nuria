@@ -30,6 +30,8 @@ Local experiments execute on the server's included capacity. The software habita
 
 Prediction uses a source-specific council of seven specialists, conditional outcome memory and learned forecast attention. A separate neural readout supplies one specialist; its prior weights and history are retained. Metrics score forecasts before updating and compare them with a learned repeat-probability baseline. Recorded-input diagnostics report negative results as well as improvements.
 
+The [Discovery lab](docs/discovery.md) adds an independent, continuously running decision experiment: hidden cues, learned action outcomes, costed information probes, delayed rewards, changing rules, virtual resource constraints and an adaptive curriculum. A separate 256-neuron sensory circuit feeds remembered representations without receiving action utilities. Seven paired branches include a strong symbolic-memory controller. The main circuit perturbs virtual probe prices through a bounded public-cache link; established neural histories remain unchanged.
+
 The first actual-spike tasks do **not** establish a neural advantage: a one-parameter repeat predictor matches accuracy and has lower Brier error. A fresh-seed component comparison tests memory, forecast attention and continual learning against contextual tables and logistic regression. Its gains are bounded synthetic forecast results, not evidence of useful STDP, whole-organism superiority, consciousness or market forecasting. Read the [evaluation report](docs/evaluation.md) and [all validation trials](docs/forecast-evaluation.json).
 
 Run a bounded evaluation without RPC access:
@@ -81,19 +83,21 @@ The visitor can orbit, filter populations, inspect an exact neuron ID, change re
 
 ## Source map
 
-| Source                                                           | Responsibility                                                        |
-| ---------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `cognition/brain.py`                                             | Spiking circuit, reward eligibility, checkpoints and matched probes   |
-| `cognition/worker.py`                                            | Single cognitive writer and feedback loop                             |
-| `cognition/learning.py`                                          | Source-specific readouts and controlled fixture tasks                 |
-| `cognition/memory.py`, `policy.py`, `world.py`, `jobs.py`        | Recall, workspace, arbitration, habitat and local jobs                |
-| `cognition/journal.py`, `backup.py`                              | Cognitive integrity records and consistent SQLite snapshots           |
-| `cognition/fee_observer.py`, `treasury.py`, `payments.py`        | Read-only balances, published limits and unsigned payment preparation |
-| `life.py`, `engine.py`                                           | Original circuit, receipts and continuity                             |
-| `pump_feed.py`, `ingest.py`, `store.py`                          | Protocol decoding and durable finalized input ingestion               |
-| `verify_worker.py`, `api.py`, `publish.py`                       | Verification and bounded cached public reads                          |
-| `observatory.html`, `cognition-view.*`, `docs/`, `build-docs.py` | Static observatory and documentation sources                          |
-| `scripts/benchmark_cognition.py`, `tests/`                       | Bounded evaluations and regression checks                             |
+| Source                                                           | Responsibility                                                                   |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `cognition/brain.py`                                             | Spiking circuit, reward eligibility, checkpoints and matched probes              |
+| `cognition/worker.py`                                            | Single cognitive writer and feedback loop                                        |
+| `cognition/discovery.py`, `spike_sensor.py`, `lab_worker.py`     | Isolated hidden-world decisions, measured sensory spikes and durable lab history |
+| `cognition/learning.py`                                          | Source-specific readouts and controlled fixture tasks                            |
+| `cognition/memory.py`, `policy.py`, `world.py`, `jobs.py`        | Recall, workspace, arbitration, habitat and local jobs                           |
+| `cognition/journal.py`, `backup.py`                              | Cognitive integrity records and consistent SQLite snapshots                      |
+| `cognition/fee_observer.py`, `treasury.py`, `payments.py`        | Read-only balances, published limits and unsigned payment preparation            |
+| `life.py`, `engine.py`                                           | Original circuit, receipts and continuity                                        |
+| `pump_feed.py`, `ingest.py`, `store.py`                          | Protocol decoding and durable finalized input ingestion                          |
+| `verify_worker.py`, `api.py`, `publish.py`                       | Verification and bounded cached public reads                                     |
+| `observatory.html`, `cognition-view.*`, `docs/`, `build-docs.py` | Static observatory and documentation sources                                     |
+| `scripts/benchmark_cognition.py`, `tests/`                       | Bounded evaluations and regression checks                                        |
+| `scripts/evaluate_discovery.py`, `discovery-view.*`              | Fresh-world paired validation and live lab evidence                              |
 
 ## Recovery and evidence
 

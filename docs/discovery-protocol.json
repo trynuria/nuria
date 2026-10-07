@@ -1,0 +1,26 @@
+{
+  "branches": [
+    "spike_memory",
+    "symbolic_memory",
+    "no_memory",
+    "no_probes",
+    "no_adaptation",
+    "frozen_learning",
+    "random"
+  ],
+  "claim_gate": "spike_memory minus symbolic_memory paired mean > 0 and lower 95% t interval > 0 for each task; otherwise no neural superiority claim",
+  "feature_sampling": "16 recorded windows for each of 8 cues plus blank, one fixed sensor seed; vectors replayed with seeded selection. Does not test long recurrent delays or STDP.",
+  "primary_endpoint": "paired mean net virtual reward after equal warmup; higher is better",
+  "scope": "Local software experiment, not independent preregistration or market forecasting",
+  "secondary_endpoints": ["oracle regret", "Brier", "probe count", "change detections"],
+  "seeds": [201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212],
+  "selection": "fixed balanced tasks for validation; adaptive live curriculum evaluated separately",
+  "sources": {
+    "cognition/discovery.py": "8ed72e2885fb6fa05f8f70d86127bef99b6cec4b42d0cff2b6707a34615eedd1",
+    "cognition/spike_sensor.py": "13d7779cf52bd0e3b8fc352b64ed95a462b0030e3e8c5b97269ca3528cd86922",
+    "scripts/evaluate_discovery.py": "1fa24909e57117aa74a43e67008284a459da50410c6c82624d34f1c65353953c"
+  },
+  "tasks": ["association", "occlusion", "reversal", "scarcity"],
+  "trials_per_task": 1200,
+  "warmup": 240
+}

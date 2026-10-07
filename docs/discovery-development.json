@@ -1,0 +1,4167 @@
+[
+  {
+    "attempt": "a",
+    "notes": "Initial decoder, unmatched exploratory draws and boundary-settled warmup accounting",
+    "result": {
+      "protocol": {
+        "seeds": [101, 102, 103, 104],
+        "tasks": ["association", "occlusion", "reversal", "scarcity"],
+        "trials_per_task": 1000,
+        "warmup": 240,
+        "branches": [
+          "spike_memory",
+          "symbolic_memory",
+          "no_memory",
+          "no_probes",
+          "no_adaptation",
+          "frozen_learning",
+          "random"
+        ],
+        "sources": {
+          "cognition/discovery.py": "e0cae4e728d9625297509ec11bdaee8946470c279da65a860585b8d63e269f64",
+          "cognition/spike_sensor.py": "2e91737ffc67b5070304bd87d63c15f8aa2f90a09549f6ffe051fff30d68ce82",
+          "scripts/evaluate_discovery.py": "8de3b96417816635a28ba3ec7f8323866a0d540c3ef6d985276d165d47d7b295"
+        },
+        "primary_endpoint": "paired mean net virtual reward after equal warmup; higher is better",
+        "secondary_endpoints": [
+          "oracle regret",
+          "Brier",
+          "probe count",
+          "change detections"
+        ],
+        "claim_gate": "spike_memory minus symbolic_memory paired mean > 0 and lower 95% t interval > 0 for each task; otherwise no neural superiority claim",
+        "feature_sampling": "16 recorded windows for each of 8 cues plus blank, one fixed sensor seed; vectors replayed with seeded selection. Does not test long recurrent delays or STDP.",
+        "selection": "fixed balanced tasks for validation; adaptive live curriculum evaluated separately",
+        "scope": "Local software experiment, not independent preregistration or market forecasting"
+      },
+      "protocol_sha256": "0d9fbbc9614da8e2168c90f315151e6095c5fd6a6e60e1731ecbfa621756a22f",
+      "features_sha256": "70350b32ad7d012e0ba6d167008f00e319d00e6f64e2bc49eeb56cfefa7e9dac",
+      "summary": {
+        "association": {
+          "mean_net_reward": {
+            "spike_memory": 0.6850585908987896,
+            "symbolic_memory": 0.8107204159823496,
+            "no_memory": 0.41930229790813917,
+            "no_probes": 0.6585584815126065,
+            "no_adaptation": 0.6199073360231094,
+            "frozen_learning": 0.568219350038891,
+            "random": 0.2923966523702188
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.1256618250835599,
+              "paired_standard_error": 0.013375876062826558,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.2657562929906504,
+              "paired_standard_error": 0.03169728924069649,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.02650010938618305,
+              "paired_standard_error": 0.013458104750652662,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.0651512548756801,
+              "paired_standard_error": 0.03728902578905789,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.11683924085989855,
+              "paired_standard_error": 0.04786597068266723,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.3926619385285708,
+              "paired_standard_error": 0.014054677503456497,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "occlusion": {
+          "mean_net_reward": {
+            "spike_memory": 0.48305754359000086,
+            "symbolic_memory": 0.741625112363036,
+            "no_memory": 0.43360580650917147,
+            "no_probes": 0.48141970246959576,
+            "no_adaptation": 0.5341381155949706,
+            "frozen_learning": 0.49450013037542406,
+            "random": 0.2933767574948697
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.258567568773035,
+              "paired_standard_error": 0.05455025945783745,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.04945173708082935,
+              "paired_standard_error": 0.02087434094664488,
+              "wins": 3,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.001637841120405173,
+              "paired_standard_error": 0.0021651841486886717,
+              "wins": 2,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": -0.05108057200496974,
+              "paired_standard_error": 0.03157751573449116,
+              "wins": 1,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": -0.01144258678542312,
+              "paired_standard_error": 0.029802692313882728,
+              "wins": 1,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.1896807860951312,
+              "paired_standard_error": 0.04390802974453683,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "reversal": {
+          "mean_net_reward": {
+            "spike_memory": 0.4418867062428808,
+            "symbolic_memory": 0.637217538579943,
+            "no_memory": 0.3931215731541475,
+            "no_probes": 0.4376516744307576,
+            "no_adaptation": 0.41833422654629904,
+            "frozen_learning": 0.3407483750395117,
+            "random": 0.2850848895851351
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.19533083233706228,
+              "paired_standard_error": 0.03036920376747205,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.04876513308873327,
+              "paired_standard_error": 0.014891776010484576,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.00423503181212323,
+              "paired_standard_error": 0.013558700141413397,
+              "wins": 2,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.02355247969658178,
+              "paired_standard_error": 0.013744889027352594,
+              "wins": 3,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.10113833120336904,
+              "paired_standard_error": 0.03157524974861073,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.15680181665774565,
+              "paired_standard_error": 0.033105539163583705,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "scarcity": {
+          "mean_net_reward": {
+            "spike_memory": 0.39941667295671573,
+            "symbolic_memory": 0.5833027179842711,
+            "no_memory": 0.32885473777387664,
+            "no_probes": 0.39922529557479236,
+            "no_adaptation": 0.365806106029527,
+            "frozen_learning": 0.272542423473065,
+            "random": 0.28203409660131634
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.18388604502755546,
+              "paired_standard_error": 0.019709510955931528,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.07056193518283907,
+              "paired_standard_error": 0.008496896430007062,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.00019137738192333276,
+              "paired_standard_error": 0.0033866308954380634,
+              "wins": 2,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.03361056692718871,
+              "paired_standard_error": 0.013094645299831134,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.12687424948365067,
+              "paired_standard_error": 0.019383905182155426,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.1173825763553994,
+              "paired_standard_error": 0.019118732480129613,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        }
+      },
+      "trials": [
+        {
+          "seed": 101,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 765,
+              "mean_net_reward": 0.7240196078431548,
+              "mean_oracle_regret": 0.1680588235294156,
+              "brier": 0.1672237861825698,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 765,
+              "mean_net_reward": 0.8220588235294309,
+              "mean_oracle_regret": 0.07864705882353085,
+              "brier": 0.10292512133897957,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 765,
+              "mean_net_reward": 0.5292483660130848,
+              "mean_oracle_regret": 0.3498627450980395,
+              "brier": 0.2407787968315211,
+              "probes_total": 0,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 765,
+              "mean_net_reward": 0.7004901960784471,
+              "mean_oracle_regret": 0.18296078431372928,
+              "brier": 0.18299322143173108,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 765,
+              "mean_net_reward": 0.7214052287581876,
+              "mean_oracle_regret": 0.16209803921568988,
+              "brier": 0.1606932496815435,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 765,
+              "mean_net_reward": 0.5593137254902107,
+              "mean_oracle_regret": 0.32800653594771306,
+              "brier": 0.21704115683764902,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 765,
+              "mean_net_reward": 0.30571895424836604,
+              "mean_oracle_regret": 0.5783594771241853,
+              "brier": 0.18566603674950038,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.5726408912188877,
+              "mean_oracle_regret": 0.30987549148099586,
+              "brier": 0.23188471466846117,
+              "probes_total": 0,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.7617889908257041,
+              "mean_oracle_regret": 0.12513106159895349,
+              "brier": 0.10695492403718906,
+              "probes_total": 419,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.5346330275229486,
+              "mean_oracle_regret": 0.3467300131061588,
+              "brier": 0.24243578131449878,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 763,
+              "mean_net_reward": 0.5647771952817958,
+              "mean_oracle_regret": 0.31983617300131056,
+              "brier": 0.23556077693964045,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 763,
+              "mean_net_reward": 0.5556028833551903,
+              "mean_oracle_regret": 0.3307929226736558,
+              "brier": 0.23269129243426043,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 763,
+              "mean_net_reward": 0.6027850589777343,
+              "mean_oracle_regret": 0.2799934469200526,
+              "brier": 0.2280529982881559,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 763,
+              "mean_net_reward": 0.3157601572739195,
+              "mean_oracle_regret": 0.5917627785058992,
+              "brier": 0.18896856172176588,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.5378272251309026,
+              "mean_oracle_regret": 0.36719895287958165,
+              "brier": 0.23796364192573075,
+              "probes_total": 0,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.66573298429321,
+              "mean_oracle_regret": 0.24876963350785608,
+              "brier": 0.1921440739069371,
+              "probes_total": 109,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.4723821989528906,
+              "mean_oracle_regret": 0.40897905759162584,
+              "brier": 0.24395856845041136,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.5077225130890173,
+              "mean_oracle_regret": 0.3940575916230395,
+              "brier": 0.24045526723401175,
+              "probes_total": 0,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.5155759162303803,
+              "mean_oracle_regret": 0.39604712041885076,
+              "brier": 0.24272268866882565,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.3925392670157117,
+              "mean_oracle_regret": 0.4975130890052392,
+              "brier": 0.24838502686006622,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.29568062827225067,
+              "mean_oracle_regret": 0.5959947643979074,
+              "brier": 0.1891554742896655,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.3650523560209475,
+              "mean_oracle_regret": 0.49950261780105093,
+              "brier": 0.24201399173633695,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.5822513089005343,
+              "mean_oracle_regret": 0.306963350785341,
+              "brier": 0.1977103164507859,
+              "probes_total": 195,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.2734293193717264,
+              "mean_oracle_regret": 0.5870418848167563,
+              "brier": 0.21503941359695758,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.3650523560209498,
+              "mean_oracle_regret": 0.5213874345549789,
+              "brier": 0.24326362514696065,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.35138743455497873,
+              "mean_oracle_regret": 0.5322251308900575,
+              "brier": 0.23547208473287806,
+              "probes_total": 37,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.2852094240837702,
+              "mean_oracle_regret": 0.5790837696335123,
+              "brier": 0.2479847207194381,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.25510471204187934,
+              "mean_oracle_regret": 0.6158900523560218,
+              "brier": 0.20071485310014456,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.6399214659686031,
+              "mean_oracle_regret": 0.25280104712042156,
+              "brier": 0.20368522099726494,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.8022251308900719,
+              "mean_oracle_regret": 0.07473821989528841,
+              "brier": 0.10456943276831909,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.39515706806283496,
+              "mean_oracle_regret": 0.5084554973822053,
+              "brier": 0.24582768323205043,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.6307591623036803,
+              "mean_oracle_regret": 0.2607591623036661,
+              "brier": 0.20734238132557253,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.6373036649214825,
+              "mean_oracle_regret": 0.2528010471204217,
+              "brier": 0.20376205472952044,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.62552356020944,
+              "mean_oracle_regret": 0.25876963350785553,
+              "brier": 0.21097957038908907,
+              "probes_total": 1,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.2865183246073288,
+              "mean_oracle_regret": 0.5959947643979074,
+              "brier": 0.1975485488985058,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.3833769633507914,
+              "mean_oracle_regret": 0.4786125654450297,
+              "brier": 0.24510451829337745,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.7551570680628424,
+              "mean_oracle_regret": 0.11908376963351056,
+              "brier": 0.1214583549415104,
+              "probes_total": 389,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.3100785340314149,
+              "mean_oracle_regret": 0.5462565445026213,
+              "brier": 0.22802978153651496,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.3820680628272327,
+              "mean_oracle_regret": 0.471649214659689,
+              "brier": 0.24439664952725393,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.48547120418849177,
+              "mean_oracle_regret": 0.38013089005235656,
+              "brier": 0.24286332117406062,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.4606020942408478,
+              "mean_oracle_regret": 0.4099738219895304,
+              "brier": 0.24359685546416365,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.28913612565444835,
+              "mean_oracle_regret": 0.5840575916230385,
+              "brier": 0.21104154384049978,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 762,
+              "mean_net_reward": 0.3778871391076171,
+              "mean_oracle_regret": 0.4798031496063025,
+              "brier": 0.24170629501517554,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 762,
+              "mean_net_reward": 0.6233989501312476,
+              "mean_oracle_regret": 0.2433727034120774,
+              "brier": 0.1800273155815805,
+              "probes_total": 371,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 762,
+              "mean_net_reward": 0.36476377952756045,
+              "mean_oracle_regret": 0.5047375328084014,
+              "brier": 0.23880055739958575,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 762,
+              "mean_net_reward": 0.4067585301837341,
+              "mean_oracle_regret": 0.4458923884514456,
+              "brier": 0.2450475318883558,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 762,
+              "mean_net_reward": 0.38969816272966645,
+              "mean_oracle_regret": 0.4867847769028903,
+              "brier": 0.24374450126733502,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 762,
+              "mean_net_reward": 0.33851706036745843,
+              "mean_oracle_regret": 0.5226902887139155,
+              "brier": 0.24512455711422734,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 762,
+              "mean_net_reward": 0.2847112860892367,
+              "mean_oracle_regret": 0.5945013123359605,
+              "brier": 0.20868302280647735,
+              "probes_total": 0,
+              "detected_changes": 3,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.37536649214660406,
+              "mean_oracle_regret": 0.5046335078534081,
+              "brier": 0.24199777635389524,
+              "probes_total": 2,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.5864659685863981,
+              "mean_oracle_regret": 0.3006544502617822,
+              "brier": 0.1948978756574461,
+              "probes_total": 200,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.2982984293193738,
+              "mean_oracle_regret": 0.5741099476439833,
+              "brier": 0.2251633952931046,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.38468586387435316,
+              "mean_oracle_regret": 0.48557591623037044,
+              "brier": 0.24419911562637278,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.3374869109947705,
+              "mean_oracle_regret": 0.5304188481675441,
+              "brier": 0.23664567161902622,
+              "probes_total": 7,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.2629581151832487,
+              "mean_oracle_regret": 0.6139005235602146,
+              "brier": 0.2585491711377612,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.3087696335078534,
+              "mean_oracle_regret": 0.574109947643981,
+              "brier": 0.2242813039426834,
+              "probes_total": 0,
+              "detected_changes": 3,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.6630733944954261,
+              "mean_oracle_regret": 0.21425294888597987,
+              "brier": 0.20217196838597673,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.7836500655308185,
+              "mean_oracle_regret": 0.0688269986893845,
+              "brier": 0.13445094201835592,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.3170707732634355,
+              "mean_oracle_regret": 0.5618807339449579,
+              "brier": 0.2299743354161458,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 763,
+              "mean_net_reward": 0.6552096985583368,
+              "mean_oracle_regret": 0.20827653997379117,
+              "brier": 0.20441228397906097,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 763,
+              "mean_net_reward": 0.5582241153342203,
+              "mean_oracle_regret": 0.31485583224115354,
+              "brier": 0.2197973909968329,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 763,
+              "mean_net_reward": 0.4376474442988313,
+              "mean_oracle_regret": 0.4264154652686773,
+              "brier": 0.24879143862948186,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 763,
+              "mean_net_reward": 0.2698885976408873,
+              "mean_oracle_regret": 0.6047116644823083,
+              "brier": 0.19445957579331913,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.41929882044561817,
+              "mean_oracle_regret": 0.4662581913499371,
+              "brier": 0.2488591489820111,
+              "probes_total": 0,
+              "detected_changes": 11,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.7484731323722309,
+              "mean_oracle_regret": 0.12104193971166648,
+              "brier": 0.1203360869643325,
+              "probes_total": 406,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.328866317169071,
+              "mean_oracle_regret": 0.551920052424643,
+              "brier": 0.23249799930263207,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 763,
+              "mean_net_reward": 0.4206094364351329,
+              "mean_oracle_regret": 0.44832896461337085,
+              "brier": 0.24479480650073684,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 763,
+              "mean_net_reward": 0.5267693315858583,
+              "mean_oracle_regret": 0.35569462647444317,
+              "brier": 0.23891811608843067,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 763,
+              "mean_net_reward": 0.3537680209698621,
+              "mean_oracle_regret": 0.4991284403669766,
+              "brier": 0.25387631726023846,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 763,
+              "mean_net_reward": 0.2829947575360396,
+              "mean_oracle_regret": 0.596743119266056,
+              "brier": 0.20172160458688257,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.4200261780104794,
+              "mean_oracle_regret": 0.4636910994764431,
+              "brier": 0.247606829847347,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.6678795811518459,
+              "mean_oracle_regret": 0.22280104712042387,
+              "brier": 0.16430505678466176,
+              "probes_total": 338,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.3401832460733009,
+              "mean_oracle_regret": 0.5562041884816789,
+              "brier": 0.23678407275713997,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.3977748691099537,
+              "mean_oracle_regret": 0.4875654450261815,
+              "brier": 0.24560636365111035,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.39123036649215504,
+              "mean_oracle_regret": 0.5014921465968635,
+              "brier": 0.24163326817338704,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.36505235602094915,
+              "mean_oracle_regret": 0.5532198952879632,
+              "brier": 0.24211920199491113,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.30222513089005265,
+              "mean_oracle_regret": 0.5800785340314165,
+              "brier": 0.21628092575338168,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.444895287958124,
+              "mean_oracle_regret": 0.42688481675392986,
+              "brier": 0.24642443309652098,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.576387434554988,
+              "mean_oracle_regret": 0.2756020942408406,
+              "brier": 0.21687869694353495,
+              "probes_total": 175,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.38861256544503314,
+              "mean_oracle_regret": 0.47761780104712553,
+              "brier": 0.242592183542756,
+              "probes_total": 0,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.43965968586388354,
+              "mean_oracle_regret": 0.42290575916230705,
+              "brier": 0.24637032940538423,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.37589005235602946,
+              "mean_oracle_regret": 0.4954712041884869,
+              "brier": 0.24009061891459854,
+              "probes_total": 21,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.27735602094240736,
+              "mean_oracle_regret": 0.5989790575916255,
+              "brier": 0.22752356950162408,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.2930628272251287,
+              "mean_oracle_regret": 0.5880366492146615,
+              "brier": 0.21226187075244926,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.7132198952879744,
+              "mean_oracle_regret": 0.18217277486911376,
+              "brier": 0.1821086716134769,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.8349476439790767,
+              "mean_oracle_regret": 0.06578534031413644,
+              "brier": 0.10093221771162152,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.43573298429320145,
+              "mean_oracle_regret": 0.45573298429319664,
+              "brier": 0.24590024581132203,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.647774869109962,
+              "mean_oracle_regret": 0.2408638743455521,
+              "brier": 0.1962907124231453,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.5626963350785475,
+              "mean_oracle_regret": 0.3264136125654444,
+              "brier": 0.21725451098447743,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.6503926701570821,
+              "mean_oracle_regret": 0.24285340314136353,
+              "brier": 0.20721116995649083,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.30746073298429294,
+              "mean_oracle_regret": 0.5890314136125672,
+              "brier": 0.20012612559828954,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.5569134993447062,
+              "mean_oracle_regret": 0.3427457404980355,
+              "brier": 0.23200714436646483,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.7010812581913662,
+              "mean_oracle_regret": 0.18735910878113088,
+              "brier": 0.17565132214030252,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.5608453473132516,
+              "mean_oracle_regret": 0.34573394495412996,
+              "brier": 0.2362135982572279,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 763,
+              "mean_net_reward": 0.5582241153342214,
+              "mean_oracle_regret": 0.34573394495412973,
+              "brier": 0.231338201723015,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 763,
+              "mean_net_reward": 0.5687090432503422,
+              "mean_oracle_regret": 0.3407536041939722,
+              "brier": 0.23029039040327393,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 763,
+              "mean_net_reward": 0.5608453473132519,
+              "mean_oracle_regret": 0.3387614678899094,
+              "brier": 0.23250424118086602,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 763,
+              "mean_net_reward": 0.28561598951507133,
+              "mean_oracle_regret": 0.5887745740498049,
+              "brier": 0.17820025639260026,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.4318062827225239,
+              "mean_oracle_regret": 0.4348429319371768,
+              "brier": 0.24467537169612696,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.5918586387434688,
+              "mean_oracle_regret": 0.28835078534031106,
+              "brier": 0.2051739232561751,
+              "probes_total": 106,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 764,
+              "mean_net_reward": 0.39515706806283807,
+              "mean_oracle_regret": 0.47164921465969245,
+              "brier": 0.23741007665176533,
+              "probes_total": 0,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 764,
+              "mean_net_reward": 0.4383507853403251,
+              "mean_oracle_regret": 0.4298691099476476,
+              "brier": 0.24532142254120565,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 764,
+              "mean_net_reward": 0.37683246073299415,
+              "mean_oracle_regret": 0.49751308900524055,
+              "brier": 0.2448036165994053,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 764,
+              "mean_net_reward": 0.26688481675392767,
+              "mean_oracle_regret": 0.6019633507853446,
+              "brier": 0.2914553149529328,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 764,
+              "mean_net_reward": 0.2577225130890005,
+              "mean_oracle_regret": 0.5989790575916243,
+              "brier": 0.20194726649382325,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.4123525557011873,
+              "mean_oracle_regret": 0.46963958060288585,
+              "brier": 0.24442564681022655,
+              "probes_total": 5,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.5881061598951641,
+              "mean_oracle_regret": 0.2930471821756231,
+              "brier": 0.20544605591703588,
+              "probes_total": 158,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 763,
+              "mean_net_reward": 0.35507863695937325,
+              "mean_oracle_regret": 0.5080930537352594,
+              "brier": 0.23626636041785556,
+              "probes_total": 0,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 763,
+              "mean_net_reward": 0.407503276539983,
+              "mean_oracle_regret": 0.4642660550458741,
+              "brier": 0.24250012548397937,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 763,
+              "mean_net_reward": 0.3984600262123293,
+              "mean_oracle_regret": 0.47640235910878476,
+              "brier": 0.24277441064650546,
+              "probes_total": 15,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 763,
+              "mean_net_reward": 0.2646461336828339,
+              "mean_oracle_regret": 0.6256290956749714,
+              "brier": 0.25826159349801836,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 763,
+              "mean_net_reward": 0.2711992136304037,
+              "mean_oracle_regret": 0.5877785058977739,
+              "brier": 0.20174175919051454,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        }
+      ],
+      "neural_superiority_gate_passed": false,
+      "limitations": [
+        "One fixed sensory circuit seed; world seeds are independent",
+        "Measured feature windows are reused, not freshly simulated for every decision",
+        "Cue memory is a stored spike representation, not evidence of spontaneous recurrent memory",
+        "Reward probabilities and task families are designed; uncertainty is unknown to the learner within that bounded world",
+        "No STDP, consciousness, live trading or financial-execution inference"
+      ]
+    }
+  },
+  {
+    "attempt": "b",
+    "notes": "Sharper decoder and decision-index scoring; exploratory draws still differed",
+    "result": {
+      "protocol": {
+        "seeds": [101, 102, 103, 104],
+        "tasks": ["association", "occlusion", "reversal", "scarcity"],
+        "trials_per_task": 1200,
+        "warmup": 240,
+        "branches": [
+          "spike_memory",
+          "symbolic_memory",
+          "no_memory",
+          "no_probes",
+          "no_adaptation",
+          "frozen_learning",
+          "random"
+        ],
+        "sources": {
+          "cognition/discovery.py": "e079319360915fd174f257bdd733358f9e87ed7f004385211c3afa342136752e",
+          "cognition/spike_sensor.py": "2e91737ffc67b5070304bd87d63c15f8aa2f90a09549f6ffe051fff30d68ce82",
+          "scripts/evaluate_discovery.py": "bccf7f9108cebab5edfaed5ab00310774f983ac0772199acd38e0a3270c880e5"
+        },
+        "primary_endpoint": "paired mean net virtual reward after equal warmup; higher is better",
+        "secondary_endpoints": [
+          "oracle regret",
+          "Brier",
+          "probe count",
+          "change detections"
+        ],
+        "claim_gate": "spike_memory minus symbolic_memory paired mean > 0 and lower 95% t interval > 0 for each task; otherwise no neural superiority claim",
+        "feature_sampling": "16 recorded windows for each of 8 cues plus blank, one fixed sensor seed; vectors replayed with seeded selection. Does not test long recurrent delays or STDP.",
+        "selection": "fixed balanced tasks for validation; adaptive live curriculum evaluated separately",
+        "scope": "Local software experiment, not independent preregistration or market forecasting"
+      },
+      "protocol_sha256": "0dc70405241a84cbab6b02df0b50be1f9b7a9bd839a3d642b44833eb0b627881",
+      "features_sha256": "70350b32ad7d012e0ba6d167008f00e319d00e6f64e2bc49eeb56cfefa7e9dac",
+      "summary": {
+        "association": {
+          "mean_net_reward": {
+            "spike_memory": 0.8171875000000001,
+            "symbolic_memory": 0.80703125,
+            "no_memory": 0.4161458333333333,
+            "no_probes": 0.81015625,
+            "no_adaptation": 0.8109375000000001,
+            "frozen_learning": 0.81015625,
+            "random": 0.28593749999999996
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": 0.010156250000000006,
+              "paired_standard_error": 0.00670204102324919,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.4010416666666667,
+              "paired_standard_error": 0.03580010975955654,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.007031250000000017,
+              "paired_standard_error": 0.00912449857513744,
+              "wins": 2,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.0062500000000000056,
+              "paired_standard_error": 0.00285272165367273,
+              "wins": 3,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.007031249999999989,
+              "paired_standard_error": 0.004723530507087764,
+              "wins": 2,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.53125,
+              "paired_standard_error": 0.00675077156084154,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "occlusion": {
+          "mean_net_reward": {
+            "spike_memory": 0.7449791666666667,
+            "symbolic_memory": 0.74590625,
+            "no_memory": 0.44062499999999993,
+            "no_probes": 0.6497395833333333,
+            "no_adaptation": 0.7480104166666667,
+            "frozen_learning": 0.72709375,
+            "random": 0.30052083333333335
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.0009270833333333284,
+              "paired_standard_error": 0.0031674147051423186,
+              "wins": 2,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.3043541666666667,
+              "paired_standard_error": 0.07344379405652098,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.09523958333333335,
+              "paired_standard_error": 0.042014449175557,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": -0.0030312499999999853,
+              "paired_standard_error": 0.0042939036443479335,
+              "wins": 1,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.01788541666666668,
+              "paired_standard_error": 0.01223440493291357,
+              "wins": 3,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.44445833333333334,
+              "paired_standard_error": 0.013432196412462214,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "reversal": {
+          "mean_net_reward": {
+            "spike_memory": 0.6347083333333333,
+            "symbolic_memory": 0.6279583333333333,
+            "no_memory": 0.39088541666666665,
+            "no_probes": 0.5505208333333333,
+            "no_adaptation": 0.40548958333333335,
+            "frozen_learning": 0.26809375,
+            "random": 0.27447916666666666
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": 0.006749999999999978,
+              "paired_standard_error": 0.004261660202923905,
+              "wins": 3,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.24382291666666664,
+              "paired_standard_error": 0.019983358057335778,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.0841875,
+              "paired_standard_error": 0.025402025040484628,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.22921874999999997,
+              "paired_standard_error": 0.020051491694013518,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.3666145833333333,
+              "paired_standard_error": 0.00896395777893337,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.36022916666666666,
+              "paired_standard_error": 0.005704898094490231,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "scarcity": {
+          "mean_net_reward": {
+            "spike_memory": 0.5672291666666667,
+            "symbolic_memory": 0.5916718750000001,
+            "no_memory": 0.34401041666666665,
+            "no_probes": 0.5203125,
+            "no_adaptation": 0.3527447916666666,
+            "frozen_learning": 0.23163020833333334,
+            "random": 0.2833333333333334
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.02444270833333334,
+              "paired_standard_error": 0.006661159699239567,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.22321875000000002,
+              "paired_standard_error": 0.030875914314884564,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.04691666666666665,
+              "paired_standard_error": 0.014986580127301809,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.214484375,
+              "paired_standard_error": 0.008032721956730693,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.3355989583333333,
+              "paired_standard_error": 0.010500872755698254,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.2838958333333333,
+              "paired_standard_error": 0.014240100220237481,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        }
+      },
+      "trials": [
+        {
+          "seed": 101,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8177083333333334,
+              "mean_oracle_regret": 0.07408333333333333,
+              "brier": 0.1052631028870928,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.815625,
+              "mean_oracle_regret": 0.07804166666666666,
+              "brier": 0.10781411708355344,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.515625,
+              "mean_oracle_regret": 0.35829166666666673,
+              "brier": 0.2415331351253093,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.8291666666666667,
+              "mean_oracle_regret": 0.063,
+              "brier": 0.10430434489284453,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.8145833333333333,
+              "mean_oracle_regret": 0.07170833333333333,
+              "brier": 0.10132762380888255,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.8197916666666667,
+              "mean_oracle_regret": 0.07091666666666667,
+              "brier": 0.10132781353327983,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.29270833333333335,
+              "mean_oracle_regret": 0.5855,
+              "brier": 0.10770287396286501,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7624166666666666,
+              "mean_oracle_regret": 0.13075,
+              "brier": 0.10763673612978307,
+              "probes_total": 423,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.765875,
+              "mean_oracle_regret": 0.123,
+              "brier": 0.10389409083142069,
+              "probes_total": 503,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5458333333333333,
+              "mean_oracle_regret": 0.340875,
+              "brier": 0.2395578150336191,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.7145833333333333,
+              "mean_oracle_regret": 0.18016666666666667,
+              "brier": 0.17331089992110474,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.7722083333333333,
+              "mean_oracle_regret": 0.12345833333333332,
+              "brier": 0.10842786183842974,
+              "probes_total": 418,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7114583333333333,
+              "mean_oracle_regret": 0.18016666666666667,
+              "brier": 0.1736794657088887,
+              "probes_total": 8,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.321875,
+              "mean_oracle_regret": 0.5831250000000001,
+              "brier": 0.15809751644407685,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6638333333333333,
+              "mean_oracle_regret": 0.2534166666666667,
+              "brier": 0.16616884185499817,
+              "probes_total": 273,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.669625,
+              "mean_oracle_regret": 0.24879166666666666,
+              "brier": 0.18284049522741266,
+              "probes_total": 162,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.4395833333333333,
+              "mean_oracle_regret": 0.44220833333333337,
+              "brier": 0.2421434550348152,
+              "probes_total": 0,
+              "detected_changes": 11,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.6395833333333333,
+              "mean_oracle_regret": 0.27120833333333333,
+              "brier": 0.2003976418039867,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.45725,
+              "mean_oracle_regret": 0.4457916666666667,
+              "brier": 0.2524292702762832,
+              "probes_total": 144,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.30145833333333333,
+              "mean_oracle_regret": 0.5997083333333334,
+              "brier": 0.38169338007489717,
+              "probes_total": 453,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2947916666666667,
+              "mean_oracle_regret": 0.59975,
+              "brier": 0.18488204095461863,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5713958333333333,
+              "mean_oracle_regret": 0.31577083333333333,
+              "brier": 0.19669369813214374,
+              "probes_total": 215,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5965208333333333,
+              "mean_oracle_regret": 0.29189583333333335,
+              "brier": 0.19682879995393038,
+              "probes_total": 220,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.296875,
+              "mean_oracle_regret": 0.5633333333333334,
+              "brier": 0.22044330951017937,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.50625,
+              "mean_oracle_regret": 0.37254166666666666,
+              "brier": 0.21890377433674973,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.3378333333333333,
+              "mean_oracle_regret": 0.534875,
+              "brier": 0.24865494958496465,
+              "probes_total": 171,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.22068749999999998,
+              "mean_oracle_regret": 0.6483958333333334,
+              "brier": 0.4337489815576365,
+              "probes_total": 326,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.259375,
+              "mean_oracle_regret": 0.6045,
+              "brier": 0.1884322286351761,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8354166666666667,
+              "mean_oracle_regret": 0.055875,
+              "brier": 0.1034459587673436,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8052083333333333,
+              "mean_oracle_regret": 0.07645833333333334,
+              "brier": 0.1019694375979854,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.396875,
+              "mean_oracle_regret": 0.507125,
+              "brier": 0.24538066840126363,
+              "probes_total": 0,
+              "detected_changes": 11,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.8041666666666667,
+              "mean_oracle_regret": 0.08595833333333334,
+              "brier": 0.10582157861004887,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.8260416666666667,
+              "mean_oracle_regret": 0.06379166666666666,
+              "brier": 0.10087130611841483,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.821875,
+              "mean_oracle_regret": 0.07250000000000001,
+              "brier": 0.1048180886485875,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2875,
+              "mean_oracle_regret": 0.597375,
+              "brier": 0.12165454928520023,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.76525,
+              "mean_oracle_regret": 0.11175,
+              "brier": 0.11276979103841707,
+              "probes_total": 484,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.759,
+              "mean_oracle_regret": 0.12125,
+              "brier": 0.11657101395123799,
+              "probes_total": 486,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.31666666666666665,
+              "mean_oracle_regret": 0.5459166666666667,
+              "brier": 0.22929574953155188,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5822916666666667,
+              "mean_oracle_regret": 0.28625,
+              "brier": 0.18259085407880887,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.755875,
+              "mean_oracle_regret": 0.12045833333333333,
+              "brier": 0.1115948152640374,
+              "probes_total": 510,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7475416666666667,
+              "mean_oracle_regret": 0.12204166666666666,
+              "brier": 0.12388115674773371,
+              "probes_total": 497,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.29791666666666666,
+              "mean_oracle_regret": 0.5799583333333334,
+              "brier": 0.17585200708583507,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6140833333333333,
+              "mean_oracle_regret": 0.249,
+              "brier": 0.1891239043193726,
+              "probes_total": 409,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6045833333333334,
+              "mean_oracle_regret": 0.2522916666666667,
+              "brier": 0.1872774624662899,
+              "probes_total": 410,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.36875,
+              "mean_oracle_regret": 0.49920833333333337,
+              "brier": 0.2404248285151778,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.490625,
+              "mean_oracle_regret": 0.36462500000000003,
+              "brier": 0.22852489408075968,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.34400000000000003,
+              "mean_oracle_regret": 0.51375,
+              "brier": 0.26343161682402355,
+              "probes_total": 217,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.2222083333333333,
+              "mean_oracle_regret": 0.649875,
+              "brier": 0.4543383743090557,
+              "probes_total": 513,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.26875,
+              "mean_oracle_regret": 0.6037083333333334,
+              "brier": 0.197850757073283,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5576875,
+              "mean_oracle_regret": 0.31997916666666665,
+              "brier": 0.2033097040274764,
+              "probes_total": 190,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5797291666666666,
+              "mean_oracle_regret": 0.30068750000000005,
+              "brier": 0.19532620203374804,
+              "probes_total": 228,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.30416666666666664,
+              "mean_oracle_regret": 0.5744166666666667,
+              "brier": 0.22700698784475234,
+              "probes_total": 0,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.48541666666666666,
+              "mean_oracle_regret": 0.40025,
+              "brier": 0.21954526504224653,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.360625,
+              "mean_oracle_regret": 0.5186666666666667,
+              "brier": 0.2533208705944102,
+              "probes_total": 178,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.2431458333333333,
+              "mean_oracle_regret": 0.6387708333333334,
+              "brier": 0.4074174778128206,
+              "probes_total": 175,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.30625,
+              "mean_oracle_regret": 0.5831250000000001,
+              "brier": 0.2071313093557062,
+              "probes_total": 0,
+              "detected_changes": 3,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7895833333333333,
+              "mean_oracle_regret": 0.07170833333333333,
+              "brier": 0.13294297327772392,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7854166666666667,
+              "mean_oracle_regret": 0.06616666666666667,
+              "brier": 0.13291017662404564,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.32395833333333335,
+              "mean_oracle_regret": 0.5585833333333333,
+              "brier": 0.23200286727826416,
+              "probes_total": 0,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.7802083333333333,
+              "mean_oracle_regret": 0.07408333333333333,
+              "brier": 0.1279629028368688,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.7770833333333333,
+              "mean_oracle_regret": 0.07487500000000001,
+              "brier": 0.13184815655532353,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7729166666666667,
+              "mean_oracle_regret": 0.07725,
+              "brier": 0.13734552446420423,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.27291666666666664,
+              "mean_oracle_regret": 0.6021250000000001,
+              "brier": 0.11007273750691113,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7514583333333333,
+              "mean_oracle_regret": 0.12466666666666666,
+              "brier": 0.11677462382228902,
+              "probes_total": 506,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7597916666666666,
+              "mean_oracle_regret": 0.11991666666666667,
+              "brier": 0.1108215452113698,
+              "probes_total": 505,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.34375,
+              "mean_oracle_regret": 0.5395833333333333,
+              "brier": 0.2343648181241444,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.6041666666666666,
+              "mean_oracle_regret": 0.27120833333333333,
+              "brier": 0.18364127281834508,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.755625,
+              "mean_oracle_regret": 0.12308333333333334,
+              "brier": 0.11224128360947622,
+              "probes_total": 503,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7410416666666666,
+              "mean_oracle_regret": 0.13020833333333334,
+              "brier": 0.11924281538321965,
+              "probes_total": 493,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.28958333333333336,
+              "mean_oracle_regret": 0.5886666666666667,
+              "brier": 0.16757091465457633,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6499583333333334,
+              "mean_oracle_regret": 0.23875000000000002,
+              "brier": 0.17265631051647817,
+              "probes_total": 423,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6367083333333333,
+              "mean_oracle_regret": 0.24666666666666667,
+              "brier": 0.17678242849046788,
+              "probes_total": 341,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.35104166666666664,
+              "mean_oracle_regret": 0.538,
+              "brier": 0.23814987034914506,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5208333333333334,
+              "mean_oracle_regret": 0.36620833333333336,
+              "brier": 0.22179475975393056,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.39466666666666667,
+              "mean_oracle_regret": 0.48516666666666663,
+              "brier": 0.2382522508276059,
+              "probes_total": 452,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.28725,
+              "mean_oracle_regret": 0.6167083333333333,
+              "brier": 0.38407365282763595,
+              "probes_total": 464,
+              "detected_changes": 0,
+              "final_virtual_balance": 19.924999999999997
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.29270833333333335,
+              "mean_oracle_regret": 0.5855,
+              "brier": 0.19931247184280174,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5607083333333333,
+              "mean_oracle_regret": 0.30562500000000004,
+              "brier": 0.20916898540803552,
+              "probes_total": 185,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6022083333333333,
+              "mean_oracle_regret": 0.26066666666666666,
+              "brier": 0.2069268796008557,
+              "probes_total": 202,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.42604166666666665,
+              "mean_oracle_regret": 0.44616666666666666,
+              "brier": 0.24292619488929948,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5552083333333333,
+              "mean_oracle_regret": 0.312375,
+              "brier": 0.2209894539965124,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.33979166666666666,
+              "mean_oracle_regret": 0.52975,
+              "brier": 0.2554521050417556,
+              "probes_total": 165,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.2399375,
+              "mean_oracle_regret": 0.6302291666666666,
+              "brier": 0.4273801800319293,
+              "probes_total": 353,
+              "detected_changes": 0,
+              "final_virtual_balance": 19.554999999999964
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2916666666666667,
+              "mean_oracle_regret": 0.5910416666666667,
+              "brier": 0.20087985682566226,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8260416666666667,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.10334549554250043,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.821875,
+              "mean_oracle_regret": 0.07170833333333333,
+              "brier": 0.10659351003634696,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.428125,
+              "mean_oracle_regret": 0.45645833333333335,
+              "brier": 0.24567261959260336,
+              "probes_total": 0,
+              "detected_changes": 12,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.8270833333333333,
+              "mean_oracle_regret": 0.06775,
+              "brier": 0.09742854692505935,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.8260416666666667,
+              "mean_oracle_regret": 0.06775,
+              "brier": 0.10013080219300892,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.8260416666666667,
+              "mean_oracle_regret": 0.06775,
+              "brier": 0.10132762514320641,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.290625,
+              "mean_oracle_regret": 0.5981666666666666,
+              "brier": 0.11905241800884205,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7007916666666667,
+              "mean_oracle_regret": 0.19545833333333335,
+              "brier": 0.17547314385295767,
+              "probes_total": 3,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6989583333333333,
+              "mean_oracle_regret": 0.19520833333333334,
+              "brier": 0.17502845028312908,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.55625,
+              "mean_oracle_regret": 0.3511666666666667,
+              "brier": 0.23699050073246433,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.6979166666666666,
+              "mean_oracle_regret": 0.19441666666666668,
+              "brier": 0.17310779962086154,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.7083333333333334,
+              "mean_oracle_regret": 0.19283333333333333,
+              "brier": 0.17234103912169577,
+              "probes_total": 2,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7083333333333334,
+              "mean_oracle_regret": 0.18966666666666668,
+              "brier": 0.173790248477779,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.29270833333333335,
+              "mean_oracle_regret": 0.5934166666666667,
+              "brier": 0.15750400313271504,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6109583333333333,
+              "mean_oracle_regret": 0.2555,
+              "brier": 0.18864958196681847,
+              "probes_total": 229,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6009166666666667,
+              "mean_oracle_regret": 0.278125,
+              "brier": 0.19673449904728543,
+              "probes_total": 201,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.4041666666666667,
+              "mean_oracle_regret": 0.462,
+              "brier": 0.23977919798664615,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5510416666666667,
+              "mean_oracle_regret": 0.3202916666666667,
+              "brier": 0.21784836385424144,
+              "probes_total": 0,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.42604166666666665,
+              "mean_oracle_regret": 0.459625,
+              "brier": 0.24687550358729518,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.26145833333333335,
+              "mean_oracle_regret": 0.6084583333333333,
+              "brier": 0.3227076034802761,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.24166666666666667,
+              "mean_oracle_regret": 0.60925,
+              "brier": 0.18625025989339786,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.579125,
+              "mean_oracle_regret": 0.30408333333333337,
+              "brier": 0.20703777930589068,
+              "probes_total": 168,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5882291666666667,
+              "mean_oracle_regret": 0.3003958333333333,
+              "brier": 0.2044299300456265,
+              "probes_total": 186,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.3489583333333333,
+              "mean_oracle_regret": 0.5221666666666667,
+              "brier": 0.235788771813284,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.534375,
+              "mean_oracle_regret": 0.34008333333333335,
+              "brier": 0.22039940744351522,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.37272916666666667,
+              "mean_oracle_regret": 0.5058541666666667,
+              "brier": 0.25545589683554604,
+              "probes_total": 173,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.22275,
+              "mean_oracle_regret": 0.6637083333333333,
+              "brier": 0.4233627552271707,
+              "probes_total": 323,
+              "detected_changes": 0,
+              "final_virtual_balance": 19.72999999999997
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2760416666666667,
+              "mean_oracle_regret": 0.587875,
+              "brier": 0.19718061222115865,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            }
+          }
+        }
+      ],
+      "neural_superiority_gate_passed": false,
+      "limitations": [
+        "One fixed sensory circuit seed; world seeds are independent",
+        "Measured feature windows are reused, not freshly simulated for every decision",
+        "Cue memory is a stored spike representation, not evidence of spontaneous recurrent memory",
+        "Reward probabilities and task families are designed; uncertainty is unknown to the learner within that bounded world",
+        "No STDP, consciousness, live trading or financial-execution inference"
+      ]
+    }
+  },
+  {
+    "attempt": "c",
+    "notes": "Matched exploration draws; final development controller",
+    "result": {
+      "protocol": {
+        "seeds": [101, 102, 103, 104],
+        "tasks": ["association", "occlusion", "reversal", "scarcity"],
+        "trials_per_task": 1200,
+        "warmup": 240,
+        "branches": [
+          "spike_memory",
+          "symbolic_memory",
+          "no_memory",
+          "no_probes",
+          "no_adaptation",
+          "frozen_learning",
+          "random"
+        ],
+        "sources": {
+          "cognition/discovery.py": "fe85297c51b499a1e533dca7d980665548e8bfac5276352c6880e71e0e007f62",
+          "cognition/spike_sensor.py": "2e91737ffc67b5070304bd87d63c15f8aa2f90a09549f6ffe051fff30d68ce82",
+          "scripts/evaluate_discovery.py": "1fa24909e57117aa74a43e67008284a459da50410c6c82624d34f1c65353953c"
+        },
+        "primary_endpoint": "paired mean net virtual reward after equal warmup; higher is better",
+        "secondary_endpoints": [
+          "oracle regret",
+          "Brier",
+          "probe count",
+          "change detections"
+        ],
+        "claim_gate": "spike_memory minus symbolic_memory paired mean > 0 and lower 95% t interval > 0 for each task; otherwise no neural superiority claim",
+        "feature_sampling": "16 recorded windows for each of 8 cues plus blank, one fixed sensor seed; vectors replayed with seeded selection. Does not test long recurrent delays or STDP.",
+        "selection": "fixed balanced tasks for validation; adaptive live curriculum evaluated separately",
+        "scope": "Local software experiment, not independent preregistration or market forecasting"
+      },
+      "protocol_sha256": "fe7a016d860aeaf210a2ffdcce5dcd7c0956c8a36bb0a20d4e094ff4866650a2",
+      "features_sha256": "70350b32ad7d012e0ba6d167008f00e319d00e6f64e2bc49eeb56cfefa7e9dac",
+      "summary": {
+        "association": {
+          "mean_net_reward": {
+            "spike_memory": 0.81171875,
+            "symbolic_memory": 0.81171875,
+            "no_memory": 0.421875,
+            "no_probes": 0.81171875,
+            "no_adaptation": 0.81171875,
+            "frozen_learning": 0.81171875,
+            "random": 0.2869791666666667
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": 0.0,
+              "paired_standard_error": 0.0,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.38984375,
+              "paired_standard_error": 0.03634748774607935,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.0,
+              "paired_standard_error": 0.0,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.0,
+              "paired_standard_error": 0.0,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.0,
+              "paired_standard_error": 0.0,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.5247395833333333,
+              "paired_standard_error": 0.009493607361228229,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "occlusion": {
+          "mean_net_reward": {
+            "spike_memory": 0.7421145833333334,
+            "symbolic_memory": 0.74278125,
+            "no_memory": 0.42864583333333334,
+            "no_probes": 0.6588541666666667,
+            "no_adaptation": 0.7435625,
+            "frozen_learning": 0.7283958333333334,
+            "random": 0.27213541666666663
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.0006666666666666765,
+              "paired_standard_error": 0.0006666666666666766,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.31346874999999996,
+              "paired_standard_error": 0.0694545993443272,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.08326041666666661,
+              "paired_standard_error": 0.03368978843237302,
+              "wins": 3,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": -0.0014479166666666876,
+              "paired_standard_error": 0.0008411740513842795,
+              "wins": 0,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.013718749999999974,
+              "paired_standard_error": 0.014778783268450519,
+              "wins": 1,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.4699791666666666,
+              "paired_standard_error": 0.01714816205328009,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "reversal": {
+          "mean_net_reward": {
+            "spike_memory": 0.63440625,
+            "symbolic_memory": 0.6314791666666667,
+            "no_memory": 0.39348958333333334,
+            "no_probes": 0.5572916666666666,
+            "no_adaptation": 0.39803125,
+            "frozen_learning": 0.2704375,
+            "random": 0.28359375
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": 0.0029270833333333024,
+              "paired_standard_error": 0.0029688961952307217,
+              "wins": 1,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.2409166666666666,
+              "paired_standard_error": 0.010556574329491258,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.07711458333333335,
+              "paired_standard_error": 0.018987503314497552,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.236375,
+              "paired_standard_error": 0.028656535879465803,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.36396875,
+              "paired_standard_error": 0.0076793444205326905,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.35081249999999997,
+              "paired_standard_error": 0.008010292496509079,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        },
+        "scarcity": {
+          "mean_net_reward": {
+            "spike_memory": 0.5767760416666666,
+            "symbolic_memory": 0.583703125,
+            "no_memory": 0.36770833333333336,
+            "no_probes": 0.5138020833333333,
+            "no_adaptation": 0.37150520833333334,
+            "frozen_learning": 0.231109375,
+            "random": 0.2752604166666667
+          },
+          "paired_comparisons": {
+            "symbolic_memory": {
+              "paired_gain": -0.006927083333333334,
+              "paired_standard_error": 0.00880924675635502,
+              "wins": 1,
+              "lower_95_bound": null
+            },
+            "no_memory": {
+              "paired_gain": 0.2090677083333333,
+              "paired_standard_error": 0.020920606048841186,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_probes": {
+              "paired_gain": 0.06297395833333332,
+              "paired_standard_error": 0.01852619980487281,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "no_adaptation": {
+              "paired_gain": 0.20527083333333335,
+              "paired_standard_error": 0.01989423168364155,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "frozen_learning": {
+              "paired_gain": 0.3456666666666667,
+              "paired_standard_error": 0.016234438774248256,
+              "wins": 4,
+              "lower_95_bound": null
+            },
+            "random": {
+              "paired_gain": 0.301515625,
+              "paired_standard_error": 0.013912586662299553,
+              "wins": 4,
+              "lower_95_bound": null
+            }
+          }
+        }
+      },
+      "trials": [
+        {
+          "seed": 101,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.821875,
+              "mean_oracle_regret": 0.06616666666666667,
+              "brier": 0.10474805995859361,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.821875,
+              "mean_oracle_regret": 0.06616666666666667,
+              "brier": 0.10433812572661241,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5375,
+              "mean_oracle_regret": 0.34641666666666665,
+              "brier": 0.24187916546535218,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.821875,
+              "mean_oracle_regret": 0.06616666666666667,
+              "brier": 0.10474805995859361,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.821875,
+              "mean_oracle_regret": 0.06616666666666667,
+              "brier": 0.10314288770325537,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.821875,
+              "mean_oracle_regret": 0.06616666666666667,
+              "brier": 0.10547224094042947,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.31354166666666666,
+              "mean_oracle_regret": 0.58075,
+              "brier": 0.10978633968372058,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7621666666666667,
+              "mean_oracle_regret": 0.12704166666666666,
+              "brier": 0.11068566069294422,
+              "predictions_evaluated": 960,
+              "probes_total": 418,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7648333333333334,
+              "mean_oracle_regret": 0.125375,
+              "brier": 0.10567331408800189,
+              "predictions_evaluated": 960,
+              "probes_total": 501,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5375,
+              "mean_oracle_regret": 0.34958333333333336,
+              "brier": 0.24104599074853975,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.7041666666666667,
+              "mean_oracle_regret": 0.18966666666666668,
+              "brier": 0.17239462423871338,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.7648333333333334,
+              "mean_oracle_regret": 0.125375,
+              "brier": 0.10781205142547368,
+              "predictions_evaluated": 960,
+              "probes_total": 433,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7041666666666667,
+              "mean_oracle_regret": 0.18966666666666668,
+              "brier": 0.1739084480864252,
+              "predictions_evaluated": 960,
+              "probes_total": 7,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.259375,
+              "mean_oracle_regret": 0.6005416666666666,
+              "brier": 0.1468017797854156,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.659875,
+              "mean_oracle_regret": 0.25383333333333336,
+              "brier": 0.1793677762401629,
+              "predictions_evaluated": 960,
+              "probes_total": 202,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.659875,
+              "mean_oracle_regret": 0.25383333333333336,
+              "brier": 0.17936777217070052,
+              "predictions_evaluated": 960,
+              "probes_total": 202,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.44479166666666664,
+              "mean_oracle_regret": 0.45487500000000003,
+              "brier": 0.24236901309755313,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.6333333333333333,
+              "mean_oracle_regret": 0.27437500000000004,
+              "brier": 0.1985067248284843,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.47883333333333333,
+              "mean_oracle_regret": 0.42604166666666665,
+              "brier": 0.2555490241096262,
+              "predictions_evaluated": 960,
+              "probes_total": 163,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.3025,
+              "mean_oracle_regret": 0.5957500000000001,
+              "brier": 0.4111678406788309,
+              "predictions_evaluated": 960,
+              "probes_total": 461,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2989583333333333,
+              "mean_oracle_regret": 0.6029166666666668,
+              "brier": 0.19203352802239862,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5994791666666667,
+              "mean_oracle_regret": 0.2904791666666667,
+              "brier": 0.1965991889066045,
+              "predictions_evaluated": 960,
+              "probes_total": 219,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5892708333333334,
+              "mean_oracle_regret": 0.2981875,
+              "brier": 0.19728715032619018,
+              "predictions_evaluated": 960,
+              "probes_total": 209,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.33645833333333336,
+              "mean_oracle_regret": 0.5292916666666667,
+              "brier": 0.2337075461864955,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5041666666666667,
+              "mean_oracle_regret": 0.3685833333333334,
+              "brier": 0.22063149290929976,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.34160416666666665,
+              "mean_oracle_regret": 0.5423958333333334,
+              "brier": 0.25048042598958825,
+              "predictions_evaluated": 960,
+              "probes_total": 175,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.22797916666666665,
+              "mean_oracle_regret": 0.6428541666666666,
+              "brier": 0.4303487951966477,
+              "predictions_evaluated": 960,
+              "probes_total": 333,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.278125,
+              "mean_oracle_regret": 0.6045,
+              "brier": 0.2016469234285806,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8177083333333334,
+              "mean_oracle_regret": 0.070125,
+              "brier": 0.10353266457406,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8177083333333334,
+              "mean_oracle_regret": 0.070125,
+              "brier": 0.1030839695920436,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.4041666666666667,
+              "mean_oracle_regret": 0.47941666666666666,
+              "brier": 0.24651732769298998,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 12,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.8177083333333334,
+              "mean_oracle_regret": 0.070125,
+              "brier": 0.10353266457406,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.8177083333333334,
+              "mean_oracle_regret": 0.070125,
+              "brier": 0.10107838824112204,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.8177083333333334,
+              "mean_oracle_regret": 0.070125,
+              "brier": 0.1052233307504428,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.278125,
+              "mean_oracle_regret": 0.59975,
+              "brier": 0.1074443038487506,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7423333333333333,
+              "mean_oracle_regret": 0.133125,
+              "brier": 0.11509511488792189,
+              "predictions_evaluated": 960,
+              "probes_total": 487,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7423333333333333,
+              "mean_oracle_regret": 0.133125,
+              "brier": 0.11509674236863604,
+              "predictions_evaluated": 960,
+              "probes_total": 487,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.3020833333333333,
+              "mean_oracle_regret": 0.5562083333333334,
+              "brier": 0.2221035779225837,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 3,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5958333333333333,
+              "mean_oracle_regret": 0.279125,
+              "brier": 0.18255139717254185,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.7454583333333333,
+              "mean_oracle_regret": 0.12916666666666668,
+              "brier": 0.11066763607955629,
+              "predictions_evaluated": 960,
+              "probes_total": 503,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7454583333333333,
+              "mean_oracle_regret": 0.12916666666666668,
+              "brier": 0.18217083482011026,
+              "predictions_evaluated": 960,
+              "probes_total": 487,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.26145833333333335,
+              "mean_oracle_regret": 0.6029166666666668,
+              "brier": 0.16275018750598388,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6163333333333333,
+              "mean_oracle_regret": 0.242,
+              "brier": 0.1908698254837888,
+              "predictions_evaluated": 960,
+              "probes_total": 392,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6164583333333333,
+              "mean_oracle_regret": 0.24183333333333332,
+              "brier": 0.18981600546496705,
+              "predictions_evaluated": 960,
+              "probes_total": 415,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.36770833333333336,
+              "mean_oracle_regret": 0.49683333333333335,
+              "brier": 0.2393124216596549,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5125,
+              "mean_oracle_regret": 0.3487916666666667,
+              "brier": 0.22776263049013248,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.30995833333333334,
+              "mean_oracle_regret": 0.5652083333333333,
+              "brier": 0.26197037428721764,
+              "predictions_evaluated": 960,
+              "probes_total": 343,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.22949999999999998,
+              "mean_oracle_regret": 0.6419583333333333,
+              "brier": 0.4460188349397184,
+              "predictions_evaluated": 960,
+              "probes_total": 520,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2833333333333333,
+              "mean_oracle_regret": 0.5799583333333334,
+              "brier": 0.2018380012616728,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 102,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5543958333333333,
+              "mean_oracle_regret": 0.32414583333333336,
+              "brier": 0.20745904219023192,
+              "predictions_evaluated": 960,
+              "probes_total": 183,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5856041666666666,
+              "mean_oracle_regret": 0.2968958333333333,
+              "brier": 0.19790589337945338,
+              "predictions_evaluated": 960,
+              "probes_total": 212,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.340625,
+              "mean_oracle_regret": 0.5245416666666667,
+              "brier": 0.23948688375419538,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.46145833333333336,
+              "mean_oracle_regret": 0.40658333333333335,
+              "brier": 0.21762039186377694,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.37679166666666664,
+              "mean_oracle_regret": 0.5074583333333333,
+              "brier": 0.25036846429382364,
+              "predictions_evaluated": 960,
+              "probes_total": 221,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.24939583333333332,
+              "mean_oracle_regret": 0.6332291666666666,
+              "brier": 0.4165117530557587,
+              "predictions_evaluated": 960,
+              "probes_total": 179,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.28125,
+              "mean_oracle_regret": 0.5965833333333334,
+              "brier": 0.201356969795102,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7833333333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.13582048578933698,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7833333333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.13610000395721797,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.33229166666666665,
+              "mean_oracle_regret": 0.559375,
+              "brier": 0.23547900994285184,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 7,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.7833333333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.13582048578933698,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.7833333333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.13224603111018202,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7833333333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.13832793722731684,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.275,
+              "mean_oracle_regret": 0.60925,
+              "brier": 0.12296108035787282,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7545833333333333,
+              "mean_oracle_regret": 0.12308333333333334,
+              "brier": 0.1105094227803859,
+              "predictions_evaluated": 960,
+              "probes_total": 495,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.7545833333333333,
+              "mean_oracle_regret": 0.12308333333333334,
+              "brier": 0.10965080583225702,
+              "predictions_evaluated": 960,
+              "probes_total": 505,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.33125,
+              "mean_oracle_regret": 0.5490833333333334,
+              "brier": 0.236527591365798,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 8,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.6260416666666667,
+              "mean_oracle_regret": 0.2561666666666667,
+              "brier": 0.18303240363043338,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.7545833333333333,
+              "mean_oracle_regret": 0.12308333333333334,
+              "brier": 0.10615094272262712,
+              "predictions_evaluated": 960,
+              "probes_total": 508,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.7545833333333333,
+              "mean_oracle_regret": 0.12308333333333334,
+              "brier": 0.11538280934990595,
+              "predictions_evaluated": 960,
+              "probes_total": 495,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.28020833333333334,
+              "mean_oracle_regret": 0.5989583333333334,
+              "brier": 0.16197493053315323,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6347083333333333,
+              "mean_oracle_regret": 0.255,
+              "brier": 0.17368857079891495,
+              "predictions_evaluated": 960,
+              "probes_total": 413,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6228750000000001,
+              "mean_oracle_regret": 0.26491666666666663,
+              "brier": 0.17941912130045726,
+              "predictions_evaluated": 960,
+              "probes_total": 393,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.3697916666666667,
+              "mean_oracle_regret": 0.5205833333333334,
+              "brier": 0.24200763662122116,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5260416666666666,
+              "mean_oracle_regret": 0.3614583333333333,
+              "brier": 0.2184881704875318,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.37579166666666663,
+              "mean_oracle_regret": 0.5122083333333334,
+              "brier": 0.2407601621989228,
+              "predictions_evaluated": 960,
+              "probes_total": 503,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.28099999999999997,
+              "mean_oracle_regret": 0.6198750000000001,
+              "brier": 0.400444222423816,
+              "predictions_evaluated": 960,
+              "probes_total": 501,
+              "detected_changes": 0,
+              "final_virtual_balance": 19.924999999999997
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.29270833333333335,
+              "mean_oracle_regret": 0.5926250000000001,
+              "brier": 0.20039406860748238,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 103,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5811875,
+              "mean_oracle_regret": 0.2851458333333333,
+              "brier": 0.20930446549489629,
+              "predictions_evaluated": 960,
+              "probes_total": 177,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5878958333333333,
+              "mean_oracle_regret": 0.2770208333333333,
+              "brier": 0.20837929609954073,
+              "predictions_evaluated": 960,
+              "probes_total": 184,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.41875,
+              "mean_oracle_regret": 0.44933333333333336,
+              "brier": 0.24180291661800588,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 10,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5385416666666667,
+              "mean_oracle_regret": 0.3202916666666667,
+              "brier": 0.2220703143830577,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.3671041666666667,
+              "mean_oracle_regret": 0.5012708333333333,
+              "brier": 0.262506991712214,
+              "predictions_evaluated": 960,
+              "probes_total": 183,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.24722916666666667,
+              "mean_oracle_regret": 0.6207291666666667,
+              "brier": 0.4387064133353026,
+              "predictions_evaluated": 960,
+              "probes_total": 355,
+              "detected_changes": 0,
+              "final_virtual_balance": 19.704999999999963
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2520833333333333,
+              "mean_oracle_regret": 0.6108333333333333,
+              "brier": 0.19093208826236038,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "association",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8239583333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.10024917283432995,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.8239583333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.1003280508918314,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.41354166666666664,
+              "mean_oracle_regret": 0.46991666666666665,
+              "brier": 0.24420582834202184,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 11,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.8239583333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.10024917283432995,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.8239583333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.09796835554638475,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.8239583333333333,
+              "mean_oracle_regret": 0.06854166666666667,
+              "brier": 0.10291473212163078,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.28125,
+              "mean_oracle_regret": 0.6052916666666667,
+              "brier": 0.11329710487036504,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "occlusion",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.709375,
+              "mean_oracle_regret": 0.1872916666666667,
+              "brier": 0.1727892353416624,
+              "predictions_evaluated": 960,
+              "probes_total": 2,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.709375,
+              "mean_oracle_regret": 0.1872916666666667,
+              "brier": 0.17259520173466578,
+              "predictions_evaluated": 960,
+              "probes_total": 2,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.54375,
+              "mean_oracle_regret": 0.3535416666666667,
+              "brier": 0.23854533506665737,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.709375,
+              "mean_oracle_regret": 0.1872916666666667,
+              "brier": 0.17290554768256872,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.709375,
+              "mean_oracle_regret": 0.1872916666666667,
+              "brier": 0.1709234523132538,
+              "predictions_evaluated": 960,
+              "probes_total": 2,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.709375,
+              "mean_oracle_regret": 0.1872916666666667,
+              "brier": 0.17350998440341142,
+              "predictions_evaluated": 960,
+              "probes_total": 2,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.2875,
+              "mean_oracle_regret": 0.5902499999999999,
+              "brier": 0.15419818842673458,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "reversal",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6267083333333333,
+              "mean_oracle_regret": 0.24429166666666668,
+              "brier": 0.18871124730243255,
+              "predictions_evaluated": 960,
+              "probes_total": 228,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.6267083333333333,
+              "mean_oracle_regret": 0.24429166666666668,
+              "brier": 0.18871124578370896,
+              "predictions_evaluated": 960,
+              "probes_total": 228,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.39166666666666666,
+              "mean_oracle_regret": 0.4849583333333333,
+              "brier": 0.2414298607891435,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 11,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5572916666666666,
+              "mean_oracle_regret": 0.3139583333333334,
+              "brier": 0.21807330082151627,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 4,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.42754166666666665,
+              "mean_oracle_regret": 0.4467916666666667,
+              "brier": 0.23633791680283037,
+              "predictions_evaluated": 960,
+              "probes_total": 138,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.26875,
+              "mean_oracle_regret": 0.6021250000000001,
+              "brier": 0.33268771500310235,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.259375,
+              "mean_oracle_regret": 0.6037083333333334,
+              "brier": 0.18770747183970857,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 2,
+              "final_virtual_balance": 20.0
+            }
+          }
+        },
+        {
+          "seed": 104,
+          "task": "scarcity",
+          "branches": {
+            "spike_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5720416666666667,
+              "mean_oracle_regret": 0.30491666666666667,
+              "brier": 0.20436261077247664,
+              "predictions_evaluated": 960,
+              "probes_total": 190,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "symbolic_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.5720416666666667,
+              "mean_oracle_regret": 0.30491666666666667,
+              "brier": 0.20436260580421314,
+              "predictions_evaluated": 960,
+              "probes_total": 190,
+              "detected_changes": 5,
+              "final_virtual_balance": 20.0
+            },
+            "no_memory": {
+              "scored": 960,
+              "mean_net_reward": 0.375,
+              "mean_oracle_regret": 0.5039583333333334,
+              "brier": 0.23909557713812693,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 9,
+              "final_virtual_balance": 20.0
+            },
+            "no_probes": {
+              "scored": 960,
+              "mean_net_reward": 0.5510416666666667,
+              "mean_oracle_regret": 0.336125,
+              "brier": 0.2199529581571564,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 6,
+              "final_virtual_balance": 20.0
+            },
+            "no_adaptation": {
+              "scored": 960,
+              "mean_net_reward": 0.4005208333333333,
+              "mean_oracle_regret": 0.48189583333333336,
+              "brier": 0.2531174524593217,
+              "predictions_evaluated": 960,
+              "probes_total": 180,
+              "detected_changes": 0,
+              "final_virtual_balance": 20.0
+            },
+            "frozen_learning": {
+              "scored": 960,
+              "mean_net_reward": 0.19983333333333334,
+              "mean_oracle_regret": 0.6842916666666666,
+              "brier": 0.4265948426840835,
+              "predictions_evaluated": 960,
+              "probes_total": 336,
+              "detected_changes": 0,
+              "final_virtual_balance": 19.54499999999996
+            },
+            "random": {
+              "scored": 960,
+              "mean_net_reward": 0.28958333333333336,
+              "mean_oracle_regret": 0.5847083333333334,
+              "brier": 0.19825626817700037,
+              "predictions_evaluated": 960,
+              "probes_total": 0,
+              "detected_changes": 1,
+              "final_virtual_balance": 20.0
+            }
+          }
+        }
+      ],
+      "neural_superiority_gate_passed": false,
+      "limitations": [
+        "One fixed sensory circuit seed; world seeds are independent",
+        "Measured feature windows are reused, not freshly simulated for every decision",
+        "Cue memory is a stored spike representation, not evidence of spontaneous recurrent memory",
+        "Reward probabilities and task families are designed; uncertainty is unknown to the learner within that bounded world",
+        "No STDP, consciousness, live trading or financial-execution inference"
+      ]
+    }
+  }
+]

@@ -19,12 +19,13 @@ class CognitiveApiTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.public = ROOT / ".test-state" / uuid.uuid4().hex
-        for name in ("engine", "cognition", "treasury"):
+        for name in ("engine", "cognition", "treasury", "discovery"):
             (cls.public / name).mkdir(parents=True, exist_ok=True)
         cls.state = {"phase": "running", "tick": 12, "updated_utc": "fixture"}
         for folder in ("engine", "cognition"):
             (cls.public / folder / "status.json").write_text(json.dumps(cls.state))
         (cls.public / "cognition" / "effects.json").write_text("[]")
+        (cls.public / "discovery" / "status.json").write_text(json.dumps(cls.state))
         with socket.socket() as channel:
             channel.bind(("127.0.0.1", 0))
             cls.port = channel.getsockname()[1]
@@ -66,6 +67,7 @@ class CognitiveApiTests(unittest.TestCase):
     def test_aggregate_health_includes_cognitive_worker(self):
         self.assertTrue(self.get("/healthz")["healthy"])
         self.assertEqual(self.get("/healthz")["cognitive_tick"], 12)
+        self.assertIn("discovery_trial", self.get("/healthz"))
 
     def test_cognitive_evidence_is_read_only(self):
         self.assertEqual(self.get("/api/cognition/effects"), [])
@@ -82,6 +84,16 @@ class CognitiveApiTests(unittest.TestCase):
         with self.assertRaises(urllib.error.HTTPError) as failure:
             self.get("/api/cognition/decisions")
         self.assertEqual(failure.exception.code, 503)
+
+    def test_discovery_is_cache_only_and_stale_is_unavailable(self):
+        self.assertEqual(self.get("/api/discovery")["tick"], 12)
+        path = self.public / "discovery" / "status.json"
+        os.utime(path, (time.time() - 60, time.time() - 60))
+        time.sleep(1.05)
+        with self.assertRaises(urllib.error.HTTPError) as failure:
+            self.get("/api/discovery")
+        self.assertEqual(failure.exception.code, 503)
+        os.utime(path, None)
 
     def test_arbitrary_paths_are_not_filesystem_reads(self):
         with self.assertRaises(urllib.error.HTTPError) as failure:

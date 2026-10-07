@@ -90,3 +90,24 @@ python -m scripts.benchmark_cognition .test-state/new-neural-run --neural-only -
 Use a new directory; existing evidence is retained. The first command evaluates the production statistical component. The second uses actual Brian2 spikes, a fixed circuit seed and three data seeds, comparing normal training STDP against disabled training STDP with both held-out branches frozen. Neither command calls RPC, sends transactions or touches the running history.
 
 Expert weighting is informed by [prediction with expert advice for the Brier game](https://www.jmlr.org/papers/v10/vovk09a.html). Nuria's discounted fixed-share heuristic is not an implementation of that paper's theorem and claims no corresponding guarantee. Neural plasticity uses Brian2's [explicit pre/post synaptic mechanisms](https://brian2.readthedocs.io/en/stable/examples/synapses.STDP.html).
+
+## Hidden-world decision experiment
+
+The separate Discovery lab now tests costed sensing, remembered neural representations, delayed feedback and continual adaptation against seven paired branches.
+
+Mean net virtual reward across 12 fresh world seeds; higher is better:
+
+| Task        | Spike memory | Symbolic memory | No memory | No probes | No adaptation | Frozen learning | Random |
+| ----------- | ------------ | --------------- | --------- | --------- | ------------- | --------------- | ------ |
+| Association | 0.8070       | 0.8070          | 0.3805    | 0.8070    | 0.8070        | 0.8070          | 0.2853 |
+| Occlusion   | 0.7473       | 0.7481          | 0.4426    | 0.6568    | 0.7481        | 0.7431          | 0.2847 |
+| Reversal    | 0.6260       | 0.6245          | 0.3641    | 0.5269    | 0.3609        | 0.2597          | 0.2885 |
+| Scarcity    | 0.5863       | 0.5866          | 0.3694    | 0.5270    | 0.3871        | 0.2848          | 0.2861 |
+
+Cue-memory removal lowers reward on all four tasks (12/12 paired wins each). Costed probes help on occlusion, reversal and scarcity; their conservative paired lower bounds are positive. Adaptation and continued outcome learning help on reversal and scarcity, with 12/12 paired wins each. They do not improve the stable association task.
+
+**Neural superiority gate: failed.** Spike memory equals the symbolic alternative on association and differs by less than 0.0015 mean reward on the other tasks. Its conservative paired lower bounds against symbolic memory are not positive. The useful effects are from cue retention, active sensing and adapting outcome models; this study does not establish a benefit from neural dynamics or plastic synapses.
+
+The validation scores 46,080 post-warmup world opportunities across seven branches (322,560 scored choices). Its protocol hash is `b47e96911dffa78b8d10be71fd98ed764179acdce38eb7124e59776fbe2f2fb2`. [Recorded spike evidence](discovery-features.json) contains the counts, relative spike times, pooled membrane values and features used in replay. Independent circuit seeds and replication remain pending.
+
+Read [the full specification](discovery.md) and [all decision validation trials](discovery-evaluation.json). This experiment has its own circuit and history and does not establish efficacy of the main circuit’s STDP, workspace or episodic neural replay.

@@ -4,6 +4,8 @@ Two independent circuits read the same durable finalized input queue. The origin
 
 ## Cognitive cycle
 
+An isolated decision laboratory now runs alongside these two histories. Its own 256-neuron sensory circuit feeds learned cue representations, costed sensing and delayed-feedback action learners. Seven matched branches include a direct symbolic-memory comparator. It owns a third private SQLite journal and complete Brian2 checkpoint, has no RPC/database/signing credentials, and reads only the main circuit's public cache to perturb virtual information prices. The API reads its public `discovery/status.json` cache with a 15-second freshness gate. See [the complete experiment protocol](discovery.md). The main cognitive action rule below is unchanged; lab capability is not attributed to that rule.
+
 Each cycle reads at most four inputs in event order. Each valid input gets an independent 20 ms sensory window, source-specific forecast, episode and input-effect record. Side, amount, fee and event-ID texture enter sensory drive. Recalled features stimulate the memory population. A 100 ms autonomous window follows.
 
 Every five cycles, 65% goal utility and 35% normalized action-region spikes select one of eight actions. Habitat moves use an explicit local planner. Replay and matched probes operate on recorded episodes. Retrospective component diagnostics execute on recorded inputs with measured CPU/wall time. Observed prediction improvement and action consequences modulate synaptic eligibility and learned action values.

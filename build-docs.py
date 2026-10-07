@@ -13,8 +13,13 @@ def build(root: Path = ROOT) -> None:
         "<!--COGNITION_VIEW-->", (root / "cognition-view.html").read_text()
     )
     source = source.replace(
+        "<!--DISCOVERY_VIEW-->", (root / "discovery-view.html").read_text()
+    )
+    source = source.replace(
         "</style>",
         (root / "cognition-view.css").read_text()
+        + "\n"
+        + (root / "discovery-view.css").read_text()
         + "\n"
         + (root / "observatory-design.css").read_text()
         + "\n</style>",
@@ -22,6 +27,9 @@ def build(root: Path = ROOT) -> None:
     )
     source = source.replace(
         "/*COGNITION_CLIENT*/", (root / "cognition-view.js").read_text()
+    )
+    source = source.replace(
+        "/*DISCOVERY_CLIENT*/", (root / "discovery-view.js").read_text()
     )
     source = source.replace("/*NEURAL_MATH*/", (root / "neural-math.js").read_text())
     source = source.replace("/*NEURAL_FIELD*/", (root / "neural-field.js").read_text())

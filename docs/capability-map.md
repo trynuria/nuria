@@ -2,6 +2,8 @@
 
 The 51 entries are implementation and research gates, not a ranking of consciousness. An active mechanism is not proof of useful capability. The next whole-organism milestone is a fair task where neural plasticity, episodic memory and workspace attention each improve behavior against strong alternatives.
 
+The separate [Discovery lab](discovery.md) now implements partial observation, learned action outcomes, uncertainty-aware exploration, active sensing, virtual budgets, delayed credit, cue memory, continual adaptation, an adaptive curriculum and paired controls. Its validation concerns that explicit decision controller and stored sensory representations; it does not promote the main circuit's unproven STDP, workspace, neural replay or multi-step planning gates to demonstrated capability.
+
 | Step | Capability                          | Status     | Evidence or next gate                                                                                                          |
 | ---- | ----------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | 1    | Persistent membrane dynamics        | Active     | Neural variables and random state resume from a trusted checkpoint.                                                            |
