@@ -2654,7 +2654,7 @@
       .lab-comparisons {
         display: grid;
         gap: 11px;
-        height: 191px;
+        height: 169px;
       }
       .lab-comparison {
         display: grid;
@@ -9708,6 +9708,7 @@
           scarcity: "Conditions change, and information can become expensive.",
         };
         function renderDiscovery() {
+          $("labTaskDescription").textContent = discoveryDescriptions[discoveryTask];
           const s = discoveryState;
           if (!s) return;
           const fresh =
@@ -9752,8 +9753,8 @@
           $("labResult").textContent = !fresh
             ? "Last recorded values. Current experiment evidence is unavailable."
             : model?.settled >= 40 && Number.isFinite(symbol) && Number.isFinite(spike)
-              ? `Spike memory ${spike >= symbol ? "+" : "−"}${Math.abs(spike - symbol).toFixed(3)} versus symbolic memory. Live observations; fresh-seed validation is in the docs.`
-              : "Gathering outcomes. A useful neural advantage must be earned against the symbolic control.";
+              ? `Spike memory ${spike >= symbol ? "+" : "−"}${Math.abs(spike - symbol).toFixed(3)} vs symbolic control. Live result; validation in docs.`
+              : "Gathering outcomes. Compare learned choices with the controls.";
           cognitiveCount("labSettled", model?.settled);
           cognitiveCount("labProbes", model?.probes);
           cognitiveCount("labChanges", model?.detected_changes);
