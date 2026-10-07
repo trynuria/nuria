@@ -1,18 +1,16 @@
 <section class="cognitive-section" id="cognition" aria-labelledby="cognitionTitle">
   <div class="cognitive-heading"
     ><div
-      ><span class="section-index">02 /</span
+      ><span class="section-index">02</span
       ><h2 id="cognitionTitle">Learning and decisions</h2></div
     ><span id="cogPhase" class="badge">Connecting</span></div
   >
   <p class="cognitive-intro"
-    >Nuria forecasts the next input, retrieves past experiences and chooses what to do
-    next. Outcomes feed back into its connections and action values. Each decision
-    records the scores that produced it.</p
+    >The current decision, recent learning and the experiences Nuria keeps.</p
   >
   <div class="cognitive-grid">
     <article class="cognitive-card decision-card"
-      ><div class="micro">CURRENT DECISION</div
+      ><div class="micro">NEXT ACTION</div
       ><div class="decision-action" id="cogAction">—</div
       ><p id="cogReason" class="decision-reason">Waiting for a recorded decision.</p
       ><div class="decision-scores" id="cogScores"></div
@@ -22,10 +20,11 @@
       ></article
     >
     <article class="cognitive-card learning-card"
-      ><div class="micro">LEARNING FROM INPUTS</div
+      ><div class="cognitive-card-top"
+        ><div class="micro">PREDICTION &amp; LEARNING</div
+        ><span id="cogSourceBadge">Awaiting data</span></div
       ><div class="cognitive-stats"
-        ><div
-          ><strong id="cogPrediction">—</strong><span>next buy probability</span></div
+        ><div><strong id="cogPrediction">—</strong><span>next input: buy</span></div
         ><div
           ><strong id="cogEvaluated">—</strong><span>predictions evaluated</span></div
         ><div

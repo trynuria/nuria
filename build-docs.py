@@ -13,7 +13,12 @@ def build(root: Path = ROOT) -> None:
         "<!--COGNITION_VIEW-->", (root / "cognition-view.html").read_text()
     )
     source = source.replace(
-        "</style>", (root / "cognition-view.css").read_text() + "\n</style>", 1
+        "</style>",
+        (root / "cognition-view.css").read_text()
+        + "\n"
+        + (root / "observatory-design.css").read_text()
+        + "\n</style>",
+        1,
     )
     source = source.replace(
         "/*COGNITION_CLIENT*/", (root / "cognition-view.js").read_text()

@@ -1,6 +1,17 @@
 let cognitionState = null,
   legacyState = null,
   cognitiveDecisionHash = null;
+function cognitiveCount(id, value) {
+  const element = $(id);
+  element.textContent =
+    Number.isFinite(value) && value >= 10000
+      ? new Intl.NumberFormat("en", {
+          notation: "compact",
+          maximumFractionDigits: 1,
+        }).format(value)
+      : fmt(value);
+  element.title = Number.isFinite(value) ? fmt(value) : "Evidence unavailable";
+}
 function cognitiveNode(tag, text, className) {
   const element = document.createElement(tag);
   if (text !== undefined) element.textContent = text;
@@ -59,20 +70,47 @@ function drawLearning(rows) {
   x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
   x.clearRect(0, 0, d.w, d.h);
   if (rows.length < 2) return;
+  const left = 26,
+    right = d.w - 3,
+    top = 5,
+    bottom = d.h - 15;
+  const maximum = Math.min(
+    1,
+    Math.max(0.3, ...rows.map((r) => Math.max(r.brier || 0, r.baseline_brier || 0))) *
+      1.12,
+  );
+  x.font = "8px ui-monospace,monospace";
+  x.textAlign = "left";
+  for (let i = 0; i <= 2; i++) {
+    const value = (maximum * i) / 2,
+      py = bottom - ((bottom - top) * i) / 2;
+    x.strokeStyle = "#31433566";
+    x.lineWidth = 0.5;
+    x.beginPath();
+    x.moveTo(left, py);
+    x.lineTo(right, py);
+    x.stroke();
+    x.fillStyle = "#57735c";
+    x.fillText(value.toFixed(2), 0, py + 3);
+  }
   for (const [key, color] of [
-    ["baseline_brier", "#6c7b6a"],
-    ["brier", "#b5d99e"],
+    ["baseline_brier", "#718378"],
+    ["brier", "#b9dba4"],
   ]) {
     x.beginPath();
     rows.forEach((r, i) => {
-      const px = (i / (rows.length - 1)) * d.w,
-        py = d.h - 5 - Math.min(1, r[key]) * (d.h - 10);
+      const px = left + (i / (rows.length - 1)) * (right - left),
+        py = bottom - (Math.min(maximum, r[key]) / maximum) * (bottom - top);
       i ? x.lineTo(px, py) : x.moveTo(px, py);
     });
     x.strokeStyle = color;
-    x.lineWidth = 1.3;
+    x.setLineDash(key === "baseline_brier" ? [3, 4] : []);
+    x.lineWidth = key === "brier" ? 1.5 : 1;
     x.stroke();
+    x.setLineDash([]);
   }
+  x.fillStyle = "#526e58";
+  x.fillText("LATEST " + rows.length + " INPUTS", left, d.h - 2);
 }
 function renderCognition(c) {
   cognitionState = c;
@@ -81,14 +119,28 @@ function renderCognition(c) {
   const decision = c.last_decision,
     selection = decision?.decision;
   $("cogAction").textContent = selection?.action || "Observing";
+  const actionDescriptions = {
+    explore: "Move into a less visited part of the software habitat.",
+    forage: "Move toward a virtual resource in the habitat.",
+    predict: "Prediction continues while awaiting the next input.",
+    replay: "Re-stimulate the circuit with a remembered input.",
+    experiment: "Run a controlled learning task and record its result.",
+    rest: "Recover model energy and reduce fatigue.",
+    compare: "Compare the same neural state with and without an input.",
+    reserve: "Keep model resources available for the next input.",
+  };
+  const job = decision?.outcome?.job;
   $("cogReason").textContent =
-    decision?.explanation || "Collecting the first decision record.";
+    job?.reason ||
+    actionDescriptions[selection?.action] ||
+    "Waiting for a recorded decision.";
   const scores = $("cogScores");
   scores.replaceChildren();
   for (const [action, value] of Object.entries(selection?.combined_scores || {})) {
     const item = cognitiveNode("div", undefined, "decision-score"),
       line = cognitiveNode("i"),
       bar = cognitiveNode("span");
+    item.classList.toggle("selected", action === selection?.action);
     item.append(
       cognitiveNode("span", action),
       cognitiveNode("b", Number(value).toFixed(3)),
@@ -114,15 +166,20 @@ function renderCognition(c) {
     learning?.prediction?.probability !== undefined
       ? (learning.prediction.probability * 100).toFixed(1) + "%"
       : "—";
-  $("cogEvaluated").textContent = fmt(metrics?.evaluated);
+  cognitiveCount("cogEvaluated", metrics?.evaluated);
   $("cogBrier").textContent = fmt(metrics?.brier, 4);
   $("cogBaseline").textContent = fmt(metrics?.baseline_brier, 4);
+  $("cogSourceBadge").textContent = metrics
+    ? source === "test"
+      ? "Test inputs"
+      : source
+    : "Awaiting data";
   $("cogLearningSource").textContent =
     source === "test"
-      ? "Test-stream measurements. Green: prediction error. Gray: baseline. Live learning uses separate weights."
+      ? "Test inputs · prediction error (green) / frequency baseline (gray)."
       : `${source} · observed next-input outcomes; prediction quality can rise or fall.`;
   drawLearning(learning?.history || []);
-  $("cogEpisodes").textContent = fmt(c.memory?.episodes);
+  cognitiveCount("cogEpisodes", c.memory?.episodes);
   $("cogWorkspace").replaceChildren();
   for (const slot of c.workspace?.selected || []) {
     const row = cognitiveNode("div", undefined, "workspace-slot");
@@ -135,7 +192,7 @@ function renderCognition(c) {
   $("cogEnergy").textContent = Number.isFinite(c.resources?.energy)
     ? (c.resources.energy * 100).toFixed(1) + "%"
     : "—";
-  $("cogJobs").textContent = fmt(c.experiments?.completed);
+  cognitiveCount("cogJobs", c.experiments?.completed);
   $("cogSpent").textContent = money(
     c.treasury?.spent_lamports === undefined ? null : c.treasury.spent_lamports / 1e9,
   );

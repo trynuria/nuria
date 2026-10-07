@@ -345,13 +345,13 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   ];
   const colors = {
     buy: "#c7f4b0",
-    sensory: "#c5fba4",
-    workspace: "#e9cf99",
+    sensory: "#bdd6a0",
+    workspace: "#cbbf99",
     sell: "#dfa6b2",
-    association: "#aac3db",
-    memory: "#beaecd",
-    policy: "#daceab",
-    inhibition: "#94c6b1",
+    association: "#a9bebc",
+    memory: "#b8afc4",
+    policy: "#c5ceb7",
+    inhibition: "#89b2a3",
   };
   const shortNames = {
     buy: "Buy input",
@@ -479,13 +479,13 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   function project(w, h, time) {
     const idle = !dragging && Date.now() > manualUntil;
     const targetYaw =
-      camera.yaw + 0.19 + (idle && !reduced ? Math.sin(time / 16000) * 0.24 : 0);
+      camera.yaw + 0.25 + (idle && !reduced ? Math.sin(time / 19000) * 0.12 : 0);
     const targetPitch =
       camera.pitch - 0.13 + (idle && !reduced ? Math.cos(time / 23000) * 0.06 : 0);
     cameraEase.yaw += (targetYaw - cameraEase.yaw) * 0.07;
     cameraEase.pitch += (targetPitch - cameraEase.pitch) * 0.07;
     zoomEase += (zoom - zoomEase) * 0.085;
-    const scale = Math.min(w * 0.32, h * 0.43) * zoomEase;
+    const scale = Math.min(w * 0.355, h * 0.46) * zoomEase;
     const cy = Math.cos(mode === "topology" ? 0 : cameraEase.yaw),
       sy = Math.sin(mode === "topology" ? 0 : cameraEase.yaw);
     const cp = Math.cos(mode === "topology" ? 0 : cameraEase.pitch),
@@ -495,10 +495,10 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         z = -p.x * sy + p.z * cy,
         y = p.y * cp - z * sp;
       z = p.y * sp + z * cp;
-      const depth = mode === "topology" ? 1 : 2.8 / (2.8 - z * 0.4);
+      const depth = mode === "topology" ? 1 : 2.9 / (2.9 - z * 0.72);
       return {
-        x: w * 0.49 + x * scale * depth,
-        y: h * 0.51 - y * scale * depth,
+        x: w * 0.5 + x * scale * depth,
+        y: h * 0.49 - y * scale * depth,
         z,
         depth,
         region: p.region,
@@ -568,7 +568,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       y /= r.end - r.start;
       const radius = Math.min(w * 0.28, h * 0.27),
         rate = state.metrics?.regional_rates?.[i] || 0;
-      ctx.globalAlpha = 0.055 + Math.min(0.1, rate / 220);
+      ctx.globalAlpha = 0.025 + Math.min(0.045, rate / 300);
       ctx.drawImage(
         glowSprite(colors[r.id]),
         x - radius,
@@ -581,30 +581,19 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     ctx.globalCompositeOperation = "source-over";
   }
   function fieldGuides(w, h, scale) {
-    const x = w * 0.49,
-      y = h * 0.51;
-    ctx.strokeStyle = "#b4c6a714";
-    ctx.lineWidth = 0.6;
-    ctx.beginPath();
-    ctx.ellipse(x, y, scale * 1.52, scale * 0.96, -0.09, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([1, 11]);
-    ctx.beginPath();
-    ctx.ellipse(x, y, scale * 1.56, scale * 1.0, -0.09, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.strokeStyle = "#b5c4a51d";
-    for (const dx of [-1, 1]) {
-      const px = x + dx * scale * 1.5;
+    const x = w * 0.5,
+      y = h * 0.49;
+    ctx.strokeStyle = "#7e998229";
+    ctx.lineWidth = 0.65;
+    for (const side of [-1, 1]) {
+      const px = x + side * Math.min(scale * 1.38, w * 0.44);
       ctx.beginPath();
-      ctx.moveTo(px, y - 4);
-      ctx.lineTo(px, y + 4);
+      ctx.moveTo(px, y - 6);
+      ctx.lineTo(px, y + 6);
+      ctx.moveTo(px - 3, y);
+      ctx.lineTo(px + 3, y);
       ctx.stroke();
     }
-    ctx.font = "10px ui-monospace,monospace";
-    ctx.fillStyle = "#718a6d";
-    ctx.textAlign = "center";
-    ctx.fillText("N U R I A  /  N E U R A L  O B S E R V A T O R Y", x, h - 18);
   }
   function drawSpikes(w, h, cursor = 0) {
     const span = (state?.window_ms || 100) / 1000;
@@ -738,7 +727,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     const span = (state?.window_ms || 100) / 1000;
     const cursor = paused
       ? 0
-      : Math.min(span * 1.4, ((now - frameStart) / 1000) * span);
+      : Math.min(span * 1.4, ((now - frameStart) / 2200) * span);
     if ($("replayFill"))
       $("replayFill").style.width =
         (paused ? 0 : Math.min(100, (cursor / span) * 100)) + "%";
@@ -758,18 +747,21 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         b = points[e[1]],
         relevant = related(a) || related(b),
         inspect = hover >= 0 && (e[0] === hover || e[1] === hover);
-      if (!inspect && item.index % 7 !== 0) continue;
+      if (!inspect && mode !== "topology" && item.index % 2 !== 0) continue;
       const weight =
         item.weightIndex >= 0 ? (state.weights?.[item.weightIndex] ?? 0.05) : 0.08;
       const alpha = relevant
-        ? Math.min(0.24, 0.025 + weight * 0.6 + (a.z + b.z + 0.6) * 0.015)
+        ? Math.min(
+            0.26,
+            0.05 + weight * 1.1 + activity[e[0]] * 0.1 + (a.z + b.z) * 0.025,
+          )
         : 0.007;
-      ctx.lineWidth = inspect ? 1.0 : e[2] === "inh" ? 0.45 : 0.45 + weight * 0.8;
+      ctx.lineWidth = inspect ? 1.1 : e[2] === "inh" ? 0.35 : 0.35 + weight * 0.8;
       ctx.strokeStyle = inspect
         ? "#deffd1ab"
         : e[2] === "inh"
-          ? "rgba(134,181,160," + (relevant ? 0.025 : 0.004) + ")"
-          : "rgba(170,206,165," + alpha + ")";
+          ? "rgba(125,163,153," + (relevant ? 0.06 : 0.006) + ")"
+          : "rgba(160,188,168," + alpha + ")";
       ctx.beginPath();
       traceCurve(edgeCurve(item));
       ctx.stroke();
@@ -780,7 +772,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ctx.globalCompositeOperation = "lighter";
       let emitted = 0;
       for (const item of weightedEdges) {
-        if (item.index % 23 !== 0 || emitted > 130) continue;
+        if (item.index % 7 !== 0 || emitted > 110) continue;
         const e = item.edge;
         if (!related(points[e[0]]) && !related(points[e[1]])) continue;
         let time = null;
@@ -790,7 +782,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         const travel = (cursor - time) / 0.045,
           curve = edgeCurve(item),
           color = points[e[0]].color;
-        ctx.strokeStyle = color + "b8";
+        ctx.strokeStyle = color + "8f";
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         for (let k = 0; k <= 7; k++) {
@@ -819,13 +811,13 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         (displayVoltage[id] ?? actualV) +
         (actualV - (displayVoltage[id] ?? actualV)) * 0.09;
       const radius =
-        (1.25 + Math.min(1.2, displayVoltage[id]) * 0.85 + active * 1.3) * p.depth;
+        (0.72 + Math.min(1.2, displayVoltage[id]) * 0.48 + active * 0.85) * p.depth;
       if (!dim) {
         const intensity = paused
-          ? Math.min(0.17, (state.counts?.[id] || 0) * 0.035)
+          ? Math.min(0.17, (spikesByNeuron[id]?.length || 0) * 0.035)
           : active * 0.9;
         if (intensity > 0.018) {
-          const glow = 9 + active * 20;
+          const glow = 5 + active * 11;
           ctx.globalCompositeOperation = "screen";
           ctx.globalAlpha = intensity;
           ctx.drawImage(
@@ -840,8 +832,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       }
       ctx.globalAlpha = dim
         ? 0.1
-        : clamp(0.35 + displayVoltage[id] * 0.38 + active * 0.55 + p.z * 0.15, 0.22, 1);
-      ctx.fillStyle = p.color;
+        : clamp(0.4 + displayVoltage[id] * 0.3 + active * 0.6 + p.z * 0.24, 0.16, 1);
+      ctx.fillStyle = active > 0.08 || selected !== "all" ? p.color : "#b9c9bb";
       ctx.beginPath();
       ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
       ctx.fill();
@@ -863,7 +855,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     }
     drawRegionLabels(w, h);
     if (!fresh) {
-      ctx.fillStyle = "#08120c88";
+      ctx.fillStyle = "#0b0d0e99";
       ctx.fillRect(0, 0, w, h);
     }
   }
@@ -1218,7 +1210,9 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         followingLatest = false;
         renderTrace();
         chooseRegion("sensory");
-        $("neural-field").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+        const inspector = document.querySelector(".input-inspector");
+        inspector.open = true;
+        inspector.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
       });
       $("events").append(row);
       if (focusedId === e.id) row.focus({ preventScroll: true });
@@ -1262,6 +1256,17 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   let cognitionState = null,
     legacyState = null,
     cognitiveDecisionHash = null;
+  function cognitiveCount(id, value) {
+    const element = $(id);
+    element.textContent =
+      Number.isFinite(value) && value >= 10000
+        ? new Intl.NumberFormat("en", {
+            notation: "compact",
+            maximumFractionDigits: 1,
+          }).format(value)
+        : fmt(value);
+    element.title = Number.isFinite(value) ? fmt(value) : "Evidence unavailable";
+  }
   function cognitiveNode(tag, text, className) {
     const element = document.createElement(tag);
     if (text !== undefined) element.textContent = text;
@@ -1320,20 +1325,47 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
     x.clearRect(0, 0, d.w, d.h);
     if (rows.length < 2) return;
+    const left = 26,
+      right = d.w - 3,
+      top = 5,
+      bottom = d.h - 15;
+    const maximum = Math.min(
+      1,
+      Math.max(0.3, ...rows.map((r) => Math.max(r.brier || 0, r.baseline_brier || 0))) *
+        1.12,
+    );
+    x.font = "8px ui-monospace,monospace";
+    x.textAlign = "left";
+    for (let i = 0; i <= 2; i++) {
+      const value = (maximum * i) / 2,
+        py = bottom - ((bottom - top) * i) / 2;
+      x.strokeStyle = "#31433566";
+      x.lineWidth = 0.5;
+      x.beginPath();
+      x.moveTo(left, py);
+      x.lineTo(right, py);
+      x.stroke();
+      x.fillStyle = "#57735c";
+      x.fillText(value.toFixed(2), 0, py + 3);
+    }
     for (const [key, color] of [
-      ["baseline_brier", "#6c7b6a"],
-      ["brier", "#b5d99e"],
+      ["baseline_brier", "#718378"],
+      ["brier", "#b9dba4"],
     ]) {
       x.beginPath();
       rows.forEach((r, i) => {
-        const px = (i / (rows.length - 1)) * d.w,
-          py = d.h - 5 - Math.min(1, r[key]) * (d.h - 10);
+        const px = left + (i / (rows.length - 1)) * (right - left),
+          py = bottom - (Math.min(maximum, r[key]) / maximum) * (bottom - top);
         i ? x.lineTo(px, py) : x.moveTo(px, py);
       });
       x.strokeStyle = color;
-      x.lineWidth = 1.3;
+      x.setLineDash(key === "baseline_brier" ? [3, 4] : []);
+      x.lineWidth = key === "brier" ? 1.5 : 1;
       x.stroke();
+      x.setLineDash([]);
     }
+    x.fillStyle = "#526e58";
+    x.fillText("LATEST " + rows.length + " INPUTS", left, d.h - 2);
   }
   function renderCognition(c) {
     cognitionState = c;
@@ -1342,14 +1374,28 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     const decision = c.last_decision,
       selection = decision?.decision;
     $("cogAction").textContent = selection?.action || "Observing";
+    const actionDescriptions = {
+      explore: "Move into a less visited part of the software habitat.",
+      forage: "Move toward a virtual resource in the habitat.",
+      predict: "Prediction continues while awaiting the next input.",
+      replay: "Re-stimulate the circuit with a remembered input.",
+      experiment: "Run a controlled learning task and record its result.",
+      rest: "Recover model energy and reduce fatigue.",
+      compare: "Compare the same neural state with and without an input.",
+      reserve: "Keep model resources available for the next input.",
+    };
+    const job = decision?.outcome?.job;
     $("cogReason").textContent =
-      decision?.explanation || "Collecting the first decision record.";
+      job?.reason ||
+      actionDescriptions[selection?.action] ||
+      "Waiting for a recorded decision.";
     const scores = $("cogScores");
     scores.replaceChildren();
     for (const [action, value] of Object.entries(selection?.combined_scores || {})) {
       const item = cognitiveNode("div", undefined, "decision-score"),
         line = cognitiveNode("i"),
         bar = cognitiveNode("span");
+      item.classList.toggle("selected", action === selection?.action);
       item.append(
         cognitiveNode("span", action),
         cognitiveNode("b", Number(value).toFixed(3)),
@@ -1375,15 +1421,20 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       learning?.prediction?.probability !== undefined
         ? (learning.prediction.probability * 100).toFixed(1) + "%"
         : "—";
-    $("cogEvaluated").textContent = fmt(metrics?.evaluated);
+    cognitiveCount("cogEvaluated", metrics?.evaluated);
     $("cogBrier").textContent = fmt(metrics?.brier, 4);
     $("cogBaseline").textContent = fmt(metrics?.baseline_brier, 4);
+    $("cogSourceBadge").textContent = metrics
+      ? source === "test"
+        ? "Test inputs"
+        : source
+      : "Awaiting data";
     $("cogLearningSource").textContent =
       source === "test"
-        ? "Test-stream measurements. Green: prediction error. Gray: baseline. Live learning uses separate weights."
+        ? "Test inputs · prediction error (green) / frequency baseline (gray)."
         : `${source} · observed next-input outcomes; prediction quality can rise or fall.`;
     drawLearning(learning?.history || []);
-    $("cogEpisodes").textContent = fmt(c.memory?.episodes);
+    cognitiveCount("cogEpisodes", c.memory?.episodes);
     $("cogWorkspace").replaceChildren();
     for (const slot of c.workspace?.selected || []) {
       const row = cognitiveNode("div", undefined, "workspace-slot");
@@ -1396,7 +1447,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("cogEnergy").textContent = Number.isFinite(c.resources?.energy)
       ? (c.resources.energy * 100).toFixed(1) + "%"
       : "—";
-    $("cogJobs").textContent = fmt(c.experiments?.completed);
+    cognitiveCount("cogJobs", c.experiments?.completed);
     $("cogSpent").textContent = money(
       c.treasury?.spent_lamports === undefined ? null : c.treasury.spent_lamports / 1e9,
     );
