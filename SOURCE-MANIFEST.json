@@ -7,7 +7,8 @@
     "Independent 1024-neuron cognitive circuit with source-specific prequential learning, memory, workspace and measured autonomous outcomes",
     "Atomic cognitive checkpoints and hash records; original 256-neuron history preserved",
     "Read-only treasury observation, durable caps and unsigned single-transfer preparation; financial execution disabled",
-    "Updated observatory, documentation, capability map and bounded evaluation evidence"
+    "Updated observatory, documentation, capability map and bounded evaluation evidence",
+    "Streaming compatible encrypted recovery archives with bounded upload readback and both circuit snapshots"
   ],
   "files": [
     {
@@ -44,7 +45,11 @@
     },
     {
       "path": "backup.py",
-      "published_sha256": "fc2baac54f4b05a543601211b22c5ec7bf9a2174eeda4fd662c0090f0b751872"
+      "published_sha256": "90988a12b9ffabd5872e4a3a0a5252eace7ec23ae9cce2c320b9facd90f9d91b"
+    },
+    {
+      "path": "backup_crypto.py",
+      "published_sha256": "7edf89e562f916e6f200bb61e61228b5e99844e4c33403ef2c103060bbd42407"
     },
     {
       "path": "backup_snapshot.py",
@@ -72,7 +77,7 @@
     },
     {
       "path": "cognition/backup.py",
-      "published_sha256": "5d3a1ebcdfeb4e630d40ffc89f2085cc591d7bd76cc5d35bd57cdcd05a70dead"
+      "published_sha256": "44d72a0b38b34f82cb3dd5f5cadc707a7cc58d4b1556655c4439c8c0023a6dc3"
     },
     {
       "path": "cognition/brain.py",
@@ -216,7 +221,7 @@
     },
     {
       "path": "requirements.txt",
-      "published_sha256": "b940e71c9a556c2911866689f1c387b792acc1b6e30277625349d74e46198454"
+      "published_sha256": "74d246b6ff799bb0e75bc47562e0c3d908b8c52269bfd143a6570c8bf101fe30"
     },
     {
       "path": "schema.sql",
@@ -245,6 +250,10 @@
     {
       "path": "tests/test_evidence.py",
       "published_sha256": "9df801b8ac7782eb4fb33f007d1ff87d80052b8e99b3cb27cef5ff8e2b60a19b"
+    },
+    {
+      "path": "tests/test_recovery_archive.py",
+      "published_sha256": "6cb0a61dfbd3e29ac68695a9aafd984ee2c1569cc9338da1c37fce336ea9e921"
     },
     {
       "path": "verify_worker.py",

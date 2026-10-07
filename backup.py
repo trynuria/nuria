@@ -1,20 +1,18 @@
 """Nuria-only encrypted Spaces backups. The private recovery key stays off this server."""
 
-import base64
-import hashlib
-import io
 import json
 import os
 import shutil
+import sqlite3
 import subprocess
-import tarfile
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
 import boto3
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives import serialization
+
+from backup_crypto import seal_archive, stream_digest
 
 STAMP = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 BASE = Path("/var/lib/nuria/backups")
@@ -65,58 +63,52 @@ subprocess.run(
         "cognition.backup",
         "/var/lib/nuria/cognition/backup/current.sqlite3",
     ],
-    cwd="/opt/nuria/app",
+    cwd=str(Path(__file__).resolve().parent),
     check=True,
     timeout=60,
 )
-archive = io.BytesIO()
-if (STAGE / "database.dump").stat().st_size > 512 * 1024**2:
-    raise SystemExit(
-        "Backup snapshot exceeds measured memory bound; streaming backup upgrade required"
-    )
-with tarfile.open(fileobj=archive, mode="w:gz") as tar:
-    tar.add(STAGE, arcname="snapshot")
-    tar.add("/opt/nuria/app", arcname="app")
-    tar.add(
-        "/var/lib/nuria/cognition/backup/current.sqlite3",
-        arcname="cognition/cognition.sqlite3",
-    )
-plain = archive.getvalue()
 recipient = serialization.load_pem_public_key(
     Path("/etc/nuria/backup-recipient.pem").read_bytes()
 )
-key = AESGCM.generate_key(bit_length=256)
-nonce = os.urandom(12)
-wrapped = recipient.encrypt(
-    key,
-    padding.OAEP(
-        mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None
-    ),
-)
-header = json.dumps(
-    {
-        "schema": 1,
-        "wrapped_key": base64.b64encode(wrapped).decode(),
-        "nonce": base64.b64encode(nonce).decode(),
-    },
-    separators=(",", ":"),
-).encode()
-cipher = AESGCM(key).encrypt(nonce, plain, header)
 sealed = BASE / (STAMP + ".nuria.enc")
-sealed.write_bytes(b"NURIABACKUP1\n" + header + b"\n" + cipher)
-sealed.chmod(0o600)
+sealed_metadata = seal_archive(
+    [
+        (STAGE, "snapshot"),
+        (Path("/opt/nuria/app"), "app"),
+        (Path(__file__).resolve().parent, "cognitive-release"),
+        (
+            Path("/var/lib/nuria/cognition/backup/current.sqlite3"),
+            "cognition/cognition.sqlite3",
+        ),
+    ],
+    recipient,
+    sealed,
+)
 object_key = "application/" + sealed.name
 client.upload_file(str(sealed), bucket, object_key, ExtraArgs={"ACL": "private"})
-returned = client.get_object(Bucket=bucket, Key=object_key)["Body"].read()
-if hashlib.sha256(returned).digest() != hashlib.sha256(sealed.read_bytes()).digest():
+body = client.get_object(Bucket=bucket, Key=object_key)["Body"]
+try:
+    returned_digest = stream_digest(body)
+finally:
+    body.close()
+if returned_digest != sealed_metadata["cipher_sha256"]:
     raise RuntimeError("Backup upload readback differs from encrypted archive")
+with closing(
+    sqlite3.connect(
+        "file:/var/lib/nuria/cognition/backup/current.sqlite3?mode=ro", uri=True
+    )
+) as snapshot:
+    cognitive = json.loads(
+        snapshot.execute("SELECT metadata FROM checkpoint WHERE id=1").fetchone()[0]
+    )
 result = {
     "created_utc": datetime.now(timezone.utc).isoformat(),
     "object_key": object_key,
-    "encrypted_bytes": len(returned),
-    "cipher_sha256": hashlib.sha256(returned).hexdigest(),
+    **sealed_metadata,
     "upload_readback_verified": True,
     "head": json.loads((STAGE / "manifest.json").read_text())["head"],
+    "cognitive_head": cognitive["record_head"],
+    "cognitive_tick": cognitive["tick"],
     "restore_test": "Pending",
 }
 (BASE / "latest.json").write_text(json.dumps(result, indent=2))

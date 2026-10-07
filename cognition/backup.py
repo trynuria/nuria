@@ -4,13 +4,16 @@ import json
 import os
 import sqlite3
 import sys
+from contextlib import closing
 from pathlib import Path
 
 
 def snapshot(source: Path, destination: Path) -> dict:
     destination.parent.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(f"file:{source}?mode=ro", uri=True, timeout=15) as reader:
-        with sqlite3.connect(destination, timeout=15) as writer:
+    with closing(
+        sqlite3.connect(f"file:{source}?mode=ro", uri=True, timeout=15)
+    ) as reader:
+        with closing(sqlite3.connect(destination, timeout=15)) as writer:
             reader.backup(writer, pages=256)
             row = writer.execute(
                 "SELECT metadata FROM checkpoint WHERE id=1"
