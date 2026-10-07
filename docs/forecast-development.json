@@ -1,0 +1,3312 @@
+{
+  "created_utc": "2026-10-07T20:45:09.600672+00:00",
+  "protocol": {
+    "version": "forecast-comparison-v1",
+    "seeds": [101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
+    "events": 2000,
+    "warmup": 500,
+    "switch_at": 1000,
+    "tasks": ["amount_context", "fee_context", "context_switch", "unpredictable"],
+    "scoring": "Next-side forecast stored before the following outcome; all models may update after scoring. Warmup excluded equally.",
+    "baselines": [
+      "frequency",
+      "repeat",
+      "amount",
+      "fee_rate",
+      "joint_context",
+      "context_logistic"
+    ],
+    "ablations": [
+      "no_outcome_memory",
+      "uniform_attention",
+      "frozen_after_warmup",
+      "no_neural_expert"
+    ],
+    "scope": "Synthetic recurring-context and context-switch tasks; statistical forecast component. No live-market, whole-organism, consciousness or neural-plasticity inference.",
+    "neural_probability": "0.5 for every sample; no fabricated spike features. Production also supplies its separate spike readout.",
+    "success_rule": "Report every task, seed and comparator. A mean win is not a win on every task. Negative and null results remain in the output."
+  },
+  "legacy_correction": [
+    {
+      "task": "alternation",
+      "learned_repeat_probability": 0.1,
+      "simple_predictor": {
+        "n": 80,
+        "accuracy": 0.925,
+        "brier": 0.07
+      },
+      "published_neural": {
+        "accuracy": 0.925,
+        "brier": 0.16005413932368057
+      },
+      "conclusion": "Simple predictor matches accuracy and has lower probability error; no neural advantage established."
+    },
+    {
+      "task": "persistence",
+      "learned_repeat_probability": 0.8875,
+      "simple_predictor": {
+        "n": 80,
+        "accuracy": 0.8875,
+        "brier": 0.09984375000000001
+      },
+      "published_neural": {
+        "accuracy": 0.8875,
+        "brier": 0.1729050852773871
+      },
+      "conclusion": "Simple predictor matches accuracy and has lower probability error; no neural advantage established."
+    }
+  ],
+  "summary": [
+    {
+      "task": "amount_context",
+      "mean_scores": {
+        "full": {
+          "accuracy": 0.8976666666666668,
+          "brier": 0.09369892666403673
+        },
+        "no_outcome_memory": {
+          "accuracy": 0.5070000000000001,
+          "brier": 0.2500860612542479
+        },
+        "uniform_attention": {
+          "accuracy": 0.8970666666666667,
+          "brier": 0.18164362543298607
+        },
+        "frozen_after_warmup": {
+          "accuracy": 0.8976666666666668,
+          "brier": 0.09557813540932586
+        },
+        "no_neural_expert": {
+          "accuracy": 0.8976666666666668,
+          "brier": 0.09369240941317702
+        },
+        "frequency": {
+          "accuracy": 0.5013333333333333,
+          "brier": 0.2502143604613957
+        },
+        "repeat": {
+          "accuracy": 0.5025333333333333,
+          "brier": 0.2502263020774955
+        },
+        "amount": {
+          "accuracy": 0.8976666666666668,
+          "brier": 0.09361496692956228
+        },
+        "fee_rate": {
+          "accuracy": 0.5014666666666667,
+          "brier": 0.2540278803346282
+        },
+        "joint_context": {
+          "accuracy": 0.8648,
+          "brier": 0.1357450938809462
+        },
+        "context_logistic": {
+          "accuracy": 0.8972000000000001,
+          "brier": 0.09755591601922693
+        }
+      },
+      "paired_comparisons": {
+        "no_outcome_memory": {
+          "mean_brier_improvement": 0.15638713459021114,
+          "standard_error_across_seeds": 0.0022977151554963663,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "uniform_attention": {
+          "mean_brier_improvement": 0.08794469876894935,
+          "standard_error_across_seeds": 0.0014560868140211984,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "frozen_after_warmup": {
+          "mean_brier_improvement": 0.0018792087452891237,
+          "standard_error_across_seeds": 0.0003957343640722035,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "no_neural_expert": {
+          "mean_brier_improvement": -6.5172508597152736e-6,
+          "standard_error_across_seeds": 5.704626457448844e-7,
+          "paired_seed_wins": 0,
+          "seeds": 10
+        },
+        "frequency": {
+          "mean_brier_improvement": 0.15651543379735905,
+          "standard_error_across_seeds": 0.0023277634930469505,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "repeat": {
+          "mean_brier_improvement": 0.15652737541345874,
+          "standard_error_across_seeds": 0.0022822499428115308,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "amount": {
+          "mean_brier_improvement": -8.39597344744522e-5,
+          "standard_error_across_seeds": 7.98991965563159e-6,
+          "paired_seed_wins": 0,
+          "seeds": 10
+        },
+        "fee_rate": {
+          "mean_brier_improvement": 0.16032895367059147,
+          "standard_error_across_seeds": 0.002249926184028213,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "joint_context": {
+          "mean_brier_improvement": 0.04204616721690946,
+          "standard_error_across_seeds": 0.0011478834421135876,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "context_logistic": {
+          "mean_brier_improvement": 0.0038569893551901892,
+          "standard_error_across_seeds": 0.00018340468105891008,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        }
+      }
+    },
+    {
+      "task": "fee_context",
+      "mean_scores": {
+        "full": {
+          "accuracy": 0.9002666666666668,
+          "brier": 0.09175712214359413
+        },
+        "no_outcome_memory": {
+          "accuracy": 0.5035333333333333,
+          "brier": 0.25014237541165846
+        },
+        "uniform_attention": {
+          "accuracy": 0.8998666666666668,
+          "brier": 0.18140354625126007
+        },
+        "frozen_after_warmup": {
+          "accuracy": 0.9002666666666668,
+          "brier": 0.09391847560982278
+        },
+        "no_neural_expert": {
+          "accuracy": 0.9002666666666668,
+          "brier": 0.09174971479649148
+        },
+        "frequency": {
+          "accuracy": 0.5039333333333332,
+          "brier": 0.25028619549538983
+        },
+        "repeat": {
+          "accuracy": 0.5001333333333334,
+          "brier": 0.2502542959972092
+        },
+        "amount": {
+          "accuracy": 0.49813333333333326,
+          "brier": 0.2537680770827838
+        },
+        "fee_rate": {
+          "accuracy": 0.9002666666666668,
+          "brier": 0.09165448321918704
+        },
+        "joint_context": {
+          "accuracy": 0.8671333333333333,
+          "brier": 0.13554528656796117
+        },
+        "context_logistic": {
+          "accuracy": 0.9002000000000001,
+          "brier": 0.09544228138567225
+        }
+      },
+      "paired_comparisons": {
+        "no_outcome_memory": {
+          "mean_brier_improvement": 0.15838525326806435,
+          "standard_error_across_seeds": 0.002263047171822026,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "uniform_attention": {
+          "mean_brier_improvement": 0.08964642410766596,
+          "standard_error_across_seeds": 0.0014008124983599952,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "frozen_after_warmup": {
+          "mean_brier_improvement": 0.002161353466228641,
+          "standard_error_across_seeds": 0.0006172221719888482,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "no_neural_expert": {
+          "mean_brier_improvement": -7.407347102661443e-6,
+          "standard_error_across_seeds": 4.902587551115904e-7,
+          "paired_seed_wins": 0,
+          "seeds": 10
+        },
+        "frequency": {
+          "mean_brier_improvement": 0.15852907335179572,
+          "standard_error_across_seeds": 0.002291129588568544,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "repeat": {
+          "mean_brier_improvement": 0.15849717385361506,
+          "standard_error_across_seeds": 0.0022455107597588613,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "amount": {
+          "mean_brier_improvement": 0.16201095493918968,
+          "standard_error_across_seeds": 0.0022960208363843144,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "fee_rate": {
+          "mean_brier_improvement": -0.00010263892440710298,
+          "standard_error_across_seeds": 5.975940586433477e-6,
+          "paired_seed_wins": 0,
+          "seeds": 10
+        },
+        "joint_context": {
+          "mean_brier_improvement": 0.043788164424367025,
+          "standard_error_across_seeds": 0.0008854564563482986,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "context_logistic": {
+          "mean_brier_improvement": 0.0036851592420781105,
+          "standard_error_across_seeds": 0.000259069341777004,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        }
+      }
+    },
+    {
+      "task": "context_switch",
+      "mean_scores": {
+        "full": {
+          "accuracy": 0.8480000000000001,
+          "brier": 0.1423442685067948
+        },
+        "no_outcome_memory": {
+          "accuracy": 0.5087333333333334,
+          "brier": 0.25004224140958387
+        },
+        "uniform_attention": {
+          "accuracy": 0.762,
+          "brier": 0.20723987366104954
+        },
+        "frozen_after_warmup": {
+          "accuracy": 0.6305333333333334,
+          "brier": 0.29313935996442536
+        },
+        "no_neural_expert": {
+          "accuracy": 0.8479333333333333,
+          "brier": 0.14233229485912008
+        },
+        "frequency": {
+          "accuracy": 0.5037333333333333,
+          "brier": 0.2501710006887371
+        },
+        "repeat": {
+          "accuracy": 0.5052666666666668,
+          "brier": 0.2501644261884143
+        },
+        "amount": {
+          "accuracy": 0.6307333333333334,
+          "brier": 0.2324322259610537
+        },
+        "fee_rate": {
+          "accuracy": 0.7447999999999999,
+          "brier": 0.18258172881089296
+        },
+        "joint_context": {
+          "accuracy": 0.7346666666666666,
+          "brier": 0.18782793565717593
+        },
+        "context_logistic": {
+          "accuracy": 0.8411333333333333,
+          "brier": 0.13023715454341936
+        }
+      },
+      "paired_comparisons": {
+        "no_outcome_memory": {
+          "mean_brier_improvement": 0.10769797290278897,
+          "standard_error_across_seeds": 0.0017620595995443138,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "uniform_attention": {
+          "mean_brier_improvement": 0.06489560515425472,
+          "standard_error_across_seeds": 0.0012328748947471324,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "frozen_after_warmup": {
+          "mean_brier_improvement": 0.15079509145763054,
+          "standard_error_across_seeds": 0.0037275426707436016,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "no_neural_expert": {
+          "mean_brier_improvement": -1.1973647674726195e-5,
+          "standard_error_across_seeds": 7.892388231820635e-7,
+          "paired_seed_wins": 0,
+          "seeds": 10
+        },
+        "frequency": {
+          "mean_brier_improvement": 0.10782673218194234,
+          "standard_error_across_seeds": 0.0017918428185048588,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "repeat": {
+          "mean_brier_improvement": 0.10782015768161943,
+          "standard_error_across_seeds": 0.0017471170905269744,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "amount": {
+          "mean_brier_improvement": 0.09008795745425886,
+          "standard_error_across_seeds": 0.001934537442863998,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "fee_rate": {
+          "mean_brier_improvement": 0.04023746030409816,
+          "standard_error_across_seeds": 0.001316705995044326,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "joint_context": {
+          "mean_brier_improvement": 0.04548366715038109,
+          "standard_error_across_seeds": 0.0010861841098138412,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "context_logistic": {
+          "mean_brier_improvement": -0.012107113963375486,
+          "standard_error_across_seeds": 0.0004491764289875693,
+          "paired_seed_wins": 0,
+          "seeds": 10
+        }
+      }
+    },
+    {
+      "task": "unpredictable",
+      "mean_scores": {
+        "full": {
+          "accuracy": 0.49660000000000004,
+          "brier": 0.2502934840962327
+        },
+        "no_outcome_memory": {
+          "accuracy": 0.5036,
+          "brier": 0.2501461995564215
+        },
+        "uniform_attention": {
+          "accuracy": 0.5024666666666666,
+          "brier": 0.25078709314126146
+        },
+        "frozen_after_warmup": {
+          "accuracy": 0.4963333333333333,
+          "brier": 0.2506814117516497
+        },
+        "no_neural_expert": {
+          "accuracy": 0.4966666666666667,
+          "brier": 0.25050825170164637
+        },
+        "frequency": {
+          "accuracy": 0.49959999999999993,
+          "brier": 0.2504558560379523
+        },
+        "repeat": {
+          "accuracy": 0.504,
+          "brier": 0.25020387017379536
+        },
+        "amount": {
+          "accuracy": 0.5018,
+          "brier": 0.25351782717001503
+        },
+        "fee_rate": {
+          "accuracy": 0.49746666666666667,
+          "brier": 0.2538280308531592
+        },
+        "joint_context": {
+          "accuracy": 0.4995333333333333,
+          "brier": 0.26695247282853674
+        },
+        "context_logistic": {
+          "accuracy": 0.4984,
+          "brier": 0.27377059717555297
+        }
+      },
+      "paired_comparisons": {
+        "no_outcome_memory": {
+          "mean_brier_improvement": -0.00014728453981131817,
+          "standard_error_across_seeds": 6.100831271607509e-5,
+          "paired_seed_wins": 2,
+          "seeds": 10
+        },
+        "uniform_attention": {
+          "mean_brier_improvement": 0.0004936090450286812,
+          "standard_error_across_seeds": 0.00021276828503806027,
+          "paired_seed_wins": 8,
+          "seeds": 10
+        },
+        "frozen_after_warmup": {
+          "mean_brier_improvement": 0.0003879276554169447,
+          "standard_error_across_seeds": 0.00037703966805472105,
+          "paired_seed_wins": 5,
+          "seeds": 10
+        },
+        "no_neural_expert": {
+          "mean_brier_improvement": 0.00021476760541361273,
+          "standard_error_across_seeds": 3.2369828737164825e-5,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "frequency": {
+          "mean_brier_improvement": 0.00016237194171952462,
+          "standard_error_across_seeds": 0.0001812096924714448,
+          "paired_seed_wins": 5,
+          "seeds": 10
+        },
+        "repeat": {
+          "mean_brier_improvement": -8.961392243739541e-5,
+          "standard_error_across_seeds": 8.123637518020395e-5,
+          "paired_seed_wins": 3,
+          "seeds": 10
+        },
+        "amount": {
+          "mean_brier_improvement": 0.0032243430737823263,
+          "standard_error_across_seeds": 0.00027739136986245505,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "fee_rate": {
+          "mean_brier_improvement": 0.003534546756926382,
+          "standard_error_across_seeds": 0.00024499483791038144,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "joint_context": {
+          "mean_brier_improvement": 0.01665898873230403,
+          "standard_error_across_seeds": 0.0008642018534737259,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        },
+        "context_logistic": {
+          "mean_brier_improvement": 0.023477113079320232,
+          "standard_error_across_seeds": 0.0008290092700551697,
+          "paired_seed_wins": 10,
+          "seeds": 10
+        }
+      }
+    }
+  ],
+  "trials": [
+    {
+      "task": "amount_context",
+      "seed": 101,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.904,
+          "brier": 0.08857648402863293
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.502,
+          "brier": 0.25019264879279496
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.904,
+          "brier": 0.17981362431001374
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.904,
+          "brier": 0.08915124978035852
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.904,
+          "brier": 0.08857091060351535
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49,
+          "brier": 0.25029659419350125
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.4866666666666667,
+          "brier": 0.2502995636541413
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.904,
+          "brier": 0.08849507196789305
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.51,
+          "brier": 0.2540700608876035
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8693333333333333,
+          "brier": 0.13379613181693217
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.904,
+          "brier": 0.09221974949729546
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916666089073034,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.001666724426030042,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 102,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.09192665670098601
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.49866666666666665,
+          "brier": 0.250390865286683
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.8986666666666666,
+          "brier": 0.18103051353622676
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.09436135382652706
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.0919199565198074
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.504,
+          "brier": 0.2503200282062466
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5033333333333333,
+          "brier": 0.25057733959929857
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.09183102824294496
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.504,
+          "brier": 0.25422047839066186
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.87,
+          "brier": 0.1344398764892944
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.09584179677367732
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916653335167737,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0016679998165597975,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 103,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08808159926279226
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5053333333333333,
+          "brier": 0.2501023832924135
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9046666666666666,
+          "brier": 0.1794557139493771
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08964186421262496
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08807288317213115
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.508,
+          "brier": 0.25007618905775797
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.49466666666666664,
+          "brier": 0.25027377885169144
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08798112020604708
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.5113333333333333,
+          "brier": 0.2536582042189529
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.872,
+          "brier": 0.13220610462953794
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.09124110778336643
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916654788899526,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0016678544433808545,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 104,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9006666666666666,
+          "brier": 0.09131312089569628
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.522,
+          "brier": 0.24974682519341876
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.18116136746443606
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9006666666666666,
+          "brier": 0.09557543042901634
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9006666666666666,
+          "brier": 0.0913075964875369
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.494,
+          "brier": 0.25030634328041457
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.522,
+          "brier": 0.24969251643441673
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.9006666666666666,
+          "brier": 0.0912202821593539
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49733333333333335,
+          "brier": 0.2542627190549491
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8666666666666667,
+          "brier": 0.13636264690578473
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.09545009234216206
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916642453401814,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0016690879931520904,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 105,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.0877465780175911
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5166666666666667,
+          "brier": 0.25016745696744486
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9033333333333333,
+          "brier": 0.179748737557574
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08991802943056698
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08773767925737211
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.47933333333333333,
+          "brier": 0.2504644710386392
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5166666666666667,
+          "brier": 0.25022892665048585
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08761866247564899
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.496,
+          "brier": 0.25377377175561017
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.874,
+          "brier": 0.13137033034000153
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.09120049664950576
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916597840002461,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0016735493330871226,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 106,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.888,
+          "brier": 0.10182019644619007
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5093333333333333,
+          "brier": 0.2500293244580952
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.8873333333333333,
+          "brier": 0.18511211981628525
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.888,
+          "brier": 0.10456681960544141
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.888,
+          "brier": 0.10181294915745107
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5046666666666667,
+          "brier": 0.25025419496213114
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.49733333333333335,
+          "brier": 0.25025926639596136
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.888,
+          "brier": 0.10173686192098792
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.508,
+          "brier": 0.2535485452935457
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8493333333333334,
+          "brier": 0.14158735483790943
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.888,
+          "brier": 0.10571704085564541
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916661943910356,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0016671389422976766,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 107,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.878,
+          "brier": 0.10939530552763563
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.4826666666666667,
+          "brier": 0.2503365223735549
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.878,
+          "brier": 0.18749492459471193
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.878,
+          "brier": 0.11225693234146827
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.878,
+          "brier": 0.10938878402832555
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5093333333333333,
+          "brier": 0.2502769169118688
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.48133333333333334,
+          "brier": 0.2505296575246894
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.878,
+          "brier": 0.10934980497882932
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.25486075491224075
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8426666666666667,
+          "brier": 0.1442325454039956
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8753333333333333,
+          "brier": 0.11459844290396984
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916661923927973,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.001667140940536213,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 289
+    },
+    {
+      "task": "amount_context",
+      "seed": 108,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.0917380484234133
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5206666666666667,
+          "brier": 0.24978767397040996
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.17949557532988197
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09296362313781291
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09173525299755332
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.498,
+          "brier": 0.25018812147659447
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5206666666666667,
+          "brier": 0.24993827181131437
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09169690550780746
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.508,
+          "brier": 0.2531579961653124
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8746666666666667,
+          "brier": 0.13322123768288907
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8993333333333333,
+          "brier": 0.09519929190647597
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9915428330929769,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0017905002403566209,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 109,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9046666666666666,
+          "brier": 0.08766021754717891
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.498,
+          "brier": 0.2501082898640958
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.904,
+          "brier": 0.1797561312380541
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9046666666666666,
+          "brier": 0.0878701407480352
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9046666666666666,
+          "brier": 0.0876547320583613
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.25031023900196214
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5026666666666667,
+          "brier": 0.2502015292087621
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.9046666666666666,
+          "brier": 0.08757496748421054
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.2543365608936515
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8733333333333333,
+          "brier": 0.13376280110848626
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9046666666666666,
+          "brier": 0.09113562144376111
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916664923230577,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0016668410102756227,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "amount_context",
+      "seed": 110,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8913333333333333,
+          "brier": 0.09873105979025089
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5146666666666667,
+          "brier": 0.24999862234356798
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.8913333333333333,
+          "brier": 0.1833675465332999
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.8913333333333333,
+          "brier": 0.09947591058140695
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8913333333333333,
+          "brier": 0.09872334984971606
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5266666666666666,
+          "brier": 0.24965050648484163
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5,
+          "brier": 0.2502621706441937
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.8913333333333333,
+          "brier": 0.09864496435189962
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.48133333333333334,
+          "brier": 0.25438971177375425
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.856,
+          "brier": 0.1364719095946308
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8913333333333333,
+          "brier": 0.1029555200364099
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.9916661771044919,
+        "fee_rate": 0.0016666666666666668,
+        "joint_context": 0.0016671562288415294,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 289
+    },
+    {
+      "task": "fee_context",
+      "seed": 101,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09231642829088993
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5006666666666667,
+          "brier": 0.2500490379203957
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.1812991738814748
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.0935886891287079
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09230868272027112
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.494,
+          "brier": 0.2505521493198393
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.506,
+          "brier": 0.24998439898264602
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.5066666666666667,
+          "brier": 0.2524237072413059
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09222261008431402
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8613333333333333,
+          "brier": 0.13502619555798545
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09657510907273066
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.991664917063233,
+        "joint_context": 0.00166841627010023,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 102,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.884,
+          "brier": 0.10494518162249691
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5133333333333333,
+          "brier": 0.24997893395562906
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.8826666666666667,
+          "brier": 0.1861201245366497
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.884,
+          "brier": 0.10726103877731369
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.884,
+          "brier": 0.10494018857865321
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.52,
+          "brier": 0.24989465070994205
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.496,
+          "brier": 0.2502200670833681
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.4866666666666667,
+          "brier": 0.25470282580403514
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.884,
+          "brier": 0.10487361128296055
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.848,
+          "brier": 0.14339145074169754
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.884,
+          "brier": 0.10712975985032654
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916325906409129,
+        "joint_context": 0.0017007426924203488,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 103,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09130671922964516
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5033333333333333,
+          "brier": 0.2502275075765712
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.1810762507405716
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09195379964171681
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.0913020006310943
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5113333333333333,
+          "brier": 0.2506036599754428
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5033333333333333,
+          "brier": 0.2503832122599993
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.5053333333333333,
+          "brier": 0.2535812853541971
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09122070819394225
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8653333333333333,
+          "brier": 0.1379470450896476
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09621884933246228
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916512055233712,
+        "joint_context": 0.0016821278099622733,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 104,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.894,
+          "brier": 0.09655686864150236
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.25020850416211793
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.8933333333333333,
+          "brier": 0.18384813513071674
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.894,
+          "brier": 0.0969799442047565
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.894,
+          "brier": 0.09655016379544641
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5153333333333333,
+          "brier": 0.2501947464773456
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.48933333333333334,
+          "brier": 0.25048500811209606
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.486,
+          "brier": 0.2552381122894399
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.894,
+          "brier": 0.09646071613999818
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8606666666666667,
+          "brier": 0.14049919283788742
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8933333333333333,
+          "brier": 0.10043105625114811
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916651915032803,
+        "joint_context": 0.001668141830053111,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 105,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08853110205419129
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5106666666666667,
+          "brier": 0.24984198004235716
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9046666666666666,
+          "brier": 0.18071287036508032
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.09510240744592875
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08852262536625875
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.492,
+          "brier": 0.2503120010373367
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.518,
+          "brier": 0.24977052467507996
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.508,
+          "brier": 0.2539082697201212
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.08840467604733976
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8686666666666667,
+          "brier": 0.13423926919132248
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9053333333333333,
+          "brier": 0.09211425701214557
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666287095403,
+        "joint_context": 0.0016667046237929832,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 106,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.892,
+          "brier": 0.09812517974881128
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.25016764152117127
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.892,
+          "brier": 0.18369880045735568
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.892,
+          "brier": 0.09989319050859131
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.892,
+          "brier": 0.09811773904916242
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5173333333333333,
+          "brier": 0.2500234921589136
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.48733333333333334,
+          "brier": 0.25031901827091124
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.49666666666666665,
+          "brier": 0.2520838877244891
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.892,
+          "brier": 0.0980314577998832
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8613333333333333,
+          "brier": 0.13939606210362543
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.892,
+          "brier": 0.1017511068304813
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916655399180769,
+        "joint_context": 0.0016677934152565012,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 107,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.902,
+          "brier": 0.0907052590421399
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.502,
+          "brier": 0.2502333217737685
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9013333333333333,
+          "brier": 0.1802674930363061
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.902,
+          "brier": 0.09179156336080914
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.902,
+          "brier": 0.090695832873008
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5033333333333333,
+          "brier": 0.25043578024065377
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.498,
+          "brier": 0.2503259707339473
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.532,
+          "brier": 0.2516561149589522
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.902,
+          "brier": 0.09059726717498795
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.868,
+          "brier": 0.13255830507325042
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.902,
+          "brier": 0.09471053477932985
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916665333548184,
+        "joint_context": 0.0016667999785150182,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 289
+    },
+    {
+      "task": "fee_context",
+      "seed": 108,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.08156419417291284
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5133333333333333,
+          "brier": 0.25009492319690857
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.17756858068132714
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.0857231123144041
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.0815556877574392
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5146666666666667,
+          "brier": 0.25012055370147823
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5086666666666667,
+          "brier": 0.2502135420282597
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.49266666666666664,
+          "brier": 0.25428682814356107
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.08143914025071018
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8826666666666667,
+          "brier": 0.12915279994402154
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.08425932291469088
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.991666348328937,
+        "joint_context": 0.0016669850043963485,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 109,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.08150405860542058
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5006666666666667,
+          "brier": 0.2502099166695731
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.912,
+          "brier": 0.1770549034494161
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.0819736541527766
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.08149664445395562
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.476,
+          "brier": 0.2503705327766646
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.504,
+          "brier": 0.25027238067553753
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.48933333333333334,
+          "brier": 0.2542466295528388
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.08140654446952651
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8866666666666667,
+          "brier": 0.127412074259669
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9126666666666666,
+          "brier": 0.08474243921455901
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916665831313127,
+        "joint_context": 0.0016667502020207227,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "fee_context",
+      "seed": 110,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.0920162300279311
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.49266666666666664,
+          "brier": 0.25041198729809233
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.1823891302337027
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09491735656322296
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09200758273962571
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49533333333333335,
+          "brier": 0.250354388556282
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.49066666666666664,
+          "brier": 0.25056883715024664
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.478,
+          "brier": 0.25555311003889775
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09188810074820772
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.8686666666666667,
+          "brier": 0.13583047088050482
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.9,
+          "brier": 0.09649037859884828
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916653768131349,
+        "joint_context": 0.001667956520198521,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 289
+    },
+    {
+      "task": "context_switch",
+      "seed": 101,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.13822720001142083
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.512,
+          "brier": 0.2500263778948644
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.7793333333333333,
+          "brier": 0.20372829867575065
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.6613333333333333,
+          "brier": 0.27041750409090937
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.13821182174035182
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5153333333333333,
+          "brier": 0.25015033295124695
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.498,
+          "brier": 0.2500784961001678
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.66,
+          "brier": 0.22078659828621575
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.7446666666666667,
+          "brier": 0.1860153113285894
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7546666666666667,
+          "brier": 0.18022671948976865
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8413333333333334,
+          "brier": 0.12844207862687107
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666465526299,
+        "joint_context": 0.0016666867807034393,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 102,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8306666666666667,
+          "brier": 0.15016873298902858
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5033333333333333,
+          "brier": 0.25031927675814136
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.7573333333333333,
+          "brier": 0.20996745409237677
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.6326666666666667,
+          "brier": 0.2883214879965273
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8306666666666667,
+          "brier": 0.15016114771722416
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.48733333333333334,
+          "brier": 0.25037393279918485
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.49866666666666665,
+          "brier": 0.25046492455272745
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.6326666666666667,
+          "brier": 0.23233251310392272
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.7233333333333334,
+          "brier": 0.19180189106269893
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7313333333333333,
+          "brier": 0.19183326835372191
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8246666666666667,
+          "brier": 0.13770006434148738
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666467567059,
+        "joint_context": 0.0016666865766275108,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 103,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8513333333333334,
+          "brier": 0.1437546129476738
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.496,
+          "brier": 0.25016058923967094
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.758,
+          "brier": 0.20814618654968142
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.6286666666666667,
+          "brier": 0.29825727162235116
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8506666666666667,
+          "brier": 0.1437442997253601
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.516,
+          "brier": 0.25005756668172263
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.49733333333333335,
+          "brier": 0.2503263634504425
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.6286666666666667,
+          "brier": 0.23424843092246447
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.752,
+          "brier": 0.18217065280271444
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.73,
+          "brier": 0.1923501416954618
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8406666666666667,
+          "brier": 0.13241562031273504
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666662207204,
+        "joint_context": 0.0016666671126128923,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 104,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.14505137287137895
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5213333333333333,
+          "brier": 0.24975037850911197
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.7526666666666667,
+          "brier": 0.20790792854794624
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.6386666666666667,
+          "brier": 0.28661084661761593
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.14504141702244774
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5226666666666666,
+          "brier": 0.24983819606487717
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5226666666666666,
+          "brier": 0.2498195056916644
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.6386666666666667,
+          "brier": 0.23063982973916572
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.734,
+          "brier": 0.18549968140394818
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7233333333333334,
+          "brier": 0.19134424445051973
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.838,
+          "brier": 0.13276571014869581
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666664456064,
+        "joint_context": 0.0016666668877269044,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 105,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.858,
+          "brier": 0.13610326532344724
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5273333333333333,
+          "brier": 0.24969363791294283
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.7653333333333333,
+          "brier": 0.20588208039296454
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.624,
+          "brier": 0.2872224301064974
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.858,
+          "brier": 0.13608985421986744
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49066666666666664,
+          "brier": 0.2501558625849835
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5273333333333333,
+          "brier": 0.24967256023470608
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.624,
+          "brier": 0.23136215102774432
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.7453333333333333,
+          "brier": 0.179112825077668
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7406666666666667,
+          "brier": 0.1844444461534654
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8553333333333333,
+          "brier": 0.12341912479919435
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666666582773,
+        "joint_context": 0.0016666666750559612,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 106,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8433333333333334,
+          "brier": 0.1468496814238069
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5033333333333333,
+          "brier": 0.2500553860846489
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.758,
+          "brier": 0.20969897379037117
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.612,
+          "brier": 0.30430606556491063
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8433333333333334,
+          "brier": 0.14683845684697389
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.512,
+          "brier": 0.25006416476226806
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.48733333333333334,
+          "brier": 0.2503625735283924
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.6146666666666667,
+          "brier": 0.23515354861503043
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.74,
+          "brier": 0.18492661921894632
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7166666666666667,
+          "brier": 0.19262906427369902
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8293333333333334,
+          "brier": 0.13590878105775286
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666663975993,
+        "joint_context": 0.0016666669357340831,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 107,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.14420831092188452
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.4886666666666667,
+          "brier": 0.250307320355052
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.76,
+          "brier": 0.2081970594089982
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.6186666666666667,
+          "brier": 0.29807133349870735
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.14419242339974342
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49666666666666665,
+          "brier": 0.2504519858425983
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.48533333333333334,
+          "brier": 0.25040865249298017
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.618,
+          "brier": 0.23657898073046818
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.7573333333333333,
+          "brier": 0.18080514702755768
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7333333333333333,
+          "brier": 0.18628525781575841
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.844,
+          "brier": 0.13178456041351921
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666666611854,
+        "joint_context": 0.001666666672147913,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 289
+    },
+    {
+      "task": "context_switch",
+      "seed": 108,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.858,
+          "brier": 0.13470710238144878
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5113333333333333,
+          "brier": 0.2502114336478932
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.7666666666666667,
+          "brier": 0.20459194394366492
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.624,
+          "brier": 0.307216340176668
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.858,
+          "brier": 0.13469528071063164
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.48733333333333334,
+          "brier": 0.2503090281713874
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5066666666666667,
+          "brier": 0.2503537647153856
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.624,
+          "brier": 0.2356364264247054
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.7606666666666667,
+          "brier": 0.1746959685390422
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7473333333333333,
+          "brier": 0.1834529031314904
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8533333333333334,
+          "brier": 0.11993471989020327
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666666549,
+        "joint_context": 0.0016666666784335208,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 109,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.86,
+          "brier": 0.13604609425766628
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.508,
+          "brier": 0.24999699403776912
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.766,
+          "brier": 0.2061123675914345
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.6333333333333333,
+          "brier": 0.2966788543416303
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.86,
+          "brier": 0.1360344573019354
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49066666666666664,
+          "brier": 0.2503190347184703
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5126666666666667,
+          "brier": 0.2500823199874734
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.6346666666666667,
+          "brier": 0.23210501927092514
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.746,
+          "brier": 0.17972300696491106
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.7413333333333333,
+          "brier": 0.18610677554722346
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8493333333333334,
+          "brier": 0.12510628575385258
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666664806533,
+        "joint_context": 0.001666666852680143,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "context_switch",
+      "seed": 110,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.14832631194019233
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.516,
+          "brier": 0.24990101965574324
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.7566666666666667,
+          "brier": 0.20816644361730688
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.632,
+          "brier": 0.2942914656284362
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.8446666666666667,
+          "brier": 0.14831378990666536
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5186666666666667,
+          "brier": 0.24998990231063237
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5166666666666667,
+          "brier": 0.25007510113020276
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.632,
+          "brier": 0.23547876148989466
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.7446666666666667,
+          "brier": 0.18106618468285357
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.728,
+          "brier": 0.18960653566065033
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.8353333333333334,
+          "brier": 0.13489460008988177
+        }
+      },
+      "final_attention": {
+        "frequency": 0.0016666666666666668,
+        "repeat": 0.0016666666666666668,
+        "amount": 0.0016666666666666668,
+        "fee_rate": 0.9916666657343339,
+        "joint_context": 0.0016666675989994147,
+        "neural": 0.0016666666666666668
+      },
+      "memory_cells": 289
+    },
+    {
+      "task": "unpredictable",
+      "seed": 101,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.5046666666666667,
+          "brier": 0.25017878967868445
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5146666666666667,
+          "brier": 0.2500467953779366
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.5066666666666667,
+          "brier": 0.25059801378056396
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.5146666666666667,
+          "brier": 0.24986627542757447
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.5033333333333333,
+          "brier": 0.250308545535986
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5173333333333333,
+          "brier": 0.25000919632690966
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5146666666666667,
+          "brier": 0.2502274348356212
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.47733333333333333,
+          "brier": 0.25482933308378747
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.494,
+          "brier": 0.25308135290612727
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.5126666666666667,
+          "brier": 0.26543205320984536
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.5086666666666667,
+          "brier": 0.27523221291659955
+        }
+      },
+      "final_attention": {
+        "frequency": 0.2512186414878486,
+        "repeat": 0.14668715498130663,
+        "amount": 0.052200543328708916,
+        "fee_rate": 0.34214149800575916,
+        "joint_context": 0.006076900647610282,
+        "neural": 0.2016752615487664
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 102,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.49133333333333334,
+          "brier": 0.25072633587162174
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.49133333333333334,
+          "brier": 0.250439622294853
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.516,
+          "brier": 0.25005726571406894
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.49666666666666665,
+          "brier": 0.25200039622033155
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.492,
+          "brier": 0.2511279231101215
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.482,
+          "brier": 0.25102999572526763
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.49466666666666664,
+          "brier": 0.25051965116868824
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.5113333333333333,
+          "brier": 0.25277320676571186
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.2541711306246775
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.522,
+          "brier": 0.2642115987381068
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.5266666666666666,
+          "brier": 0.26908772481715226
+        }
+      },
+      "final_attention": {
+        "frequency": 0.2464012406010805,
+        "repeat": 0.2544560291879335,
+        "amount": 0.1667103623219471,
+        "fee_rate": 0.039140220289409576,
+        "joint_context": 0.0027148356168024785,
+        "neural": 0.29057731198282677
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 103,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.49466666666666664,
+          "brier": 0.2504792463126188
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.482,
+          "brier": 0.250473938671021
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.496,
+          "brier": 0.2507511634477122
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.49333333333333335,
+          "brier": 0.25064873514547675
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.49466666666666664,
+          "brier": 0.2507551721662802
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.492,
+          "brier": 0.2503367125019278
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.4766666666666667,
+          "brier": 0.25069166251537234
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.5066666666666667,
+          "brier": 0.2542310228351797
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49533333333333335,
+          "brier": 0.2541738605085257
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.504,
+          "brier": 0.2653713491642505
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.48333333333333334,
+          "brier": 0.27504510822861344
+        }
+      },
+      "final_attention": {
+        "frequency": 0.24782950859203012,
+        "repeat": 0.26640757299654916,
+        "amount": 0.15144372584371327,
+        "fee_rate": 0.023680921839378647,
+        "joint_context": 0.007014144619636843,
+        "neural": 0.303624126108692
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 104,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.49266666666666664,
+          "brier": 0.25042358246642005
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.49533333333333335,
+          "brier": 0.2502281689322154
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.5013333333333333,
+          "brier": 0.25179723626250217
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.518,
+          "brier": 0.24985998628702802
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.49266666666666664,
+          "brier": 0.25062974752951234
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.498,
+          "brier": 0.2503087992707443
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5013333333333333,
+          "brier": 0.25030428228241375
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.504,
+          "brier": 0.25412710685036444
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49866666666666665,
+          "brier": 0.25355601020632856
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.4786666666666667,
+          "brier": 0.27078075064013735
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.502,
+          "brier": 0.2754158685357667
+        }
+      },
+      "final_attention": {
+        "frequency": 0.29829831218368663,
+        "repeat": 0.2772691731371538,
+        "amount": 0.04889995587081216,
+        "fee_rate": 0.041788418646552083,
+        "joint_context": 0.0016736772157022474,
+        "neural": 0.33207046294609294
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 105,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.484,
+          "brier": 0.25049386145882585
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.4826666666666667,
+          "brier": 0.2503089718854464
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.496,
+          "brier": 0.25130866106914734
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.48,
+          "brier": 0.2506093609916113
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.4846666666666667,
+          "brier": 0.2507562383656154
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.51,
+          "brier": 0.250210266767105
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.482,
+          "brier": 0.25045665802648304
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.48933333333333334,
+          "brier": 0.2545279492809373
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.496,
+          "brier": 0.25508638727564326
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.49066666666666664,
+          "brier": 0.2673670695442342
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.4786666666666667,
+          "brier": 0.2776989660287102
+        }
+      },
+      "final_attention": {
+        "frequency": 0.27529368190422854,
+        "repeat": 0.24400345499456388,
+        "amount": 0.04575759534121862,
+        "fee_rate": 0.15019676598230694,
+        "joint_context": 0.0018567493874929943,
+        "neural": 0.282891752390189
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 106,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.4766666666666667,
+          "brier": 0.2504263985910043
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5053333333333333,
+          "brier": 0.25022513257847323
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.5086666666666667,
+          "brier": 0.2500247448958029
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.5093333333333333,
+          "brier": 0.2499704387671569
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.4766666666666667,
+          "brier": 0.25064990963648903
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.494,
+          "brier": 0.250375605553757
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5013333333333333,
+          "brier": 0.2503217253923888
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.5206666666666667,
+          "brier": 0.25239087116903225
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.486,
+          "brier": 0.2545803321453698
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.52,
+          "brier": 0.26367612422698344
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.508,
+          "brier": 0.2735883008058444
+        }
+      },
+      "final_attention": {
+        "frequency": 0.2800083305387643,
+        "repeat": 0.2628031126368916,
+        "amount": 0.08067732188747621,
+        "fee_rate": 0.0714709027059281,
+        "joint_context": 0.002246909945015543,
+        "neural": 0.30279342228592415
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 107,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.52,
+          "brier": 0.24999254038866162
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.532,
+          "brier": 0.2495274670335601
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.5066666666666667,
+          "brier": 0.25056224947105543
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.4766666666666667,
+          "brier": 0.24986115292998148
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.52,
+          "brier": 0.2500173090765844
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.5146666666666667,
+          "brier": 0.2500049981129697
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.532,
+          "brier": 0.24943194491127776
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.2527658600464439
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49466666666666664,
+          "brier": 0.25463053382725315
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.49533333333333335,
+          "brier": 0.2673125976050436
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.47733333333333333,
+          "brier": 0.27577406905364604
+        }
+      },
+      "final_attention": {
+        "frequency": 0.3237866338087025,
+        "repeat": 0.2030955162679037,
+        "amount": 0.20437477761500744,
+        "fee_rate": 0.04190046949438213,
+        "joint_context": 0.004026750533009232,
+        "neural": 0.22281585228099507
+      },
+      "memory_cells": 289
+    },
+    {
+      "task": "unpredictable",
+      "seed": 108,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.5046666666666667,
+          "brier": 0.24979692095042685
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5193333333333333,
+          "brier": 0.249895570629345
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.5153333333333333,
+          "brier": 0.25006807790925156
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.25320074421179023
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.5053333333333333,
+          "brier": 0.25007080152146843
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49933333333333335,
+          "brier": 0.251492284068127
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.526,
+          "brier": 0.2496154972316597
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.5113333333333333,
+          "brier": 0.25268116845227123
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.5,
+          "brier": 0.2534134248421415
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.5113333333333333,
+          "brier": 0.2648371208659152
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.506,
+          "brier": 0.2722836771781918
+        }
+      },
+      "final_attention": {
+        "frequency": 0.22263796863005464,
+        "repeat": 0.3131369640848703,
+        "amount": 0.1291096332316299,
+        "fee_rate": 0.08304698391395848,
+        "joint_context": 0.0022462327738589113,
+        "neural": 0.24982221736562782
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 109,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.492,
+          "brier": 0.2503899378518686
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5086666666666667,
+          "brier": 0.25010685470209204
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.49,
+          "brier": 0.2517447007024216
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.49533333333333335,
+          "brier": 0.2501704450212617
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.49266666666666664,
+          "brier": 0.25060501554477044
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49333333333333335,
+          "brier": 0.2504400902239491
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.506,
+          "brier": 0.2500930908132206
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.49066666666666664,
+          "brier": 0.2540734409510781
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.49466666666666664,
+          "brier": 0.25334708459884486
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.48333333333333334,
+          "brier": 0.27095747155223837
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.49133333333333334,
+          "brier": 0.27302991163504914
+        }
+      },
+      "final_attention": {
+        "frequency": 0.17532102247609932,
+        "repeat": 0.2790155023525759,
+        "amount": 0.1138590446848559,
+        "fee_rate": 0.2183069898233469,
+        "joint_context": 0.0019368996672979783,
+        "neural": 0.211560540995824
+      },
+      "memory_cells": 290
+    },
+    {
+      "task": "unpredictable",
+      "seed": 110,
+      "scores": {
+        "full": {
+          "n": 1500,
+          "accuracy": 0.5053333333333333,
+          "brier": 0.2500272273921953
+        },
+        "no_outcome_memory": {
+          "n": 1500,
+          "accuracy": 0.5046666666666667,
+          "brier": 0.2502094734592716
+        },
+        "uniform_attention": {
+          "n": 1500,
+          "accuracy": 0.488,
+          "brier": 0.25095881816008825
+        },
+        "frozen_after_warmup": {
+          "n": 1500,
+          "accuracy": 0.48,
+          "brier": 0.2506265825142846
+        },
+        "no_neural_expert": {
+          "n": 1500,
+          "accuracy": 0.5046666666666667,
+          "brier": 0.2501618545296359
+        },
+        "frequency": {
+          "n": 1500,
+          "accuracy": 0.49533333333333335,
+          "brier": 0.2503506118287656
+        },
+        "repeat": {
+          "n": 1500,
+          "accuracy": 0.5053333333333333,
+          "brier": 0.25037675456082814
+        },
+        "amount": {
+          "n": 1500,
+          "accuracy": 0.5073333333333333,
+          "brier": 0.2527783122653446
+        },
+        "fee_rate": {
+          "n": 1500,
+          "accuracy": 0.516,
+          "brier": 0.25224019159667976
+        },
+        "joint_context": {
+          "n": 1500,
+          "accuracy": 0.47733333333333333,
+          "brier": 0.269578592738613
+        },
+        "context_logistic": {
+          "n": 1500,
+          "accuracy": 0.502,
+          "brier": 0.27055013255595634
+        }
+      },
+      "final_attention": {
+        "frequency": 0.2336854164308873,
+        "repeat": 0.18550500542474554,
+        "amount": 0.05878545270417625,
+        "fee_rate": 0.22722725641500263,
+        "joint_context": 0.0017164271445313057,
+        "neural": 0.2930804418806569
+      },
+      "memory_cells": 289
+    }
+  ],
+  "protocol_sha256": "240db2755613f4e4f0faae85352ac48b6c38753a909ad1c6b06a293e08864f0c",
+  "implementation_sha256": {
+    "scripts/evaluate_forecasts.py": "fcd073672e6b7b87e72f0255f186ae869c3b10537912615a4da689e0d2d395b1",
+    "cognition/forecast.py": "9d659a91d6ba083898bedd411ca45697ea272fdb38f85d495a2c518df173d996"
+  }
+}

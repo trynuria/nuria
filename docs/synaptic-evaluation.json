@@ -1,0 +1,312 @@
+{
+  "created_utc": "2026-10-07T20:48:17.461553+00:00",
+  "neural_tasks": [
+    {
+      "task": "alternation",
+      "train": 160,
+      "held_out": 80,
+      "accuracy": 0.925,
+      "brier": 0.16005413932368057,
+      "neural_ablation_brier": 0.25008628958277884,
+      "chance_brier": 0.25,
+      "structured_side_feature": false,
+      "test_weights_frozen": true,
+      "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+      "data_seed": 51051,
+      "training_synaptic_updates": true,
+      "learned_repeat_baseline": {
+        "repeat_probability": 0.10493827160493827,
+        "accuracy": 0.925,
+        "brier": 0.07027130010669105
+      }
+    },
+    {
+      "task": "persistence",
+      "train": 160,
+      "held_out": 80,
+      "accuracy": 0.8875,
+      "brier": 0.1729050852773871,
+      "neural_ablation_brier": 0.23618998783667988,
+      "chance_brier": 0.25,
+      "structured_side_feature": false,
+      "test_weights_frozen": true,
+      "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+      "data_seed": 51051,
+      "training_synaptic_updates": true,
+      "learned_repeat_baseline": {
+        "repeat_probability": 0.8827160493827161,
+        "accuracy": 0.8875,
+        "brier": 0.09986663618350862
+      }
+    }
+  ],
+  "paired_synaptic_ablation": [
+    {
+      "data_seed": 51051,
+      "plastic": [
+        {
+          "task": "alternation",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.925,
+          "brier": 0.16005413932368057,
+          "neural_ablation_brier": 0.25008628958277884,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 51051,
+          "training_synaptic_updates": true,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.10493827160493827,
+            "accuracy": 0.925,
+            "brier": 0.07027130010669105
+          }
+        },
+        {
+          "task": "persistence",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.8875,
+          "brier": 0.1729050852773871,
+          "neural_ablation_brier": 0.23618998783667988,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 51051,
+          "training_synaptic_updates": true,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.8827160493827161,
+            "accuracy": 0.8875,
+            "brier": 0.09986663618350862
+          }
+        }
+      ],
+      "frozen_from_start": [
+        {
+          "task": "alternation",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.925,
+          "brier": 0.15992864784430064,
+          "neural_ablation_brier": 0.2501852516744604,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 51051,
+          "training_synaptic_updates": false,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.10493827160493827,
+            "accuracy": 0.925,
+            "brier": 0.07027130010669105
+          }
+        },
+        {
+          "task": "persistence",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.8875,
+          "brier": 0.1731098235719541,
+          "neural_ablation_brier": 0.23615437998055033,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 51051,
+          "training_synaptic_updates": false,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.8827160493827161,
+            "accuracy": 0.8875,
+            "brier": 0.09986663618350862
+          }
+        }
+      ]
+    },
+    {
+      "data_seed": 201,
+      "plastic": [
+        {
+          "task": "alternation",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.8625,
+          "brier": 0.1823636167142328,
+          "neural_ablation_brier": 0.25014016670126715,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 201,
+          "training_synaptic_updates": true,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.15432098765432098,
+            "accuracy": 0.8625,
+            "brier": 0.11887669562566681
+          }
+        },
+        {
+          "task": "persistence",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.35,
+          "brier": 0.3439807372855681,
+          "neural_ablation_brier": 0.39029601301315,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 201,
+          "training_synaptic_updates": true,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.9074074074074074,
+            "accuracy": 0.9375,
+            "brier": 0.059499314128943756
+          }
+        }
+      ],
+      "frozen_from_start": [
+        {
+          "task": "alternation",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.8625,
+          "brier": 0.18397809052318626,
+          "neural_ablation_brier": 0.25019017425639795,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 201,
+          "training_synaptic_updates": false,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.15432098765432098,
+            "accuracy": 0.8625,
+            "brier": 0.11887669562566681
+          }
+        },
+        {
+          "task": "persistence",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.35,
+          "brier": 0.3433339799115538,
+          "neural_ablation_brier": 0.3897974952190045,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 201,
+          "training_synaptic_updates": false,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.9074074074074074,
+            "accuracy": 0.9375,
+            "brier": 0.059499314128943756
+          }
+        }
+      ]
+    },
+    {
+      "data_seed": 202,
+      "plastic": [
+        {
+          "task": "alternation",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.9375,
+          "brier": 0.14950279166320798,
+          "neural_ablation_brier": 0.2506414979555576,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 202,
+          "training_synaptic_updates": true,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.06790123456790123,
+            "accuracy": 0.9375,
+            "brier": 0.058622923334857496
+          }
+        },
+        {
+          "task": "persistence",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.5625,
+          "brier": 0.19555049145130982,
+          "neural_ablation_brier": 0.25435231475165826,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 202,
+          "training_synaptic_updates": true,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.8888888888888888,
+            "accuracy": 0.8875,
+            "brier": 0.09984567901234569
+          }
+        }
+      ],
+      "frozen_from_start": [
+        {
+          "task": "alternation",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.9375,
+          "brier": 0.1498931330662486,
+          "neural_ablation_brier": 0.2506620933331904,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 202,
+          "training_synaptic_updates": false,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.06790123456790123,
+            "accuracy": 0.9375,
+            "brier": 0.058622923334857496
+          }
+        },
+        {
+          "task": "persistence",
+          "train": 160,
+          "held_out": 80,
+          "accuracy": 0.5625,
+          "brier": 0.19580413214929063,
+          "neural_ablation_brier": 0.25452863776828333,
+          "chance_brier": 0.25,
+          "structured_side_feature": false,
+          "test_weights_frozen": true,
+          "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+          "data_seed": 202,
+          "training_synaptic_updates": false,
+          "learned_repeat_baseline": {
+            "repeat_probability": 0.8888888888888888,
+            "accuracy": 0.8875,
+            "brier": 0.09984567901234569
+          }
+        }
+      ]
+    }
+  ],
+  "scope": "Actual Brian2 spikes; normal versus disabled training STDP, same circuit seed and three data seeds, frozen held-out readout and synapses. Not a whole-organism or market evaluation.",
+  "summary": [
+    {
+      "task": "alternation",
+      "plastic_mean_brier": 0.1639735159003738,
+      "frozen_mean_brier": 0.1645999571445785,
+      "paired_wins": 2,
+      "seeds": 3
+    },
+    {
+      "task": "persistence",
+      "plastic_mean_brier": 0.23747877133808834,
+      "frozen_mean_brier": 0.23741597854426616,
+      "paired_wins": 2,
+      "seeds": 3
+    }
+  ],
+  "interpretation": "No robust synaptic advantage established. Small mixed changes on simple tasks; one persistence seed is worse than chance. Strong learned-repeat baselines remain better."
+}

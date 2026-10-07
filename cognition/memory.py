@@ -55,9 +55,18 @@ class EpisodicMemory:
             )
 
     def recall(
-        self, features: list, context: str | None = None, limit: int = 4
+        self,
+        features: list,
+        context: str | None = None,
+        limit: int = 4,
+        source: str | None = None,
     ) -> list:
-        if context:
+        if context and source:
+            rows = self.db.execute(
+                "SELECT id,payload,features,importance,event_order FROM episodes WHERE context=? AND source=? ORDER BY event_order DESC LIMIT 128",
+                (context, source),
+            ).fetchall()
+        elif context:
             rows = self.db.execute(
                 "SELECT id,payload,features,importance,event_order FROM episodes WHERE context=? ORDER BY event_order DESC LIMIT 128",
                 (context,),

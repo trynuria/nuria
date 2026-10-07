@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "scope": "Nuria cognition release; runtime histories, secrets and private infrastructure are excluded",
+  "scope": "Nuria learning release; runtime histories, secrets and private infrastructure are excluded",
   "baseline_commit": "e30346af50a0b8ca6db0c71974e385c737828fb3",
   "deployment_identity": "Live API reports component commits, deployment time and source hashes; the original circuit retains its historical startup identity",
   "changes": [
@@ -9,7 +9,8 @@
     "Read-only treasury observation, durable caps and unsigned single-transfer preparation; financial execution disabled",
     "Updated observatory, documentation, capability map and bounded evaluation evidence",
     "Streaming compatible encrypted recovery archives with bounded upload readback and both circuit snapshots",
-    "Full-width neural field, detailed measured connection rendering, compact responsive instruments and expandable receipts"
+    "Full-width neural field, detailed measured connection rendering, compact responsive instruments and expandable receipts",
+    "Source-specific adaptive forecast council, fair stronger baselines and fresh-seed memory/attention ablations; failed and null neural results retained"
   ],
   "files": [
     {
@@ -34,11 +35,11 @@
     },
     {
       "path": "CHANGELOG.md",
-      "published_sha256": "d837350cabc66fe8c6f1f6d3761eae3c487750db82957a06887c8f9e977c70b1"
+      "published_sha256": "98283b93d3c3a88cef4b8ea3233b24c27229698a461396061012e41a4f09aaf2"
     },
     {
       "path": "README.md",
-      "published_sha256": "d002de3edbc90da79e825aa60fb9812d2f8f359a46705533e90bd32e4d813cb8"
+      "published_sha256": "45f7a4eda8b56129ca0c16d5302b96f605b29e9b4d7ddd60f0720b446fb9b7cd"
     },
     {
       "path": "api.py",
@@ -66,11 +67,11 @@
     },
     {
       "path": "cognition-view.html",
-      "published_sha256": "18a3907c5a29704ec9c3583ec8c1cd63fbfc614bf9f74a19b0a4baee0d1e82ce"
+      "published_sha256": "7d38be2dad40777286f25fea4fd4f1fef66bba082b77d4b1bb888384233a349d"
     },
     {
       "path": "cognition-view.js",
-      "published_sha256": "453d22daf96d42413a439de351d94917aba3f481eac0861bd107dd952d50affa"
+      "published_sha256": "fcee5b23ba957a526a6bbe270af675162dce4d23657193fffb4d4b6909076d0f"
     },
     {
       "path": "cognition/__init__.py",
@@ -89,8 +90,12 @@
       "published_sha256": "798ba49c05c20eb4426b091098535b23c3f13a3fe080f1407d723c9e2b4047ab"
     },
     {
+      "path": "cognition/forecast.py",
+      "published_sha256": "5f8273e77f1bb0ac27998ac4414d865e5a80f725f5e03271b3d8d177ebec074c"
+    },
+    {
       "path": "cognition/jobs.py",
-      "published_sha256": "d8781507c1fbf0e16c976ac8dc447378052e21b1fa3dee2a1431da6839d73b95"
+      "published_sha256": "4c07b6f558e1cd911476d9ac17da48e0bce63a96de4357b3869c997d651e08be"
     },
     {
       "path": "cognition/journal.py",
@@ -102,7 +107,7 @@
     },
     {
       "path": "cognition/memory.py",
-      "published_sha256": "a34896d1ad651ba9d4383cc22616e44494cc82514825a2de03330de7e6c6f6f9"
+      "published_sha256": "b26448c4f2d05b725d43e66fae48749c1e35051ef25ac51fe9eba0bfe3011772"
     },
     {
       "path": "cognition/payments.py",
@@ -118,7 +123,7 @@
     },
     {
       "path": "cognition/worker.py",
-      "published_sha256": "83f0c902a5077587a09d9f2756dee6f663b40aaff73d0fde3649013e4cf955d0"
+      "published_sha256": "a627afe0cbd409652dc127924651a3b80bbc029649ab8698355ea2003a106b26"
     },
     {
       "path": "cognition/world.py",
@@ -126,23 +131,23 @@
     },
     {
       "path": "docs-script-check.js",
-      "published_sha256": "dcd950ee492d87434ed67b631908ca8c9682c069194fa9b5e5a0aad6086ecdb3"
+      "published_sha256": "7a613afc2880b394717aab9dc542a26380f0a166b6374a2069540e5a873e9a5c"
     },
     {
       "path": "docs/architecture.md",
-      "published_sha256": "87601447b39fc79511a51fc5901347e9f13ef9419fce798c15eaec65663af824"
+      "published_sha256": "bbb8dc5c3ef75d70f4c9fe2ae54b5b4fb446248486c5e4790c83ca63bba0f6ea"
     },
     {
       "path": "docs/capabilities.json",
-      "published_sha256": "0a4877914f91c78c5e17cf61ca68c8a267268287a1c07b0f0de6c95d4bf21178"
+      "published_sha256": "d9df87d21033412c8c251664973cb965fcfa0b378d375102c8defb375a4d1f7a"
     },
     {
       "path": "docs/capability-map.md",
-      "published_sha256": "8640d2011617cd583feed5967dce951fa0a4b5599e934a478e09a4763e765d0c"
+      "published_sha256": "114854b0bfec0b0b2e23b4f6b7fc95cf526af5ccb52fd33cf5ba3fa69951fbe9"
     },
     {
       "path": "docs/docs-content.html",
-      "published_sha256": "67feca2b565d7fe9b000c8e17b11e7828b7a7ac4fd19d5169739823edeea6b90"
+      "published_sha256": "48de1172d60d6f145e31033cf0e0b259ff6de4d0abfdaa16b549bd2cb9cf7470"
     },
     {
       "path": "docs/docs.css",
@@ -154,11 +159,27 @@
     },
     {
       "path": "docs/evaluation.json",
-      "published_sha256": "a0cb9851d30e466c3c8cad42f20a4d2981fb69c2304ff4a1b8a1dbe54088d548"
+      "published_sha256": "1c684a4fc0d52a5b00ec7f65c11e2250fd08a338075133845a92a3c4fa072abe"
+    },
+    {
+      "path": "docs/evaluation.md",
+      "published_sha256": "6547be80ce977197d817314c1bc18a920883288e7459c01ed06f139458513b95"
+    },
+    {
+      "path": "docs/forecast-development.json",
+      "published_sha256": "28fa1c4ef41f7f39ae3f23cb990fe587d2857c91f10862f34b34388cf91b6f0b"
+    },
+    {
+      "path": "docs/forecast-evaluation.json",
+      "published_sha256": "8d8b5b44bb1626d512408f463b7812c703f9c1c8cc93148d2e85f38c7a1b9c3e"
     },
     {
       "path": "docs/spending.md",
       "published_sha256": "3b7c59c3403d84806b24d73d7dd9287a76c58ac38cf525d54d93c182d75a0213"
+    },
+    {
+      "path": "docs/synaptic-evaluation.json",
+      "published_sha256": "aa569223e8ccf054060dab3549a3cb1d2be09b6089ad6081a80f6ee89a86d548"
     },
     {
       "path": "engine.py",
@@ -170,7 +191,7 @@
     },
     {
       "path": "index.html",
-      "published_sha256": "25f6878391120726c842ae34d9319add2d8b77f46bccb5a7c6a2f2779c2640fa"
+      "published_sha256": "a9ba62e7ccf6323c415018332401925b777e8d8879eaca62bb1eede58a66e342"
     },
     {
       "path": "ingest.py",
@@ -186,19 +207,19 @@
     },
     {
       "path": "observatory-design.css",
-      "published_sha256": "0eea8fc8f158a0713ce3607f59471c5b3be5a2573c285143d469d501ca3e69d9"
+      "published_sha256": "afb9d02dc08682c6619e9accb96882c2c16330af83692b9cb45816993b730075"
     },
     {
       "path": "observatory.html",
-      "published_sha256": "69e7c2a51439cd3d58ec726ca37c27724fb23d409c51af69a8111c7989501ecc"
+      "published_sha256": "3da279334759af59f7516d3375f0dec28b245df6af98326918465856ac80f62c"
     },
     {
       "path": "package-lock.json",
-      "published_sha256": "73425295fd44c44706e2deb2ed4c190c89700e3f6e55d511d0f761fbcb24895c"
+      "published_sha256": "5e89fa811b882fc1e1aa30e67e55329f2a4597da1e59eaa9c35448d7cf9b40c7"
     },
     {
       "path": "package.json",
-      "published_sha256": "eb9e175f46fc9f6dc04dff2fbd6f40c4cf5b0e3e66c08d01f8ca3f6b7e0ab1eb"
+      "published_sha256": "00ae192898cc01013a4c54bb6feef115ffbd6dad98dd301912a88906fefdca24"
     },
     {
       "path": "publish.py",
@@ -234,7 +255,11 @@
     },
     {
       "path": "scripts/benchmark_cognition.py",
-      "published_sha256": "17cf3657fa13e76cc4543655b2275d5929fcfe84177b27771bc1dfaf97f89dca"
+      "published_sha256": "3b3bb4e86a9b530761e60b00a63537f86b7060956ee9aea6f8cd4ffece65f691"
+    },
+    {
+      "path": "scripts/evaluate_forecasts.py",
+      "published_sha256": "617a3e2d9c2d11cc0b088c0a98b29b2c3dae582446066627c9d16287ce7844c8"
     },
     {
       "path": "store.py",
@@ -255,6 +280,10 @@
     {
       "path": "tests/test_evidence.py",
       "published_sha256": "9df801b8ac7782eb4fb33f007d1ff87d80052b8e99b3cb27cef5ff8e2b60a19b"
+    },
+    {
+      "path": "tests/test_forecast.py",
+      "published_sha256": "4b80c2e7c0501897597179ea26ee398d0a83e410fa720751247b43fcbb27cd4d"
     },
     {
       "path": "tests/test_recovery_archive.py",

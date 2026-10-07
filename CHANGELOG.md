@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-08
+
+- Added a source-specific forecast council with conditional outcome memory, learned specialist attention and a stronger repeat-probability baseline.
+- Kept old neural readouts and circuit history; the council publishes its own start time and sample counts.
+- Replaced random-feature experiment jobs with chronological comparisons on recorded inputs, including negative results.
+- Restricted episodic recall to the input's source and exposed forecast probabilities, expert weights and calibration.
+- Corrected the original neural benchmark interpretation and published fair comparators, fresh-seed component ablations, development failures and matched synaptic tests.
+- Reframed the site and development map around implemented behavior and measurable research gates.
+
 ## 0.2.1 — 2026-10-08
 
 - Rebuilt the observatory around a full-width neural field and compact live instruments.

@@ -8,7 +8,7 @@ import time
 
 import numpy as np
 
-from cognition.learning import benchmark
+from cognition.forecast import diagnose
 
 
 class Experiments:
@@ -29,10 +29,28 @@ class Experiments:
                     "reward": 0,
                     "actual_spend_lamports": 0,
                 }
-            result = benchmark(seed=51 + self.completed, train=600, test=240)
-            reward = float(
-                np.clip(np.mean([0.25 - t["brier"] for t in result["tasks"]]), -1, 1)
+            source = (
+                memory.recent[0]["event"].get("source", "unknown")
+                if memory.recent
+                else None
             )
+            rows = (
+                memory.db.execute(
+                    "SELECT payload FROM episodes WHERE source=? ORDER BY event_order DESC LIMIT 512",
+                    (source,),
+                ).fetchall()
+                if source
+                else []
+            )
+            if len(rows) < 64:
+                return {
+                    "status": "unavailable",
+                    "reason": "At least 64 recorded inputs from one source are needed for a diagnostic",
+                    "reward": 0,
+                    "actual_spend_lamports": 0,
+                }
+            result = diagnose([json.loads(row[0]) for row in reversed(rows)])
+            reward = float(np.clip(result["improvement_over_repeat"], -1, 1))
             self.last_tick = tick
         elif action == "compare":
             if not memory.recent:

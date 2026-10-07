@@ -56,5 +56,555 @@
     "cpu_quota_cores": 1,
     "memory_limit_gib": 1
   },
-  "scope": "Controlled neural evaluation and bounded server replay. No RPC calls, live trading, subjective-experience claim or full-day end-to-end soak."
+  "scope": "Controlled neural evaluation and bounded server replay. No RPC calls, live trading, subjective-experience claim or full-day end-to-end soak.",
+  "legacy_comparison": [
+    {
+      "task": "alternation",
+      "learned_repeat_probability": 0.10493827160493827,
+      "simple_predictor": {
+        "n": 80,
+        "accuracy": 0.925,
+        "brier": 0.07027130010669105
+      },
+      "published_neural": {
+        "accuracy": 0.925,
+        "brier": 0.16005413932368057
+      },
+      "conclusion": "Simple predictor matches accuracy and has lower probability error; no neural advantage established."
+    },
+    {
+      "task": "persistence",
+      "learned_repeat_probability": 0.8827160493827161,
+      "simple_predictor": {
+        "n": 80,
+        "accuracy": 0.8875,
+        "brier": 0.09986663618350862
+      },
+      "published_neural": {
+        "accuracy": 0.8875,
+        "brier": 0.1729050852773871
+      },
+      "conclusion": "Simple predictor matches accuracy and has lower probability error; no neural advantage established."
+    }
+  ],
+  "forecast_comparison": {
+    "created_utc": "2026-10-07T20:55:12.778213+00:00",
+    "protocol": {
+      "version": "forecast-comparison-v2",
+      "seeds": [
+        201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216,
+        217, 218, 219, 220
+      ],
+      "development_run": "v1 seeds 101\u2013110 showed logistic was stronger after a context switch. The production council now includes that existing alternative; v2 uses new seeds and reports both outcomes.",
+      "events": 2000,
+      "warmup": 500,
+      "switch_at": 1000,
+      "tasks": ["amount_context", "fee_context", "context_switch", "unpredictable"],
+      "scoring": "Next-side forecast stored before the following outcome; all models may update after scoring. Warmup excluded equally.",
+      "baselines": [
+        "frequency",
+        "repeat",
+        "amount",
+        "fee_rate",
+        "joint_context",
+        "context_logistic"
+      ],
+      "ablations": [
+        "no_outcome_memory",
+        "uniform_attention",
+        "frozen_after_warmup",
+        "no_neural_expert"
+      ],
+      "scope": "Synthetic recurring-context and context-switch tasks; statistical forecast component. No live-market, whole-organism, consciousness or neural-plasticity inference.",
+      "neural_probability": "0.5 for every sample; no fabricated spike features. Production also supplies its separate spike readout.",
+      "success_rule": "Report every task, seed and comparator. A mean win is not a win on every task. Negative and null results remain in the output."
+    },
+    "protocol_sha256": "4f57f3c69b55f8d2e945c206e1ed17e8f27047a377fa7f3f141e80ab2a71de15",
+    "implementation_sha256": {
+      "scripts/evaluate_forecasts.py": "617a3e2d9c2d11cc0b088c0a98b29b2c3dae582446066627c9d16287ce7844c8",
+      "cognition/forecast.py": "5f8273e77f1bb0ac27998ac4414d865e5a80f725f5e03271b3d8d177ebec074c"
+    },
+    "summary": [
+      {
+        "task": "amount_context",
+        "mean_scores": {
+          "full": {
+            "accuracy": 0.9018,
+            "brier": 0.0905468118139788
+          },
+          "no_outcome_memory": {
+            "accuracy": 0.5007333333333334,
+            "brier": 0.25012263299384624
+          },
+          "uniform_attention": {
+            "accuracy": 0.9017333333333333,
+            "brier": 0.15911112481805229
+          },
+          "frozen_after_warmup": {
+            "accuracy": 0.9018,
+            "brier": 0.09212761830107592
+          },
+          "no_neural_expert": {
+            "accuracy": 0.9018,
+            "brier": 0.0905391920767398
+          },
+          "frequency": {
+            "accuracy": 0.4950666666666665,
+            "brier": 0.25030315198548914
+          },
+          "repeat": {
+            "accuracy": 0.4995,
+            "brier": 0.2502091853323329
+          },
+          "amount": {
+            "accuracy": 0.9018,
+            "brier": 0.0902945061591178
+          },
+          "fee_rate": {
+            "accuracy": 0.49993333333333334,
+            "brier": 0.25372773028689344
+          },
+          "joint_context": {
+            "accuracy": 0.8671333333333333,
+            "brier": 0.1348849764004431
+          },
+          "context_logistic": {
+            "accuracy": 0.9014333333333333,
+            "brier": 0.09419249262656369
+          }
+        },
+        "paired_comparisons": {
+          "no_outcome_memory": {
+            "mean_brier_improvement": 0.1595758211798674,
+            "standard_error_across_seeds": 0.0016002770351221814,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "uniform_attention": {
+            "mean_brier_improvement": 0.06856431300407348,
+            "standard_error_across_seeds": 0.0008246703542580517,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "frozen_after_warmup": {
+            "mean_brier_improvement": 0.0015808064870971306,
+            "standard_error_across_seeds": 0.0003391128968440391,
+            "paired_seed_wins": 19,
+            "seeds": 20
+          },
+          "no_neural_expert": {
+            "mean_brier_improvement": -7.6197372390097995e-6,
+            "standard_error_across_seeds": 7.003550538808702e-7,
+            "paired_seed_wins": 0,
+            "seeds": 20
+          },
+          "frequency": {
+            "mean_brier_improvement": 0.15975634017151039,
+            "standard_error_across_seeds": 0.0015892727917437381,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "repeat": {
+            "mean_brier_improvement": 0.1596623735183541,
+            "standard_error_across_seeds": 0.0015992240130738458,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "amount": {
+            "mean_brier_improvement": -0.00025230565486101045,
+            "standard_error_across_seeds": 1.7714438588939645e-5,
+            "paired_seed_wins": 0,
+            "seeds": 20
+          },
+          "fee_rate": {
+            "mean_brier_improvement": 0.16318091847291466,
+            "standard_error_across_seeds": 0.0014993331447133464,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "joint_context": {
+            "mean_brier_improvement": 0.044338164586464314,
+            "standard_error_across_seeds": 0.0005568475120821693,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "context_logistic": {
+            "mean_brier_improvement": 0.0036456808125849005,
+            "standard_error_across_seeds": 0.000131157959750511,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          }
+        }
+      },
+      {
+        "task": "fee_context",
+        "mean_scores": {
+          "full": {
+            "accuracy": 0.9024666666666666,
+            "brier": 0.09006496778065713
+          },
+          "no_outcome_memory": {
+            "accuracy": 0.4985666666666666,
+            "brier": 0.2502053420164888
+          },
+          "uniform_attention": {
+            "accuracy": 0.9023666666666668,
+            "brier": 0.1588162853958778
+          },
+          "frozen_after_warmup": {
+            "accuracy": 0.9024666666666666,
+            "brier": 0.09232997898905532
+          },
+          "no_neural_expert": {
+            "accuracy": 0.9024666666666666,
+            "brier": 0.09005692368028304
+          },
+          "frequency": {
+            "accuracy": 0.5004666666666667,
+            "brier": 0.25032599401905287
+          },
+          "repeat": {
+            "accuracy": 0.49816666666666665,
+            "brier": 0.25030769980508055
+          },
+          "amount": {
+            "accuracy": 0.5004333333333333,
+            "brier": 0.2538081121039676
+          },
+          "fee_rate": {
+            "accuracy": 0.9024666666666666,
+            "brier": 0.08980548241368722
+          },
+          "joint_context": {
+            "accuracy": 0.8683333333333334,
+            "brier": 0.13430626782661212
+          },
+          "context_logistic": {
+            "accuracy": 0.9020333333333335,
+            "brier": 0.09371928004563843
+          }
+        },
+        "paired_comparisons": {
+          "no_outcome_memory": {
+            "mean_brier_improvement": 0.16014037423583166,
+            "standard_error_across_seeds": 0.0014219173536585228,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "uniform_attention": {
+            "mean_brier_improvement": 0.06875131761522064,
+            "standard_error_across_seeds": 0.0007260910515189532,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "frozen_after_warmup": {
+            "mean_brier_improvement": 0.0022650112083981754,
+            "standard_error_across_seeds": 0.0003673524441359719,
+            "paired_seed_wins": 19,
+            "seeds": 20
+          },
+          "no_neural_expert": {
+            "mean_brier_improvement": -8.04410037410358e-6,
+            "standard_error_across_seeds": 6.120838929496957e-7,
+            "paired_seed_wins": 0,
+            "seeds": 20
+          },
+          "frequency": {
+            "mean_brier_improvement": 0.16026102623839572,
+            "standard_error_across_seeds": 0.0014313303876932085,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "repeat": {
+            "mean_brier_improvement": 0.16024273202442343,
+            "standard_error_across_seeds": 0.0014209208285798785,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "amount": {
+            "mean_brier_improvement": 0.16374314432331044,
+            "standard_error_across_seeds": 0.0014499255079010755,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "fee_rate": {
+            "mean_brier_improvement": -0.00025948536696994705,
+            "standard_error_across_seeds": 1.837623965287893e-5,
+            "paired_seed_wins": 0,
+            "seeds": 20
+          },
+          "joint_context": {
+            "mean_brier_improvement": 0.04424130004595495,
+            "standard_error_across_seeds": 0.0004940045309278199,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "context_logistic": {
+            "mean_brier_improvement": 0.0036543122649812776,
+            "standard_error_across_seeds": 0.00013165908966140363,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          }
+        }
+      },
+      {
+        "task": "context_switch",
+        "mean_scores": {
+          "full": {
+            "accuracy": 0.8414666666666667,
+            "brier": 0.12853783307069622
+          },
+          "no_outcome_memory": {
+            "accuracy": 0.4945666666666667,
+            "brier": 0.25021173463651514
+          },
+          "uniform_attention": {
+            "accuracy": 0.8084333333333333,
+            "brier": 0.18780357488343835
+          },
+          "frozen_after_warmup": {
+            "accuracy": 0.6317,
+            "brier": 0.29113144582891326
+          },
+          "no_neural_expert": {
+            "accuracy": 0.8414999999999999,
+            "brier": 0.12854533185593353
+          },
+          "frequency": {
+            "accuracy": 0.4988666666666667,
+            "brier": 0.25029914081246185
+          },
+          "repeat": {
+            "accuracy": 0.4942000000000001,
+            "brier": 0.2503233792902308
+          },
+          "amount": {
+            "accuracy": 0.6317,
+            "brier": 0.23231980200971983
+          },
+          "fee_rate": {
+            "accuracy": 0.7434000000000001,
+            "brier": 0.18283029987458793
+          },
+          "joint_context": {
+            "accuracy": 0.7327333333333332,
+            "brier": 0.18861200537554854
+          },
+          "context_logistic": {
+            "accuracy": 0.8410666666666667,
+            "brier": 0.12972628988259088
+          }
+        },
+        "paired_comparisons": {
+          "no_outcome_memory": {
+            "mean_brier_improvement": 0.12167390156581892,
+            "standard_error_across_seeds": 0.001282685100273911,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "uniform_attention": {
+            "mean_brier_improvement": 0.05926574181274211,
+            "standard_error_across_seeds": 0.0006998810435487845,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "frozen_after_warmup": {
+            "mean_brier_improvement": 0.16259361275821707,
+            "standard_error_across_seeds": 0.001972565610285125,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "no_neural_expert": {
+            "mean_brier_improvement": 7.498785237311511e-6,
+            "standard_error_across_seeds": 5.195431798256948e-7,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "frequency": {
+            "mean_brier_improvement": 0.1217613077417657,
+            "standard_error_across_seeds": 0.0012808087273528022,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "repeat": {
+            "mean_brier_improvement": 0.12178554621953461,
+            "standard_error_across_seeds": 0.0012792601130419356,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "amount": {
+            "mean_brier_improvement": 0.10378196893902361,
+            "standard_error_across_seeds": 0.0010213430494575365,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "fee_rate": {
+            "mean_brier_improvement": 0.05429246680389173,
+            "standard_error_across_seeds": 0.0008555535616213764,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "joint_context": {
+            "mean_brier_improvement": 0.060074172304852326,
+            "standard_error_across_seeds": 0.0006542087720722745,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "context_logistic": {
+            "mean_brier_improvement": 0.0011884568118946518,
+            "standard_error_across_seeds": 7.005647803339148e-5,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          }
+        }
+      },
+      {
+        "task": "unpredictable",
+        "mean_scores": {
+          "full": {
+            "accuracy": 0.5018,
+            "brier": 0.25021150447973967
+          },
+          "no_outcome_memory": {
+            "accuracy": 0.5029333333333332,
+            "brier": 0.25011029574325355
+          },
+          "uniform_attention": {
+            "accuracy": 0.4974000000000001,
+            "brier": 0.2517425640775125
+          },
+          "frozen_after_warmup": {
+            "accuracy": 0.5037666666666667,
+            "brier": 0.2502636819587767
+          },
+          "no_neural_expert": {
+            "accuracy": 0.5018333333333332,
+            "brier": 0.2503782168626748
+          },
+          "frequency": {
+            "accuracy": 0.5044000000000001,
+            "brier": 0.2501546647131482
+          },
+          "repeat": {
+            "accuracy": 0.5022,
+            "brier": 0.2502198637925145
+          },
+          "amount": {
+            "accuracy": 0.5001,
+            "brier": 0.2539733149497874
+          },
+          "fee_rate": {
+            "accuracy": 0.4963666666666667,
+            "brier": 0.2536627952499112
+          },
+          "joint_context": {
+            "accuracy": 0.5016666666666667,
+            "brier": 0.26774696730159725
+          },
+          "context_logistic": {
+            "accuracy": 0.49826666666666675,
+            "brier": 0.27333620579737916
+          }
+        },
+        "paired_comparisons": {
+          "no_outcome_memory": {
+            "mean_brier_improvement": -0.00010120873648606088,
+            "standard_error_across_seeds": 5.04280650325405e-5,
+            "paired_seed_wins": 6,
+            "seeds": 20
+          },
+          "uniform_attention": {
+            "mean_brier_improvement": 0.0015310595977727852,
+            "standard_error_across_seeds": 0.00019839996755713016,
+            "paired_seed_wins": 18,
+            "seeds": 20
+          },
+          "frozen_after_warmup": {
+            "mean_brier_improvement": 5.217747903702441e-5,
+            "standard_error_across_seeds": 0.00013178323513817283,
+            "paired_seed_wins": 8,
+            "seeds": 20
+          },
+          "no_neural_expert": {
+            "mean_brier_improvement": 0.0001667123829351441,
+            "standard_error_across_seeds": 1.885543612031085e-5,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "frequency": {
+            "mean_brier_improvement": -5.68397665915224e-5,
+            "standard_error_across_seeds": 6.015025980802819e-5,
+            "paired_seed_wins": 7,
+            "seeds": 20
+          },
+          "repeat": {
+            "mean_brier_improvement": 8.35931277479024e-6,
+            "standard_error_across_seeds": 5.724851041936323e-5,
+            "paired_seed_wins": 9,
+            "seeds": 20
+          },
+          "amount": {
+            "mean_brier_improvement": 0.003761810470047747,
+            "standard_error_across_seeds": 0.00023067559227368925,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "fee_rate": {
+            "mean_brier_improvement": 0.0034512907701715638,
+            "standard_error_across_seeds": 0.00019639242341328776,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "joint_context": {
+            "mean_brier_improvement": 0.01753546282185762,
+            "standard_error_across_seeds": 0.0007367426877061788,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          },
+          "context_logistic": {
+            "mean_brier_improvement": 0.023124701317639475,
+            "standard_error_across_seeds": 0.00043335857817098944,
+            "paired_seed_wins": 20,
+            "seeds": 20
+          }
+        }
+      }
+    ],
+    "all_trials": "https://github.com/trynuria/nuria/blob/main/docs/forecast-evaluation.json",
+    "interpretation": "Conditional outcome memory and loss-based forecast attention improve these synthetic tasks. A simple specialist is better on each static task; random outcomes stay near chance. The component run supplies no real spike features and establishes no neural or whole-organism advantage."
+  },
+  "matched_synaptic_ablation": {
+    "created_utc": "2026-10-07T20:48:17.461553+00:00",
+    "summary": [
+      {
+        "task": "alternation",
+        "plastic_mean_brier": 0.1639735159003738,
+        "frozen_mean_brier": 0.1645999571445785,
+        "paired_wins": 2,
+        "seeds": 3
+      },
+      {
+        "task": "persistence",
+        "plastic_mean_brier": 0.23747877133808834,
+        "frozen_mean_brier": 0.23741597854426616,
+        "paired_wins": 2,
+        "seeds": 3
+      }
+    ],
+    "scope": "Actual Brian2 spikes; normal versus disabled training STDP, same circuit seed and three data seeds, frozen held-out readout and synapses. Not a whole-organism or market evaluation.",
+    "interpretation": "No robust synaptic advantage established. Small mixed changes on simple tasks; one persistence seed is worse than chance. Strong learned-repeat baselines remain better.",
+    "all_trials": "https://github.com/trynuria/nuria/blob/main/docs/synaptic-evaluation.json"
+  },
+  "forecast_upgrade_capacity": {
+    "inputs": 100,
+    "seconds": 23.301694494999538,
+    "inputs_per_second_unpaced": 4.2915333913359675,
+    "cycle_p95_seconds": 1.063732,
+    "target_rate_per_second": 1.1574074074074074,
+    "paced_inputs_per_day_upper_bound": 345600.0,
+    "persisted_cursor": 100,
+    "journal_valid": true,
+    "disk_bytes": 13354744,
+    "scope": "Bounded actual-model replay; daily number is a projection, not a 24-hour end-to-end RPC soak"
+  }
 }

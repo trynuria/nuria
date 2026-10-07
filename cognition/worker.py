@@ -16,6 +16,7 @@ from pathlib import Path
 import numpy as np
 
 from cognition.brain import MODEL_VERSION, AdaptiveBrain, sha
+from cognition.forecast import ForecastCouncil
 from cognition.jobs import Experiments
 from cognition.journal import Journal, canonical
 from cognition.learning import OnlineReadout
@@ -49,6 +50,11 @@ class Organism:
             source: OnlineReadout(state)
             for source, state in metadata.get("readouts", {}).items()
         }
+        self.forecasts = {
+            source: ForecastCouncil(state)
+            for source, state in metadata.get("forecasts", {}).items()
+        }
+        self.forecast_genesis = metadata.get("forecast_genesis_utc", utc())
         self.committed_tick = int(metadata.get("tick", 0))
         self.committed_cursor = int(metadata.get("cursor", 0))
         self.workspace = Workspace(metadata.get("workspace"))
@@ -91,7 +97,9 @@ class Organism:
             raise ValueError("Source input is invalid; cursor was not advanced")
         context = self.memory.context(event)
         novelty = self.workspace.novelty(context)
-        recalled = self.memory.recall(self.features, context)
+        recalled = self.memory.recall(
+            self.features, context, source=event.get("source", "unknown")
+        )
         broadcast = recalled[0]["features"] if recalled else [0.0] * 64
         frame = self.brain.advance(
             event,
@@ -109,7 +117,11 @@ class Organism:
         features = readout.features(
             event, self.features, self.resources.energy, self.workspace.uncertainty
         )
-        learning = readout.observe(event, features)
+        neural_learning = readout.observe(event, features)
+        council = self.forecasts.setdefault(
+            event.get("source", "unknown"), ForecastCouncil()
+        )
+        learning = council.observe(event, neural_learning["prediction_buy"])
         feedback = learning["feedback"]
         improvement = float(feedback["improvement"]) if feedback else 0.0
         plasticity = self.brain.reward(improvement)
@@ -137,6 +149,10 @@ class Organism:
             "spike_count": frame["spike_count"],
             "spikes_sha256": frame["spikes_sha256"],
             "next_buy_probability": learning["prediction_buy"],
+            "forecast_method": "forecast-council-v1",
+            "forecast_experts": council.pending["experts"],
+            "forecast_attention": learning["attention"],
+            "neural_readout_probability": neural_learning["prediction_buy"],
             "prediction_uncertainty": learning["uncertainty"],
             "reward_modulation": plasticity,
             "processing_utc": utc(),
@@ -272,6 +288,10 @@ class Organism:
             "readouts": {
                 source: readout.state() for source, readout in self.readouts.items()
             },
+            "forecasts": {
+                source: forecast.state() for source, forecast in self.forecasts.items()
+            },
+            "forecast_genesis_utc": self.forecast_genesis,
             "workspace": self.workspace.state(),
             "resources": self.resources.state(),
             "habitat": self.habitat.state(),
@@ -311,19 +331,26 @@ class Organism:
             "neural": frame,
             "workspace": self.workspace.state(),
             "learning": {
+                "method": "forecast-council-v1",
+                "genesis_utc": self.forecast_genesis,
+                "scope": "Outcome memory and learned forecast attention alongside a separate neural specialist; forecast gains do not establish a synaptic advantage",
                 "sources": {
                     source: {
-                        "samples": readout.samples,
+                        "samples": forecast.stats["n"],
                         "prediction": {
                             k: v
-                            for k, v in (readout.pending or {}).items()
-                            if k != "features"
+                            for k, v in (forecast.pending or {}).items()
+                            if k != "context"
                         },
-                        "metrics": readout.metrics(),
-                        "history": list(readout.history)[-60:],
+                        "metrics": {source: forecast.metrics()},
+                        "history": list(forecast.history)[-60:],
                     }
+                    for source, forecast in self.forecasts.items()
+                },
+                "neural_readouts": {
+                    source: readout.metrics()
                     for source, readout in self.readouts.items()
-                }
+                },
             },
             "memory": self.memory_summary,
             "resources": self.resources.public(),

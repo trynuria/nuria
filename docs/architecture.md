@@ -6,9 +6,11 @@ Two independent circuits read the same durable finalized input queue. The origin
 
 Each cycle reads at most four inputs in event order. Each valid input gets an independent 20 ms sensory window, source-specific forecast, episode and input-effect record. Side, amount, fee and event-ID texture enter sensory drive. Recalled features stimulate the memory population. A 100 ms autonomous window follows.
 
-Every five cycles, 65% goal utility and 35% normalized action-region spikes select one of eight actions. Habitat moves use an explicit local planner. Replay and matched probes operate on recorded episodes. Controlled local readout tasks execute with measured CPU/wall time. Observed prediction improvement and action consequences modulate synaptic eligibility and learned action values.
+Every five cycles, 65% goal utility and 35% normalized action-region spikes select one of eight actions. Habitat moves use an explicit local planner. Replay and matched probes operate on recorded episodes. Retrospective component diagnostics execute on recorded inputs with measured CPU/wall time. Observed prediction improvement and action consequences modulate synaptic eligibility and learned action values.
 
-Source-specific readouts prevent test training from changing live predictor weights. Shared neural dynamics still reflect all recorded inputs; source separation does not claim separate physical circuits for test and live.
+Source-specific neural readouts and forecast councils prevent test training from changing live predictor parameters. The council combines seven specialists using learned squared-error attention and conditional transition memory. Its metrics and start time are separate from retained old neural readout metrics. Shared neural dynamics still reflect all recorded inputs; source separation does not claim separate physical circuits for test and live. Recall now restricts candidates to the current input source.
+
+The experiment action performs a retrospective chronological comparison on recorded same-source inputs. It cannot reconstruct past neural forecasts from payloads, so those diagnostics exclude the neural specialist in every branch. They are observational component checks rather than new hypotheses or controlled interventions. See [evaluation](evaluation.md).
 
 ## Circuit parameters
 

@@ -38,8 +38,8 @@
   {
     "step": 7,
     "capability": "Finalized trade reader",
-    "status": "Active",
-    "evidence_or_gate": "Exact configured mint and supported protocol events; missing coverage remains unresolved."
+    "status": "Prepared",
+    "evidence_or_gate": "Finalized protocol reader is implemented; exact mint is not configured, so no live-token feedback loop is established."
   },
   {
     "step": 8,
@@ -75,13 +75,13 @@
     "step": 13,
     "capability": "Source-isolated learning",
     "status": "Active",
-    "evidence_or_gate": "Test and live readouts have independent weights and statistics."
+    "evidence_or_gate": "Source-specific forecast council learns transition memory and specialist weights; old neural readouts are retained separately."
   },
   {
     "step": 14,
     "capability": "Calibrated measurement",
     "status": "Active",
-    "evidence_or_gate": "Brier error, baseline error and probability bins expose mistakes."
+    "evidence_or_gate": "Prequential Brier error and learned repeat baseline; expert losses and forecast attention are public."
   },
   {
     "step": 15,
@@ -153,13 +153,13 @@
     "step": 26,
     "capability": "Autonomous local experiments",
     "status": "Active",
-    "evidence_or_gate": "Bounded controlled tasks execute and return measured results."
+    "evidence_or_gate": "Retrospective chronological diagnostics compare forecast components on recorded same-source inputs; no hypothesis invention."
   },
   {
     "step": 27,
     "capability": "Actual-neuron evaluation",
     "status": "Evaluation",
-    "evidence_or_gate": "Held-out controlled spike-feature tasks with neural ablation; broader task suite remains open."
+    "evidence_or_gate": "Actual spike tasks do not beat the learned repeat predictor; a matched training-synapse ablation is published separately."
   },
   {
     "step": 28,
@@ -236,8 +236,8 @@
   {
     "step": 40,
     "capability": "Attention efficacy tests",
-    "status": "Research",
-    "evidence_or_gate": "Ablate workspace broadcasts and measure an independent task effect."
+    "status": "Evaluation",
+    "evidence_or_gate": "Learned forecast attention is tested across 20 seeds; the separate hand-designed workspace still needs a causal efficacy test."
   },
   {
     "step": 41,

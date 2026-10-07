@@ -14,17 +14,23 @@ from cognition.learning import FEATURES, OnlineReadout
 from cognition.worker import Organism
 
 
-def neural_tasks(directory: Path) -> list:
+def neural_tasks(
+    directory: Path, seed: int = 51051, synaptic_updates: bool = True
+) -> list:
     results = []
     for name, probability in (("alternation", 0.1), ("persistence", 0.9)):
         brain = AdaptiveBrain(directory / name)
+        if not synaptic_updates:
+            brain.exc.plastic_gain = 0
         learner = OnlineReadout()
-        rng = np.random.default_rng(51051)
+        rng = np.random.default_rng(seed)
         outcomes = [int(rng.integers(0, 2))]
         for _ in range(240):
             previous = outcomes[-1]
             outcomes.append(previous if rng.random() < probability else 1 - previous)
         examples = []
+        repeated = sum(a == b for a, b in zip(outcomes[:160], outcomes[1:161]))
+        repeat_probability = (repeated + 1) / 162
         for i in range(240):
             event = {
                 "id": f"{name}-{i}",
@@ -61,6 +67,27 @@ def neural_tasks(directory: Path) -> list:
                 "structured_side_feature": False,
                 "test_weights_frozen": True,
                 "scope": "Controlled next-side task using actual 1024-neuron spike features; not a live-market result",
+                "data_seed": seed,
+                "training_synaptic_updates": synaptic_updates,
+                "learned_repeat_baseline": {
+                    "repeat_probability": repeat_probability,
+                    "accuracy": statistics.mean(
+                        (
+                            (repeat_probability if previous else 1 - repeat_probability)
+                            >= 0.5
+                        )
+                        == bool(y)
+                        for previous, y in zip(outcomes[160:240], outcomes[161:241])
+                    ),
+                    "brier": statistics.mean(
+                        (
+                            (repeat_probability if previous else 1 - repeat_probability)
+                            - y
+                        )
+                        ** 2
+                        for previous, y in zip(outcomes[160:240], outcomes[161:241])
+                    ),
+                },
             }
         )
     return results
@@ -107,12 +134,24 @@ def main():
     parser.add_argument("directory", type=Path)
     parser.add_argument("--inputs", type=int, default=1000)
     parser.add_argument("--neural-only", action="store_true")
+    parser.add_argument("--paired-synaptic-ablation", action="store_true")
     args = parser.parse_args()
     args.directory.mkdir(parents=True, exist_ok=True)
     result = {
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "neural_tasks": neural_tasks(args.directory / "tasks"),
     }
+    if args.paired_synaptic_ablation:
+        result["paired_synaptic_ablation"] = [
+            {
+                "data_seed": seed,
+                "plastic": neural_tasks(args.directory / f"plastic-{seed}", seed),
+                "frozen_from_start": neural_tasks(
+                    args.directory / f"frozen-{seed}", seed, False
+                ),
+            }
+            for seed in (51051, 201, 202)
+        ]
     if not args.neural_only:
         result["capacity"] = throughput(args.directory / "capacity", args.inputs)
     (args.directory / "results.json").write_text(json.dumps(result, indent=2))

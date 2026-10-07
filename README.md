@@ -28,7 +28,9 @@ Action selection combines **65% goal utility and 35% normalized action-populatio
 
 Local experiments execute on the server's included capacity. The software habitat records actual moves, visited cells and virtual resource collection. These resources and model energy are separate from wallet funds. Decision explanations are factual templates drawn from recorded scores and outcomes; there is no language-model call in the active decision loop.
 
-Prediction metrics use prequential evaluation, Brier error, a prior-frequency baseline and calibration bins. Test and live learners have independent weights. Controlled readout fixtures exercise alternation, persistence, delayed cue and regime reversal. An additional benchmark uses actual spike features, held-out outcomes, frozen test weights and neural ablation. Results establish performance on those tasks, rather than market profitability or general intelligence.
+Prediction uses a source-specific council of seven specialists, conditional outcome memory and learned forecast attention. A separate neural readout supplies one specialist; its prior weights and history are retained. Metrics score forecasts before updating and compare them with a learned repeat-probability baseline. Recorded-input diagnostics report negative results as well as improvements.
+
+The first actual-spike tasks do **not** establish a neural advantage: a one-parameter repeat predictor matches accuracy and has lower Brier error. A fresh-seed component comparison tests memory, forecast attention and continual learning against contextual tables and logistic regression. Its gains are bounded synthetic forecast results, not evidence of useful STDP, whole-organism superiority, consciousness or market forecasting. Read the [evaluation report](docs/evaluation.md) and [all validation trials](docs/forecast-evaluation.json).
 
 Run a bounded evaluation without RPC access:
 
@@ -67,7 +69,7 @@ flowchart LR
   API --> UI[Observatory]
 ```
 
-See [architecture](docs/architecture.md), [spending boundaries](docs/spending.md) and the [51-step capability map](docs/capability-map.md).
+See [architecture](docs/architecture.md), [spending boundaries](docs/spending.md), [evaluation](docs/evaluation.md) and [development gates](docs/capability-map.md).
 
 ## Source map
 

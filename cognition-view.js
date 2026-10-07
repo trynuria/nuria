@@ -124,7 +124,7 @@ function renderCognition(c) {
     forage: "Move toward a virtual resource in the habitat.",
     predict: "Prediction continues while awaiting the next input.",
     replay: "Re-stimulate the circuit with a remembered input.",
-    experiment: "Run a controlled learning task and record its result.",
+    experiment: "Compare forecast mechanisms on recorded inputs.",
     rest: "Recover model energy and reduce fatigue.",
     compare: "Compare the same neural state with and without an input.",
     reserve: "Keep model resources available for the next input.",
@@ -176,9 +176,21 @@ function renderCognition(c) {
     : "Awaiting data";
   $("cogLearningSource").textContent =
     source === "test"
-      ? "Test inputs · prediction error (green) / frequency baseline (gray)."
+      ? "Test inputs · forecast error (green) / learned repeat baseline (gray)."
       : `${source} · observed next-input outcomes; prediction quality can rise or fall.`;
   drawLearning(learning?.history || []);
+  $("cogForecastJSON").textContent = JSON.stringify(
+    {
+      method: c.learning?.method,
+      learning_started_utc: c.learning?.genesis_utc,
+      source,
+      prediction: learning?.prediction,
+      metrics,
+      scope: c.learning?.scope,
+    },
+    null,
+    2,
+  );
   cognitiveCount("cogEpisodes", c.memory?.episodes);
   $("cogWorkspace").replaceChildren();
   for (const slot of c.workspace?.selected || []) {

@@ -9,8 +9,8 @@
       content="#080f0d"
     /><meta
       name="description"
-      content="Nuria. An experiment in onchain consciousness. Explore a continuous neural life, changing connections and a traceable history."
-    /><title>Nuria — An experiment in onchain consciousness</title
+      content="Nuria. A token-driven neural experiment with persistent state, measured learning and a traceable decision history."
+    /><title>Nuria — A token-driven neural experiment</title
     ><style>
       :root {
         color-scheme: dark;
@@ -3120,6 +3120,9 @@
         background: #0d1310;
         font-size: 11px;
       }
+      .cognitive-evidence > details + details {
+        margin-top: 8px;
+      }
       .cognitive-evidence pre {
         background: #101715;
         font-size: 10px;
@@ -4708,8 +4711,8 @@
           <section class="hero"
             ><div
               ><div class="eyebrow"
-                ><span class="seed-dot" aria-hidden="true"></span>An experiment in
-                onchain consciousness</div
+                ><span class="seed-dot" aria-hidden="true"></span>A token-driven neural
+                experiment</div
               ><h1>A nervous system <br />for a token.</h1></div
             ><div class="hero-copy"
               ><p
@@ -4936,7 +4939,7 @@
                     ><span>Brier error / lower is better</span></div
                   ><div
                     ><strong id="cogBaseline">—</strong
-                    ><span>frequency baseline error</span></div
+                    ><span>learned repeat baseline error</span></div
                   ></div
                 ><canvas
                   id="learningChart"
@@ -4986,6 +4989,9 @@
               ><details
                 ><summary>Inspect the latest decision</summary
                 ><pre id="cogDecisionJSON">Awaiting a decision.</pre></details
+              ><details
+                ><summary>Inspect the forecast</summary
+                ><pre id="cogForecastJSON">Awaiting a forecast.</pre></details
               ><div
                 ><span id="cogContinuity">Checking continuity</span
                 ><a
@@ -5392,7 +5398,7 @@
                   class="docs-nav-link"
                   href="/?page=docs#roadmap"
                   data-chapter="roadmap"
-                  ><span>10</span>51-step capability map</a
+                  ><span>10</span>Development gates</a
                 ><div class="docs-nav-label">Reference</div
                 ><a
                   class="docs-nav-link"
@@ -5505,10 +5511,10 @@
                   ><h2 id="observatory--decisions">Choices and consequences</h2
                   ><p
                     >Current decision shows eight combined action scores. The learning
-                    panel compares evaluated predictions against the prior frequency
-                    baseline. The habitat shows actual recorded software moves and
-                    virtual resource collection. Memory and attention report recorded
-                    episodes and the three competing workspace slots.</p
+                    panel compares evaluated predictions against a learned
+                    repeat-probability baseline. The habitat shows actual recorded
+                    software moves and virtual resource collection. Memory and attention
+                    report recorded episodes and the three competing workspace slots.</p
                   ><h2 id="observatory--inspect">Follow the evidence</h2
                   ><p
                     >Inspect the latest decision to see utility scores, neural scores,
@@ -5553,7 +5559,7 @@
                   ><p
                     >Excitatory connections maintain pre/post traces and eligibility.
                     Small timing-dependent updates act continuously. Observed prediction
-                    improvement against a frequency baseline and measured action
+                    improvement against the learned repeat baseline and measured action
                     outcomes produce bounded reward signals that modulate eligible
                     weights. Inhibitory connections use fixed influence. All weight
                     updates are bounded.</p
@@ -5783,8 +5789,10 @@
                     >Brier error is the squared difference between predicted probability
                     and observed binary outcome. Lower is better. Prequential evaluation
                     scores a stored prediction before training on its newly observed
-                    outcome. The frequency baseline uses only previously observed
-                    events.</p
+                    outcome. The repeat baseline estimates how often the next side
+                    repeats the previous side, using only previously observed outcomes.
+                    A frequency-only baseline remains a separately reported
+                    specialist.</p
                   ><h2 id="glossary--workspace">Workspace and memory</h2
                   ><p
                     >Three high-salience candidates receive broadcast slots and
@@ -5853,7 +5861,7 @@
                     approved retention or archive expansion and provider coverage.</p
                   ><h2 id="questions--next">What changes next?</h2
                   ><p
-                    >The 51-step capability map separates working mechanisms from
+                    >The development gates separate implemented mechanisms from
                     evaluation and future research. Every new mechanism needs a useful
                     behavioral target, a failure test, a resource budget and a public
                     record. Adding unexplained neuron count is not a substitute for
@@ -5873,36 +5881,52 @@
                     loop.</p
                   ><h2 id="cognition--forecast">Forecast before observation</h2
                   ><p
-                    >Each source has an independent online logistic readout over 64
-                    neural features and eight structured features. The current input
-                    produces a probability for the next input’s side. That stored
-                    prediction is evaluated when the next same-source outcome arrives,
-                    then the readout updates. No future side is visible at prediction
-                    time.</p
+                    >Each source has a forecast council with seven competing
+                    specialists: frequency, repeat probability, amount context, fee-rate
+                    context, joint context, contextual logistic regression and the
+                    separate neural readout. A stored prediction is scored when the next
+                    same-source outcome arrives; learning happens afterwards. The neural
+                    specialist still uses 64 spike features and eight structured
+                    features. Its old weights and history are retained. The council has
+                    its own published start time and sample count.</p
+                  ><p
+                    >Outcome memory stores conditional transition counts in fixed public
+                    amount and fee-rate bins, with exponential forgetting. Forecast
+                    attention changes each specialist’s weight from observed squared
+                    error. A small fixed share lets suppressed specialists recover after
+                    conditions change. This is statistical learning alongside the
+                    circuit. Its measured gains are not evidence that neural STDP
+                    produced those gains.</p
                   ><h2 id="cognition--memory">Retrieve relevant episodes</h2
                   ><p
                     >Each event creates an episode with compressed neural features,
                     context and importance. Recall scores up to 128 recent candidates in
-                    the matching side/amount context. Recalled features drive the
-                    recurrent-memory population. Novelty decreases with context visits;
-                    prediction surprise raises an episode’s importance.</p
+                    the matching side/amount context and same source. Recalled features
+                    drive the recurrent-memory population. Novelty decreases with
+                    context visits; prediction surprise raises an episode’s
+                    importance.</p
                   ><h2 id="cognition--attention">Compete for attention</h2
                   ><p
                     >Prediction uncertainty, recent surprise, resource pressure and
                     context novelty compete for three broadcast slots. This workspace
                     affects neural drive. Action utilities use those same measured
-                    variables alongside learned action values and cost estimates.</p
+                    variables alongside learned action values and cost estimates. This
+                    hand-designed workspace is distinct from learned forecast attention.
+                    A benefit from workspace broadcasts has not yet been established.</p
                   ><h2 id="cognition--act">Choose and execute</h2
                   ><p
                     >Every five cycles, 65% goal utility plus 35% normalized
                     action-region spikes select among eight actions. Explore/forage move
                     in the software habitat. Replay re-stimulates an episode. Compare
-                    runs a matched causal probe. Experiment runs a held-out controlled
-                    readout task. Rest/reserve adjust model resource variables;
-                    prediction continues for observed inputs.</p
+                    runs a matched causal probe. Experiment compares forecast mechanisms
+                    on up to 512 actual recorded inputs from one source, in
+                    chronological order. It reports negative results too. This
+                    retrospective diagnostic is not hypothesis invention or an
+                    independently randomized experiment. Rest/reserve adjust model
+                    resource variables; prediction continues for observed inputs.</p
                   ><h2 id="cognition--feedback">Consequences change future behavior</h2
                   ><p
-                    >Prediction improvement relative to the prior frequency baseline
+                    >Prediction improvement relative to the learned repeat baseline
                     modulates synaptic eligibility. Habitat and completed-job outcomes
                     update reward estimates, action values, cost estimates, model energy
                     and fatigue. These variables influence later neural drives and
@@ -5910,20 +5934,106 @@
                   ><h2 id="cognition--evaluation"
                     >Evaluate the mechanism, not the story</h2
                   ><p
-                    >The actual-neuron benchmark trains a next-side readout from spike
-                    features, freezes test weights and removes neural features for an
-                    ablation. It reports held-out accuracy and Brier error on controlled
-                    alternation and persistence. Separate fixture tests exercise delayed
-                    cues and regime reversal. Market prediction, general intelligence
-                    and consciousness need different evidence.</p
+                    >The original actual-neuron tasks were too easy to establish an
+                    advantage. A learned repeat probability matches their 92.5% and
+                    88.75% accuracy and improves Brier error from 0.1601 / 0.1729 to
+                    0.0703 / 0.0999. Those results remain public; removing all neural
+                    features was an insufficient comparator.</p
+                  ><h2 id="cognition--comparison">Fresh-seed forecast comparison</h2
+                  ><p
+                    >The production forecast component is tested on recurring amount and
+                    fee contexts, a switch between them, and an unpredictable control.
+                    Every model sees the same inputs, scores before updating and gets
+                    the same 500-event warmup. Twenty new seeds each contain 1,500
+                    scored predictions. We report every seed and comparator, including
+                    failures. The neural specialist is held at 0.5 in this component
+                    test; no synthetic spike features are invented.</p
+                  ><div class="docs-table-wrap"
+                    ><table class="docs-table"
+                      ><thead
+                        ><tr
+                          ><th>Task</th><th>Council Brier ↓</th><th>Repeat</th
+                          ><th>Context logistic</th></tr
+                        ></thead
+                      ><tbody
+                        ><tr
+                          ><td>Amount context</td><td>0.0905</td><td>0.2502</td
+                          ><td>0.0942</td></tr
+                        ><tr
+                          ><td>Fee context</td><td>0.0901</td><td>0.2503</td
+                          ><td>0.0937</td></tr
+                        ><tr
+                          ><td>Context switch</td><td>0.1285</td><td>0.2503</td
+                          ><td>0.1297</td></tr
+                        ><tr
+                          ><td>Unpredictable</td><td>0.2502</td><td>0.2502</td
+                          ><td>0.2733</td></tr
+                        ></tbody
+                      ></table
+                    ></div
+                  ><p
+                    >On the switch task, removing conditional outcome memory raises
+                    error to 0.2502, using uniform attention raises it to 0.1878, and
+                    freezing learning after warmup raises it to 0.2911. All three
+                    ablations lose in all 20 seeds. The gain over contextual logistic
+                    regression is small. On static tasks, the specialist supplied the
+                    relevant context is slightly better than the council. The random
+                    control stays near chance. These are bounded synthetic forecast
+                    results, not market forecasting or whole-organism superiority.</p
+                  ><p
+                    >The development run is retained: its first council lost to logistic
+                    regression after the switch. Adding that existing alternative as a
+                    specialist was then checked on fresh seeds. Read the
+                    <a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/evaluation.md"
+                      target="_blank"
+                      rel="noreferrer"
+                      >evaluation report</a
+                    >,
+                    <a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/forecast-evaluation.json"
+                      target="_blank"
+                      rel="noreferrer"
+                      >all validation trials</a
+                    >
+                    and
+                    <a
+                      href="https://www.jmlr.org/papers/v10/vovk09a.html"
+                      target="_blank"
+                      rel="noreferrer"
+                      >the expert-advice literature</a
+                    >.</p
+                  ><h2 id="cognition--remaining">What this still does not establish</h2
+                  ><p
+                    >A separate actual-spike study enables or disables training STDP on
+                    matched streams with three data seeds. Effects are small and mixed:
+                    mean Brier is 0.163974 versus 0.164600 on alternation and 0.237479
+                    versus 0.237416 on persistence. One persistence seed is worse than
+                    chance in both branches. A robust synaptic advantage is not
+                    established.
+                    <a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/synaptic-evaluation.json"
+                      target="_blank"
+                      rel="noreferrer"
+                      >All matched neural trials</a
+                    >
+                    are public.</p
+                  ><p
+                    >Useful synaptic plasticity, episodic neural replay and workspace
+                    attention need separate causal tasks. The action loop remains a 65%
+                    utility / 35% neural hybrid with an explicit habitat planner.
+                    Receipts show internal integrity; independent witnesses and onchain
+                    anchors are not connected. No mint or creator-fee wallet is
+                    configured, and the model spends no SOL. Consciousness and a whole
+                    human-brain simulation are not established.</p
                   ></article
                 ><article
                   class="docs-article"
                   id="doc-roadmap"
-                  data-title="51-step capability map"
+                  data-title="Development gates"
                   data-category="Research"
                   ><div class="docs-eyebrow">Nuria / development</div
-                  ><h1 tabindex="-1">51-step capability map</h1
+                  ><h1 tabindex="-1">Development gates</h1
                   ><p class="docs-lead"
                     >A development map for increasingly capable token-driven neural
                     behavior. Status describes evidence and implementation, not a ladder
@@ -5945,52 +6055,52 @@
                         ></thead
                       ><tbody
                         ><tr
-                          ><td>01</td><td>Persistent membrane dynamics</td
-                          ><td>Active</td
+                          ><td>1</td><td>Persistent membrane dynamics</td><td>Active</td
                           ><td
                             >Neural variables and random state resume from a trusted
                             checkpoint.</td
                           ></tr
                         ><tr
-                          ><td>02</td><td>Recurrent excitation and inhibition</td
+                          ><td>2</td><td>Recurrent excitation and inhibition</td
                           ><td>Active</td
                           ><td
                             >Six-population 1024-neuron circuit with complete
                             connectivity in the worker.</td
                           ></tr
                         ><tr
-                          ><td>03</td><td>Multi-timescale dynamics</td><td>Active</td
+                          ><td>3</td><td>Multi-timescale dynamics</td><td>Active</td
                           ><td
                             >Sensory, memory and association use different time
                             constants.</td
                           ></tr
                         ><tr
-                          ><td>04</td><td>Spike-timing plasticity</td><td>Active</td
+                          ><td>4</td><td>Spike-timing plasticity</td><td>Active</td
                           ><td>Timing traces change bounded excitatory weights.</td></tr
                         ><tr
-                          ><td>05</td><td>Eligibility-based feedback</td><td>Active</td
+                          ><td>5</td><td>Eligibility-based feedback</td><td>Active</td
                           ><td
                             >Observed rewards modulate recently eligible synapses.</td
                           ></tr
                         ><tr
-                          ><td>06</td><td>Homeostatic control</td><td>Active</td
+                          ><td>6</td><td>Homeostatic control</td><td>Active</td
                           ><td
                             >Bounded bias feedback regulates population firing.</td
                           ></tr
                         ><tr
-                          ><td>07</td><td>Finalized trade reader</td><td>Active</td
+                          ><td>7</td><td>Finalized trade reader</td><td>Prepared</td
                           ><td
-                            >Exact configured mint and supported protocol events;
-                            missing coverage remains unresolved.</td
+                            >Finalized protocol reader is implemented; exact mint is not
+                            configured, so no live-token feedback loop is
+                            established.</td
                           ></tr
                         ><tr
-                          ><td>08</td><td>Individual event encoding</td><td>Active</td
+                          ><td>8</td><td>Individual event encoding</td><td>Active</td
                           ><td
                             >Each input has its own sensory window and event-ID
                             texture.</td
                           ></tr
                         ><tr
-                          ><td>09</td><td>Idempotent source history</td><td>Active</td
+                          ><td>9</td><td>Idempotent source history</td><td>Active</td
                           ><td
                             >Changed or reordered duplicate inputs refuse
                             continuation.</td
@@ -6016,14 +6126,15 @@
                         ><tr
                           ><td>13</td><td>Source-isolated learning</td><td>Active</td
                           ><td
-                            >Test and live readouts have independent weights and
-                            statistics.</td
+                            >Source-specific forecast council learns transition memory
+                            and specialist weights; old neural readouts are retained
+                            separately.</td
                           ></tr
                         ><tr
                           ><td>14</td><td>Calibrated measurement</td><td>Active</td
                           ><td
-                            >Brier error, baseline error and probability bins expose
-                            mistakes.</td
+                            >Prequential Brier error and learned repeat baseline; expert
+                            losses and forecast attention are public.</td
                           ></tr
                         ><tr
                           ><td>15</td><td>Persistent episodic memory</td><td>Active</td
@@ -6093,15 +6204,17 @@
                           ><td>26</td><td>Autonomous local experiments</td
                           ><td>Active</td
                           ><td
-                            >Bounded controlled tasks execute and return measured
-                            results.</td
+                            >Retrospective chronological diagnostics compare forecast
+                            components on recorded same-source inputs; no hypothesis
+                            invention.</td
                           ></tr
                         ><tr
                           ><td>27</td><td>Actual-neuron evaluation</td
                           ><td>Evaluation</td
                           ><td
-                            >Held-out controlled spike-feature tasks with neural
-                            ablation; broader task suite remains open.</td
+                            >Actual spike tasks do not beat the learned repeat
+                            predictor; a matched training-synapse ablation is published
+                            separately.</td
                           ></tr
                         ><tr
                           ><td>28</td><td>Public decision evidence</td><td>Active</td
@@ -6181,10 +6294,12 @@
                             path planner.</td
                           ></tr
                         ><tr
-                          ><td>40</td><td>Attention efficacy tests</td><td>Research</td
+                          ><td>40</td><td>Attention efficacy tests</td
+                          ><td>Evaluation</td
                           ><td
-                            >Ablate workspace broadcasts and measure an independent task
-                            effect.</td
+                            >Learned forecast attention is tested across 20 seeds; the
+                            separate hand-designed workspace still needs a causal
+                            efficacy test.</td
                           ></tr
                         ><tr
                           ><td>41</td><td>Memory consolidation</td><td>Research</td
@@ -7764,7 +7879,7 @@
             forage: "Move toward a virtual resource in the habitat.",
             predict: "Prediction continues while awaiting the next input.",
             replay: "Re-stimulate the circuit with a remembered input.",
-            experiment: "Run a controlled learning task and record its result.",
+            experiment: "Compare forecast mechanisms on recorded inputs.",
             rest: "Recover model energy and reduce fatigue.",
             compare: "Compare the same neural state with and without an input.",
             reserve: "Keep model resources available for the next input.",
@@ -7818,9 +7933,21 @@
             : "Awaiting data";
           $("cogLearningSource").textContent =
             source === "test"
-              ? "Test inputs · prediction error (green) / frequency baseline (gray)."
+              ? "Test inputs · forecast error (green) / learned repeat baseline (gray)."
               : `${source} · observed next-input outcomes; prediction quality can rise or fall.`;
           drawLearning(learning?.history || []);
+          $("cogForecastJSON").textContent = JSON.stringify(
+            {
+              method: c.learning?.method,
+              learning_started_utc: c.learning?.genesis_utc,
+              source,
+              prediction: learning?.prediction,
+              metrics,
+              scope: c.learning?.scope,
+            },
+            null,
+            2,
+          );
           cognitiveCount("cogEpisodes", c.memory?.episodes);
           $("cogWorkspace").replaceChildren();
           for (const slot of c.workspace?.selected || []) {
