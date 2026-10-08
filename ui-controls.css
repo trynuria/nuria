@@ -1,0 +1,202 @@
+.nuria-select {
+  position: relative;
+  width: 96px;
+  flex: 0 0 96px;
+}
+.nuria-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  height: 30px;
+  padding: 0 9px;
+  border: 1px solid #344139;
+  border-radius: 6px;
+  color: #dce5d7;
+  background: #18231c;
+  font: 10px var(--mono);
+  cursor: pointer;
+}
+.nuria-select-trigger svg {
+  width: 10px;
+  height: 10px;
+  opacity: 0.65;
+}
+.nuria-select-trigger:hover,
+.nuria-select-trigger[aria-expanded="true"] {
+  background: #202e24;
+  border-color: #62785d;
+}
+.nuria-select-popup {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 7px);
+  z-index: 20;
+  width: 150px;
+  padding: 5px;
+  border: 1px solid #40503f;
+  border-radius: 9px;
+  background: #142019;
+  box-shadow: 0 12px 35px #0006;
+}
+.nuria-select-popup[hidden] {
+  display: none;
+}
+.nuria-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 35px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 5px;
+  color: #aebdac;
+  background: transparent;
+  font: 11px var(--mono);
+  text-align: left;
+  cursor: pointer;
+}
+.nuria-select-option[aria-selected="true"] {
+  color: #d4ebbb;
+}
+.nuria-select-option[aria-selected="true"]::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.nuria-select-option:hover,
+.nuria-select-option:focus-visible {
+  color: #e3eedb;
+  background: #253629;
+  outline: none;
+}
+.nuria-select-trigger:focus-visible,
+a.github-link:focus-visible {
+  outline: 2px solid #afc997;
+  outline-offset: 3px;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+summary {
+  list-style: none;
+}
+summary::marker {
+  content: "";
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+a.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  vertical-align: baseline;
+  max-width: 100%;
+}
+.github-link > .github-mark {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  fill: currentColor;
+}
+.github-link > span {
+  min-width: 0;
+}
+.docs-header .github-link {
+  padding: 8px;
+  color: #b8c5b3;
+}
+.docs-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+}
+.footer .footer-links {
+  flex-wrap: wrap;
+}
+.doc-diagram {
+  margin: 28px 0 36px;
+  overflow: hidden;
+  border: 1px solid #28372c;
+  border-radius: 12px;
+  background: #0c1511;
+}
+.doc-diagram > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.doc-diagram figcaption {
+  padding: 14px 20px;
+  border-top: 1px solid #28372c;
+  color: #9fb29b;
+  font: 12px/1.7 var(--mono);
+}
+.diagram-mobile {
+  display: none;
+}
+@media (max-width: 600px) {
+  .docs-header .github-link > span {
+    display: none;
+  }
+  .docs-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .doc-diagram > svg {
+    display: none;
+  }
+  .diagram-mobile {
+    display: grid;
+    gap: 0;
+    padding: 21px;
+  }
+  .diagram-mobile > div {
+    position: relative;
+    padding: 0 0 20px 23px;
+    border-left: 1px solid #3b5140;
+  }
+  .diagram-mobile > div:last-child {
+    border-color: transparent;
+    padding-bottom: 0;
+  }
+  .diagram-mobile > div::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: -4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #b9d69b;
+  }
+  .diagram-mobile strong {
+    display: block;
+    color: #dce5d8;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .diagram-mobile span {
+    display: block;
+    margin-top: 5px;
+    color: #95a891;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+}

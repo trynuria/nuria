@@ -1,6 +1,6 @@
 # Financial activation
 
-The installed services and public ledger are ready for configuration. No production wallet, funded allowance, external custody account or paid merchant transaction has been created by this release. Execution remains disabled.
+The installed services and public ledger are ready for configuration. No production wallet, funded allowance or paid merchant transaction has been created by this release. Execution remains disabled.
 
 ## Project accounts
 

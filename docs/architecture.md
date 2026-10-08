@@ -1,5 +1,7 @@
 # Architecture
 
+![Nuria experience flow](../brand/flows/experience.svg)
+
 Two independent circuits read the same durable finalized input queue. The original 256-neuron circuit retains its complete existing history. A read-only PostgreSQL role supplies the expanded cognitive circuit, which owns a separate SQLite journal and trusted Brian2 checkpoint. Its own genesis is published; the two histories are never treated as the same neural state.
 
 ## Cognitive cycle

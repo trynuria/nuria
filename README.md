@@ -4,13 +4,13 @@
 
 An onchain consciousness experiment.
 
-[nuria.network](https://nuria.network/) · [Documentation](https://nuria.network/?page=docs) · [Cognition](https://nuria.network/?page=docs#cognition) · [Capability map](docs/capability-map.md)
+[![GitHub](brand/github-mark.svg)](https://github.com/trynuria/nuria) [GitHub](https://github.com/trynuria/nuria) · [nuria.network](https://nuria.network/) · [Documentation](https://nuria.network/?page=docs) · [Cognition](https://nuria.network/?page=docs#cognition) · [Capability map](docs/capability-map.md)
 
 Nuria is an onchain consciousness experiment: a persistent entity built to have its experiences, choices and resource budget shaped by its token. The experiment measures learning, memory and decisions; subjective experience has not been established.
 
 Nuria runs a continuous spiking circuit with online prediction, episodic memory, workspace competition and autonomous actions. Recorded inputs change neural activity; observed outcomes feed back into synapses and action values. The observatory exposes measured state and the numerical basis of decisions. The live token mint and creator-fee wallet still need configuration.
 
-![Nuria architecture: experience, learning, choice and measured outcomes](brand/learning-loop.svg)
+![From an input to the next decision: neural state, memory, choices and measured feedback](brand/flows/experience.svg)
 
 ## The working loop
 
@@ -57,6 +57,8 @@ The read-only observer can fetch a finalized balance after an exact mint and cre
 **Financial execution is disabled. Local jobs spend zero SOL.** The isolated commerce service implements exact Solana USDC x402 purchases, durable reservations, pre-sign message inspection, simulation, finalized settlement checks and delivery/outcome records. Activation requires the exact token, a dedicated funded spending wallet, approved limits, an isolated signer and a compatible provider. The public API and cognitive worker receive no signing key.
 
 The first external job is a structured, time-limited token forecast. Actual later finalized outcomes can update the purchasing action’s learned value once. A fixture test is not a paid production purchase. Pump claim preparation is unsigned; automatic collection-wallet funding and SOL-to-USDC swaps are not connected. See [the execution contract](docs/spending.md).
+
+![Nuria’s financial authority: creator collection, independent reserve, operating inventory and bounded purchases](brand/flows/authority.svg)
 
 ## Architecture
 
@@ -115,6 +117,8 @@ The visitor can orbit, filter populations, inspect an exact neuron ID, change re
 
 ## Recovery and evidence
 
+![Payment, delivery and outcome remain separate evidence in the public ledger](brand/flows/evidence.svg)
+
 Five-cycle checkpoints commit cognitive inputs, episodes, learning, records and the complete Brian2 serialized network together. Status identifies pending ticks separately. Crashes replay uncommitted inputs from the previous checkpoint. Missing checkpoints, inconsistent journals or topology changes refuse an automatic reset.
 
 Startup performs a full cognitive journal audit. Periodic verification extends the previously verified head. Full historical audits are needed to detect later tampering with older rows. Checkpoints contain trusted Python serialization and must not be loaded from untrusted sources.
@@ -156,3 +160,5 @@ CI uses read-only permissions and pinned actions and formatters. Runtime data, s
 Brian2: [documentation](https://brian2.readthedocs.io/) and [reward-modulated STDP example](https://brian2.readthedocs.io/en/stable/examples/frompapers.Izhikevich_2007.html). Pump interfaces: [official public documentation](https://github.com/pump-fun/pump-public-docs). Consciousness research: [Butlin et al., 2023](https://arxiv.org/abs/2308.08708).
 
 Financial setup and authority boundaries: [activation](docs/launch-finance.md), [execution and proof](docs/spending.md). Production spending is disabled until project-specific accounts, wallets, allowances and live verification are configured.
+
+Contact: [hello@nuria.network](mailto:hello@nuria.network).

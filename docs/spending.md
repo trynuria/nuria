@@ -1,5 +1,7 @@
 # Fee funding and autonomous purchases
 
+![Nuria authority flow](../brand/flows/authority.svg)
+
 The commerce worker translates fresh recorded cognitive decisions into a fixed catalog of paid jobs. It runs independently of the neural worker and the public API. Execution is disabled in the installed policy; no production purchase has been made.
 
 ## The money path
@@ -91,7 +93,7 @@ An x402 buyer does not inherently need a separate x402 API key. The seller may r
 
 [Jupiter Swap API](https://developers.jup.ag/docs/swap) currently requires an API key. Automatic SOL-to-USDC conversion needs project-specific access plus an independently validated swap adapter, maximum SOL input, slippage/minimum USDC output, fee limits and reserve protection. A generic externally supplied transaction must not be forwarded to the signer. Token buybacks are a separate authorization and rail.
 
-[Squads spending limits](https://docs.squads.so/main/development/typescript/instructions/create-config-transaction) can restrict an agent's allowance by asset and destinations. They are not a drop-in replacement for x402's direct SPL authorization or arbitrary Jupiter swaps. The reserve decoder and withdrawal builder support exact daily SOL or USDC allowances and match official SDK instruction fixtures. They require an independent quorum and an execution-only operating member. No Squads multisig or custody account has been created. SOL allowance and gas budgets require explicit native-unit configuration; a USDC merchant cap cannot authorize an arbitrary SOL withdrawal.
+[Squads spending limits](https://docs.squads.so/main/development/typescript/instructions/create-config-transaction) can restrict an agent's allowance by asset and destinations. They are not a drop-in replacement for x402's direct SPL authorization or arbitrary Jupiter swaps. The reserve decoder and withdrawal builder support exact daily SOL or USDC allowances and match official SDK instruction fixtures. They require an independent quorum and an execution-only operating member. No funded Squads reserve or managed-wallet spending allowance has been activated. SOL allowance and gas budgets require explicit native-unit configuration; a USDC merchant cap cannot authorize an arbitrary SOL withdrawal.
 
 ## Public evidence
 

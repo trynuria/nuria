@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.1 — 2026-10-08
+
+- Replace browser replay menus with a styled, keyboard-accessible listbox.
+- Suppress form completion, spelling assistance and native numeric/search widgets.
+- Fix vertical scrolling over documentation tables; regroup the sidebar and link the Brian2 attribution.
+- Add the project contact address and consistent linked GitHub marks.
+- Explain learning, financial authority and evidence with shared vector diagrams and readable mobile layouts.
+- Preserve neural processes, histories and guarded financial execution.
+
 ## 0.6.0 — 2026-10-08
 
 - Added managed parsed-transaction signing with independent policy ownership checks and a monthly request ceiling.

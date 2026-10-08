@@ -5329,6 +5329,209 @@
         }
       }
 
+      .nuria-select {
+        position: relative;
+        width: 96px;
+        flex: 0 0 96px;
+      }
+      .nuria-select-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        height: 30px;
+        padding: 0 9px;
+        border: 1px solid #344139;
+        border-radius: 6px;
+        color: #dce5d7;
+        background: #18231c;
+        font: 10px var(--mono);
+        cursor: pointer;
+      }
+      .nuria-select-trigger svg {
+        width: 10px;
+        height: 10px;
+        opacity: 0.65;
+      }
+      .nuria-select-trigger:hover,
+      .nuria-select-trigger[aria-expanded="true"] {
+        background: #202e24;
+        border-color: #62785d;
+      }
+      .nuria-select-popup {
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 7px);
+        z-index: 20;
+        width: 150px;
+        padding: 5px;
+        border: 1px solid #40503f;
+        border-radius: 9px;
+        background: #142019;
+        box-shadow: 0 12px 35px #0006;
+      }
+      .nuria-select-popup[hidden] {
+        display: none;
+      }
+      .nuria-select-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 35px;
+        padding: 0 10px;
+        border: 0;
+        border-radius: 5px;
+        color: #aebdac;
+        background: transparent;
+        font: 11px var(--mono);
+        text-align: left;
+        cursor: pointer;
+      }
+      .nuria-select-option[aria-selected="true"] {
+        color: #d4ebbb;
+      }
+      .nuria-select-option[aria-selected="true"]::after {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .nuria-select-option:hover,
+      .nuria-select-option:focus-visible {
+        color: #e3eedb;
+        background: #253629;
+        outline: none;
+      }
+      .nuria-select-trigger:focus-visible,
+      a.github-link:focus-visible {
+        outline: 2px solid #afc997;
+        outline-offset: 3px;
+      }
+      input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+      input::-webkit-inner-spin-button,
+      input::-webkit-outer-spin-button,
+      input[type="search"]::-webkit-search-cancel-button,
+      input[type="search"]::-webkit-search-decoration {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+      }
+      summary {
+        list-style: none;
+      }
+      summary::marker {
+        content: "";
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      a.github-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        vertical-align: baseline;
+        max-width: 100%;
+      }
+      .github-link > .github-mark {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 16px;
+        fill: currentColor;
+      }
+      .github-link > span {
+        min-width: 0;
+      }
+      .docs-header .github-link {
+        padding: 8px;
+        color: #b8c5b3;
+      }
+      .docs-footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+        align-items: center;
+      }
+      .footer .footer-links {
+        flex-wrap: wrap;
+      }
+      .doc-diagram {
+        margin: 28px 0 36px;
+        overflow: hidden;
+        border: 1px solid #28372c;
+        border-radius: 12px;
+        background: #0c1511;
+      }
+      .doc-diagram > svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .doc-diagram figcaption {
+        padding: 14px 20px;
+        border-top: 1px solid #28372c;
+        color: #9fb29b;
+        font: 12px/1.7 var(--mono);
+      }
+      .diagram-mobile {
+        display: none;
+      }
+      @media (max-width: 600px) {
+        .docs-header .github-link > span {
+          display: none;
+        }
+        .docs-footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 14px;
+        }
+        .doc-diagram > svg {
+          display: none;
+        }
+        .diagram-mobile {
+          display: grid;
+          gap: 0;
+          padding: 21px;
+        }
+        .diagram-mobile > div {
+          position: relative;
+          padding: 0 0 20px 23px;
+          border-left: 1px solid #3b5140;
+        }
+        .diagram-mobile > div:last-child {
+          border-color: transparent;
+          padding-bottom: 0;
+        }
+        .diagram-mobile > div::before {
+          content: "";
+          position: absolute;
+          top: 4px;
+          left: -4px;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #b9d69b;
+        }
+        .diagram-mobile strong {
+          display: block;
+          color: #dce5d8;
+          font-size: 14px;
+          font-weight: 500;
+        }
+        .diagram-mobile span {
+          display: block;
+          margin-top: 5px;
+          color: #95a891;
+          font-size: 12px;
+          line-height: 1.6;
+        }
+      }
+
       /* Nuria field notes: a quiet reading surface around the living observatory. */
       .visually-hidden {
         position: absolute;
@@ -5442,40 +5645,48 @@
       }
       .docs-sidebar {
         border-right: 1px solid var(--line);
-        padding: 32px 26px 24px;
-        overflow-y: auto;
-        overscroll-behavior: none;
-        scrollbar-width: thin;
+        padding: 16px 20px;
+        min-height: 0;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
       }
+      .docs-sidebar > nav {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 8px 0 16px;
+        scrollbar-width: none;
+      }
+      .docs-sidebar > nav::-webkit-scrollbar {
+        display: none;
+      }
       .docs-nav-group {
-        margin-bottom: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .docs-nav-group + .docs-nav-group {
+        margin-top: 24px;
       }
       .docs-nav-label {
-        font: 11px/1.4 var(--mono);
+        font: 10px/1.4 var(--mono);
         letter-spacing: 0.07em;
         text-transform: uppercase;
         color: var(--dim);
-        margin-bottom: 10px;
+        margin-bottom: 7px;
         padding-left: 12px;
       }
       .docs-nav-link {
         display: flex;
-        gap: 10px;
         align-items: center;
-        min-height: 42px;
-        padding: 9px 12px;
-        margin: 2px 0;
-        border-radius: 4px;
+        min-height: 38px;
+        padding: 8px 12px;
+        border-radius: 6px;
         font-size: 13px;
+        line-height: 1.5;
         color: var(--muted);
-      }
-      .docs-nav-link span {
-        font: 10px var(--mono);
-        color: #83987d;
-        width: 18px;
-        flex: none;
       }
       .docs-nav-link:hover {
         background: #122219;
@@ -5485,20 +5696,24 @@
         color: var(--green);
         background: #1d3020;
       }
-      .docs-nav-link[aria-current="page"] span {
-        color: var(--green);
+      .docs-nav-link:focus-visible {
+        outline: 2px solid #afc997;
+        outline-offset: -2px;
       }
       .docs-sidebar-foot {
-        margin-top: auto;
+        flex: none;
         border-top: 1px solid var(--line);
-        padding: 20px 12px 0;
-        font: 11px/1.8 var(--mono);
+        padding: 16px 12px 2px;
+        font: 11px/1.6 var(--mono);
         color: var(--dim);
       }
-      .docs-sidebar-foot b {
-        font-weight: 400;
-        color: var(--green);
-        display: block;
+      .docs-sidebar-foot a {
+        color: #79b8f5;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .docs-sidebar-foot a:hover {
+        color: #afd5ff;
       }
       .docs-mobile-bar {
         display: none;
@@ -5800,7 +6015,8 @@
       }
       .docs-table-wrap {
         overflow: auto;
-        overscroll-behavior: contain;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
         margin: 24px 0;
         border-top: 1px solid #506748;
       }
@@ -5881,7 +6097,8 @@
       }
       .docs-code pre {
         overflow: auto;
-        overscroll-behavior: contain;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
         padding: 20px;
         margin: 0;
         line-height: 1.85;
@@ -6572,6 +6789,13 @@
                     >
                     <label class="inspect-select"
                       >Neuron ID<input
+                        data-bwignore="true"
+                        data-lpignore="true"
+                        data-1p-ignore="true"
+                        spellcheck="false"
+                        autocapitalize="none"
+                        autocorrect="off"
+                        autocomplete="off"
                         id="inspectId"
                         type="number"
                         min="0"
@@ -6622,14 +6846,71 @@
                             <circle cx="8" cy="8" r="1" />
                             <circle cx="13" cy="8" r="1" /></svg></summary
                         ><div class="field-tool-menu">
-                          <label class="playback-select"
-                            ><span>Replay speed</span
-                            ><select id="playbackRate" aria-label="Spike replay speed"
-                              ><option value="22">22× slow</option
-                              ><option value="10">10× slow</option
-                              ><option value="1">Real time</option></select
-                            ></label
-                          >
+                          <div class="playback-select">
+                            <span id="playbackLabel">Replay speed</span>
+                            <div class="nuria-select" data-select>
+                              <input
+                                id="playbackRate"
+                                type="hidden"
+                                value="22"
+                                autocomplete="off"
+                              />
+                              <button
+                                class="nuria-select-trigger"
+                                type="button"
+                                data-select-trigger
+                                aria-label="Spike replay speed"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                                aria-controls="playbackOptions"
+                              >
+                                <span data-select-label>22× slow</span
+                                ><svg
+                                  viewBox="0 0 10 10"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  aria-hidden="true"
+                                >
+                                  <path d="m2 4 3 3 3-3" stroke-width="1.2" />
+                                </svg>
+                              </button>
+                              <div
+                                class="nuria-select-popup"
+                                id="playbackOptions"
+                                role="listbox"
+                                aria-labelledby="playbackLabel"
+                                hidden
+                              >
+                                <button
+                                  class="nuria-select-option"
+                                  type="button"
+                                  role="option"
+                                  data-value="22"
+                                  aria-selected="true"
+                                  tabindex="-1"
+                                  >22× slow</button
+                                >
+                                <button
+                                  class="nuria-select-option"
+                                  type="button"
+                                  role="option"
+                                  data-value="10"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                  >10× slow</button
+                                >
+                                <button
+                                  class="nuria-select-option"
+                                  type="button"
+                                  role="option"
+                                  data-value="1"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                  >Real time</button
+                                >
+                              </div>
+                            </div>
+                          </div>
                           <button id="inspectOpen" class="field-text-btn"
                             >Inspect neuron</button
                           >
@@ -6855,7 +7136,13 @@
                   href="https://github.com/trynuria/nuria"
                   target="_blank"
                   rel="noreferrer"
-                  >GitHub</a
+                  class="github-link"
+                  ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                    <path
+                      d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                    />
+                  </svg>
+                  <span>GitHub</span></a
                 ><a href="/?page=docs#cognition">Learning docs</a></div
               ></div
             >
@@ -6938,7 +7225,13 @@
                   href="https://github.com/trynuria/nuria/blob/main/docs/discovery.md"
                   target="_blank"
                   rel="noreferrer"
-                  >Protocol &amp; results</a
+                  class="github-link"
+                  ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                    <path
+                      d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                    />
+                  </svg>
+                  <span>Protocol &amp; results</span></a
                 ></div
               ></div
             >
@@ -7109,7 +7402,13 @@
                     href="https://github.com/trynuria/nuria/blob/main/docs/spending.md"
                     target="_blank"
                     rel="noopener"
-                    >How to verify</a
+                    class="github-link"
+                    ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                      <path
+                        d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                      />
+                    </svg>
+                    <span>How to verify</span></a
                   ></div
                 ><div class="commerce-events" id="commerceTimeline" aria-live="polite"
                   ><p>No money movements recorded.</p></div
@@ -7195,6 +7494,13 @@
                   ><div class="input-wrap"
                     ><label for="testAmount">TEST SOL</label
                     ><input
+                      data-bwignore="true"
+                      data-lpignore="true"
+                      data-1p-ignore="true"
+                      spellcheck="false"
+                      autocapitalize="none"
+                      autocorrect="off"
+                      autocomplete="off"
                       id="testAmount"
                       type="number"
                       value="0.5"
@@ -7305,7 +7611,14 @@
                 href="https://github.com/trynuria/nuria"
                 target="_blank"
                 rel="noreferrer"
-                >GitHub</a
+                class="github-link"
+                ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                  <path
+                    d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                  />
+                </svg>
+                <span>GitHub</span></a
+              ><a href="mailto:hello@nuria.network">hello@nuria.network</a
               ><a href="#modelInspection" id="openInspection">Inspect the model</a
               ><a href="#overview">Back to top </a></div
             ></footer
@@ -7392,6 +7705,18 @@
                 <circle cx="7" cy="7" r="4.5" />
                 <path d="M10.5 10.5l3 3" /></svg
               ><span>Search docs</span><kbd>⌘ K</kbd></button
+            ><a
+              href="https://github.com/trynuria/nuria"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Nuria on GitHub"
+              class="github-link"
+              ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                />
+              </svg>
+              <span>GitHub</span></a
             ><a class="docs-observe" href="/#neural-field">Observatory </a></div
           ></header
         >
@@ -7435,9 +7760,6 @@
                   href="/?page=docs#evidence"
                   data-chapter="evidence"
                   >Receipts &amp; evidence</a
-                ></div
-              >
-              <div class="docs-nav-group"
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#cognition"
@@ -7453,7 +7775,10 @@
                   href="/?page=docs#roadmap"
                   data-chapter="roadmap"
                   >Development gates</a
-                ><div class="docs-nav-label">Reference</div
+                ></div
+              >
+              <div class="docs-nav-group">
+                <div class="docs-nav-label">Reference</div
                 ><a
                   class="docs-nav-link"
                   href="/?page=docs#glossary"
@@ -7467,8 +7792,13 @@
                 ></div
               > </nav
             ><div class="docs-sidebar-foot"
-              ><b>Field notes / v2</b>Continuous neural model<br />Powered by
-              Brian2</div
+              >Powered by
+              <a
+                href="https://brian2.readthedocs.io/en/stable/"
+                target="_blank"
+                rel="noreferrer"
+                >Brian2</a
+              ></div
             ></aside
           >
           <button
@@ -7681,6 +8011,397 @@
                   ><p class="docs-lead"
                     >Finalized Solana evidence enters a durable queue before either
                     circuit reads it.</p
+                  ><figure class="doc-diagram"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1120"
+                      height="704"
+                      viewBox="0 0 1120 704"
+                      role="img"
+                      aria-labelledby="experience-title experience-description"
+                    >
+                      <title id="experience-title">
+                        From an input to the next decision
+                      </title>
+                      <desc id="experience-description">
+                        Recorded signals enter the circuit. Observed outcomes change
+                        what comes next.
+                      </desc>
+                      <defs>
+                        <marker
+                          id="experience-arrow"
+                          viewBox="0 0 8 8"
+                          refX="7"
+                          refY="4"
+                          markerWidth="7"
+                          markerHeight="7"
+                          orient="auto"
+                        >
+                          <path
+                            d="M1 1 6 4 1 7"
+                            fill="none"
+                            stroke="#8da782"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </marker>
+                      </defs>
+                      <rect width="1120" height="704" rx="18" fill="#0c1511" />
+                      <g font-family="Arial, Helvetica, sans-serif">
+                        <svg
+                          x="48"
+                          y="24"
+                          width="27"
+                          height="29"
+                          viewBox="300 260 650 675"
+                          fill="none"
+                        >
+                          <defs>
+                            <linearGradient
+                              id="experience-neural-mark"
+                              x1="415"
+                              y1="300"
+                              x2="650"
+                              y2="900"
+                              gradientUnits="userSpaceOnUse"
+                            >
+                              <stop stop-color="#f1f1e5" />
+                              <stop offset=".28" stop-color="#f1f1e5" />
+                              <stop offset=".32" stop-color="#b8d4a7" />
+                              <stop offset=".72" stop-color="#b8d4a7" />
+                              <stop offset=".76" stop-color="#f1f1e5" />
+                              <stop offset="1" stop-color="#f1f1e5" />
+                            </linearGradient>
+                          </defs>
+                          <path
+                            d="M356 854C328 825 339 777 339 715V419C339 346 408 294 474 294C539 294 584 328 608 388C650 465 719 493 799 472C855 455 884 477 896 517C910 558 885 582 867 600C844 626 837 665 837 700C837 736 848 765 877 795C940 858 914 899 849 900C798 899 767 860 769 811C768 774 797 742 805 706C830 590 743 551 634 514C565 492 585 443 545 393C514 359 477 334 443 347C399 356 377 390 389 427C397 468 430 494 457 555C499 649 498 722 476 760C457 795 385 801 367 846C361 858 360 871 364 887C353 878 351 866 356 854Z"
+                            fill="url(#experience-neural-mark)"
+                          />
+                          <path
+                            d="M409 434C408 389 442 363 484 366C524 369 550 398 559 433C568 473 581 489 622 508C677 520 732 533 769 569C813 610 819 661 796 723C780 765 749 791 746 826C743 861 765 887 785 896C764 891 746 883 736 867C709 838 720 810 720 781V667C720 606 661 551 601 526C548 501 511 502 503 527C492 553 514 576 531 614C558 675 562 745 541 792C524 837 493 889 459 897C411 908 379 881 371 852C359 819 393 790 422 775C472 749 489 693 481 639C471 570 449 515 428 481C416 462 410 445 409 434Z"
+                            fill="#f1f1e5"
+                          />
+                          <path
+                            d="M465 548C491 591 514 616 530 651C553 703 559 748 539 794C520 838 490 889 459 897C412 907 380 882 371 852C360 820 393 790 422 775C471 750 489 693 481 639C477 606 470 574 465 548Z"
+                            fill="#b8d4a7"
+                          />
+                        </svg>
+
+                        <text
+                          x="86"
+                          y="44"
+                          font-size="13"
+                          fill="#96aa91"
+                          letter-spacing="2"
+                        >
+                          NURIA / EXPERIENCE
+                        </text>
+                        <text
+                          x="48"
+                          y="105"
+                          fill="#e2ebdb"
+                          font-size="34"
+                          font-weight="500"
+                          letter-spacing="-0.6"
+                        >
+                          From an input to the next decision
+                        </text>
+                        <text x="48" y="139" fill="#96aa91" font-size="17">
+                          Recorded signals enter the circuit. Observed outcomes change
+                          what comes next.
+                        </text>
+                        <rect
+                          x="48"
+                          y="190"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="72" cy="222" r="3" fill="#c1dda5" />
+                        <text
+                          x="85"
+                          y="227"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          INPUT
+                        </text>
+                        <text
+                          x="71"
+                          y="273"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Recorded input
+                        </text>
+                        <text x="71" y="306" fill="#96aa91" font-size="16">
+                          Source, payload and finality
+                        </text>
+                        <text x="71" y="330" fill="#96aa91" font-size="16">
+                          Live and test stay separate
+                        </text>
+                        <rect
+                          x="408"
+                          y="190"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="432" cy="222" r="3" fill="#c1dda5" />
+                        <text
+                          x="445"
+                          y="227"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          STATE
+                        </text>
+                        <text
+                          x="431"
+                          y="273"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Neural state
+                        </text>
+                        <text x="431" y="306" fill="#96aa91" font-size="16">
+                          Spikes, membrane, synapses
+                        </text>
+                        <text x="431" y="330" fill="#96aa91" font-size="16">
+                          Persistent model history
+                        </text>
+                        <rect
+                          x="768"
+                          y="190"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="792" cy="222" r="3" fill="#c1dda5" />
+                        <text
+                          x="805"
+                          y="227"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          CONTEXT
+                        </text>
+                        <text
+                          x="791"
+                          y="273"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Memory &amp; forecast
+                        </text>
+                        <text x="791" y="306" fill="#96aa91" font-size="16">
+                          Episodes and predictions
+                        </text>
+                        <text x="791" y="330" fill="#96aa91" font-size="16">
+                          Workspace attention
+                        </text>
+                        <rect
+                          x="768"
+                          y="422"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="792" cy="454" r="3" fill="#c1dda5" />
+                        <text
+                          x="805"
+                          y="459"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          CHOICE
+                        </text>
+                        <text
+                          x="791"
+                          y="505"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Decision
+                        </text>
+                        <text x="791" y="538" fill="#96aa91" font-size="16">
+                          Goal scores + neural activity
+                        </text>
+                        <text x="791" y="562" fill="#96aa91" font-size="16">
+                          Inspect the selected action
+                        </text>
+                        <rect
+                          x="408"
+                          y="422"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="432" cy="454" r="3" fill="#c1dda5" />
+                        <text
+                          x="445"
+                          y="459"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          ACTION
+                        </text>
+                        <text
+                          x="431"
+                          y="505"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Local action
+                        </text>
+                        <text x="431" y="538" fill="#96aa91" font-size="16">
+                          Explore, replay, test or rest
+                        </text>
+                        <text x="431" y="562" fill="#96aa91" font-size="16">
+                          Record runtime and cost
+                        </text>
+                        <rect
+                          x="48"
+                          y="422"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="72" cy="454" r="3" fill="#c1dda5" />
+                        <text
+                          x="85"
+                          y="459"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          FEEDBACK
+                        </text>
+                        <text
+                          x="71"
+                          y="505"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Measured outcome
+                        </text>
+                        <text x="71" y="538" fill="#96aa91" font-size="16">
+                          Score before updating
+                        </text>
+                        <text x="71" y="562" fill="#96aa91" font-size="16">
+                          Change eligible learned state
+                        </text>
+                        <path
+                          d="M352 276H408"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#experience-arrow)"
+                        />
+                        <path
+                          d="M712 276H768"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#experience-arrow)"
+                        />
+                        <path
+                          d="M920 362V422"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#experience-arrow)"
+                        />
+                        <path
+                          d="M768 508H712"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#experience-arrow)"
+                        />
+                        <path
+                          d="M408 508H352"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#experience-arrow)"
+                        />
+                        <path
+                          d="M48 508H27V392H560V362"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-dasharray="4 5"
+                          marker-end="url(#experience-arrow)"
+                        />
+                        <path d="M48 629H1072" stroke="#2d4032" />
+                        <circle cx="52" cy="656" r="3" fill="#859d78" />
+                        <text x="65" y="661" font-size="15" fill="#96aa91">
+                          The journal links input, state, choice and measured outcome.
+                        </text>
+                      </g>
+                    </svg>
+                    <div class="diagram-mobile" role="list" aria-label="Experience flow"
+                      ><div role="listitem"
+                        ><strong>Recorded input</strong
+                        ><span>Exact source, payload and finality.</span></div
+                      ><div role="listitem"
+                        ><strong>Neural state</strong
+                        ><span>Measured spikes, membrane and synapses.</span></div
+                      ><div role="listitem"
+                        ><strong>Memory & forecast</strong
+                        ><span>Episodes, prediction and attention.</span></div
+                      ><div role="listitem"
+                        ><strong>Decision</strong
+                        ><span>Published goals and neural action scores.</span></div
+                      ><div role="listitem"
+                        ><strong>Local action</strong
+                        ><span>Explore, replay, experiment or rest.</span></div
+                      ><div role="listitem"
+                        ><strong>Measured outcome</strong
+                        ><span>Score observed results before updating.</span></div
+                      ></div
+                    ><figcaption
+                      >An input changes recorded state; its later outcome determines
+                      what is learned. Live trades and test signals remain
+                      separate.</figcaption
+                    ></figure
                   ><h2 id="inputs--reader">What the trade reader checks</h2
                   ><p
                     >The reader decodes Pump and PumpSwap events against the included
@@ -7731,7 +8452,443 @@
                   <p class="docs-lead"
                     >Follow the money. Then check what it delivered.</p
                   >
-                  <h2 id="resources--flow">The money path</h2>
+                  <figure class="doc-diagram"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1120"
+                      height="798"
+                      viewBox="0 0 1120 798"
+                      role="img"
+                      aria-labelledby="authority-title authority-description"
+                    >
+                      <title id="authority-title">
+                        How fees become a resource budget
+                      </title>
+                      <desc id="authority-description">
+                        Collection, reserves, conversions and purchases have separate
+                        permissions and receipts.
+                      </desc>
+                      <defs>
+                        <marker
+                          id="authority-arrow"
+                          viewBox="0 0 8 8"
+                          refX="7"
+                          refY="4"
+                          markerWidth="7"
+                          markerHeight="7"
+                          orient="auto"
+                        >
+                          <path
+                            d="M1 1 6 4 1 7"
+                            fill="none"
+                            stroke="#8da782"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </marker>
+                      </defs>
+                      <rect width="1120" height="798" rx="18" fill="#0c1511" />
+                      <g font-family="Arial, Helvetica, sans-serif">
+                        <svg
+                          x="48"
+                          y="24"
+                          width="27"
+                          height="29"
+                          viewBox="300 260 650 675"
+                          fill="none"
+                        >
+                          <defs>
+                            <linearGradient
+                              id="authority-neural-mark"
+                              x1="415"
+                              y1="300"
+                              x2="650"
+                              y2="900"
+                              gradientUnits="userSpaceOnUse"
+                            >
+                              <stop stop-color="#f1f1e5" />
+                              <stop offset=".28" stop-color="#f1f1e5" />
+                              <stop offset=".32" stop-color="#b8d4a7" />
+                              <stop offset=".72" stop-color="#b8d4a7" />
+                              <stop offset=".76" stop-color="#f1f1e5" />
+                              <stop offset="1" stop-color="#f1f1e5" />
+                            </linearGradient>
+                          </defs>
+                          <path
+                            d="M356 854C328 825 339 777 339 715V419C339 346 408 294 474 294C539 294 584 328 608 388C650 465 719 493 799 472C855 455 884 477 896 517C910 558 885 582 867 600C844 626 837 665 837 700C837 736 848 765 877 795C940 858 914 899 849 900C798 899 767 860 769 811C768 774 797 742 805 706C830 590 743 551 634 514C565 492 585 443 545 393C514 359 477 334 443 347C399 356 377 390 389 427C397 468 430 494 457 555C499 649 498 722 476 760C457 795 385 801 367 846C361 858 360 871 364 887C353 878 351 866 356 854Z"
+                            fill="url(#authority-neural-mark)"
+                          />
+                          <path
+                            d="M409 434C408 389 442 363 484 366C524 369 550 398 559 433C568 473 581 489 622 508C677 520 732 533 769 569C813 610 819 661 796 723C780 765 749 791 746 826C743 861 765 887 785 896C764 891 746 883 736 867C709 838 720 810 720 781V667C720 606 661 551 601 526C548 501 511 502 503 527C492 553 514 576 531 614C558 675 562 745 541 792C524 837 493 889 459 897C411 908 379 881 371 852C359 819 393 790 422 775C472 749 489 693 481 639C471 570 449 515 428 481C416 462 410 445 409 434Z"
+                            fill="#f1f1e5"
+                          />
+                          <path
+                            d="M465 548C491 591 514 616 530 651C553 703 559 748 539 794C520 838 490 889 459 897C412 907 380 882 371 852C360 820 393 790 422 775C471 750 489 693 481 639C477 606 470 574 465 548Z"
+                            fill="#b8d4a7"
+                          />
+                        </svg>
+
+                        <text
+                          x="86"
+                          y="44"
+                          font-size="13"
+                          fill="#96aa91"
+                          letter-spacing="2"
+                        >
+                          NURIA / AUTHORITY
+                        </text>
+                        <text
+                          x="48"
+                          y="105"
+                          fill="#e2ebdb"
+                          font-size="34"
+                          font-weight="500"
+                          letter-spacing="-0.6"
+                        >
+                          How fees become a resource budget
+                        </text>
+                        <text x="48" y="139" fill="#96aa91" font-size="17">
+                          Collection, reserves, conversions and purchases have separate
+                          permissions and receipts.
+                        </text>
+                        <rect
+                          x="48"
+                          y="166"
+                          width="1024"
+                          height="50"
+                          rx="8"
+                          fill="#15221a"
+                          stroke="#354b37"
+                        />
+                        <text x="70" y="197" font-size="16" fill="#b4cb9f">
+                          Recovery owner
+                        </text>
+                        <text x="241" y="197" font-size="16" fill="#91a88b">
+                          Private authority stays outside the application host.
+                        </text>
+                        <text
+                          x="1038"
+                          y="197"
+                          text-anchor="end"
+                          font-size="12"
+                          fill="#9eb393"
+                          letter-spacing="1.4"
+                        >
+                          INDEPENDENT CONTROL
+                        </text>
+                        <rect
+                          x="48"
+                          y="252"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="72" cy="284" r="3" fill="#c1dda5" />
+                        <text
+                          x="85"
+                          y="289"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          COLLECTION
+                        </text>
+                        <text
+                          x="71"
+                          y="335"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Creator collection
+                        </text>
+                        <text x="71" y="368" fill="#96aa91" font-size="16">
+                          Verified protocol beneficiary
+                        </text>
+                        <text x="71" y="392" fill="#96aa91" font-size="16">
+                          Forwarding is destination-bound
+                        </text>
+                        <rect
+                          x="408"
+                          y="252"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="432" cy="284" r="3" fill="#c1dda5" />
+                        <text
+                          x="445"
+                          y="289"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          RESERVE
+                        </text>
+                        <text
+                          x="431"
+                          y="335"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Squads reserve
+                        </text>
+                        <text x="431" y="368" fill="#96aa91" font-size="16">
+                          Independent owner quorum
+                        </text>
+                        <text x="431" y="392" fill="#96aa91" font-size="16">
+                          One capped funding destination
+                        </text>
+                        <rect
+                          x="768"
+                          y="252"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="792" cy="284" r="3" fill="#c1dda5" />
+                        <text
+                          x="805"
+                          y="289"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          INVENTORY
+                        </text>
+                        <text
+                          x="791"
+                          y="335"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Operating wallet
+                        </text>
+                        <text x="791" y="368" fill="#96aa91" font-size="16">
+                          SOL and USDC kept distinct
+                        </text>
+                        <text x="791" y="392" fill="#96aa91" font-size="16">
+                          Replenishment has its own limit
+                        </text>
+                        <rect
+                          x="768"
+                          y="486"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="792" cy="518" r="3" fill="#c1dda5" />
+                        <text
+                          x="805"
+                          y="523"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          CONVERSION
+                        </text>
+                        <text
+                          x="791"
+                          y="569"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          SOL → USDC
+                        </text>
+                        <text x="791" y="602" fill="#96aa91" font-size="16">
+                          Inspected Jupiter instructions
+                        </text>
+                        <text x="791" y="626" fill="#96aa91" font-size="16">
+                          Separate SOL and gas ceilings
+                        </text>
+                        <rect
+                          x="408"
+                          y="486"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="432" cy="518" r="3" fill="#c1dda5" />
+                        <text
+                          x="445"
+                          y="523"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          PURCHASE
+                        </text>
+                        <text
+                          x="431"
+                          y="569"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          x402 purchase
+                        </text>
+                        <text x="431" y="602" fill="#96aa91" font-size="16">
+                          25 USDC / day · 2 USDC / job
+                        </text>
+                        <text x="431" y="626" fill="#96aa91" font-size="16">
+                          Approved amount and recipient
+                        </text>
+                        <rect
+                          x="48"
+                          y="486"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="72" cy="518" r="3" fill="#c1dda5" />
+                        <text
+                          x="85"
+                          y="523"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          DELIVERY
+                        </text>
+                        <text
+                          x="71"
+                          y="569"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Provider result
+                        </text>
+                        <text x="71" y="602" fill="#96aa91" font-size="16">
+                          Response hash and schema
+                        </text>
+                        <text x="71" y="626" fill="#96aa91" font-size="16">
+                          Usefulness is measured later
+                        </text>
+                        <path
+                          d="M352 338H408"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#authority-arrow)"
+                        />
+                        <path
+                          d="M712 338H768"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#authority-arrow)"
+                        />
+                        <path
+                          d="M920 424V486"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#authority-arrow)"
+                        />
+                        <path
+                          d="M768 572H712"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#authority-arrow)"
+                        />
+                        <path
+                          d="M408 572H352"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          marker-end="url(#authority-arrow)"
+                        />
+                        <text
+                          x="377"
+                          y="327"
+                          text-anchor="middle"
+                          font-size="10"
+                          fill="#8b9f84"
+                        >
+                          SOL
+                        </text>
+                        <text
+                          x="737"
+                          y="327"
+                          text-anchor="middle"
+                          font-size="10"
+                          fill="#8b9f84"
+                        >
+                          CAP
+                        </text>
+                        <text
+                          x="737"
+                          y="560"
+                          text-anchor="middle"
+                          font-size="10"
+                          fill="#8b9f84"
+                        >
+                          USDC
+                        </text>
+                        <path d="M48 723H1072" stroke="#2d4032" />
+                        <circle cx="52" cy="750" r="3" fill="#859d78" />
+                        <text x="65" y="755" font-size="15" fill="#96aa91">
+                          Execution stays guarded until wallets, native budgets, program
+                          checks and funding are configured.
+                        </text>
+                      </g>
+                    </svg>
+                    <div class="diagram-mobile" role="list" aria-label="Authority flow"
+                      ><div role="listitem"
+                        ><strong>Creator collection</strong
+                        ><span>Collect only to the verified beneficiary.</span></div
+                      ><div role="listitem"
+                        ><strong>Independent reserve</strong
+                        ><span>Squads owners control the reserve.</span></div
+                      ><div role="listitem"
+                        ><strong>Operating wallet</strong
+                        ><span>One destination; capped replenishment.</span></div
+                      ><div role="listitem"
+                        ><strong>SOL → USDC</strong
+                        ><span>Inspect a bounded Jupiter conversion.</span></div
+                      ><div role="listitem"
+                        ><strong>x402 purchase</strong
+                        ><span>Check amount, recipient and job budget.</span></div
+                      ><div role="listitem"
+                        ><strong>Provider result</strong
+                        ><span
+                          >Record delivered bytes separately from payment.</span
+                        ></div
+                      ></div
+                    ><figcaption
+                      >The collection beneficiary, reserve and operating wallet have
+                      different roles. Merchant ceilings are 25 USDC/day and 2 USDC/job;
+                      native SOL and gas have separate limits.</figcaption
+                    ></figure
+                  ><h2 id="resources--flow">The money path</h2>
                   <p
                     >Creator fees accrue in protocol vaults. A verified collection pays
                     the existing beneficiary. An independently owned Squads reserve can
@@ -7843,14 +9000,26 @@
                       href="https://github.com/trynuria/nuria/blob/main/docs/spending.md"
                       target="_blank"
                       rel="noreferrer"
-                      >Execution and evidence</a
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>Execution and evidence</span></a
                     >
                     ·
                     <a
                       href="https://github.com/trynuria/nuria/blob/main/docs/launch-finance.md"
                       target="_blank"
                       rel="noreferrer"
-                      >Activation requirements</a
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>Activation requirements</span></a
                     >
                     ·
                     <a
@@ -7871,6 +9040,282 @@
                   ><p class="docs-lead"
                     >A durable record connects input, neural response, decision and
                     consequence.</p
+                  ><figure class="doc-diagram"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1120"
+                      height="698"
+                      viewBox="0 0 1120 698"
+                      role="img"
+                      aria-labelledby="evidence-title evidence-description"
+                    >
+                      <title id="evidence-title">Payment. Delivery. Outcome.</title>
+                      <desc id="evidence-description">
+                        Each answers a different question. The public record keeps the
+                        evidence separate.
+                      </desc>
+                      <defs>
+                        <marker
+                          id="evidence-arrow"
+                          viewBox="0 0 8 8"
+                          refX="7"
+                          refY="4"
+                          markerWidth="7"
+                          markerHeight="7"
+                          orient="auto"
+                        >
+                          <path
+                            d="M1 1 6 4 1 7"
+                            fill="none"
+                            stroke="#8da782"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </marker>
+                      </defs>
+                      <rect width="1120" height="698" rx="18" fill="#0c1511" />
+                      <g font-family="Arial, Helvetica, sans-serif">
+                        <svg
+                          x="48"
+                          y="24"
+                          width="27"
+                          height="29"
+                          viewBox="300 260 650 675"
+                          fill="none"
+                        >
+                          <defs>
+                            <linearGradient
+                              id="evidence-neural-mark"
+                              x1="415"
+                              y1="300"
+                              x2="650"
+                              y2="900"
+                              gradientUnits="userSpaceOnUse"
+                            >
+                              <stop stop-color="#f1f1e5" />
+                              <stop offset=".28" stop-color="#f1f1e5" />
+                              <stop offset=".32" stop-color="#b8d4a7" />
+                              <stop offset=".72" stop-color="#b8d4a7" />
+                              <stop offset=".76" stop-color="#f1f1e5" />
+                              <stop offset="1" stop-color="#f1f1e5" />
+                            </linearGradient>
+                          </defs>
+                          <path
+                            d="M356 854C328 825 339 777 339 715V419C339 346 408 294 474 294C539 294 584 328 608 388C650 465 719 493 799 472C855 455 884 477 896 517C910 558 885 582 867 600C844 626 837 665 837 700C837 736 848 765 877 795C940 858 914 899 849 900C798 899 767 860 769 811C768 774 797 742 805 706C830 590 743 551 634 514C565 492 585 443 545 393C514 359 477 334 443 347C399 356 377 390 389 427C397 468 430 494 457 555C499 649 498 722 476 760C457 795 385 801 367 846C361 858 360 871 364 887C353 878 351 866 356 854Z"
+                            fill="url(#evidence-neural-mark)"
+                          />
+                          <path
+                            d="M409 434C408 389 442 363 484 366C524 369 550 398 559 433C568 473 581 489 622 508C677 520 732 533 769 569C813 610 819 661 796 723C780 765 749 791 746 826C743 861 765 887 785 896C764 891 746 883 736 867C709 838 720 810 720 781V667C720 606 661 551 601 526C548 501 511 502 503 527C492 553 514 576 531 614C558 675 562 745 541 792C524 837 493 889 459 897C411 908 379 881 371 852C359 819 393 790 422 775C472 749 489 693 481 639C471 570 449 515 428 481C416 462 410 445 409 434Z"
+                            fill="#f1f1e5"
+                          />
+                          <path
+                            d="M465 548C491 591 514 616 530 651C553 703 559 748 539 794C520 838 490 889 459 897C412 907 380 882 371 852C360 820 393 790 422 775C471 750 489 693 481 639C477 606 470 574 465 548Z"
+                            fill="#b8d4a7"
+                          />
+                        </svg>
+
+                        <text
+                          x="86"
+                          y="44"
+                          font-size="13"
+                          fill="#96aa91"
+                          letter-spacing="2"
+                        >
+                          NURIA / EVIDENCE
+                        </text>
+                        <text
+                          x="48"
+                          y="105"
+                          fill="#e2ebdb"
+                          font-size="34"
+                          font-weight="500"
+                          letter-spacing="-0.6"
+                        >
+                          Payment. Delivery. Outcome.
+                        </text>
+                        <text x="48" y="139" fill="#96aa91" font-size="17">
+                          Each answers a different question. The public record keeps the
+                          evidence separate.
+                        </text>
+                        <rect
+                          x="48"
+                          y="190"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="72" cy="222" r="3" fill="#9cbdb2" />
+                        <text
+                          x="85"
+                          y="227"
+                          font-size="12"
+                          fill="#9cbdb2"
+                          letter-spacing="1.7"
+                        >
+                          PAID
+                        </text>
+                        <text
+                          x="71"
+                          y="273"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Payment evidence
+                        </text>
+                        <text x="71" y="306" fill="#96aa91" font-size="16">
+                          Signature and finalized deltas
+                        </text>
+                        <text x="71" y="330" fill="#96aa91" font-size="16">
+                          Amount, recipient and fees
+                        </text>
+                        <rect
+                          x="408"
+                          y="190"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="432" cy="222" r="3" fill="#c1dda5" />
+                        <text
+                          x="445"
+                          y="227"
+                          font-size="12"
+                          fill="#c1dda5"
+                          letter-spacing="1.7"
+                        >
+                          RECEIVED
+                        </text>
+                        <text
+                          x="431"
+                          y="273"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Delivery evidence
+                        </text>
+                        <text x="431" y="306" fill="#96aa91" font-size="16">
+                          Delivered bytes and their hash
+                        </text>
+                        <text x="431" y="330" fill="#96aa91" font-size="16">
+                          Resource and schema checks
+                        </text>
+                        <rect
+                          x="768"
+                          y="190"
+                          width="304"
+                          height="172"
+                          rx="11"
+                          fill="#111e17"
+                          stroke="#2d4032"
+                        />
+                        <circle cx="792" cy="222" r="3" fill="#c6c0a0" />
+                        <text
+                          x="805"
+                          y="227"
+                          font-size="12"
+                          fill="#c6c0a0"
+                          letter-spacing="1.7"
+                        >
+                          MEASURED
+                        </text>
+                        <text
+                          x="791"
+                          y="273"
+                          fill="#e2ebdb"
+                          font-size="25"
+                          letter-spacing="-0.4"
+                        >
+                          Outcome evidence
+                        </text>
+                        <text x="791" y="306" fill="#96aa91" font-size="16">
+                          Compare with later observations
+                        </text>
+                        <text x="791" y="330" fill="#96aa91" font-size="16">
+                          Credit an observed result once
+                        </text>
+                        <g fill="none" stroke="#60795b" stroke-width="1.5">
+                          <path d="M200 362V392H920V362M560 362V428" />
+                        </g>
+                        <rect
+                          x="198"
+                          y="428"
+                          width="724"
+                          height="116"
+                          rx="11"
+                          fill="#15231b"
+                          stroke="#435b3b"
+                        />
+                        <text
+                          x="226"
+                          y="465"
+                          font-size="12"
+                          fill="#b4ce9e"
+                          letter-spacing="1.6"
+                        >
+                          PUBLIC LEDGER
+                        </text>
+                        <text x="226" y="503" font-size="23" fill="#e2ebdb">
+                          Job identity links the decision and its evidence.
+                        </text>
+                        <path
+                          d="M560 544V574"
+                          fill="none"
+                          stroke="#71896a"
+                          stroke-width="1.5"
+                          marker-end="url(#evidence-arrow)"
+                        />
+                        <text
+                          x="560"
+                          y="602"
+                          text-anchor="middle"
+                          font-size="17"
+                          fill="#a7ba9f"
+                        >
+                          Inspect paged records · Download a snapshot · Verify the
+                          recorded hash chain
+                        </text>
+                        <path d="M48 623H1072" stroke="#2d4032" />
+                        <circle cx="52" cy="650" r="3" fill="#859d78" />
+                        <text x="65" y="655" font-size="15" fill="#96aa91">
+                          Local hashes establish consistency. Coverage gaps and missing
+                          independent witnesses stay explicit.
+                        </text>
+                      </g>
+                    </svg>
+                    <div class="diagram-mobile" role="list" aria-label="Evidence flow"
+                      ><div role="listitem"
+                        ><strong>Decision record</strong
+                        ><span>Job identity, policy and action scores.</span></div
+                      ><div role="listitem"
+                        ><strong>Payment evidence</strong
+                        ><span
+                          >Authorization, signature and finalized deltas.</span
+                        ></div
+                      ><div role="listitem"
+                        ><strong>Delivery evidence</strong
+                        ><span>Response hash and schema checks.</span></div
+                      ><div role="listitem"
+                        ><strong>Outcome evidence</strong
+                        ><span>A later observed result, scored once.</span></div
+                      ><div role="listitem"
+                        ><strong>Public ledger</strong
+                        ><span>Separate records linked by job ID.</span></div
+                      ><div role="listitem"
+                        ><strong>Verification</strong
+                        ><span>Paged snapshots and explicit coverage gaps.</span></div
+                      ></div
+                    ><figcaption
+                      >A payment is not proof of delivery, and delivery is not proof of
+                      usefulness. Local hash checks establish consistency, not an
+                      independent witness.</figcaption
+                    ></figure
                   ><h2 id="evidence--journal">The cognitive journal</h2
                   ><p
                     >Canonical records include their kind and chain to the previous
@@ -8141,13 +9586,25 @@
                       href="https://github.com/trynuria/nuria/blob/main/docs/evaluation.md"
                       target="_blank"
                       rel="noreferrer"
-                      >evaluation report</a
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>evaluation report</span></a
                     >,
                     <a
                       href="https://github.com/trynuria/nuria/blob/main/docs/forecast-evaluation.json"
                       target="_blank"
                       rel="noreferrer"
-                      >all validation trials</a
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>all validation trials</span></a
                     >
                     and
                     <a
@@ -8168,7 +9625,13 @@
                       href="https://github.com/trynuria/nuria/blob/main/docs/synaptic-evaluation.json"
                       target="_blank"
                       rel="noreferrer"
-                      >All matched neural trials</a
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>All matched neural trials</span></a
                     >
                     are public.</p
                   ><p
@@ -8363,14 +9826,26 @@
                       href="https://github.com/trynuria/nuria/blob/main/docs/discovery.md"
                       target="_blank"
                       rel="noreferrer"
-                      >Full experiment specification</a
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>Full experiment specification</span></a
                     >
                     and
                     <a
                       href="https://github.com/trynuria/nuria/blob/main/docs/discovery-evaluation.json"
                       target="_blank"
                       rel="noreferrer"
-                      >every validation trial</a
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>every validation trial</span></a
                     >
                     include source hashes, controls and limitations. Earlier failed
                     development runs remain public.</p
@@ -8763,7 +10238,20 @@
                 ></nav
                 ><footer class="docs-footer"
                   ><span>Nuria / documentation</span
-                  ><a href="/#neural-field">Return to the observatory </a></footer
+                  ><div class="docs-footer-links"
+                    ><a
+                      href="https://github.com/trynuria/nuria"
+                      target="_blank"
+                      rel="noreferrer"
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>GitHub</span></a
+                    ><a href="mailto:hello@nuria.network">hello@nuria.network</a></div
+                  ></footer
                 > </div
               ><aside class="docs-toc" aria-label="On this page"
                 ><div class="docs-toc-title">On this page</div
@@ -8796,6 +10284,11 @@
             ><label id="docsSearchLabel" for="docsSearchInput" class="visually-hidden"
               >Search documentation</label
             ><input
+              data-bwignore="true"
+              data-lpignore="true"
+              data-1p-ignore="true"
+              autocapitalize="none"
+              autocorrect="off"
               id="docsSearchInput"
               type="search"
               autocomplete="off"
@@ -8821,6 +10314,111 @@
     </template>
     <script>
       "use strict";
+      function initNuriaControls() {
+        for (const field of document.querySelectorAll("input, textarea, form")) {
+          field.setAttribute("autocomplete", "off");
+          if (field.tagName === "FORM") continue;
+          field.setAttribute("autocorrect", "off");
+          field.setAttribute("autocapitalize", "none");
+          field.setAttribute("spellcheck", "false");
+          field.setAttribute("data-1p-ignore", "true");
+          field.setAttribute("data-lpignore", "true");
+          field.setAttribute("data-bwignore", "true");
+        }
+        for (const control of document.querySelectorAll("[data-select]")) {
+          const trigger = control.querySelector("[data-select-trigger]");
+          const popup = control.querySelector("[role=listbox]");
+          const input = control.querySelector("input[type=hidden]");
+          const label = trigger.querySelector("[data-select-label]");
+          const options = [...popup.querySelectorAll("[role=option]")];
+          let focused = 0,
+            search = "",
+            typedAt = 0;
+          const selected = () =>
+            options.findIndex((o) => o.dataset.value === input.value);
+          function close(returnFocus = false) {
+            popup.hidden = true;
+            trigger.setAttribute("aria-expanded", "false");
+            if (returnFocus) trigger.focus({ preventScroll: true });
+          }
+          function focus(index) {
+            focused = Math.max(0, Math.min(options.length - 1, index));
+            for (const [i, option] of options.entries())
+              option.tabIndex = i === focused ? 0 : -1;
+            options[focused].focus({ preventScroll: true });
+          }
+          function open(index = selected()) {
+            popup.hidden = false;
+            trigger.setAttribute("aria-expanded", "true");
+            focus(index < 0 ? 0 : index);
+          }
+          function choose(option) {
+            input.value = option.dataset.value;
+            label.textContent = option.textContent.trim();
+            for (const item of options)
+              item.setAttribute("aria-selected", String(item === option));
+            close(true);
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+          trigger.addEventListener("click", () => (popup.hidden ? open() : close()));
+          for (const option of options)
+            option.addEventListener("click", () => choose(option));
+          control.addEventListener("keydown", (event) => {
+            const key = event.key;
+            if (["ArrowDown", "ArrowUp", "Home", "End"].includes(key)) {
+              event.preventDefault();
+              event.stopPropagation();
+              if (popup.hidden)
+                open(
+                  key === "Home" ? 0 : key === "End" ? options.length - 1 : selected(),
+                );
+              else
+                focus(
+                  key === "Home"
+                    ? 0
+                    : key === "End"
+                      ? options.length - 1
+                      : focused + (key === "ArrowDown" ? 1 : -1),
+                );
+            } else if ((key === "Enter" || key === " ") && !popup.hidden) {
+              event.preventDefault();
+              event.stopPropagation();
+              choose(options[focused]);
+            } else if (key === "Escape" && !popup.hidden) {
+              event.preventDefault();
+              event.stopPropagation();
+              close(true);
+            } else if (key === "Tab" && !popup.hidden) {
+              close(true);
+            } else if (
+              key.length === 1 &&
+              !event.ctrlKey &&
+              !event.metaKey &&
+              !event.altKey
+            ) {
+              const now = performance.now();
+              search = (now - typedAt < 700 ? search : "") + key.toLowerCase();
+              typedAt = now;
+              const index = options.findIndex((o) =>
+                o.textContent.trim().toLowerCase().startsWith(search),
+              );
+              if (index >= 0) {
+                event.preventDefault();
+                if (popup.hidden) open(index);
+                else focus(index);
+              }
+            }
+          });
+          document.addEventListener("pointerdown", (event) => {
+            if (!control.contains(event.target)) close();
+          });
+          control.closest("details")?.addEventListener("toggle", (event) => {
+            if (!event.target.open) close();
+          });
+          window.addEventListener("blur", () => close());
+        }
+      }
+
       function initNuriaDocs() {
         const byId = (id) => document.getElementById(id),
           articles = [...document.querySelectorAll(".docs-article")];
@@ -9130,8 +10728,11 @@
           .content.cloneNode(true);
         document.body.classList.add("docs-page");
         document.body.replaceChildren(content);
+        initNuriaControls();
         initNuriaDocs();
       } else {
+        initNuriaControls();
+
         ("use strict");
         const $ = (id) => document.getElementById(id),
           fmt = (x, d = 0) =>

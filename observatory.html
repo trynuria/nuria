@@ -2407,6 +2407,13 @@
                     >
                     <label class="inspect-select"
                       >Neuron ID<input
+                        data-bwignore="true"
+                        data-lpignore="true"
+                        data-1p-ignore="true"
+                        spellcheck="false"
+                        autocapitalize="none"
+                        autocorrect="off"
+                        autocomplete="off"
                         id="inspectId"
                         type="number"
                         min="0"
@@ -2457,14 +2464,71 @@
                             <circle cx="8" cy="8" r="1" />
                             <circle cx="13" cy="8" r="1" /></svg></summary
                         ><div class="field-tool-menu">
-                          <label class="playback-select"
-                            ><span>Replay speed</span
-                            ><select id="playbackRate" aria-label="Spike replay speed"
-                              ><option value="22">22× slow</option
-                              ><option value="10">10× slow</option
-                              ><option value="1">Real time</option></select
-                            ></label
-                          >
+                          <div class="playback-select">
+                            <span id="playbackLabel">Replay speed</span>
+                            <div class="nuria-select" data-select>
+                              <input
+                                id="playbackRate"
+                                type="hidden"
+                                value="22"
+                                autocomplete="off"
+                              />
+                              <button
+                                class="nuria-select-trigger"
+                                type="button"
+                                data-select-trigger
+                                aria-label="Spike replay speed"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                                aria-controls="playbackOptions"
+                              >
+                                <span data-select-label>22× slow</span
+                                ><svg
+                                  viewBox="0 0 10 10"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  aria-hidden="true"
+                                >
+                                  <path d="m2 4 3 3 3-3" stroke-width="1.2" />
+                                </svg>
+                              </button>
+                              <div
+                                class="nuria-select-popup"
+                                id="playbackOptions"
+                                role="listbox"
+                                aria-labelledby="playbackLabel"
+                                hidden
+                              >
+                                <button
+                                  class="nuria-select-option"
+                                  type="button"
+                                  role="option"
+                                  data-value="22"
+                                  aria-selected="true"
+                                  tabindex="-1"
+                                  >22× slow</button
+                                >
+                                <button
+                                  class="nuria-select-option"
+                                  type="button"
+                                  role="option"
+                                  data-value="10"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                  >10× slow</button
+                                >
+                                <button
+                                  class="nuria-select-option"
+                                  type="button"
+                                  role="option"
+                                  data-value="1"
+                                  aria-selected="false"
+                                  tabindex="-1"
+                                  >Real time</button
+                                >
+                              </div>
+                            </div>
+                          </div>
                           <button id="inspectOpen" class="field-text-btn"
                             >Inspect neuron</button
                           >
@@ -2844,6 +2908,13 @@
                   ><div class="input-wrap"
                     ><label for="testAmount">TEST SOL</label
                     ><input
+                      data-bwignore="true"
+                      data-lpignore="true"
+                      data-1p-ignore="true"
+                      spellcheck="false"
+                      autocapitalize="none"
+                      autocorrect="off"
+                      autocomplete="off"
                       id="testAmount"
                       type="number"
                       value="0.5"
@@ -2898,6 +2969,7 @@
                 target="_blank"
                 rel="noreferrer"
                 >GitHub</a
+              ><a href="mailto:hello@nuria.network">hello@nuria.network</a
               ><a href="#modelInspection" id="openInspection">Inspect the model</a
               ><a href="#overview">Back to top </a></div
             ></footer

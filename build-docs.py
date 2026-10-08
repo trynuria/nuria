@@ -26,6 +26,8 @@ def build(root: Path = ROOT) -> None:
         + (root / "observatory-polish.css").read_text()
         + "\n"
         + (root / "commerce-view.css").read_text()
+        + "\n"
+        + (root / "ui-controls.css").read_text()
         + "\n</style>",
         1,
     )
@@ -59,6 +61,11 @@ def build(root: Path = ROOT) -> None:
         .replace("url(#neural-mark)", "url(#docs-neural-mark)")
     )
     docs = docs.replace("{{LOGO}}", docs_logo)
+    for name in ("experience", "authority", "evidence"):
+        docs = docs.replace(
+            "{{FLOW_" + name.upper() + "}}",
+            (root / "brand/flows" / (name + ".svg")).read_text(),
+        )
     source = source.replace("</style>", css + "\n</style>", 1)
     source = source.replace(
         "<script>",
@@ -68,18 +75,42 @@ def build(root: Path = ROOT) -> None:
     old_js = source.split("<script>", 1)[1].split("</script>", 1)[0]
     new_js = (
         "'use strict';\n"
+        + (root / "ui-controls.js").read_text()
+        + "\n"
         + client
         + "\nif(new URLSearchParams(location.search).get('page')==='docs'){\n"
         + "  const content=document.getElementById('nuriaDocsTemplate').content.cloneNode(true);\n"
         + "  document.body.classList.add('docs-page');\n"
         + "  document.body.replaceChildren(content);\n"
-        + "  initNuriaDocs();\n"
+        + "  initNuriaControls();\n  initNuriaDocs();\n"
         + "}else{\n"
+        + "initNuriaControls();\n"
         + old_js
         + "\n}\n"
     )
     source = source.replace(
         "<script>" + old_js + "</script>", "<script>\n" + new_js + "\n</script>", 1
+    )
+    github_mark = re.sub(
+        r"<svg\b[^>]*>",
+        '<svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">',
+        (root / "brand/github-mark.svg").read_text(),
+        count=1,
+    )
+
+    def github_link(match: re.Match) -> str:
+        attrs, content = match.groups()
+        if 'class="' in attrs:
+            attrs = attrs.replace('class="', 'class="github-link ', 1)
+        else:
+            attrs += ' class="github-link"'
+        return "<a" + attrs + ">" + github_mark + "<span>" + content + "</span></a>"
+
+    source = re.sub(
+        r'<a\b([^>]*href="https://github\.com/[^>]+)>(.*?)</a\s*>',
+        github_link,
+        source,
+        flags=re.S,
     )
     (root / "index.html").write_text(source)
     (root / "docs-script-check.js").write_text(new_js)

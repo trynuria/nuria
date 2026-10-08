@@ -12,6 +12,12 @@
           <circle cx="7" cy="7" r="4.5" />
           <path d="M10.5 10.5l3 3" /></svg
         ><span>Search docs</span><kbd>⌘ K</kbd></button
+      ><a
+        href="https://github.com/trynuria/nuria"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Nuria on GitHub"
+        >GitHub</a
       ><a class="docs-observe" href="/#neural-field">Observatory </a></div
     ></header
   >
@@ -45,9 +51,6 @@
             >Fees &amp; resources</a
           ><a class="docs-nav-link" href="/?page=docs#evidence" data-chapter="evidence"
             >Receipts &amp; evidence</a
-          ></div
-        >
-        <div class="docs-nav-group"
           ><a
             class="docs-nav-link"
             href="/?page=docs#cognition"
@@ -60,7 +63,10 @@
             >Discovery lab</a
           ><a class="docs-nav-link" href="/?page=docs#roadmap" data-chapter="roadmap"
             >Development gates</a
-          ><div class="docs-nav-label">Reference</div
+          ></div
+        >
+        <div class="docs-nav-group">
+          <div class="docs-nav-label">Reference</div
           ><a class="docs-nav-link" href="/?page=docs#glossary" data-chapter="glossary"
             >Glossary</a
           ><a
@@ -71,7 +77,13 @@
           ></div
         > </nav
       ><div class="docs-sidebar-foot"
-        ><b>Field notes / v2</b>Continuous neural model<br />Powered by Brian2</div
+        >Powered by
+        <a
+          href="https://brian2.readthedocs.io/en/stable/"
+          target="_blank"
+          rel="noreferrer"
+          >Brian2</a
+        ></div
       ></aside
     >
     <button
@@ -269,6 +281,34 @@
             ><p class="docs-lead"
               >Finalized Solana evidence enters a durable queue before either circuit
               reads it.</p
+            ><figure class="doc-diagram"
+              >{{FLOW_EXPERIENCE}}<div
+                class="diagram-mobile"
+                role="list"
+                aria-label="Experience flow"
+                ><div role="listitem"
+                  ><strong>Recorded input</strong
+                  ><span>Exact source, payload and finality.</span></div
+                ><div role="listitem"
+                  ><strong>Neural state</strong
+                  ><span>Measured spikes, membrane and synapses.</span></div
+                ><div role="listitem"
+                  ><strong>Memory & forecast</strong
+                  ><span>Episodes, prediction and attention.</span></div
+                ><div role="listitem"
+                  ><strong>Decision</strong
+                  ><span>Published goals and neural action scores.</span></div
+                ><div role="listitem"
+                  ><strong>Local action</strong
+                  ><span>Explore, replay, experiment or rest.</span></div
+                ><div role="listitem"
+                  ><strong>Measured outcome</strong
+                  ><span>Score observed results before updating.</span></div
+                ></div
+              ><figcaption
+                >An input changes recorded state; its later outcome determines what is
+                learned. Live trades and test signals remain separate.</figcaption
+              ></figure
             ><h2 id="inputs--reader">What the trade reader checks</h2
             ><p
               >The reader decodes Pump and PumpSwap events against the included official
@@ -315,7 +355,36 @@
             <div class="docs-eyebrow">Nuria / Finance</div>
             <h1 tabindex="-1">Fees & resources</h1>
             <p class="docs-lead">Follow the money. Then check what it delivered.</p>
-            <h2 id="resources--flow">The money path</h2>
+            <figure class="doc-diagram"
+              >{{FLOW_AUTHORITY}}<div
+                class="diagram-mobile"
+                role="list"
+                aria-label="Authority flow"
+                ><div role="listitem"
+                  ><strong>Creator collection</strong
+                  ><span>Collect only to the verified beneficiary.</span></div
+                ><div role="listitem"
+                  ><strong>Independent reserve</strong
+                  ><span>Squads owners control the reserve.</span></div
+                ><div role="listitem"
+                  ><strong>Operating wallet</strong
+                  ><span>One destination; capped replenishment.</span></div
+                ><div role="listitem"
+                  ><strong>SOL → USDC</strong
+                  ><span>Inspect a bounded Jupiter conversion.</span></div
+                ><div role="listitem"
+                  ><strong>x402 purchase</strong
+                  ><span>Check amount, recipient and job budget.</span></div
+                ><div role="listitem"
+                  ><strong>Provider result</strong
+                  ><span>Record delivered bytes separately from payment.</span></div
+                ></div
+              ><figcaption
+                >The collection beneficiary, reserve and operating wallet have different
+                roles. Merchant ceilings are 25 USDC/day and 2 USDC/job; native SOL and
+                gas have separate limits.</figcaption
+              ></figure
+            ><h2 id="resources--flow">The money path</h2>
             <p
               >Creator fees accrue in protocol vaults. A verified collection pays the
               existing beneficiary. An independently owned Squads reserve can fund a
@@ -451,6 +520,35 @@
             ><p class="docs-lead"
               >A durable record connects input, neural response, decision and
               consequence.</p
+            ><figure class="doc-diagram"
+              >{{FLOW_EVIDENCE}}<div
+                class="diagram-mobile"
+                role="list"
+                aria-label="Evidence flow"
+                ><div role="listitem"
+                  ><strong>Decision record</strong
+                  ><span>Job identity, policy and action scores.</span></div
+                ><div role="listitem"
+                  ><strong>Payment evidence</strong
+                  ><span>Authorization, signature and finalized deltas.</span></div
+                ><div role="listitem"
+                  ><strong>Delivery evidence</strong
+                  ><span>Response hash and schema checks.</span></div
+                ><div role="listitem"
+                  ><strong>Outcome evidence</strong
+                  ><span>A later observed result, scored once.</span></div
+                ><div role="listitem"
+                  ><strong>Public ledger</strong
+                  ><span>Separate records linked by job ID.</span></div
+                ><div role="listitem"
+                  ><strong>Verification</strong
+                  ><span>Paged snapshots and explicit coverage gaps.</span></div
+                ></div
+              ><figcaption
+                >A payment is not proof of delivery, and delivery is not proof of
+                usefulness. Local hash checks establish consistency, not an independent
+                witness.</figcaption
+              ></figure
             ><h2 id="evidence--journal">The cognitive journal</h2
             ><p
               >Canonical records include their kind and chain to the previous record’s
@@ -1274,7 +1372,14 @@
           ><nav class="docs-pager" id="docsPager" aria-label="Adjacent chapters"></nav
           ><footer class="docs-footer"
             ><span>Nuria / documentation</span
-            ><a href="/#neural-field">Return to the observatory </a></footer
+            ><div class="docs-footer-links"
+              ><a
+                href="https://github.com/trynuria/nuria"
+                target="_blank"
+                rel="noreferrer"
+                >GitHub</a
+              ><a href="mailto:hello@nuria.network">hello@nuria.network</a></div
+            ></footer
           > </div
         ><aside class="docs-toc" aria-label="On this page"
           ><div class="docs-toc-title">On this page</div><nav id="docsOutline"></nav
@@ -1299,6 +1404,11 @@
       ><label id="docsSearchLabel" for="docsSearchInput" class="visually-hidden"
         >Search documentation</label
       ><input
+        data-bwignore="true"
+        data-lpignore="true"
+        data-1p-ignore="true"
+        autocapitalize="none"
+        autocorrect="off"
         id="docsSearchInput"
         type="search"
         autocomplete="off"
