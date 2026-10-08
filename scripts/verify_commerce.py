@@ -26,9 +26,14 @@ def main():
         raise ValueError("Use a public credential-free HTTPS origin")
 
     def get(path):
-        with urllib.request.urlopen(
-            args.origin.rstrip("/") + path, timeout=15
-        ) as response:
+        request = urllib.request.Request(
+            args.origin.rstrip("/") + path,
+            headers={
+                "User-Agent": "Nuria-proof-verifier/0.6 (+https://github.com/trynuria/nuria)",
+                "Accept": "application/json",
+            },
+        )
+        with urllib.request.urlopen(request, timeout=15) as response:
             raw = response.read(2_000_001)
             if len(raw) > 2_000_000:
                 raise ValueError("Ledger page is oversized")
