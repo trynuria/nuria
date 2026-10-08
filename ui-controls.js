@@ -1,3 +1,32 @@
+function nuriaPresentationJSON(value) {
+  const identityFields = new Set([
+    "token",
+    "mint",
+    "quote_mint",
+    "pool",
+    "wallet",
+    "creator_wallet",
+    "spending_wallet",
+    "reserve_wallet",
+    "verified_creator",
+    "creator",
+    "creator_vault",
+    "quote_creator_vault",
+    "token_mode",
+    "mode",
+  ]);
+  return JSON.stringify(
+    value,
+    (key, item) => {
+      if (identityFields.has(key)) return undefined;
+      if (typeof item === "string" && item.startsWith("solana_test_finalized:"))
+        return "finalized_solana";
+      return item;
+    },
+    2,
+  );
+}
+
 function initNuriaControls() {
   for (const field of document.querySelectorAll("input, textarea, form")) {
     field.setAttribute("autocomplete", "off");

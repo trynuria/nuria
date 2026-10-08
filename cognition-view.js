@@ -159,7 +159,7 @@ function renderCognition(c) {
     ? `Record ${fmt(decision.seq)} · tick ${fmt(decision.tick)}`
     : "Awaiting record";
   $("cogDecisionJSON").textContent = decision
-    ? JSON.stringify(decision, null, 2)
+    ? nuriaPresentationJSON(decision, null, 2)
     : "Awaiting a decision.";
   const sources = c.learning?.sources || {},
     source =
@@ -183,7 +183,7 @@ function renderCognition(c) {
       ? "Simulation inputs · forecast error (green) / learned repeat baseline (gray)."
       : "Finalized Solana inputs · observed next-input outcomes; prediction quality can rise or fall.";
   drawLearning(learning?.history || []);
-  $("cogForecastJSON").textContent = JSON.stringify(
+  $("cogForecastJSON").textContent = nuriaPresentationJSON(
     {
       method: c.learning?.method,
       learning_started_utc: c.learning?.genesis_utc,

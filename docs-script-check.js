@@ -1,4 +1,33 @@
 "use strict";
+function nuriaPresentationJSON(value) {
+  const identityFields = new Set([
+    "token",
+    "mint",
+    "quote_mint",
+    "pool",
+    "wallet",
+    "creator_wallet",
+    "spending_wallet",
+    "reserve_wallet",
+    "verified_creator",
+    "creator",
+    "creator_vault",
+    "quote_creator_vault",
+    "token_mode",
+    "mode",
+  ]);
+  return JSON.stringify(
+    value,
+    (key, item) => {
+      if (identityFields.has(key)) return undefined;
+      if (typeof item === "string" && item.startsWith("solana_test_finalized:"))
+        return "finalized_solana";
+      return item;
+    },
+    2,
+  );
+}
+
 function initNuriaControls() {
   for (const field of document.querySelectorAll("input, textarea, form")) {
     field.setAttribute("autocomplete", "off");
@@ -1882,7 +1911,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ? `Record ${fmt(decision.seq)} · tick ${fmt(decision.tick)}`
       : "Awaiting record";
     $("cogDecisionJSON").textContent = decision
-      ? JSON.stringify(decision, null, 2)
+      ? nuriaPresentationJSON(decision, null, 2)
       : "Awaiting a decision.";
     const sources = c.learning?.sources || {},
       source =
@@ -1906,7 +1935,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         ? "Simulation inputs · forecast error (green) / learned repeat baseline (gray)."
         : "Finalized Solana inputs · observed next-input outcomes; prediction quality can rise or fall.";
     drawLearning(learning?.history || []);
-    $("cogForecastJSON").textContent = JSON.stringify(
+    $("cogForecastJSON").textContent = nuriaPresentationJSON(
       {
         method: c.learning?.method,
         learning_started_utc: c.learning?.genesis_utc,
@@ -2068,7 +2097,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ? model.virtual_balance.toFixed(1)
       : "—";
     $("labContinuity").textContent = `Saved trial ${fmt(s.record_seq)}`;
-    $("labRecord").textContent = JSON.stringify(
+    $("labRecord").textContent = nuriaPresentationJSON(
       {
         genesis_utc: s.genesis_utc,
         source_sha256: s.source_sha256,
@@ -2209,7 +2238,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         (evidence.missing?.length
           ? "Payments remain disabled until provider, funding and signing checks pass."
           : "Payments, delivered data and evaluated outcomes have separate records. Each financial rail reports its own activation status.");
-      $("commerceRecords").textContent = JSON.stringify(
+      $("commerceRecords").textContent = nuriaPresentationJSON(
         {
           policy: {
             per_day_micro_usdc: evidence.policy.per_day_micro_usdc,

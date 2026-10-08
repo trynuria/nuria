@@ -90,7 +90,7 @@ async function pollCommerce() {
       (evidence.missing?.length
         ? "Payments remain disabled until provider, funding and signing checks pass."
         : "Payments, delivered data and evaluated outcomes have separate records. Each financial rail reports its own activation status.");
-    $("commerceRecords").textContent = JSON.stringify(
+    $("commerceRecords").textContent = nuriaPresentationJSON(
       {
         policy: {
           per_day_micro_usdc: evidence.policy.per_day_micro_usdc,

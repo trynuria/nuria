@@ -61,6 +61,7 @@ function harness() {
     Error,
     Object,
     Array,
+    Set,
     document: { hidden: false, createElement: element },
     navigator: {
       clipboard: {
@@ -78,6 +79,10 @@ function harness() {
     },
   });
   context.evidence = fresh();
+  vm.runInContext(
+    fs.readFileSync(require.resolve("../ui-controls.js"), "utf8"),
+    context,
+  );
   vm.runInContext(
     fs.readFileSync(require.resolve("../commerce-view.js"), "utf8"),
     context,

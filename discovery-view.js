@@ -72,7 +72,7 @@ function renderDiscovery() {
     ? model.virtual_balance.toFixed(1)
     : "—";
   $("labContinuity").textContent = `Saved trial ${fmt(s.record_seq)}`;
-  $("labRecord").textContent = JSON.stringify(
+  $("labRecord").textContent = nuriaPresentationJSON(
     {
       genesis_utc: s.genesis_utc,
       source_sha256: s.source_sha256,
