@@ -77,6 +77,17 @@ class DecoderTests(unittest.TestCase):
             "sell",
         )
 
+    def test_modern_sol_quote_amount_is_used_when_legacy_field_is_zero(self):
+        name, event = self.feed.decoder.decode(PUMP, trade_bytes())
+        event.update(
+            sol_amount=0,
+            quote_amount=1_500_000_000,
+            quote_mint="So11111111111111111111111111111111111111112",
+        )
+        parsed = self.parse((name, event))[0]
+        self.assertEqual(parsed["quote_amount"], 1.5)
+        self.assertEqual(parsed["quote_unit"], "SOL")
+
     def test_wrong_mint_is_ignored(self):
         self.assertEqual(
             self.parse(self.feed.decoder.decode(PUMP, trade_bytes()), USER), []

@@ -457,11 +457,17 @@ class PumpFeed:
                 if quote_mint not in self.quote_units:
                     raise RuntimeError("Non-SOL quote requires a verified unit decoder")
                 side = "buy" if values["is_buy"] else "sell"
-                quote_raw, amount_raw = values["sol_amount"], values["token_amount"]
-                if quote_mint not in (SOL, "11111111111111111111111111111111"):
-                    if "quote_amount" not in values:
-                        raise RuntimeError("Non-SOL quote amount is missing")
-                    quote_raw = values["quote_amount"]
+                amount_raw = values["token_amount"]
+                modern_amount = values.get("quote_amount")
+                if type(modern_amount) is int and modern_amount > 0:
+                    quote_raw = modern_amount
+                elif (
+                    quote_mint in (SOL, "11111111111111111111111111111111")
+                    and values["sol_amount"] > 0
+                ):
+                    quote_raw = values["sol_amount"]
+                else:
+                    raise RuntimeError("Verified positive quote amount is missing")
                 fee_raw = values["creator_fee"]
             else:
                 pool = values.get("pool")
