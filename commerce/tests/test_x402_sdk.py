@@ -8,6 +8,7 @@ import unittest
 import uuid
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from solders.hash import Hash
 from solders.keypair import Keypair
@@ -23,6 +24,40 @@ from commerce.x402 import authorize, inspect_message
 
 
 class SDKTests(unittest.TestCase):
+    def test_current_rpc_lifetime_matches_confirmed_simulation(self):
+        key, facilitator, merchant = Keypair(), Keypair(), Keypair()
+        accepted = {
+            "scheme": "exact",
+            "network": NETWORK,
+            "asset": USDC,
+            "amount": "1000",
+            "payTo": str(merchant.pubkey()),
+            "maxTimeoutSeconds": 60,
+            "extra": {"feePayer": str(facilitator.pubkey())},
+        }
+        data = bytearray(82)
+        data[44], data[45] = 6, 1
+        client = SimpleNamespace(
+            get_account_info=lambda _: SimpleNamespace(
+                value=SimpleNamespace(owner=Pubkey.from_string(TOKEN), data=bytes(data))
+            ),
+            get_latest_blockhash=lambda: SimpleNamespace(
+                value=SimpleNamespace(blockhash=Hash.default())
+            ),
+        )
+        with patch("solana.rpc.api.Client", return_value=client) as constructor:
+            result = authorize(key, accepted, "https://rpc.example/")
+        constructor.assert_called_once_with(
+            "https://rpc.example/", commitment="confirmed"
+        )
+        payload = json.loads(base64.b64decode(result["header"]))
+        wire = VersionedTransaction.from_bytes(
+            base64.b64decode(payload["payload"]["transaction"])
+        )
+        self.assertTrue(
+            wire.signatures[1].verify(key.pubkey(), b"\x80" + bytes(wire.message))
+        )
+
     def test_real_sdk_partial_signature_and_guard(self):
         key, facilitator, merchant = Keypair(), Keypair(), Keypair()
         accepted = {
@@ -162,6 +197,7 @@ class SDKTests(unittest.TestCase):
         ledger = Ledger(directory / "commerce.sqlite3")
         self.addCleanup(ledger.db.close)
         client_signature = None
+        resource = {"url": provider.endpoint, "mimeType": "application/json"}
         signature = str(facilitator.sign_message(b"synthetic-settlement"))
 
         def encoded(body):
@@ -174,12 +210,17 @@ class SDKTests(unittest.TestCase):
                     402,
                     {
                         "payment-required": encoded(
-                            {"x402Version": 2, "accepts": [accepted]}
+                            {
+                                "x402Version": 2,
+                                "accepts": [accepted],
+                                "resource": resource,
+                            }
                         )
                     },
                     b"",
                 )
             payload = json.loads(base64.b64decode(headers["PAYMENT-SIGNATURE"]))
+            self.assertEqual(payload["resource"], resource)
             transaction = VersionedTransaction.from_bytes(
                 base64.b64decode(payload["payload"]["transaction"])
             )
@@ -211,6 +252,7 @@ class SDKTests(unittest.TestCase):
                     }
                 ]
             if method == "simulateTransaction":
+                self.assertEqual(params[1]["commitment"], "confirmed")
                 simulation = VersionedTransaction.from_bytes(
                     base64.b64decode(params[0])
                 )

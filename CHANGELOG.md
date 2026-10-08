@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.6 — 2026-10-08
+
+- Use current confirmed payment lifetimes and matching simulation while retaining finalized payout verification.
+- Echo the validated x402 resource in the persisted payment envelope.
+- Verify restricted cloud signing and two finalized one-cent merchant payments with separately hashed delivered responses. Data freshness and learning benefit remain unestablished.
+
 ## 0.6.5 — 2026-10-08
 
 - Decode current Jupiter V2 exact-input routes against the finalized program-owned IDL; retain refusal of unknown layouts, destinations and fees.

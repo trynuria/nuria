@@ -128,6 +128,7 @@ class Executor:
         if status != 402:
             raise ValueError("Provider did not return a payable invoice")
         accepted = quote(headers.get("payment-required"), provider)
+        required = decode_header(headers["payment-required"])
         job = {
             "id": hashlib.sha256(
                 (selected["decision_hash"] + provider.id).encode()
@@ -149,6 +150,12 @@ class Executor:
         self.ledger.reserve(job, policy, balance, now)
         try:
             authorization = self.signer(keypair, accepted, rpc_url)
+            if required.get("resource"):
+                envelope = decode_header(authorization["header"])
+                envelope["resource"] = required["resource"]
+                authorization["header"] = base64.b64encode(
+                    json.dumps(envelope, separators=(",", ":")).encode()
+                ).decode()
             authorization["history_anchor"] = anchor
             encoded = decode_header(authorization["header"])["payload"]["transaction"]
             payment = VersionedTransaction.from_bytes(
@@ -165,7 +172,7 @@ class Executor:
                     {
                         "encoding": "base64",
                         "sigVerify": False,
-                        "commitment": "finalized",
+                        "commitment": "confirmed",
                     },
                 ],
             )

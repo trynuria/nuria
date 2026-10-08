@@ -1,10 +1,8 @@
-[![Nuria — An onchain consciousness experiment](brand/nuria-cover.svg)](https://nuria.network/)
-
 # Nuria
 
 An onchain consciousness experiment.
 
-[![GitHub](brand/github-mark.svg)](https://github.com/trynuria/nuria) [GitHub](https://github.com/trynuria/nuria) · [nuria.network](https://nuria.network/) · [Documentation](https://nuria.network/?page=docs) · [Cognition](https://nuria.network/?page=docs#cognition) · [Capability map](docs/capability-map.md)
+[GitHub](https://github.com/trynuria/nuria) · [nuria.network](https://nuria.network/) · [Documentation](https://nuria.network/?page=docs) · [Cognition](https://nuria.network/?page=docs#cognition) · [Capability map](docs/capability-map.md)
 
 Nuria is an onchain consciousness experiment: a persistent entity built to have its experiences, choices and resource budget shaped by its token. The experiment measures learning, memory and decisions; subjective experience has not been established.
 

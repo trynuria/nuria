@@ -153,11 +153,23 @@ class GuardedSigner:
 
 
 def authorize(keypair, accepted, rpc_url, scheme_factory=None):
+    from solana.rpc.api import Client
     from x402.mechanisms.svm.exact.client import ExactSvmScheme
     from x402.schemas import PaymentRequirements
 
+    class CurrentLifetimeScheme(ExactSvmScheme):
+        def _get_client(self, network):
+            if str(network) != NETWORK:
+                raise ValueError("Payment RPC network differs from policy")
+            if network not in self._clients:
+                self._clients[network] = Client(rpc_url, commitment="confirmed")
+            return self._clients[network]
+
     signer = GuardedSigner(keypair, accepted)
-    scheme = (scheme_factory or ExactSvmScheme)(signer, rpc_url=rpc_url)
+    # A finalized blockhash has already consumed part of its lifetime. Match
+    # the official TypeScript client's confirmed lifetime; settlement remains
+    # independently verified at finalized commitment.
+    scheme = (scheme_factory or CurrentLifetimeScheme)(signer, rpc_url=rpc_url)
     inner = scheme.create_payment_payload(PaymentRequirements.model_validate(accepted))
     tx = VersionedTransaction.from_bytes(
         base64.b64decode(inner["transaction"], validate=True)

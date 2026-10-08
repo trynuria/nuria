@@ -1,0 +1,62 @@
+{
+  "schema": "nuria.payment.interface.review.v1",
+  "date_utc": "2026-10-08",
+  "scope": "Isolated owner-authorized integration tests, separate from production custody, token revenue, autonomous action choice or learning credit.",
+  "cloud_signing": {
+    "cases": 7,
+    "passed": 7,
+    "approved_signatures_verified": 2,
+    "refusals": [
+      "over_2_usdc_cap",
+      "unapproved_recipient",
+      "native_sol_transfer",
+      "approved_payment_plus_native_transfer",
+      "token_delegate_approval"
+    ],
+    "lifetime": "Independently verified expired blockhash; no signing-test signature disclosed or transaction broadcast."
+  },
+  "payments": [
+    {
+      "client": "Official TypeScript x402 SVM 2.28.0",
+      "payment_started_utc": "2026-10-08T14:07:49.635702Z",
+      "finalized_slot": 454567028,
+      "amount_micro_usdc": 10000,
+      "merchant_http_status": 200,
+      "exact_token_deltas_verified": true,
+      "delivery_schema": "coingecko.sol-price.v1",
+      "delivered_body_sha256": "9b7a2f6be1ccf2c14181f90dced0f96332d65eff2862cfebe290bddc5af1e7a3",
+      "test_wallet_native_debit_lamports": 0
+    },
+    {
+      "client": "Official Python x402 SVM 2.25.0",
+      "payment_started_utc": "2026-10-08T14:10:13.136389Z",
+      "finalized_slot": 454567547,
+      "amount_micro_usdc": 10000,
+      "merchant_http_status": 200,
+      "exact_token_deltas_verified": true,
+      "delivery_schema": "coingecko.sol-price.v1",
+      "delivered_body_sha256": "9b7a2f6be1ccf2c14181f90dced0f96332d65eff2862cfebe290bddc5af1e7a3",
+      "test_wallet_native_debit_lamports": 0
+    }
+  ],
+  "combined_compatibility_correction": [
+    "Current confirmed blockhash and matching simulation commitment",
+    "Validated resource echoed in full payment envelope"
+  ],
+  "earlier_rejection_cause": "Not isolated; successful controlled builds establish the combined path, not which change alone resolved the generic rejection.",
+  "quality_limit": {
+    "paid_sol_usd": 119.33,
+    "independent_free_sol_usd_observations": [112.43, 112.27],
+    "paid_source_timestamp": null,
+    "freshness_verified": false,
+    "correctness_verified": false,
+    "learning_reward_credited": false
+  },
+  "remaining_gates": [
+    "Exact launched mint and actual creator beneficiary",
+    "Reviewed native claim and conversion permissions and budgets",
+    "A useful paid forecast provider with measurable delivered outcomes",
+    "Production wallet configuration and real token-input verification"
+  ],
+  "publication": "Testing wallet, funding trail, signed authorizations and vendor credentials are omitted. Private full finalized receipts are retained in the launch handoff. This summary is project-maintained evidence, not an independent audit."
+}
