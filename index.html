@@ -11064,6 +11064,21 @@
                     rejected. Native fees and rent have separate limits; a merchant USDC
                     ceiling does not authorize arbitrary SOL spending.</p
                   >
+                  <p
+                    >Before signing, a single simulation must also show the exact SOL
+                    cost, a USDC credit above the configured floor, unchanged token
+                    authority and the retained native reserve. Newly wrapped SOL is
+                    closed in the same transaction so its account rent is returned.
+                    Missing balance evidence, retained new rent or changed wallet
+                    accounts stops the request.</p
+                  >
+                  <p
+                    >The current V2 route was checked against Jupiter's program-owned
+                    IDL and an unsigned mainnet simulation. That verifies construction
+                    and simulated economics; it is not a finalized swap or permission to
+                    spend. Native custody approval and the exact launch configuration
+                    remain open.</p
+                  >
                   <h2 id="resources--records">Complete money records</h2>
                   <p
                     >A separate observer reconciles the tracked financial wallets and

@@ -5,6 +5,7 @@ unexpected setup instructions and unverified tables fail closed.
 """
 
 import base64
+import copy
 import hashlib
 import json
 import os
@@ -24,12 +25,15 @@ from solders.transaction import VersionedTransaction
 
 from commerce.config import ATA, COMPUTE, TOKEN, USDC
 from commerce.fees import SYSTEM, WSOL, program_identity
+from commerce.funding import writable
 from commerce.ledger import canonical
 from commerce.solana import account_bytes, associated
 from commerce.transport import request
 
 JUPITER = "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4"
 LOOKUP = "AddressLookupTab1e1111111111111111111111111"
+EVENT_AUTHORITY = "D8cy77BBepLMngZx6ZukaTff5hCt1HrWyKk3Hnd9oitf"
+TOKEN_2022 = "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
 
 
 def inspect(build, wallet, amount, floor, slip):
@@ -103,6 +107,8 @@ def inspect(build, wallet, amount, floor, slip):
                 raise ValueError("Swap route is truncated")
             route = hashlib.sha256(b"global:route").digest()[:8]
             shared = hashlib.sha256(b"global:shared_accounts_route").digest()[:8]
+            route_v2 = hashlib.sha256(b"global:route_v2").digest()[:8]
+            shared_v2 = hashlib.sha256(b"global:shared_accounts_route_v2").digest()[:8]
             if data[:8] == route:
                 if (
                     len(accounts) < 6
@@ -119,16 +125,59 @@ def inspect(build, wallet, amount, floor, slip):
                     or accounts[6:9] != [target, WSOL, USDC]
                 ):
                     raise ValueError("Shared swap route token destination differs")
+            elif data[:8] == route_v2:
+                if (
+                    len(accounts) < 10
+                    or accounts[:7]
+                    != [wallet, source, target, WSOL, USDC, TOKEN, TOKEN]
+                    or accounts[7] not in (JUPITER, target)
+                    or accounts[8:10] != [EVENT_AUTHORITY, JUPITER]
+                ):
+                    raise ValueError("V2 swap route token destination differs")
+            elif data[:8] == shared_v2:
+                if (
+                    len(accounts) < 12
+                    or accounts[1:3] != [wallet, source]
+                    or accounts[5:12]
+                    != [target, WSOL, USDC, TOKEN, TOKEN, EVENT_AUTHORITY, JUPITER]
+                    or len(data) < 35
+                    or accounts[0]
+                    != str(
+                        Pubkey.find_program_address(
+                            [b"authority", bytes([data[8]])],
+                            Pubkey.from_string(JUPITER),
+                        )[0]
+                    )
+                ):
+                    raise ValueError("Shared V2 swap route token destination differs")
             else:
                 raise ValueError("Swap route layout is unsupported")
-            incoming, quoted, actual_slip, fee_bps = (
-                int.from_bytes(data[-19:-11], "little"),
-                int.from_bytes(data[-11:-3], "little"),
-                int.from_bytes(data[-3:-1], "little"),
-                data[-1],
-            )
+            if data[:8] in (route_v2, shared_v2):
+                offset = 9 if data[:8] == shared_v2 else 8
+                if len(data) < offset + 31:
+                    raise ValueError("V2 swap route is truncated")
+                incoming = int.from_bytes(data[offset : offset + 8], "little")
+                quoted = int.from_bytes(data[offset + 8 : offset + 16], "little")
+                actual_slip = int.from_bytes(data[offset + 16 : offset + 18], "little")
+                fee_bps = int.from_bytes(data[offset + 18 : offset + 20], "little")
+                positive_fee = int.from_bytes(data[offset + 20 : offset + 22], "little")
+                count = int.from_bytes(data[offset + 22 : offset + 26], "little")
+                if (
+                    positive_fee
+                    or not 1 <= count <= 32
+                    or len(data) < offset + 26 + count * 5
+                ):
+                    raise ValueError("V2 route fees or plan bounds differ from policy")
+            else:
+                incoming, quoted, actual_slip, fee_bps = (
+                    int.from_bytes(data[-19:-11], "little"),
+                    int.from_bytes(data[-11:-3], "little"),
+                    int.from_bytes(data[-3:-1], "little"),
+                    data[-1],
+                )
             if (
                 incoming != amount
+                or quoted != int(build.get("outAmount", "0"))
                 or actual_slip != slip
                 or fee_bps != 0
                 or quoted * (10000 - slip) // 10000 < floor
@@ -192,6 +241,181 @@ def prepare(build, wallet, amount, floor, slip, fetch):
     if len(bytes(tx)) > 1232:
         raise ValueError("Swap exceeds Solana transaction wire limit")
     return tx, recent
+
+
+def temporary_native_cleanup(build, wallet, fetch):
+    """Return newly created WSOL rent to the payer in the same transaction.
+
+    Existing WSOL accounts are preserved unless the quoted build already closes
+    them. The full pre-sign snapshot must still confirm this creation assumption.
+    """
+    if build.get("cleanupInstruction"):
+        return build, False
+    source = associated(wallet, WSOL)
+    existing = fetch(
+        "getAccountInfo",
+        [source, {"encoding": "base64", "commitment": "finalized"}],
+    )["value"]
+    if existing:
+        return build, False
+    result = copy.deepcopy(build)
+    result["cleanupInstruction"] = {
+        "programId": TOKEN,
+        "data": base64.b64encode(b"\x09").decode(),
+        "accounts": [
+            {"pubkey": source, "isSigner": False, "isWritable": True},
+            {"pubkey": wallet, "isSigner": False, "isWritable": True},
+            {"pubkey": wallet, "isSigner": True, "isWritable": False},
+        ],
+    }
+    return result, True
+
+
+def resolved_accounts(message, build):
+    """Resolve indices only against the tables already verified by prepare()."""
+    keys = [str(k) for k in message.account_keys]
+    loaded_writable, loaded_readonly = [], []
+    tables = build.get("addressesByLookupTableAddress") or {}
+    for lookup in message.address_table_lookups:
+        table = tables.get(str(lookup.account_key))
+        if not isinstance(table, list):
+            raise ValueError("Resolved swap table is missing")
+        for indices, output in (
+            (lookup.writable_indexes, loaded_writable),
+            (lookup.readonly_indexes, loaded_readonly),
+        ):
+            for index in indices:
+                if index >= len(table):
+                    raise ValueError("Resolved swap table index is invalid")
+                output.append(table[index])
+    addresses = [key for n, key in enumerate(keys) if writable(message, n)]
+    keys.extend([*loaded_writable, *loaded_readonly])
+    addresses.extend(loaded_writable)
+    if len(keys) != len(set(keys)) or len(addresses) > 100:
+        raise ValueError("Resolved swap accounts alias or exceed the snapshot bound")
+    return keys, addresses
+
+
+def conversion_economics(
+    keys, addresses, before, simulation, wallet, amount, floor, fee, reserve
+):
+    """Require exact native cost and minimum delivered USDC before signing.
+
+    Existing USDC rent and token authority must be unchanged. A temporary WSOL
+    account may be created and closed in the same transaction, retaining no rent.
+    Missing same-bank evidence or a concurrent snapshot change refuses signing.
+    """
+    pre, post, after = (
+        simulation.get(k) for k in ("preBalances", "postBalances", "accounts")
+    )
+    if (
+        simulation.get("err") is not None
+        or simulation.get("fee") != fee
+        or not isinstance(pre, list)
+        or not isinstance(post, list)
+        or len(pre) != len(keys)
+        or len(post) != len(keys)
+        or any(type(n) is not int or n < 0 for n in [*pre, *post])
+        or not isinstance(after, list)
+        or len(after) != len(addresses)
+        or len(before) != len(addresses)
+        or len(set(keys)) != len(keys)
+        or len(set(addresses)) != len(addresses)
+        or not set(addresses).issubset(keys)
+    ):
+        raise ValueError("Complete same-bank conversion balances and fee are required")
+    states = dict(zip(addresses, zip(before, after, strict=True), strict=True))
+    for address, (initial, final) in states.items():
+        index = keys.index(address)
+        if (initial["lamports"] if initial else 0) != pre[index] or (
+            final["lamports"] if final else 0
+        ) != post[index]:
+            raise ValueError("Conversion simulation and snapshot differ")
+    source, target = associated(wallet, WSOL), associated(wallet)
+    if not {wallet, source, target}.issubset(states):
+        raise ValueError("Conversion wallet evidence is incomplete")
+    initial, final = states[wallet]
+    if any(not a or a["owner"] != SYSTEM or account_bytes(a) for a in (initial, final)):
+        raise ValueError("Conversion payer is not an existing native account")
+    if final["lamports"] < reserve:
+        raise ValueError("Conversion would consume the native reserve")
+
+    def token(account, mint):
+        if not account or account["owner"] != TOKEN:
+            raise ValueError("Conversion token account is unavailable")
+        raw = account_bytes(account)
+        if (
+            len(raw) != 165
+            or str(Pubkey.from_bytes(raw[:32])) != mint
+            or str(Pubkey.from_bytes(raw[32:64])) != wallet
+            or raw[108] != 1
+            or int.from_bytes(raw[72:76], "little") != 0
+            or int.from_bytes(raw[129:133], "little") != 0
+        ):
+            raise ValueError("Conversion token identity or authority differs")
+        return raw, int.from_bytes(raw[64:72], "little")
+
+    initial, final = states[target]
+    old, old_units = token(initial, USDC)
+    changed, units = token(final, USDC)
+    if (
+        initial["lamports"] != final["lamports"]
+        or old[:64] + old[72:] != changed[:64] + changed[72:]
+        or int.from_bytes(old[109:113], "little") != 0
+        or units - old_units < floor
+    ):
+        raise ValueError("Conversion USDC credit, rent or authority differs")
+    source_before, source_after = states[source]
+    # simulateTransaction may represent a closed account as the default empty
+    # system account rather than JSON null. This is absence only at zero balance.
+    if (
+        source_after
+        and source_after["lamports"] == 0
+        and source_after["owner"] == SYSTEM
+        and not source_after.get("executable")
+        and not account_bytes(source_after)
+    ):
+        source_after = None
+    if source_before is None and source_after is not None:
+        raise ValueError("Conversion retains unapproved new WSOL rent")
+    for account in (source_before, source_after):
+        if account:
+            raw, units_wsol = token(account, WSOL)
+            if (
+                int.from_bytes(raw[109:113], "little") != 1
+                or units_wsol + int.from_bytes(raw[113:121], "little")
+                != account["lamports"]
+            ):
+                raise ValueError("Conversion WSOL lacks its native rent reserve")
+    if source_before and source_after:
+        old_source, _ = token(source_before, WSOL)
+        new_source, _ = token(source_after, WSOL)
+        if old_source[:64] + old_source[72:] != new_source[:64] + new_source[72:]:
+            raise ValueError("Conversion changes existing WSOL authority or rent")
+    for address, (initial, final) in states.items():
+        if address in (wallet, source, target):
+            continue
+        for account in (initial, final):
+            if account and account["owner"] in (TOKEN, TOKEN_2022):
+                raw = account_bytes(account)
+                if len(raw) >= 165 and str(Pubkey.from_bytes(raw[32:64])) == wallet:
+                    if initial != final:
+                        raise ValueError(
+                            "Conversion changes another wallet token account"
+                        )
+    native_input = (
+        sum(pre[keys.index(a)] - post[keys.index(a)] for a in (wallet, source, target))
+        - fee
+    )
+    if native_input != amount:
+        raise ValueError("Conversion native cost differs from the exact input")
+    return {
+        "input_lamports": native_input,
+        "output_micro_usdc": units - old_units,
+        "network_fee_lamports": fee,
+        "retained_rent_lamports": 0,
+        "wallet_lamports_after": states[wallet][1]["lamports"],
+    }
 
 
 class Converter:
@@ -262,6 +486,9 @@ class Converter:
         if status != 200:
             raise ValueError("Jupiter did not return a route")
         response = json.loads(raw)
+        response, cleanup_added = temporary_native_cleanup(
+            response, policy.spending_wallet, self.fetch
+        )
         tx, recent = prepare(
             response, policy.spending_wallet, amount, floor, 50, self.fetch
         )
@@ -284,6 +511,7 @@ class Converter:
             "slippage_bps": 50,
             "deployment": deployment,
             "quote_sha256": hashlib.sha256(raw).hexdigest(),
+            "temporary_native_cleanup_added": cleanup_added,
             "last_valid_block_height": recent["lastValidBlockHeight"],
         }
         ident = hashlib.sha256(to_bytes_versioned(tx.message)).hexdigest()
@@ -310,20 +538,69 @@ class Converter:
         except Exception:
             db.execute("ROLLBACK")
             raise
-        simulation = self.fetch(
-            "simulateTransaction",
-            [
-                base64.b64encode(bytes(tx)).decode(),
-                {"encoding": "base64", "sigVerify": False, "commitment": "finalized"},
-            ],
-        )
-        if simulation["value"].get("err") is not None:
+        try:
+            keys, addresses = resolved_accounts(tx.message, response)
+            before = self.fetch(
+                "getMultipleAccounts",
+                [addresses, {"encoding": "base64", "commitment": "finalized"}],
+            )
+            if (
+                cleanup_added
+                and before["value"][
+                    addresses.index(associated(policy.spending_wallet, WSOL))
+                ]
+                is not None
+            ):
+                raise ValueError("Temporary WSOL creation assumption changed")
+            simulation = self.fetch(
+                "simulateTransaction",
+                [
+                    base64.b64encode(bytes(tx)).decode(),
+                    {
+                        "encoding": "base64",
+                        "sigVerify": False,
+                        "commitment": "finalized",
+                        "minContextSlot": before["context"]["slot"],
+                        "accounts": {"encoding": "base64", "addresses": addresses},
+                    },
+                ],
+            )
+            if (
+                type(simulation.get("context", {}).get("slot")) is not int
+                or simulation["context"]["slot"] < before["context"]["slot"]
+            ):
+                raise ValueError("Conversion simulation predates its account snapshot")
+            economics = conversion_economics(
+                keys,
+                addresses,
+                before["value"],
+                simulation["value"],
+                policy.spending_wallet,
+                amount,
+                floor,
+                quoted_fee,
+                sol_floor,
+            )
+            terms["simulated_economics"] = economics
+            db.execute(
+                "UPDATE conversions SET terms=? WHERE id=?", (canonical(terms), ident)
+            )
+            self.ledger.record(
+                {
+                    "state": "conversion_simulation_verified",
+                    "id": ident,
+                    "at": time.time(),
+                    **economics,
+                }
+            )
+        except Exception:
             db.execute("UPDATE conversions SET status='failed' WHERE id=?", (ident,))
             self.ledger.record(
                 {
                     "state": "conversion_failed_before_disclosure",
                     "id": ident,
                     "at": time.time(),
+                    "reason": "Exact native cost, useful USDC credit, unchanged authority and zero retained rent could not be verified",
                 }
             )
             return

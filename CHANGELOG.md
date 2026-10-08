@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.5 — 2026-10-08
+
+- Decode current Jupiter V2 exact-input routes against the finalized program-owned IDL; retain refusal of unknown layouts, destinations and fees.
+- Verify exact native cost, useful USDC credit, unchanged account authority and retained reserve before requesting a conversion signature.
+- Return temporary WSOL account rent in the same transaction and refuse unreviewed retained rent or unrelated wallet-asset changes.
+- Add a signer-free conversion preflight and an actual unsigned mainnet simulation receipt. Native execution remains disabled.
+- Cover failed economic simulation and ambiguous submission without replacement signing; update the financial activation documentation.
+
 ## 0.6.4 — 2026-10-08
 
 - Add an isolated persistent acquisition controller: explicit free alternatives, quoted virtual costs, delayed chosen-source feedback, failure costs and reconstructible audit records.

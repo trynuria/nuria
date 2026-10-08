@@ -105,6 +105,8 @@ The Resources tab shows payment, delivery and evaluation separately. The origina
 
 ## Verification
 
+Conversion additionally checks complete same-bank native balances and returned wallet accounts before signing. It requires exact SOL input plus quoted gas, minimum USDC output, unchanged USDC authority/rent, no modification of other wallet token accounts and preservation of the native reserve. New retained WSOL rent is refused; temporary wrapping may close in the same transaction. Current V2 instruction layouts were checked against the program-owned IDL and an unsigned mainnet simulation. `commerce.swap_preflight` repeats the read-only route and economic checks without custody or ledger access. This is construction/simulation evidence, not a successful finalized swap. See [the interface review](jupiter-interface-review.json).
+
 Offline tests cover hostile invoices, wrong chains/assets/recipients, private DNS, caps, duplicate decisions, concurrent database handles, crash recovery, uncertain payments, exact settlement deltas, invalid deliveries, Pump mode/program gates, real SDK partial signatures and once-only cognitive feedback. They use ephemeral unfunded fixture keys and synthetic RPC responses. A restricted funded merchant attempt returned a facilitator validation error; successful settlement and delivery remain unproven. Offline tests do not replace the exact launched fee-path verification.
 
 References: [x402 buyers](https://docs.x402.org/getting-started/quickstart-for-buyers), [Solana signing](https://solana.com/docs/core/transactions/signing-in-production), [Pump public interfaces](https://github.com/pump-fun/pump-public-docs).

@@ -40,6 +40,24 @@ This rule establishes a bounded ability to refuse a redundant purchase. It does 
 
 ## Merchant and recovery gates
 
+### Unsigned conversion rehearsal
+
+The converter supports the current `route_v2` and `shared_accounts_route_v2` layouts as well as the retained V1 exact-input layouts. The V2 account roles and argument offsets were read from the finalized program-owned Anchor IDL, rather than assumed from older repository copies. Input, quote, destination, token programs, slippage and zero platform/positive-slippage fees are bound before simulation. Unknown layouts remain refused.
+
+Before custody is contacted, complete same-bank balances must prove the exact native input plus quoted gas, a USDC credit above the configured floor, unchanged USDC rent and authority, and the retained native reserve. A temporary WSOL account may be created and closed inside the transaction with its rent refunded. Existing WSOL accounts are preserved when the build has no close instruction. New retained rent, unrelated wallet-asset changes, missing simulation fields and snapshot races defer the job. These checks complement the deployed program pin and independent custody policy; simulation cannot guarantee final execution.
+
+With the project RPC and Jupiter environment loaded on the financial host, this command retrieves a fresh route and simulates it. It has no signer or ledger access:
+
+```sh
+python -m commerce.swap_preflight \
+  --wallet "$NURIA_OPERATING_ADDRESS" \
+  --input-lamports 1000000 \
+  --minimum-micro-usdc 100000 \
+  --reserve-lamports 10000000
+```
+
+Those numbers describe an unsigned rehearsal, not standing native limits. The result includes actual simulated deltas, fee, reserve, quote/message hashes and current program identity. [Interface and simulation evidence](jupiter-interface-review.json). Native execution is still disabled and requires its own reviewed controls.
+
 The forecast contract needs an actual provider delivering `nuria.forecast.v1`; none has been demonstrated. The separate CoinGecko adapter accepts credential-free Solana-USDC x402 invoices for market context. A funded integration request returned a facilitator validation error; finalized settlement and delivered data remain unverified. A free price endpoint is also available, so a paid price must not be described as a unique capability or learning benefit.
 
 A disclosed authorization never triggers an automatic replacement payment. The worker first checks a retained receipt. Without one, it can inspect finalized wallet transactions back to a checkpoint recorded before signing. A matching transaction still requires exact USDC deltas. An expired blockhash can close the job only after the scan reaches that checkpoint with no matching inclusion. Missing history, transaction data or an old unanchored authorization stays unresolved. This is evidence from the configured RPC provider, not an independent guarantee of complete chain history.
