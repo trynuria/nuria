@@ -6,6 +6,7 @@
 - Suppress form completion, spelling assistance and native numeric/search widgets.
 - Replace the capability table with six grouped sections, readable evidence and status filters; preserve all 51 entries.
 - Fix vertical scrolling over documentation tables; regroup the sidebar and link the Brian2 attribution.
+- Simplify documentation search, prevent icon/label overlap and replace duplicate chapter eyebrows with one uppercase breadcrumb.
 - Add the project contact address and consistent linked GitHub marks.
 - Explain learning, financial authority and evidence with shared vector diagrams and readable mobile layouts.
 - Preserve neural processes, histories and guarded financial execution.

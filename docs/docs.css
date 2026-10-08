@@ -75,7 +75,8 @@
   align-items: center;
   gap: 12px;
   min-height: 36px;
-  width: 240px;
+  width: 190px;
+  flex: none;
   border: 1px solid #2e4432;
   border-radius: 5px;
   background: #101c14;
@@ -85,14 +86,10 @@
   text-align: left;
 }
 .docs-search-trigger svg {
+  display: block;
   height: 14px;
   width: 14px;
-}
-.docs-search-trigger kbd {
-  margin-left: auto;
-  background: none;
-  font: 11px var(--mono);
-  color: var(--dim);
+  flex: none;
 }
 .docs-search-trigger:hover {
   border-color: #728a63;
@@ -202,8 +199,10 @@
   align-items: start;
 }
 .docs-breadcrumb {
-  font-size: 12px;
-  color: var(--dim);
+  font: 11px/1.6 var(--mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -211,16 +210,6 @@
 }
 .docs-breadcrumb span {
   color: var(--green);
-}
-.docs-eyebrow {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  font: 11px var(--mono);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 12px;
 }
 .docs-article h1 {
   font: 450 clamp(32px, 3.4vw, 44px)/1.16 var(--sans);
@@ -710,13 +699,25 @@
   min-height: 44px;
 }
 .docs-search-close {
-  border: 1px solid var(--line);
-  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border: 0;
+  border-radius: 5px;
+  padding: 0;
   color: var(--muted);
   background: none;
-  min-width: 44px;
+  min-width: 36px;
   min-height: 36px;
-  font-size: 11px;
+  cursor: pointer;
+}
+.docs-search-close:hover {
+  color: var(--paper);
+  background: #243026;
+}
+.docs-search-close svg {
+  width: 14px;
+  height: 14px;
 }
 .docs-search-results {
   overflow: auto;
@@ -751,15 +752,6 @@
   color: var(--muted);
   margin-top: 5px;
   line-height: 1.6;
-}
-.docs-search-hint {
-  border-top: 1px solid var(--line);
-  padding: 12px 22px;
-  font: 11px var(--mono);
-  color: var(--dim);
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
 }
 .docs-search-empty {
   padding: 26px 14px;
@@ -804,9 +796,12 @@
     gap: 18px;
   }
   .docs-search-trigger {
-    width: 145px;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    justify-content: center;
   }
-  .docs-search-trigger kbd {
+  .docs-search-trigger span {
     display: none;
   }
   .docs-observe {
@@ -1005,9 +1000,6 @@
   .docs-footer {
     font-size: 11px;
   }
-  .docs-search-hint {
-    font-size: 10px;
-  }
   .docs-breadcrumb {
     font-size: 11px;
   }
@@ -1072,9 +1064,6 @@
 }
 .docs-search-close {
   flex: none;
-}
-.docs-search-hint {
-  flex-wrap: wrap;
 }
 
 /* Reading surfaces share the observatory's neutral palette. */

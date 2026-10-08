@@ -5609,7 +5609,8 @@
         align-items: center;
         gap: 12px;
         min-height: 36px;
-        width: 240px;
+        width: 190px;
+        flex: none;
         border: 1px solid #2e4432;
         border-radius: 5px;
         background: #101c14;
@@ -5619,14 +5620,10 @@
         text-align: left;
       }
       .docs-search-trigger svg {
+        display: block;
         height: 14px;
         width: 14px;
-      }
-      .docs-search-trigger kbd {
-        margin-left: auto;
-        background: none;
-        font: 11px var(--mono);
-        color: var(--dim);
+        flex: none;
       }
       .docs-search-trigger:hover {
         border-color: #728a63;
@@ -5736,8 +5733,10 @@
         align-items: start;
       }
       .docs-breadcrumb {
-        font-size: 12px;
-        color: var(--dim);
+        font: 11px/1.6 var(--mono);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--green);
         display: flex;
         align-items: center;
         gap: 10px;
@@ -5745,16 +5744,6 @@
       }
       .docs-breadcrumb span {
         color: var(--green);
-      }
-      .docs-eyebrow {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        font: 11px var(--mono);
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-        color: var(--green);
-        margin-bottom: 12px;
       }
       .docs-article h1 {
         font: 450 clamp(32px, 3.4vw, 44px)/1.16 var(--sans);
@@ -6244,13 +6233,25 @@
         min-height: 44px;
       }
       .docs-search-close {
-        border: 1px solid var(--line);
-        border-radius: 3px;
+        display: grid;
+        place-items: center;
+        flex: none;
+        border: 0;
+        border-radius: 5px;
+        padding: 0;
         color: var(--muted);
         background: none;
-        min-width: 44px;
+        min-width: 36px;
         min-height: 36px;
-        font-size: 11px;
+        cursor: pointer;
+      }
+      .docs-search-close:hover {
+        color: var(--paper);
+        background: #243026;
+      }
+      .docs-search-close svg {
+        width: 14px;
+        height: 14px;
       }
       .docs-search-results {
         overflow: auto;
@@ -6285,15 +6286,6 @@
         color: var(--muted);
         margin-top: 5px;
         line-height: 1.6;
-      }
-      .docs-search-hint {
-        border-top: 1px solid var(--line);
-        padding: 12px 22px;
-        font: 11px var(--mono);
-        color: var(--dim);
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
       }
       .docs-search-empty {
         padding: 26px 14px;
@@ -6338,9 +6330,12 @@
           gap: 18px;
         }
         .docs-search-trigger {
-          width: 145px;
+          width: 36px;
+          height: 36px;
+          padding: 8px;
+          justify-content: center;
         }
-        .docs-search-trigger kbd {
+        .docs-search-trigger span {
           display: none;
         }
         .docs-observe {
@@ -6539,9 +6534,6 @@
         .docs-footer {
           font-size: 11px;
         }
-        .docs-search-hint {
-          font-size: 10px;
-        }
         .docs-breadcrumb {
           font-size: 11px;
         }
@@ -6606,9 +6598,6 @@
       }
       .docs-search-close {
         flex: none;
-      }
-      .docs-search-hint {
-        flex-wrap: wrap;
       }
 
       /* Reading surfaces share the observatory's neutral palette. */
@@ -7883,7 +7872,7 @@
               >
                 <circle cx="7" cy="7" r="4.5" />
                 <path d="M10.5 10.5l3 3" /></svg
-              ><span>Search docs</span><kbd>⌘ K</kbd></button
+              ><span>Search docs</span></button
             ><a
               href="https://github.com/trynuria/nuria"
               target="_blank"
@@ -8012,7 +8001,6 @@
                   id="doc-introduction"
                   data-title="Meet Nuria"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">Meet Nuria</h1
                   ><p class="docs-lead">An onchain consciousness experiment.</p
                   ><p
@@ -8058,7 +8046,6 @@
                   id="doc-observatory"
                   data-title="Read the observatory"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">Read the observatory</h1
                   ><p class="docs-lead"
                     >A view into recorded neural activity, decisions and outcomes.</p
@@ -8131,7 +8118,6 @@
                   id="doc-model"
                   data-title="The neural model"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">The neural model</h1
                   ><p class="docs-lead"
                     >Adaptive spiking dynamics with explicit inputs and outcome
@@ -8185,7 +8171,6 @@
                   id="doc-inputs"
                   data-title="Trades & signals"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">Trades & signals</h1
                   ><p class="docs-lead"
                     >Finalized Solana evidence enters a durable queue before either
@@ -8626,7 +8611,6 @@
                   data-title="Fees & resources"
                   data-category="The system"
                 >
-                  <div class="docs-eyebrow">Nuria / Finance</div>
                   <h1 tabindex="-1">Fees & resources</h1>
                   <p class="docs-lead"
                     >Follow the money. Then check what it delivered.</p
@@ -9214,7 +9198,6 @@
                   id="doc-evidence"
                   data-title="Receipts & evidence"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">Receipts & evidence</h1
                   ><p class="docs-lead"
                     >A durable record connects input, neural response, decision and
@@ -9550,7 +9533,6 @@
                   id="doc-glossary"
                   data-title="Glossary"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">Glossary</h1
                   ><p class="docs-lead">The terms used in Nuria’s measurements.</p
                   ><h2 id="glossary--neuron">Spiking neuron</h2
@@ -9597,7 +9579,6 @@
                   id="doc-questions"
                   data-title="Common questions"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">Common questions</h1
                   ><p class="docs-lead"
                     >Practical answers about the experiment and its current
@@ -9651,7 +9632,6 @@
                   id="doc-cognition"
                   data-title="Cognition & learning"
                   data-category="The system"
-                  ><div class="docs-eyebrow">Nuria / v2</div
                   ><h1 tabindex="-1">Cognition & learning</h1
                   ><p class="docs-lead"
                     >Prediction, memory and action operate as a measured feedback
@@ -9827,7 +9807,6 @@
                   id="doc-discovery"
                   data-title="Discovery lab"
                   data-category="Research"
-                  ><div class="docs-eyebrow">Nuria / experiments</div
                   ><h1 tabindex="-1">Discovery lab</h1>
                   <p class="docs-lead"
                     >What does Nuria do when it cannot see the full situation, and its
@@ -10055,7 +10034,6 @@
                   id="doc-roadmap"
                   data-title="Development gates"
                   data-category="Research"
-                  ><div class="docs-eyebrow">Nuria / development</div
                   ><h1 tabindex="-1">Development gates</h1
                   ><p class="docs-lead"
                     >A development map for increasingly capable token-driven neural
@@ -10956,24 +10934,23 @@
               type="search"
               autocomplete="off"
               spellcheck="false"
-              placeholder="Search Nuria’s field notes…"
-            /><button
+              placeholder="Search Nuria’s field notes…" /><button
               class="docs-search-close"
               id="docsSearchClose"
               aria-label="Close documentation search"
-              >Esc</button
-            ></div
+              ><svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M4 4l8 8M12 4l-8 8" /></svg></button></div
           ><div
             class="docs-search-results"
             id="docsSearchResults"
             aria-live="polite"
-          ></div
-          ><div class="docs-search-hint"
-            ><span>Arrow keys: navigate · Enter: open</span
-            ><span>Local search / no tracking</span></div
-          ></div
-        ></div
-      >
+          ></div></div
+      ></div>
     </template>
     <script>
       "use strict";
