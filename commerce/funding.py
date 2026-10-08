@@ -1,7 +1,7 @@
 """Pinned standard-Pump collection with durable, once-only submission.
 
 Collection only moves accrued protocol funds to the existing beneficiary. This
-does not give the operating signer control of the beneficiary or reserve vault.
+does not give the operating signer authority over a different beneficiary.
 """
 
 import base64
@@ -56,6 +56,8 @@ class Collector:
         if (
             observation["vault_balance_lamports"]
             + observation.get("amm_vault_wsol_lamports", 0)
+            + observation.get("curve_creator_fee_lamports", 0)
+            + observation.get("pool_creator_fee_lamports", 0)
             < minimum
         ):
             return
@@ -63,6 +65,13 @@ class Collector:
             "SELECT 1 FROM collections WHERE status IN ('reserved','signed','submitted','uncertain')"
         ).fetchone():
             return  # Resolve the old signature before preparing another message.
+        if (
+            observation.get("creator_wallet") != policy.creator_wallet
+            or observation.get("mint") != policy.mint
+        ):
+            raise ValueError(
+                "Collection observation differs from configured beneficiary or mint"
+            )
         deployment = program_identity(self.fetch)
         amm_deployment = (
             program_identity(self.fetch, AMM) if observation.get("graduated") else None
@@ -100,6 +109,14 @@ class Collector:
             "deployment": deployment,
             "amm_deployment": amm_deployment,
             "amm_token_vault": observation.get("amm_token_vault"),
+            "curve": observation.get("curve")
+            if observation.get("curve_creator_fee_lamports", 0)
+            else None,
+            "pool_quote_token_account": observation.get("pool_quote_token_account")
+            if observation.get("pool_creator_fee_lamports", 0)
+            else None,
+            "claim_interface": observation.get("claim_interface"),
+            "rent_ceiling_lamports": 0,
             "last_valid_block_height": recent["lastValidBlockHeight"],
         }
         db = self.ledger.db
@@ -109,6 +126,11 @@ class Collector:
                 "SELECT 1 FROM collections WHERE status IN ('reserved','signed','submitted','uncertain')"
             ).fetchone():
                 raise ValueError("An earlier collection requires reconciliation")
+            latest = db.execute(
+                "SELECT terms FROM collections ORDER BY rowid DESC LIMIT 1"
+            ).fetchone()
+            if latest and now - json.loads(latest[0]).get("prepared_at", 0) < interval:
+                raise ValueError("Collection cadence changed during preparation")
             committed = db.execute(
                 "SELECT coalesce(sum(fee),0) FROM collections WHERE day=?", (day,)
             ).fetchone()[0]
@@ -131,20 +153,49 @@ class Collector:
         except Exception:
             db.execute("ROLLBACK")
             raise
-        simulation = self.fetch(
-            "simulateTransaction",
-            [
-                base64.b64encode(bytes(tx)).decode(),
-                {"encoding": "base64", "sigVerify": False, "commitment": "finalized"},
-            ],
-        )
-        if simulation["value"].get("err") is not None:
+        # This adapter has no rent authority. Verify simulated account layouts
+        # before signing, including unused native-quote ATA placeholders.
+        addresses = [
+            str(key)
+            for n, key in enumerate(tx.message.account_keys)
+            if writable(tx.message, n)
+        ]
+        try:
+            before = self.fetch(
+                "getMultipleAccounts",
+                [
+                    addresses,
+                    {
+                        "encoding": "base64",
+                        "commitment": "finalized",
+                        "minContextSlot": observation["slot"],
+                    },
+                ],
+            )
+            simulation = self.fetch(
+                "simulateTransaction",
+                [
+                    base64.b64encode(bytes(tx)).decode(),
+                    {
+                        "encoding": "base64",
+                        "sigVerify": False,
+                        "commitment": "finalized",
+                        "minContextSlot": before["context"]["slot"],
+                        "accounts": {"encoding": "base64", "addresses": addresses},
+                    },
+                ],
+            )
+            if simulation["value"].get("err") is not None:
+                raise ValueError("Claim simulation failed")
+            reject_rent_changes(before["value"], simulation["value"].get("accounts"))
+        except Exception:
             db.execute("UPDATE collections SET status='failed' WHERE id=?", (ident,))
             self.ledger.record(
                 {
                     "state": "collection_failed_before_disclosure",
                     "id": ident,
                     "at": time.time(),
+                    "reason": "Simulation evidence failed or requires unapproved account rent",
                 }
             )
             return
@@ -227,7 +278,8 @@ class Collector:
                 base64.b64decode(tx["transaction"][0], validate=True)
             )
             if (
-                str(wire.signatures[0]) != signature
+                not all(wire.verify_with_results())
+                or str(wire.signatures[0]) != signature
                 or hashlib.sha256(to_bytes_versioned(wire.message)).hexdigest()
                 != expected
             ):
@@ -245,21 +297,25 @@ class Collector:
             if str(wire.message.account_keys[0]) == terms["creator_wallet"]:
                 credit += meta["fee"]
             debit = meta["preBalances"][vault] - meta["postBalances"][vault]
+            curve_debit = 0
+            if terms.get("curve"):
+                curve_index = keys.index(terms["curve"])
+                curve_debit = (
+                    meta["preBalances"][curve_index] - meta["postBalances"][curve_index]
+                )
+                debit += curve_debit
+            pool_debit = 0
+            if terms.get("pool_quote_token_account"):
+                pool_debit = token_debit(
+                    meta, keys.index(terms["pool_quote_token_account"])
+                )
+                debit += pool_debit
             if terms.get("amm_token_vault"):
-                token_index = keys.index(terms["amm_token_vault"])
-                before = sum(
-                    int(r["uiTokenAmount"]["amount"])
-                    for r in meta.get("preTokenBalances", [])
-                    if r["accountIndex"] == token_index
-                )
-                after = sum(
-                    int(r["uiTokenAmount"]["amount"])
-                    for r in meta.get("postTokenBalances", [])
-                    if r["accountIndex"] == token_index
-                )
-                debit += before - after
+                debit += token_debit(meta, keys.index(terms["amm_token_vault"]))
             success = meta.get("err") is None
-            if success and (credit <= 0 or credit != debit):
+            if success and (
+                credit < 0 or curve_debit < 0 or pool_debit < 0 or credit != debit
+            ):
                 raise ValueError(
                     "Collection beneficiary credit does not match vault debit"
                 )
@@ -282,6 +338,9 @@ class Collector:
                         "collected_lamports": credit if success else 0,
                         "net_creator_delta_lamports": net_credit,
                         "network_fee_lamports": meta["fee"],
+                        "rent_lamports": 0 if terms.get("claim_interface") else None,
+                        "curve_swept_lamports": curve_debit if success else 0,
+                        "pool_swept_lamports": pool_debit if success else 0,
                         "finalized": True,
                         "scope": "Creator-vault collection; accumulated funds may cover several mints.",
                     }
@@ -290,3 +349,59 @@ class Collector:
             except Exception:
                 db.execute("ROLLBACK")
                 raise
+
+
+def reject_rent_changes(before, after):
+    """A native collector without a rent budget must not allocate accounts."""
+    from commerce.solana import account_bytes
+
+    if (
+        not isinstance(before, list)
+        or not isinstance(after, list)
+        or len(before) != len(after)
+    ):
+        raise ValueError("Claim account simulation is incomplete")
+    for pre, post in zip(before, after, strict=True):
+        if not pre and post:
+            raise ValueError("Claim would create an account with unapproved rent")
+        if pre and not post:
+            raise ValueError("Claim would unexpectedly close an account")
+        if (
+            pre
+            and post
+            and (
+                pre.get("owner") != post.get("owner")
+                or len(account_bytes(pre)) != len(account_bytes(post))
+            )
+        ):
+            raise ValueError("Claim would change ownership or account allocation")
+
+
+def token_debit(meta, index):
+    def units(rows):
+        matching = [r for r in rows if r["accountIndex"] == index]
+        if len(matching) > 1:
+            raise ValueError("Duplicate claim token balance")
+        if not matching:
+            return 0
+        value = matching[0]
+        from commerce.fees import WSOL
+
+        if value.get("mint") != WSOL or value["uiTokenAmount"].get("decimals") != 9:
+            raise ValueError("Claim token balance is not native WSOL")
+        return int(value["uiTokenAmount"]["amount"])
+
+    return units(meta.get("preTokenBalances", [])) - units(
+        meta.get("postTokenBalances", [])
+    )
+
+
+def writable(message, index):
+    header = message.header
+    signed = header.num_required_signatures
+    return (
+        index < signed - header.num_readonly_signed_accounts
+        or signed
+        <= index
+        < len(message.account_keys) - header.num_readonly_unsigned_accounts
+    )

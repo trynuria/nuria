@@ -1,4 +1,4 @@
-"""Read-only Pump fee-path checks and a standard-mode unsigned claim plan.
+"""Read-only Pump fee-path checks and a swept standard-native claim plan.
 
 This deliberately rejects sharing, holder rewards, USDC curves and legacy layouts
 until their deployed versions have their own reviewed adapters.
@@ -61,13 +61,42 @@ SYSTEM = "11111111111111111111111111111111"
 WSOL = "So11111111111111111111111111111111111111112"
 LOADER = "BPFLoaderUpgradeab1e11111111111111111111111"
 CURVE_DISC = hashlib.sha256(b"account:BondingCurve").digest()[:8]
-COLLECT_DISC = bytes([20, 22, 86, 123, 198, 28, 219, 132])
+COLLECT_DISC = bytes([207, 17, 138, 242, 4, 34, 19, 56])
+SWEEP_DISC = bytes([32, 246, 191, 52, 8, 201, 73, 186])
+
+
+def constant_pda(seed, program):
+    return str(Pubkey.find_program_address([seed], Pubkey.from_string(program))[0])
+
+
+def trailing_u64(raw, offset):
+    """Absent append-only fields are zero; partial fields are not evidence."""
+    if len(raw) <= offset:
+        return 0
+    if len(raw) < offset + 8:
+        raise ValueError("Truncated Pump fee field")
+    return int.from_bytes(raw[offset : offset + 8], "little")
 
 
 def pda(seed, address, program=PUMP):
     return str(
         Pubkey.find_program_address(
             [seed, bytes(Pubkey.from_string(address))], Pubkey.from_string(program)
+        )[0]
+    )
+
+
+def canonical_pool(mint):
+    return str(
+        Pubkey.find_program_address(
+            [
+                b"pool",
+                bytes(2),
+                bytes(Pubkey.from_string(pda(b"pool-authority", mint))),
+                bytes(Pubkey.from_string(mint)),
+                bytes(Pubkey.from_string(WSOL)),
+            ],
+            Pubkey.from_string(AMM),
         )[0]
     )
 
@@ -86,7 +115,7 @@ def observe(mint, creator, fetch, pool=None):
     if not curve or curve.get("owner") != PUMP:
         raise ValueError("Mint has no verified Pump bonding curve")
     raw = account_bytes(curve)
-    if len(raw) < 131 or raw[:8] != CURVE_DISC:
+    if len(raw) < 125 or raw[:8] != CURVE_DISC:
         raise ValueError("Pump layout lacks explicit mode fields")
     actual_creator = str(Pubkey.from_bytes(raw[49:81]))
     quote_mint = str(Pubkey.from_bytes(raw[83:115]))
@@ -96,6 +125,7 @@ def observe(mint, creator, fetch, pool=None):
         raw[48] not in (0, 1)
         or raw[81] not in (0, 1)
         or raw[82] not in (0, 1)
+        or raw[123] not in (0, 1)
         or raw[124] not in (0, 1)
     ):
         raise ValueError("Pump mode fields are malformed")
@@ -120,8 +150,11 @@ def observe(mint, creator, fetch, pool=None):
         "quote_mint": quote_mint,
         "standard_claim_supported": supported,
         "vault_balance_lamports": vault["lamports"] if vault else 0,
+        "curve_creator_fee_lamports": trailing_u64(raw, 125),
+        "curve_protocol_fee_lamports": trailing_u64(raw, 133),
+        "claim_interface": "native_sweep_v2",
         "attributed_nuria_fees_lamports": None,
-        "scope": "Creator vault can aggregate multiple coins. Balance is not token-specific fee income. PumpSwap claims require a separate verified adapter.",
+        "scope": "Retained curve fees are mint-specific accrual, not wallet receipts. Creator vault balance may cover multiple coins; collection is not token-specific income.",
     }
     if observation["graduated"]:
         observation["standard_claim_supported"] = False
@@ -130,6 +163,8 @@ def observe(mint, creator, fetch, pool=None):
                 "Graduated curve requires its exact verified PumpSwap pool. No collection is authorized."
             )
             return observation
+        if pool != canonical_pool(mint):
+            raise ValueError("Claim requires the canonical migrated PumpSwap pool")
         amm = fetch(
             "getAccountInfo", [pool, {"encoding": "base64", "commitment": "finalized"}]
         )["value"]
@@ -137,7 +172,7 @@ def observe(mint, creator, fetch, pool=None):
             raise ValueError("Configured PumpSwap pool owner differs")
         data = account_bytes(amm)
         if (
-            len(data) < 287
+            len(data) < 271
             or data[:8] != hashlib.sha256(b"account:Pool").digest()[:8]
             or str(Pubkey.from_bytes(data[43:75])) != mint
             or str(Pubkey.from_bytes(data[75:107])) != WSOL
@@ -171,12 +206,16 @@ def observe(mint, creator, fetch, pool=None):
             amm_vault_authority=authority,
             amm_token_vault=token_vault,
             amm_vault_wsol_lamports=amount,
+            pool_creator_fee_lamports=trailing_u64(data, 279),
+            pool_protocol_fee_lamports=trailing_u64(data, 271),
+            pool_quote_token_account=str(Pubkey.from_bytes(data[171:203])),
             standard_claim_supported=supported
-            and int.from_bytes(data[245:261], "little", signed=True) == 0
+            and int.from_bytes(data[245:261], "little", signed=True) <= 0
             and not data[243]
             and not data[244]
-            and not data[270],
-            scope="Verified standard WSOL PumpSwap pool and aggregate creator vault; token-specific income is not inferred.",
+            and not data[270]
+            and str(Pubkey.from_bytes(data[171:203])) == associated(pool, WSOL),
+            scope="Verified standard WSOL PumpSwap pool. Retained pool and curve fee buckets are accrual; aggregate creator-vault collection is not inferred as mint-specific revenue.",
         )
     return observation
 
@@ -224,21 +263,64 @@ def claim_plan(
     creator = observation["creator_wallet"]
     if observation["vault"] != pda(b"creator-vault", creator):
         raise ValueError("Claim vault differs from beneficiary PDA")
-    event = str(
-        Pubkey.find_program_address([b"__event_authority"], Pubkey.from_string(PUMP))[0]
-    )
-    instruction = Instruction(
-        Pubkey.from_string(PUMP),
+    if (
+        observation.get("claim_interface") != "native_sweep_v2"
+        or observation.get("curve") != pda(b"bonding-curve", observation["mint"])
+        or observation.get("quote_mint") not in (SYSTEM, WSOL)
+    ):
+        raise ValueError("Claim requires the reviewed native sweep interface")
+    event = constant_pda(b"__event_authority", PUMP)
+
+    def instruction(program, discriminator, roles):
+        return Instruction(
+            Pubkey.from_string(program),
+            discriminator,
+            [
+                AccountMeta(Pubkey.from_string(a), signer, writable)
+                for a, signer, writable in roles
+            ],
+        )
+
+    curve, vault = observation["curve"], observation["vault"]
+    collect = instruction(
+        PUMP,
         COLLECT_DISC,
         [
-            AccountMeta(Pubkey.from_string(creator), False, True),
-            AccountMeta(Pubkey.from_string(observation["vault"]), False, True),
-            AccountMeta(Pubkey.from_string(SYSTEM), False, False),
-            AccountMeta(Pubkey.from_string(event), False, False),
-            AccountMeta(Pubkey.from_string(PUMP), False, False),
+            (creator, False, True),
+            (associated(creator, WSOL), False, True),
+            (vault, False, True),
+            (associated(vault, WSOL), False, True),
+            (WSOL, False, False),
+            (TOKEN, False, False),
+            (ATA, False, False),
+            (SYSTEM, False, False),
+            (event, False, False),
+            (PUMP, False, False),
         ],
     )
     instructions = []
+    if observation.get("curve_creator_fee_lamports", 0):
+        instructions.append(
+            instruction(
+                PUMP,
+                SWEEP_DISC,
+                [
+                    (payer, True, True),
+                    (constant_pda(b"global", PUMP), False, False),
+                    (observation["mint"], False, False),
+                    (WSOL, False, False),
+                    (TOKEN, False, False),
+                    (ATA, False, False),
+                    (SYSTEM, False, False),
+                    (curve, False, True),
+                    (associated(curve, WSOL), False, True),
+                    (vault, False, True),
+                    (associated(vault, WSOL), False, True),
+                    (event, False, False),
+                    (PUMP, False, False),
+                ],
+            )
+        )
     if observation.get("graduated"):
         if (
             not amm_deployment
@@ -257,6 +339,30 @@ def claim_plan(
                 [b"__event_authority"], Pubkey.from_string(AMM)
             )[0]
         )
+        if observation.get("pool_creator_fee_lamports", 0):
+            pool = observation["pool"]
+            if observation.get("pool_quote_token_account") != associated(pool, WSOL):
+                raise ValueError("Pool fee source is not its verified quote account")
+            instructions.append(
+                instruction(
+                    AMM,
+                    SWEEP_DISC,
+                    [
+                        (payer, True, True),
+                        (constant_pda(b"global_config", AMM), False, False),
+                        (pool, False, True),
+                        (WSOL, False, False),
+                        (TOKEN, False, False),
+                        (observation["pool_quote_token_account"], False, True),
+                        (observation["amm_vault_authority"], False, False),
+                        (observation["amm_token_vault"], False, True),
+                        (SYSTEM, False, False),
+                        (ATA, False, False),
+                        (amm_event, False, False),
+                        (AMM, False, False),
+                    ],
+                )
+            )
         roles = [
             (WSOL, False),
             (TOKEN, False),
@@ -276,7 +382,7 @@ def claim_plan(
                 [AccountMeta(Pubkey.from_string(a), False, w) for a, w in roles],
             )
         )
-    instructions.append(instruction)
+    instructions.append(collect)
     transaction = Transaction.new_unsigned(
         Message.new_with_blockhash(
             instructions, Pubkey.from_string(payer), Hash.from_string(blockhash)

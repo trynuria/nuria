@@ -56,7 +56,7 @@ The read-only observer can fetch a finalized balance after an exact mint and cre
 
 **Financial execution is disabled. Local jobs spend zero SOL.** The isolated commerce service implements exact Solana USDC x402 purchases, durable reservations, pre-sign message inspection, simulation, finalized settlement checks and delivery/outcome records. Activation requires the exact token, a dedicated funded spending wallet, approved limits, an isolated signer and a compatible provider. The public API and cognitive worker receive no signing key.
 
-The first external job is a structured, time-limited token forecast. Actual later finalized outcomes can update the purchasing action’s learned value once. A fixture test is not a paid production purchase. Pump claim preparation is unsigned; automatic collection-wallet funding and SOL-to-USDC swaps are not connected. See [the execution contract](docs/spending.md).
+The first external job is a structured, time-limited token forecast. Actual later finalized outcomes can update the purchasing action’s learned value once. A fixture test is not a paid production purchase. The native Pump claim planner includes retained-fee sweeps and current collection interfaces, with unsigned vectors checked against the official SDK. Exact-token finalized claims and SOL-to-USDC swaps are not connected. Basic SOL/USD context has a persisted free-source alternative; unavailable data defers that price purchase and earns no neural-learning reward. See [the execution contract](docs/spending.md).
 
 ![Nuria’s financial authority: creator collection, direct managed inventory and bounded purchases](brand/flows/authority.svg)
 

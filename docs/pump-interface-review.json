@@ -1,0 +1,37 @@
+{
+  "reviewed_utc": "2026-10-08T05:21:42.653965+00:00",
+  "official_docs_commit": "8cda1fa30ea658b20909d8aedf002047119388d2",
+  "official_docs_commit_date": "2026-10-07T20:11:31Z",
+  "sources": [
+    {
+      "url": "https://github.com/pump-fun/pump-public-docs/blob/8cda1fa30ea658b20909d8aedf002047119388d2/idl/pump.json",
+      "download_sha256": "38b8abcc5b279bda85cf473e7c6f67bd15eb89df658cf93434687a43c88ad937"
+    },
+    {
+      "url": "https://github.com/pump-fun/pump-public-docs/blob/8cda1fa30ea658b20909d8aedf002047119388d2/idl/pump_amm.json",
+      "download_sha256": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b"
+    }
+  ],
+  "sdk_versions": {
+    "pump": "3.2.0",
+    "pump_swap": "2.1.0"
+  },
+  "unsigned_instruction_vectors_matched": 4,
+  "live_programs": [
+    {
+      "program": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+      "program_data": "B5MvUwXdiW1NMM6QFFD3ssPKBujD4zMohncbM73Z2BQu",
+      "program_data_sha256": "dc3a91d8c35b3017715daf83d54d58a2fd15fb3d20e94edc1fcb69847b8925e0"
+    },
+    {
+      "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+      "program_data": "6naEzKeUuFh1Jeeu51NXQgr5qkXgXtc9WKNct4xynVJc",
+      "program_data_sha256": "e457605738da1db3eb59b5749da24b5d33a634f242cdb14939d4f17c2066bb3f"
+    }
+  ],
+  "broadcast": false,
+  "exact_launch_mint": null,
+  "finalized_claim_verified": false,
+  "rent_ceiling_lamports": 0,
+  "scope": "Official IDL and SDK instruction comparison plus finalized read-only executable identity. Deployed-code correspondence and exact-token execution remain unverified; pinned hashes are observations, not automatic activation approval."
+}

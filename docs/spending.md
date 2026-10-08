@@ -17,7 +17,7 @@ Pump/PumpSwap trade
   → future measured outcome + purchasing-action credit
 ```
 
-These stages are distinct integrations. The managed exact-USDC buyer, legacy collection adapter, optional creator-to-agent forwarding and constrained Jupiter converter have offline tests. The preferred route uses one managed agent wallet as the creator beneficiary and spending address. Its recovery owner is separate from the restricted runtime delegate. Production remains disabled. New Pump sweep-and-claim interfaces and the exact launch identity still require review; unsupported modes remain blocked. Collection checks are at least sixty seconds apart, with durable cadence and unresolved-submission protection.
+These stages are distinct integrations. The managed exact-USDC buyer, standard native sweep-and-collection adapter, optional creator-to-agent forwarding and constrained Jupiter converter have offline tests. The preferred route uses one managed agent wallet as the creator beneficiary and spending address. Its recovery owner is separate from the restricted runtime delegate. Production remains disabled. Unsigned sweep and collection instructions match current official SDK vectors; the exact launch identity and successful live claims remain gates. Simulation rejects account-rent changes; unsupported modes remain blocked. Collection checks are at least sixty seconds apart, with durable cadence and unresolved-submission protection.
 
 A creator vault can aggregate income from multiple coins. Its whole balance cannot be attributed to Nuria without mint-specific trade and payout evidence. A permissionless payout says who received funds, not who endorsed the project.
 
@@ -128,3 +128,9 @@ See [financial activation](launch-finance.md) for exact prerequisites, custody a
 A 2026-10-08 probe on the dedicated production host wrote 100,000 synthetic financial events with SQLite FULL/WAL durability in 65.57 seconds (about 1,525 events/second), exported all 400 pages in 9.10 seconds and verified every hash link in 8.01 seconds. The isolated unit was limited to 25% of one CPU and 256 MiB; measured peak RSS was 22,272 KiB. The fixture never touched production balances, signing or the production ledger. [Machine-readable measurement](finance-capacity.json).
 
 This measures event persistence, export and verification. It is not a real-trade ingest benchmark, browser-load test, merchant throughput measurement or 24-hour soak. RPC retention, provider quotas, payment signatures, disk growth and recovery capacity remain separate limits. Nothing is advertised as unlimited.
+
+## Free information and purchase refusal
+
+`commerce.information.InformationChoice` persists a fixed free alternative for basic SOL/USD context. It validates a positive finite price and the source timestamp, retains the response hash and reuses fresh data without changing its receipt time. It polls no more than once a minute. A suitable free response declines the basic paid-price adapter. An unavailable response defers that purchase because its incremental value has not been established. It neither changes another provider's forecast semantics nor rewards the neural model.
+
+The record reports a declined price ceiling, not a fabricated saving from an invoice never paid. Choosing, paying, receiving bytes and measuring later usefulness remain distinct events. This policy is a bounded engineering choice; it is not evidence of a new learning algorithm.

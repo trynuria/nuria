@@ -392,10 +392,12 @@
             <p
               >Collection requires the exact mint, beneficiary, launch mode and deployed
               program hashes. New Pump trade interfaces retain fees on the curve or pool
-              and need a sweep before the claim. That new sequence still requires
-              adapter review; production collection remains disabled. Sharing, holder
-              rewards, cashback, mayhem and unknown layouts stay blocked. Creator-vault
-              balances can cover multiple tokens.</p
+              and need a sweep before the claim. The native adapter now matches the
+              official SDK’s unsigned sweep and collection instructions. Successful
+              claims for the exact token remain unverified; production collection stays
+              disabled. Account creation or resizing requires separate rent authority.
+              Sharing, holder rewards, cashback, mayhem and unknown layouts stay
+              blocked. Creator-vault balances can cover multiple tokens.</p
             >
             <p
               >If a separate project managed creator wallet is needed, its own
@@ -403,6 +405,12 @@
               explicit native and gas limits. A manually controlled launch wallet
               requires manual forwarding. Configuration cannot redirect the protocol
               beneficiary or grant access to an unrelated wallet.</p
+            >
+            <p
+              >The basic SOL/USD job checks a free public source before buying the same
+              context. Fresh results, their original timestamps and response hashes are
+              recorded. Missing or stale data defers the purchase. This is a resource
+              choice, with no invented payment or learning reward.</p
             >
             <h2 id="resources--payments">What a payment proves</h2>
             <p

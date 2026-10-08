@@ -63,6 +63,68 @@ class SDKTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             inspect_message(raw, str(merchant.pubkey()), accepted)
 
+    def test_latest_typescript_fixture_has_the_same_payment_intent(self):
+        fixture = json.loads(
+            (Path(__file__).parent / "fixtures-x402-typescript.json").read_text()
+        )
+        key = Keypair.from_seed(bytes(range(1, 33)))
+
+        class FixtureScheme(ExactSvmScheme):
+            def _get_client(self, network):
+                data = bytearray(82)
+                data[44], data[45] = 6, 1
+                return SimpleNamespace(
+                    get_account_info=lambda _: SimpleNamespace(
+                        value=SimpleNamespace(
+                            owner=Pubkey.from_string(TOKEN), data=bytes(data)
+                        )
+                    ),
+                    get_latest_blockhash=lambda: SimpleNamespace(
+                        value=SimpleNamespace(blockhash=Hash.default())
+                    ),
+                )
+
+        result = authorize(
+            key, fixture["accepted"], "unused-offline-fixture", FixtureScheme
+        )
+        payload = json.loads(base64.b64decode(result["header"]))
+        actual = VersionedTransaction.from_bytes(
+            base64.b64decode(payload["payload"]["transaction"])
+        )
+        expected = VersionedTransaction.from_bytes(
+            base64.b64decode(fixture["transaction"])
+        )
+
+        def intent(wire):
+            keys = [str(k) for k in wire.message.account_keys]
+            return [
+                {
+                    "program": keys[ix.program_id_index],
+                    "data": bytes(ix.data),
+                    "accounts": [
+                        (
+                            keys[i],
+                            wire.message.is_signer(i),
+                            wire.message.is_maybe_writable(i),
+                        )
+                        for i in ix.accounts
+                    ],
+                }
+                for ix in wire.message.instructions
+            ]
+
+        self.assertEqual(intent(actual), intent(expected))
+        self.assertEqual(
+            actual.message.recent_blockhash, expected.message.recent_blockhash
+        )
+        for wire in (actual, expected):
+            inspect_message(
+                b"\x80" + bytes(wire.message), fixture["wallet"], fixture["accepted"]
+            )
+            self.assertTrue(
+                wire.signatures[1].verify(key.pubkey(), b"\x80" + bytes(wire.message))
+            )
+
     def test_invoice_to_settlement_delivery_and_measured_outcome(self):
         key, facilitator, merchant = Keypair(), Keypair(), Keypair()
         mint = str(Keypair().pubkey())

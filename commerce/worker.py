@@ -26,6 +26,7 @@ from commerce.config import SOURCE, Policy
 from commerce.evidence import export_pages
 from commerce.fees import observe as fee_observation
 from commerce.funding import Collector
+from commerce.information import InformationChoice
 from commerce.ledger import Ledger, canonical
 from commerce.managed import ManagedSigner, invoke
 from commerce.recovery import history_anchor, inspect_history
@@ -409,6 +410,7 @@ def main():
     ledger = Ledger(private / "commerce.sqlite3")
     executor = Executor(ledger)
     collector = Collector(ledger, rpc)
+    information = InformationChoice(ledger)
     converter = Converter(ledger, rpc)
     sweeper = Sweeper(ledger, rpc)
     stop = threading.Event()
@@ -547,6 +549,11 @@ def main():
                     else None
                 )
                 if selected:
+                    choice = information.consider(selected, time.time())
+                    if choice is not None:
+                        result["information_choice"] = choice
+                        selected = None
+                if selected:
                     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
                     daily = ledger.db.execute(
                         "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=?", (day,)
@@ -586,7 +593,7 @@ def main():
         }
         result["feedback"] = executor.feedback()
         result["learning_rule"] = (
-            "Choose matching neural action when 0.5 uncertainty + 0.25 surprise + 0.25 learned provider reward - 0.1 relative cost exceeds 0.1. Reward: local Brier error minus paid Brier error minus 0.01 × USDC price."
+            "Fresh free SOL/USD context displaces the basic paid-price adapter; unavailable free data defers that purchase. Structured forecasts still choose matching neural action when 0.5 uncertainty + 0.25 surprise + 0.25 learned provider reward - 0.1 relative cost exceeds 0.1. Reward: local Brier error minus paid Brier error minus 0.01 × USDC price."
         )
         result["scope"] = (
             "Privy-managed exact USDC purchases and gated standard-Pump claims into the verified creator beneficiary. Direct creator funding uses the same fee and operating wallet; no reserve multisig is used. SOL conversion has separate native ceilings. No consciousness result is established."

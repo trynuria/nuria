@@ -18,7 +18,16 @@ from solders.transaction import VersionedTransaction
 
 from commerce.config import NETWORK, TOKEN, USDC, Policy, Provider
 from commerce.evidence import export_pages, verify_pages
-from commerce.fees import AMM, CURVE_DISC, PUMP, SYSTEM, WSOL, claim_plan, observe
+from commerce.fees import (
+    AMM,
+    CURVE_DISC,
+    PUMP,
+    SYSTEM,
+    WSOL,
+    canonical_pool,
+    claim_plan,
+    observe,
+)
 from commerce.funding import Collector
 from commerce.ledger import Ledger
 from commerce.managed import ManagedSigner
@@ -136,7 +145,11 @@ class FinancialRailTests(unittest.TestCase):
             "daily_gas_lamports": 5000,
             "interval_seconds": 60,
         }
-        observation = {"vault_balance_lamports": 1_000_000}
+        observation = {
+            "vault_balance_lamports": 1_000_000,
+            "creator_wallet": wallet,
+            "mint": None,
+        }
         self.assertIsNone(worker.collect(observation, policy, None, controls, 1059))
         self.assertEqual(calls, [])
         with self.assertRaises(ValueError):
@@ -725,6 +738,7 @@ class FinancialRailTests(unittest.TestCase):
 
     def test_graduated_pump_claim_preserves_curve_gates_and_pins_both_programs(self):
         mint, creator, pool, payer = [str(Keypair().pubkey()) for _ in range(4)]
+        pool = canonical_pool(mint)
         curve = bytearray(160)
         curve[:8] = CURVE_DISC
         curve[48] = 1
@@ -734,6 +748,7 @@ class FinancialRailTests(unittest.TestCase):
         amm[43:75] = bytes(Pubkey.from_string(mint))
         amm[75:107] = bytes(Pubkey.from_string(WSOL))
         amm[211:243] = bytes(Pubkey.from_string(creator))
+        amm[171:203] = bytes(Pubkey.from_string(associated(pool, WSOL)))
 
         def account(owner, raw):
             return {"owner": owner, "data": [base64.b64encode(raw).decode(), "base64"]}
