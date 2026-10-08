@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.2 — 2026-10-08
+
+- Connect one shared token profile to ingestion, fee-wallet observation, commerce and the public website; expose test mode separately from the launch identity.
+- Read finalized Solana v1 transactions and verify non-SOL quote units, retaining exact raw BTC amounts and per-mint trade accrual.
+- Preserve earlier token cursors and pending decoding failures, while keeping test forecast sources distinct from production.
+- Add a verified profile-switch command and runtime docs identity card; keep all signing and spending disabled.
+
 ## 0.7.1 — 2026-10-08
 
 - Add durable commission requests tied to recorded decisions, shared spending ceilings, explicit delivery deadlines and restart-safe ambiguous-order handling.

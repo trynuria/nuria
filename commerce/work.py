@@ -139,6 +139,7 @@ def snapshot(ledger, commerce, limit=80):
         "updated_utc": commerce["updated_utc"],
         "phase": commerce["phase"],
         "financial_execution": commerce["financial_execution"],
+        "token": commerce.get("token"),
         "jobs": jobs,
         "total_jobs": total,
         "coverage": {

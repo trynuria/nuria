@@ -431,6 +431,7 @@ function renderWork(evidence) {
   $("workSpent").textContent = commerceMoney(money.settled_micro_usdc);
   $("workExecution").textContent = evidence.financial_execution ? "Enabled" : "Off";
   $("workCreator").textContent = policy.creator_wallet || "Not configured";
+  $("copyWorkCreator").disabled = !policy.creator_wallet;
   $("workWallet").textContent = policy.spending_wallet || "Not configured";
   $("copyWorkWallet").disabled = !policy.spending_wallet;
   $("workPolicy").textContent =
@@ -510,6 +511,7 @@ function clearWork() {
   for (const id of ["workCreator", "workWallet", "workPolicy"])
     $(id).textContent = "Unavailable";
   $("copyWorkWallet").disabled = true;
+  $("copyWorkCreator").disabled = true;
   $("workJobs").replaceChildren(
     workEmpty(
       "Work evidence unavailable",
@@ -560,4 +562,14 @@ $("copyWorkWallet").addEventListener("click", async () => {
   }
 });
 pollWork();
+$("copyWorkCreator").addEventListener("click", async () => {
+  const wallet = workSnapshot?.money.policy.creator_wallet;
+  if (!wallet) return;
+  try {
+    await navigator.clipboard.writeText(wallet);
+    $("copyWorkCreator").textContent = "Copied";
+  } catch (_) {
+    $("copyWorkCreator").textContent = "Select address";
+  }
+});
 setInterval(pollWork, 5000);

@@ -2388,7 +2388,7 @@
                           >View its work </a
                         ><a href="/?page=docs" class="text-link">Read the docs </a></div
                       ><div class="token-link" id="tokenLink"
-                        ><span>CA</span><code id="mintAddress"></code
+                        ><span id="tokenMode">CA</span><code id="mintAddress"></code
                         ><button
                           class="copy-btn"
                           id="copyMint"
@@ -3107,6 +3107,7 @@
         }
         state = s;
         const live = !!s.feed?.mint,
+          testToken = s.token?.mode === "test" || s.feed?.mode === "test",
           healthy =
             s.phase === "running" && Date.now() - Date.parse(s.updated_utc) < 15000;
         $("statusPill").textContent = healthy
@@ -3124,17 +3125,19 @@
           ? "Updated " + new Date(s.updated_utc).toLocaleTimeString()
           : "Awaiting server";
         $("sourceTitle").textContent = live
-          ? "Solana · " + s.feed.phase
+          ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
           : "Simulation input stream";
         $("sourceDetail").textContent = live
           ? s.feed.error || "Mint " + s.feed.mint
           : "Test signals; no mint connected. Configure a mint to observe finalized Pump/PumpSwap trades.";
         $("tradeControls").classList.add("hidden");
         $("feedBadge").textContent = live
-          ? "Solana · " + s.feed.phase
+          ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
           : "Simulation inputs";
         $("fieldSource").textContent = live
-          ? "Inputs: finalized Solana"
+          ? testToken
+            ? "Inputs: finalized test token"
+            : "Inputs: finalized Solana"
           : "Inputs: simulation";
         $("coverage").textContent = s.feed?.coverage || "Coverage unknown";
         if (s.error) $("inputStatus").textContent = s.error;
@@ -3175,10 +3178,13 @@
         $("feeTotal").textContent = Number.isFinite(treasury?.balance_sol)
           ? treasury.balance_sol.toFixed(6)
           : "—";
-        $("observedFees").textContent = Number.isFinite(
-          s.treasury?.live_observed_accrual?.SOL,
-        )
-          ? money(s.treasury.live_observed_accrual.SOL)
+        const quoteUnit = s.token?.quote_unit || s.feed?.quote_unit || "SOL";
+        const quoteDecimals = s.token?.quote_decimals ?? s.feed?.quote_decimals ?? 9;
+        const accrual = s.feed?.recorded_accrual?.find(
+          (item) => item.unit === quoteUnit,
+        );
+        $("observedFees").textContent = Number.isFinite(accrual?.amount)
+          ? accrual.amount.toFixed(Math.min(9, quoteDecimals)) + " " + quoteUnit
           : "Unknown";
         $("creatorWallet").textContent = treasury?.wallet || "Not connected";
         $("fundsReceived").textContent = Number.isFinite(
@@ -3202,12 +3208,15 @@
         $("receiptCount").textContent = fmt(s.durable_receipts);
         $("spikeTotal").textContent = fmt(s.spikes_total);
         $("queueCount").textContent = fmt(s.queued_inputs);
-        $("unresolved").textContent = fmt(s.unresolved_transactions);
+        $("unresolved").textContent = fmt(
+          s.feed?.unresolved_transactions ?? s.unresolved_transactions,
+        );
         $("chainStatus").textContent = s.receipt_pending
           ? fmt(s.receipt_pending) + " recent ticks awaiting durable checkpoint."
           : "Latest ticks saved to a durable checkpoint.";
         $("tokenLink").classList.toggle("connected", live);
         $("mintAddress").textContent = s.feed?.mint || "";
+        $("tokenMode").textContent = testToken ? "TEST CA" : "CA";
         drawHistory();
       }
 
@@ -3247,11 +3256,19 @@
           (e.source === "test" ? "Test " : "") + (e.side === "buy" ? "buy " : "sell ");
         $("traceInput").style.color = e.side === "buy" ? "var(--green)" : "var(--pink)";
         $("traceAmount").textContent =
-          fmt(e.quote_amount, 4) + " " + (e.quote_unit || "unknown quote");
+          fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
+          " " +
+          (e.quote_unit || "unknown quote");
         $("traceSource").textContent =
-          (e.source === "test" ? "Simulation" : e.source) +
+          (e.source === "test"
+            ? "Simulation"
+            : e.token_mode === "test"
+              ? "Finalized onchain test"
+              : e.source) +
           " / " +
-          new Date(e.created_utc).toLocaleTimeString();
+          (Number.isInteger(e.block_time)
+            ? new Date(e.block_time * 1000).toLocaleString()
+            : new Date(e.created_utc).toLocaleTimeString());
         $("traceRegion").textContent =
           (e.side === "buy" ? "Buy" : "Sell") +
           " route in the original 256-neuron history" +
@@ -3326,7 +3343,7 @@
             (e.source === "test" ? "Test " : "") +
               e.side +
               " " +
-              fmt(e.quote_amount, 4) +
+              fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
               " " +
               e.quote_unit +
               ", " +
@@ -3345,7 +3362,10 @@
           main.append(title, detail);
           const meta = document.createElement("div");
           meta.className = "event-meta";
-          meta.textContent = fmt(e.quote_amount, 4) + " " + e.quote_unit;
+          meta.textContent =
+            fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
+            " " +
+            e.quote_unit;
           const label = document.createElement("small");
           label.textContent = e.receipt ? "Receipt #" + e.receipt : "Saving receipt";
           meta.append(label);

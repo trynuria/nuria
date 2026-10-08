@@ -113,6 +113,39 @@ function initNuriaDocs() {
     observer = null,
     searchReturn = null;
   const searchIndex = [];
+  async function updateTokenProfile() {
+    if (document.hidden) return;
+    const controller = new AbortController();
+    const deadline = setTimeout(() => controller.abort(), 8000);
+    const panel = document.getElementById("docsTokenProfile");
+    try {
+      const response = await fetch("/api/token", {
+        signal: controller.signal,
+        cache: "no-store",
+      });
+      const token = await response.json();
+      const age = Date.now() - Date.parse(token.updated_utc);
+      if (
+        !response.ok ||
+        token.schema !== "nuria.token.v1" ||
+        !["test", "production"].includes(token.mode) ||
+        !(age >= 0 && age < 60000)
+      )
+        throw Error("Unverified token identity");
+      for (const field of panel.querySelectorAll("[data-token-field]"))
+        field.textContent = token[field.dataset.tokenField] || "Not established";
+    } catch (_) {
+      for (const field of panel.querySelectorAll("[data-token-field]"))
+        field.textContent =
+          field.dataset.tokenField === "label"
+            ? "Token evidence unavailable"
+            : "Unknown";
+    } finally {
+      clearTimeout(deadline);
+    }
+  }
+  updateTokenProfile();
+  setInterval(updateTokenProfile, 30000);
   for (const article of articles) {
     const chapter = article.id.slice(4),
       headings = [...article.querySelectorAll("h2")];
@@ -1437,6 +1470,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     }
     state = s;
     const live = !!s.feed?.mint,
+      testToken = s.token?.mode === "test" || s.feed?.mode === "test",
       healthy = s.phase === "running" && Date.now() - Date.parse(s.updated_utc) < 15000;
     $("statusPill").textContent = healthy
       ? "Live model"
@@ -1453,17 +1487,19 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ? "Updated " + new Date(s.updated_utc).toLocaleTimeString()
       : "Awaiting server";
     $("sourceTitle").textContent = live
-      ? "Solana · " + s.feed.phase
+      ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
       : "Simulation input stream";
     $("sourceDetail").textContent = live
       ? s.feed.error || "Mint " + s.feed.mint
       : "Test signals; no mint connected. Configure a mint to observe finalized Pump/PumpSwap trades.";
     $("tradeControls").classList.add("hidden");
     $("feedBadge").textContent = live
-      ? "Solana · " + s.feed.phase
+      ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
       : "Simulation inputs";
     $("fieldSource").textContent = live
-      ? "Inputs: finalized Solana"
+      ? testToken
+        ? "Inputs: finalized test token"
+        : "Inputs: finalized Solana"
       : "Inputs: simulation";
     $("coverage").textContent = s.feed?.coverage || "Coverage unknown";
     if (s.error) $("inputStatus").textContent = s.error;
@@ -1504,10 +1540,11 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("feeTotal").textContent = Number.isFinite(treasury?.balance_sol)
       ? treasury.balance_sol.toFixed(6)
       : "—";
-    $("observedFees").textContent = Number.isFinite(
-      s.treasury?.live_observed_accrual?.SOL,
-    )
-      ? money(s.treasury.live_observed_accrual.SOL)
+    const quoteUnit = s.token?.quote_unit || s.feed?.quote_unit || "SOL";
+    const quoteDecimals = s.token?.quote_decimals ?? s.feed?.quote_decimals ?? 9;
+    const accrual = s.feed?.recorded_accrual?.find((item) => item.unit === quoteUnit);
+    $("observedFees").textContent = Number.isFinite(accrual?.amount)
+      ? accrual.amount.toFixed(Math.min(9, quoteDecimals)) + " " + quoteUnit
       : "Unknown";
     $("creatorWallet").textContent = treasury?.wallet || "Not connected";
     $("fundsReceived").textContent = Number.isFinite(treasury?.verified_fee_receipts)
@@ -1527,12 +1564,15 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("receiptCount").textContent = fmt(s.durable_receipts);
     $("spikeTotal").textContent = fmt(s.spikes_total);
     $("queueCount").textContent = fmt(s.queued_inputs);
-    $("unresolved").textContent = fmt(s.unresolved_transactions);
+    $("unresolved").textContent = fmt(
+      s.feed?.unresolved_transactions ?? s.unresolved_transactions,
+    );
     $("chainStatus").textContent = s.receipt_pending
       ? fmt(s.receipt_pending) + " recent ticks awaiting durable checkpoint."
       : "Latest ticks saved to a durable checkpoint.";
     $("tokenLink").classList.toggle("connected", live);
     $("mintAddress").textContent = s.feed?.mint || "";
+    $("tokenMode").textContent = testToken ? "TEST CA" : "CA";
     drawHistory();
   }
 
@@ -1572,11 +1612,19 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       (e.source === "test" ? "Test " : "") + (e.side === "buy" ? "buy " : "sell ");
     $("traceInput").style.color = e.side === "buy" ? "var(--green)" : "var(--pink)";
     $("traceAmount").textContent =
-      fmt(e.quote_amount, 4) + " " + (e.quote_unit || "unknown quote");
+      fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
+      " " +
+      (e.quote_unit || "unknown quote");
     $("traceSource").textContent =
-      (e.source === "test" ? "Simulation" : e.source) +
+      (e.source === "test"
+        ? "Simulation"
+        : e.token_mode === "test"
+          ? "Finalized onchain test"
+          : e.source) +
       " / " +
-      new Date(e.created_utc).toLocaleTimeString();
+      (Number.isInteger(e.block_time)
+        ? new Date(e.block_time * 1000).toLocaleString()
+        : new Date(e.created_utc).toLocaleTimeString());
     $("traceRegion").textContent =
       (e.side === "buy" ? "Buy" : "Sell") +
       " route in the original 256-neuron history" +
@@ -1647,7 +1695,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         (e.source === "test" ? "Test " : "") +
           e.side +
           " " +
-          fmt(e.quote_amount, 4) +
+          fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
           " " +
           e.quote_unit +
           ", " +
@@ -1664,7 +1712,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       main.append(title, detail);
       const meta = document.createElement("div");
       meta.className = "event-meta";
-      meta.textContent = fmt(e.quote_amount, 4) + " " + e.quote_unit;
+      meta.textContent =
+        fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) + " " + e.quote_unit;
       const label = document.createElement("small");
       label.textContent = e.receipt ? "Receipt #" + e.receipt : "Saving receipt";
       meta.append(label);
@@ -1881,7 +1930,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ? JSON.stringify(decision, null, 2)
       : "Awaiting a decision.";
     const sources = c.learning?.sources || {},
-      source = Object.keys(sources).find((k) => k !== "test") || "test",
+      source =
+        c.token?.source || Object.keys(sources).find((k) => k !== "test") || "test",
       learning = sources[source],
       metrics = learning?.metrics?.[source];
     $("cogPrediction").textContent =
@@ -1894,12 +1944,14 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("cogSourceBadge").textContent = metrics
       ? source === "test"
         ? "Test inputs"
-        : source
+        : c.token?.mode === "test"
+          ? "Onchain test token"
+          : "Finalized token inputs"
       : "Awaiting data";
     $("cogLearningSource").textContent =
       source === "test"
         ? "Test inputs · forecast error (green) / learned repeat baseline (gray)."
-        : `${source} · observed next-input outcomes; prediction quality can rise or fall.`;
+        : `${c.token?.mode === "test" ? "Onchain test token" : "Finalized token"} · observed next-input outcomes; prediction quality can rise or fall.`;
     drawLearning(learning?.history || []);
     $("cogForecastJSON").textContent = JSON.stringify(
       {
@@ -1977,6 +2029,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     if (cognitionState) {
       drawHabitat(cognitionState.habitat || {});
       const source =
+        cognitionState.token?.source ||
         Object.keys(cognitionState.learning?.sources || {}).find((k) => k !== "test") ||
         "test";
       drawLearning(cognitionState.learning?.sources?.[source]?.history || []);
@@ -2710,6 +2763,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("workSpent").textContent = commerceMoney(money.settled_micro_usdc);
     $("workExecution").textContent = evidence.financial_execution ? "Enabled" : "Off";
     $("workCreator").textContent = policy.creator_wallet || "Not configured";
+    $("copyWorkCreator").disabled = !policy.creator_wallet;
     $("workWallet").textContent = policy.spending_wallet || "Not configured";
     $("copyWorkWallet").disabled = !policy.spending_wallet;
     $("workPolicy").textContent =
@@ -2789,6 +2843,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     for (const id of ["workCreator", "workWallet", "workPolicy"])
       $(id).textContent = "Unavailable";
     $("copyWorkWallet").disabled = true;
+    $("copyWorkCreator").disabled = true;
     $("workJobs").replaceChildren(
       workEmpty(
         "Work evidence unavailable",
@@ -2839,6 +2894,16 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     }
   });
   pollWork();
+  $("copyWorkCreator").addEventListener("click", async () => {
+    const wallet = workSnapshot?.money.policy.creator_wallet;
+    if (!wallet) return;
+    try {
+      await navigator.clipboard.writeText(wallet);
+      $("copyWorkCreator").textContent = "Copied";
+    } catch (_) {
+      $("copyWorkCreator").textContent = "Select address";
+    }
+  });
   setInterval(pollWork, 5000);
 
   async function poll() {

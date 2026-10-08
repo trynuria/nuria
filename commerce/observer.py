@@ -15,6 +15,8 @@ from commerce.ledger import Ledger
 from commerce.solana import associated
 from commerce.wallets import WalletObserver
 from publish import publish
+from token_profile import apply as apply_profile
+from token_profile import load as load_profile
 
 
 def main():
@@ -44,13 +46,19 @@ def main():
             "scope": "Finalized financial-wallet and USDC-account history, within RPC retention. Gaps remain explicit.",
         }
         try:
+            profile = load_profile()
             policy = Policy.load(
-                json.loads(Path(os.environ["NURIA_COMMERCE_CONFIG"]).read_text())
+                apply_profile(
+                    json.loads(Path(os.environ["NURIA_COMMERCE_CONFIG"]).read_text()),
+                    profile,
+                )
             )
             wallets = [
                 v
                 for v in (
-                    policy.creator_wallet,
+                    policy.creator_wallet
+                    if not profile or profile["mode"] != "test"
+                    else None,
                     policy.spending_wallet,
                     policy.reserve_wallet,
                 )
@@ -67,6 +75,11 @@ def main():
                     transaction_budget=100,
                 )
                 status["phase"] = "observing"
+            elif profile and profile["mode"] == "test":
+                status["phase"] = "balance_only"
+                status["scope"] = (
+                    "Test creator balance and quote-fee vault are observed separately. Unrelated historical activity from the supplied developer wallet is not imported into the public payment journal."
+                )
         except Exception:
             status["phase"] = "unknown"
             status["error"] = (

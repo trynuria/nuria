@@ -1,6 +1,6 @@
 # Financial activation
 
-Production execution is disabled. The token mint and current creator-fee beneficiary are not configured. Offline rail tests and a restricted managed-wallet signature test do not establish a working fee-funded purchase loop.
+Production execution is disabled. Token identity now comes from the shared server profile and is published at `/api/token`. An onchain test connection does not activate financial execution. Offline rail tests and a restricted managed-wallet signature test do not establish a working fee-funded purchase loop.
 
 ## One managed operating wallet
 
@@ -85,3 +85,13 @@ python -m commerce.readiness --policy /etc/nuria-commerce/policy.json --ledger /
 Examples under `commerce/` are deliberately disabled. Jupiter conversion, collection and purchases each need their own reviewed configuration. x402 batching is a later option with channel, escrow, voucher and reconciliation assumptions; no batch channel is operational or opened automatically.
 
 References: [Pump sweep interfaces](https://github.com/pump-fun/pump-public-docs/blob/main/docs/instructions/SWEEP_FEES.md), [Privy policies](https://docs.privy.io/controls/policies/overview), [Jupiter build](https://developers.jup.ag/docs/swap/build), [Solana wallet history](https://solana.com/docs/rpc/http/getsignaturesforaddress), [blockhash validity](https://solana.com/docs/rpc/http/isblockhashvalid).
+
+## Replacing the test connection
+
+`NURIA_TOKEN_CONFIG` points to the shared public-identity JSON. Its fields are schema, mode (`test` or `production`), mint, creator_wallet and optional pool. Ingestion, treasury observation and commerce read the same profile; the API serves only its sanitized cache. The creator address is not automatically the operating or signing wallet.
+
+Use the dedicated-host configuration command in [the README](../README.md#token-configuration). The reader hot-loads the profile, validates the creator against the current Pump curve and rediscovers addresses immediately on a mint change. Per-mint decoding state, exact raw accrual and mint-specific test forecast sources retain earlier evidence. They are not rewritten into launch history.
+
+The connected test may have a non-SOL quote. Wrapped BTC is displayed with its verified eight decimals; its trade-event creator accrual, creator quote-vault inventory and the developer wallet's native SOL balance are separate quantities. Native SOL collection/conversion remains unsupported for a BTC quote. The read-only pipeline accepts transaction v1; the existing signer transaction formats and permissions are unchanged. Primary interfaces: [Solana versions](https://solana.com/developers/cookbook/transactions/versions) and [Pump buy interfaces](https://github.com/pump-fun/pump-public-docs/blob/main/docs/instructions/BUY.md).
+
+Test creator wallets are balance-only: unrelated historical activity is not imported into the public payment journal. A funded operating wallet and explicit signing authority still need configuration before paid tests or live fees can be used.

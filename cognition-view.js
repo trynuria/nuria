@@ -162,7 +162,8 @@ function renderCognition(c) {
     ? JSON.stringify(decision, null, 2)
     : "Awaiting a decision.";
   const sources = c.learning?.sources || {},
-    source = Object.keys(sources).find((k) => k !== "test") || "test",
+    source =
+      c.token?.source || Object.keys(sources).find((k) => k !== "test") || "test",
     learning = sources[source],
     metrics = learning?.metrics?.[source];
   $("cogPrediction").textContent =
@@ -175,12 +176,14 @@ function renderCognition(c) {
   $("cogSourceBadge").textContent = metrics
     ? source === "test"
       ? "Test inputs"
-      : source
+      : c.token?.mode === "test"
+        ? "Onchain test token"
+        : "Finalized token inputs"
     : "Awaiting data";
   $("cogLearningSource").textContent =
     source === "test"
       ? "Test inputs · forecast error (green) / learned repeat baseline (gray)."
-      : `${source} · observed next-input outcomes; prediction quality can rise or fall.`;
+      : `${c.token?.mode === "test" ? "Onchain test token" : "Finalized token"} · observed next-input outcomes; prediction quality can rise or fall.`;
   drawLearning(learning?.history || []);
   $("cogForecastJSON").textContent = JSON.stringify(
     {
@@ -258,6 +261,7 @@ window.addEventListener("resize", () => {
   if (cognitionState) {
     drawHabitat(cognitionState.habitat || {});
     const source =
+      cognitionState.token?.source ||
       Object.keys(cognitionState.learning?.sources || {}).find((k) => k !== "test") ||
       "test";
     drawLearning(cognitionState.learning?.sources?.[source]?.history || []);

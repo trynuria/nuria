@@ -39,6 +39,15 @@ from commerce.transport import request
 from commerce.work import snapshot as work_snapshot
 from commerce.x402 import authorize, decode_header, delivery, quote
 from publish import publish
+from token_profile import (
+    apply as apply_profile,
+)
+from token_profile import (
+    load as load_profile,
+)
+from token_profile import (
+    public as public_profile,
+)
 
 
 def select_job(policy, cognition, decision, now, ledger):
@@ -446,9 +455,14 @@ def main():
             },
         }
         try:
+            profile = load_profile()
             policy = Policy.load(
-                json.loads(Path(os.environ["NURIA_COMMERCE_CONFIG"]).read_text())
+                apply_profile(
+                    json.loads(Path(os.environ["NURIA_COMMERCE_CONFIG"]).read_text()),
+                    profile,
+                )
             )
+            result["token"] = public_profile(profile) if profile else None
             result["policy"], result["missing"] = policy.public(), policy.missing()
             commissioning_file = Path(
                 os.environ.get(
@@ -522,6 +536,38 @@ def main():
                 result["fee_path"] = fee_observation(
                     policy.mint, policy.creator_wallet, rpc, policy.pool
                 )
+                fee = result["fee_path"]
+                if fee["quote_mint"] not in (
+                    "11111111111111111111111111111111",
+                    "So11111111111111111111111111111111111111112",
+                ):
+                    from commerce.solana import associated
+
+                    account = rpc(
+                        "getAccountInfo",
+                        [
+                            associated(fee["vault"], fee["quote_mint"]),
+                            {"encoding": "jsonParsed", "commitment": "finalized"},
+                        ],
+                    )
+                    if account["value"]:
+                        info = account["value"]["data"]["parsed"]["info"]
+                        if (
+                            info.get("mint") != fee["quote_mint"]
+                            or info.get("owner") != fee["vault"]
+                            or info.get("state") != "initialized"
+                        ):
+                            raise ValueError("Quote creator vault identity differs")
+                        fee["quote_vault"] = {
+                            "address": associated(fee["vault"], fee["quote_mint"]),
+                            "mint": fee["quote_mint"],
+                            "amount_raw": info["tokenAmount"]["amount"],
+                            "decimals": info["tokenAmount"]["decimals"],
+                            "slot": account["context"]["slot"],
+                        }
+                    fee["scope"] += (
+                        " Non-SOL quote. Native SOL claim/conversion does not cover this asset."
+                    )
             if policy.spending_wallet:
                 result["usdc_balance"] = usdc_balance(
                     policy.spending_wallet, rpc, ledger.minimum_balance_slot()

@@ -163,9 +163,14 @@
   font-size: 11px;
 }
 .neural-introduction .token-link {
+  display: flex;
+  visibility: hidden;
   pointer-events: auto;
   min-height: 34px;
   margin-top: 14px;
+}
+.neural-introduction .token-link.connected {
+  visibility: visible;
 }
 .field-top {
   top: 22px;

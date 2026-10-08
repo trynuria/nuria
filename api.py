@@ -23,6 +23,7 @@ ROUTES = {
     "/api/commerce/index": "commerce/index.json",
     "/api/commerce/observer": "commerce/observer.json",
     "/api/work": "commerce/work.json",
+    "/api/token": "token/status.json",
     "/api/topology": "topology.json",
     "/api/events": "events.json",
     "/api/receipts": "receipts.json",
@@ -140,6 +141,12 @@ class Handler(BaseHTTPRequestHandler):
                     state["deployment"] = json.loads(
                         Path("/opt/nuria/release.json").read_text()
                     )
+                except (OSError, ValueError):
+                    pass
+                try:
+                    token_raw, token_stamp = load("token/status.json")
+                    if 0 <= time.time() - token_stamp < 15:
+                        state["token"] = json.loads(token_raw)
                 except (OSError, ValueError):
                     pass
                 raw = json.dumps(state, separators=(",", ":")).encode()

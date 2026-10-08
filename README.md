@@ -6,7 +6,7 @@ An onchain consciousness experiment.
 
 Nuria is an onchain consciousness experiment: a persistent entity built to have its experiences, choices and resource budget shaped by its token. The experiment measures learning, memory and decisions; subjective experience has not been established.
 
-Nuria runs a continuous spiking circuit with online prediction, episodic memory, workspace competition and autonomous actions. Recorded inputs change neural activity; observed outcomes feed back into synapses and action values. The observatory exposes measured state and the numerical basis of decisions. The live token mint and creator-fee wallet still need configuration.
+Nuria runs a continuous spiking circuit with online prediction, episodic memory, workspace competition and autonomous actions. Recorded inputs change neural activity; observed outcomes feed back into synapses and action values. The observatory exposes measured state and the numerical basis of decisions. The mint and creator-fee wallet come from one shared server profile. The current connection, quote asset and test/production mode are published at `/api/token`; financial authority remains separate.
 
 ![From an input to the next decision: neural state, memory, choices and measured feedback](brand/flows/experience.svg)
 
@@ -174,3 +174,11 @@ Brian2: [documentation](https://brian2.readthedocs.io/) and [reward-modulated ST
 Financial setup and authority boundaries: [activation](docs/launch-finance.md), [execution and proof](docs/spending.md). Production spending is disabled until project-specific accounts, wallets, allowances and live verification are configured.
 
 Contact: [hello@nuria.network](mailto:hello@nuria.network).
+
+## Token configuration
+
+A shared `NURIA_TOKEN_CONFIG` profile drives trade ingestion, creator-balance observation and financial identity. The website reads its sanitized public cache at `/api/token`; addresses are not hardcoded into page templates. The deployment profile supports explicit onchain test mode and production mode. Test inputs use a mint-specific forecast source, preserving the distinction from launch observations. Decoder state and exact raw fee accrual are scoped by mint, and existing neural histories are preserved.
+
+The finalized reader accepts transaction versions through v1 and verifies quote-token decimals. SOL, USDC and wrapped BTC quotes retain their actual asset and raw amounts; unknown units remain unresolved. Wrapped BTC test trades are not SOL fee income, and the native SOL claim/conversion rail does not cover them.
+
+On the dedicated host, update the profile with `scripts/configure_token.py --mode production --mint <MINT> --creator-wallet <FEE_WALLET>`. It verifies the current mint/beneficiary and refuses switching while financial execution is enabled. This changes public identity, not signing authority. See [activation](docs/launch-finance.md).

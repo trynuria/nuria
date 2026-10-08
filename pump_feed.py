@@ -15,11 +15,20 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from life import utc
+from token_profile import load as load_profile
+from token_profile import public as public_profile
 
 ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 PUMP = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"
 AMM = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA"
 SOL = "So11111111111111111111111111111111111111112"
+WBTC = "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh"
+USDC = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+QUOTE_SYMBOLS = {SOL: "SOL", WBTC: "WBTC", USDC: "USDC"}
+TOKEN_PROGRAMS = {
+    "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+}
 
 
 def b58encode(raw):
@@ -170,6 +179,50 @@ class Decoder:
         return found
 
 
+def persist_event(db, mint, event):
+    """Commit a unique input and its raw fee accrual in the caller's transaction."""
+    if event["mint"] != mint:
+        raise ValueError("Input mint differs from its scan scope")
+    inserted = db.execute(
+        "INSERT OR IGNORE INTO inputs VALUES(?,?,?,?,NULL)",
+        (
+            event["id"],
+            event["source"],
+            json.dumps(event, sort_keys=True, separators=(",", ":")),
+            utc(),
+        ),
+    ).rowcount
+    if not inserted:
+        return False
+    old = db.execute(
+        "SELECT creator_fee_raw,trades FROM token_totals WHERE mint=? AND quote_mint=?",
+        (mint, event["quote_mint"]),
+    ).fetchone()
+    if old:
+        db.execute(
+            "UPDATE token_totals SET creator_fee_raw=?,trades=? WHERE mint=? AND quote_mint=?",
+            (
+                str(int(old[0]) + int(event["creator_fee_raw"])),
+                old[1] + 1,
+                mint,
+                event["quote_mint"],
+            ),
+        )
+    else:
+        db.execute(
+            "INSERT INTO token_totals VALUES(?,?,?,?,?,?)",
+            (
+                mint,
+                event["quote_mint"],
+                event["quote_unit"],
+                event["quote_decimals"],
+                event["creator_fee_raw"],
+                1,
+            ),
+        )
+    return True
+
+
 class PumpFeed:
     def __init__(self, life, root):
         self.life, self.root = life, Path(root)
@@ -180,6 +233,13 @@ class PumpFeed:
         self.executor = ThreadPoolExecutor(
             max_workers=8, thread_name_prefix="helius-fetch"
         )
+        self.quote_units = {
+            SOL: {"decimals": 9, "symbol": "SOL"},
+            "11111111111111111111111111111111": {"decimals": 9, "symbol": "SOL"},
+        }
+        self.profile = None
+        self.current_mint = None
+        self.curve_quote = None
 
     def status(self, **values):
         with self.life.lock:
@@ -222,6 +282,25 @@ class PumpFeed:
                 Pubkey.from_string(PUMP),
             )[0]
         )
+        info = self.rpc(
+            "getAccountInfo", [curve, {"commitment": "finalized", "encoding": "base64"}]
+        )
+        account = info.get("value")
+        raw = base64.b64decode(account["data"][0]) if account else b""
+        if (
+            not account
+            or account["owner"] != PUMP
+            or len(raw) < 115
+            or raw[:8] != hashlib.sha256(b"account:BondingCurve").digest()[:8]
+        ):
+            raise RuntimeError("Configured token has no verified current Pump curve")
+        actual_creator = b58encode(raw[49:81])
+        if self.profile and actual_creator != self.profile["creator_wallet"]:
+            raise RuntimeError("Configured creator differs from the current curve")
+        quote = b58encode(raw[83:115])
+        quote = SOL if quote == "11111111111111111111111111111111" else quote
+        self.curve_quote = quote
+        self.verify_quote(quote)
         pools = self.rpc(
             "getProgramAccounts",
             [
@@ -237,11 +316,15 @@ class PumpFeed:
         quotes = {}
         for pool in pools:
             raw = base64.b64decode(pool["account"]["data"][0])
-            if pool["account"]["owner"] != AMM or raw[43:75] != bytes(
-                Pubkey.from_string(mint)
+            if (
+                len(raw) < 107
+                or raw[:8] != hashlib.sha256(b"account:Pool").digest()[:8]
+                or pool["account"]["owner"] != AMM
+                or raw[43:75] != bytes(Pubkey.from_string(mint))
             ):
                 raise RuntimeError("Pool identity verification failed")
             quotes[pool["pubkey"]] = b58encode(raw[75:107])
+            self.verify_quote(quotes[pool["pubkey"]])
             addresses.append(pool["pubkey"])
         self.pool_quotes = quotes
         self.status(
@@ -249,8 +332,35 @@ class PumpFeed:
             pools=len(pools),
             coverage="Finalized Pump curve and discovered PumpSwap pools. Other venues are not covered.",
             decoder_idl_sha256=self.decoder.hashes,
+            creator_wallet=actual_creator,
+            quote_mint=quote,
+            quote_unit=self.quote_units[quote]["symbol"],
+            quote_decimals=self.quote_units[quote]["decimals"],
+            identity_verified_slot=info["context"]["slot"],
         )
         return addresses
+
+    def verify_quote(self, mint):
+        if mint in self.quote_units:
+            return
+        result = self.rpc(
+            "getAccountInfo",
+            [mint, {"encoding": "jsonParsed", "commitment": "finalized"}],
+        )
+        account = result.get("value") or {}
+        info = account.get("data", {}).get("parsed", {}).get("info", {})
+        decimals = info.get("decimals")
+        if (
+            account.get("owner") not in TOKEN_PROGRAMS
+            or info.get("isInitialized") is not True
+            or type(decimals) is not int
+            or not 0 <= decimals <= 18
+        ):
+            raise RuntimeError("Quote mint units could not be verified")
+        self.quote_units[mint] = {
+            "decimals": decimals,
+            "symbol": QUOTE_SYMBOLS.get(mint, mint[:8] + "…"),
+        }
 
     def scan(self, address):
         with self.life.db() as db:
@@ -286,10 +396,14 @@ class PumpFeed:
         with self.life.db() as db:
             for row in reversed(collected):
                 db.execute(
-                    "INSERT OR IGNORE INTO transactions(signature,slot,status) VALUES(?,?,?)",
+                    "INSERT OR IGNORE INTO token_transactions(mint,signature,slot,sequence,status) VALUES(?,?,?,?,?)",
                     (
+                        self.current_mint,
                         row["signature"],
                         row["slot"],
+                        db.execute(
+                            "SELECT coalesce(max(sequence),0)+1 FROM token_transactions"
+                        ).fetchone()[0],
                         "failed" if row["err"] else "pending",
                     ),
                 )
@@ -334,16 +448,27 @@ class PumpFeed:
                         "Trade event schema incomplete; transaction remains pending"
                     )
                 quote_mint = values.get("quote_mint", SOL)
-                if quote_mint not in (SOL, "11111111111111111111111111111111"):
+                if (
+                    self.curve_quote
+                    and self.curve_quote != SOL
+                    and quote_mint != self.curve_quote
+                ):
+                    raise RuntimeError("Trade quote differs from its verified curve")
+                if quote_mint not in self.quote_units:
                     raise RuntimeError("Non-SOL quote requires a verified unit decoder")
                 side = "buy" if values["is_buy"] else "sell"
                 quote_raw, amount_raw = values["sol_amount"], values["token_amount"]
+                if quote_mint not in (SOL, "11111111111111111111111111111111"):
+                    if "quote_amount" not in values:
+                        raise RuntimeError("Non-SOL quote amount is missing")
+                    quote_raw = values["quote_amount"]
                 fee_raw = values["creator_fee"]
             else:
                 pool = values.get("pool")
                 if pool not in self.pool_quotes:
                     continue
-                if self.pool_quotes[pool] != SOL:
+                quote_mint = self.pool_quotes[pool]
+                if quote_mint not in self.quote_units:
                     raise RuntimeError(
                         "Non-SOL PumpSwap quote requires a verified unit decoder"
                     )
@@ -365,14 +490,31 @@ class PumpFeed:
             events.append(
                 {
                     "id": signature + ":" + str(index),
-                    "source": "solana_finalized",
+                    "source": public_profile(self.profile)["source"]
+                    if self.profile
+                    else "solana_finalized",
                     "side": side,
-                    "quote_amount": quote_raw / 1e9,
-                    "quote_unit": "SOL",
+                    "quote_amount": quote_raw
+                    / 10 ** self.quote_units[quote_mint]["decimals"],
+                    "quote_amount_raw": str(quote_raw),
+                    "quote_mint": quote_mint,
+                    "quote_decimals": self.quote_units[quote_mint]["decimals"],
+                    "quote_unit": self.quote_units[quote_mint]["symbol"],
                     "token_amount_raw": str(amount_raw),
-                    "creator_fee": fee_raw / 1e9,
+                    "creator_fee": fee_raw
+                    / 10 ** self.quote_units[quote_mint]["decimals"],
+                    "creator_fee_raw": str(fee_raw),
+                    "configuration_sha256": public_profile(self.profile)[
+                        "configuration_sha256"
+                    ]
+                    if self.profile
+                    else None,
+                    "token_mode": self.profile["mode"]
+                    if self.profile
+                    else "production",
                     "signature": signature,
                     "slot": tx["slot"],
+                    "block_time": tx.get("blockTime"),
                     "mint": mint,
                     "program": program,
                     "user": values["user"],
@@ -416,7 +558,9 @@ class PumpFeed:
         addresses, discovered = [], 0
         self.pool_quotes = {}
         while not self.life.stop.is_set():
-            config = self.root / "pump-source.json"
+            config = Path(
+                os.environ.get("NURIA_TOKEN_CONFIG", self.root / "pump-source.json")
+            )
             if not config.exists():
                 self.status(
                     phase="not_launched",
@@ -426,10 +570,36 @@ class PumpFeed:
                 self.life.stop.wait(5)
                 continue
             try:
-                mint = json.loads(config.read_text())["mint"]
+                self.profile = (
+                    load_profile(config)
+                    if os.environ.get("NURIA_TOKEN_CONFIG")
+                    else None
+                )
+                mint = (
+                    self.profile["mint"]
+                    if self.profile
+                    else json.loads(config.read_text())["mint"]
+                )
                 if len(b58decode(mint)) != 32:
                     raise RuntimeError("Invalid Solana mint configuration")
                 self.status(mint=mint, phase="catching_up", error=None)
+                if self.profile:
+                    self.status(
+                        token=public_profile(self.profile), mode=self.profile["mode"]
+                    )
+                if mint != self.current_mint:
+                    self.current_mint, addresses, discovered = mint, [], 0
+                    self.pool_quotes = {}
+                    self.status(
+                        addresses=[],
+                        pools=0,
+                        creator_wallet=None,
+                        quote_mint=None,
+                        quote_unit=None,
+                        quote_decimals=None,
+                        identity_verified_slot=None,
+                        unresolved_transactions=None,
+                    )
                 if time.monotonic() - discovered > 60:
                     addresses = self.discover(mint)
                     discovered = time.monotonic()
@@ -438,8 +608,8 @@ class PumpFeed:
                     complete = self.scan(address) and complete
                 with self.life.db() as db:
                     pending = db.execute(
-                        "SELECT signature FROM transactions WHERE status='pending' AND retry_after<=? ORDER BY slot,rowid LIMIT 60",
-                        (time.time(),),
+                        "SELECT signature FROM token_transactions WHERE mint=? AND status='pending' AND retry_after<=? ORDER BY slot,sequence LIMIT 60",
+                        (mint, time.time()),
                     ).fetchall()
 
                 def fetch(row):
@@ -451,7 +621,7 @@ class PumpFeed:
                                 {
                                     "commitment": "finalized",
                                     "encoding": "json",
-                                    "maxSupportedTransactionVersion": 0,
+                                    "maxSupportedTransactionVersion": 1,
                                 },
                             ],
                         )
@@ -465,34 +635,30 @@ class PumpFeed:
                         if error:
                             failures += 1
                             db.execute(
-                                "UPDATE transactions SET attempts=attempts+1,retry_after=?,detail=? WHERE signature=?",
-                                (time.time() + 30, error, signature),
+                                "UPDATE token_transactions SET attempts=attempts+1,retry_after=?,detail=? WHERE mint=? AND signature=?",
+                                (time.time() + 30, error, mint, signature),
                             )
                             continue
                         for event in events:
-                            db.execute(
-                                "INSERT OR IGNORE INTO inputs VALUES(?,?,?,?,NULL)",
-                                (
-                                    event["id"],
-                                    event["source"],
-                                    json.dumps(
-                                        event, sort_keys=True, separators=(",", ":")
-                                    ),
-                                    utc(),
-                                ),
-                            )
+                            persist_event(db, mint, event)
                         db.execute(
-                            "UPDATE transactions SET status=?,detail=? WHERE signature=?",
+                            "UPDATE token_transactions SET status=?,detail=? WHERE mint=? AND signature=?",
                             (
                                 "decoded" if events else "no_matching_trade",
                                 str(len(events)),
+                                mint,
                                 signature,
                             ),
                         )
                 with self.life.db() as db:
                     remaining = db.execute(
-                        "SELECT count(*) FROM transactions WHERE status='pending'"
+                        "SELECT count(*) FROM token_transactions WHERE mint=? AND status='pending'",
+                        (mint,),
                     ).fetchone()[0]
+                    totals = db.execute(
+                        "SELECT quote_mint,quote_unit,decimals,creator_fee_raw,trades FROM token_totals WHERE mint=?",
+                        (mint,),
+                    ).fetchall()
                 self.status(
                     phase="catching_up" if remaining or not complete else "connected",
                     last_checked_utc=utc(),
@@ -500,6 +666,17 @@ class PumpFeed:
                     if failures
                     else ("Historical scan is continuing" if not complete else None),
                     unresolved_transactions=remaining,
+                    recorded_accrual=[
+                        {
+                            "mint": quote,
+                            "unit": unit,
+                            "decimals": decimals,
+                            "amount_raw": amount,
+                            "amount": int(amount) / 10**decimals,
+                            "trades": trades,
+                        }
+                        for quote, unit, decimals, amount, trades in totals
+                    ],
                     rpc_max_per_second=15,
                     poll_seconds=1,
                     finality="finalized",

@@ -19,7 +19,14 @@ class CognitiveApiTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.public = ROOT / ".test-state" / uuid.uuid4().hex
-        for name in ("engine", "cognition", "treasury", "discovery", "commerce"):
+        for name in (
+            "engine",
+            "cognition",
+            "treasury",
+            "discovery",
+            "commerce",
+            "token",
+        ):
             (cls.public / name).mkdir(parents=True, exist_ok=True)
         cls.state = {"phase": "running", "tick": 12, "updated_utc": "fixture"}
         for folder in ("engine", "cognition"):
@@ -37,6 +44,11 @@ class CognitiveApiTests(unittest.TestCase):
         )
         (cls.public / "commerce" / "ledger-0.json").write_text(
             json.dumps({"page": 0, "records": [{"state": "fixture"}]})
+        )
+        (cls.public / "token" / "status.json").write_text(
+            json.dumps(
+                {"schema": "nuria.token.v1", "mode": "test", "mint": "fixture-mint"}
+            )
         )
         with socket.socket() as channel:
             channel.bind(("127.0.0.1", 0))
@@ -75,6 +87,12 @@ class CognitiveApiTests(unittest.TestCase):
             f"http://127.0.0.1:{cls.port}" + path, timeout=2
         ) as response:
             return json.load(response)
+
+    def test_shared_token_cache_is_read_only_and_attached_to_model_status(self):
+        self.assertEqual(self.get("/api/token")["mode"], "test")
+        self.assertEqual(
+            self.get("/api/cognition/status")["token"]["mint"], "fixture-mint"
+        )
 
     def test_aggregate_health_includes_cognitive_worker(self):
         self.assertTrue(self.get("/healthz")["healthy"])

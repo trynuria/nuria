@@ -14,6 +14,8 @@ from solders.pubkey import Pubkey
 
 from cognition.treasury import public_treasury
 from publish import publish
+from token_profile import apply as apply_profile
+from token_profile import load as load_profile
 
 
 def rpc(method: str, params: list):
@@ -75,6 +77,7 @@ def main() -> None:
             config = (
                 json.loads(configuration.read_text()) if configuration.exists() else {}
             )
+            config = apply_profile(config, load_profile())
             result = observe(config)
         except Exception:
             result = public_treasury()
