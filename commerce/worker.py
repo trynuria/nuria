@@ -22,6 +22,7 @@ from solders.signature import Signature
 from solders.transaction import VersionedTransaction
 
 from cognition.fee_observer import rpc
+from commerce.commissioning import Commissioner
 from commerce.config import SOURCE, Policy
 from commerce.evidence import export_pages
 from commerce.fees import observe as fee_observation
@@ -29,6 +30,7 @@ from commerce.funding import Collector
 from commerce.information import InformationChoice
 from commerce.ledger import Ledger, canonical
 from commerce.managed import ManagedSigner, invoke
+from commerce.marketplaces import readiness as marketplace_readiness
 from commerce.recovery import history_anchor, inspect_history
 from commerce.solana import settlement, usdc_balance
 from commerce.swaps import Converter
@@ -419,6 +421,7 @@ def main():
     executor = Executor(ledger)
     collector = Collector(ledger, rpc)
     information = InformationChoice(ledger)
+    commissioner = Commissioner(ledger)
     converter = Converter(ledger, rpc)
     sweeper = Sweeper(ledger, rpc)
     stop = threading.Event()
@@ -447,6 +450,49 @@ def main():
                 json.loads(Path(os.environ["NURIA_COMMERCE_CONFIG"]).read_text())
             )
             result["policy"], result["missing"] = policy.public(), policy.missing()
+            commissioning_file = Path(
+                os.environ.get(
+                    "NURIA_COMMISSIONING_CONFIG",
+                    str(
+                        Path(os.environ["NURIA_COMMERCE_CONFIG"]).with_name(
+                            "commissioning.json"
+                        )
+                    ),
+                )
+            )
+            commissioning_controls = (
+                json.loads(commissioning_file.read_text())
+                if commissioning_file.exists()
+                else {}
+            )
+            goals = commissioning_controls.get("goals", [])
+            if not isinstance(goals, list) or len(goals) > 8:
+                raise ValueError("At most eight commissioning goals are supported")
+            commissioner.expire(time.time())
+            if commissioning_controls.get("planning_enabled") is True:
+                cognition_path = Path(os.environ["NURIA_COMMERCE_COGNITION"])
+                if (
+                    not 0
+                    <= time.time() - (cognition_path / "decisions.json").stat().st_mtime
+                    <= 15
+                ):
+                    raise ValueError("Commission-planning evidence is stale")
+                decisions = json.loads((cognition_path / "decisions.json").read_text())
+                for goal in goals:
+                    if decisions:
+                        commissioner.propose(goal, decisions[0], time.time())
+            result["commissioning"] = {
+                "planning_enabled": commissioning_controls.get("planning_enabled")
+                is True,
+                "external_execution": False,
+                "phase": "contracts_required"
+                if not commissioning_controls.get("goals")
+                else "planning"
+                if commissioning_controls.get("planning_enabled")
+                else "guarded",
+                "adapters": marketplace_readiness(),
+                "scope": "Persistent goal proposals and structured acceptance checks. No marketplace identity, Base signer, external dispatch or settlement executor is configured.",
+            }
             result["funding"] = {
                 "mode": policy.funding_mode,
                 "creator_wallet_control": policy.funding_mode
@@ -588,6 +634,9 @@ def main():
                 "Financial configuration, evidence or execution check failed; details are not inferred and payment retries remain blocked."
             )
         result.update(ledger.summary())
+        result["commissions"] = commissioner.public()
+        result["commission_totals"] = commissioner.summary()
+        result["contractor_memory"] = commissioner.provider_memory()
         result["ledger_index"] = export_pages(ledger, public)
         result["headroom"] = {
             "trade_volume_independent": True,

@@ -18,8 +18,8 @@ CATALOG = (
     {
         "id": "agents",
         "name": "Specialist agents",
-        "status": "planned",
-        "detail": "Contracted tasks with a defined artifact and acceptance check. Hiring integration is not installed.",
+        "status": "prepared",
+        "detail": "Durable briefs, offer commitments, delivery checks and exact payment verification are implemented. Marketplace identity and Base custody are not configured.",
     },
     {
         "id": "humans",
@@ -126,6 +126,7 @@ def snapshot(ledger, commerce, limit=80):
         )
     total = ledger.db.execute("SELECT count(*) FROM jobs").fetchone()[0]
     catalog = [dict(item) for item in CATALOG]
+    commissions = commerce.get("commissions", [])
     if (commerce.get("policy") or {}).get("providers"):
         catalog[0]["status"] = (
             "connected" if commerce["financial_execution"] else "gated"
@@ -146,6 +147,9 @@ def snapshot(ledger, commerce, limit=80):
             "truncated": total > limit,
         },
         "catalog": catalog,
+        "commissions": commissions,
+        "commissioning": commerce.get("commissioning"),
+        "commission_totals": commerce.get("commission_totals"),
         "money": {
             "balance": commerce.get("usdc_balance"),
             "committed_micro_usdc": commerce["reserved_micro_usdc"],

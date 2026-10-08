@@ -65,3 +65,7 @@ A bounded server benchmark checks actual input processing, checkpoint commits, s
 The original circuit retains its PostgreSQL snapshot and matching checkpoint. The cognitive service uses SQLite's online backup to copy a committed network and journal. Both enter the encrypted private archive with separate heads. Recovery must verify and restore each circuit independently. The backup recipient is public; its private recovery key stays off the server.
 
 The commerce ledger also uses a consistent SQLite snapshot and local hash-chain verification before entering the existing encrypted archive. Wallet signing files are excluded and need a separately controlled recovery procedure before provisioning.
+
+## Commission requests
+
+The isolated commerce writer also owns the [commissioning controller](commissioning.md). It stores task commitments and private evaluation vectors in its existing SQLite database, records public hash events and exports a bounded read-only projection. A fresh eligible decision may create a local proposal, without wallet or network authority. The current worker cannot dispatch marketplace orders or sign Base payments. Commission memory is task-specific and is not credited to the neural worker. Its guarded lifecycle and external activation requirements are separate from the Solana x402 executor.

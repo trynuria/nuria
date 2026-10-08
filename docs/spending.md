@@ -10,7 +10,7 @@ The observatory separates Work, Treasury, Results and Evidence. Work records sho
 
 The commerce writer publishes `commerce/work.json` atomically. `GET /api/work` serves that cache without database access, RPC credentials or signing authority. Its `nuria.work.v1` projection includes at most 80 recent production jobs with an explicit total and truncation flag. The paginated commerce ledger retains the complete event history. Private authorizations, local virtual experiments and isolated funded tests are excluded. Stale or incomplete records clear the interface to unknown.
 
-Data/API purchasing is gated by the installed policy. Specialist-agent hiring, human bounties and compute are planned integrations; displaying their contracts does not activate them. The proposed broader treasury-budget architecture has not changed the installed disabled financial policy.
+Data/API purchasing is gated by the installed policy. The [commissioning controller](commissioning.md) now implements durable task requests, shared commitments, structured acceptance, read-only Base settlement checks and task-specific provider memory. The worker exposes up to 40 recent requests and creates proposals only for configured goals. External dispatch and Base signing are not installed; agent hiring, human escrow and compute activation remain gated. The proposed broader treasury-budget architecture has not changed the installed disabled financial policy.
 
 ## The money path
 

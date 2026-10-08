@@ -56,7 +56,7 @@ The read-only observer can fetch a finalized balance after an exact mint and cre
 
 **Financial execution is disabled. Local jobs spend zero SOL.** The isolated commerce service implements exact Solana USDC x402 purchases, durable reservations, pre-sign message inspection, simulation, finalized settlement checks and delivery/outcome records. Activation requires the exact token, a dedicated funded spending wallet, approved limits, an isolated signer and a compatible provider. The public API and cognitive worker receive no signing key.
 
-The first external job is a structured, time-limited token forecast. Actual later finalized outcomes can update the purchasing action’s learned value once. A fixture test is not a paid production purchase. The native Pump claim planner includes retained-fee sweeps and current collection interfaces, with unsigned vectors checked against the official SDK. Exact-token finalized claims and SOL-to-USDC swaps are not connected. Basic SOL/USD context has a persisted free-source alternative; unavailable data defers that price purchase and earns no neural-learning reward. See [the execution contract](docs/spending.md).
+The existing data adapter supports a structured, time-limited token forecast. It is one delivery contract rather than the scope of Nuria’s external work. Actual later finalized outcomes can update the purchasing action’s learned value once. A fixture test is not a paid production purchase. The native Pump claim planner includes retained-fee sweeps and current collection interfaces, with unsigned vectors checked against the official SDK. Exact-token finalized claims and SOL-to-USDC swaps are not connected. Basic SOL/USD context has a persisted free-source alternative; unavailable data defers that price purchase and earns no neural-learning reward. See [the execution contract](docs/spending.md).
 
 ![Nuria’s financial authority: creator collection, direct managed inventory and bounded purchases](brand/flows/authority.svg)
 
@@ -85,6 +85,10 @@ flowchart LR
   Cache --> API[Read-only API]
   API --> UI[Observatory]
 ```
+
+The [commissioning controller](docs/commissioning.md) prepares real task contracts from recorded decisions. It keeps ambiguous requests reserved across restart, checks structured delivery against buyer-owned held-out targets and verifies exact finalized Base-USDC payments separately. Paid positive and negative outcomes inform task-specific provider preference. External agent hiring is gated by project identity, Base custody and reviewed marketplace contracts; human escrow and compute are not connected.
+
+![Task commitments, checked delivery, independent payment and measured outcomes](brand/flows/commissioning.svg)
 
 See [architecture](docs/architecture.md), [spending boundaries](docs/spending.md), [evaluation](docs/evaluation.md) and [development gates](docs/capability-map.md).
 

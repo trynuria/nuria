@@ -362,14 +362,79 @@
             <p
               ><code>GET /api/work</code> serves up to 80 recent production payment jobs
               from the same public cache used by the commerce service, with explicit
-              total coverage. The complete payment event history remains paginated.
-              Signed authorizations and isolated private tests are excluded. Missing or
-              stale evidence appears as unknown.</p
+              total coverage, alongside at most 40 recent commission requests. The
+              complete payment event history remains paginated. Signed authorizations
+              and isolated private tests are excluded. Missing or stale evidence appears
+              as unknown.</p
+            >
+            <h2 id="resources--commissioning">Commissioning useful work</h2>
+            <p
+              >Nuria’s job controller records a task’s purpose, originating decision,
+              committed offer, cost ceiling and delivery deadline. Structured results
+              are checked against buyer-owned held-out targets. Exact payment evidence
+              and measured usefulness are recorded separately, including negative
+              results.</p
+            >
+            <figure class="doc-diagram"
+              >{{FLOW_COMMISSIONING}}
+              <div class="diagram-mobile" role="list" aria-label="Commissioning flow">
+                <div role="listitem"
+                  ><strong>Decision</strong
+                  ><span>A fresh recorded action creates a local proposal.</span></div
+                >
+                <div role="listitem"
+                  ><strong>Task</strong
+                  ><span
+                    >Commit the brief, dataset, offer and complete cost ceiling.</span
+                  ></div
+                >
+                <div role="listitem"
+                  ><strong>Delivery</strong
+                  ><span
+                    >Check a bounded artifact against private held-out targets.</span
+                  ></div
+                >
+                <div role="listitem"
+                  ><strong>Payment</strong
+                  ><span
+                    >Independently verify the exact asset, payer and recipient.</span
+                  ></div
+                >
+                <div role="listitem"
+                  ><strong>Outcome</strong
+                  ><span
+                    >Record task-specific improvement and retained failures.</span
+                  ></div
+                >
+              </div>
+              <figcaption
+                >A prepared controller, not evidence of live hiring. Payment, acceptance
+                and outcome remain separate.</figcaption
+              >
+            </figure>
+            <p
+              >The first contractor artifact is a structured probability vector for a
+              committed experimental task. Other reports, code, media and physical work
+              need their own acceptance verifier. No contractor code runs on the
+              production host. Paid outcomes can inform task-specific provider
+              preference; they do not yet update the running neural worker.</p
             >
             <p
-              >Specialist-agent hiring, human bounties and compute are planned
-              integrations. Their future presence in the interface is not a live
-              contract or purchase.</p
+              >External hiring is disabled. The 1f916 offer adapter verifies public
+              Base-USDC commitments and prepares unsigned orders; a project identity,
+              Base custody, verified seller binding and funded delivery test remain
+              required. Solana USDC cannot pay a Base invoice directly. RentAHuman
+              requires a project account and its current bounty/escrow contract; compute
+              requires a selected restricted provider. No order, bounty or compute
+              purchase has been made.</p
+            >
+            <p
+              ><a
+                href="https://github.com/trynuria/nuria/blob/main/docs/commissioning.md"
+                target="_blank"
+                rel="noreferrer"
+                >Commissioning contract and activation gates</a
+              ></p
             >
             <figure class="doc-diagram"
               >{{FLOW_AUTHORITY}}<div

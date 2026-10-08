@@ -53,9 +53,9 @@
   gap: 38px;
 }
 .work-list {
-  height: 420px;
-  min-height: 420px;
-  max-height: 420px;
+  height: 660px;
+  min-height: 660px;
+  max-height: 660px;
   overflow: auto;
   scrollbar-width: none;
   overflow-anchor: none;
@@ -114,7 +114,10 @@
 .work-detail {
   border-left: 1px solid var(--line);
   padding-left: 38px;
-  min-height: 350px;
+  height: 660px;
+  overflow: auto;
+  scrollbar-width: none;
+  overflow-anchor: none;
 }
 .work-detail h3 {
   min-height: 50px;
@@ -274,6 +277,12 @@
 .work-result {
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
+}
+.work-results {
+  height: 480px;
+  overflow: auto;
+  scrollbar-width: none;
+  overflow-anchor: none;
 }
 .work-result h3 {
   margin: 0 0 10px;

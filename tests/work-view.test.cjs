@@ -175,3 +175,104 @@ test("tabs support keyboard navigation without scrolling the page", async () => 
   assert.equal(get("work-panel-evidence").hidden, false);
   assert.equal(get("work-tab-evidence").tabIndex, 0);
 });
+
+function commission() {
+  return {
+    id: "a".repeat(64),
+    decision_hash: "b".repeat(64),
+    contract_sha256: "d".repeat(64),
+    dataset_sha256: "c".repeat(64),
+    kind: "agent",
+    title: "<script>Evaluate retention</script>",
+    purpose: "Compare held-out performance",
+    state: "proposed",
+    action: "experiment",
+    created_at: Date.now() / 1000 - 2,
+    updated_at: Date.now() / 1000 - 1,
+    committed_micro_usdc: 0,
+    settlement: null,
+    outcome: null,
+    artifact_sha256: null,
+    acceptance: null,
+    provider: null,
+  };
+}
+
+test("a local commission is visible without implying an order, payment or outcome", async () => {
+  const { context, get, fresh, poll } = await harness();
+  context.evidence = fresh();
+  context.evidence.commissions = [commission()];
+  await poll();
+  const row = get("workJobs").children[0];
+  assert.equal(row.children[0].textContent, "<script>Evaluate retention</script>");
+  row.listeners.click();
+  const facts = get("workDetail").children[3].children;
+  assert.equal(facts[2].children[1].textContent, "No verified payment");
+  assert.equal(facts[6].children[1].textContent, "Not measured");
+  assert.equal(get("workHealth").textContent, "Execution off");
+});
+
+test("contradictory commission evidence clears the work view instead of implying success", async () => {
+  const { context, get, fresh, poll } = await harness();
+  for (const change of [
+    { state: "evaluated" },
+    { settlement: { finalized: true, transaction: "unverified" } },
+    { artifact_sha256: "d".repeat(64) },
+    { outcome: { reward: 1 } },
+    { updated_at: Date.now() / 1000 + 20 },
+  ]) {
+    context.evidence = { ...fresh(), commissions: [{ ...commission(), ...change }] };
+    await poll();
+    assert.equal(get("workHealth").textContent, "Evidence unavailable");
+    assert.equal(get("workExport").attributes.href, undefined);
+  }
+});
+
+test("verified paid outcomes include failures and remain distinct from accepted delivery", async () => {
+  const { context, get, fresh, poll } = await harness();
+  for (const passed of [true, false]) {
+    const item = {
+      ...commission(),
+      state: "evaluated",
+      artifact_sha256: "e".repeat(64),
+      payer: "0x" + "1".repeat(40),
+      recipient: "0x" + "2".repeat(40),
+      offer_sha256: "f".repeat(64),
+      committed_micro_usdc: 1100000,
+    };
+    item.acceptance = {
+      passed,
+      metric: "brier",
+      improvement: passed ? 0.1 : -0.1,
+      artifact_sha256: item.artifact_sha256,
+      dataset_sha256: item.dataset_sha256,
+    };
+    item.settlement = {
+      finalized: true,
+      chain_id: 8453,
+      token: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      transaction: "0x" + "3".repeat(64),
+      sender: item.payer,
+      recipient: item.recipient,
+      offer_sha256: item.offer_sha256,
+      amount_micro_usdc: 1000000,
+      block: 100,
+    };
+    item.outcome = {
+      reward: passed ? 0.089 : -0.111,
+      accepted: passed,
+      artifact_sha256: item.artifact_sha256,
+      dataset_sha256: item.dataset_sha256,
+    };
+    context.evidence = { ...fresh(), commissions: [item] };
+    await poll();
+    assert.equal(get("workHealth").textContent, "Execution off");
+    get("workJobs").children[0].listeners.click();
+    const facts = get("workDetail").children[3].children;
+    assert.equal(
+      facts[5].children[1].textContent.startsWith(passed ? "Passed" : "Failed"),
+      true,
+    );
+    assert.equal(get("workResults").children.length, 1);
+  }
+});

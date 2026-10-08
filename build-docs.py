@@ -65,7 +65,7 @@ def build(root: Path = ROOT) -> None:
         .replace("url(#neural-mark)", "url(#docs-neural-mark)")
     )
     docs = docs.replace("{{LOGO}}", docs_logo)
-    for name in ("experience", "authority", "evidence"):
+    for name in ("experience", "authority", "evidence", "commissioning"):
         docs = docs.replace(
             "{{FLOW_" + name.upper() + "}}",
             (root / "brand/flows" / (name + ".svg")).read_text(),

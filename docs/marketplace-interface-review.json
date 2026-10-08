@@ -1,0 +1,20 @@
+{
+  "checked_at": 1791484042.4401321,
+  "refused": 96,
+  "coverage_complete": true,
+  "response_sha256": "980c1dba6c6410c2204165142da4347623a6bbf8c94a54be27a807e29bec04b0",
+  "funded": false,
+  "checked_utc": "2026-10-08T18:27:22.444087+00:00",
+  "valid_quotes": 4,
+  "prices_micro_usdc": [1000000, 5000000, 6000000],
+  "scope": "Read-only provider contract check; not payout-binding or delivery verification",
+  "schema": "nuria.marketplace.interface-review.v1",
+  "sources": ["https://1f916.ai/api/offers/guide", "https://1f916.ai/api/offers"],
+  "orders_submitted": 0,
+  "payments_sent": 0,
+  "missing": [
+    "seller binding verification",
+    "order acknowledgment and delivery retrieval contract",
+    "project identity and Base custody"
+  ]
+}

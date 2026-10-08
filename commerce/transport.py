@@ -24,7 +24,9 @@ class PinnedHTTPS(http.client.HTTPSConnection):
         self.sock = self._context.wrap_socket(raw, server_hostname=self.host)
 
 
-def request(endpoint, headers=None):
+def request(endpoint, headers=None, *, max_body=MAX_BODY):
+    if type(max_body) is not int or not 1 <= max_body <= 1_048_576:
+        raise ValueError("Invalid provider response bound")
     url = urlsplit(endpoint)
     if (
         url.scheme != "https"
@@ -51,8 +53,8 @@ def request(endpoint, headers=None):
         response = connection.getresponse()
         if 300 <= response.status < 400:
             raise ValueError("Provider redirects are disabled")
-        raw = response.read(MAX_BODY + 1)
-        if len(raw) > MAX_BODY:
+        raw = response.read(max_body + 1)
+        if len(raw) > max_body:
             raise ValueError("Provider response exceeds size limit")
         return (
             response.status,

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.1 — 2026-10-08
+
+- Add durable commission requests tied to recorded decisions, shared spending ceilings, explicit delivery deadlines and restart-safe ambiguous-order handling.
+- Verify structured artifacts with buyer-owned held-out comparisons; retain paid negative outcomes and task-specific provider memory.
+- Add commitment-checked 1f916 offer discovery and unsigned order preparation, plus an independent exact finalized Base-USDC payment verifier. External hiring and Base signing remain unconfigured.
+- Show commission purpose, cost ceiling, delivery, acceptance, payment and outcome separately in the dark Work, Results and Evidence views.
+- Document actual agent, human-escrow and compute gates with a technical flow diagram. Preserve existing neural histories and disabled financial policy.
+
 ## 0.7.0 — 2026-10-08
 
 - Make the recorded neural field the primary homepage composition, with a compact header, quiet controls and a single row of aligned measurements.

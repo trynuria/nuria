@@ -55,7 +55,7 @@ class WorkProjectionTests(unittest.TestCase):
         self.assertIsNone(result["money"]["balance"])
         self.assertEqual(
             [item["status"] for item in result["catalog"]],
-            ["gated", "planned", "planned", "planned"],
+            ["gated", "prepared", "planned", "planned"],
         )
 
     def test_paid_job_is_not_delivery_or_measured_learning(self):

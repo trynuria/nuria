@@ -34,6 +34,7 @@ class Ledger:
           signature TEXT PRIMARY KEY, state TEXT NOT NULL DEFAULT 'pending', evidence TEXT);
         CREATE INDEX IF NOT EXISTS jobs_created ON jobs(created);
         CREATE INDEX IF NOT EXISTS jobs_status ON jobs(status);
+        CREATE INDEX IF NOT EXISTS jobs_day ON jobs(day);
         CREATE INDEX IF NOT EXISTS signing_month ON signing_requests(month);
         """)
         self.verify()
@@ -127,12 +128,31 @@ class Ledger:
             unresolved = self.db.execute(
                 "SELECT count(*) FROM jobs WHERE status IN ('reserved','authorized','uncertain')"
             ).fetchone()[0]
-            if unresolved >= policy.maximum_unresolved_jobs:
-                raise ValueError("Unresolved payment circuit breaker is open")
             daily = self.db.execute(
                 "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=?", (day,)
             ).fetchone()[0]
+            if self.db.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='commissions'"
+            ).fetchone():
+                daily += self.db.execute(
+                    "SELECT coalesce(sum(amount),0) FROM commissions WHERE day=?",
+                    (day,),
+                ).fetchone()[0]
+                unresolved += self.db.execute(
+                    "SELECT count(*) FROM commissions WHERE amount>coalesce(json_extract(settlement,'$.amount_micro_usdc'),0) AND state!='cancelled'"
+                ).fetchone()[0]
+                last_commission = self.db.execute(
+                    "SELECT max(json_extract(quote,'$.reserved_at')) FROM commissions"
+                ).fetchone()[0]
+            else:
+                last_commission = None
+            if unresolved >= policy.maximum_unresolved_jobs:
+                raise ValueError("Unresolved payment circuit breaker is open")
             last = self.db.execute("SELECT max(created) FROM jobs").fetchone()[0]
+            last = max(
+                (value for value in (last, last_commission) if value is not None),
+                default=None,
+            )
             if last is not None and now - last < policy.cooldown_seconds:
                 raise ValueError("Paid-job cooldown has not elapsed")
             if (

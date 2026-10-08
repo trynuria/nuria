@@ -124,7 +124,7 @@ function validWorkEvidence(evidence, now = Date.now()) {
       (item) =>
         typeof item.name !== "string" ||
         typeof item.detail !== "string" ||
-        !["planned", "gated", "connected"].includes(item.status),
+        !["planned", "gated", "prepared", "connected"].includes(item.status),
     ) ||
     evidence.integrity?.valid !== true ||
     !integer(evidence.integrity.events) ||
@@ -168,10 +168,140 @@ function validWorkEvidence(evidence, now = Date.now()) {
       ))
   )
     throw Error("Unverified work balance");
+  const commissions = evidence.commissions || [];
+  const hash = (value) => /^[a-f0-9]{64}$/.test(value);
+  if (
+    !Array.isArray(commissions) ||
+    commissions.length > 40 ||
+    new Set(commissions.map((item) => item.id)).size !== commissions.length ||
+    commissions.some(
+      (item) =>
+        !hash(item.id) ||
+        !hash(item.decision_hash) ||
+        !hash(item.contract_sha256) ||
+        !hash(item.dataset_sha256) ||
+        !["agent", "human", "compute"].includes(item.kind) ||
+        typeof item.title !== "string" ||
+        item.title.length > 500 ||
+        typeof item.purpose !== "string" ||
+        item.purpose.length > 500 ||
+        ![
+          "proposed",
+          "reserved",
+          "dispatching",
+          "uncertain",
+          "submitted",
+          "overdue",
+          "delivered",
+          "accepted",
+          "rejected",
+          "evaluated",
+          "cancelled",
+        ].includes(item.state) ||
+        !integer(item.committed_micro_usdc) ||
+        !Number.isFinite(item.created_at) ||
+        !Number.isFinite(item.updated_at) ||
+        item.updated_at < item.created_at ||
+        item.updated_at * 1000 > now + 2000 ||
+        (item.state === "proposed" &&
+          (item.committed_micro_usdc !== 0 ||
+            item.settlement ||
+            item.artifact_sha256)) ||
+        (["delivered", "accepted", "rejected", "evaluated"].includes(item.state) &&
+          !hash(item.artifact_sha256)) ||
+        (item.acceptance &&
+          (typeof item.acceptance.passed !== "boolean" ||
+            item.acceptance.metric !== "brier" ||
+            item.acceptance.artifact_sha256 !== item.artifact_sha256 ||
+            item.acceptance.dataset_sha256 !== item.dataset_sha256 ||
+            !Number.isFinite(item.acceptance.improvement))) ||
+        (item.settlement &&
+          (item.settlement.finalized !== true ||
+            item.settlement.chain_id !== 8453 ||
+            item.settlement.token !== "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913" ||
+            !/^0x[a-fA-F0-9]{64}$/.test(item.settlement.transaction) ||
+            !/^0x[a-fA-F0-9]{40}$/.test(item.settlement.recipient) ||
+            !/^0x[a-fA-F0-9]{40}$/.test(item.settlement.sender) ||
+            !integer(item.settlement.block) ||
+            !integer(item.settlement.amount_micro_usdc) ||
+            item.settlement.sender !== item.payer ||
+            item.settlement.recipient !== item.recipient ||
+            item.settlement.amount_micro_usdc > item.committed_micro_usdc ||
+            item.settlement.offer_sha256 !== item.offer_sha256)) ||
+        (item.outcome &&
+          (item.state !== "evaluated" ||
+            !item.settlement ||
+            !item.acceptance ||
+            item.outcome.accepted !== item.acceptance.passed ||
+            item.outcome.artifact_sha256 !== item.artifact_sha256 ||
+            item.outcome.dataset_sha256 !== item.dataset_sha256 ||
+            !Number.isFinite(item.outcome.reward) ||
+            Math.abs(item.outcome.reward) > 1)) ||
+        (item.state === "evaluated" && !item.outcome),
+    ) ||
+    (evidence.commission_totals &&
+      (!integer(evidence.commission_totals.total) ||
+        evidence.commission_totals.total < commissions.length ||
+        !integer(evidence.commission_totals.committed_micro_usdc) ||
+        !integer(evidence.commission_totals.settled_micro_usdc)))
+  )
+    throw Error("Incomplete commissioned-work evidence");
   return evidence;
 }
 
 function renderWorkDetail() {
+  const commission = workSnapshot?.commissions?.find(
+    (item) => "commission:" + item.id === selectedWork,
+  );
+  if (commission) {
+    const payment = commission.settlement;
+    const acceptance = commission.acceptance;
+    $("workDetail").replaceChildren(
+      workNode(
+        "span",
+        `${commission.kind} · ${commission.provider || "provider not selected"}`,
+        "work-kicker",
+      ),
+      workNode("h3", commission.title),
+      workNode("p", commission.purpose),
+      workFacts([
+        ["Request", workLabel(commission.state)],
+        ["Cost ceiling", commerceMoney(commission.committed_micro_usdc)],
+        [
+          "Payment",
+          payment
+            ? `${commerceMoney(payment.amount_micro_usdc)} · finalized on Base`
+            : "No verified payment",
+        ],
+        ["Recipient", commission.recipient],
+        [
+          "Delivery",
+          commission.artifact_sha256
+            ? "Structured artifact received"
+            : "No artifact received",
+        ],
+        [
+          "Acceptance",
+          acceptance
+            ? `${acceptance.passed ? "Passed" : "Failed"} · Brier improvement ${acceptance.improvement.toFixed(6)}`
+            : "Not checked",
+        ],
+        [
+          "Outcome",
+          commission.outcome
+            ? `Task reward ${commission.outcome.reward.toFixed(6)} · includes committed cost`
+            : "Not measured",
+        ],
+        ["Transaction", payment?.transaction],
+        ["Artifact SHA-256", commission.artifact_sha256],
+        ["Dataset SHA-256", commission.dataset_sha256],
+        ["Task contract SHA-256", commission.contract_sha256],
+        ["Offer SHA-256", commission.offer_sha256],
+        ["Decision hash", commission.decision_hash],
+      ]),
+    );
+    return;
+  }
   const job = workSnapshot?.jobs.find((item) => item.id === selectedWork);
   if (!job) {
     $("workDetail").replaceChildren(
@@ -223,12 +353,23 @@ function renderWork(evidence) {
     ? "Execution enabled"
     : "Execution off";
   $("workHealth").dataset.state = evidence.financial_execution ? "running" : "guarded";
-  const signature = JSON.stringify(evidence.jobs);
+  const commissions = evidence.commissions || [];
+  const requests = [
+    ...evidence.jobs,
+    ...commissions.map((item) => ({
+      ...item,
+      id: "commission:" + item.id,
+      provider: item.provider || `${item.kind} · provider not selected`,
+      job_state: item.state,
+      amount_micro_usdc: item.committed_micro_usdc,
+    })),
+  ].sort((a, b) => b.created_at - a.created_at);
+  const signature = JSON.stringify(requests);
   if (signature !== workSignature) {
     const list = $("workJobs");
     const scroll = list.scrollTop;
     const focused = document.activeElement?.dataset.workId;
-    const rows = evidence.jobs.map((job) => {
+    const rows = requests.map((job) => {
       const row = workNode("button", undefined, "work-job");
       row.type = "button";
       row.dataset.workId = job.id;
@@ -298,6 +439,11 @@ function renderWork(evidence) {
     ? "Balance is an observed finalized USDC balance. A deposit is not proof of creator fees or a useful purchase."
     : "No operating wallet balance has been established. Creator fees, claimed funds and available treasury are separate observations.";
   const measured = evidence.jobs.filter((job) => job.outcome_state === "measured");
+  measured.push(
+    ...commissions
+      .filter((item) => item.outcome)
+      .map((item) => ({ ...item, reward: item.outcome.reward })),
+  );
   $("workResults").replaceChildren(
     ...(measured.length
       ? measured.map((job) => {
@@ -330,6 +476,18 @@ function renderWork(evidence) {
       [
         "Coverage",
         `${evidence.jobs.length} recent jobs of ${evidence.total_jobs} recorded${evidence.coverage?.truncated ? "; use the payment ledger for complete event history" : ""}`,
+      ],
+      [
+        "Commission requests",
+        `${commissions.length} recent of ${evidence.commission_totals?.total ?? commissions.length}; proposals do not establish orders or payments`,
+      ],
+      [
+        "Base cost ceilings",
+        commerceMoney(evidence.commission_totals?.committed_micro_usdc),
+      ],
+      [
+        "Base verified payments",
+        commerceMoney(evidence.commission_totals?.settled_micro_usdc),
       ],
       [
         "Verification",

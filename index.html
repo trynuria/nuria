@@ -5612,9 +5612,9 @@
         gap: 38px;
       }
       .work-list {
-        height: 420px;
-        min-height: 420px;
-        max-height: 420px;
+        height: 660px;
+        min-height: 660px;
+        max-height: 660px;
         overflow: auto;
         scrollbar-width: none;
         overflow-anchor: none;
@@ -5673,7 +5673,10 @@
       .work-detail {
         border-left: 1px solid var(--line);
         padding-left: 38px;
-        min-height: 350px;
+        height: 660px;
+        overflow: auto;
+        scrollbar-width: none;
+        overflow-anchor: none;
       }
       .work-detail h3 {
         min-height: 50px;
@@ -5833,6 +5836,12 @@
       .work-result {
         padding: 20px 0;
         border-bottom: 1px solid var(--line);
+      }
+      .work-results {
+        height: 480px;
+        overflow: auto;
+        scrollbar-width: none;
+        overflow-anchor: none;
       }
       .work-result h3 {
         margin: 0 0 10px;
@@ -9855,15 +9864,155 @@
                   <p
                     ><code>GET /api/work</code> serves up to 80 recent production
                     payment jobs from the same public cache used by the commerce
-                    service, with explicit total coverage. The complete payment event
-                    history remains paginated. Signed authorizations and isolated
-                    private tests are excluded. Missing or stale evidence appears as
-                    unknown.</p
+                    service, with explicit total coverage, alongside at most 40 recent
+                    commission requests. The complete payment event history remains
+                    paginated. Signed authorizations and isolated private tests are
+                    excluded. Missing or stale evidence appears as unknown.</p
+                  >
+                  <h2 id="resources--commissioning">Commissioning useful work</h2>
+                  <p
+                    >Nuria’s job controller records a task’s purpose, originating
+                    decision, committed offer, cost ceiling and delivery deadline.
+                    Structured results are checked against buyer-owned held-out targets.
+                    Exact payment evidence and measured usefulness are recorded
+                    separately, including negative results.</p
+                  >
+                  <figure class="doc-diagram"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 800 390"
+                      role="img"
+                      aria-labelledby="commission-title commission-desc"
+                    >
+                      <title id="commission-title">Commissioning workflow</title>
+                      <desc id="commission-desc">
+                        A recorded decision commits a task and cost ceiling. Buyer-owned
+                        checks establish delivery quality, and independent onchain
+                        evidence establishes payment. Both records are required for a
+                        measured outcome. External hiring remains gated.
+                      </desc>
+                      <rect width="800" height="390" rx="12" fill="#0a0d0c" />
+                      <g font-family="Arial, sans-serif">
+                        <text x="26" y="35" fill="#e2e8e2" font-size="21">
+                          Commissioning workflow
+                        </text>
+                        <g fill="#111814" stroke="#2c3930">
+                          <rect x="26" y="60" width="354" height="110" rx="7" />
+                          <rect x="420" y="60" width="354" height="110" rx="7" />
+                          <rect x="26" y="208" width="354" height="110" rx="7" />
+                          <rect x="420" y="208" width="354" height="110" rx="7" />
+                        </g>
+                        <g stroke="#59745c" fill="none">
+                          <path d="M380 115H420M597 170V189H203V208M380 263H420" />
+                        </g>
+                        <g fill="#dce7dc" font-size="18">
+                          <text x="44" y="89">Recorded decision</text>
+                          <text x="438" y="89">Committed task</text>
+                          <text x="44" y="237">Delivery and payment checks</text>
+                          <text x="438" y="237">Measured outcome</text>
+                        </g>
+                        <g fill="#96a297" font-size="15">
+                          <text x="44" y="116">Fresh action and decision hash</text>
+                          <text x="44" y="142">A local proposal, without spending</text>
+                          <text x="438" y="116">Offer, dataset and cost ceiling</text>
+                          <text x="438" y="142">
+                            Persist before sending · no blind retries
+                          </text>
+                          <text x="44" y="264">
+                            Artifact checked against held-out targets
+                          </text>
+                          <text x="44" y="290">
+                            Exact finalized payment verified separately
+                          </text>
+                          <text x="438" y="264">
+                            Task improvement minus committed cost
+                          </text>
+                          <text x="438" y="290">
+                            Retain useful results and failures
+                          </text>
+                        </g>
+                        <path d="M26 340H774" stroke="#2c3930" />
+                        <text x="26" y="365" fill="#96a297" font-size="14">
+                          Prepared controller · external hiring is gated · no
+                          consciousness result is implied
+                        </text>
+                      </g>
+                    </svg>
+
+                    <div
+                      class="diagram-mobile"
+                      role="list"
+                      aria-label="Commissioning flow"
+                    >
+                      <div role="listitem"
+                        ><strong>Decision</strong
+                        ><span
+                          >A fresh recorded action creates a local proposal.</span
+                        ></div
+                      >
+                      <div role="listitem"
+                        ><strong>Task</strong
+                        ><span
+                          >Commit the brief, dataset, offer and complete cost
+                          ceiling.</span
+                        ></div
+                      >
+                      <div role="listitem"
+                        ><strong>Delivery</strong
+                        ><span
+                          >Check a bounded artifact against private held-out
+                          targets.</span
+                        ></div
+                      >
+                      <div role="listitem"
+                        ><strong>Payment</strong
+                        ><span
+                          >Independently verify the exact asset, payer and
+                          recipient.</span
+                        ></div
+                      >
+                      <div role="listitem"
+                        ><strong>Outcome</strong
+                        ><span
+                          >Record task-specific improvement and retained failures.</span
+                        ></div
+                      >
+                    </div>
+                    <figcaption
+                      >A prepared controller, not evidence of live hiring. Payment,
+                      acceptance and outcome remain separate.</figcaption
+                    >
+                  </figure>
+                  <p
+                    >The first contractor artifact is a structured probability vector
+                    for a committed experimental task. Other reports, code, media and
+                    physical work need their own acceptance verifier. No contractor code
+                    runs on the production host. Paid outcomes can inform task-specific
+                    provider preference; they do not yet update the running neural
+                    worker.</p
                   >
                   <p
-                    >Specialist-agent hiring, human bounties and compute are planned
-                    integrations. Their future presence in the interface is not a live
-                    contract or purchase.</p
+                    >External hiring is disabled. The 1f916 offer adapter verifies
+                    public Base-USDC commitments and prepares unsigned orders; a project
+                    identity, Base custody, verified seller binding and funded delivery
+                    test remain required. Solana USDC cannot pay a Base invoice
+                    directly. RentAHuman requires a project account and its current
+                    bounty/escrow contract; compute requires a selected restricted
+                    provider. No order, bounty or compute purchase has been made.</p
+                  >
+                  <p
+                    ><a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/commissioning.md"
+                      target="_blank"
+                      rel="noreferrer"
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>Commissioning contract and activation gates</span></a
+                    ></p
                   >
                   <figure class="doc-diagram"
                     ><svg
@@ -16625,7 +16774,7 @@
               (item) =>
                 typeof item.name !== "string" ||
                 typeof item.detail !== "string" ||
-                !["planned", "gated", "connected"].includes(item.status),
+                !["planned", "gated", "prepared", "connected"].includes(item.status),
             ) ||
             evidence.integrity?.valid !== true ||
             !integer(evidence.integrity.events) ||
@@ -16676,10 +16825,143 @@
               ))
           )
             throw Error("Unverified work balance");
+          const commissions = evidence.commissions || [];
+          const hash = (value) => /^[a-f0-9]{64}$/.test(value);
+          if (
+            !Array.isArray(commissions) ||
+            commissions.length > 40 ||
+            new Set(commissions.map((item) => item.id)).size !== commissions.length ||
+            commissions.some(
+              (item) =>
+                !hash(item.id) ||
+                !hash(item.decision_hash) ||
+                !hash(item.contract_sha256) ||
+                !hash(item.dataset_sha256) ||
+                !["agent", "human", "compute"].includes(item.kind) ||
+                typeof item.title !== "string" ||
+                item.title.length > 500 ||
+                typeof item.purpose !== "string" ||
+                item.purpose.length > 500 ||
+                ![
+                  "proposed",
+                  "reserved",
+                  "dispatching",
+                  "uncertain",
+                  "submitted",
+                  "overdue",
+                  "delivered",
+                  "accepted",
+                  "rejected",
+                  "evaluated",
+                  "cancelled",
+                ].includes(item.state) ||
+                !integer(item.committed_micro_usdc) ||
+                !Number.isFinite(item.created_at) ||
+                !Number.isFinite(item.updated_at) ||
+                item.updated_at < item.created_at ||
+                item.updated_at * 1000 > now + 2000 ||
+                (item.state === "proposed" &&
+                  (item.committed_micro_usdc !== 0 ||
+                    item.settlement ||
+                    item.artifact_sha256)) ||
+                (["delivered", "accepted", "rejected", "evaluated"].includes(
+                  item.state,
+                ) &&
+                  !hash(item.artifact_sha256)) ||
+                (item.acceptance &&
+                  (typeof item.acceptance.passed !== "boolean" ||
+                    item.acceptance.metric !== "brier" ||
+                    item.acceptance.artifact_sha256 !== item.artifact_sha256 ||
+                    item.acceptance.dataset_sha256 !== item.dataset_sha256 ||
+                    !Number.isFinite(item.acceptance.improvement))) ||
+                (item.settlement &&
+                  (item.settlement.finalized !== true ||
+                    item.settlement.chain_id !== 8453 ||
+                    item.settlement.token !==
+                      "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913" ||
+                    !/^0x[a-fA-F0-9]{64}$/.test(item.settlement.transaction) ||
+                    !/^0x[a-fA-F0-9]{40}$/.test(item.settlement.recipient) ||
+                    !/^0x[a-fA-F0-9]{40}$/.test(item.settlement.sender) ||
+                    !integer(item.settlement.block) ||
+                    !integer(item.settlement.amount_micro_usdc) ||
+                    item.settlement.sender !== item.payer ||
+                    item.settlement.recipient !== item.recipient ||
+                    item.settlement.amount_micro_usdc > item.committed_micro_usdc ||
+                    item.settlement.offer_sha256 !== item.offer_sha256)) ||
+                (item.outcome &&
+                  (item.state !== "evaluated" ||
+                    !item.settlement ||
+                    !item.acceptance ||
+                    item.outcome.accepted !== item.acceptance.passed ||
+                    item.outcome.artifact_sha256 !== item.artifact_sha256 ||
+                    item.outcome.dataset_sha256 !== item.dataset_sha256 ||
+                    !Number.isFinite(item.outcome.reward) ||
+                    Math.abs(item.outcome.reward) > 1)) ||
+                (item.state === "evaluated" && !item.outcome),
+            ) ||
+            (evidence.commission_totals &&
+              (!integer(evidence.commission_totals.total) ||
+                evidence.commission_totals.total < commissions.length ||
+                !integer(evidence.commission_totals.committed_micro_usdc) ||
+                !integer(evidence.commission_totals.settled_micro_usdc)))
+          )
+            throw Error("Incomplete commissioned-work evidence");
           return evidence;
         }
 
         function renderWorkDetail() {
+          const commission = workSnapshot?.commissions?.find(
+            (item) => "commission:" + item.id === selectedWork,
+          );
+          if (commission) {
+            const payment = commission.settlement;
+            const acceptance = commission.acceptance;
+            $("workDetail").replaceChildren(
+              workNode(
+                "span",
+                `${commission.kind} · ${commission.provider || "provider not selected"}`,
+                "work-kicker",
+              ),
+              workNode("h3", commission.title),
+              workNode("p", commission.purpose),
+              workFacts([
+                ["Request", workLabel(commission.state)],
+                ["Cost ceiling", commerceMoney(commission.committed_micro_usdc)],
+                [
+                  "Payment",
+                  payment
+                    ? `${commerceMoney(payment.amount_micro_usdc)} · finalized on Base`
+                    : "No verified payment",
+                ],
+                ["Recipient", commission.recipient],
+                [
+                  "Delivery",
+                  commission.artifact_sha256
+                    ? "Structured artifact received"
+                    : "No artifact received",
+                ],
+                [
+                  "Acceptance",
+                  acceptance
+                    ? `${acceptance.passed ? "Passed" : "Failed"} · Brier improvement ${acceptance.improvement.toFixed(6)}`
+                    : "Not checked",
+                ],
+                [
+                  "Outcome",
+                  commission.outcome
+                    ? `Task reward ${commission.outcome.reward.toFixed(6)} · includes committed cost`
+                    : "Not measured",
+                ],
+                ["Transaction", payment?.transaction],
+                ["Artifact SHA-256", commission.artifact_sha256],
+                ["Dataset SHA-256", commission.dataset_sha256],
+                ["Task contract SHA-256", commission.contract_sha256],
+                ["Offer SHA-256", commission.offer_sha256],
+                ["Decision hash", commission.decision_hash],
+              ]),
+            );
+            return;
+          }
           const job = workSnapshot?.jobs.find((item) => item.id === selectedWork);
           if (!job) {
             $("workDetail").replaceChildren(
@@ -16733,12 +17015,23 @@
           $("workHealth").dataset.state = evidence.financial_execution
             ? "running"
             : "guarded";
-          const signature = JSON.stringify(evidence.jobs);
+          const commissions = evidence.commissions || [];
+          const requests = [
+            ...evidence.jobs,
+            ...commissions.map((item) => ({
+              ...item,
+              id: "commission:" + item.id,
+              provider: item.provider || `${item.kind} · provider not selected`,
+              job_state: item.state,
+              amount_micro_usdc: item.committed_micro_usdc,
+            })),
+          ].sort((a, b) => b.created_at - a.created_at);
+          const signature = JSON.stringify(requests);
           if (signature !== workSignature) {
             const list = $("workJobs");
             const scroll = list.scrollTop;
             const focused = document.activeElement?.dataset.workId;
-            const rows = evidence.jobs.map((job) => {
+            const rows = requests.map((job) => {
               const row = workNode("button", undefined, "work-job");
               row.type = "button";
               row.dataset.workId = job.id;
@@ -16812,6 +17105,11 @@
           const measured = evidence.jobs.filter(
             (job) => job.outcome_state === "measured",
           );
+          measured.push(
+            ...commissions
+              .filter((item) => item.outcome)
+              .map((item) => ({ ...item, reward: item.outcome.reward })),
+          );
           $("workResults").replaceChildren(
             ...(measured.length
               ? measured.map((job) => {
@@ -16844,6 +17142,18 @@
               [
                 "Coverage",
                 `${evidence.jobs.length} recent jobs of ${evidence.total_jobs} recorded${evidence.coverage?.truncated ? "; use the payment ledger for complete event history" : ""}`,
+              ],
+              [
+                "Commission requests",
+                `${commissions.length} recent of ${evidence.commission_totals?.total ?? commissions.length}; proposals do not establish orders or payments`,
+              ],
+              [
+                "Base cost ceilings",
+                commerceMoney(evidence.commission_totals?.committed_micro_usdc),
+              ],
+              [
+                "Base verified payments",
+                commerceMoney(evidence.commission_totals?.settled_micro_usdc),
               ],
               [
                 "Verification",
