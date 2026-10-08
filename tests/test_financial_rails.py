@@ -96,6 +96,109 @@ def swap_fixture():
 
 
 class FinancialRailTests(unittest.TestCase):
+    def test_direct_creator_policy_binds_the_actual_operating_wallet(self):
+        wallet, unrelated = str(Keypair().pubkey()), str(Keypair().pubkey())
+        raw = {
+            "creator_wallet": wallet,
+            "spending_wallet": wallet,
+            "funding_mode": "direct_creator",
+        }
+        self.assertEqual(Policy.load(raw).creator_wallet, wallet)
+        for change in (
+            {"creator_wallet": unrelated},
+            {"reserve_wallet": unrelated},
+            {"funding_mode": "managed_creator"},
+        ):
+            with self.assertRaises(ValueError):
+                Policy.load({**raw, **change})
+
+    def test_collection_cadence_survives_restart(self):
+        ledger, path = self.ledger()
+        Collector(ledger, lambda *_: None)
+        ledger.db.execute(
+            "INSERT INTO collections(id,status,terms,day,fee) VALUES('previous','finalized',?,'2026-10-08',5000)",
+            (json.dumps({"prepared_at": 1000}),),
+        )
+        restored = Ledger(path / "ledger.sqlite3")
+        self.addCleanup(restored.db.close)
+        calls = []
+
+        def fetch(method, params):
+            calls.append(method)
+            raise ValueError("Chain review reached; fixture does not sign")
+
+        worker = Collector(restored, fetch)
+        wallet = str(Keypair().pubkey())
+        policy = Policy(creator_wallet=wallet, spending_wallet=wallet)
+        controls = {
+            "enabled": True,
+            "minimum_claim_lamports": 1_000_000,
+            "daily_gas_lamports": 5000,
+            "interval_seconds": 60,
+        }
+        observation = {"vault_balance_lamports": 1_000_000}
+        self.assertIsNone(worker.collect(observation, policy, None, controls, 1059))
+        self.assertEqual(calls, [])
+        with self.assertRaises(ValueError):
+            worker.collect(
+                observation, policy, None, {**controls, "interval_seconds": 59}, 1060
+            )
+        self.assertEqual(calls, [])
+        with self.assertRaisesRegex(ValueError, "Chain review reached"):
+            worker.collect(observation, policy, None, controls, 1060)
+        self.assertEqual(calls, ["getAccountInfo"])
+
+    def test_same_wallet_claim_separates_gross_fee_income_and_gas(self):
+        ledger, _ = self.ledger()
+        key, vault_key = Keypair(), Keypair()
+        wallet, vault = str(key.pubkey()), str(vault_key.pubkey())
+        ix = Instruction(
+            Pubkey.from_string(PUMP),
+            b"fixture",
+            [
+                AccountMeta(key.pubkey(), True, True),
+                AccountMeta(vault_key.pubkey(), False, True),
+            ],
+        )
+        tx = VersionedTransaction(
+            MessageV0.try_compile(key.pubkey(), [ix], [], Hash.default()), [key]
+        )
+        keys = [str(k) for k in tx.message.account_keys]
+        pre = [2_000_000] * len(keys)
+        post = pre.copy()
+        post[keys.index(wallet)] += 995_000
+        post[keys.index(vault)] -= 1_000_000
+        evidence = {
+            "slot": 100,
+            "transaction": [base64.b64encode(bytes(tx)).decode(), "base64"],
+            "meta": {
+                "err": None,
+                "fee": 5000,
+                "preBalances": pre,
+                "postBalances": post,
+            },
+        }
+        worker = Collector(ledger, lambda *_: evidence)
+        ledger.db.execute(
+            "INSERT INTO collections(id,status,signature,message_sha256,terms,day,fee) VALUES('direct','uncertain',?,?,?,'2026-10-08',5000)",
+            (
+                str(tx.signatures[0]),
+                hashlib.sha256(b"\x80" + bytes(tx.message)).hexdigest(),
+                json.dumps({"creator_wallet": wallet, "vault": vault}),
+            ),
+        )
+        post[keys.index(wallet)] += 1
+        with self.assertRaises(ValueError):
+            worker.reconcile()
+        post[keys.index(wallet)] -= 1
+        worker.reconcile()
+        event = ledger.recent()[0]
+        self.assertEqual(event["collected_lamports"], 1_000_000)
+        self.assertEqual(event["net_creator_delta_lamports"], 995_000)
+        self.assertEqual(event["network_fee_lamports"], 5000)
+        worker.reconcile()
+        self.assertEqual(len(ledger.recent()), 1)
+
     def ledger(self):
         path = directory()
         result = Ledger(path / "ledger.sqlite3")
@@ -418,16 +521,12 @@ class FinancialRailTests(unittest.TestCase):
         self,
     ):
         ledger, path = self.ledger()
-        key, target, operating = (
-            Keypair(),
-            str(Keypair().pubkey()),
-            str(Keypair().pubkey()),
-        )
+        key, operating = Keypair(), str(Keypair().pubkey())
         policy = dataclasses.replace(
             Policy(),
             creator_wallet=str(key.pubkey()),
-            reserve_wallet=target,
             spending_wallet=operating,
+            funding_mode="managed_creator",
         )
         controls = {
             "enabled": True,

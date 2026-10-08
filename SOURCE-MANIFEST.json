@@ -19,7 +19,8 @@
     "Unified responsive presentation, unclipped live instruments, shared neural monogram and repository brand graphics; neural histories unchanged",
     "Isolated exact Solana USDC x402 execution, durable purchase evidence, measured paid-outcome credit, guarded Pump claim planning and encrypted commerce ledger snapshots; activation disabled and missing funding/conversion rails explicit",
     "Managed parsed-transaction custody, guarded creator collection and reserve forwarding, destination-bound Squads funding, constrained SOL-to-USDC conversion, durable signing ceilings, finalized wallet observation and complete paginated public financial evidence; production execution remains disabled",
-    "Custom accessible replay listbox, suppressed form completion, linked project contact and GitHub marks, shared experience/authority/evidence diagrams, repaired documentation scrolling/sidebar, six-group capability map with status filters, simplified search and single uppercase chapter breadcrumbs; all 51 entries, histories and guarded financial execution preserved"
+    "Custom accessible replay listbox, suppressed form completion, linked project contact and GitHub marks, shared experience/authority/evidence diagrams, repaired documentation scrolling/sidebar, six-group capability map with status filters, simplified search and single uppercase chapter breadcrumbs; all 51 entries, histories and guarded financial execution preserved",
+    "Direct managed creator-beneficiary funding, guarded stdin custody input, immutable total-session testing ceilings, anchored finalized-history payment expiry reconciliation, explicit new Pump sweep activation gate and current-evidence UI recovery; production spending remains disabled"
   ],
   "files": [
     {
@@ -28,7 +29,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "46c803537d43bc87cdd7d345b876d711cab11c3fa729fa67edad57d2e3f14e39"
+      "published_sha256": "588e6533b095d4378115029d455f4c4cf5ee1eb6131a10dc64922fd0cf5dc033"
     },
     {
       "path": ".gitignore",
@@ -48,7 +49,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "152b57df7e4d65ef46b974367fab03b32354b1d617d76b83c2fbe66354a7e9c8"
+      "published_sha256": "288a9592b894665e4eafcecf727f575cd896faa9fd06984e5233235ca072c486"
     },
     {
       "path": "api.py",
@@ -68,7 +69,7 @@
     },
     {
       "path": "brand/flows/authority.svg",
-      "published_sha256": "55c1a2988168855147a914583ec7df305f466af60ab74059039c2ed965027f55"
+      "published_sha256": "0963c7506c5f1dbd7d9e72e8a00b4c750c93c495cb6e87be30df675e9d5769b7"
     },
     {
       "path": "brand/flows/evidence.svg",
@@ -188,7 +189,7 @@
     },
     {
       "path": "commerce-view.js",
-      "published_sha256": "e5f05fdf1bbd12677a44914e08a8f2989d26ef17a4b20eaade32f975fe5994fc"
+      "published_sha256": "0d544679a5b29b9026947887ff3a698d44cc3fdc01ec1824391a88b63f8e86d0"
     },
     {
       "path": "commerce/__init__.py",
@@ -200,11 +201,11 @@
     },
     {
       "path": "commerce/collection.example.json",
-      "published_sha256": "538e90fe343721129f9fa1184287c34a8620acaf6e0164a5203b6ee3e02829be"
+      "published_sha256": "0c78ed3d5815ad288c0eff2200f415f29eaeec3e46c2d983461f2b621729c346"
     },
     {
       "path": "commerce/config.py",
-      "published_sha256": "e802c7181d76e21c269f3015bb061f357ed35e18072c71c659f73969fb43bbd5"
+      "published_sha256": "d5ffdcc33e523036e8e7d4e690f826de4878322398ad1c520ccaad8dc4b4ad95"
     },
     {
       "path": "commerce/conversion.example.json",
@@ -220,11 +221,11 @@
     },
     {
       "path": "commerce/funding.py",
-      "published_sha256": "f33d919ff12d8230bd507750e59c0cfea2d5c380282764f2aeb91d62afc30032"
+      "published_sha256": "3d50bede06a257b9e24ea33b818a886c41b6c1c01d8df6836d93bea626030692"
     },
     {
       "path": "commerce/ledger.py",
-      "published_sha256": "7d666117ff721488d33fd8f7370a0ef21a4b5eded69e91f104c7e763ec24be14"
+      "published_sha256": "b5241ba8a4bf7ea55f4f89e0bb8133fa9c5a9f7b8c772205307c40bd97b62a34"
     },
     {
       "path": "commerce/managed.py",
@@ -236,7 +237,7 @@
     },
     {
       "path": "commerce/policy.example.json",
-      "published_sha256": "29b2fffeba62603eee4878789347b8f2ec80fd474b2f55dc715e285977e38b5f"
+      "published_sha256": "64be2771d13940e0aec1015fc6b275375a30ef47bb7b091db68f4952844abf00"
     },
     {
       "path": "commerce/provider.example.json",
@@ -245,6 +246,10 @@
     {
       "path": "commerce/readiness.py",
       "published_sha256": "72050490e2642db0440df912e7b222905c2511edd603fd97486e615a39c54716"
+    },
+    {
+      "path": "commerce/recovery.py",
+      "published_sha256": "4a0fcee2a39e1752ba3ad90badccbe566c5a20f5d71369a6ef536e3338ddd682"
     },
     {
       "path": "commerce/requirements.lock",
@@ -261,6 +266,10 @@
     {
       "path": "commerce/reserve.py",
       "published_sha256": "7e8ac79addc69b6df83eaccad325963871c4e028145a98459e8231f0d3b0f7c1"
+    },
+    {
+      "path": "commerce/session_budget.py",
+      "published_sha256": "6c3b4049c28e437162dcc3f95fa7b5a2b67d4cdb464c14fb023a449fd67da800"
     },
     {
       "path": "commerce/signer/custody-policy.mjs",
@@ -280,7 +289,15 @@
     },
     {
       "path": "commerce/signer/privy.mjs",
-      "published_sha256": "576f3c6c9cdf146201d1f84ebf042c77e7b13dcebffb2ee2cd032dd64f36c70d"
+      "published_sha256": "ca806da75e2135df4483b74d3eea2ab734f462b6f1993737715cad2a753f0366"
+    },
+    {
+      "path": "commerce/signer/request-input.mjs",
+      "published_sha256": "2473981cccbfb323a98868a7bbc1cffc5095746e67b1a936fad1b50d56465ba1"
+    },
+    {
+      "path": "commerce/signer/request-input.test.mjs",
+      "published_sha256": "aeebfbfa9e29cb0243df8665487f6c2b2036801e1af1643eb2a8df60be76fd85"
     },
     {
       "path": "commerce/solana.py",
@@ -300,11 +317,11 @@
     },
     {
       "path": "commerce/sweep.py",
-      "published_sha256": "beeb574595d93789881a4ec48a93ac1f38bc40975e6f89184f3910223f43671a"
+      "published_sha256": "a487b2d9e2253236833126e7f23fda4e7e0a2f680ac7da734b10492b727c1ff9"
     },
     {
       "path": "commerce/tests/test_x402_sdk.py",
-      "published_sha256": "f8b848a058dbbc6be667acd42e64f20f2a303673ae1e91e2e92ec2819548bdfb"
+      "published_sha256": "a49339f6b2ac40041b7b7f1cb3dfe55e752dbfb573f28c29fbcd86ba5e4897c1"
     },
     {
       "path": "commerce/transport.py",
@@ -316,7 +333,7 @@
     },
     {
       "path": "commerce/worker.py",
-      "published_sha256": "746ec30c144659d900d6e0b5ff51365850f8c88c49072dedf9c9bd77ddda82e4"
+      "published_sha256": "0cf6ed616bc9d3c8b9ebac89714108ffe01305e78db54a4adbca44f45f437da6"
     },
     {
       "path": "commerce/x402.py",
@@ -328,7 +345,7 @@
     },
     {
       "path": "deploy/nuria-commerce.service",
-      "published_sha256": "73299b0d420234eb11a27c9bdf796e709c841761cd239e7504e094f1c2d9f3f1"
+      "published_sha256": "7cb78126f005a548f3079249ff6bc19f5f0b7dfc8e92a4f2107a8821e38cb540"
     },
     {
       "path": "deploy/nuria-discovery.service",
@@ -348,7 +365,7 @@
     },
     {
       "path": "docs-script-check.js",
-      "published_sha256": "a4c3818dfed0be0e058a5abc5a023415d6b6626467839ab91037d329415bb256"
+      "published_sha256": "6aa65b2e923d1b58a2627e8a3593cd9658dc3bd0dbc7c9734ce398570e7cd3bb"
     },
     {
       "path": "docs/architecture.md",
@@ -384,7 +401,7 @@
     },
     {
       "path": "docs/docs-content.html",
-      "published_sha256": "b927c52583260dc38efd3a77201cd6054ad655cb49fc12ee8b46619ae9e14b1a"
+      "published_sha256": "9f10119312d6f1dd543b88d15d56ce905f9d726ffa6885e305ed5dfae6f12e36"
     },
     {
       "path": "docs/docs.css",
@@ -416,11 +433,11 @@
     },
     {
       "path": "docs/launch-finance.md",
-      "published_sha256": "41f1cb5df0b20ea0ac6a029ebe79cad3ae31a61fc6c26f21793e03944900c926"
+      "published_sha256": "453028fe00fc8f2eb74686d5250a52fa5d6273f7a1a843c991369274557d4585"
     },
     {
       "path": "docs/spending.md",
-      "published_sha256": "3ac606d24037f2c96efb8f0f32e52ef96868fda123a6dd913f5f3fe312a67311"
+      "published_sha256": "c6c00a96f4a7716ee68de0181339ae4003e3aa0b664fde6e70f45a41425df325"
     },
     {
       "path": "docs/synaptic-evaluation.json",
@@ -436,7 +453,7 @@
     },
     {
       "path": "index.html",
-      "published_sha256": "ebc898b138576d3b1695d4da1bb85f23defcbc7ed39aee1a787dc06c520997f9"
+      "published_sha256": "e71923bc340c53d21675ea982ba6b2c71b5495be36eb5569f651cae533421b73"
     },
     {
       "path": "ingest.py",
@@ -472,11 +489,11 @@
     },
     {
       "path": "package-lock.json",
-      "published_sha256": "8a0da150664a5054986abe520b6c53c7f88b823ec0cefcc1dfcbc989c99ffec9"
+      "published_sha256": "f8125b8a68af22f7c9384adaf41fca5e5e43581df33cb7a4f8be84ab5819d89c"
     },
     {
       "path": "package.json",
-      "published_sha256": "0b105f47fadc442ad446b693a7052510271c54079b81c9d50407d0969c4488ce"
+      "published_sha256": "be26f64a08d94d86ebaf84c9fc5c7b1e5c6b1074217804954ea88313938118f7"
     },
     {
       "path": "publish.py",
@@ -535,6 +552,10 @@
       "published_sha256": "d02d3a720c2e4039cfb2a2a9865c47dd122c04541bb0917ba070747ed99b4516"
     },
     {
+      "path": "tests/commerce-view.test.cjs",
+      "published_sha256": "274900e1c32ebbe5292575f253f33dcd90a72a990d5dced01b5eced7462a429e"
+    },
+    {
       "path": "tests/fixtures-squads-v4.json",
       "published_sha256": "73e8eaa66ec818a42ccb4262c4754cb208538a5e4b658439609eb25343ea4228"
     },
@@ -552,7 +573,7 @@
     },
     {
       "path": "tests/test_commerce.py",
-      "published_sha256": "a983017eec97de1145e5bd60b4e8d0e31d145e6c1018d55ce15edcc40ea4f9b9"
+      "published_sha256": "99f98cd7f851c1d66ba3a59ba3fa5b138e6ff7e3236f4ad7ea32458c461c06e5"
     },
     {
       "path": "tests/test_decoder.py",
@@ -568,15 +589,23 @@
     },
     {
       "path": "tests/test_financial_rails.py",
-      "published_sha256": "5f3db99e22580bf701b76023a414d9747a598bf576b02e3ad562fb242e88b08b"
+      "published_sha256": "459a6951d9541e8de5eb7760c90b26586d5ac40a3411985ab8576a018c00c233"
     },
     {
       "path": "tests/test_forecast.py",
       "published_sha256": "4b80c2e7c0501897597179ea26ee398d0a83e410fa720751247b43fcbb27cd4d"
     },
     {
+      "path": "tests/test_payment_recovery.py",
+      "published_sha256": "84812416a9deb17ccbc758608e0b1bc9c56d111543660b74c4b19e12285f7c21"
+    },
+    {
       "path": "tests/test_recovery_archive.py",
       "published_sha256": "6cb0a61dfbd3e29ac68695a9aafd984ee2c1569cc9338da1c37fce336ea9e921"
+    },
+    {
+      "path": "tests/test_session_budget.py",
+      "published_sha256": "332f52c50359f151f010810602fd79c5607d1de90497be514363171eb4d299eb"
     },
     {
       "path": "ui-controls.css",

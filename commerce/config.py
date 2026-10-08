@@ -80,6 +80,7 @@ class Policy:
     maximum_unresolved_jobs: int = 3
     reserve_wallet: str | None = None
     pool: str | None = None
+    funding_mode: str = "direct_creator"
 
     @classmethod
     def load(cls, raw):
@@ -106,6 +107,29 @@ class Policy:
             raise ValueError("Paid jobs require at least a sixty-second cooldown")
         if result.signer not in ("privy", "local_test"):
             raise ValueError("Unsupported signer")
+        if result.funding_mode not in (
+            "direct_creator",
+            "owner_transfer",
+            "managed_creator",
+        ):
+            raise ValueError("Unsupported direct-wallet funding mode")
+        if result.reserve_wallet is not None:
+            raise ValueError("The direct-wallet route does not use a reserve wallet")
+        if (
+            result.funding_mode == "direct_creator"
+            and result.creator_wallet
+            and result.spending_wallet
+            and result.creator_wallet != result.spending_wallet
+        ):
+            raise ValueError("Direct claims must pay the configured operating wallet")
+        if (
+            result.funding_mode == "managed_creator"
+            and result.creator_wallet
+            and result.creator_wallet == result.spending_wallet
+        ):
+            raise ValueError(
+                "Managed funding requires distinct creator and operating wallets"
+            )
         if (
             not 1 <= result.monthly_signature_limit <= 40_000
             or not 1 <= result.maximum_unresolved_jobs <= 3

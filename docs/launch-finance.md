@@ -1,49 +1,61 @@
 # Financial activation
 
-The installed services and public ledger are ready for configuration. No production wallet, funded allowance or paid merchant transaction has been created by this release. Execution remains disabled.
+Production execution is disabled. The token mint and current creator-fee beneficiary are not configured. Offline rail tests and a restricted managed-wallet signature test do not establish a working fee-funded purchase loop.
 
-## Project accounts
+## One managed operating wallet
 
-Use a separate Privy application and a project-only Jupiter API key. The runtime receives a delegated authorization key, not the wallet owner's recovery authority. It cannot own the wallet or policy. The managed signer checks the live wallet, delegate, independently owned policy and direct owner quorums before signing a parsed transaction. It derives the runtime authorization public key and rejects membership in either owner quorum, even when quorum IDs differ. Nested or user-based ownership requires its own reviewed adapter; this configuration uses direct P-256 authorization keys. Do not enable unrestricted message signing, key export or an allow-all policy.
+The preferred route uses the same dedicated project wallet for creator-fee receipts and operating inventory. Its recovery owner stays outside the application host. Privy gives the isolated financial worker a separate, restricted runtime delegate; the public API and neural workers have no signing authority. No reserve vault or multisig is required.
 
-Set up a separate Squads V4 reserve with an independent quorum of at least two voting members. Nuria's operating member has execution permission only. Configuration authority must be the null System address, so changes go through the quorum. Bind the allowance to exactly one operating destination. An empty destination list is rejected.
+The signer verifies the live owner, delegate attachment and independently owned policy hash. The runtime authorization public key must differ from the recovery owner and policy owner. This configuration uses direct P-256 authorization resources, not a voting quorum. Arbitrary message signing, key export and an allow-all runtime policy are unsupported.
 
-Project credentials stay outside source and public cache. The managed-wallet JSON is 0600 and owned by the financial service. Owner recovery keys remain outside the application host. The creator-wallet delegate uses a separate 0600 configuration; it cannot act as the operating or reserve owner. The public API and neural worker receive neither custody credentials nor wallet secrets.
+Project credentials stay outside source and public cache, in 0600 files readable only by the financial service. Custody-level recipient and instruction restrictions complement local caps. The operator retains ultimate configuration authority. Local daily limits are not an independently enforced Solana custody-level cumulative cap; all funds in the operating wallet remain exposed to whatever its actual signing policy permits.
 
-## Launch identity and allowances
+## Creator fees
 
-For an ordinary wallet beneficiary, the creator wallet must be a separate project managed wallet, with a second delegate whose custody policy permits only an exact SOL transfer to the reserve. The `sweep` adapter forwards to that one destination with its own native-SOL, retained-balance and gas ceilings. It does not change the Pump beneficiary. If fees are already paid directly to the verified reserve vault, forwarding is unnecessary. A third-party or manually controlled creator wallet cannot be swept by Nuria's operating signer; that path is a configuration gap, not an automated loop.
+```text
+mint-specific trades → protocol fee buckets → sweep and claim
+  → verified agent beneficiary → bounded SOL-to-USDC conversion
+  → approved purchase → payment, delivery and outcome records
+```
 
-Configure the exact mint and verified creator-fee beneficiary, then the exact PumpSwap pool when the coin graduates. Read-only preflight checks current recipients and mode flags. Fee sharing, holder rewards, cashback, mayhem, nonstandard quotes and unreviewed layouts stop collection. Pin the deployed Pump, PumpSwap, Squads and Jupiter program-data hashes after review; upgrades require a new review.
+A claim pays the current protocol beneficiary. It cannot redirect an unrelated launch wallet's fees. With `funding_mode: direct_creator`, the configured creator and spending addresses must match. If a separate project managed creator wallet is necessary, `managed_creator` uses a separate delegate to forward SOL only to the operating address within explicit native-unit limits. `owner_transfer` records a manual funding dependency. None of these modes changes the Pump beneficiary.
 
-The agreed merchant ceilings are **2 USDC per job and 25 USDC per UTC day**. A 5 USDC inventory floor, minimum 60-second job interval, three-unresolved-job breaker and 40,000 monthly signing-request ceiling provide additional operating limits. These are ceilings, not purchase targets.
+Collection is checked no more often than every sixty seconds, with a minimum useful balance and a separate gas ceiling. This is a polling interval, not a promise that funds settle every minute. An unresolved collection blocks a replacement transaction. A creator vault can aggregate several coins; its balance is not automatically token-specific revenue. Record trade accrual, sweep, claim and wallet credit separately so the same fee is not counted repeatedly.
 
-USDC reserve replenishment has its own destination-bound daily allowance of at most 25 USDC. If the reserve holds SOL fees instead, configure a separate, explicitly approved native-SOL allowance and SOL conversion ceiling. SOL caps are in lamports; they cannot promise a fixed USD value. Network fees, rent and inventory conversions are recorded separately from merchant expenditure. No native-SOL allowance or gas budget is inferred from the 25-USDC merchant ceiling.
+Pump's newer trade instructions retain fees on the bonding curve or pool. The current public interface requires `sweep_creator_fee` before the relevant claim. The legacy collector does not yet implement that new sequence; activation stays blocked until the exact deployed layout and instruction set are reviewed and tested. Fee sharing, holder rewards, cashback, mayhem and nonstandard quote assets also require separate reviewed adapters. Pin the actual Pump, PumpSwap and Jupiter program-data hashes; an upgrade requires review.
 
-Provide a small initial operating USDC balance and enough SOL for the configured funding/conversion network fees and token-account rent. First verify a real minimum-price purchase, its finalized recipient delta, delivered result and restart reconciliation. Funding the wallet alone is not a complete loop test.
+## Standing limits and test authority
 
-## Read-only preflight
+The production merchant ceilings are **2 USDC per job and 25 USDC per UTC day**, with a 5-USDC inventory floor, sixty-second job cooldown, three-unresolved-job breaker and 40,000 monthly signing-request ceiling. They are ceilings, not targets. Incoming trades do not each trigger a signature or purchase.
 
-Run from the configured financial service environment:
+Bounded launch testing has a separate **25 USD total ceiling for the whole test session**, including pending liabilities, swap losses, native fees and rent. Restart or midnight does not renew it. Jobs remain capped at 2 USD. `SessionBudget` uses durable immediate SQLite transactions; an ambiguous disclosure reserves the full job allowance until verified reconciliation. A funded wallet balance is inventory, not permission to spend it all.
+
+SOL conversion and collection require explicit lamport, retained-balance, slippage, gas and rent limits. No native spending allowance is inferred from a USDC merchant cap. Refresh valuation before a native expense and account for it against the same total test ceiling.
+
+## Merchant and recovery gates
+
+The forecast contract needs an actual provider delivering `nuria.forecast.v1`; none has been demonstrated. The separate CoinGecko adapter accepts credential-free Solana-USDC x402 invoices for market context. A funded integration request returned a facilitator validation error; finalized settlement and delivered data remain unverified. A free price endpoint is also available, so a paid price must not be described as a unique capability or learning benefit.
+
+A disclosed authorization never triggers an automatic replacement payment. The worker first checks a retained receipt. Without one, it can inspect finalized wallet transactions back to a checkpoint recorded before signing. A matching transaction still requires exact USDC deltas. An expired blockhash can close the job only after the scan reaches that checkpoint with no matching inclusion. Missing history, transaction data or an old unanchored authorization stays unresolved. This is evidence from the configured RPC provider, not an independent guarantee of complete chain history.
+
+Payment, delivered bytes and measured usefulness are separate gates. A market-price response receives no implemented neural-learning credit. A paid forecast can be scored against a later verified input; that operational comparison does not establish causal superiority over a simpler controller.
+
+## Activation checklist
+
+1. Provide the exact launched mint and verify its current beneficiary, launch mode and pool.
+2. Bind that beneficiary to the intended managed operating wallet, or configure the explicit forwarding/manual path.
+3. Review current protocol interfaces and deployed program hashes; complete sweep-and-claim verification.
+4. Attach the exact reviewed runtime custody policy and independent recovery owner.
+5. Set native ceilings and initial SOL/USDC inventory; verify account ownership and delegate state.
+6. Verify a compatible merchant's current invoice, successful finalized payment and valid delivery.
+7. Rehearse restart, ambiguous response and duplicate recovery before enabling the fixed catalog.
+
+Read-only preflight reports gaps; it does not authorize activation:
 
 ```sh
 python -m commerce.readiness --policy /etc/nuria-commerce/policy.json --ledger /var/lib/nuria/commerce/commerce.sqlite3
 ```
 
-This does not sign or broadcast. It reports missing inputs rather than granting activation. Template files under `commerce/` are deliberately disabled. They are configuration examples, not pre-authorized recipients or live wallets.
+Examples under `commerce/` are deliberately disabled. Jupiter conversion, collection and purchases each need their own reviewed configuration. x402 batching is a later option with channel, escrow, voucher and reconciliation assumptions; no batch channel is operational or opened automatically.
 
-## Merchants
-
-The forecast contract requires an actual merchant delivering `nuria.forecast.v1`. No such provider has been demonstrated. A separate CoinGecko adapter can buy Solana/USD market context using a credential-free x402 endpoint. An unpaid mainnet-Solana-USDC invoice was observed on 2026-10-08. That observation does not prove paid delivery, forecasting value or neural learning. Revalidate the recipient, facilitator fee payer and invoice before activation.
-
-No separate universal x402 API key is needed for that credential-free endpoint. Other merchants can require their own accounts. A provider must support the specific payment scheme and network we test; protocol-wide support does not establish merchant support.
-
-## Higher payment volume
-
-Incoming trades are read-only inputs, not payment or custody-signing requests. Purchases, reconciliation and wallet backfills have independent processes and ceilings. Reaching a spend or signature ceiling pauses purchases while the neural stream continues.
-
-Privy's advertised included signing allowance is 50,000 per month; the local limit is deliberately lower. Account pricing and provider rate limits still require confirmation before funding. A Solana cumulative daily cap is enforced locally; Privy does not currently provide the same stateful Solana policy limit as Ethereum. Squads caps replenishment onchain, while existing operating balances remain an additional exposure.
-
-x402 Solana batch channels can reduce onchain settlement frequency. They still introduce escrow, voucher authority, counterparty trust, refund rules and reconciliation. Client-signed vouchers can retain per-signature custody costs. Server-signed channels let a trusted operator claim the whole deposited amount. No batch channel is opened automatically or described as operational until an actual merchant, facilitator and deployed channel program have been verified.
-
-References: [Privy policies](https://docs.privy.io/controls/policies/overview), [Privy pricing](https://www.privy.io/pricing), [Squads spending limits](https://docs.squads.so/main/development/reference/spending-limits), [Jupiter v2 build](https://developers.jup.ag/docs/swap/build), [x402 Solana batching](https://docs.x402.org/schemes/batch-settlement), [CoinGecko x402](https://docs.coingecko.com/ai-integration/x402).
+References: [Pump sweep interfaces](https://github.com/pump-fun/pump-public-docs/blob/main/docs/instructions/SWEEP_FEES.md), [Privy policies](https://docs.privy.io/controls/policies/overview), [Jupiter build](https://developers.jup.ag/docs/swap/build), [Solana wallet history](https://solana.com/docs/rpc/http/getsignaturesforaddress), [blockhash validity](https://solana.com/docs/rpc/http/isblockhashvalid).

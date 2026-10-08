@@ -8,7 +8,7 @@
 >
   <title id="authority-title">How fees become a resource budget</title>
   <desc id="authority-description">
-    Collection, reserves, conversions and purchases have separate permissions and
+    Collection, custody, conversion and purchases have separate permissions and
     receipts.
   </desc>
   <defs>
@@ -78,8 +78,8 @@
     >
       How fees become a resource budget
     </text>
-    <text x="48" y="139" fill="#96aa91" font-size="17">
-      Collection, reserves, conversions and purchases have separate permissions and
+    <text x="48" y="139" fill="#96aa91" font-size="18">
+      Collection, custody, conversion and purchases have separate permissions and
       receipts.
     </text>
     <rect
@@ -91,8 +91,8 @@
       fill="#15221a"
       stroke="#354b37"
     />
-    <text x="70" y="197" font-size="16" fill="#b4cb9f">Recovery owner</text>
-    <text x="241" y="197" font-size="16" fill="#91a88b">
+    <text x="70" y="197" font-size="20" fill="#b4cb9f">Recovery owner</text>
+    <text x="241" y="197" font-size="20" fill="#91a88b">
       Private authority stays outside the application host.
     </text>
     <text
@@ -116,16 +116,16 @@
     />
     <circle cx="72" cy="284" r="3" fill="#c1dda5" />
     <text x="85" y="289" font-size="12" fill="#c1dda5" letter-spacing="1.7">
-      COLLECTION
+      ACCRUAL
     </text>
     <text x="71" y="335" fill="#e2ebdb" font-size="25" letter-spacing="-0.4">
-      Creator collection
+      Fees accrue
     </text>
-    <text x="71" y="368" fill="#96aa91" font-size="16">
-      Verified protocol beneficiary
+    <text x="71" y="368" fill="#96aa91" font-size="20">
+      Curve, pool or creator vault
     </text>
-    <text x="71" y="392" fill="#96aa91" font-size="16">
-      Forwarding is destination-bound
+    <text x="71" y="392" fill="#96aa91" font-size="20">
+      Mint-specific income evidence
     </text>
     <rect
       x="408"
@@ -138,14 +138,16 @@
     />
     <circle cx="432" cy="284" r="3" fill="#c1dda5" />
     <text x="445" y="289" font-size="12" fill="#c1dda5" letter-spacing="1.7">
-      RESERVE
+      COLLECTION
     </text>
     <text x="431" y="335" fill="#e2ebdb" font-size="25" letter-spacing="-0.4">
-      Squads reserve
+      Sweep + claim
     </text>
-    <text x="431" y="368" fill="#96aa91" font-size="16">Independent owner quorum</text>
-    <text x="431" y="392" fill="#96aa91" font-size="16">
-      One capped funding destination
+    <text x="431" y="368" fill="#96aa91" font-size="20">
+      Payout to current beneficiary
+    </text>
+    <text x="431" y="392" fill="#96aa91" font-size="20">
+      Check interval: 60 seconds+
     </text>
     <rect
       x="768"
@@ -161,13 +163,13 @@
       INVENTORY
     </text>
     <text x="791" y="335" fill="#e2ebdb" font-size="25" letter-spacing="-0.4">
-      Operating wallet
+      Agent wallet
     </text>
-    <text x="791" y="368" fill="#96aa91" font-size="16">
+    <text x="791" y="368" fill="#96aa91" font-size="20">
       SOL and USDC kept distinct
     </text>
-    <text x="791" y="392" fill="#96aa91" font-size="16">
-      Replenishment has its own limit
+    <text x="791" y="392" fill="#96aa91" font-size="20">
+      Restricted runtime delegate
     </text>
     <rect
       x="768"
@@ -185,10 +187,10 @@
     <text x="791" y="569" fill="#e2ebdb" font-size="25" letter-spacing="-0.4">
       SOL → USDC
     </text>
-    <text x="791" y="602" fill="#96aa91" font-size="16">
+    <text x="791" y="602" fill="#96aa91" font-size="20">
       Inspected Jupiter instructions
     </text>
-    <text x="791" y="626" fill="#96aa91" font-size="16">
+    <text x="791" y="626" fill="#96aa91" font-size="20">
       Separate SOL and gas ceilings
     </text>
     <rect
@@ -207,10 +209,10 @@
     <text x="431" y="569" fill="#e2ebdb" font-size="25" letter-spacing="-0.4">
       x402 purchase
     </text>
-    <text x="431" y="602" fill="#96aa91" font-size="16">
+    <text x="431" y="602" fill="#96aa91" font-size="20">
       25 USDC / day · 2 USDC / job
     </text>
-    <text x="431" y="626" fill="#96aa91" font-size="16">
+    <text x="431" y="626" fill="#96aa91" font-size="20">
       Approved amount and recipient
     </text>
     <rect
@@ -229,8 +231,8 @@
     <text x="71" y="569" fill="#e2ebdb" font-size="25" letter-spacing="-0.4">
       Provider result
     </text>
-    <text x="71" y="602" fill="#96aa91" font-size="16">Response hash and schema</text>
-    <text x="71" y="626" fill="#96aa91" font-size="16">
+    <text x="71" y="602" fill="#96aa91" font-size="20">Response hash and schema</text>
+    <text x="71" y="626" fill="#96aa91" font-size="20">
       Usefulness is measured later
     </text>
     <path
@@ -279,7 +281,7 @@
       marker-end="url(#authority-arrow)"
     />
     <text x="377" y="327" text-anchor="middle" font-size="10" fill="#8b9f84">SOL</text>
-    <text x="737" y="327" text-anchor="middle" font-size="10" fill="#8b9f84">CAP</text>
+    <text x="737" y="327" text-anchor="middle" font-size="10" fill="#8b9f84">SOL</text>
     <text x="737" y="560" text-anchor="middle" font-size="10" fill="#8b9f84">USDC</text>
     <path d="M48 723H1072" stroke="#2d4032" />
     <circle cx="52" cy="750" r="3" fill="#859d78" />

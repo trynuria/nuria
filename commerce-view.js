@@ -7,9 +7,31 @@ async function pollCommerce() {
   if (document.hidden) return;
   try {
     const evidence = await fetchJSON("/api/commerce");
-    if (!(Date.now() - Date.parse(evidence.updated_utc) < 60000))
-      throw Error("Stale commerce evidence");
-    const counts = evidence.counts || {};
+    const age = Date.now() - Date.parse(evidence.updated_utc);
+    if (!(age >= 0 && age < 60000)) throw Error("Stale commerce evidence");
+    if (
+      !["guarded", "running"].includes(evidence.phase) ||
+      typeof evidence.financial_execution !== "boolean" ||
+      !evidence.policy ||
+      !evidence.counts ||
+      typeof evidence.counts !== "object" ||
+      Array.isArray(evidence.counts) ||
+      !Array.isArray(evidence.records) ||
+      Object.values(evidence.counts).some(
+        (value) => !Number.isSafeInteger(value) || value < 0,
+      )
+    )
+      throw Error("Incomplete commerce evidence");
+    if (evidence.usdc_balance) {
+      const balanceAge = Date.now() - evidence.usdc_balance.checked_at * 1000;
+      if (
+        !(balanceAge >= 0 && balanceAge < 60000) ||
+        !Number.isSafeInteger(evidence.usdc_balance.micro_usdc) ||
+        evidence.usdc_balance.micro_usdc < 0
+      )
+        throw Error("Unverified current balance");
+    }
+    const counts = evidence.counts;
     $("commercePhase").textContent =
       evidence.phase === "unknown"
         ? "Evidence unavailable"
@@ -29,13 +51,18 @@ async function pollCommerce() {
       evidence.policy?.per_job_micro_usdc,
     );
     $("commerceToday").textContent = commerceMoney(evidence.daily_committed_micro_usdc);
+    const downloadable =
+      Number.isSafeInteger(evidence.ledger_index?.pages) &&
+      evidence.ledger_index.pages > 0;
     $("commerceDownload").setAttribute(
       "aria-disabled",
-      evidence.ledger_index?.pages ? "false" : "true",
+      downloadable ? "false" : "true",
     );
-    $("commerceDownload").style.pointerEvents = evidence.ledger_index?.pages
-      ? ""
-      : "none";
+    $("commerceDownload").setAttribute("tabindex", downloadable ? "0" : "-1");
+    if (downloadable)
+      $("commerceDownload").setAttribute("href", "/download/commerce?page=0");
+    else $("commerceDownload").removeAttribute("href");
+    $("commerceDownload").style.pointerEvents = downloadable ? "" : "none";
     const timeline = $("commerceTimeline");
     const events = (evidence.records || []).slice(0, 6);
     const signature = events.map((event) => event.hash).join(":");
@@ -84,6 +111,7 @@ async function pollCommerce() {
     $("commerceRecords").textContent = JSON.stringify(
       {
         policy: evidence.policy,
+        funding: evidence.funding,
         rails: evidence.rails,
         fee_path: evidence.fee_path,
         integrity: evidence.integrity,
@@ -94,6 +122,19 @@ async function pollCommerce() {
       2,
     );
   } catch (_) {
+    commerceWallet = null;
+    $("commerceWallet").textContent = "Unavailable";
+    $("creatorWallet").textContent = "Unavailable";
+    $("commerceWallet").title = "";
+    $("creatorWallet").title = "";
+    $("copyCommerceWallet").disabled = true;
+    $("commerceDownload").setAttribute("aria-disabled", "true");
+    $("commerceDownload").style.pointerEvents = "none";
+    $("commerceDownload").setAttribute("tabindex", "-1");
+    $("commerceDownload").removeAttribute("href");
+    $("commerceTimeline").replaceChildren();
+    $("commerceTimeline").dataset.signature = "";
+    $("commerceRecords").textContent = "Current evidence is unavailable.";
     $("commercePhase").textContent = "Evidence unavailable";
     for (const name of [
       "commerceBalance",

@@ -1,4 +1,4 @@
-"""Exact native-SOL forwarding from a project creator wallet to its reserve.
+"""Exact native-SOL funding from a managed creator wallet to its operating wallet.
 
 A separate managed delegate must control the creator wallet. This adapter cannot
 forward another person's fees or change the Pump fee beneficiary.
@@ -30,12 +30,14 @@ class Sweeper:
             return
         if (
             policy.signer != "privy"
-            or not policy.reserve_wallet
-            or policy.creator_wallet in (policy.reserve_wallet, policy.spending_wallet)
+            or policy.funding_mode != "managed_creator"
+            or not policy.spending_wallet
+            or not policy.creator_wallet
+            or policy.creator_wallet == policy.spending_wallet
             or str(signer.pubkey()) != policy.creator_wallet
         ):
             raise ValueError(
-                "Forwarding requires a distinct managed creator and reserve"
+                "Direct funding requires distinct managed creator and operating wallets"
             )
         daily, floor, minimum, gas = [
             controls.get(k)
@@ -78,7 +80,7 @@ class Sweeper:
                 transfer(
                     TransferParams(
                         from_pubkey=Pubkey.from_string(policy.creator_wallet),
-                        to_pubkey=Pubkey.from_string(policy.reserve_wallet),
+                        to_pubkey=Pubkey.from_string(policy.spending_wallet),
                         lamports=amount,
                     )
                 )
@@ -99,7 +101,7 @@ class Sweeper:
         ident = hashlib.sha256(to_bytes_versioned(message)).hexdigest()
         terms = {
             "from": policy.creator_wallet,
-            "to": policy.reserve_wallet,
+            "to": policy.spending_wallet,
             "lamports": amount,
             "last_valid_block_height": recent["lastValidBlockHeight"],
             "scope": "Creator wallet forwarding. External funding and other mint income are not attributed to Nuria.",

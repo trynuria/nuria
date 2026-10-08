@@ -140,6 +140,14 @@ class SDKTests(unittest.TestCase):
             )
 
         def fetch(method, params):
+            if method == "getSignaturesForAddress":
+                return [
+                    {
+                        "signature": str(key.sign_message(b"pre-signing-checkpoint")),
+                        "slot": 1,
+                        "confirmationStatus": "finalized",
+                    }
+                ]
             if method == "simulateTransaction":
                 simulation = VersionedTransaction.from_bytes(
                     base64.b64decode(params[0])

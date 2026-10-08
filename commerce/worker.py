@@ -28,7 +28,7 @@ from commerce.fees import observe as fee_observation
 from commerce.funding import Collector
 from commerce.ledger import Ledger, canonical
 from commerce.managed import ManagedSigner, invoke
-from commerce.reserve import Replenisher
+from commerce.recovery import history_anchor, inspect_history
 from commerce.solana import settlement, usdc_balance
 from commerce.swaps import Converter
 from commerce.sweep import Sweeper
@@ -141,16 +141,14 @@ class Executor:
             "baseline_p_buy": selected["baseline_p_buy"],
             "expected_value": selected["expected_value"],
         }
-        self.ledger.reserve(
-            job,
-            policy,
-            usdc_balance(
-                policy.spending_wallet, self.fetch, self.ledger.minimum_balance_slot()
-            ),
-            now,
+        balance = usdc_balance(
+            policy.spending_wallet, self.fetch, self.ledger.minimum_balance_slot()
         )
+        anchor = history_anchor(policy.spending_wallet, self.fetch, balance["slot"])
+        self.ledger.reserve(job, policy, balance, now)
         try:
             authorization = self.signer(keypair, accepted, rpc_url)
+            authorization["history_anchor"] = anchor
             encoded = decode_header(authorization["header"])["payload"]["transaction"]
             payment = VersionedTransaction.from_bytes(
                 base64.b64decode(encoded, validate=True)
@@ -241,13 +239,35 @@ class Executor:
             (ident,),
         ).fetchone()
         state, terms, authorization, response = row
-        if state not in ("authorized", "uncertain", "settled") or not response:
+        if state not in ("authorized", "uncertain", "settled"):
             return
-        terms, authorization, response = (
-            json.loads(terms),
-            json.loads(authorization),
-            json.loads(response),
-        )
+        terms, authorization = json.loads(terms), json.loads(authorization)
+        if state != "settled" and not response and authorization.get("history_anchor"):
+            recovery = inspect_history(
+                authorization,
+                terms["accepted"],
+                policy.spending_wallet,
+                authorization["history_anchor"],
+                self.fetch,
+            )
+            if recovery and recovery["state"] == "expired_unsettled":
+                self.ledger.close_expired(ident, recovery, time.time())
+                return
+            if recovery and recovery["state"] == "included" and not recovery["failed"]:
+                if not response:
+                    response = canonical(
+                        {
+                            "receipt": {"transaction": recovery["transaction"]},
+                            "delivery": None,
+                        }
+                    )
+                    self.ledger.db.execute(
+                        "UPDATE authorizations SET response=? WHERE job_id=?",
+                        (response, ident),
+                    )
+        if not response:
+            return
+        response = json.loads(response)
         if state != "settled":
             evidence = settlement(
                 response["receipt"]["transaction"],
@@ -389,7 +409,6 @@ def main():
     ledger = Ledger(private / "commerce.sqlite3")
     executor = Executor(ledger)
     collector = Collector(ledger, rpc)
-    replenisher = Replenisher(ledger, rpc)
     converter = Converter(ledger, rpc)
     sweeper = Sweeper(ledger, rpc)
     stop = threading.Event()
@@ -407,9 +426,8 @@ def main():
             "rails": {
                 "pump_claim": "guarded_standard_collection_disabled",
                 "x402": "exact_solana_usdc",
-                "creator_to_reserve": "guarded_native_forwarding_disabled",
+                "creator_to_operating": "awaiting_verified_direct_claim_recipient",
                 "sol_to_usdc": "constrained_jupiter_v2_adapter_disabled",
-                "squads": "destination_bound_usdc_adapter_disabled",
                 "custody": "privy_parsed_transactions",
                 "batch_settlement": "requires_verified_merchant_and_channel",
             },
@@ -419,6 +437,19 @@ def main():
                 json.loads(Path(os.environ["NURIA_COMMERCE_CONFIG"]).read_text())
             )
             result["policy"], result["missing"] = policy.public(), policy.missing()
+            result["funding"] = {
+                "mode": policy.funding_mode,
+                "creator_wallet_control": policy.funding_mode
+                in ("direct_creator", "managed_creator"),
+                "destination": policy.spending_wallet,
+                "scope": (
+                    "The launch wallet remains owner-controlled. Funding requires an owner-signed transfer; a protocol claim does not grant access to that wallet."
+                    if policy.funding_mode == "owner_transfer"
+                    else "Standard protocol claims pay the verified creator beneficiary directly into the operating wallet. No intermediate reserve or forwarding transaction is required."
+                    if policy.funding_mode == "direct_creator"
+                    else "A separate restricted creator-wallet delegate may fund only the configured operating destination within native SOL ceilings."
+                ),
+            }
             key_path = Path(os.environ.get("NURIA_COMMERCE_KEY", "/nonexistent"))
             custody_path = Path(
                 os.environ.get("NURIA_PRIVY_CREDENTIALS", "/nonexistent")
@@ -443,7 +474,6 @@ def main():
                     result["missing"].append("USDC_funding")
             executor.reconcile(policy)
             collector.reconcile()
-            replenisher.reconcile()
             converter.reconcile()
             sweeper.reconcile()
             if policy.enabled:
@@ -479,24 +509,8 @@ def main():
                         )
                         creator_signer.check()
                         sweeper.sweep(policy, creator_signer, controls, time.time())
-                        result["rails"]["creator_to_reserve"] = (
+                        result["rails"]["creator_to_operating"] = (
                             "guarded_native_forwarding_configured"
-                        )
-                reserve_path = Path(
-                    os.environ.get("NURIA_RESERVE_CONFIG", "/nonexistent")
-                )
-                if reserve_path.exists():
-                    controls = json.loads(reserve_path.read_text())
-                    if controls.get("enabled"):
-                        replenisher.replenish(
-                            policy,
-                            keypair,
-                            controls,
-                            result["usdc_balance"],
-                            time.time(),
-                        )
-                        result["rails"]["squads"] = (
-                            "destination_bound_usdc_funding_configured"
                         )
                 conversion_path = Path(
                     os.environ.get("NURIA_CONVERSION_CONFIG", "/nonexistent")
@@ -575,7 +589,7 @@ def main():
             "Choose matching neural action when 0.5 uncertainty + 0.25 surprise + 0.25 learned provider reward - 0.1 relative cost exceeds 0.1. Reward: local Brier error minus paid Brier error minus 0.01 × USDC price."
         )
         result["scope"] = (
-            "Managed exact USDC purchases, gated standard-Pump collection and destination-bound Squads USDC funding. SOL conversion requires its separate reviewed route. No consciousness result is established."
+            "Privy-managed exact USDC purchases and gated standard-Pump claims into the verified creator beneficiary. Direct creator funding uses the same fee and operating wallet; no reserve multisig is used. SOL conversion has separate native ceilings. No consciousness result is established."
         )
         publish(public, "status.json", result)
         stop.wait(10)

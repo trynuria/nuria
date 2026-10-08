@@ -26,21 +26,33 @@ class Collector:
     def collect(self, observation, policy, signer, controls, now):
         if controls.get("enabled") is not True:
             return
-        if policy.signer != "privy" or policy.creator_wallet == policy.spending_wallet:
+        if (
+            policy.signer != "privy"
+            or not policy.creator_wallet
+            or not policy.spending_wallet
+        ):
             raise ValueError(
                 "Collection requires managed signing and a supported live curve"
             )
         minimum = controls.get("minimum_claim_lamports")
         daily = controls.get("daily_gas_lamports")
+        interval = controls.get("interval_seconds", 60)
         if (
             type(minimum) is not int
             or minimum < 1_000_000
             or type(daily) is not int
             or not 0 < daily <= 1_000_000
+            or type(interval) is not int
+            or interval < 60
         ):
             raise ValueError(
                 "Collection thresholds and gas ceiling require reviewed configuration"
             )
+        previous = self.ledger.db.execute(
+            "SELECT terms FROM collections ORDER BY rowid DESC LIMIT 1"
+        ).fetchone()
+        if previous and now - json.loads(previous[0]).get("prepared_at", 0) < interval:
+            return
         if (
             observation["vault_balance_lamports"]
             + observation.get("amm_vault_wsol_lamports", 0)
@@ -80,6 +92,7 @@ class Collector:
         day = time.strftime("%Y-%m-%d", time.gmtime(now))
         ident = hashlib.sha256(to_bytes_versioned(tx.message)).hexdigest()
         terms = {
+            "prepared_at": now,
             "creator_wallet": policy.creator_wallet,
             "vault": observation["vault"],
             "mint": policy.mint,
@@ -228,6 +241,9 @@ class Collector:
                 keys.index(terms["vault"]),
             )
             credit = meta["postBalances"][creator] - meta["preBalances"][creator]
+            net_credit = credit
+            if str(wire.message.account_keys[0]) == terms["creator_wallet"]:
+                credit += meta["fee"]
             debit = meta["preBalances"][vault] - meta["postBalances"][vault]
             if terms.get("amm_token_vault"):
                 token_index = keys.index(terms["amm_token_vault"])
@@ -264,6 +280,7 @@ class Collector:
                         "at": time.time(),
                         "recipient": terms["creator_wallet"],
                         "collected_lamports": credit if success else 0,
+                        "net_creator_delta_lamports": net_credit,
                         "network_fee_lamports": meta["fee"],
                         "finalized": True,
                         "scope": "Creator-vault collection; accumulated funds may cover several mints.",

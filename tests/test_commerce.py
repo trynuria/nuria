@@ -291,6 +291,14 @@ class CommerceTests(unittest.TestCase):
             )
 
         def fetch(method, params):
+            if method == "getSignaturesForAddress":
+                return [
+                    {
+                        "signature": str(Keypair().sign_message(b"checkpoint")),
+                        "slot": 1,
+                        "confirmationStatus": "finalized",
+                    }
+                ]
             if method == "simulateTransaction":
                 return {"value": {"err": None}}
             return {

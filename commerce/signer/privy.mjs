@@ -2,6 +2,7 @@ import { readFile, lstat } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { PrivyClient } from "@privy-io/node";
 import { checkQuorums } from "./custody-policy.mjs";
+import { readRequest } from "./request-input.mjs";
 
 const ordered = (v) =>
   Array.isArray(v)
@@ -28,7 +29,7 @@ try {
   )
     throw Error("Private custody configuration required");
   const config = JSON.parse(await readFile(file, "utf8"));
-  const input = JSON.parse(await readFile(0, "utf8"));
+  const input = await readRequest();
   if (
     !config.authorization_key ||
     !config.signer_id ||

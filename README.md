@@ -58,7 +58,7 @@ The read-only observer can fetch a finalized balance after an exact mint and cre
 
 The first external job is a structured, time-limited token forecast. Actual later finalized outcomes can update the purchasing action’s learned value once. A fixture test is not a paid production purchase. Pump claim preparation is unsigned; automatic collection-wallet funding and SOL-to-USDC swaps are not connected. See [the execution contract](docs/spending.md).
 
-![Nuria’s financial authority: creator collection, independent reserve, operating inventory and bounded purchases](brand/flows/authority.svg)
+![Nuria’s financial authority: creator collection, direct managed inventory and bounded purchases](brand/flows/authority.svg)
 
 ## Architecture
 

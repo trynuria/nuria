@@ -8628,7 +8628,7 @@
                         How fees become a resource budget
                       </title>
                       <desc id="authority-description">
-                        Collection, reserves, conversions and purchases have separate
+                        Collection, custody, conversion and purchases have separate
                         permissions and receipts.
                       </desc>
                       <defs>
@@ -8711,8 +8711,8 @@
                         >
                           How fees become a resource budget
                         </text>
-                        <text x="48" y="139" fill="#96aa91" font-size="17">
-                          Collection, reserves, conversions and purchases have separate
+                        <text x="48" y="139" fill="#96aa91" font-size="18">
+                          Collection, custody, conversion and purchases have separate
                           permissions and receipts.
                         </text>
                         <rect
@@ -8724,10 +8724,10 @@
                           fill="#15221a"
                           stroke="#354b37"
                         />
-                        <text x="70" y="197" font-size="16" fill="#b4cb9f">
+                        <text x="70" y="197" font-size="20" fill="#b4cb9f">
                           Recovery owner
                         </text>
-                        <text x="241" y="197" font-size="16" fill="#91a88b">
+                        <text x="241" y="197" font-size="20" fill="#91a88b">
                           Private authority stays outside the application host.
                         </text>
                         <text
@@ -8757,7 +8757,7 @@
                           fill="#c1dda5"
                           letter-spacing="1.7"
                         >
-                          COLLECTION
+                          ACCRUAL
                         </text>
                         <text
                           x="71"
@@ -8766,13 +8766,13 @@
                           font-size="25"
                           letter-spacing="-0.4"
                         >
-                          Creator collection
+                          Fees accrue
                         </text>
-                        <text x="71" y="368" fill="#96aa91" font-size="16">
-                          Verified protocol beneficiary
+                        <text x="71" y="368" fill="#96aa91" font-size="20">
+                          Curve, pool or creator vault
                         </text>
-                        <text x="71" y="392" fill="#96aa91" font-size="16">
-                          Forwarding is destination-bound
+                        <text x="71" y="392" fill="#96aa91" font-size="20">
+                          Mint-specific income evidence
                         </text>
                         <rect
                           x="408"
@@ -8791,7 +8791,7 @@
                           fill="#c1dda5"
                           letter-spacing="1.7"
                         >
-                          RESERVE
+                          COLLECTION
                         </text>
                         <text
                           x="431"
@@ -8800,13 +8800,13 @@
                           font-size="25"
                           letter-spacing="-0.4"
                         >
-                          Squads reserve
+                          Sweep + claim
                         </text>
-                        <text x="431" y="368" fill="#96aa91" font-size="16">
-                          Independent owner quorum
+                        <text x="431" y="368" fill="#96aa91" font-size="20">
+                          Payout to current beneficiary
                         </text>
-                        <text x="431" y="392" fill="#96aa91" font-size="16">
-                          One capped funding destination
+                        <text x="431" y="392" fill="#96aa91" font-size="20">
+                          Check interval: 60 seconds+
                         </text>
                         <rect
                           x="768"
@@ -8834,13 +8834,13 @@
                           font-size="25"
                           letter-spacing="-0.4"
                         >
-                          Operating wallet
+                          Agent wallet
                         </text>
-                        <text x="791" y="368" fill="#96aa91" font-size="16">
+                        <text x="791" y="368" fill="#96aa91" font-size="20">
                           SOL and USDC kept distinct
                         </text>
-                        <text x="791" y="392" fill="#96aa91" font-size="16">
-                          Replenishment has its own limit
+                        <text x="791" y="392" fill="#96aa91" font-size="20">
+                          Restricted runtime delegate
                         </text>
                         <rect
                           x="768"
@@ -8870,10 +8870,10 @@
                         >
                           SOL → USDC
                         </text>
-                        <text x="791" y="602" fill="#96aa91" font-size="16">
+                        <text x="791" y="602" fill="#96aa91" font-size="20">
                           Inspected Jupiter instructions
                         </text>
-                        <text x="791" y="626" fill="#96aa91" font-size="16">
+                        <text x="791" y="626" fill="#96aa91" font-size="20">
                           Separate SOL and gas ceilings
                         </text>
                         <rect
@@ -8904,10 +8904,10 @@
                         >
                           x402 purchase
                         </text>
-                        <text x="431" y="602" fill="#96aa91" font-size="16">
+                        <text x="431" y="602" fill="#96aa91" font-size="20">
                           25 USDC / day · 2 USDC / job
                         </text>
-                        <text x="431" y="626" fill="#96aa91" font-size="16">
+                        <text x="431" y="626" fill="#96aa91" font-size="20">
                           Approved amount and recipient
                         </text>
                         <rect
@@ -8938,10 +8938,10 @@
                         >
                           Provider result
                         </text>
-                        <text x="71" y="602" fill="#96aa91" font-size="16">
+                        <text x="71" y="602" fill="#96aa91" font-size="20">
                           Response hash and schema
                         </text>
-                        <text x="71" y="626" fill="#96aa91" font-size="16">
+                        <text x="71" y="626" fill="#96aa91" font-size="20">
                           Usefulness is measured later
                         </text>
                         <path
@@ -9005,7 +9005,7 @@
                           font-size="10"
                           fill="#8b9f84"
                         >
-                          CAP
+                          SOL
                         </text>
                         <text
                           x="737"
@@ -9026,14 +9026,14 @@
                     </svg>
                     <div class="diagram-mobile" role="list" aria-label="Authority flow"
                       ><div role="listitem"
-                        ><strong>Creator collection</strong
-                        ><span>Collect only to the verified beneficiary.</span></div
+                        ><strong>Fees accrue</strong
+                        ><span>Pending curve, pool and creator-vault fees.</span></div
                       ><div role="listitem"
-                        ><strong>Independent reserve</strong
-                        ><span>Squads owners control the reserve.</span></div
+                        ><strong>Sweep + claim</strong
+                        ><span>Pay only the verified current beneficiary.</span></div
                       ><div role="listitem"
-                        ><strong>Operating wallet</strong
-                        ><span>One destination; capped replenishment.</span></div
+                        ><strong>Agent wallet</strong
+                        ><span>Direct verified creator beneficiary.</span></div
                       ><div role="listitem"
                         ><strong>SOL → USDC</strong
                         ><span>Inspect a bounded Jupiter conversion.</span></div
@@ -9047,41 +9047,45 @@
                         ></div
                       ></div
                     ><figcaption
-                      >The collection beneficiary, reserve and operating wallet have
-                      different roles. Merchant ceilings are 25 USDC/day and 2 USDC/job;
-                      native SOL and gas have separate limits.</figcaption
+                      >The agent wallet receives verified creator payouts; its recovery
+                      owner and runtime delegate have different permissions. Merchant
+                      ceilings are 25 USDC/day and 2 USDC/job; native SOL and gas have
+                      separate limits.</figcaption
                     ></figure
                   ><h2 id="resources--flow">The money path</h2>
                   <p
-                    >Creator fees accrue in protocol vaults. A verified collection pays
-                    the existing beneficiary. An independently owned Squads reserve can
-                    fund a single operating destination through a daily allowance. The
-                    isolated worker converts bounded SOL inventory into USDC and pays an
-                    approved provider through x402. Collection, funding, conversion and
-                    purchase have separate records.</p
+                    >Creator fees accrue on the curve, pool or in creator vaults. Sweep
+                    and claim pay the verified current beneficiary. The preferred route
+                    makes that dedicated managed wallet the agent’s operating wallet.
+                    Bounded SOL conversion and approved x402 purchases have separate
+                    receipts. Recovery ownership stays outside the application host.</p
                   >
                   <p
-                    >Standard Pump and WSOL PumpSwap collection require verified mode
-                    fields, exact mint and beneficiary, and pinned deployed program
-                    data. Sharing, holder rewards, cashback, mayhem and unknown layouts
-                    are blocked. Creator vaults can aggregate several tokens; their
-                    balance is not automatically Nuria income.</p
+                    >Collection requires the exact mint, beneficiary, launch mode and
+                    deployed program hashes. New Pump trade interfaces retain fees on
+                    the curve or pool and need a sweep before the claim. That new
+                    sequence still requires adapter review; production collection
+                    remains disabled. Sharing, holder rewards, cashback, mayhem and
+                    unknown layouts stay blocked. Creator-vault balances can cover
+                    multiple tokens.</p
                   >
                   <p
-                    >The collection beneficiary and reserve can be different wallets. A
-                    separate creator-wallet delegate can forward SOL only to the
-                    configured reserve, within explicit native-unit and gas ceilings.
-                    The operating signer cannot sweep an unrelated creator wallet. If
-                    the verified reserve receives fees directly, forwarding is
-                    unnecessary.</p
+                    >If a separate project managed creator wallet is needed, its own
+                    restricted delegate can forward SOL only to the agent address within
+                    explicit native and gas limits. A manually controlled launch wallet
+                    requires manual forwarding. Configuration cannot redirect the
+                    protocol beneficiary or grant access to an unrelated wallet.</p
                   >
                   <h2 id="resources--payments">What a payment proves</h2>
                   <p
-                    >The x402 buyer accepts one approved Solana-mainnet USDC invoice.
-                    Before signing, it checks the exact amount, recipient, fee payer,
-                    accounts and instructions. It records authorization before sending
-                    it, then verifies the finalized transaction and both token-balance
-                    deltas. A timeout never triggers a second automatic payment.</p
+                    >The x402 buyer checks the exact Solana USDC amount, recipient, fee
+                    payer, accounts and instructions before signing. It records a
+                    pre-signing history checkpoint and persists authorization before
+                    disclosure. Finalized payment requires matching client signature and
+                    exact token deltas. A missing merchant receipt can be reconciled
+                    against wallet history. Expiry alone does not release funds;
+                    incomplete evidence stays unresolved, with no automatic second
+                    payment.</p
                   >
                   <p
                     >Payment, delivery and usefulness are different outcomes. A
@@ -9099,25 +9103,22 @@
                     signs a payment for every trade.</p
                   >
                   <p
-                    >Privy’s managed wallet signs parsed transactions. The service
-                    verifies an independently owned wallet and pinned policy; it
-                    receives a delegated credential, not the wallet owner’s recovery
-                    key. Squads allowance checks require an execution-only operating
-                    member, an independent quorum and exactly one destination. An
-                    onchain funding allowance bounds replenishment; existing operating
-                    inventory remains additional exposure. Local daily USDC limits are
-                    not advertised as a Solana custody-level daily cap.</p
+                    >Privy signs parsed transactions through a restricted runtime
+                    delegate. The service checks independent recovery ownership and a
+                    pinned policy; the owner’s recovery key is kept outside the
+                    application host. Local daily caps are not an independently enforced
+                    Solana custody-level daily limit. No reserve vault or multisig is
+                    required. Operating inventory remains exposed within the actual
+                    signing policy.</p
                   >
-                  <h2 id="resources--conversion">Conversion and reserve</h2>
+                  <h2 id="resources--conversion">Conversion and inventory</h2>
                   <p
-                    >Jupiter v2 returns the instructions for a bounded SOL-to-USDC
-                    conversion. The worker checks the onchain output floor, source and
-                    destination accounts, known route layout, finalized lookup-table
-                    contents, slippage, program pin and network-fee ceiling. Unexpected
-                    transfers, approvals, tips and instructions are rejected. Network
-                    fees, rent and native-SOL allowances have separate budgets; a
-                    25-USDC merchant ceiling does not authorize an arbitrary SOL
-                    withdrawal.</p
+                    >Jupiter v2 supplies instructions for a bounded SOL-to-USDC
+                    conversion. The worker checks output floor, exact accounts, known
+                    route layout, finalized lookup tables, slippage, program pin and fee
+                    ceiling. Unexpected transfers, approvals, tips and instructions are
+                    rejected. Native fees and rent have separate limits; a merchant USDC
+                    ceiling does not authorize arbitrary SOL spending.</p
                   >
                   <h2 id="resources--records">Complete money records</h2>
                   <p
@@ -9146,9 +9147,9 @@
                   <p
                     >Financial execution remains disabled. The adapters and ledger are
                     installed; project-specific custody access, exact token and wallets,
-                    reviewed allowances and program pins, funding and a real end-to-end
-                    merchant test remain required. Offline tests do not establish a live
-                    fee-funded loop.</p
+                    reviewed native budgets and program pins, funding and a real
+                    end-to-end merchant test remain required. Offline tests do not
+                    establish a live fee-funded loop.</p
                   >
                   <p
                     >Solana batch-payment channels are a possible higher-volume rail. No
@@ -13130,9 +13131,31 @@
           if (document.hidden) return;
           try {
             const evidence = await fetchJSON("/api/commerce");
-            if (!(Date.now() - Date.parse(evidence.updated_utc) < 60000))
-              throw Error("Stale commerce evidence");
-            const counts = evidence.counts || {};
+            const age = Date.now() - Date.parse(evidence.updated_utc);
+            if (!(age >= 0 && age < 60000)) throw Error("Stale commerce evidence");
+            if (
+              !["guarded", "running"].includes(evidence.phase) ||
+              typeof evidence.financial_execution !== "boolean" ||
+              !evidence.policy ||
+              !evidence.counts ||
+              typeof evidence.counts !== "object" ||
+              Array.isArray(evidence.counts) ||
+              !Array.isArray(evidence.records) ||
+              Object.values(evidence.counts).some(
+                (value) => !Number.isSafeInteger(value) || value < 0,
+              )
+            )
+              throw Error("Incomplete commerce evidence");
+            if (evidence.usdc_balance) {
+              const balanceAge = Date.now() - evidence.usdc_balance.checked_at * 1000;
+              if (
+                !(balanceAge >= 0 && balanceAge < 60000) ||
+                !Number.isSafeInteger(evidence.usdc_balance.micro_usdc) ||
+                evidence.usdc_balance.micro_usdc < 0
+              )
+                throw Error("Unverified current balance");
+            }
+            const counts = evidence.counts;
             $("commercePhase").textContent =
               evidence.phase === "unknown"
                 ? "Evidence unavailable"
@@ -13156,13 +13179,18 @@
             $("commerceToday").textContent = commerceMoney(
               evidence.daily_committed_micro_usdc,
             );
+            const downloadable =
+              Number.isSafeInteger(evidence.ledger_index?.pages) &&
+              evidence.ledger_index.pages > 0;
             $("commerceDownload").setAttribute(
               "aria-disabled",
-              evidence.ledger_index?.pages ? "false" : "true",
+              downloadable ? "false" : "true",
             );
-            $("commerceDownload").style.pointerEvents = evidence.ledger_index?.pages
-              ? ""
-              : "none";
+            $("commerceDownload").setAttribute("tabindex", downloadable ? "0" : "-1");
+            if (downloadable)
+              $("commerceDownload").setAttribute("href", "/download/commerce?page=0");
+            else $("commerceDownload").removeAttribute("href");
+            $("commerceDownload").style.pointerEvents = downloadable ? "" : "none";
             const timeline = $("commerceTimeline");
             const events = (evidence.records || []).slice(0, 6);
             const signature = events.map((event) => event.hash).join(":");
@@ -13211,6 +13239,7 @@
             $("commerceRecords").textContent = JSON.stringify(
               {
                 policy: evidence.policy,
+                funding: evidence.funding,
                 rails: evidence.rails,
                 fee_path: evidence.fee_path,
                 integrity: evidence.integrity,
@@ -13221,6 +13250,19 @@
               2,
             );
           } catch (_) {
+            commerceWallet = null;
+            $("commerceWallet").textContent = "Unavailable";
+            $("creatorWallet").textContent = "Unavailable";
+            $("commerceWallet").title = "";
+            $("creatorWallet").title = "";
+            $("copyCommerceWallet").disabled = true;
+            $("commerceDownload").setAttribute("aria-disabled", "true");
+            $("commerceDownload").style.pointerEvents = "none";
+            $("commerceDownload").setAttribute("tabindex", "-1");
+            $("commerceDownload").removeAttribute("href");
+            $("commerceTimeline").replaceChildren();
+            $("commerceTimeline").dataset.signature = "";
+            $("commerceRecords").textContent = "Current evidence is unavailable.";
             $("commercePhase").textContent = "Evidence unavailable";
             for (const name of [
               "commerceBalance",

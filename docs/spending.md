@@ -8,16 +8,16 @@ The commerce worker translates fresh recorded cognitive decisions into a fixed c
 
 ```text
 Pump/PumpSwap trade
-  → protocol creator-fee vault
-  → verified collection or distribution to the current beneficiary
-  → bounded funding of the dedicated spending wallet
+  → curve/pool fee buckets and creator vault
+  → sweep and claim to the verified current beneficiary
+  → dedicated agent wallet (or explicit managed forwarding)
   → Solana USDC inventory
   → approved x402 provider
   → finalized payment + validated delivery
   → future measured outcome + purchasing-action credit
 ```
 
-These arrows are distinct integrations. The implementation now includes a **managed exact Solana USDC buyer**, **pinned standard Pump/PumpSwap collection**, **exact creator-to-reserve SOL forwarding**, **destination-bound Squads replenishment** and a **constrained Jupiter v2 SOL-to-USDC converter**. Each rail is independently disabled until its actual wallets, deployment pins, allowance and budget are configured. They have offline verification, not a funded production loop test. Unsupported fee-sharing and nonstandard launch modes remain blocked.
+These stages are distinct integrations. The managed exact-USDC buyer, legacy collection adapter, optional creator-to-agent forwarding and constrained Jupiter converter have offline tests. The preferred route uses one managed agent wallet as the creator beneficiary and spending address. Its recovery owner is separate from the restricted runtime delegate. Production remains disabled. New Pump sweep-and-claim interfaces and the exact launch identity still require review; unsupported modes remain blocked. Collection checks are at least sixty seconds apart, with durable cadence and unresolved-submission protection.
 
 A creator vault can aggregate income from multiple coins. Its whole balance cannot be attributed to Nuria without mint-specific trade and payout evidence. A permissionless payout says who received funds, not who endorsed the project.
 
@@ -61,11 +61,11 @@ Verified rewards update the purchasing action's value once. The feedback cursor,
 3. Reserve integer micro-USDC using a SQLite immediate transaction. Apply action and UTC daily caps, reserve floor, outstanding authorizations and a global cooldown.
 4. Build through pinned `x402[svm]` 2.25.0. Before the key signs, inspect the v0 message: two required signers, no address lookup tables, exact known accounts, two fixed compute instructions, one exact USDC `TransferChecked`, and a bounded memo. No approval, delegate, authority change, account close, SOL transfer or arbitrary instruction is accepted.
 5. Strip signatures and simulate the exact message through project RPC. The configured facilitator pays gas; its signature remains absent until settlement.
-6. Persist the authorization before disclosing it to the merchant. Send it in `PAYMENT-SIGNATURE` once.
+6. Record a finalized wallet-history checkpoint before signing. Persist the authorization before disclosing it to the merchant. Send it in `PAYMENT-SIGNATURE` once.
 7. Retain the merchant's `PAYMENT-RESPONSE`; verify the reported transaction through finalized RPC. Nuria's client signature must appear, and both associated-token balance deltas must equal the authorized USDC amount.
 8. Record payment settlement, then separately validate delivery and later score its outcome.
 
-A timeout after authorization disclosure is ambiguous. Reserved, authorized and uncertain funds stay reserved across restart and UTC day rollover. The worker reconciles a retained receipt, never automatically pays again. If the merchant supplies no transaction identifier, automatic recovery cannot prove settlement; the reservation remains blocked for investigation. Failed requests conservatively consume the daily allowance. Successful payment with invalid data remains a paid job without delivery credit.
+A timeout after authorization disclosure is ambiguous. Reserved, authorized and uncertain funds stay reserved across restart and UTC day rollover. The worker reconciles a retained receipt, never automatically pays again. Without a merchant transaction identifier, recovery scans finalized wallet transactions back to the pre-signing checkpoint. A matching inclusion is verified separately for exact USDC deltas. Expiration only closes a job when its blockhash is invalid at finalized commitment and the complete bounded scan reaches that checkpoint without a match. Missing pages, transaction data or an old unanchored authorization preserve uncertainty. This relies on the configured RPC history, not an independent archive attestation. Failed requests conservatively consume the daily allowance. Successful payment with invalid data remains a paid job without delivery credit.
 
 ## Keys and authority
 
@@ -73,7 +73,7 @@ A timeout after authorization disclosure is ambiguous. Reserved, authorized and 
 
 The production adapter uses Privy’s official Node SDK 0.35.0 to sign parsed transactions. The worker holds a delegated authorization credential rather than a Solana wallet private key. Each request checks the wallet’s independent owner, the delegate’s exact policy attachment and a pinned, independently owned policy hash. Returned signatures must preserve the exact message and every other signature. No raw-message signing endpoint, key export or unrestricted signing API is called. The local key adapter is retained for explicitly configured tests only.
 
-UTC daily reservations, a monthly ceiling of 40,000 signing requests, a minimum sixty-second job interval and a three-unresolved-job breaker are enforced before new purchases. Custody errors consume their signing-request reservation. These controls do not make the host immutable: an administrator retains local control. Independent policy ownership and an onchain destination-bound reserve allowance constrain the operating credential. Privy’s stateful cumulative policy controls are currently Ethereum-specific; no hard Solana daily custody cap is claimed.
+UTC daily reservations, a monthly ceiling of 40,000 signing requests, a minimum sixty-second job interval and a three-unresolved-job breaker are enforced before new purchases. Custody errors consume their signing-request reservation. These controls do not make the host immutable: an administrator retains local control. Independent policy ownership and exact custody instruction/recipient restrictions constrain the operating credential. There is no reserve vault; operating inventory remains exposed within that actual policy. Privy’s stateful cumulative policy controls are currently Ethereum-specific; no hard Solana daily custody cap is claimed.
 
 Do not place wallet keys in chat, the browser, source control, research history or prompts. Recovery ownership and signer provisioning must be settled before funding. Do not reuse a personal or unrelated project's wallet.
 
@@ -93,7 +93,7 @@ An x402 buyer does not inherently need a separate x402 API key. The seller may r
 
 [Jupiter Swap API](https://developers.jup.ag/docs/swap) currently requires an API key. Automatic SOL-to-USDC conversion needs project-specific access plus an independently validated swap adapter, maximum SOL input, slippage/minimum USDC output, fee limits and reserve protection. A generic externally supplied transaction must not be forwarded to the signer. Token buybacks are a separate authorization and rail.
 
-[Squads spending limits](https://docs.squads.so/main/development/typescript/instructions/create-config-transaction) can restrict an agent's allowance by asset and destinations. They are not a drop-in replacement for x402's direct SPL authorization or arbitrary Jupiter swaps. The reserve decoder and withdrawal builder support exact daily SOL or USDC allowances and match official SDK instruction fixtures. They require an independent quorum and an execution-only operating member. No funded Squads reserve or managed-wallet spending allowance has been activated. SOL allowance and gas budgets require explicit native-unit configuration; a USDC merchant cap cannot authorize an arbitrary SOL withdrawal.
+The direct-wallet route requires the actual creator beneficiary to equal the agent operating address. A manually controlled external creator wallet requires manual forwarding; the agent cannot acquire its fees by configuration alone. An optional separate managed creator wallet needs its own restricted delegate and exact forwarding destination. No multisig is required.
 
 ## Public evidence
 
@@ -103,7 +103,7 @@ The Resources tab shows payment, delivery and evaluation separately. The origina
 
 ## Verification
 
-Offline tests cover hostile invoices, wrong chains/assets/recipients, private DNS, caps, duplicate decisions, concurrent database handles, crash recovery, uncertain payments, exact settlement deltas, invalid deliveries, Pump mode/program gates, real SDK partial signatures and once-only cognitive feedback. They use ephemeral unfunded fixture keys and synthetic RPC responses. A funded end-to-end merchant test and the exact launch fee path still require configuration.
+Offline tests cover hostile invoices, wrong chains/assets/recipients, private DNS, caps, duplicate decisions, concurrent database handles, crash recovery, uncertain payments, exact settlement deltas, invalid deliveries, Pump mode/program gates, real SDK partial signatures and once-only cognitive feedback. They use ephemeral unfunded fixture keys and synthetic RPC responses. A restricted funded merchant attempt returned a facilitator validation error; successful settlement and delivery remain unproven. Offline tests do not replace the exact launched fee-path verification.
 
 References: [x402 buyers](https://docs.x402.org/getting-started/quickstart-for-buyers), [Solana signing](https://solana.com/docs/core/transactions/signing-in-production), [Pump public interfaces](https://github.com/pump-fun/pump-public-docs).
 

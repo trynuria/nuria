@@ -201,6 +201,52 @@ class Ledger:
             )
         ]
 
+    def close_expired(self, ident, evidence, now):
+        """Close an anchored, freshly checked authorization without erasing it."""
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            row = self.db.execute(
+                "SELECT j.status,a.payload FROM jobs j JOIN authorizations a ON a.job_id=j.id WHERE j.id=?",
+                (ident,),
+            ).fetchone()
+            if not row:
+                raise ValueError("Payment authorization is missing")
+            if row[0] == "expired_unsettled":
+                self.db.execute("COMMIT")
+                return False
+            authorization = json.loads(row[1])
+            checked = evidence.get("checked_at")
+            if (
+                row[0] not in ("authorized", "uncertain")
+                or evidence.get("state") != "expired_unsettled"
+                or type(checked) not in (int, float)
+                or not math.isfinite(checked)
+                or not 0 <= now - checked <= 30
+                or evidence.get("anchor") != authorization.get("history_anchor")
+                or not evidence.get("anchor")
+                or type(evidence.get("finalized_expiry_slot")) is not int
+                or evidence["finalized_expiry_slot"] < evidence["anchor"]["slot"]
+                or not evidence.get("history")
+                or evidence["history"][-1] != evidence["anchor"]
+                or evidence.get("client_signature") != authorization["client_signature"]
+                or evidence.get("transaction_sha256")
+                != authorization["transaction_sha256"]
+            ):
+                raise ValueError(
+                    "Expiration evidence is stale or bound to a different authorization"
+                )
+            self.db.execute(
+                "UPDATE jobs SET status='expired_unsettled' WHERE id=?", (ident,)
+            )
+            self.event(
+                {**evidence, "job_id": ident, "state": "expired_unsettled", "at": now}
+            )
+            self.db.execute("COMMIT")
+            return True
+        except Exception:
+            self.db.execute("ROLLBACK")
+            raise
+
     def minimum_balance_slot(self):
         return max(
             (
