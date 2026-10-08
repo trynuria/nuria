@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.3 — 2026-10-09
+
+- Remove token-address widgets, wallet identity cards and launch-mode presentation from the observatory and documentation.
+- Keep finalized and simulated input labels accurate, with existing source records, financial controls and neural history preserved.
+
 ## 0.7.2 — 2026-10-08
 
 - Connect one shared token profile to ingestion, fee-wallet observation, commerce and the public website; expose test mode separately from the launch identity.

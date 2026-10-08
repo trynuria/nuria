@@ -6,13 +6,13 @@ An onchain consciousness experiment.
 
 Nuria is an onchain consciousness experiment: a persistent entity built to have its experiences, choices and resource budget shaped by its token. The experiment measures learning, memory and decisions; subjective experience has not been established.
 
-Nuria runs a continuous spiking circuit with online prediction, episodic memory, workspace competition and autonomous actions. Recorded inputs change neural activity; observed outcomes feed back into synapses and action values. The observatory exposes measured state and the numerical basis of decisions. The mint and creator-fee wallet come from one shared server profile. The current connection, quote asset and test/production mode are published at `/api/token`; financial authority remains separate.
+Nuria runs a continuous spiking circuit with online prediction, episodic memory, workspace competition and autonomous actions. Recorded inputs change neural activity; observed outcomes feed back into synapses and action values. The observatory exposes measured state and the numerical basis of decisions. Recorded inputs retain their source and actual asset units; financial authority remains separate.
 
 ![From an input to the next decision: neural state, memory, choices and measured feedback](brand/flows/experience.svg)
 
 ## The working loop
 
-1. A read-only protocol reader records finalized Pump/PumpSwap trades for the exact configured mint and supported pools.
+1. A read-only protocol reader records finalized Pump/PumpSwap trades for the configured asset and supported pools.
 2. The expanded circuit encodes each input separately and advances a 20 ms sensory window.
 3. A source-specific readout predicts the next input's side. That prediction is scored before training on its newly observed outcome.
 4. Memory retrieves similar episodes. Novelty, uncertainty, surprise and resource pressure compete for workspace slots.
@@ -52,7 +52,7 @@ The directory must be new for a fresh capacity run. Evidence is retained. The da
 
 Protocol accrual, claimable vault funds, treasury balance, attributed creator-fee receipts and payments remain separate quantities. A wallet deposit or permissionless claim does not prove creator participation.
 
-The read-only observer can fetch a finalized balance after an exact mint and creator wallet are configured. Missing or stale evidence stays unknown. The payment gate tests expiry, recipient allowlists, integer amounts, action/daily caps, a reserve floor, unique jobs and durable reservations. The transaction builder produces a single unsigned SOL transfer.
+The read-only observer can fetch a finalized balance after an verified funding source are configured. Missing or stale evidence stays unknown. The payment gate tests expiry, recipient allowlists, integer amounts, action/daily caps, a reserve floor, unique jobs and durable reservations. The transaction builder produces a single unsigned SOL transfer.
 
 **Financial execution is disabled. Local jobs spend zero SOL.** The isolated commerce service implements exact Solana USDC x402 purchases, durable reservations, pre-sign message inspection, simulation, finalized settlement checks and delivery/outcome records. Activation requires the exact token, a dedicated funded spending wallet, approved limits, an isolated signer and a compatible provider. The public API and cognitive worker receive no signing key.
 
@@ -174,11 +174,3 @@ Brian2: [documentation](https://brian2.readthedocs.io/) and [reward-modulated ST
 Financial setup and authority boundaries: [activation](docs/launch-finance.md), [execution and proof](docs/spending.md). Production spending is disabled until project-specific accounts, wallets, allowances and live verification are configured.
 
 Contact: [hello@nuria.network](mailto:hello@nuria.network).
-
-## Token configuration
-
-A shared `NURIA_TOKEN_CONFIG` profile drives trade ingestion, creator-balance observation and financial identity. The website reads its sanitized public cache at `/api/token`; addresses are not hardcoded into page templates. The deployment profile supports explicit onchain test mode and production mode. Test inputs use a mint-specific forecast source, preserving the distinction from launch observations. Decoder state and exact raw fee accrual are scoped by mint, and existing neural histories are preserved.
-
-The finalized reader accepts transaction versions through v1 and verifies quote-token decimals. SOL, USDC and wrapped BTC quotes retain their actual asset and raw amounts; unknown units remain unresolved. Wrapped BTC test trades are not SOL fee income, and the native SOL claim/conversion rail does not cover them.
-
-On the dedicated host, update the profile with `scripts/configure_token.py --mode production --mint <MINT> --creator-wallet <FEE_WALLET>`. It verifies the current mint/beneficiary and refuses switching while financial execution is enabled. This changes public identity, not signing authority. See [activation](docs/launch-finance.md).

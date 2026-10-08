@@ -10,39 +10,6 @@ function initNuriaDocs() {
     observer = null,
     searchReturn = null;
   const searchIndex = [];
-  async function updateTokenProfile() {
-    if (document.hidden) return;
-    const controller = new AbortController();
-    const deadline = setTimeout(() => controller.abort(), 8000);
-    const panel = document.getElementById("docsTokenProfile");
-    try {
-      const response = await fetch("/api/token", {
-        signal: controller.signal,
-        cache: "no-store",
-      });
-      const token = await response.json();
-      const age = Date.now() - Date.parse(token.updated_utc);
-      if (
-        !response.ok ||
-        token.schema !== "nuria.token.v1" ||
-        !["test", "production"].includes(token.mode) ||
-        !(age >= 0 && age < 60000)
-      )
-        throw Error("Unverified token identity");
-      for (const field of panel.querySelectorAll("[data-token-field]"))
-        field.textContent = token[field.dataset.tokenField] || "Not established";
-    } catch (_) {
-      for (const field of panel.querySelectorAll("[data-token-field]"))
-        field.textContent =
-          field.dataset.tokenField === "label"
-            ? "Token evidence unavailable"
-            : "Unknown";
-    } finally {
-      clearTimeout(deadline);
-    }
-  }
-  updateTokenProfile();
-  setInterval(updateTokenProfile, 30000);
   for (const article of articles) {
     const chapter = article.id.slice(4),
       headings = [...article.querySelectorAll("h2")];

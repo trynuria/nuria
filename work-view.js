@@ -401,7 +401,7 @@ function renderWork(evidence) {
         : [
             workEmpty(
               "No commissioned work yet",
-              "Production jobs appear here when a configured provider receives a real request. Local experiments and test payments are kept separate.",
+              "Jobs appear here when a configured provider receives a real request. Each payment, delivery and outcome has its own record.",
             ),
           ]),
     );
@@ -430,10 +430,6 @@ function renderWork(evidence) {
   $("workCommitted").textContent = commerceMoney(money.committed_micro_usdc);
   $("workSpent").textContent = commerceMoney(money.settled_micro_usdc);
   $("workExecution").textContent = evidence.financial_execution ? "Enabled" : "Off";
-  $("workCreator").textContent = policy.creator_wallet || "Not configured";
-  $("copyWorkCreator").disabled = !policy.creator_wallet;
-  $("workWallet").textContent = policy.spending_wallet || "Not configured";
-  $("copyWorkWallet").disabled = !policy.spending_wallet;
   $("workPolicy").textContent =
     `${commerceMoney(policy.per_day_micro_usdc)} / day · ${commerceMoney(policy.per_job_micro_usdc)} / job · ${commerceMoney(policy.reserve_micro_usdc)} reserve`;
   $("workMoneyNote").textContent = money.balance
@@ -508,10 +504,7 @@ function clearWork() {
   for (const id of ["workBalance", "workCommitted", "workSpent"])
     $(id).textContent = "—";
   $("workExecution").textContent = "Unknown";
-  for (const id of ["workCreator", "workWallet", "workPolicy"])
-    $(id).textContent = "Unavailable";
-  $("copyWorkWallet").disabled = true;
-  $("copyWorkCreator").disabled = true;
+  $("workPolicy").textContent = "Unavailable";
   $("workJobs").replaceChildren(
     workEmpty(
       "Work evidence unavailable",
@@ -551,25 +544,5 @@ async function pollWork() {
     workRequest = false;
   }
 }
-$("copyWorkWallet").addEventListener("click", async () => {
-  const wallet = workSnapshot?.money.policy.spending_wallet;
-  if (!wallet) return;
-  try {
-    await navigator.clipboard.writeText(wallet);
-    $("copyWorkWallet").textContent = "Copied";
-  } catch (_) {
-    $("copyWorkWallet").textContent = "Select address";
-  }
-});
 pollWork();
-$("copyWorkCreator").addEventListener("click", async () => {
-  const wallet = workSnapshot?.money.policy.creator_wallet;
-  if (!wallet) return;
-  try {
-    await navigator.clipboard.writeText(wallet);
-    $("copyWorkCreator").textContent = "Copied";
-  } catch (_) {
-    $("copyWorkCreator").textContent = "Select address";
-  }
-});
 setInterval(pollWork, 5000);

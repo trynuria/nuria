@@ -78,7 +78,7 @@ The separate [acquisition evaluation](acquisition.md) measures whether informati
 
 - A task where the complete organism beats sensible alternatives, with causal gains from synaptic plasticity, episodic neural memory and workspace broadcast separately established.
 - Learned planning rather than the current explicit habitat path planner and 65% utility / 35% neural action arbitration.
-- Live finalized trades from a configured exact mint, verified creator-fee attribution and a funded, independently limited signer. These are not connected; no SOL is spent by the model.
+- Live finalized trades from a verified protocol source, verified creator-fee attribution and a funded, independently limited signer. Live economic execution remains disabled.
 - Independent receipt witnesses or chain anchors. Current hashes establish internal consistency, not independently attested truth.
 - A full-day provider-to-browser load test and independently replicated capability results. Actual encrypted-archive checkpoint recovery now passes; production failover and recovery time remain untested. See [capacity and recovery](capacity.md).
 

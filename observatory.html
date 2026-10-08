@@ -283,22 +283,6 @@
         font: 12px var(--mono);
         color: var(--dim);
       }
-      .token-link {
-        display: none;
-        align-items: center;
-        gap: 10px;
-        font: 12px var(--mono);
-        max-width: 100%;
-        margin-top: 12px;
-      }
-      .token-link.connected {
-        display: flex;
-      }
-      .token-link code {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
       .copy-btn {
         background: transparent;
         border: 1px solid var(--line);
@@ -2052,15 +2036,6 @@
       .reset-label {
         font-size: 10px;
       }
-      .token-link {
-        display: flex;
-        visibility: hidden;
-        height: 44px;
-        min-height: 44px;
-      }
-      .token-link.connected {
-        visibility: visible;
-      }
       .hero-links .text-link {
         white-space: nowrap;
       }
@@ -2085,11 +2060,6 @@
         width: 104px;
         flex: none;
         overflow: hidden;
-        white-space: nowrap;
-      }
-      #copyMint {
-        width: 82px;
-        flex: none;
         white-space: nowrap;
       }
       .docs-page .scroll-viewport {
@@ -2152,14 +2122,6 @@
       }
       .hero-copy {
         max-width: 100%;
-      }
-      .token-link {
-        width: 100%;
-        min-width: 0;
-      }
-      .token-link code {
-        min-width: 0;
-        flex: 1;
       }
       .thread-metrics strong {
         max-width: 100%;
@@ -2387,14 +2349,6 @@
                         ><a class="text-link" href="#work" data-work-view="work"
                           >View its work </a
                         ><a href="/?page=docs" class="text-link">Read the docs </a></div
-                      ><div class="token-link" id="tokenLink"
-                        ><span id="tokenMode">CA</span><code id="mintAddress"></code
-                        ><button
-                          class="copy-btn"
-                          id="copyMint"
-                          aria-label="Copy token contract address"
-                          >Copy CA</button
-                        ></div
                       ></div
                     ></div
                   >
@@ -2763,9 +2717,6 @@
                     separate payout evidence. An unavailable wallet balance stays
                     unknown.</p
                   ><div class="wallet-row"
-                    ><span>Creator fee wallet</span
-                    ><strong id="creatorWallet">Not connected</strong></div
-                  ><div class="wallet-row"
                     ><span>Observed creator fee accrual</span
                     ><strong id="observedFees">Unknown</strong></div
                   ><div class="wallet-row"
@@ -2821,12 +2772,6 @@
                   ><div
                     ><span>Evaluated outcomes</span
                     ><strong id="commerceEvaluated">—</strong></div
-                  ></div
-                ><div class="commerce-wallet"
-                  ><span>Spending wallet</span
-                  ><code id="commerceWallet">Not configured</code
-                  ><button class="copy-btn" id="copyCommerceWallet" disabled
-                    >Copy</button
                   ></div
                 ><p class="commerce-note" id="commerceNote"
                   >Waiting for independent payment evidence.</p
@@ -3107,7 +3052,6 @@
         }
         state = s;
         const live = !!s.feed?.mint,
-          testToken = s.token?.mode === "test" || s.feed?.mode === "test",
           healthy =
             s.phase === "running" && Date.now() - Date.parse(s.updated_utc) < 15000;
         $("statusPill").textContent = healthy
@@ -3125,19 +3069,17 @@
           ? "Updated " + new Date(s.updated_utc).toLocaleTimeString()
           : "Awaiting server";
         $("sourceTitle").textContent = live
-          ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
+          ? "Solana · " + s.feed.phase
           : "Simulation input stream";
         $("sourceDetail").textContent = live
-          ? s.feed.error || "Mint " + s.feed.mint
-          : "Test signals; no mint connected. Configure a mint to observe finalized Pump/PumpSwap trades.";
+          ? s.feed.error || "Finalized inputs from the connected protocol reader."
+          : "Simulated sensory inputs; no finalized trade feed is connected.";
         $("tradeControls").classList.add("hidden");
         $("feedBadge").textContent = live
-          ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
+          ? "Solana · " + s.feed.phase
           : "Simulation inputs";
         $("fieldSource").textContent = live
-          ? testToken
-            ? "Inputs: finalized test token"
-            : "Inputs: finalized Solana"
+          ? "Inputs: finalized Solana"
           : "Inputs: simulation";
         $("coverage").textContent = s.feed?.coverage || "Coverage unknown";
         if (s.error) $("inputStatus").textContent = s.error;
@@ -3186,7 +3128,6 @@
         $("observedFees").textContent = Number.isFinite(accrual?.amount)
           ? accrual.amount.toFixed(Math.min(9, quoteDecimals)) + " " + quoteUnit
           : "Unknown";
-        $("creatorWallet").textContent = treasury?.wallet || "Not connected";
         $("fundsReceived").textContent = Number.isFinite(
           treasury?.verified_fee_receipts,
         )
@@ -3214,9 +3155,6 @@
         $("chainStatus").textContent = s.receipt_pending
           ? fmt(s.receipt_pending) + " recent ticks awaiting durable checkpoint."
           : "Latest ticks saved to a durable checkpoint.";
-        $("tokenLink").classList.toggle("connected", live);
-        $("mintAddress").textContent = s.feed?.mint || "";
-        $("tokenMode").textContent = testToken ? "TEST CA" : "CA";
         drawHistory();
       }
 
@@ -3253,18 +3191,15 @@
           return;
         }
         $("traceInput").textContent =
-          (e.source === "test" ? "Test " : "") + (e.side === "buy" ? "buy " : "sell ");
+          (e.source === "test" ? "Simulation " : "") +
+          (e.side === "buy" ? "buy " : "sell ");
         $("traceInput").style.color = e.side === "buy" ? "var(--green)" : "var(--pink)";
         $("traceAmount").textContent =
           fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
           " " +
           (e.quote_unit || "unknown quote");
         $("traceSource").textContent =
-          (e.source === "test"
-            ? "Simulation"
-            : e.token_mode === "test"
-              ? "Finalized onchain test"
-              : e.source) +
+          (e.source === "test" ? "Simulation" : "Finalized Solana") +
           " / " +
           (Number.isInteger(e.block_time)
             ? new Date(e.block_time * 1000).toLocaleString()
@@ -3333,14 +3268,14 @@
         for (const e of rows) {
           if (e.id === trackedInput && e.receipt)
             $("inputStatus").textContent =
-              "Test " + e.side + " recorded in receipt #" + e.receipt + ".";
+              "Simulation " + e.side + " recorded in receipt #" + e.receipt + ".";
           const row = document.createElement("button");
           row.type = "button";
           row.className = "event " + (e.side === "buy" ? "buy-event" : "sell-event");
           row.dataset.input = e.id;
           row.setAttribute(
             "aria-label",
-            (e.source === "test" ? "Test " : "") +
+            (e.source === "test" ? "Simulation " : "") +
               e.side +
               " " +
               fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
@@ -3354,7 +3289,8 @@
           main.className = "event-main";
           const title = document.createElement("strong");
           title.textContent =
-            (e.source === "test" ? "Test " : "") + (e.side === "buy" ? "buy" : "sell");
+            (e.source === "test" ? "Simulation " : "") +
+            (e.side === "buy" ? "buy" : "sell");
           const detail = document.createElement("small");
           detail.textContent = e.signature
             ? e.signature
@@ -3411,9 +3347,6 @@
       }
       $("copyReceipt").addEventListener("click", () =>
         copyValue(selectedReceiptHash, $("copyReceipt")),
-      );
-      $("copyMint").addEventListener("click", () =>
-        copyValue(state?.feed?.mint, $("copyMint")),
       );
       $("openInspection").addEventListener(
         "click",

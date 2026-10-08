@@ -91,7 +91,7 @@ The worker runs on the dedicated Nuria server with a separate unprivileged user,
 
 The live curriculum can expose previously unencountered combinations; it remains four designed task families with a published controller. New senses, social agents, multi-step learned plans, harder memory delays and independent replication are next experiments, not implemented claims. A separate neural-circuit/plasticity ablation is still required to attribute gains to recurrent dynamics or STDP.
 
-Credits are virtual. The creator-fee wallet, mint, funded spending wallet and isolated independently limited signer are not configured. Eventually an information probe could buy a specified external computation with a verifiable outcome and a published budget. That requires connecting the prepared fee rails, not renaming these virtual credits as SOL.
+Credits are virtual. External spending requires verified funding and independently limited signing authority. Eventually an information probe could buy a specified external computation with a verifiable outcome and a published budget. That requires connecting the prepared fee rails, not renaming these virtual credits as SOL.
 
 ## Reproduce
 

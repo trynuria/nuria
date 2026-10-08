@@ -128,8 +128,7 @@
               episodic memory, attention competition and an autonomous action selector.
               The trade reader is built to turn the configured token’s finalized trades
               into sensory inputs. The model continues between inputs and resumes from
-              saved neural and learning state. The live mint and creator-fee wallet
-              still need configuration.</p
+              saved neural and learning state.</p
             ><h2 id="introduction--cycle">A complete feedback loop</h2
             ><p
               >Input → neural response → prediction → observed outcome → reward
@@ -304,12 +303,13 @@
                 ></div
               ><figcaption
                 >An input changes recorded state; its later outcome determines what is
-                learned. Live trades and test signals remain separate.</figcaption
+                learned. Observed trades and simulated signals remain
+                separate.</figcaption
               ></figure
             ><h2 id="inputs--reader">What the trade reader checks</h2
             ><p
               >The reader decodes Pump and PumpSwap events against the included official
-              interfaces, checks the exact configured mint and supported pools, and uses
+              interfaces, checks the configured asset and supported pools, and uses
               finalized transaction evidence. Failed or unresolved transactions remain
               pending. Coverage is stated explicitly; every possible venue is not
               automatically covered.</p
@@ -328,12 +328,11 @@
               reconstruct the transaction’s original historical counterfactual, and the
               event-ID texture is software encoding rather than economic
               significance.</p
-            ><h2 id="inputs--streams">Test and live are separated</h2
+            ><h2 id="inputs--streams">Source histories remain separate</h2
             ><p
-              >When no mint is connected, the existing engine supplies tagged test
-              inputs. Test and live prediction learners have separate weights, momentum,
-              pending predictions and metrics. Simulated accrual is not a wallet
-              receipt. A mint can be connected without erasing prior history.</p
+              >Recorded and simulated inputs have separate prediction weights, momentum,
+              pending predictions and metrics. Simulated accrual is not a payment
+              receipt. Connecting a source does not erase prior history.</p
             ><h2 id="inputs--latency">Finality, decoding and backlog</h2
             ><p
               >Blockchain finality, RPC pagination, provider limits and queue lag affect
@@ -351,30 +350,6 @@
           >
             <h1 tabindex="-1">Fees & resources</h1>
             <p class="docs-lead">Follow the money. Then check what it delivered.</p>
-            <div class="docs-token-profile" id="docsTokenProfile">
-              <span class="docs-token-mode" data-token-field="label"
-                >Checking token connection</span
-              >
-              <dl>
-                <div
-                  ><dt>Mint</dt
-                  ><dd><code data-token-field="mint">Unknown</code></dd></div
-                >
-                <div
-                  ><dt>Creator fee wallet</dt
-                  ><dd><code data-token-field="creator_wallet">Unknown</code></dd></div
-                >
-                <div
-                  ><dt>Quote asset</dt
-                  ><dd data-token-field="quote_unit">Unknown</dd></div
-                >
-              </dl>
-              <p
-                >Addresses come from the shared server profile. Test-token inputs and
-                launch inputs have separate forecast histories. Connecting an address
-                does not enable payments.</p
-              >
-            </div>
             <h2 id="resources--work">Work, treasury and results</h2>
             <p
               >The observatory has separate <a href="/#work">Work</a>,
@@ -499,19 +474,19 @@
               ownership stays outside the application host.</p
             >
             <p
-              >Collection requires the exact mint, beneficiary, launch mode and deployed
-              program hashes. New Pump trade interfaces retain fees on the curve or pool
-              and need a sweep before the claim. The native adapter now matches the
-              official SDK’s unsigned sweep and collection instructions. Successful
-              claims for the exact token remain unverified; production collection stays
-              disabled. Account creation or resizing requires separate rent authority.
-              Sharing, holder rewards, cashback, mayhem and unknown layouts stay
-              blocked. Creator-vault balances can cover multiple tokens.</p
+              >Collection requires verified beneficiaries, protocol accounts and
+              deployed program hashes. New Pump trade interfaces retain fees on the
+              curve or pool and need a sweep before the claim. The native adapter now
+              matches the official SDK’s unsigned sweep and collection instructions.
+              Successful claims for the exact token remain unverified; production
+              collection stays disabled. Account creation or resizing requires separate
+              rent authority. Sharing, holder rewards, cashback, mayhem and unknown
+              layouts stay blocked. Creator-vault balances can cover multiple tokens.</p
             >
             <p
               >If a separate project managed creator wallet is needed, its own
               restricted delegate can forward SOL only to the agent address within
-              explicit native and gas limits. A manually controlled launch wallet
+              explicit native and gas limits. A manually controlled funding wallet
               requires manual forwarding. Configuration cannot redirect the protocol
               beneficiary or grant access to an unrelated wallet.</p
             >
@@ -621,7 +596,7 @@
               >The current V2 route was checked against Jupiter's program-owned IDL and
               an unsigned mainnet simulation. That verifies construction and simulated
               economics; it is not a finalized swap or permission to spend. Native
-              custody approval and the exact launch configuration remain open.</p
+              custody approval and current execution checks remain open.</p
             >
             <h2 id="resources--records">Complete money records</h2>
             <p
@@ -648,10 +623,9 @@
             <h2 id="resources--activation">Current activation state</h2>
             <p
               >Financial execution remains disabled. The adapters and ledger are
-              installed; project-specific custody access, exact token and wallets,
-              reviewed native budgets and program pins remain required. An isolated
-              funded payment test has passed; offline tests do not establish a live
-              fee-funded loop.</p
+              installed; project-specific custody access, funding, reviewed native
+              budgets and program pins remain required. An isolated funded payment test
+              has passed; offline tests do not establish a live fee-funded loop.</p
             >
             <p
               >Solana batch-payment channels are a possible higher-volume rail. No
@@ -830,8 +804,8 @@
             ><p
               >No. Useful learning requires an objective and held-out or prequential
               measurement. Nuria includes controlled readout tasks, an actual-neuron
-              feature benchmark with neural ablation, and separately reported live/test
-              prediction metrics. Results may improve or worsen.</p
+              feature benchmark with neural ablation, and separately reported
+              observed/simulated prediction metrics. Results may improve or worsen.</p
             ><h2 id="questions--llm">Is it an LLM writing a personality?</h2
             ><p
               >The decision record is generated from actual numerical scores and
@@ -1021,9 +995,8 @@
               attention need separate causal tasks. The action loop remains a 65%
               utility / 35% neural hybrid with an explicit habitat planner. Receipts
               show internal integrity; independent witnesses and onchain anchors are not
-              connected. No mint or creator-fee wallet is configured, and the model
-              spends no SOL. Consciousness and a whole human-brain simulation are not
-              established.</p
+              connected. Financial execution remains disabled. Consciousness and a whole
+              human-brain simulation are not established.</p
             ></article
           ><article
             class="docs-article"
@@ -1127,7 +1100,7 @@
               >The main circuit’s fresh firing rate changes the virtual probe price by
               at most 0.1 credits. Each trial records the source tick, input cursor and
               receipt head. This is a software perturbation; it does not merge neural
-              histories. An unconfigured mint remains unconfigured.</p
+              histories.</p
             >
             <h2 id="discovery--controls">A simpler model can win</h2>
             <p
@@ -1220,8 +1193,8 @@
               learner. New task families, learned multi-step planning, social
               coordination, robust neural-plasticity gains and independent replication
               remain open. Useful decisions do not establish subjective consciousness.
-              Virtual credits are not SOL: the mint, fee wallet and independently
-              limited signer are still needed for external paid actions.</p
+              Virtual credits are not SOL; external purchases require separately
+              verified payment authority and funding.</p
             > </article
           ><article
             class="docs-article"
@@ -1382,8 +1355,9 @@
                         >Prepared</span
                       ></div
                     ><p
-                      >Finalized protocol reader is implemented; exact mint is not
-                      configured, so no live-token feedback loop is established.</p
+                      >Finalized protocol events are decoded, deduplicated and linked to
+                      individual neural effects. Coverage and unresolved retrievals
+                      remain explicit.</p
                     ></li
                   >
                   <li
@@ -1735,8 +1709,8 @@
                         >Prepared</span
                       ></div
                     ><p
-                      >Read-only finalized wallet balance requires the exact mint and
-                      creator-wallet configuration.</p
+                      >Read-only observation separates balances, protocol accrual and
+                      verified payment receipts.</p
                     ></li
                   >
                   <li
@@ -1750,7 +1724,7 @@
                       ></div
                     ><p
                       >Live Pump creator/mode checks and unsigned standard claims;
-                      mint-specific attribution, unsupported modes and automatic
+                      asset-specific attribution, unsupported modes and automatic
                       collection remain activation gates.</p
                     ></li
                   >

@@ -90,7 +90,7 @@ function harness() {
   };
 }
 
-test("a failed refresh removes old wallet, metrics, receipts and keyboard download", async () => {
+test("a failed refresh clears metrics, receipts and keyboard download", async () => {
   const { context, get, poll } = harness();
   await poll();
   assert.equal(get("commercePhase").textContent, "Execution off");
@@ -101,13 +101,9 @@ test("a failed refresh removes old wallet, metrics, receipts and keyboard downlo
   assert.equal(get("commercePhase").textContent, "Evidence unavailable");
   assert.equal(get("commerceBalance").textContent, "—");
   assert.equal(get("commerceDelivered").textContent, "—");
-  assert.equal(get("commerceWallet").title, "");
-  assert.equal(get("creatorWallet").title, "");
   assert.equal(get("commerceTimeline").children.length, 0);
   assert.equal(get("commerceDownload").attributes.href, undefined);
   assert.equal(get("commerceDownload").attributes.tabindex, "-1");
-  assert.equal(get("copyCommerceWallet").disabled, true);
-  await get("copyCommerceWallet").listeners.click();
   assert.equal(context.copied, undefined);
 });
 
@@ -134,17 +130,19 @@ test("stale, future, unknown and incomplete evidence never becomes zero activity
   }
 });
 
-test("a verified refresh restores the current address and downloadable evidence", async () => {
+test("a verified refresh restores payment evidence without displaying wallet identity", async () => {
   const { context, get, fresh, poll } = harness();
   context.failure = true;
   await poll();
   context.failure = false;
   context.evidence = fresh();
   await poll();
-  assert.equal(get("copyCommerceWallet").disabled, false);
   assert.equal(get("commerceDownload").attributes.href, "/download/commerce?page=0");
   assert.equal(get("commerceDownload").attributes.tabindex, "0");
   assert.equal(get("commerceTimeline").children.length, 1);
-  await get("copyCommerceWallet").listeners.click();
-  assert.equal(context.copied, context.evidence.policy.spending_wallet);
+  assert.equal(
+    get("commerceRecords").textContent.includes(context.evidence.policy.creator_wallet),
+    false,
+  );
+  assert.equal(get("commerceWallet").textContent, "");
 });

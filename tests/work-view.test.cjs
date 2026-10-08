@@ -126,16 +126,14 @@ test("stale, future, incomplete or contradictory records clear all current finan
     assert.equal(get("workHealth").textContent, "Evidence unavailable");
     assert.equal(get("workSpent").textContent, "—");
     assert.equal(get("workExport").attributes.href, undefined);
-    assert.equal(get("copyWorkWallet").disabled, true);
   }
 });
 
-test("network failure clears wallet access and refresh recovers without changing selected tabs", async () => {
+test("network failure clears financial evidence and refresh recovers without changing selected tabs", async () => {
   const { context, get, fresh, poll } = await harness();
   get("work-tab-treasury").listeners.click();
   context.offline = true;
   await poll();
-  await get("copyWorkWallet").listeners.click();
   assert.equal(context.copied, undefined);
   context.offline = false;
   context.evidence = fresh();

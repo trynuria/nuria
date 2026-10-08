@@ -39,7 +39,7 @@
     "step": 7,
     "capability": "Finalized trade reader",
     "status": "Prepared",
-    "evidence_or_gate": "Finalized protocol reader is implemented; exact mint is not configured, so no live-token feedback loop is established."
+    "evidence_or_gate": "Finalized protocol events are decoded, deduplicated and linked to individual neural effects. Coverage and unresolved retrievals remain explicit."
   },
   {
     "step": 8,
@@ -183,13 +183,13 @@
     "step": 31,
     "capability": "Treasury observation",
     "status": "Prepared",
-    "evidence_or_gate": "Read-only finalized wallet balance requires the exact mint and creator-wallet configuration."
+    "evidence_or_gate": "Read-only observation separates balances, protocol accrual and verified payment receipts."
   },
   {
     "step": 32,
     "capability": "Creator-fee attribution",
     "status": "Prepared",
-    "evidence_or_gate": "Live Pump creator/mode checks and unsigned standard claims; mint-specific attribution, unsupported modes and automatic collection remain activation gates."
+    "evidence_or_gate": "Live Pump creator/mode checks and unsigned standard claims; asset-specific attribution, unsupported modes and automatic collection remain activation gates."
   },
   {
     "step": 33,

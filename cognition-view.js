@@ -175,22 +175,25 @@ function renderCognition(c) {
   $("cogBaseline").textContent = fmt(metrics?.baseline_brier, 4);
   $("cogSourceBadge").textContent = metrics
     ? source === "test"
-      ? "Test inputs"
-      : c.token?.mode === "test"
-        ? "Onchain test token"
-        : "Finalized token inputs"
+      ? "Simulation inputs"
+      : "Finalized Solana inputs"
     : "Awaiting data";
   $("cogLearningSource").textContent =
     source === "test"
-      ? "Test inputs · forecast error (green) / learned repeat baseline (gray)."
-      : `${c.token?.mode === "test" ? "Onchain test token" : "Finalized token"} · observed next-input outcomes; prediction quality can rise or fall.`;
+      ? "Simulation inputs · forecast error (green) / learned repeat baseline (gray)."
+      : "Finalized Solana inputs · observed next-input outcomes; prediction quality can rise or fall.";
   drawLearning(learning?.history || []);
   $("cogForecastJSON").textContent = JSON.stringify(
     {
       method: c.learning?.method,
       learning_started_utc: c.learning?.genesis_utc,
-      source,
-      prediction: learning?.prediction,
+      source: source === "test" ? "simulation" : "finalized_solana",
+      prediction: learning?.prediction
+        ? {
+            ...learning.prediction,
+            source: source === "test" ? "simulation" : "finalized_solana",
+          }
+        : undefined,
       metrics,
       scope: c.learning?.scope,
     },

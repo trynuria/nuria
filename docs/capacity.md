@@ -19,7 +19,7 @@ The frontend reads bounded cached snapshots. Visitors do not create individual b
 
 The finalized reader pages transaction history, retains its scan cursor and retries incomplete transaction fetches. Unsupported schemas or failed requests remain gaps rather than fabricated empty activity. It currently limits RPC requests globally to 15/second and uses at most six transaction-fetch workers. Several RPC calls may be needed for one trade, so those numbers are not trades/second.
 
-A burst above the measured model catch-up rate can create a backlog. A launched mint must be tested against real provider responses, duplicates, reordering and interruptions before claiming complete coverage. Queue age, last finalized cursor, free disk and backup age need to be checked during operation. There is no unlimited queue or permanent storage guarantee.
+A burst above the measured model catch-up rate can create a backlog. A connected protocol source must be checked against real provider responses, duplicates, reordering and interruptions before claiming complete coverage. Queue age, last finalized cursor, free disk and backup age need to be checked during operation. There is no unlimited queue or permanent storage guarantee.
 
 The brief SQLite continuation would imply roughly 0.685 GB/day at 100,000 inputs if that rate continued. This is a planning estimate only: it excludes the original circuit's PostgreSQL records, Discovery, checkpoints, archives, backups and changes in autonomous activity. Keep at least 25% disk headroom and review growth during the first day. Archival, retention changes or capacity expansion require a deliberate decision; evidence must not be silently deleted to preserve uptime.
 
@@ -31,7 +31,7 @@ The original circuit's PostgreSQL dump restored into a separate database. Its 44
 
 ## Launch and operating gates
 
-- Connect the exact mint and confirm its complete finalized history against an independent read, including failed decoding and pending retrievals.
+- Confirm complete finalized protocol history against an independent read, including failed decoding and pending retrievals.
 - Measure end-to-end lag and storage across a full day with representative bursts; the replay projection is insufficient.
 - Keep one source writer, bounded retries, durable cursors and fail-closed financial authorization across recovery.
 - Retain off-host encrypted backups and owner-controlled recovery authority. Test a controlled failover separately before advertising a recovery-time guarantee.

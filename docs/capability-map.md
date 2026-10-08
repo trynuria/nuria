@@ -17,16 +17,16 @@ Active mechanisms are implemented. Evaluation identifies bounded experiments nee
 
 ## Inputs and prediction
 
-| Capability                 | Status   | Evidence or next gate                                                                                                          |
-| -------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Finalized trade reader     | Prepared | Finalized protocol reader is implemented; exact mint is not configured, so no live-token feedback loop is established.         |
-| Individual event encoding  | Active   | Each input has its own sensory window and event-ID texture.                                                                    |
-| Idempotent source history  | Active   | Changed or reordered duplicate inputs refuse continuation.                                                                     |
-| Causal perturbation probes | Active   | Matched current-state input and no-input replay with RNG restoration.                                                          |
-| Neural feature extraction  | Active   | 64 spike-derived features feed the predictor and memory.                                                                       |
-| Prequential prediction     | Active   | Stored forecast is scored before its next observed outcome trains the readout.                                                 |
-| Source-isolated learning   | Active   | Source-specific forecast council learns transition memory and specialist weights; old neural readouts are retained separately. |
-| Calibrated measurement     | Active   | Prequential Brier error and learned repeat baseline; expert losses and forecast attention are public.                          |
+| Capability                 | Status   | Evidence or next gate                                                                                                                            |
+| -------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Finalized trade reader     | Prepared | Finalized protocol events are decoded, deduplicated and linked to individual neural effects. Coverage and unresolved retrievals remain explicit. |
+| Individual event encoding  | Active   | Each input has its own sensory window and event-ID texture.                                                                                      |
+| Idempotent source history  | Active   | Changed or reordered duplicate inputs refuse continuation.                                                                                       |
+| Causal perturbation probes | Active   | Matched current-state input and no-input replay with RNG restoration.                                                                            |
+| Neural feature extraction  | Active   | 64 spike-derived features feed the predictor and memory.                                                                                         |
+| Prequential prediction     | Active   | Stored forecast is scored before its next observed outcome trains the readout.                                                                   |
+| Source-isolated learning   | Active   | Source-specific forecast council learns transition memory and specialist weights; old neural readouts are retained separately.                   |
+| Calibrated measurement     | Active   | Prequential Brier error and learned repeat baseline; expert losses and forecast attention are public.                                            |
 
 ## Memory, attention and actions
 
@@ -58,8 +58,8 @@ Active mechanisms are implemented. Evaluation identifies bounded experiments nee
 
 | Capability                    | Status   | Evidence or next gate                                                                                                                                       |
 | ----------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Treasury observation          | Prepared | Read-only finalized wallet balance requires the exact mint and creator-wallet configuration.                                                                |
-| Creator-fee attribution       | Prepared | Live Pump creator/mode checks and unsigned standard claims; mint-specific attribution, unsupported modes and automatic collection remain activation gates.  |
+| Treasury observation          | Prepared | Read-only observation separates balances, protocol accrual and verified payment receipts.                                                                   |
+| Creator-fee attribution       | Prepared | Live Pump creator/mode checks and unsigned standard claims; asset-specific attribution, unsupported modes and automatic collection remain activation gates. |
 | Durable spending reservations | Prepared | Durable SOL and USDC limits, reserve floor, unique decisions, ambiguous payment reconciliation and restart protection are tested; spending disabled.        |
 | Unsigned single-transfer rail | Prepared | Only a fixed system-transfer message is prepared; no signing or broadcast.                                                                                  |
 | Isolated autonomous signer    | Prepared | Isolated exact Solana USDC x402 signer adapter and guarded service installed; no production key or funded provider configured.                              |

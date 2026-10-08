@@ -113,39 +113,6 @@ function initNuriaDocs() {
     observer = null,
     searchReturn = null;
   const searchIndex = [];
-  async function updateTokenProfile() {
-    if (document.hidden) return;
-    const controller = new AbortController();
-    const deadline = setTimeout(() => controller.abort(), 8000);
-    const panel = document.getElementById("docsTokenProfile");
-    try {
-      const response = await fetch("/api/token", {
-        signal: controller.signal,
-        cache: "no-store",
-      });
-      const token = await response.json();
-      const age = Date.now() - Date.parse(token.updated_utc);
-      if (
-        !response.ok ||
-        token.schema !== "nuria.token.v1" ||
-        !["test", "production"].includes(token.mode) ||
-        !(age >= 0 && age < 60000)
-      )
-        throw Error("Unverified token identity");
-      for (const field of panel.querySelectorAll("[data-token-field]"))
-        field.textContent = token[field.dataset.tokenField] || "Not established";
-    } catch (_) {
-      for (const field of panel.querySelectorAll("[data-token-field]"))
-        field.textContent =
-          field.dataset.tokenField === "label"
-            ? "Token evidence unavailable"
-            : "Unknown";
-    } finally {
-      clearTimeout(deadline);
-    }
-  }
-  updateTokenProfile();
-  setInterval(updateTokenProfile, 30000);
   for (const article of articles) {
     const chapter = article.id.slice(4),
       headings = [...article.querySelectorAll("h2")];
@@ -1470,7 +1437,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     }
     state = s;
     const live = !!s.feed?.mint,
-      testToken = s.token?.mode === "test" || s.feed?.mode === "test",
       healthy = s.phase === "running" && Date.now() - Date.parse(s.updated_utc) < 15000;
     $("statusPill").textContent = healthy
       ? "Live model"
@@ -1487,19 +1453,17 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ? "Updated " + new Date(s.updated_utc).toLocaleTimeString()
       : "Awaiting server";
     $("sourceTitle").textContent = live
-      ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
+      ? "Solana · " + s.feed.phase
       : "Simulation input stream";
     $("sourceDetail").textContent = live
-      ? s.feed.error || "Mint " + s.feed.mint
-      : "Test signals; no mint connected. Configure a mint to observe finalized Pump/PumpSwap trades.";
+      ? s.feed.error || "Finalized inputs from the connected protocol reader."
+      : "Simulated sensory inputs; no finalized trade feed is connected.";
     $("tradeControls").classList.add("hidden");
     $("feedBadge").textContent = live
-      ? (testToken ? "Onchain test · " : "Solana · ") + s.feed.phase
+      ? "Solana · " + s.feed.phase
       : "Simulation inputs";
     $("fieldSource").textContent = live
-      ? testToken
-        ? "Inputs: finalized test token"
-        : "Inputs: finalized Solana"
+      ? "Inputs: finalized Solana"
       : "Inputs: simulation";
     $("coverage").textContent = s.feed?.coverage || "Coverage unknown";
     if (s.error) $("inputStatus").textContent = s.error;
@@ -1546,7 +1510,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("observedFees").textContent = Number.isFinite(accrual?.amount)
       ? accrual.amount.toFixed(Math.min(9, quoteDecimals)) + " " + quoteUnit
       : "Unknown";
-    $("creatorWallet").textContent = treasury?.wallet || "Not connected";
     $("fundsReceived").textContent = Number.isFinite(treasury?.verified_fee_receipts)
       ? money(treasury.verified_fee_receipts)
       : "Unknown";
@@ -1570,9 +1533,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("chainStatus").textContent = s.receipt_pending
       ? fmt(s.receipt_pending) + " recent ticks awaiting durable checkpoint."
       : "Latest ticks saved to a durable checkpoint.";
-    $("tokenLink").classList.toggle("connected", live);
-    $("mintAddress").textContent = s.feed?.mint || "";
-    $("tokenMode").textContent = testToken ? "TEST CA" : "CA";
     drawHistory();
   }
 
@@ -1609,18 +1569,15 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       return;
     }
     $("traceInput").textContent =
-      (e.source === "test" ? "Test " : "") + (e.side === "buy" ? "buy " : "sell ");
+      (e.source === "test" ? "Simulation " : "") +
+      (e.side === "buy" ? "buy " : "sell ");
     $("traceInput").style.color = e.side === "buy" ? "var(--green)" : "var(--pink)";
     $("traceAmount").textContent =
       fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
       " " +
       (e.quote_unit || "unknown quote");
     $("traceSource").textContent =
-      (e.source === "test"
-        ? "Simulation"
-        : e.token_mode === "test"
-          ? "Finalized onchain test"
-          : e.source) +
+      (e.source === "test" ? "Simulation" : "Finalized Solana") +
       " / " +
       (Number.isInteger(e.block_time)
         ? new Date(e.block_time * 1000).toLocaleString()
@@ -1685,14 +1642,14 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     for (const e of rows) {
       if (e.id === trackedInput && e.receipt)
         $("inputStatus").textContent =
-          "Test " + e.side + " recorded in receipt #" + e.receipt + ".";
+          "Simulation " + e.side + " recorded in receipt #" + e.receipt + ".";
       const row = document.createElement("button");
       row.type = "button";
       row.className = "event " + (e.side === "buy" ? "buy-event" : "sell-event");
       row.dataset.input = e.id;
       row.setAttribute(
         "aria-label",
-        (e.source === "test" ? "Test " : "") +
+        (e.source === "test" ? "Simulation " : "") +
           e.side +
           " " +
           fmt(e.quote_amount, Math.min(9, e.quote_decimals ?? 4)) +
@@ -1706,7 +1663,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       main.className = "event-main";
       const title = document.createElement("strong");
       title.textContent =
-        (e.source === "test" ? "Test " : "") + (e.side === "buy" ? "buy" : "sell");
+        (e.source === "test" ? "Simulation " : "") +
+        (e.side === "buy" ? "buy" : "sell");
       const detail = document.createElement("small");
       detail.textContent = e.signature ? e.signature : "Simulation · " + e.id.slice(-8);
       main.append(title, detail);
@@ -1758,9 +1716,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   }
   $("copyReceipt").addEventListener("click", () =>
     copyValue(selectedReceiptHash, $("copyReceipt")),
-  );
-  $("copyMint").addEventListener("click", () =>
-    copyValue(state?.feed?.mint, $("copyMint")),
   );
   $("openInspection").addEventListener(
     "click",
@@ -1943,22 +1898,25 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("cogBaseline").textContent = fmt(metrics?.baseline_brier, 4);
     $("cogSourceBadge").textContent = metrics
       ? source === "test"
-        ? "Test inputs"
-        : c.token?.mode === "test"
-          ? "Onchain test token"
-          : "Finalized token inputs"
+        ? "Simulation inputs"
+        : "Finalized Solana inputs"
       : "Awaiting data";
     $("cogLearningSource").textContent =
       source === "test"
-        ? "Test inputs · forecast error (green) / learned repeat baseline (gray)."
-        : `${c.token?.mode === "test" ? "Onchain test token" : "Finalized token"} · observed next-input outcomes; prediction quality can rise or fall.`;
+        ? "Simulation inputs · forecast error (green) / learned repeat baseline (gray)."
+        : "Finalized Solana inputs · observed next-input outcomes; prediction quality can rise or fall.";
     drawLearning(learning?.history || []);
     $("cogForecastJSON").textContent = JSON.stringify(
       {
         method: c.learning?.method,
         learning_started_utc: c.learning?.genesis_utc,
-        source,
-        prediction: learning?.prediction,
+        source: source === "test" ? "simulation" : "finalized_solana",
+        prediction: learning?.prediction
+          ? {
+              ...learning.prediction,
+              source: source === "test" ? "simulation" : "finalized_solana",
+            }
+          : undefined,
         metrics,
         scope: c.learning?.scope,
       },
@@ -2155,7 +2113,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   pollDiscovery();
   setInterval(pollDiscovery, 5000);
 
-  let commerceWallet = null;
   const commerceMoney = (value) =>
     Number.isInteger(value)
       ? `${(value / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 })} USDC`
@@ -2247,34 +2204,20 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         }
         timeline.dataset.signature = signature;
       }
-      commerceWallet = evidence.policy?.spending_wallet || null;
-      $("commerceWallet").textContent = commerceWallet || "Not configured";
-      $("commerceWallet").title = commerceWallet || "";
-      $("copyCommerceWallet").disabled = !commerceWallet;
-      $("creatorWallet").textContent =
-        evidence.policy?.creator_wallet || "Not configured";
-      $("creatorWallet").title = evidence.policy?.creator_wallet || "";
-      const names = {
-        mint: "mint",
-        creator_wallet: "fee wallet",
-        spending_wallet: "spending wallet",
-        verified_provider: "provider",
-        spending_limits: "limits",
-        isolated_signing_key: "signer",
-        managed_custody_configuration: "managed signer",
-        USDC_funding: "USDC funding",
-      };
       $("commerceNote").textContent =
         evidence.error ||
         (evidence.missing?.length
-          ? `To connect: ${evidence.missing.map((item) => names[item] || item).join(", ")}.`
+          ? "Payments remain disabled until provider, funding and signing checks pass."
           : "Payments, delivered data and evaluated outcomes have separate records. Each financial rail reports its own activation status.");
       $("commerceRecords").textContent = JSON.stringify(
         {
-          policy: evidence.policy,
-          funding: evidence.funding,
+          policy: {
+            per_day_micro_usdc: evidence.policy.per_day_micro_usdc,
+            per_job_micro_usdc: evidence.policy.per_job_micro_usdc,
+            reserve_micro_usdc: evidence.policy.reserve_micro_usdc,
+            enabled: evidence.financial_execution,
+          },
           rails: evidence.rails,
-          fee_path: evidence.fee_path,
           integrity: evidence.integrity,
           records: evidence.records,
           learning_rule: evidence.learning_rule,
@@ -2283,12 +2226,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         2,
       );
     } catch (_) {
-      commerceWallet = null;
-      $("commerceWallet").textContent = "Unavailable";
-      $("creatorWallet").textContent = "Unavailable";
-      $("commerceWallet").title = "";
-      $("creatorWallet").title = "";
-      $("copyCommerceWallet").disabled = true;
       $("commerceDownload").setAttribute("aria-disabled", "true");
       $("commerceDownload").style.pointerEvents = "none";
       $("commerceDownload").setAttribute("tabindex", "-1");
@@ -2311,15 +2248,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         "Payment evidence is unavailable. Balances and outcomes are unknown.";
     }
   }
-  $("copyCommerceWallet").addEventListener("click", async () => {
-    if (!commerceWallet) return;
-    try {
-      await navigator.clipboard.writeText(commerceWallet);
-      $("copyCommerceWallet").textContent = "Copied";
-    } catch (_) {
-      $("copyCommerceWallet").textContent = "Select address";
-    }
-  });
   pollCommerce();
   setInterval(pollCommerce, 10000);
 
@@ -2733,7 +2661,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
           : [
               workEmpty(
                 "No commissioned work yet",
-                "Production jobs appear here when a configured provider receives a real request. Local experiments and test payments are kept separate.",
+                "Jobs appear here when a configured provider receives a real request. Each payment, delivery and outcome has its own record.",
               ),
             ]),
       );
@@ -2762,10 +2690,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     $("workCommitted").textContent = commerceMoney(money.committed_micro_usdc);
     $("workSpent").textContent = commerceMoney(money.settled_micro_usdc);
     $("workExecution").textContent = evidence.financial_execution ? "Enabled" : "Off";
-    $("workCreator").textContent = policy.creator_wallet || "Not configured";
-    $("copyWorkCreator").disabled = !policy.creator_wallet;
-    $("workWallet").textContent = policy.spending_wallet || "Not configured";
-    $("copyWorkWallet").disabled = !policy.spending_wallet;
     $("workPolicy").textContent =
       `${commerceMoney(policy.per_day_micro_usdc)} / day · ${commerceMoney(policy.per_job_micro_usdc)} / job · ${commerceMoney(policy.reserve_micro_usdc)} reserve`;
     $("workMoneyNote").textContent = money.balance
@@ -2840,10 +2764,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     for (const id of ["workBalance", "workCommitted", "workSpent"])
       $(id).textContent = "—";
     $("workExecution").textContent = "Unknown";
-    for (const id of ["workCreator", "workWallet", "workPolicy"])
-      $(id).textContent = "Unavailable";
-    $("copyWorkWallet").disabled = true;
-    $("copyWorkCreator").disabled = true;
+    $("workPolicy").textContent = "Unavailable";
     $("workJobs").replaceChildren(
       workEmpty(
         "Work evidence unavailable",
@@ -2883,27 +2804,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       workRequest = false;
     }
   }
-  $("copyWorkWallet").addEventListener("click", async () => {
-    const wallet = workSnapshot?.money.policy.spending_wallet;
-    if (!wallet) return;
-    try {
-      await navigator.clipboard.writeText(wallet);
-      $("copyWorkWallet").textContent = "Copied";
-    } catch (_) {
-      $("copyWorkWallet").textContent = "Select address";
-    }
-  });
   pollWork();
-  $("copyWorkCreator").addEventListener("click", async () => {
-    const wallet = workSnapshot?.money.policy.creator_wallet;
-    if (!wallet) return;
-    try {
-      await navigator.clipboard.writeText(wallet);
-      $("copyWorkCreator").textContent = "Copied";
-    } catch (_) {
-      $("copyWorkCreator").textContent = "Select address";
-    }
-  });
   setInterval(pollWork, 5000);
 
   async function poll() {

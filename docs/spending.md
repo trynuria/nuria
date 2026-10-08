@@ -27,9 +27,9 @@ Pump/PumpSwap trade
 
 These stages are distinct integrations. The managed exact-USDC buyer, standard native sweep-and-collection adapter, optional creator-to-agent forwarding and constrained Jupiter converter have offline tests. The preferred route uses one managed agent wallet as the creator beneficiary and spending address. Its recovery owner is separate from the restricted runtime delegate. Production remains disabled. Unsigned sweep and collection instructions match current official SDK vectors; the exact launch identity and successful live claims remain gates. Collection checks are at least sixty seconds apart, with durable cadence and unresolved-submission protection.
 
-The source adapter now requires complete same-bank simulated pre/post balances, an exact fee quote, useful beneficiary credit above the minimum, conservation across known fee sources and no unexplained lamport movement. WSOL amounts must match native lamports with unchanged rent reserves and identity. Account creation, resizing, closure and ownership changes remain refused. A skipped bridge with no useful payout cannot consume a signing request. Missing modern simulation fields or a race against the prior account snapshot defers the claim. These are pre-sign checks, not a successful live collection, and do not establish mint-specific attribution. Their RPC basis is documented in Solana's [simulation method](https://solana.com/docs/rpc/http/simulatetransaction) and [response structures](https://solana.com/docs/rpc/json-structures).
+The source adapter now requires complete same-bank simulated pre/post balances, an exact fee quote, useful beneficiary credit above the minimum, conservation across known fee sources and no unexplained lamport movement. WSOL amounts must match native lamports with unchanged rent reserves and identity. Account creation, resizing, closure and ownership changes remain refused. A skipped bridge with no useful payout cannot consume a signing request. Missing modern simulation fields or a race against the prior account snapshot defers the claim. These are pre-sign checks, not a successful live collection, and do not establish asset-specific attribution. Their RPC basis is documented in Solana's [simulation method](https://solana.com/docs/rpc/http/simulatetransaction) and [response structures](https://solana.com/docs/rpc/json-structures).
 
-A creator vault can aggregate income from multiple coins. Its whole balance cannot be attributed to Nuria without mint-specific trade and payout evidence. A permissionless payout says who received funds, not who endorsed the project.
+A creator vault can aggregate income from multiple coins. Its whole balance cannot be attributed to Nuria without asset-specific trade and payout evidence. A permissionless payout says who received funds, not who endorsed the project.
 
 ## Initial paid job
 
@@ -45,7 +45,7 @@ The first delivery contract is `nuria.forecast.v1`:
 }
 ```
 
-`p_buy` must be a finite probability. Expiry must be in the future and no more than ten minutes after receipt. The merchant must return data for the configured mint. These example values are a schema illustration, not a live prediction or provider.
+`p_buy` must be a finite probability. Expiry must be in the future and no more than ten minutes after receipt. The merchant must return data for the configured asset. These example values are a schema illustration, not a live prediction or provider.
 
 A matching `predict`, `experiment` or `compare` action may purchase a forecast when:
 
@@ -91,7 +91,6 @@ Do not place wallet keys in chat, the browser, source control, research history 
 
 | Input                                                 | Why it is needed                                                                        |
 | ----------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Exact token mint                                      | Connect trade ingestion and all fee/provider evidence to one token                      |
 | Current fee beneficiary and launch mode               | Verify the actual payout route; unsupported modes require their own adapter             |
 | Dedicated spending public address and isolated signer | Give only the financial service bounded operating authority                             |
 | Per-job/daily USDC caps, reserve and cooldown         | Define the scope authorized once, without per-purchase human approval                   |

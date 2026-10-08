@@ -1,4 +1,3 @@
-let commerceWallet = null;
 const commerceMoney = (value) =>
   Number.isInteger(value)
     ? `${(value / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 })} USDC`
@@ -86,34 +85,20 @@ async function pollCommerce() {
       }
       timeline.dataset.signature = signature;
     }
-    commerceWallet = evidence.policy?.spending_wallet || null;
-    $("commerceWallet").textContent = commerceWallet || "Not configured";
-    $("commerceWallet").title = commerceWallet || "";
-    $("copyCommerceWallet").disabled = !commerceWallet;
-    $("creatorWallet").textContent =
-      evidence.policy?.creator_wallet || "Not configured";
-    $("creatorWallet").title = evidence.policy?.creator_wallet || "";
-    const names = {
-      mint: "mint",
-      creator_wallet: "fee wallet",
-      spending_wallet: "spending wallet",
-      verified_provider: "provider",
-      spending_limits: "limits",
-      isolated_signing_key: "signer",
-      managed_custody_configuration: "managed signer",
-      USDC_funding: "USDC funding",
-    };
     $("commerceNote").textContent =
       evidence.error ||
       (evidence.missing?.length
-        ? `To connect: ${evidence.missing.map((item) => names[item] || item).join(", ")}.`
+        ? "Payments remain disabled until provider, funding and signing checks pass."
         : "Payments, delivered data and evaluated outcomes have separate records. Each financial rail reports its own activation status.");
     $("commerceRecords").textContent = JSON.stringify(
       {
-        policy: evidence.policy,
-        funding: evidence.funding,
+        policy: {
+          per_day_micro_usdc: evidence.policy.per_day_micro_usdc,
+          per_job_micro_usdc: evidence.policy.per_job_micro_usdc,
+          reserve_micro_usdc: evidence.policy.reserve_micro_usdc,
+          enabled: evidence.financial_execution,
+        },
         rails: evidence.rails,
-        fee_path: evidence.fee_path,
         integrity: evidence.integrity,
         records: evidence.records,
         learning_rule: evidence.learning_rule,
@@ -122,12 +107,6 @@ async function pollCommerce() {
       2,
     );
   } catch (_) {
-    commerceWallet = null;
-    $("commerceWallet").textContent = "Unavailable";
-    $("creatorWallet").textContent = "Unavailable";
-    $("commerceWallet").title = "";
-    $("creatorWallet").title = "";
-    $("copyCommerceWallet").disabled = true;
     $("commerceDownload").setAttribute("aria-disabled", "true");
     $("commerceDownload").style.pointerEvents = "none";
     $("commerceDownload").setAttribute("tabindex", "-1");
@@ -150,14 +129,5 @@ async function pollCommerce() {
       "Payment evidence is unavailable. Balances and outcomes are unknown.";
   }
 }
-$("copyCommerceWallet").addEventListener("click", async () => {
-  if (!commerceWallet) return;
-  try {
-    await navigator.clipboard.writeText(commerceWallet);
-    $("copyCommerceWallet").textContent = "Copied";
-  } catch (_) {
-    $("copyCommerceWallet").textContent = "Select address";
-  }
-});
 pollCommerce();
 setInterval(pollCommerce, 10000);
