@@ -5,6 +5,7 @@
 - Add an isolated persistent acquisition controller: explicit free alternatives, quoted virtual costs, delayed chosen-source feedback, failure costs and reconstructible audit records.
 - Publish 288 matched trials and an exact local reproduction, including losses to cumulative learning and wasted exploration on redundant information. No synthetic result is credited to live spending or neural learning.
 - Require useful conserved beneficiary credit and complete same-bank balances before native claim signing; reject hidden rent top-ups, skipped payouts and mismatched WSOL accounting.
+- Release a verified expired payment's unused total-budget capacity for new jobs while retaining the prohibition on replaying its authorization.
 - Add the acquisition specification, complete results and an exportable research figure; update the Resources documentation without restarting neural histories.
 - Bound stalled evidence requests, retain clear unavailable states and preserve scrolling without visible page scrollbars.
 - Refresh repository and sharing artwork with the exact vector identity and publish reproducible explanatory graphics.

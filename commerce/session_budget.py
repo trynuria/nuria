@@ -68,7 +68,10 @@ class SessionBudget:
                 created = False
             else:
                 used = self.db.execute(
-                    "SELECT coalesce(sum(CASE WHEN state='spent' THEN actual ELSE maximum END),0) FROM charges WHERE state!='released'"
+                    "SELECT coalesce(sum(CASE "
+                    "WHEN state='spent' THEN actual "
+                    "WHEN state='expired_unsettled' AND id IN (SELECT id FROM resolutions) THEN 0 "
+                    "ELSE maximum END),0) FROM charges WHERE state!='released'"
                 ).fetchone()[0]
                 if used + maximum > self.limit:
                     raise ValueError("Total session budget reached")

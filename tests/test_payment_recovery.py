@@ -260,5 +260,12 @@ class PaymentRecoveryTests(unittest.TestCase):
             budget.reserve("one", 2_000_000, time.time())
         with self.assertRaises(ValueError):
             budget.disclose("one")
+        # Verified expiry frees capacity for new jobs, never for replaying this one.
+        for n in range(12):
+            budget.reserve("new-" + str(n), 2_000_000, time.time())
+        budget.reserve("last-million", 1_000_000, time.time())
+        self.assertEqual(budget.summary()["remaining"], 0)
+        with self.assertRaises(ValueError):
+            budget.reserve("over-total", 1, time.time())
         self.assertEqual(ledger.summary()["reserved_micro_usdc"], 0)
         self.assertTrue(ledger.verify()["valid"])
