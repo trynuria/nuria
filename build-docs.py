@@ -52,14 +52,6 @@ def build(root: Path = ROOT) -> None:
     logo_match = re.search(r'<a\b(?=[^>]*\bclass="logo")[^>]*>.*?</a\s*>', source, re.S)
     if logo_match is None:
         raise ValueError("Observatory logo is missing")
-    wordmark = re.search(
-        r'<svg\b(?=[^>]*\bclass="wordmark-svg")[^>]*>.*?</svg>',
-        logo_match.group(),
-        re.S,
-    )
-    if wordmark is None:
-        raise ValueError("Nuria wordmark is missing")
-    source = source.replace("{{HERO_WORDMARK}}", wordmark.group())
     footer_logo = (
         logo_match.group()
         .replace('id="neural-mark"', 'id="footer-neural-mark"')

@@ -129,8 +129,7 @@ function project(w, h, time) {
     zoomEase += (zoom - zoomEase) * ease;
   }
   lastCamera = { ...camera };
-  const scale = Math.min(w * (w < 700 ? 0.2 : 0.23), (h - 145) * 0.57) * zoomEase;
-  const centerY = (h - 90) * 0.52 + (w < 700 ? 25 : 0);
+  const scale = Math.min(w * (w < 720 ? 0.34 : 0.3), (h - 145) * 0.46) * zoomEase;
   const projectPoint = (p) =>
     NeuralMath.project(
       p,
@@ -138,7 +137,7 @@ function project(w, h, time) {
       mode === "topology" ? 0 : cameraEase.pitch,
       scale,
       w * 0.5,
-      centerY,
+      (h - 90) * 0.52,
       mode !== "topology",
     );
   points = basePoints.map((p) => ({ ...p, ...projectPoint(p) }));
@@ -150,7 +149,7 @@ function project(w, h, time) {
       ca = projectedCenters[a.ri],
       cb = projectedCenters[b.ri];
     const bend = (NeuralMath.hash(item.index, 3) - 0.5) * scale * (same ? 0.12 : 0.05);
-    const pull = mode === "topology" ? 0.05 : same ? 0.24 : 0.48;
+    const pull = mode === "topology" ? 0.05 : same ? 0.32 : 0.72;
     return {
       a,
       b,
@@ -245,7 +244,7 @@ function drawSynapses(activity, fresh, cursor) {
       ? 0.015
       : inspect
         ? 0.65
-        : clamp(0.035 + weight * 0.7, 0.035, 0.16) * depth;
+        : clamp(0.075 + weight * 1.25, 0.07, 0.26) * depth;
     ctx.strokeStyle = inspect
       ? e[2] === "inh"
         ? "#a5bff2b0"
@@ -265,7 +264,7 @@ function drawSynapses(activity, fresh, cursor) {
       ? 1.15
       : fieldLayer === "weights"
         ? 0.35 + clamp(weight, 0, 0.15) * 10
-        : 0.35 + Math.min(0.07, weight) * 2;
+        : 0.45 + Math.min(0.07, weight) * 3;
     ctx.beginPath();
     traceCurve(curve);
     ctx.stroke();
@@ -373,12 +372,12 @@ function drawNeurons(activity) {
 function drawRegionLabels(w, h, scale) {
   if (w < 720) return;
   const anchors = [
-    [-1.92, 0.68],
-    [-0.58, 1.18],
-    [0.71, 1.14],
-    [0.63, -0.89],
-    [1.96, 0.45],
-    [-1.15, -1.02],
+    [-1.46, 0.42],
+    [-0.61, 1.1],
+    [0.81, 0.94],
+    [0.59, -0.61],
+    [1.49, -0.11],
+    [-0.68, -0.95],
   ];
   ctx.font = "10px ui-monospace,monospace";
   for (let i = 0; i < topology.regions.length; i++) {
@@ -414,7 +413,7 @@ function drawRaster(w, h, cursor, compact = false) {
     range = last - first;
   const left = compact ? 20 : 52,
     right = w - (compact ? 20 : 25),
-    top = compact ? h - (w < 700 ? 134 : 122) : 154,
+    top = compact ? h - (w < 700 ? 142 : 122) : 154,
     bottom = compact ? h - (w < 700 ? 110 : 90) : h - 117;
   ctx.save();
   ctx.font = "10px ui-monospace,monospace";
