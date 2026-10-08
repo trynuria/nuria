@@ -323,7 +323,8 @@ def claim_plan(
         )
     if observation.get("graduated"):
         if (
-            not amm_deployment
+            observation.get("pool") != canonical_pool(observation["mint"])
+            or not amm_deployment
             or not approved_amm_sha256
             or amm_deployment.get("program_data_sha256") != approved_amm_sha256
             or observation.get("amm_vault_authority")

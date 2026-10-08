@@ -105,7 +105,7 @@ class PumpSweepTests(unittest.TestCase):
                 key == args["payer"] or any(a["writable"] for a in roles),
             )
         self.assertLessEqual(len(bytes(planned)), 1232)
-        for field in ("curve", "vault", "pool_quote_token_account"):
+        for field in ("curve", "vault", "pool", "pool_quote_token_account"):
             with self.subTest(field=field), self.assertRaises(ValueError):
                 claim_plan(
                     {**result, field: str(Keypair().pubkey())},
