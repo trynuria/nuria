@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 — 2026-10-08
+
+- Replace the dark dashboard presentation with an ivory editorial surface, oversized shared vector wordmark and a full-width dark neural instrument.
+- Recompose the neural schematic as six distinct populations with quieter connections and more legible recorded activity. Preserve all neuron identities, sampled endpoints, measured spike timing and inspection controls.
+- Rework learning, treasury, evidence and documentation layouts with larger headings, flat dividers and consistent light-surface contrast.
+- Keep responsive instrument controls independent of masthead height, separate mobile labels from the graph, and retain fixed metric and record space during live updates.
+- Deploy the static observatory without restarting the neural workers or changing financial execution.
+
 ## 0.7.0 — 2026-10-08
 
 - Make the recorded neural field the primary homepage composition, with a compact header, quiet controls and a single row of aligned measurements.

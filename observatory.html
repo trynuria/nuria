@@ -2356,48 +2356,54 @@
             id="neural-field"
             aria-label="Nuria neural observatory"
           >
-            <div class="stage-head"
-              ><div class="stage-title"><h2>Neural activity</h2></div
-              ><div class="stage-actions"
-                ><div class="segmented" aria-label="Neural visualization mode"
-                  ><button id="viewNeural" aria-pressed="true">Neural</button
-                  ><button id="viewTopology" aria-pressed="false">Topology</button
-                  ><button id="viewSpikes" aria-pressed="false">Spikes</button></div
-                ><button
-                  class="icon-btn"
-                  id="focus"
-                  aria-label="Focus neural field"
-                  aria-pressed="false"
-                  ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                    <path d="M6 2H2v4m8-4h4v4M2 10v4h4m8-4v4h-4" /></svg></button></div
-            ></div>
+            <div class="hero neural-introduction">
+              <div class="entity-wordmark" aria-hidden="true">{{HERO_WORDMARK}}</div>
+              <div class="entity-introduction">
+                <h1>An onchain<br />consciousness experiment.</h1>
+                <p
+                  >One persistent entity. Neural state, memory and decisions, open to
+                  inspection.</p
+                >
+                <div class="hero-links">
+                  <a class="text-link" href="#work" data-work-view="work"
+                    >View its work</a
+                  >
+                  <a class="text-link" href="/?page=docs">Read the docs</a>
+                </div>
+                <div class="token-link" id="tokenLink"
+                  ><span>CA</span><code id="mintAddress"></code
+                  ><button
+                    class="copy-btn"
+                    id="copyMint"
+                    aria-label="Copy token contract address"
+                    >Copy CA</button
+                  ></div
+                >
+              </div>
+            </div>
             <div class="stage-grid"
               ><div class="stage"
                 ><div class="field">
-                  <div class="hero neural-introduction"
-                    ><div class="hero-title"
-                      ><h1
-                        ><span>An onchain</span><span>consciousness</span
-                        ><span>experiment.</span></h1
-                      ></div
-                    ><div class="hero-copy"
-                      ><p
-                        >Neural state, memory and decisions in one persistent entity.</p
-                      ><div class="hero-links"
-                        ><a class="text-link" href="#work" data-work-view="work"
-                          >View its work </a
-                        ><a href="/?page=docs" class="text-link">Read the docs </a></div
-                      ><div class="token-link" id="tokenLink"
-                        ><span>CA</span><code id="mintAddress"></code
-                        ><button
-                          class="copy-btn"
-                          id="copyMint"
-                          aria-label="Copy token contract address"
-                          >Copy CA</button
+                  <div class="stage-head"
+                    ><div class="stage-title"><h2>Neural activity</h2></div
+                    ><div class="stage-actions"
+                      ><div class="segmented" aria-label="Neural visualization mode"
+                        ><button id="viewNeural" aria-pressed="true">Neural</button
+                        ><button id="viewTopology" aria-pressed="false">Topology</button
+                        ><button id="viewSpikes" aria-pressed="false"
+                          >Spikes</button
                         ></div
-                      ></div
-                    ></div
-                  >
+                      ><button
+                        class="icon-btn"
+                        id="focus"
+                        aria-label="Focus neural field"
+                        aria-pressed="false"
+                        ><svg viewBox="0 0 16 16" fill="none" stroke="currentColor">
+                          <path
+                            d="M6 2H2v4m8-4h4v4M2 10v4h4m8-4v4h-4"
+                          /></svg></button></div
+                  ></div>
+
                   <canvas
                     tabindex="0"
                     id="network"
@@ -3033,12 +3039,12 @@
         activeTab = "experience";
       const colors = {
         buy: "#c7f4b0",
-        sensory: "#bdcf9f",
-        workspace: "#d8c18b",
+        sensory: "#acd7bd",
+        workspace: "#d1d7b5",
         sell: "#dfa6b2",
-        association: "#b8d2cb",
-        memory: "#b9b0d8",
-        policy: "#c8dba4",
+        association: "#b1d8d0",
+        memory: "#bbc8cf",
+        policy: "#c0d2ad",
         inhibition: "#96b6d2",
       };
       const shortNames = {
