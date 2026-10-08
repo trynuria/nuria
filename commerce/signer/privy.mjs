@@ -1,6 +1,7 @@
 import { readFile, lstat } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { PrivyClient } from "@privy-io/node";
+import { checkQuorums } from "./custody-policy.mjs";
 
 const ordered = (v) =>
   Array.isArray(v)
@@ -68,10 +69,20 @@ try {
     digest(terms) !== config.policy_sha256
   )
     throw Error("Custody policy is unowned or changed");
+  const quorumEvidence = checkQuorums(
+    await client.keyQuorums().get(config.signer_id),
+    await Promise.all(
+      [...new Set([config.owner_id, policy.owner_id])].map((id) =>
+        client.keyQuorums().get(id),
+      ),
+    ),
+    config.authorization_key,
+  );
   if (input.operation === "check") {
     process.stdout.write(
       JSON.stringify({
         verified: true,
+        ...quorumEvidence,
         wallet: wallet.address,
         policy_sha256: digest(terms),
         owner_id: config.owner_id,

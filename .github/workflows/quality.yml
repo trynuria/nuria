@@ -41,3 +41,4 @@ jobs:
         run: |
           npm ci --ignore-scripts
           node --check privy.mjs
+          node --test custody-policy.test.mjs

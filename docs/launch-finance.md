@@ -4,7 +4,7 @@ The installed services and public ledger are ready for configuration. No product
 
 ## Project accounts
 
-Use a separate Privy application and a project-only Jupiter API key. The runtime receives a delegated authorization key, not the wallet owner's recovery authority. It cannot own the wallet or policy. The managed signer checks the live wallet, delegate, independent owner and pinned policy before signing a parsed transaction. Do not enable unrestricted message signing, key export or an allow-all policy.
+Use a separate Privy application and a project-only Jupiter API key. The runtime receives a delegated authorization key, not the wallet owner's recovery authority. It cannot own the wallet or policy. The managed signer checks the live wallet, delegate, independently owned policy and direct owner quorums before signing a parsed transaction. It derives the runtime authorization public key and rejects membership in either owner quorum, even when quorum IDs differ. Nested or user-based ownership requires its own reviewed adapter; this configuration uses direct P-256 authorization keys. Do not enable unrestricted message signing, key export or an allow-all policy.
 
 Set up a separate Squads V4 reserve with an independent quorum of at least two voting members. Nuria's operating member has execution permission only. Configuration authority must be the null System address, so changes go through the quorum. Bind the allowance to exactly one operating destination. An empty destination list is rejected.
 
