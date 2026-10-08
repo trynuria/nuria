@@ -12,13 +12,10 @@ from scripts.evaluate_acquisition import PROTOCOL, trial
 
 class AcquisitionTests(unittest.TestCase):
     def model(self):
+        root = Path(__file__).parents[1] / ".test-state"
+        root.mkdir(exist_ok=True)
         path = (
-            Path(
-                tempfile.mkdtemp(
-                    prefix="acquisition-", dir=Path(__file__).parents[1] / ".test-state"
-                )
-            )
-            / "research.sqlite3"
+            Path(tempfile.mkdtemp(prefix="acquisition-", dir=root)) / "research.sqlite3"
         )
         model = Acquisition(path, "synthetic:test")
         self.addCleanup(model.db.close)
