@@ -10,6 +10,7 @@ import json
 import time
 
 from solders.message import to_bytes_versioned
+from solders.pubkey import Pubkey
 from solders.transaction import VersionedTransaction
 
 from commerce.fees import AMM, claim_plan, program_identity
@@ -188,6 +189,27 @@ class Collector:
             if simulation["value"].get("err") is not None:
                 raise ValueError("Claim simulation failed")
             reject_rent_changes(before["value"], simulation["value"].get("accounts"))
+            economics = claim_economics(
+                tx.message,
+                addresses,
+                before["value"],
+                simulation["value"],
+                terms,
+                fee,
+                minimum,
+            )
+            db.execute(
+                "UPDATE collections SET terms=? WHERE id=?",
+                (canonical({**terms, "simulated_economics": economics}), ident),
+            )
+            self.ledger.record(
+                {
+                    "state": "collection_simulation_verified",
+                    "id": ident,
+                    "at": time.time(),
+                    **economics,
+                }
+            )
         except Exception:
             db.execute("UPDATE collections SET status='failed' WHERE id=?", (ident,))
             self.ledger.record(
@@ -195,7 +217,7 @@ class Collector:
                     "state": "collection_failed_before_disclosure",
                     "id": ident,
                     "at": time.time(),
-                    "reason": "Simulation evidence failed or requires unapproved account rent",
+                    "reason": "Simulation lacks a useful conserved payout or requires unapproved account changes",
                 }
             )
             return
@@ -394,6 +416,126 @@ def token_debit(meta, index):
     return units(meta.get("preTokenBalances", [])) - units(
         meta.get("postTokenBalances", [])
     )
+
+
+def claim_economics(message, addresses, before, simulation, terms, fee, minimum):
+    """Require a positive conserved native payout without hidden rent or transfers.
+
+    Full pre/post balance arrays come from one simulation bank. Earlier account
+    snapshots must match those pre-balances; races are refused, not inferred away.
+    WSOL source amounts must move with lamports and retain the same rent reserve.
+    """
+    from commerce.config import TOKEN
+    from commerce.fees import SYSTEM, WSOL
+    from commerce.solana import account_bytes
+
+    keys = [str(k) for k in message.account_keys]
+    pre, post = simulation.get("preBalances"), simulation.get("postBalances")
+    after = simulation.get("accounts")
+    reject_rent_changes(before, after)
+    if (
+        simulation.get("fee") != fee
+        or not isinstance(pre, list)
+        or not isinstance(post, list)
+        or len(pre) != len(keys)
+        or len(post) != len(keys)
+        or any(type(n) is not int or n < 0 for n in [*pre, *post])
+        or not isinstance(after, list)
+        or len(after) != len(addresses)
+        or len(before) != len(addresses)
+        or addresses != [key for n, key in enumerate(keys) if writable(message, n)]
+    ):
+        raise ValueError("Complete same-bank simulated balances and fee are required")
+    states = dict(zip(addresses, zip(before, after, strict=True), strict=True))
+    for address, (initial, final) in states.items():
+        index = keys.index(address)
+        if (initial.get("lamports") if initial else 0) != pre[index] or (
+            final.get("lamports") if final else 0
+        ) != post[index]:
+            raise ValueError("Simulation and account snapshots differ")
+    creator, payer = terms["creator_wallet"], keys[0]
+    sources = {
+        terms["vault"],
+        *(
+            terms.get(k)
+            for k in ("curve", "pool_quote_token_account", "amm_token_vault")
+            if terms.get(k)
+        ),
+    }
+    if (
+        creator in sources
+        or payer in sources
+        or not {creator, payer, *sources}.issubset(states)
+    ):
+        raise ValueError("Claim source aliases a wallet")
+    deltas = {key: post[n] - pre[n] for n, key in enumerate(keys)}
+    for address in (creator, payer):
+        initial, final = states[address]
+        if (
+            not initial
+            or not final
+            or initial["owner"] != SYSTEM
+            or account_bytes(initial)
+            or account_bytes(final)
+        ):
+            raise ValueError("Claim wallet is not an existing native system account")
+    gross = deltas[creator] + (fee if payer == creator else 0)
+    debit = -sum(deltas[address] for address in sources)
+    if gross < minimum or gross <= fee or gross != debit:
+        raise ValueError("Claim does not deliver the required conserved useful payout")
+    for address, delta in deltas.items():
+        if address in sources:
+            if delta > 0:
+                raise ValueError(
+                    "A claim source retains new funds; bridge may have skipped"
+                )
+        elif address == creator:
+            continue
+        elif address == payer:
+            if delta != -fee:
+                raise ValueError("Payer movement exceeds the network fee")
+        elif delta:
+            raise ValueError("Unexpected lamport movement or unapproved rent top-up")
+    for field in ("pool_quote_token_account", "amm_token_vault"):
+        address = terms.get(field)
+        if not address:
+            continue
+        initial, final = states[address]
+        if initial is None and final is None:
+            continue
+        raw, changed = account_bytes(initial), account_bytes(final)
+        if (
+            initial["owner"] != TOKEN
+            or len(raw) != 165
+            or len(changed) != 165
+            or str(Pubkey.from_bytes(raw[:32])) != WSOL
+            or raw[108] != 1
+            or int.from_bytes(raw[72:76], "little") != 0
+            or int.from_bytes(raw[109:113], "little") != 1
+            or raw[:64] != changed[:64]
+            or raw[72:] != changed[72:]
+        ):
+            raise ValueError("Claim WSOL source changes identity, delegate or reserve")
+        reserve = int.from_bytes(raw[113:121], "little")
+        old_amount, new_amount = (
+            int.from_bytes(raw[64:72], "little"),
+            int.from_bytes(changed[64:72], "little"),
+        )
+        if (
+            initial["lamports"] - reserve != old_amount
+            or final["lamports"] - reserve != new_amount
+        ):
+            raise ValueError("WSOL source lamports do not match native token units")
+    if sum(deltas.values()) != -fee:
+        raise ValueError("Simulated native balance conservation failed")
+    return {
+        "gross_beneficiary_lamports": gross,
+        "net_beneficiary_lamports": deltas[creator],
+        "source_debit_lamports": debit,
+        "network_fee_lamports": fee,
+        "unapproved_rent_lamports": 0,
+        "scope": "Pre-sign simulation, not finalized collection or mint-specific income",
+    }
 
 
 def writable(message, index):

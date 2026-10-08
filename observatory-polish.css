@@ -1,4 +1,10 @@
 /* Shared presentation for the observatory's recorded instruments and panels. */
+.scroll-viewport {
+  scrollbar-width: none;
+}
+.scroll-viewport::-webkit-scrollbar {
+  display: none;
+}
 :root {
   --surface: #101315;
   --surface-raised: #15191b;

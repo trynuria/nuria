@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.6.4 — 2026-10-08
+
+- Add an isolated persistent acquisition controller: explicit free alternatives, quoted virtual costs, delayed chosen-source feedback, failure costs and reconstructible audit records.
+- Publish 288 matched trials and an exact local reproduction, including losses to cumulative learning and wasted exploration on redundant information. No synthetic result is credited to live spending or neural learning.
+- Require useful conserved beneficiary credit and complete same-bank balances before native claim signing; reject hidden rent top-ups, skipped payouts and mismatched WSOL accounting.
+- Add the acquisition specification, complete results and an exportable research figure; update the Resources documentation without restarting neural histories.
+- Bound stalled evidence requests, retain clear unavailable states and preserve scrolling without visible page scrollbars.
+- Refresh repository and sharing artwork with the exact vector identity and publish reproducible explanatory graphics.
+- Document measured model, journal, cache and storage capacity and an actual encrypted-archive recovery drill, with explicit full-day and failover gates.
+
+## 0.6.3 — 2026-10-08
+
+- Bind migrated fee collection to the canonical PumpSwap pool and its WSOL quote account.
+
+## 0.6.2 — 2026-10-08
+
+- Check current unsigned native fee sweeps against official SDK vectors and retain distinct source-bucket payout evidence.
+- Prefer persisted fresh free SOL/USD context to a redundant price purchase; stale or unavailable data defers the purchase.
+- Compare official Solana x402 SDK instruction intent while retaining the unresolved live merchant failure.
+- Add anchored payment expiry recovery, a shared total-session testing budget and guarded commerce evidence rendering.
+
 ## 0.6.1 — 2026-10-08
 
 - Replace browser replay menus with a styled, keyboard-accessible listbox.

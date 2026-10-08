@@ -1,4 +1,28 @@
 /* Nuria field notes: a quiet reading surface around the living observatory. */
+.acquisition-figure {
+  margin: 28px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0d1112;
+  overflow: auto;
+  scrollbar-width: none;
+}
+.acquisition-figure::-webkit-scrollbar {
+  display: none;
+}
+.acquisition-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 560px;
+}
+.acquisition-figure figcaption {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 12px 4px 4px;
+}
 .visually-hidden {
   position: absolute;
   width: 1px;

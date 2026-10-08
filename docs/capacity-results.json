@@ -1,0 +1,66 @@
+{
+  "schema": "nuria.capacity.observations.v1",
+  "observed_date": "2026-10-08",
+  "target_finalized_inputs_per_day": 100000,
+  "scope": "Isolated bounded measurements on the dedicated host; no full-day RPC soak or paid settlement claim.",
+  "measurements": {
+    "neural_replay": {
+      "inputs": 256,
+      "seconds": 66.54212925001048,
+      "inputs_per_second_unpaced": 3.8471867805456452,
+      "cycle_p95_seconds": 1.203808,
+      "target_rate_per_second": 1.1574074074074074,
+      "paced_inputs_per_day_upper_bound": 332823.9895217262,
+      "persisted_cursor": 256,
+      "journal_valid": true,
+      "disk_bytes": 14553698,
+      "scope": "Bounded actual-model replay; daily number is a projection, not a 24-hour end-to-end RPC soak"
+    },
+    "storage_continuation": {
+      "checked_utc": "2026-10-08T12:09:20.544997+00:00",
+      "extra_inputs": 64,
+      "seconds": 17.14189584601263,
+      "sqlite_bytes_before": 5300224,
+      "sqlite_bytes_after": 5738496,
+      "incremental_bytes_per_input": 6848.0,
+      "journal": {
+        "valid": true,
+        "checked": 336,
+        "head": "4ef221028a701722b94245f699b9f1be59957d311c7102758e0b222de2aca4c4",
+        "mode": "full",
+        "verified_through_seq": 336,
+        "scope": "Local cognitive record and spike integrity; no independent witness or onchain attestation"
+      },
+      "peak_rss_bytes": 133890048,
+      "scope": "A short continuation of synthetic replay, including autonomous records; observed SQLite growth is neither a stable per-trade rate nor a retention guarantee."
+    },
+    "finance_journal": {
+      "schema": "nuria.finance.capacity.v1",
+      "system": "Linux",
+      "events": 10000,
+      "write_seconds": 5.667784781006048,
+      "events_per_second": 1764.3577493471746,
+      "export_seconds": 0.28420745600305963,
+      "verify_seconds": 0.27751729599549435,
+      "pages": 40,
+      "database_bytes": 3764224,
+      "peak_rss_platform_units": 22272,
+      "verification": {
+        "valid": true,
+        "events": 10000,
+        "head": "cd729948fa6e3a47d3b7f69a9b2407e47cbcb0b9efebe06b4f3f3c488e185496"
+      },
+      "scope": "Unpaced synthetic SQLite FULL/WAL event writes, cache export and hash verification. No RPC load, transactions, merchant calls, signatures or 24-hour soak."
+    },
+    "origin_cache": {
+      "requests": 100,
+      "concurrency": 4,
+      "seconds": 0.46432762399490457,
+      "all_200": true,
+      "p95_seconds": 0.03617024100094568,
+      "maximum_seconds": 0.1290945629880298,
+      "bytes": 4985200,
+      "scope": "Bounded read-only origin-cache/API check; no public stress, RPC, signing or capacity guarantee."
+    }
+  }
+}

@@ -66,6 +66,9 @@ def build(root: Path = ROOT) -> None:
             "{{FLOW_" + name.upper() + "}}",
             (root / "brand/flows" / (name + ".svg")).read_text(),
         )
+    acquisition = (root / "docs/acquisition-results.svg").read_text()
+    acquisition = acquisition[acquisition.index("<svg") :]
+    docs = docs.replace("{{ACQUISITION_RESULTS}}", acquisition)
     source = source.replace("</style>", css + "\n</style>", 1)
     source = source.replace(
         "<script>",

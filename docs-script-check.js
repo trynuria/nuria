@@ -1533,10 +1533,16 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   }
 
   async function fetchJSON(path, options) {
-    const response = await fetch(path, options);
-    const value = await response.json();
-    if (!response.ok) throw Error(value.error || "Request failed");
-    return value;
+    const controller = new AbortController();
+    const deadline = setTimeout(() => controller.abort(), 8000);
+    try {
+      const response = await fetch(path, { ...options, signal: controller.signal });
+      const value = await response.json();
+      if (!response.ok) throw Error(value.error || "Request failed");
+      return value;
+    } finally {
+      clearTimeout(deadline);
+    }
   }
 
   let eventRows = [],
@@ -2276,7 +2282,17 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     } catch (error) {
       $("statusPill").textContent = "Connection unavailable";
       $("statusPill").parentElement.style.color = "var(--pink)";
-      $("graphBadge").textContent = "Last received state";
+      $("graphBadge").textContent = state
+        ? "Last received state"
+        : "Evidence unavailable";
+      $("cogPhase").textContent = cognitionState
+        ? "Last received evidence"
+        : "Evidence unavailable";
+      $("feedBadge").textContent = "Evidence unavailable";
+      if (!state) {
+        $("fieldStatus").textContent = "Neural evidence unavailable";
+        $("fieldStatus").classList.remove("hidden");
+      }
       $("inputStatus").textContent = "Connection unavailable. Waiting for the server.";
     } finally {
       polling = false;

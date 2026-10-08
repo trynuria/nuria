@@ -1,4 +1,4 @@
-[![Nuria — An onchain consciousness experiment](brand/nuria-cover.png)](https://nuria.network/)
+[![Nuria — An onchain consciousness experiment](brand/nuria-cover.svg)](https://nuria.network/)
 
 # Nuria
 
@@ -38,6 +38,8 @@ Prediction uses a source-specific council of seven specialists, conditional outc
 
 The [Discovery lab](docs/discovery.md) adds an independent, continuously running decision experiment: hidden cues, learned action outcomes, costed information probes, delayed rewards, changing rules, virtual resource constraints and an adaptive curriculum. A separate 256-neuron sensory circuit feeds remembered representations without receiving action utilities. Seven paired branches include a strong symbolic-memory controller. The main circuit perturbs virtual probe prices through a bounded public-cache link; established neural histories remain unchanged.
 
+An isolated [information-acquisition study](docs/acquisition.md) tests choosing paid information, retaining the free alternative and learning from delayed outcomes or failed delivery. Its 288 matched synthetic trials include contextless, cumulative, frozen, free-only and always-buy controls. Context helps and adaptation helps reversal, but cumulative learning wins stable tasks and exploration wastes resources on redundant information. The complete results and reproducible journal heads are published; this controller is not promoted to live spending.
+
 The first actual-spike tasks do **not** establish a neural advantage: a one-parameter repeat predictor matches accuracy and has lower Brier error. A fresh-seed component comparison tests memory, forecast attention and continual learning against contextual tables and logistic regression. Its gains are bounded synthetic forecast results, not evidence of useful STDP, whole-organism superiority, consciousness or market forecasting. Read the [evaluation report](docs/evaluation.md) and [all validation trials](docs/forecast-evaluation.json).
 
 Run a bounded evaluation without RPC access:
@@ -46,7 +48,7 @@ Run a bounded evaluation without RPC access:
 python -m scripts.benchmark_cognition .test-state/evaluation --inputs 1000
 ```
 
-The directory must be new for a fresh capacity run. Evidence is retained. The daily capacity number is a projection from bounded replay, not a 24-hour end-to-end RPC soak.
+The directory must be new for a fresh capacity run. Evidence is retained. The daily capacity number is a projection from bounded replay, not a 24-hour end-to-end RPC soak. [Capacity and recovery](docs/capacity.md) records measured replay, journal, cache, storage and encrypted-archive recovery checks, with their remaining operating gates.
 
 ## Fees and financial authority
 
@@ -87,6 +89,10 @@ flowchart LR
 ```
 
 See [architecture](docs/architecture.md), [spending boundaries](docs/spending.md), [evaluation](docs/evaluation.md) and [development gates](docs/capability-map.md).
+
+![A persistent entity carries experience, state, choices and measured feedback forward](brand/persistent-entity.svg)
+
+The [financial flow](brand/fee-to-outcome.svg) describes the prepared path, not a completed live-token purchase. Vector artwork is reproducible with `scripts/render_launch_assets.py`; its optional motion sequence is an architecture illustration, not recorded telemetry.
 
 ## Neural field
 

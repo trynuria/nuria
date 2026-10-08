@@ -17,7 +17,7 @@ from solders.transaction import VersionedTransaction
 
 from commerce.config import Policy
 from commerce.fees import AMM, CURVE_DISC, PUMP, SYSTEM, WSOL, claim_plan, observe
-from commerce.funding import Collector, reject_rent_changes, writable
+from commerce.funding import Collector, claim_economics, reject_rent_changes, writable
 from commerce.ledger import Ledger
 from commerce.solana import associated
 
@@ -165,11 +165,14 @@ class PumpSweepTests(unittest.TestCase):
                 self.addCleanup(ledger.db.close)
                 key = Keypair()
                 args = FIXTURE["input"]
-                _, _, observe_rpc = self.state()
+                curve_data, _, observe_rpc = self.state()
                 observation = observe(
                     args["mint"], args["creator"], observe_rpc, args["pool"]
                 )
                 observation["vault_balance_lamports"] = 2_000_000
+                observation["graduated"] = False
+                observation["pool_creator_fee_lamports"] = 0
+                observation.pop("amm_token_vault")
                 policy = Policy(
                     mint=args["mint"],
                     creator_wallet=args["creator"],
@@ -195,17 +198,61 @@ class PumpSweepTests(unittest.TestCase):
                     if method == "getFeeForMessage":
                         return {"value": 5000}
                     if method == "getMultipleAccounts":
-                        before.extend([None] * len(params[0]))
+                        for address in params[0]:
+                            if address in (str(key.pubkey()), args["creator"]):
+                                before.append(account(SYSTEM, lamports=10_000_000))
+                            elif address == observation["vault"]:
+                                before.append(account(SYSTEM, lamports=2_000_000))
+                            elif address == observation["curve"]:
+                                before.append(
+                                    account(PUMP, curve_data, lamports=100_000_000)
+                                )
+                            else:
+                                before.append(None)
+                        self.addresses = params[0]
                         return {"context": {"slot": 1}, "value": before}
                     if method == "simulateTransaction":
                         self.assertEqual(events, [])
                         self.assertIn("accounts", params[1])
                         self.assertFalse(params[1]["sigVerify"])
-                        after = before.copy()
+                        after = [dict(a) if a else None for a in before]
+                        deltas = {
+                            observation["vault"]: -2_000_000,
+                            observation["curve"]: -9000,
+                            args["creator"]: 2_009_000,
+                            str(key.pubkey()): -5000,
+                        }
+                        for address, delta in deltas.items():
+                            after[self.addresses.index(address)]["lamports"] += delta
                         if creates_account:
-                            after[0] = account(SYSTEM, lamports=1000)
+                            after[after.index(None)] = account(SYSTEM, lamports=1000)
                         events.append("simulate")
-                        return {"value": {"err": None, "accounts": after}}
+                        wire = VersionedTransaction.from_bytes(
+                            base64.b64decode(params[0])
+                        )
+                        keys = [str(k) for k in wire.message.account_keys]
+                        pre = [
+                            (
+                                before[self.addresses.index(a)]["lamports"]
+                                if before[self.addresses.index(a)]
+                                else 0
+                            )
+                            if a in self.addresses
+                            else 0
+                            for a in keys
+                        ]
+                        post = [
+                            p + deltas.get(a, 0) for a, p in zip(keys, pre, strict=True)
+                        ]
+                        return {
+                            "value": {
+                                "err": None,
+                                "accounts": after,
+                                "preBalances": pre,
+                                "postBalances": post,
+                                "fee": 5000,
+                            }
+                        }
                     if method == "sendTransaction":
                         row = ledger.db.execute(
                             "SELECT status,wire FROM collections"
@@ -323,3 +370,102 @@ class PumpSweepTests(unittest.TestCase):
         self.assertEqual(ledger.recent()[0]["pool_swept_lamports"], 11000)
         collector.reconcile()
         self.assertEqual(len(ledger.recent()), 1)
+
+    def test_simulated_claim_rejects_skipped_bridge_hidden_topups_and_missing_balances(
+        self,
+    ):
+        signer = Keypair()
+        creator, vault, token_source, trap = [
+            str(k) for k in (signer.pubkey(), *(Keypair().pubkey() for _ in range(3)))
+        ]
+        raw = bytearray(165)
+        raw[:32] = bytes(Pubkey.from_string(WSOL))
+        raw[32:64] = bytes(Keypair().pubkey())
+        raw[64:72] = (2_000_000).to_bytes(8, "little")
+        raw[108] = 1
+        raw[109:113] = (1).to_bytes(4, "little")
+        raw[113:121] = (2_039_280).to_bytes(8, "little")
+        from commerce.config import TOKEN
+
+        snapshots = {
+            creator: account(SYSTEM, lamports=10_000_000),
+            vault: account(SYSTEM, lamports=3_000_000),
+            token_source: account(TOKEN, raw, lamports=4_039_280),
+            trap: account(SYSTEM, lamports=100_000),
+        }
+        ix = Instruction(
+            Pubkey.from_string(PUMP),
+            b"simulation-fixture",
+            [AccountMeta(Pubkey.from_string(a), a == creator, True) for a in snapshots],
+        )
+        message = MessageV0.try_compile(signer.pubkey(), [ix], [], Hash.default())
+        keys = [str(k) for k in message.account_keys]
+        addresses = [a for n, a in enumerate(keys) if writable(message, n)]
+        before = [snapshots[a] for a in addresses]
+        after = [dict(a) for a in before]
+        after[addresses.index(creator)]["lamports"] += 5_000_000 - 5000
+        after[addresses.index(vault)]["lamports"] -= 3_000_000
+        changed = raw.copy()
+        changed[64:72] = bytes(8)
+        after[addresses.index(token_source)] = account(
+            TOKEN, changed, lamports=2_039_280
+        )
+        pre = [snapshots[a]["lamports"] if a in snapshots else 1 for a in keys]
+        post = [
+            after[addresses.index(a)]["lamports"] if a in addresses else p
+            for a, p in zip(keys, pre, strict=True)
+        ]
+        simulation = {
+            "fee": 5000,
+            "accounts": after,
+            "preBalances": pre,
+            "postBalances": post,
+        }
+        terms = {
+            "creator_wallet": creator,
+            "vault": vault,
+            "amm_token_vault": token_source,
+        }
+        result = claim_economics(
+            message, addresses, before, simulation, terms, 5000, 1_000_000
+        )
+        self.assertEqual(result["gross_beneficiary_lamports"], 5_000_000)
+        self.assertEqual(result["net_beneficiary_lamports"], 4_995_000)
+        for malformed in (
+            {**simulation, "preBalances": None},
+            {**simulation, "fee": 6000},
+        ):
+            with self.assertRaises(ValueError):
+                claim_economics(
+                    message, addresses, before, malformed, terms, 5000, 1_000_000
+                )
+        # An unchanged account allocation can still consume rent. Move ten
+        # lamports from the beneficiary into an existing unrelated account.
+        after[addresses.index(creator)]["lamports"] -= 10
+        after[addresses.index(trap)]["lamports"] += 10
+        post[keys.index(creator)] -= 10
+        post[keys.index(trap)] += 10
+        with self.assertRaises(ValueError):
+            claim_economics(
+                message, addresses, before, simulation, terms, 5000, 1_000_000
+            )
+        # A bridge that leaves funds in its source is not a useful collection.
+        unchanged = [dict(a) for a in before]
+        unchanged[addresses.index(creator)]["lamports"] -= 5000
+        zero_post = pre.copy()
+        zero_post[keys.index(creator)] -= 5000
+        with self.assertRaises(ValueError):
+            claim_economics(
+                message,
+                addresses,
+                before,
+                {
+                    "fee": 5000,
+                    "accounts": unchanged,
+                    "preBalances": pre,
+                    "postBalances": zero_post,
+                },
+                terms,
+                5000,
+                1_000_000,
+            )

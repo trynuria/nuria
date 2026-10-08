@@ -74,11 +74,13 @@ The effects are small and mixed. Persistence is slightly worse on average with S
 
 ## Remaining gates
 
+The separate [acquisition evaluation](acquisition.md) measures whether information is worth its virtual cost against five matched alternatives. Its successful reversal comparison and failed stable-task comparisons are both retained. It uses no neural features and cannot establish whole-organism or paid-resource benefit.
+
 - A task where the complete organism beats sensible alternatives, with causal gains from synaptic plasticity, episodic neural memory and workspace broadcast separately established.
 - Learned planning rather than the current explicit habitat path planner and 65% utility / 35% neural action arbitration.
 - Live finalized trades from a configured exact mint, verified creator-fee attribution and a funded, independently limited signer. These are not connected; no SOL is spent by the model.
 - Independent receipt witnesses or chain anchors. Current hashes establish internal consistency, not independently attested truth.
-- A full-day provider-to-browser load test, independently replicated capability results and recovery from an actual encrypted backup archive.
+- A full-day provider-to-browser load test and independently replicated capability results. Actual encrypted-archive checkpoint recovery now passes; production failover and recovery time remain untested. See [capacity and recovery](capacity.md).
 
 ## Reproduction
 
