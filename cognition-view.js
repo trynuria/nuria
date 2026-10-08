@@ -22,6 +22,7 @@ function drawHabitat(s) {
   const c = $("habitat"),
     d = resize(c),
     x = c.getContext("2d");
+  if (d.w < 24 || d.h < 24) return;
   x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
   x.clearRect(0, 0, d.w, d.h);
   const size = s.size || 12,
@@ -29,6 +30,7 @@ function drawHabitat(s) {
     side = cell * size,
     left = (d.w - side) / 2,
     top = (d.h - side) / 2;
+  if (cell <= 2) return;
   for (let j = 0; j < size; j++)
     for (let i = 0; i < size; i++) {
       const visits = s.visits?.[j]?.[i] || 0;
@@ -67,6 +69,7 @@ function drawLearning(rows) {
   const c = $("learningChart"),
     d = resize(c),
     x = c.getContext("2d");
+  if (d.w < 30 || d.h < 30) return;
   x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
   x.clearRect(0, 0, d.w, d.h);
   if (rows.length < 2) return;

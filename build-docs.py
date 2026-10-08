@@ -15,6 +15,7 @@ def build(root: Path = ROOT) -> None:
     source = source.replace(
         "<!--DISCOVERY_VIEW-->", (root / "discovery-view.html").read_text()
     )
+    source = source.replace("<!--WORK_VIEW-->", (root / "work-view.html").read_text())
     source = source.replace(
         "</style>",
         (root / "cognition-view.css").read_text()
@@ -28,6 +29,8 @@ def build(root: Path = ROOT) -> None:
         + (root / "commerce-view.css").read_text()
         + "\n"
         + (root / "ui-controls.css").read_text()
+        + "\n"
+        + (root / "work-view.css").read_text()
         + "\n</style>",
         1,
     )
@@ -40,6 +43,7 @@ def build(root: Path = ROOT) -> None:
     source = source.replace(
         "/*COMMERCE_CLIENT*/", (root / "commerce-view.js").read_text()
     )
+    source = source.replace("/*WORK_CLIENT*/", (root / "work-view.js").read_text())
     source = source.replace("/*NEURAL_MATH*/", (root / "neural-math.js").read_text())
     source = source.replace("/*NEURAL_FIELD*/", (root / "neural-field.js").read_text())
     css = (root / "docs/docs.css").read_text()
@@ -69,7 +73,9 @@ def build(root: Path = ROOT) -> None:
     acquisition = (root / "docs/acquisition-results.svg").read_text()
     acquisition = acquisition[acquisition.index("<svg") :]
     docs = docs.replace("{{ACQUISITION_RESULTS}}", acquisition)
-    source = source.replace("</style>", css + "\n</style>", 1)
+    source = source.replace(
+        "</style>", css + "\n" + (root / "experience.css").read_text() + "\n</style>", 1
+    )
     source = source.replace(
         "<script>",
         '<template id="nuriaDocsTemplate">\n' + docs + "\n</template>\n<script>",

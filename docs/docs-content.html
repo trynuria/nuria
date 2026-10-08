@@ -351,6 +351,26 @@
           >
             <h1 tabindex="-1">Fees & resources</h1>
             <p class="docs-lead">Follow the money. Then check what it delivered.</p>
+            <h2 id="resources--work">Work, treasury and results</h2>
+            <p
+              >The observatory has separate <a href="/#work">Work</a>,
+              <a href="/#treasury">Treasury</a>, <a href="/#results">Results</a> and
+              <a href="/#evidence">Evidence</a> views. A job shows its purpose,
+              provider, quoted cost, recipient and acceptance check. A payment receipt,
+              delivered artifact and evaluated outcome are different records.</p
+            >
+            <p
+              ><code>GET /api/work</code> serves up to 80 recent production payment jobs
+              from the same public cache used by the commerce service, with explicit
+              total coverage. The complete payment event history remains paginated.
+              Signed authorizations and isolated private tests are excluded. Missing or
+              stale evidence appears as unknown.</p
+            >
+            <p
+              >Specialist-agent hiring, human bounties and compute are planned
+              integrations. Their future presence in the interface is not a live
+              contract or purchase.</p
+            >
             <figure class="doc-diagram"
               >{{FLOW_AUTHORITY}}<div
                 class="diagram-mobile"

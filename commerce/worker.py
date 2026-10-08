@@ -34,6 +34,7 @@ from commerce.solana import settlement, usdc_balance
 from commerce.swaps import Converter
 from commerce.sweep import Sweeper
 from commerce.transport import request
+from commerce.work import snapshot as work_snapshot
 from commerce.x402 import authorize, decode_header, delivery, quote
 from publish import publish
 
@@ -606,6 +607,16 @@ def main():
             "Privy-managed exact USDC purchases and gated standard-Pump claims into the verified creator beneficiary. Direct creator funding uses the same fee and operating wallet; no reserve multisig is used. SOL conversion has separate native ceilings. No consciousness result is established."
         )
         publish(public, "status.json", result)
+        try:
+            work = work_snapshot(ledger, result)
+        except (ValueError, TypeError, KeyError):
+            work = {
+                "schema": "nuria.work.v1",
+                "updated_utc": result["updated_utc"],
+                "phase": "unknown",
+                "error": "Work lifecycle evidence could not be verified.",
+            }
+        publish(public, "work.json", work)
         stop.wait(10)
 
 

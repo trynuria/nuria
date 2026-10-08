@@ -1,0 +1,405 @@
+const workViews = ["work", "treasury", "results", "evidence"];
+let workSnapshot = null;
+let selectedWork = null;
+let workRequest = false;
+let workSignature = "";
+
+function workSurface(view, updateURL = false) {
+  const active = workViews.includes(view);
+  document.body.classList.toggle("work-mode", active);
+  $("work").hidden = !active;
+  if (active) {
+    document.body.classList.remove("focus-mode");
+    $("focus").setAttribute("aria-pressed", "false");
+    openWorkView(view);
+  }
+  for (const link of document.querySelectorAll(".header .nav a")) {
+    const current = active
+      ? link.dataset.workView === view
+      : link.hasAttribute("data-observe");
+    if (current) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  }
+  $("pageScroll").scrollTo({ top: 0, behavior: "auto" });
+  if (updateURL) history.pushState(null, "", active ? "#" + view : "#neural-field");
+}
+
+function openWorkView(view, focus = false) {
+  if (!workViews.includes(view)) return;
+  for (const name of workViews) {
+    const active = name === view;
+    $("work-tab-" + name).setAttribute("aria-selected", String(active));
+    $("work-tab-" + name).tabIndex = active ? 0 : -1;
+    $("work-panel-" + name).hidden = !active;
+  }
+  if (focus) $("work-tab-" + view).focus({ preventScroll: true });
+  if (document.body.classList.contains("work-mode")) {
+    for (const link of document.querySelectorAll(".header .nav a")) {
+      if (link.dataset.workView === view) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    }
+  }
+}
+for (const name of workViews) {
+  const button = $("work-tab-" + name);
+  button.addEventListener("click", () => {
+    openWorkView(name);
+    history.replaceState(null, "", "#" + name);
+  });
+  button.addEventListener("keydown", (event) => {
+    const current = workViews.indexOf(name);
+    let next;
+    if (event.key === "ArrowRight") next = (current + 1) % workViews.length;
+    if (event.key === "ArrowLeft")
+      next = (current + workViews.length - 1) % workViews.length;
+    if (event.key === "Home") next = 0;
+    if (event.key === "End") next = workViews.length - 1;
+    if (next === undefined) return;
+    event.preventDefault();
+    openWorkView(workViews[next], true);
+    history.replaceState(null, "", "#" + workViews[next]);
+  });
+}
+document.querySelectorAll("[data-work-view]").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    workSurface(link.dataset.workView, true);
+  });
+});
+document
+  .querySelectorAll(
+    '[href="#neural-field"],.logo[href="#overview"],[href="#modelInspection"],[data-open]',
+  )
+  .forEach((link) => {
+    link.addEventListener("click", () => {
+      if (document.body.classList.contains("work-mode")) workSurface("observe", true);
+    });
+  });
+window.addEventListener("hashchange", () => workSurface(location.hash.slice(1)));
+window.addEventListener("popstate", () => workSurface(location.hash.slice(1)));
+workSurface(location.hash.slice(1));
+
+function workNode(tag, text, className) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  if (className) node.className = className;
+  return node;
+}
+function workEmpty(title, description) {
+  const node = workNode("div", undefined, "work-empty");
+  node.append(workNode("h3", title), workNode("p", description));
+  return node;
+}
+function workFacts(values) {
+  const list = workNode("dl", undefined, "work-contract");
+  for (const [label, text] of values) {
+    const row = workNode("div");
+    row.append(workNode("dt", label), workNode("dd", text ?? "Not recorded"));
+    list.append(row);
+  }
+  return list;
+}
+function workLabel(value) {
+  return value.replaceAll("_", " ");
+}
+function validWorkEvidence(evidence, now = Date.now()) {
+  const age = now - Date.parse(evidence?.updated_utc);
+  const integer = (value) => Number.isSafeInteger(value) && value >= 0;
+  if (
+    !(age >= 0 && age < 60000) ||
+    evidence?.schema !== "nuria.work.v1" ||
+    !["guarded", "running"].includes(evidence.phase) ||
+    typeof evidence.financial_execution !== "boolean" ||
+    !Array.isArray(evidence.jobs) ||
+    evidence.jobs.length > 80 ||
+    !integer(evidence.total_jobs) ||
+    evidence.total_jobs < evidence.jobs.length ||
+    !evidence.money?.policy ||
+    !integer(evidence.money.committed_micro_usdc) ||
+    !integer(evidence.money.settled_micro_usdc) ||
+    !Array.isArray(evidence.money.missing) ||
+    !Array.isArray(evidence.catalog) ||
+    evidence.catalog.length > 12 ||
+    evidence.catalog.some(
+      (item) =>
+        typeof item.name !== "string" ||
+        typeof item.detail !== "string" ||
+        !["planned", "gated", "connected"].includes(item.status),
+    ) ||
+    evidence.integrity?.valid !== true ||
+    !integer(evidence.integrity.events) ||
+    !/^[a-f0-9]{64}$/.test(evidence.integrity.head) ||
+    new Set(evidence.jobs.map((job) => job.id)).size !== evidence.jobs.length ||
+    evidence.jobs.some(
+      (job) =>
+        typeof job.id !== "string" ||
+        typeof job.title !== "string" ||
+        typeof job.purpose !== "string" ||
+        typeof job.acceptance !== "string" ||
+        !integer(job.amount_micro_usdc) ||
+        !["pending", "closed", "awaiting_delivery", "delivered", "evaluated"].includes(
+          job.job_state,
+        ) ||
+        ![
+          "reserved",
+          "not_disclosed",
+          "unresolved",
+          "expired_unsettled",
+          "settled",
+        ].includes(job.payment_state) ||
+        !["pending", "measured", "not_implemented"].includes(job.outcome_state) ||
+        (job.reward !== null &&
+          (typeof job.reward !== "number" || !Number.isFinite(job.reward))) ||
+        (job.payment_state === "settled" &&
+          (!job.transaction || !Number.isSafeInteger(job.settlement_slot))) ||
+        (["delivered", "evaluated"].includes(job.job_state) &&
+          !/^[a-f0-9]{64}$/.test(job.artifact_sha256)) ||
+        (job.outcome_state === "measured" &&
+          (job.job_state !== "evaluated" || job.reward === null)),
+    )
+  )
+    throw Error("Incomplete work evidence");
+  const balance = evidence.money.balance;
+  if (
+    balance &&
+    (!integer(balance.micro_usdc) ||
+      !(
+        now - balance.checked_at * 1000 >= 0 && now - balance.checked_at * 1000 < 60000
+      ))
+  )
+    throw Error("Unverified work balance");
+  return evidence;
+}
+
+function renderWorkDetail() {
+  const job = workSnapshot?.jobs.find((item) => item.id === selectedWork);
+  if (!job) {
+    $("workDetail").replaceChildren(
+      workNode("span", "ONE PERSISTENT ENTITY", "work-kicker"),
+      workNode("h3", "Every job has a purpose."),
+      workNode(
+        "p",
+        "Each commission will show what Nuria requested, what it paid, what arrived and whether it helped.",
+      ),
+      workFacts([
+        ["Purpose", "What the work is meant to improve"],
+        ["Delivery", "What the provider must return"],
+        ["Acceptance", "How the result will be checked"],
+        ["Outcome", "What changed after it was used"],
+      ]),
+    );
+    return;
+  }
+  $("workDetail").replaceChildren(
+    workNode("span", job.provider, "work-kicker"),
+    workNode("h3", job.title),
+    workNode("p", job.purpose),
+    workFacts([
+      [
+        "Payment",
+        `${commerceMoney(job.amount_micro_usdc)} · ${workLabel(job.payment_state)}`,
+      ],
+      ["Recipient", job.recipient],
+      [
+        "Delivery",
+        `${workLabel(job.job_state)} · ${job.delivery_schema || "schema not recorded"}`,
+      ],
+      ["Acceptance", job.acceptance],
+      [
+        "Outcome",
+        job.outcome_state === "measured"
+          ? `Measured reward: ${job.reward.toFixed(6)}. This task-specific score is not a general learning result.`
+          : workLabel(job.outcome_state),
+      ],
+      ["Transaction", job.transaction],
+      ["Artifact SHA-256", job.artifact_sha256],
+      ["Decision hash", job.decision_hash],
+    ]),
+  );
+}
+function renderWork(evidence) {
+  workSnapshot = evidence;
+  $("workHealth").textContent = evidence.financial_execution
+    ? "Execution enabled"
+    : "Execution off";
+  $("workHealth").dataset.state = evidence.financial_execution ? "running" : "guarded";
+  const signature = JSON.stringify(evidence.jobs);
+  if (signature !== workSignature) {
+    const list = $("workJobs");
+    const scroll = list.scrollTop;
+    const focused = document.activeElement?.dataset.workId;
+    const rows = evidence.jobs.map((job) => {
+      const row = workNode("button", undefined, "work-job");
+      row.type = "button";
+      row.dataset.workId = job.id;
+      row.setAttribute("aria-pressed", String(job.id === selectedWork));
+      row.append(
+        workNode("span", job.title, "work-job-title"),
+        workNode("span", job.provider, "work-job-provider"),
+      );
+      const meta = workNode("span", undefined, "work-job-meta");
+      meta.append(
+        workNode("span", workLabel(job.job_state)),
+        workNode("span", commerceMoney(job.amount_micro_usdc)),
+      );
+      row.append(meta);
+      row.addEventListener("click", () => {
+        selectedWork = job.id;
+        for (const child of list.children)
+          child.setAttribute(
+            "aria-pressed",
+            String(child.dataset.workId === selectedWork),
+          );
+        renderWorkDetail();
+      });
+      return row;
+    });
+    list.replaceChildren(
+      ...(rows.length
+        ? rows
+        : [
+            workEmpty(
+              "No commissioned work yet",
+              "Production jobs appear here when a configured provider receives a real request. Local experiments and test payments are kept separate.",
+            ),
+          ]),
+    );
+    list.scrollTop = scroll;
+    if (focused)
+      rows
+        .find((row) => row.dataset.workId === focused)
+        ?.focus({ preventScroll: true });
+    workSignature = signature;
+  }
+  renderWorkDetail();
+  $("workCatalog").replaceChildren(
+    ...evidence.catalog.map((item) => {
+      const card = workNode("article");
+      card.append(
+        workNode("span", workLabel(item.status), "work-kicker"),
+        workNode("h3", item.name),
+        workNode("p", item.detail),
+      );
+      return card;
+    }),
+  );
+  const money = evidence.money,
+    policy = money.policy;
+  $("workBalance").textContent = commerceMoney(money.balance?.micro_usdc);
+  $("workCommitted").textContent = commerceMoney(money.committed_micro_usdc);
+  $("workSpent").textContent = commerceMoney(money.settled_micro_usdc);
+  $("workExecution").textContent = evidence.financial_execution ? "Enabled" : "Off";
+  $("workCreator").textContent = policy.creator_wallet || "Not configured";
+  $("workWallet").textContent = policy.spending_wallet || "Not configured";
+  $("copyWorkWallet").disabled = !policy.spending_wallet;
+  $("workPolicy").textContent =
+    `${commerceMoney(policy.per_day_micro_usdc)} / day · ${commerceMoney(policy.per_job_micro_usdc)} / job · ${commerceMoney(policy.reserve_micro_usdc)} reserve`;
+  $("workMoneyNote").textContent = money.balance
+    ? "Balance is an observed finalized USDC balance. A deposit is not proof of creator fees or a useful purchase."
+    : "No operating wallet balance has been established. Creator fees, claimed funds and available treasury are separate observations.";
+  const measured = evidence.jobs.filter((job) => job.outcome_state === "measured");
+  $("workResults").replaceChildren(
+    ...(measured.length
+      ? measured.map((job) => {
+          const card = workNode("article", undefined, "work-result");
+          card.append(
+            workNode("h3", job.title),
+            workNode("p", job.purpose),
+            workFacts([
+              ["Measured reward", job.reward.toFixed(6)],
+              ["Artifact", job.artifact_sha256],
+              [
+                "Attribution",
+                "Task-specific evaluated outcome; no claim of whole-system superiority.",
+              ],
+            ]),
+          );
+          return card;
+        })
+      : [
+          workEmpty(
+            "No measured paid outcomes",
+            "Delivery comes first. Results appear after the declared evaluation has run; a successful transfer alone earns no learning credit.",
+          ),
+        ]),
+  );
+  $("workEvidence").replaceChildren(
+    workFacts([
+      ["Journal events", String(evidence.integrity.events)],
+      ["Recorded head", evidence.integrity.head],
+      [
+        "Coverage",
+        `${evidence.jobs.length} recent jobs of ${evidence.total_jobs} recorded${evidence.coverage?.truncated ? "; use the payment ledger for complete event history" : ""}`,
+      ],
+      [
+        "Verification",
+        "Local hash continuity. Payment, delivery and outcome require their own evidence; this is not an independent attestation.",
+      ],
+    ]),
+  );
+  $("workExport").setAttribute("href", "/api/work");
+  $("workExport").setAttribute("aria-disabled", "false");
+  $("workExport").setAttribute("tabindex", "0");
+}
+function clearWork() {
+  workSnapshot = null;
+  workSignature = "";
+  $("workHealth").textContent = "Evidence unavailable";
+  $("workHealth").dataset.state = "unknown";
+  for (const id of ["workBalance", "workCommitted", "workSpent"])
+    $(id).textContent = "—";
+  $("workExecution").textContent = "Unknown";
+  for (const id of ["workCreator", "workWallet", "workPolicy"])
+    $(id).textContent = "Unavailable";
+  $("copyWorkWallet").disabled = true;
+  $("workJobs").replaceChildren(
+    workEmpty(
+      "Work evidence unavailable",
+      "The latest record could not be verified. Previous balances and job states are not displayed as current.",
+    ),
+  );
+  $("workDetail").replaceChildren(
+    workEmpty(
+      "Awaiting a verified record",
+      "Payment, delivery and outcome are unknown.",
+    ),
+  );
+  $("workResults").replaceChildren(
+    workEmpty(
+      "Outcome evidence unavailable",
+      "The latest result has not been verified.",
+    ),
+  );
+  $("workCatalog").replaceChildren();
+  $("workEvidence").replaceChildren(
+    workNode("p", "Current journal evidence is unavailable."),
+  );
+  $("workMoneyNote").textContent =
+    "Financial evidence is unavailable. Missing observations are unknown.";
+  $("workExport").removeAttribute("href");
+  $("workExport").setAttribute("aria-disabled", "true");
+  $("workExport").setAttribute("tabindex", "-1");
+}
+async function pollWork() {
+  if (document.hidden || workRequest) return;
+  workRequest = true;
+  try {
+    renderWork(validWorkEvidence(await fetchJSON("/api/work")));
+  } catch (_) {
+    clearWork();
+  } finally {
+    workRequest = false;
+  }
+}
+$("copyWorkWallet").addEventListener("click", async () => {
+  const wallet = workSnapshot?.money.policy.spending_wallet;
+  if (!wallet) return;
+  try {
+    await navigator.clipboard.writeText(wallet);
+    $("copyWorkWallet").textContent = "Copied";
+  } catch (_) {
+    $("copyWorkWallet").textContent = "Select address";
+  }
+});
+pollWork();
+setInterval(pollWork, 5000);

@@ -4,6 +4,14 @@
 
 The commerce worker translates fresh recorded cognitive decisions into a fixed catalog of paid jobs. It runs independently of the neural worker and the public API. Execution is disabled in the installed policy; no production purchase has been made.
 
+## Public work views
+
+The observatory separates Work, Treasury, Results and Evidence. Work records show the request, provider, integer USDC cost and recipient. A finalized transfer establishes payment; it does not establish delivery or useful learning. Delivery requires the existing schema checks and artifact hash. Results require the declared outcome evaluation, including zero or negative reward.
+
+The commerce writer publishes `commerce/work.json` atomically. `GET /api/work` serves that cache without database access, RPC credentials or signing authority. Its `nuria.work.v1` projection includes at most 80 recent production jobs with an explicit total and truncation flag. The paginated commerce ledger retains the complete event history. Private authorizations, local virtual experiments and isolated funded tests are excluded. Stale or incomplete records clear the interface to unknown.
+
+Data/API purchasing is gated by the installed policy. Specialist-agent hiring, human bounties and compute are planned integrations; displaying their contracts does not activate them. The proposed broader treasury-budget architecture has not changed the installed disabled financial policy.
+
 ## The money path
 
 ```text

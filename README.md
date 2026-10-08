@@ -94,6 +94,10 @@ The [financial flow](brand/fee-to-outcome.svg) describes the prepared path, not 
 
 ## Neural field
 
+The homepage gives the neural field its own stage. Work, Treasury, Results and Evidence are separate views with shareable hash routes. The same identity, navigation scale and reading rhythm carry through the documentation. The field identifies simulated versus finalized Solana input; changing the presentation does not change its underlying measurements.
+
+`GET /api/work` reads an atomically published projection of the production commerce journal. It returns at most 80 recent jobs, the complete job count, the journal head and separate payment, delivery and outcome states. Private signed authorizations never enter this projection. The complete payment event history remains available through the paginated commerce ledger. Specialist-agent hiring, human bounties and compute purchasing remain planned integrations, rather than fictional activity on the site.
+
 The observatory renders every neuron and the 1,856 connections in its published topology sample. A deterministic spatial arrangement separates the six populations; it is a schematic, rather than anatomical reconstruction. The firing layer replays recorded spike times and source signals at each sampled synapse’s model delay. Membrane and weight layers expose the underlying recorded values. The raster uses the same window as the field.
 
 The visitor can orbit, filter populations, inspect an exact neuron ID, change replay speed or hold a snapshot. Pausing preserves the field’s tick and values while the worker continues. Off-screen fields stop drawing, and reduced-motion preferences start in snapshot mode. Rendering targets 60 fps with a bounded pixel buffer; no visitor interaction advances the neural model.

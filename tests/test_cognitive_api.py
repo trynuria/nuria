@@ -29,6 +29,9 @@ class CognitiveApiTests(unittest.TestCase):
         (cls.public / "commerce" / "status.json").write_text(
             json.dumps({"phase": "guarded", "financial_execution": False})
         )
+        (cls.public / "commerce" / "work.json").write_text(
+            json.dumps({"schema": "nuria.work.v1", "phase": "guarded", "jobs": []})
+        )
         (cls.public / "commerce" / "index.json").write_text(
             json.dumps({"pages": 1, "events": 1})
         )
@@ -88,6 +91,22 @@ class CognitiveApiTests(unittest.TestCase):
         with self.assertRaises(urllib.error.HTTPError) as failure:
             urllib.request.urlopen(request, timeout=2)
         self.assertEqual(failure.exception.code, 405)
+
+    def test_work_is_cache_only_read_only_and_has_financial_freshness(self):
+        self.assertEqual(self.get("/api/work")["schema"], "nuria.work.v1")
+        request = urllib.request.Request(
+            f"http://127.0.0.1:{self.port}/api/work", data=b"{}", method="POST"
+        )
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            urllib.request.urlopen(request, timeout=2)
+        self.assertEqual(error.exception.code, 405)
+        path = self.public / "commerce" / "work.json"
+        os.utime(path, (time.time() - 61, time.time() - 61))
+        time.sleep(1.05)
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            self.get("/api/work")
+        self.assertEqual(error.exception.code, 503)
+        os.utime(path, None)
 
     def test_missing_evidence_is_unavailable(self):
         with self.assertRaises(urllib.error.HTTPError) as failure:

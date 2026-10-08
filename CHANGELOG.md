@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0 — 2026-10-08
+
+- Make the recorded neural field the primary homepage composition, with a compact header, quiet controls and a single row of aligned measurements.
+- Add separately navigable Work, Treasury, Results and Evidence views, including keyboard navigation and shareable routes.
+- Publish a bounded read-only work projection from the existing production payment journal. Keep payment, validated delivery and measured outcomes distinct; unconnected hiring and compute rails remain explicit.
+- Clear stale financial evidence and retain unknown balances instead of inferring zero. Exclude private authorization payloads, local experiments and private test jobs from the public work projection.
+- Extend the shared typography and spacing to documentation, and preserve existing neural histories and financial activation policy.
+- Skip hidden or undersized canvases before drawing, so view changes cannot create negative radii or interrupt fresh neural updates.
+
 ## 0.6.6 — 2026-10-08
 
 - Use current confirmed payment lifetimes and matching simulation while retaining finalized payout verification.

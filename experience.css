@@ -1,0 +1,643 @@
+/* Primary experience: a recorded neural field, followed by quiet work surfaces. */
+:root {
+  --bg: #0a0d0c;
+  --paper: #e8ece6;
+  --muted: #a2aba3;
+  --dim: #7e8c81;
+  --line: #29332c;
+  --surface: #101612;
+  --surface-raised: #151c17;
+  --border: var(--line);
+  --panel-radius: 6px;
+}
+.app {
+  grid-template-rows: 52px minmax(0, 1fr);
+}
+.header {
+  background: var(--bg);
+  border-color: var(--line);
+  padding-inline: 32px;
+}
+.header .nav {
+  gap: 24px;
+}
+.header .nav a {
+  font-size: 12px;
+  color: var(--muted);
+}
+.header .nav a:hover {
+  color: var(--paper);
+}
+.header .live-status {
+  width: 116px;
+  padding-left: 18px;
+  font: 11px var(--mono);
+}
+.shell {
+  max-width: 1600px;
+  padding-inline: 32px;
+}
+.observatory {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+.stage-head {
+  position: absolute;
+  right: 52px;
+  top: 18px;
+  z-index: 8;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.stage-title {
+  display: none;
+}
+.stage-actions {
+  gap: 10px;
+}
+.segmented {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  gap: 16px;
+  background: transparent;
+}
+.segmented button {
+  border-radius: 0;
+  background: transparent;
+  padding: 4px 0;
+  font-size: 11px;
+  min-height: 30px;
+}
+.segmented button[aria-pressed="true"] {
+  background: none;
+  border-radius: 0;
+  color: var(--paper);
+  box-shadow: inset 0 -1px var(--green);
+}
+.stage-head #focus {
+  border: 0;
+  background: none;
+  width: 28px;
+  height: 28px;
+}
+.observatory {
+  position: relative;
+}
+.stage-grid {
+  display: block;
+  height: auto;
+}
+.stage {
+  height: calc(100dvh - 152px);
+  min-height: 580px;
+  max-height: 880px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 54px;
+  padding: 0;
+}
+.field {
+  height: 100%;
+  min-height: 0;
+  background: radial-gradient(
+    ellipse at 66% 46%,
+    #17231b 0%,
+    #101810 32%,
+    var(--bg) 76%
+  );
+  border: 0;
+  overflow: hidden;
+}
+.field #network {
+  position: absolute;
+  inset: 0 0 0 28%;
+  width: 72%;
+  height: 100%;
+}
+.neural-introduction {
+  position: absolute;
+  z-index: 5;
+  inset: 0 auto 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 42%;
+  padding: 0 0 40px;
+  gap: 22px;
+  pointer-events: none;
+}
+.neural-introduction h1 {
+  font: 400 clamp(34px, 3.5vw, 57px)/1.06 var(--sans);
+  letter-spacing: -0.048em;
+  color: var(--paper);
+  margin: 0;
+}
+.neural-introduction h1 span {
+  display: block;
+}
+.neural-introduction .hero-copy {
+  max-width: 310px;
+  padding: 0;
+  margin: 0;
+  align-self: auto;
+}
+.neural-introduction .hero-copy p {
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 280px;
+  color: var(--muted);
+  margin: 0;
+}
+.neural-introduction .hero-links {
+  margin-top: 18px;
+  gap: 20px;
+}
+.neural-introduction .hero-links a {
+  pointer-events: auto;
+  color: var(--paper);
+  font-size: 11px;
+}
+.neural-introduction .token-link {
+  pointer-events: auto;
+  min-height: 34px;
+  margin-top: 14px;
+}
+.field-top {
+  top: 22px;
+  left: 0;
+  right: 20px;
+  pointer-events: none;
+}
+.field-time {
+  display: none;
+}
+.field-meta .micro {
+  font-size: 10px;
+  letter-spacing: 0.045em;
+}
+.frame-label {
+  font-size: 10px;
+  color: var(--dim);
+}
+.field-source {
+  display: block;
+  margin-top: 5px;
+  color: var(--dim);
+  font: 10px/1.6 var(--mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#graphBadge {
+  height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.replay-line {
+  margin-top: 8px;
+}
+.field-bottom {
+  display: block;
+  left: 45%;
+  right: 24px;
+  bottom: 22px;
+}
+.field-controls {
+  justify-content: center;
+  gap: 8px;
+}
+.field-layers {
+  gap: 2px;
+  border: 1px solid var(--line);
+  background: #0d140fed;
+  border-radius: 5px;
+  padding: 2px;
+}
+.field-layers button {
+  font-size: 11px;
+  min-height: 28px;
+  padding: 0 11px;
+}
+.field-readings {
+  left: auto;
+  width: auto;
+  align-items: flex-end;
+  right: 20px;
+  top: 66px;
+  bottom: auto;
+  font: 10px var(--mono);
+  color: var(--dim);
+}
+.window-caption {
+  bottom: 22px;
+  left: auto;
+  right: 20px;
+  font-size: 9px;
+}
+.field-filters {
+  height: 54px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 0;
+  gap: 18px;
+  justify-content: flex-start;
+  background: none;
+}
+.field-filters .filter {
+  min-height: 34px;
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: 11px;
+}
+.field-filters .filter[aria-pressed="true"] {
+  background: none;
+  color: var(--paper);
+}
+.field-filters .filter i {
+  width: 4px;
+  height: 4px;
+}
+.input-inspector {
+  margin-top: 14px;
+  border: 0;
+  background: none;
+}
+.input-inspector > summary {
+  padding-inline: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.instrument-strip {
+  background: none;
+  border: 0;
+  height: 82px;
+  padding: 0;
+  grid-template-columns: 1.3fr repeat(3, 1fr);
+  gap: 0;
+}
+.instrument {
+  padding: 12px 18px;
+  border-color: var(--line);
+}
+.instrument:first-child {
+  padding-left: 0;
+}
+.instrument:last-child {
+  padding-right: 0;
+}
+.instrument .micro {
+  font-size: 10px;
+}
+.instrument strong {
+  font: 400 20px/1.4 var(--sans);
+  letter-spacing: -0.02em;
+}
+.activity-chart {
+  height: 25px;
+}
+.below-field {
+  padding: 0;
+  height: 30px;
+  font-size: 9px;
+  color: var(--dim);
+}
+.cognitive-section,
+.discovery-section,
+.workspace {
+  padding: 44px 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+.cognitive-heading h2,
+.discovery-heading h2 {
+  font-size: 26px;
+  font-weight: 400;
+}
+.cognitive-grid {
+  gap: 12px;
+}
+.cognitive-card,
+.lab-panel {
+  border-radius: 5px;
+  padding: 22px;
+  background: var(--surface);
+}
+.workspace-top {
+  border: 0;
+}
+.tab-panel {
+  padding-top: 24px;
+}
+.footer {
+  padding: 30px 0;
+  margin: 0;
+  border-color: var(--line);
+}
+.footer-caption {
+  font-size: 11px;
+}
+.docs-page {
+  --bg: #0a0d0c;
+  --line: #29332c;
+}
+.docs-header {
+  background: var(--bg);
+  height: 52px;
+}
+.docs-app {
+  grid-template-rows: 52px minmax(0, 1fr);
+}
+.docs-brand-label {
+  color: var(--muted);
+  border-color: var(--line);
+}
+.docs-sidebar {
+  background: var(--bg);
+}
+.docs-search-trigger {
+  background: var(--surface);
+  border-color: var(--line);
+}
+.docs-nav-link.active {
+  background: var(--surface-raised);
+}
+.docs-article h1 {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+.header .nav a[aria-current="page"] {
+  color: var(--paper);
+}
+.work-mode .shell > :not(.work-hub):not(.footer) {
+  display: none;
+}
+.work-mode .work-hub {
+  padding-top: 54px;
+  border-top: 0;
+}
+.focus-mode .neural-introduction {
+  display: none;
+}
+.focus-mode .field #network {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.focus-mode .field-bottom {
+  left: 20px;
+}
+.focus-mode .field-filters {
+  height: 54px;
+}
+.focus-mode .stage {
+  min-height: 0;
+  max-height: none;
+  height: calc(100dvh - 68px);
+  grid-template-rows: minmax(0, 1fr) 54px;
+}
+.focus-mode .stage-head {
+  right: 24px;
+}
+.field-status {
+  left: 45%;
+  right: 10%;
+  width: auto;
+}
+@media (min-width: 1800px) {
+  .header {
+    padding-inline: max(32px, calc((100vw - 1536px) / 2));
+  }
+}
+@media (max-width: 1000px) {
+  .header {
+    padding-inline: 24px;
+  }
+  .shell {
+    padding-inline: 24px;
+  }
+  .header .live-status {
+    display: none;
+  }
+  .header .nav {
+    gap: 20px;
+  }
+  .neural-introduction {
+    width: 43%;
+  }
+  .neural-introduction h1 {
+    font-size: clamp(32px, 4.3vw, 43px);
+  }
+  .stage-head {
+    right: 20px;
+  }
+  .window-caption {
+    display: none;
+  }
+  .field-bottom {
+    left: 42%;
+  }
+  .field-filters {
+    gap: 14px;
+  }
+}
+@media (max-width: 700px) {
+  .shell {
+    padding-inline: 20px;
+  }
+  .header {
+    padding-inline: 20px;
+  }
+  .header .nav {
+    gap: 16px;
+  }
+  .header .nav a {
+    font-size: 11px;
+  }
+  .header .nav a[data-work-view="treasury"],
+  .header .nav a[data-work-view="evidence"] {
+    display: none;
+  }
+  .stage {
+    height: 690px;
+    min-height: 0;
+    max-height: none;
+    grid-template-rows: 610px 80px;
+  }
+  .field {
+    background: radial-gradient(ellipse at 55% 64%, #17231b 0%, var(--bg) 70%);
+  }
+  .field #network {
+    inset: 280px 0 20px;
+    width: 100%;
+    height: calc(100% - 300px);
+  }
+  .neural-introduction {
+    inset: 65px 0 auto;
+    width: 100%;
+    height: 210px;
+    padding: 0;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+  .neural-introduction h1 {
+    font-size: 34px;
+    line-height: 1.08;
+    max-width: 460px;
+  }
+  .neural-introduction .hero-copy {
+    max-width: none;
+  }
+  .neural-introduction .hero-copy p {
+    font-size: 12px;
+    max-width: 38ch;
+  }
+  .neural-introduction .hero-links {
+    margin-top: 10px;
+  }
+  .neural-introduction .token-link {
+    position: absolute;
+    left: 0;
+    top: 176px;
+    max-width: 100%;
+    margin: 0;
+  }
+  .stage-head {
+    top: 16px;
+    right: 0;
+  }
+  .stage-actions {
+    gap: 8px;
+  }
+  .segmented {
+    gap: 12px;
+  }
+  .segmented button {
+    font-size: 10px;
+  }
+  .stage-head #focus {
+    display: none;
+  }
+  .field-top {
+    left: 0;
+    right: auto;
+    top: 20px;
+    max-width: 48%;
+  }
+  .frame-label {
+    display: none;
+  }
+  .field-readings {
+    top: auto;
+    bottom: 63px;
+    right: 8px;
+  }
+  .field-status {
+    left: 10%;
+    right: 10%;
+    top: 70%;
+  }
+  .field-bottom {
+    left: 0;
+    right: 0;
+    bottom: 18px;
+  }
+  .field-filters {
+    height: 80px;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    padding: 8px 0;
+  }
+  .instrument-strip {
+    height: 77px;
+    grid-template-columns: 1.15fr repeat(3, minmax(0, 1fr));
+  }
+  .instrument {
+    padding: 12px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 3px;
+  }
+  .instrument strong {
+    font-size: 17px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 24px;
+    order: 0;
+  }
+  .instrument .micro {
+    font-size: 9px;
+    letter-spacing: 0;
+    white-space: normal;
+    line-height: 1.4;
+    min-height: 25px;
+    order: 1;
+  }
+  .instrument:first-child > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .instrument:first-child .activity-chart {
+    display: none;
+  }
+  .cognitive-section,
+  .discovery-section,
+  .workspace {
+    padding: 32px 0;
+  }
+  .focus-mode .neural-introduction {
+    display: none;
+  }
+  .focus-mode .field #network {
+    inset: 0;
+    height: 100%;
+  }
+}
+@media (max-width: 390px) {
+  .neural-introduction h1 {
+    font-size: 30px;
+  }
+  .neural-introduction .hero-copy p {
+    max-width: 31ch;
+  }
+  .header .wordmark-svg {
+    width: 75px;
+  }
+  .header .logo {
+    gap: 8px;
+  }
+  .header-actions {
+    gap: 0;
+  }
+  .header .nav {
+    gap: 12px;
+  }
+  .header .nav a[data-work-view="work"] {
+    display: inline-flex;
+  }
+  .instrument {
+    padding-inline: 6px;
+  }
+  .instrument .micro {
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neural-introduction {
+    transition: none;
+  }
+}

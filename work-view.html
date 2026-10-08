@@ -1,0 +1,154 @@
+<section class="work-hub" id="work" aria-labelledby="workTitle" hidden>
+  <div class="work-heading"
+    ><div
+      ><span class="work-kicker">RESOURCES &amp; CONSEQUENCES</span
+      ><h2 id="workTitle">Nuria’s work</h2></div
+    ><span class="work-health" id="workHealth">Connecting</span></div
+  >
+  <div class="work-tabs" role="tablist" aria-label="Work and treasury">
+    <button
+      id="work-tab-work"
+      role="tab"
+      aria-selected="true"
+      aria-controls="work-panel-work"
+      data-work-tab="work"
+      >Work</button
+    >
+    <button
+      id="work-tab-treasury"
+      role="tab"
+      aria-selected="false"
+      aria-controls="work-panel-treasury"
+      data-work-tab="treasury"
+      tabindex="-1"
+      >Treasury</button
+    >
+    <button
+      id="work-tab-results"
+      role="tab"
+      aria-selected="false"
+      aria-controls="work-panel-results"
+      data-work-tab="results"
+      tabindex="-1"
+      >Results</button
+    >
+    <button
+      id="work-tab-evidence"
+      role="tab"
+      aria-selected="false"
+      aria-controls="work-panel-evidence"
+      data-work-tab="evidence"
+      tabindex="-1"
+      >Evidence</button
+    >
+  </div>
+  <div
+    class="work-panel"
+    role="tabpanel"
+    id="work-panel-work"
+    aria-labelledby="work-tab-work"
+  >
+    <div class="work-columns"
+      ><div class="work-list" id="workJobs"
+        ><div class="work-empty"
+          ><h3>Waiting for work records</h3
+          ><p
+            >Commissioned work appears here with its cost, delivery and result.</p
+          ></div
+        ></div
+      ><article class="work-detail" id="workDetail" aria-label="Selected work"
+        ><span class="work-kicker">ONE PERSISTENT ENTITY</span
+        ><h3>Every job has a purpose.</h3
+        ><p
+          >Specialist agents, human contributors and compute services are resources
+          Nuria can commission. Payment, delivery and useful results stay separate.</p
+        ><dl class="work-contract"
+          ><div><dt>Purpose</dt><dd>What the work is meant to improve</dd></div
+          ><div><dt>Delivery</dt><dd>What the provider must return</dd></div
+          ><div><dt>Acceptance</dt><dd>How the result will be checked</dd></div
+          ><div><dt>Outcome</dt><dd>What changed after it was used</dd></div></dl
+        ></article
+      ></div
+    >
+    <div
+      class="work-catalog"
+      id="workCatalog"
+      aria-label="External work capabilities"
+    ></div>
+  </div>
+  <div
+    class="work-panel"
+    role="tabpanel"
+    id="work-panel-treasury"
+    aria-labelledby="work-tab-treasury"
+    hidden
+  >
+    <div class="work-money"
+      ><div><span>Observed USDC</span><strong id="workBalance">—</strong></div
+      ><div><span>Committed</span><strong id="workCommitted">—</strong></div
+      ><div><span>Verified payments</span><strong id="workSpent">—</strong></div
+      ><div><span>Execution</span><strong id="workExecution">Unknown</strong></div></div
+    >
+    <dl class="work-contract"
+      ><div
+        ><dt>Creator fee wallet</dt
+        ><dd><code id="workCreator">Not received</code></dd></div
+      ><div
+        ><dt>Operating wallet</dt
+        ><dd
+          ><code id="workWallet">Not received</code
+          ><button id="copyWorkWallet" class="work-copy" disabled
+            >Copy address</button
+          ></dd
+        ></div
+      ><div><dt>Installed policy</dt><dd id="workPolicy">Not received</dd></div
+      ><div
+        ><dt>Accounting</dt
+        ><dd
+          >Funds in transit and unresolved payments are unavailable for new work.
+          Marketplace deposits are tracked separately from worker payouts.</dd
+        ></div
+      ></dl
+    >
+    <p class="work-note" id="workMoneyNote"
+      >Waiting for independently observed financial evidence.</p
+    >
+  </div>
+  <div
+    class="work-panel"
+    role="tabpanel"
+    id="work-panel-results"
+    aria-labelledby="work-tab-results"
+    hidden
+    ><div class="work-results" id="workResults"
+      ><div class="work-empty"
+        ><h3>No outcome records received</h3
+        ><p
+          >A delivered result becomes an evaluated outcome only after its declared
+          checks run.</p
+        ></div
+      ></div
+    ></div
+  >
+  <div
+    class="work-panel"
+    role="tabpanel"
+    id="work-panel-evidence"
+    aria-labelledby="work-tab-evidence"
+    hidden
+    ><div class="work-evidence-head"
+      ><h3>Follow the record</h3
+      ><a href="/?page=docs#resources">How verification works</a></div
+    ><p class="work-note"
+      >A transfer proves payment. Artifacts and evaluations establish what it bought and
+      whether it helped.</p
+    ><div class="work-proof-list" id="workEvidence"><p>No evidence received.</p></div
+    ><div class="work-export"
+      ><a id="workExport" aria-disabled="true" tabindex="-1">Download work record</a
+      ><a href="/api/commerce/index" target="_blank" rel="noopener">Payment ledger</a
+      ><a href="https://github.com/trynuria/nuria" target="_blank" rel="noopener"
+        >Source on GitHub</a
+      ></div
+    ></div
+  >
+</section>

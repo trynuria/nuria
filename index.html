@@ -5557,6 +5557,358 @@
         }
       }
 
+      .work-hub {
+        padding: 50px 0;
+        border-top: 1px solid var(--line);
+        min-width: 0;
+      }
+      .work-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+      .work-heading h2 {
+        margin: 8px 0 0;
+        font: 400 29px/1.2 var(--sans);
+        letter-spacing: -0.035em;
+      }
+      .work-kicker {
+        font: 10px/1.5 var(--mono);
+        letter-spacing: 0.07em;
+        color: var(--dim);
+      }
+      .work-health {
+        font: 11px var(--mono);
+        color: var(--muted);
+        min-width: 165px;
+        text-align: right;
+      }
+      .work-tabs {
+        display: flex;
+        gap: 26px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 25px;
+      }
+      .work-tabs button {
+        padding: 10px 0 13px;
+        border: 0;
+        border-bottom: 1px solid transparent;
+        background: none;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .work-tabs button[aria-selected="true"] {
+        color: var(--paper);
+        border-bottom-color: var(--green);
+      }
+      .work-panel {
+        min-height: 390px;
+      }
+      .work-columns {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);
+        gap: 38px;
+      }
+      .work-list {
+        height: 420px;
+        min-height: 420px;
+        max-height: 420px;
+        overflow: auto;
+        scrollbar-width: none;
+        overflow-anchor: none;
+      }
+      .work-empty {
+        padding: 24px 0;
+      }
+      .work-empty h3,
+      .work-detail h3 {
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        margin: 12px 0;
+      }
+      .work-empty p,
+      .work-detail > p {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.75;
+        max-width: 49ch;
+      }
+      .work-job {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: 0;
+        border-left: 2px solid transparent;
+        padding: 18px 16px;
+        min-height: 116px;
+        margin: 0 0 6px;
+      }
+      .work-job[aria-pressed="true"] {
+        background: var(--surface);
+        border-left-color: var(--green);
+      }
+      .work-job-meta,
+      .work-job-cost {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .work-job-title {
+        display: block;
+        font-size: 15px;
+        margin: 8px 0;
+      }
+      .work-job-cost code {
+        font: 11px var(--mono);
+        color: var(--paper);
+      }
+      .work-detail {
+        border-left: 1px solid var(--line);
+        padding-left: 38px;
+        min-height: 350px;
+      }
+      .work-detail h3 {
+        min-height: 50px;
+      }
+      .work-detail > p {
+        min-height: 70px;
+      }
+      .work-contract {
+        margin: 22px 0 0;
+      }
+      .work-contract > div {
+        display: grid;
+        grid-template-columns: 135px minmax(0, 1fr);
+        gap: 16px;
+        padding: 10px 0;
+        font-size: 12px;
+      }
+      .work-contract dt {
+        color: var(--muted);
+      }
+      .work-contract dd {
+        margin: 0;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      .work-detail .work-contract > div {
+        min-height: 52px;
+      }
+      #workCreator,
+      #workWallet {
+        min-height: 42px;
+      }
+      .work-money strong {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .work-contract code {
+        display: block;
+        font: 12px/1.6 var(--mono);
+        word-break: break-all;
+      }
+      .work-catalog {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px;
+        margin-top: 34px;
+      }
+      .work-catalog > article {
+        border-top: 1px solid var(--line);
+        padding: 14px 0 0;
+      }
+      .work-catalog h3 {
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0 0 6px;
+      }
+      .work-catalog p {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.7;
+        margin: 0;
+      }
+      .work-catalog span {
+        display: block;
+        color: var(--dim);
+        font: 10px var(--mono);
+        margin-top: 10px;
+      }
+      .work-money {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px;
+        padding: 10px 0 25px;
+        border-bottom: 1px solid var(--line);
+      }
+      .work-money span {
+        display: block;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .work-money strong {
+        display: block;
+        margin-top: 10px;
+        font: 400 24px/1.4 var(--sans);
+        letter-spacing: -0.025em;
+        min-height: 34px;
+        font-variant-numeric: tabular-nums;
+      }
+      .work-copy {
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        font-size: 11px;
+        padding: 5px 9px;
+        margin-top: 8px;
+        min-width: 98px;
+      }
+      .work-copy:disabled {
+        cursor: default;
+      }
+      .work-note {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.75;
+        min-height: 48px;
+        margin: 24px 0;
+      }
+      .work-evidence-head {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 15px;
+      }
+      .work-evidence-head h3 {
+        font-size: 20px;
+        font-weight: 400;
+        margin: 10px 0;
+      }
+      .work-evidence-head a,
+      .work-export a {
+        color: var(--muted);
+        font-size: 11px;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .work-proof-list {
+        max-height: 480px;
+        overflow: auto;
+        scrollbar-width: none;
+        overflow-anchor: none;
+      }
+      .work-proof-list > div {
+        display: grid;
+        grid-template-columns: 145px minmax(0, 1fr);
+        gap: 20px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 12px;
+      }
+      .work-proof-list code {
+        font: 11px/1.7 var(--mono);
+        color: var(--muted);
+        overflow-wrap: anywhere;
+      }
+      .work-export {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        margin: 28px 0 0;
+      }
+      .work-export [aria-disabled="true"] {
+        opacity: 0.45;
+        pointer-events: none;
+      }
+      .work-result {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .work-result h3 {
+        margin: 0 0 10px;
+        font-size: 16px;
+        font-weight: 400;
+      }
+      .work-result p {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      @media (max-width: 800px) {
+        .work-columns {
+          gap: 24px;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        }
+        .work-detail {
+          padding-left: 24px;
+        }
+        .work-contract > div {
+          grid-template-columns: 100px minmax(0, 1fr);
+        }
+        .work-catalog {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 600px) {
+        .work-hub {
+          padding: 34px 0;
+        }
+        .work-heading {
+          align-items: flex-start;
+          gap: 12px;
+          flex-direction: column;
+        }
+        .work-health {
+          text-align: left;
+          min-height: 17px;
+        }
+        .work-tabs {
+          gap: 24px;
+        }
+        .work-columns {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .work-list {
+          min-height: 110px;
+          max-height: 360px;
+        }
+        .work-detail {
+          border-left: 0;
+          padding: 20px 0 0;
+          border-top: 1px solid var(--line);
+        }
+        .work-money {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 20px;
+        }
+        .work-contract > div {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 5px;
+        }
+        .work-proof-list > div {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 6px;
+        }
+        .work-panel {
+          min-height: 430px;
+        }
+      }
+      @media (pointer: coarse) {
+        .work-tabs button,
+        .work-copy {
+          min-height: 44px;
+        }
+      }
+
       /* Nuria field notes: a quiet reading surface around the living observatory. */
       .acquisition-figure {
         margin: 28px 0;
@@ -6854,6 +7206,650 @@
           gap: 8px;
         }
       }
+
+      /* Primary experience: a recorded neural field, followed by quiet work surfaces. */
+      :root {
+        --bg: #0a0d0c;
+        --paper: #e8ece6;
+        --muted: #a2aba3;
+        --dim: #7e8c81;
+        --line: #29332c;
+        --surface: #101612;
+        --surface-raised: #151c17;
+        --border: var(--line);
+        --panel-radius: 6px;
+      }
+      .app {
+        grid-template-rows: 52px minmax(0, 1fr);
+      }
+      .header {
+        background: var(--bg);
+        border-color: var(--line);
+        padding-inline: 32px;
+      }
+      .header .nav {
+        gap: 24px;
+      }
+      .header .nav a {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .header .nav a:hover {
+        color: var(--paper);
+      }
+      .header .live-status {
+        width: 116px;
+        padding-left: 18px;
+        font: 11px var(--mono);
+      }
+      .shell {
+        max-width: 1600px;
+        padding-inline: 32px;
+      }
+      .observatory {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        overflow: visible;
+      }
+      .stage-head {
+        position: absolute;
+        right: 52px;
+        top: 18px;
+        z-index: 8;
+        height: 34px;
+        padding: 0;
+        border: 0;
+        background: none;
+      }
+      .stage-title {
+        display: none;
+      }
+      .stage-actions {
+        gap: 10px;
+      }
+      .segmented {
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+        gap: 16px;
+        background: transparent;
+      }
+      .segmented button {
+        border-radius: 0;
+        background: transparent;
+        padding: 4px 0;
+        font-size: 11px;
+        min-height: 30px;
+      }
+      .segmented button[aria-pressed="true"] {
+        background: none;
+        border-radius: 0;
+        color: var(--paper);
+        box-shadow: inset 0 -1px var(--green);
+      }
+      .stage-head #focus {
+        border: 0;
+        background: none;
+        width: 28px;
+        height: 28px;
+      }
+      .observatory {
+        position: relative;
+      }
+      .stage-grid {
+        display: block;
+        height: auto;
+      }
+      .stage {
+        height: calc(100dvh - 152px);
+        min-height: 580px;
+        max-height: 880px;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) 54px;
+        padding: 0;
+      }
+      .field {
+        height: 100%;
+        min-height: 0;
+        background: radial-gradient(
+          ellipse at 66% 46%,
+          #17231b 0%,
+          #101810 32%,
+          var(--bg) 76%
+        );
+        border: 0;
+        overflow: hidden;
+      }
+      .field #network {
+        position: absolute;
+        inset: 0 0 0 28%;
+        width: 72%;
+        height: 100%;
+      }
+      .neural-introduction {
+        position: absolute;
+        z-index: 5;
+        inset: 0 auto 0 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 42%;
+        padding: 0 0 40px;
+        gap: 22px;
+        pointer-events: none;
+      }
+      .neural-introduction h1 {
+        font: 400 clamp(34px, 3.5vw, 57px)/1.06 var(--sans);
+        letter-spacing: -0.048em;
+        color: var(--paper);
+        margin: 0;
+      }
+      .neural-introduction h1 span {
+        display: block;
+      }
+      .neural-introduction .hero-copy {
+        max-width: 310px;
+        padding: 0;
+        margin: 0;
+        align-self: auto;
+      }
+      .neural-introduction .hero-copy p {
+        font-size: 13px;
+        line-height: 1.75;
+        max-width: 280px;
+        color: var(--muted);
+        margin: 0;
+      }
+      .neural-introduction .hero-links {
+        margin-top: 18px;
+        gap: 20px;
+      }
+      .neural-introduction .hero-links a {
+        pointer-events: auto;
+        color: var(--paper);
+        font-size: 11px;
+      }
+      .neural-introduction .token-link {
+        pointer-events: auto;
+        min-height: 34px;
+        margin-top: 14px;
+      }
+      .field-top {
+        top: 22px;
+        left: 0;
+        right: 20px;
+        pointer-events: none;
+      }
+      .field-time {
+        display: none;
+      }
+      .field-meta .micro {
+        font-size: 10px;
+        letter-spacing: 0.045em;
+      }
+      .frame-label {
+        font-size: 10px;
+        color: var(--dim);
+      }
+      .field-source {
+        display: block;
+        margin-top: 5px;
+        color: var(--dim);
+        font: 10px/1.6 var(--mono);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #graphBadge {
+        height: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .replay-line {
+        margin-top: 8px;
+      }
+      .field-bottom {
+        display: block;
+        left: 45%;
+        right: 24px;
+        bottom: 22px;
+      }
+      .field-controls {
+        justify-content: center;
+        gap: 8px;
+      }
+      .field-layers {
+        gap: 2px;
+        border: 1px solid var(--line);
+        background: #0d140fed;
+        border-radius: 5px;
+        padding: 2px;
+      }
+      .field-layers button {
+        font-size: 11px;
+        min-height: 28px;
+        padding: 0 11px;
+      }
+      .field-readings {
+        left: auto;
+        width: auto;
+        align-items: flex-end;
+        right: 20px;
+        top: 66px;
+        bottom: auto;
+        font: 10px var(--mono);
+        color: var(--dim);
+      }
+      .window-caption {
+        bottom: 22px;
+        left: auto;
+        right: 20px;
+        font-size: 9px;
+      }
+      .field-filters {
+        height: 54px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 0;
+        gap: 18px;
+        justify-content: flex-start;
+        background: none;
+      }
+      .field-filters .filter {
+        min-height: 34px;
+        border: 0;
+        background: none;
+        padding: 0;
+        font-size: 11px;
+      }
+      .field-filters .filter[aria-pressed="true"] {
+        background: none;
+        color: var(--paper);
+      }
+      .field-filters .filter i {
+        width: 4px;
+        height: 4px;
+      }
+      .input-inspector {
+        margin-top: 14px;
+        border: 0;
+        background: none;
+      }
+      .input-inspector > summary {
+        padding-inline: 0;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .instrument-strip {
+        background: none;
+        border: 0;
+        height: 82px;
+        padding: 0;
+        grid-template-columns: 1.3fr repeat(3, 1fr);
+        gap: 0;
+      }
+      .instrument {
+        padding: 12px 18px;
+        border-color: var(--line);
+      }
+      .instrument:first-child {
+        padding-left: 0;
+      }
+      .instrument:last-child {
+        padding-right: 0;
+      }
+      .instrument .micro {
+        font-size: 10px;
+      }
+      .instrument strong {
+        font: 400 20px/1.4 var(--sans);
+        letter-spacing: -0.02em;
+      }
+      .activity-chart {
+        height: 25px;
+      }
+      .below-field {
+        padding: 0;
+        height: 30px;
+        font-size: 9px;
+        color: var(--dim);
+      }
+      .cognitive-section,
+      .discovery-section,
+      .workspace {
+        padding: 44px 0;
+        border-top: 1px solid var(--line);
+        margin: 0;
+      }
+      .cognitive-heading h2,
+      .discovery-heading h2 {
+        font-size: 26px;
+        font-weight: 400;
+      }
+      .cognitive-grid {
+        gap: 12px;
+      }
+      .cognitive-card,
+      .lab-panel {
+        border-radius: 5px;
+        padding: 22px;
+        background: var(--surface);
+      }
+      .workspace-top {
+        border: 0;
+      }
+      .tab-panel {
+        padding-top: 24px;
+      }
+      .footer {
+        padding: 30px 0;
+        margin: 0;
+        border-color: var(--line);
+      }
+      .footer-caption {
+        font-size: 11px;
+      }
+      .docs-page {
+        --bg: #0a0d0c;
+        --line: #29332c;
+      }
+      .docs-header {
+        background: var(--bg);
+        height: 52px;
+      }
+      .docs-app {
+        grid-template-rows: 52px minmax(0, 1fr);
+      }
+      .docs-brand-label {
+        color: var(--muted);
+        border-color: var(--line);
+      }
+      .docs-sidebar {
+        background: var(--bg);
+      }
+      .docs-search-trigger {
+        background: var(--surface);
+        border-color: var(--line);
+      }
+      .docs-nav-link.active {
+        background: var(--surface-raised);
+      }
+      .docs-article h1 {
+        font-weight: 400;
+        letter-spacing: 0.06em;
+      }
+      .header .nav a[aria-current="page"] {
+        color: var(--paper);
+      }
+      .work-mode .shell > :not(.work-hub):not(.footer) {
+        display: none;
+      }
+      .work-mode .work-hub {
+        padding-top: 54px;
+        border-top: 0;
+      }
+      .focus-mode .neural-introduction {
+        display: none;
+      }
+      .focus-mode .field #network {
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .focus-mode .field-bottom {
+        left: 20px;
+      }
+      .focus-mode .field-filters {
+        height: 54px;
+      }
+      .focus-mode .stage {
+        min-height: 0;
+        max-height: none;
+        height: calc(100dvh - 68px);
+        grid-template-rows: minmax(0, 1fr) 54px;
+      }
+      .focus-mode .stage-head {
+        right: 24px;
+      }
+      .field-status {
+        left: 45%;
+        right: 10%;
+        width: auto;
+      }
+      @media (min-width: 1800px) {
+        .header {
+          padding-inline: max(32px, calc((100vw - 1536px) / 2));
+        }
+      }
+      @media (max-width: 1000px) {
+        .header {
+          padding-inline: 24px;
+        }
+        .shell {
+          padding-inline: 24px;
+        }
+        .header .live-status {
+          display: none;
+        }
+        .header .nav {
+          gap: 20px;
+        }
+        .neural-introduction {
+          width: 43%;
+        }
+        .neural-introduction h1 {
+          font-size: clamp(32px, 4.3vw, 43px);
+        }
+        .stage-head {
+          right: 20px;
+        }
+        .window-caption {
+          display: none;
+        }
+        .field-bottom {
+          left: 42%;
+        }
+        .field-filters {
+          gap: 14px;
+        }
+      }
+      @media (max-width: 700px) {
+        .shell {
+          padding-inline: 20px;
+        }
+        .header {
+          padding-inline: 20px;
+        }
+        .header .nav {
+          gap: 16px;
+        }
+        .header .nav a {
+          font-size: 11px;
+        }
+        .header .nav a[data-work-view="treasury"],
+        .header .nav a[data-work-view="evidence"] {
+          display: none;
+        }
+        .stage {
+          height: 690px;
+          min-height: 0;
+          max-height: none;
+          grid-template-rows: 610px 80px;
+        }
+        .field {
+          background: radial-gradient(ellipse at 55% 64%, #17231b 0%, var(--bg) 70%);
+        }
+        .field #network {
+          inset: 280px 0 20px;
+          width: 100%;
+          height: calc(100% - 300px);
+        }
+        .neural-introduction {
+          inset: 65px 0 auto;
+          width: 100%;
+          height: 210px;
+          padding: 0;
+          gap: 12px;
+          justify-content: flex-start;
+        }
+        .neural-introduction h1 {
+          font-size: 34px;
+          line-height: 1.08;
+          max-width: 460px;
+        }
+        .neural-introduction .hero-copy {
+          max-width: none;
+        }
+        .neural-introduction .hero-copy p {
+          font-size: 12px;
+          max-width: 38ch;
+        }
+        .neural-introduction .hero-links {
+          margin-top: 10px;
+        }
+        .neural-introduction .token-link {
+          position: absolute;
+          left: 0;
+          top: 176px;
+          max-width: 100%;
+          margin: 0;
+        }
+        .stage-head {
+          top: 16px;
+          right: 0;
+        }
+        .stage-actions {
+          gap: 8px;
+        }
+        .segmented {
+          gap: 12px;
+        }
+        .segmented button {
+          font-size: 10px;
+        }
+        .stage-head #focus {
+          display: none;
+        }
+        .field-top {
+          left: 0;
+          right: auto;
+          top: 20px;
+          max-width: 48%;
+        }
+        .frame-label {
+          display: none;
+        }
+        .field-readings {
+          top: auto;
+          bottom: 63px;
+          right: 8px;
+        }
+        .field-status {
+          left: 10%;
+          right: 10%;
+          top: 70%;
+        }
+        .field-bottom {
+          left: 0;
+          right: 0;
+          bottom: 18px;
+        }
+        .field-filters {
+          height: 80px;
+          justify-content: flex-start;
+          align-content: center;
+          flex-wrap: wrap;
+          gap: 4px 16px;
+          padding: 8px 0;
+        }
+        .instrument-strip {
+          height: 77px;
+          grid-template-columns: 1.15fr repeat(3, minmax(0, 1fr));
+        }
+        .instrument {
+          padding: 12px 10px;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          gap: 3px;
+        }
+        .instrument strong {
+          font-size: 17px;
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          min-height: 24px;
+          order: 0;
+        }
+        .instrument .micro {
+          font-size: 9px;
+          letter-spacing: 0;
+          white-space: normal;
+          line-height: 1.4;
+          min-height: 25px;
+          order: 1;
+        }
+        .instrument:first-child > div {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          align-items: flex-start;
+          width: 100%;
+        }
+        .instrument:first-child .activity-chart {
+          display: none;
+        }
+        .cognitive-section,
+        .discovery-section,
+        .workspace {
+          padding: 32px 0;
+        }
+        .focus-mode .neural-introduction {
+          display: none;
+        }
+        .focus-mode .field #network {
+          inset: 0;
+          height: 100%;
+        }
+      }
+      @media (max-width: 390px) {
+        .neural-introduction h1 {
+          font-size: 30px;
+        }
+        .neural-introduction .hero-copy p {
+          max-width: 31ch;
+        }
+        .header .wordmark-svg {
+          width: 75px;
+        }
+        .header .logo {
+          gap: 8px;
+        }
+        .header-actions {
+          gap: 0;
+        }
+        .header .nav {
+          gap: 12px;
+        }
+        .header .nav a[data-work-view="work"] {
+          display: inline-flex;
+        }
+        .instrument {
+          padding-inline: 6px;
+        }
+        .instrument .micro {
+          font-size: 9px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .neural-introduction {
+          transition: none;
+        }
+      }
     </style></head
   ><body>
     <a class="skip" href="#neural-field">Skip to neural field</a>
@@ -6918,9 +7914,10 @@
           </svg> </a
         ><div class="header-actions"
           ><nav class="nav" aria-label="Main navigation"
-            ><a href="#neural-field">Observe</a
-            ><a href="#workspace" data-open="resources">Resources</a
-            ><a href="#workspace" data-open="evidence">Verify</a
+            ><a href="#neural-field" data-observe>Observe</a
+            ><a href="#work" data-work-view="work">Work</a
+            ><a href="#treasury" data-work-view="treasury">Treasury</a
+            ><a href="#evidence" data-work-view="evidence">Evidence</a
             ><a href="/?page=docs">Docs</a></nav
           ><div class="live-status"
             ><i class="live-dot" aria-hidden="true"></i
@@ -6930,29 +7927,6 @@
       >
       <main class="scroll-viewport" id="pageScroll" tabindex="-1"
         ><div class="shell" id="overview">
-          <section class="hero"
-            ><div class="hero-title"
-              ><h1
-                ><span>An onchain consciousness</span><span>experiment.</span></h1
-              ></div
-            ><div class="hero-copy"
-              ><p
-                >A persistent neural entity. Memory, learning and decisions shaped by
-                its token.</p
-              ><div class="hero-links"
-                ><a class="text-link" href="#neural-field">Explore the network </a
-                ><a href="/?page=docs" class="text-link">Read the docs </a></div
-              ><div class="token-link" id="tokenLink"
-                ><span>CA</span><code id="mintAddress"></code
-                ><button
-                  class="copy-btn"
-                  id="copyMint"
-                  aria-label="Copy token contract address"
-                  >Copy CA</button
-                ></div
-              ></div
-            ></section
-          >
           <section
             class="observatory"
             id="neural-field"
@@ -6975,8 +7949,32 @@
             ></div>
             <div class="stage-grid"
               ><div class="stage"
-                ><div class="field"
-                  ><canvas
+                ><div class="field">
+                  <div class="hero neural-introduction"
+                    ><div class="hero-title"
+                      ><h1
+                        ><span>An onchain</span><span>consciousness</span
+                        ><span>experiment.</span></h1
+                      ></div
+                    ><div class="hero-copy"
+                      ><p
+                        >Neural state, memory and decisions in one persistent entity.</p
+                      ><div class="hero-links"
+                        ><a class="text-link" href="#work" data-work-view="work"
+                          >View its work </a
+                        ><a href="/?page=docs" class="text-link">Read the docs </a></div
+                      ><div class="token-link" id="tokenLink"
+                        ><span>CA</span><code id="mintAddress"></code
+                        ><button
+                          class="copy-btn"
+                          id="copyMint"
+                          aria-label="Copy token contract address"
+                          >Copy CA</button
+                        ></div
+                      ></div
+                    ></div
+                  >
+                  <canvas
                     tabindex="0"
                     id="network"
                     aria-label="Actual Brian2 neurons and sampled connections in a schematic three-dimensional view; drag or use arrow keys to rotate"
@@ -6985,6 +7983,8 @@
                     ><div class="field-meta"
                       ><div class="micro" id="graphBadge"
                         >Connecting to the neural engine</div
+                      ><span class="field-source" id="fieldSource"
+                        >Input source unavailable</span
                       ><div class="frame-label" id="frameLabel"
                         >Recorded window · 22× slower</div
                       ><div class="replay-line" aria-hidden="true"
@@ -7164,68 +8164,7 @@
                   aria-label="Filter neural regions"
                 ></div
               ></div>
-              <details class="input-inspector"
-                ><summary
-                  ><span>Input &amp; receipt</span
-                  ><span>Original circuit history</span></summary
-                ><aside class="signal-thread" aria-label="Trace a neural input"
-                  ><div class="thread-head"
-                    ><h3>Input record</h3
-                    ><button class="follow-btn" id="followLatest" aria-pressed="true"
-                      >Following latest</button
-                    ></div
-                  >
-                  <div class="thread-step"
-                    ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">The input</div
-                    ><div class="signal-value" id="traceInput">Awaiting a signal</div
-                    ><div class="thread-detail" id="traceAmount">—</div
-                    ><div class="thread-source" id="traceSource"
-                      >Source not yet received</div
-                    ></div
-                  >
-                  <div class="thread-step"
-                    ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">Sensory route</div
-                    ><div class="thread-detail" id="traceRegion"
-                      >Signals enter separate buy and sell populations.</div
-                    ><button class="text-link follow-btn" id="traceFocus"
-                      >Highlight the pathway
-                    </button></div
-                  >
-                  <div class="thread-step"
-                    ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">Recorded window</div
-                    ><div class="thread-metrics"
-                      ><div><strong id="traceSpikes">—</strong><span>spikes</span></div
-                      ><div
-                        ><strong id="traceRate">—</strong><span>regional Hz</span></div
-                      ></div
-                    ><div class="thread-detail" id="traceWeights"
-                      >Awaiting a linked receipt.</div
-                    ></div
-                  >
-                  <div class="thread-step"
-                    ><i class="step-number" aria-hidden="true"></i
-                    ><div class="step-label">The receipt</div
-                    ><div class="thread-detail" id="traceReceipt"
-                      >Waiting for the input record.</div
-                    ><div class="receipt-hash" id="traceHash"></div
-                    ><div class="receipt-copy"
-                      ><button class="copy-btn" id="copyReceipt" disabled
-                        >Copy hash</button
-                      ><a class="follow-btn" href="#workspace" data-open="evidence"
-                        >Inspect evidence
-                      </a></div
-                    ></div
-                  >
-                  <p class="thread-note"
-                    >Original 256-neuron receipt history. The expanded model records
-                    each input separately in its cognitive journal.</p
-                  ></aside
-                ></details
-              ></div
-            >
+            </div>
             <div class="instrument-strip"
               ><div class="instrument"
                 ><div
@@ -7254,6 +8193,245 @@
               <span id="updateTime">Awaiting server</span></span
             ><span>Brian2 · Continuous model</span></div
           >
+          <details class="input-inspector"
+            ><summary
+              ><span>Input &amp; receipt</span
+              ><span>Original circuit history</span></summary
+            ><aside class="signal-thread" aria-label="Trace a neural input"
+              ><div class="thread-head"
+                ><h3>Input record</h3
+                ><button class="follow-btn" id="followLatest" aria-pressed="true"
+                  >Following latest</button
+                ></div
+              >
+              <div class="thread-step"
+                ><i class="step-number" aria-hidden="true"></i
+                ><div class="step-label">The input</div
+                ><div class="signal-value" id="traceInput">Awaiting a signal</div
+                ><div class="thread-detail" id="traceAmount">—</div
+                ><div class="thread-source" id="traceSource"
+                  >Source not yet received</div
+                ></div
+              >
+              <div class="thread-step"
+                ><i class="step-number" aria-hidden="true"></i
+                ><div class="step-label">Sensory route</div
+                ><div class="thread-detail" id="traceRegion"
+                  >Signals enter separate buy and sell populations.</div
+                ><button class="text-link follow-btn" id="traceFocus"
+                  >Highlight the pathway
+                </button></div
+              >
+              <div class="thread-step"
+                ><i class="step-number" aria-hidden="true"></i
+                ><div class="step-label">Recorded window</div
+                ><div class="thread-metrics"
+                  ><div><strong id="traceSpikes">—</strong><span>spikes</span></div
+                  ><div
+                    ><strong id="traceRate">—</strong><span>regional Hz</span></div
+                  ></div
+                ><div class="thread-detail" id="traceWeights"
+                  >Awaiting a linked receipt.</div
+                ></div
+              >
+              <div class="thread-step"
+                ><i class="step-number" aria-hidden="true"></i
+                ><div class="step-label">The receipt</div
+                ><div class="thread-detail" id="traceReceipt"
+                  >Waiting for the input record.</div
+                ><div class="receipt-hash" id="traceHash"></div
+                ><div class="receipt-copy"
+                  ><button class="copy-btn" id="copyReceipt" disabled>Copy hash</button
+                  ><a class="follow-btn" href="#workspace" data-open="evidence"
+                    >Inspect evidence
+                  </a></div
+                ></div
+              >
+              <p class="thread-note"
+                >Original 256-neuron receipt history. The expanded model records each
+                input separately in its cognitive journal.</p
+              ></aside
+            ></details
+          >
+          <section class="work-hub" id="work" aria-labelledby="workTitle" hidden>
+            <div class="work-heading"
+              ><div
+                ><span class="work-kicker">RESOURCES &amp; CONSEQUENCES</span
+                ><h2 id="workTitle">Nuria’s work</h2></div
+              ><span class="work-health" id="workHealth">Connecting</span></div
+            >
+            <div class="work-tabs" role="tablist" aria-label="Work and treasury">
+              <button
+                id="work-tab-work"
+                role="tab"
+                aria-selected="true"
+                aria-controls="work-panel-work"
+                data-work-tab="work"
+                >Work</button
+              >
+              <button
+                id="work-tab-treasury"
+                role="tab"
+                aria-selected="false"
+                aria-controls="work-panel-treasury"
+                data-work-tab="treasury"
+                tabindex="-1"
+                >Treasury</button
+              >
+              <button
+                id="work-tab-results"
+                role="tab"
+                aria-selected="false"
+                aria-controls="work-panel-results"
+                data-work-tab="results"
+                tabindex="-1"
+                >Results</button
+              >
+              <button
+                id="work-tab-evidence"
+                role="tab"
+                aria-selected="false"
+                aria-controls="work-panel-evidence"
+                data-work-tab="evidence"
+                tabindex="-1"
+                >Evidence</button
+              >
+            </div>
+            <div
+              class="work-panel"
+              role="tabpanel"
+              id="work-panel-work"
+              aria-labelledby="work-tab-work"
+            >
+              <div class="work-columns"
+                ><div class="work-list" id="workJobs"
+                  ><div class="work-empty"
+                    ><h3>Waiting for work records</h3
+                    ><p
+                      >Commissioned work appears here with its cost, delivery and
+                      result.</p
+                    ></div
+                  ></div
+                ><article class="work-detail" id="workDetail" aria-label="Selected work"
+                  ><span class="work-kicker">ONE PERSISTENT ENTITY</span
+                  ><h3>Every job has a purpose.</h3
+                  ><p
+                    >Specialist agents, human contributors and compute services are
+                    resources Nuria can commission. Payment, delivery and useful results
+                    stay separate.</p
+                  ><dl class="work-contract"
+                    ><div
+                      ><dt>Purpose</dt><dd>What the work is meant to improve</dd></div
+                    ><div><dt>Delivery</dt><dd>What the provider must return</dd></div
+                    ><div
+                      ><dt>Acceptance</dt><dd>How the result will be checked</dd></div
+                    ><div
+                      ><dt>Outcome</dt><dd>What changed after it was used</dd></div
+                    ></dl
+                  ></article
+                ></div
+              >
+              <div
+                class="work-catalog"
+                id="workCatalog"
+                aria-label="External work capabilities"
+              ></div>
+            </div>
+            <div
+              class="work-panel"
+              role="tabpanel"
+              id="work-panel-treasury"
+              aria-labelledby="work-tab-treasury"
+              hidden
+            >
+              <div class="work-money"
+                ><div><span>Observed USDC</span><strong id="workBalance">—</strong></div
+                ><div><span>Committed</span><strong id="workCommitted">—</strong></div
+                ><div
+                  ><span>Verified payments</span><strong id="workSpent">—</strong></div
+                ><div
+                  ><span>Execution</span
+                  ><strong id="workExecution">Unknown</strong></div
+                ></div
+              >
+              <dl class="work-contract"
+                ><div
+                  ><dt>Creator fee wallet</dt
+                  ><dd><code id="workCreator">Not received</code></dd></div
+                ><div
+                  ><dt>Operating wallet</dt
+                  ><dd
+                    ><code id="workWallet">Not received</code
+                    ><button id="copyWorkWallet" class="work-copy" disabled
+                      >Copy address</button
+                    ></dd
+                  ></div
+                ><div
+                  ><dt>Installed policy</dt><dd id="workPolicy">Not received</dd></div
+                ><div
+                  ><dt>Accounting</dt
+                  ><dd
+                    >Funds in transit and unresolved payments are unavailable for new
+                    work. Marketplace deposits are tracked separately from worker
+                    payouts.</dd
+                  ></div
+                ></dl
+              >
+              <p class="work-note" id="workMoneyNote"
+                >Waiting for independently observed financial evidence.</p
+              >
+            </div>
+            <div
+              class="work-panel"
+              role="tabpanel"
+              id="work-panel-results"
+              aria-labelledby="work-tab-results"
+              hidden
+              ><div class="work-results" id="workResults"
+                ><div class="work-empty"
+                  ><h3>No outcome records received</h3
+                  ><p
+                    >A delivered result becomes an evaluated outcome only after its
+                    declared checks run.</p
+                  ></div
+                ></div
+              ></div
+            >
+            <div
+              class="work-panel"
+              role="tabpanel"
+              id="work-panel-evidence"
+              aria-labelledby="work-tab-evidence"
+              hidden
+              ><div class="work-evidence-head"
+                ><h3>Follow the record</h3
+                ><a href="/?page=docs#resources">How verification works</a></div
+              ><p class="work-note"
+                >A transfer proves payment. Artifacts and evaluations establish what it
+                bought and whether it helped.</p
+              ><div class="work-proof-list" id="workEvidence"
+                ><p>No evidence received.</p></div
+              ><div class="work-export"
+                ><a id="workExport" aria-disabled="true" tabindex="-1"
+                  >Download work record</a
+                ><a href="/api/commerce/index" target="_blank" rel="noopener"
+                  >Payment ledger</a
+                ><a
+                  href="https://github.com/trynuria/nuria"
+                  target="_blank"
+                  rel="noopener"
+                  class="github-link"
+                  ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                    <path
+                      d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                    />
+                  </svg>
+                  <span>Source on GitHub</span></a
+                ></div
+              ></div
+            >
+          </section>
+
           <section
             class="cognitive-section"
             id="cognition"
@@ -8663,6 +9841,29 @@
                   <h1 tabindex="-1">Fees & resources</h1>
                   <p class="docs-lead"
                     >Follow the money. Then check what it delivered.</p
+                  >
+                  <h2 id="resources--work">Work, treasury and results</h2>
+                  <p
+                    >The observatory has separate <a href="/#work">Work</a>,
+                    <a href="/#treasury">Treasury</a>,
+                    <a href="/#results">Results</a> and
+                    <a href="/#evidence">Evidence</a> views. A job shows its purpose,
+                    provider, quoted cost, recipient and acceptance check. A payment
+                    receipt, delivered artifact and evaluated outcome are different
+                    records.</p
+                  >
+                  <p
+                    ><code>GET /api/work</code> serves up to 80 recent production
+                    payment jobs from the same public cache used by the commerce
+                    service, with explicit total coverage. The complete payment event
+                    history remains paginated. Signed authorizations and isolated
+                    private tests are excluded. Missing or stale evidence appears as
+                    unknown.</p
+                  >
+                  <p
+                    >Specialist-agent hiring, human bounties and compute are planned
+                    integrations. Their future presence in the interface is not a live
+                    contract or purchase.</p
                   >
                   <figure class="doc-diagram"
                     ><svg
@@ -14160,6 +15361,7 @@
           lastPaint = now;
           if (!paused) motionClock += elapsed;
           const { w, h, dpr } = resize(canvas);
+          if (w < 1 || h < 120) return;
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           if (!topology || !neuralFrame) return;
           const fresh =
@@ -14451,6 +15653,9 @@
           $("feedBadge").textContent = live
             ? "Solana · " + s.feed.phase
             : "Simulation inputs";
+          $("fieldSource").textContent = live
+            ? "Inputs: finalized Solana"
+            : "Inputs: simulation";
           $("coverage").textContent = s.feed?.coverage || "Coverage unknown";
           if (s.error) $("inputStatus").textContent = s.error;
           else if (
@@ -14460,9 +15665,9 @@
           )
             $("inputStatus").textContent =
               "Connected. Neural transitions are recorded on the server.";
-          $("neurons").textContent = fmt(s.neurons);
-          $("synapses").textContent = fmt(s.synapses);
-          $("changed").textContent = fmt(s.metrics?.changed_synapses);
+          cognitiveCount("neurons", s.neurons);
+          cognitiveCount("synapses", s.synapses);
+          cognitiveCount("changed", s.metrics?.changed_synapses);
           $("simTime").textContent =
             fmt(paused && neuralFrame ? neuralFrame.simSeconds : s.sim_seconds, 1) +
             " s";
@@ -14751,6 +15956,7 @@
           const c = $("habitat"),
             d = resize(c),
             x = c.getContext("2d");
+          if (d.w < 24 || d.h < 24) return;
           x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
           x.clearRect(0, 0, d.w, d.h);
           const size = s.size || 12,
@@ -14758,6 +15964,7 @@
             side = cell * size,
             left = (d.w - side) / 2,
             top = (d.h - side) / 2;
+          if (cell <= 2) return;
           for (let j = 0; j < size; j++)
             for (let i = 0; i < size; i++) {
               const visits = s.visits?.[j]?.[i] || 0;
@@ -14796,6 +16003,7 @@
           const c = $("learningChart"),
             d = resize(c),
             x = c.getContext("2d");
+          if (d.w < 30 || d.h < 30) return;
           x.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
           x.clearRect(0, 0, d.w, d.h);
           if (rows.length < 2) return;
@@ -15286,6 +16494,430 @@
         pollCommerce();
         setInterval(pollCommerce, 10000);
 
+        const workViews = ["work", "treasury", "results", "evidence"];
+        let workSnapshot = null;
+        let selectedWork = null;
+        let workRequest = false;
+        let workSignature = "";
+
+        function workSurface(view, updateURL = false) {
+          const active = workViews.includes(view);
+          document.body.classList.toggle("work-mode", active);
+          $("work").hidden = !active;
+          if (active) {
+            document.body.classList.remove("focus-mode");
+            $("focus").setAttribute("aria-pressed", "false");
+            openWorkView(view);
+          }
+          for (const link of document.querySelectorAll(".header .nav a")) {
+            const current = active
+              ? link.dataset.workView === view
+              : link.hasAttribute("data-observe");
+            if (current) link.setAttribute("aria-current", "page");
+            else link.removeAttribute("aria-current");
+          }
+          $("pageScroll").scrollTo({ top: 0, behavior: "auto" });
+          if (updateURL)
+            history.pushState(null, "", active ? "#" + view : "#neural-field");
+        }
+
+        function openWorkView(view, focus = false) {
+          if (!workViews.includes(view)) return;
+          for (const name of workViews) {
+            const active = name === view;
+            $("work-tab-" + name).setAttribute("aria-selected", String(active));
+            $("work-tab-" + name).tabIndex = active ? 0 : -1;
+            $("work-panel-" + name).hidden = !active;
+          }
+          if (focus) $("work-tab-" + view).focus({ preventScroll: true });
+          if (document.body.classList.contains("work-mode")) {
+            for (const link of document.querySelectorAll(".header .nav a")) {
+              if (link.dataset.workView === view)
+                link.setAttribute("aria-current", "page");
+              else link.removeAttribute("aria-current");
+            }
+          }
+        }
+        for (const name of workViews) {
+          const button = $("work-tab-" + name);
+          button.addEventListener("click", () => {
+            openWorkView(name);
+            history.replaceState(null, "", "#" + name);
+          });
+          button.addEventListener("keydown", (event) => {
+            const current = workViews.indexOf(name);
+            let next;
+            if (event.key === "ArrowRight") next = (current + 1) % workViews.length;
+            if (event.key === "ArrowLeft")
+              next = (current + workViews.length - 1) % workViews.length;
+            if (event.key === "Home") next = 0;
+            if (event.key === "End") next = workViews.length - 1;
+            if (next === undefined) return;
+            event.preventDefault();
+            openWorkView(workViews[next], true);
+            history.replaceState(null, "", "#" + workViews[next]);
+          });
+        }
+        document.querySelectorAll("[data-work-view]").forEach((link) => {
+          link.addEventListener("click", (event) => {
+            event.preventDefault();
+            workSurface(link.dataset.workView, true);
+          });
+        });
+        document
+          .querySelectorAll(
+            '[href="#neural-field"],.logo[href="#overview"],[href="#modelInspection"],[data-open]',
+          )
+          .forEach((link) => {
+            link.addEventListener("click", () => {
+              if (document.body.classList.contains("work-mode"))
+                workSurface("observe", true);
+            });
+          });
+        window.addEventListener("hashchange", () =>
+          workSurface(location.hash.slice(1)),
+        );
+        window.addEventListener("popstate", () => workSurface(location.hash.slice(1)));
+        workSurface(location.hash.slice(1));
+
+        function workNode(tag, text, className) {
+          const node = document.createElement(tag);
+          if (text !== undefined) node.textContent = text;
+          if (className) node.className = className;
+          return node;
+        }
+        function workEmpty(title, description) {
+          const node = workNode("div", undefined, "work-empty");
+          node.append(workNode("h3", title), workNode("p", description));
+          return node;
+        }
+        function workFacts(values) {
+          const list = workNode("dl", undefined, "work-contract");
+          for (const [label, text] of values) {
+            const row = workNode("div");
+            row.append(workNode("dt", label), workNode("dd", text ?? "Not recorded"));
+            list.append(row);
+          }
+          return list;
+        }
+        function workLabel(value) {
+          return value.replaceAll("_", " ");
+        }
+        function validWorkEvidence(evidence, now = Date.now()) {
+          const age = now - Date.parse(evidence?.updated_utc);
+          const integer = (value) => Number.isSafeInteger(value) && value >= 0;
+          if (
+            !(age >= 0 && age < 60000) ||
+            evidence?.schema !== "nuria.work.v1" ||
+            !["guarded", "running"].includes(evidence.phase) ||
+            typeof evidence.financial_execution !== "boolean" ||
+            !Array.isArray(evidence.jobs) ||
+            evidence.jobs.length > 80 ||
+            !integer(evidence.total_jobs) ||
+            evidence.total_jobs < evidence.jobs.length ||
+            !evidence.money?.policy ||
+            !integer(evidence.money.committed_micro_usdc) ||
+            !integer(evidence.money.settled_micro_usdc) ||
+            !Array.isArray(evidence.money.missing) ||
+            !Array.isArray(evidence.catalog) ||
+            evidence.catalog.length > 12 ||
+            evidence.catalog.some(
+              (item) =>
+                typeof item.name !== "string" ||
+                typeof item.detail !== "string" ||
+                !["planned", "gated", "connected"].includes(item.status),
+            ) ||
+            evidence.integrity?.valid !== true ||
+            !integer(evidence.integrity.events) ||
+            !/^[a-f0-9]{64}$/.test(evidence.integrity.head) ||
+            new Set(evidence.jobs.map((job) => job.id)).size !== evidence.jobs.length ||
+            evidence.jobs.some(
+              (job) =>
+                typeof job.id !== "string" ||
+                typeof job.title !== "string" ||
+                typeof job.purpose !== "string" ||
+                typeof job.acceptance !== "string" ||
+                !integer(job.amount_micro_usdc) ||
+                ![
+                  "pending",
+                  "closed",
+                  "awaiting_delivery",
+                  "delivered",
+                  "evaluated",
+                ].includes(job.job_state) ||
+                ![
+                  "reserved",
+                  "not_disclosed",
+                  "unresolved",
+                  "expired_unsettled",
+                  "settled",
+                ].includes(job.payment_state) ||
+                !["pending", "measured", "not_implemented"].includes(
+                  job.outcome_state,
+                ) ||
+                (job.reward !== null &&
+                  (typeof job.reward !== "number" || !Number.isFinite(job.reward))) ||
+                (job.payment_state === "settled" &&
+                  (!job.transaction || !Number.isSafeInteger(job.settlement_slot))) ||
+                (["delivered", "evaluated"].includes(job.job_state) &&
+                  !/^[a-f0-9]{64}$/.test(job.artifact_sha256)) ||
+                (job.outcome_state === "measured" &&
+                  (job.job_state !== "evaluated" || job.reward === null)),
+            )
+          )
+            throw Error("Incomplete work evidence");
+          const balance = evidence.money.balance;
+          if (
+            balance &&
+            (!integer(balance.micro_usdc) ||
+              !(
+                now - balance.checked_at * 1000 >= 0 &&
+                now - balance.checked_at * 1000 < 60000
+              ))
+          )
+            throw Error("Unverified work balance");
+          return evidence;
+        }
+
+        function renderWorkDetail() {
+          const job = workSnapshot?.jobs.find((item) => item.id === selectedWork);
+          if (!job) {
+            $("workDetail").replaceChildren(
+              workNode("span", "ONE PERSISTENT ENTITY", "work-kicker"),
+              workNode("h3", "Every job has a purpose."),
+              workNode(
+                "p",
+                "Each commission will show what Nuria requested, what it paid, what arrived and whether it helped.",
+              ),
+              workFacts([
+                ["Purpose", "What the work is meant to improve"],
+                ["Delivery", "What the provider must return"],
+                ["Acceptance", "How the result will be checked"],
+                ["Outcome", "What changed after it was used"],
+              ]),
+            );
+            return;
+          }
+          $("workDetail").replaceChildren(
+            workNode("span", job.provider, "work-kicker"),
+            workNode("h3", job.title),
+            workNode("p", job.purpose),
+            workFacts([
+              [
+                "Payment",
+                `${commerceMoney(job.amount_micro_usdc)} · ${workLabel(job.payment_state)}`,
+              ],
+              ["Recipient", job.recipient],
+              [
+                "Delivery",
+                `${workLabel(job.job_state)} · ${job.delivery_schema || "schema not recorded"}`,
+              ],
+              ["Acceptance", job.acceptance],
+              [
+                "Outcome",
+                job.outcome_state === "measured"
+                  ? `Measured reward: ${job.reward.toFixed(6)}. This task-specific score is not a general learning result.`
+                  : workLabel(job.outcome_state),
+              ],
+              ["Transaction", job.transaction],
+              ["Artifact SHA-256", job.artifact_sha256],
+              ["Decision hash", job.decision_hash],
+            ]),
+          );
+        }
+        function renderWork(evidence) {
+          workSnapshot = evidence;
+          $("workHealth").textContent = evidence.financial_execution
+            ? "Execution enabled"
+            : "Execution off";
+          $("workHealth").dataset.state = evidence.financial_execution
+            ? "running"
+            : "guarded";
+          const signature = JSON.stringify(evidence.jobs);
+          if (signature !== workSignature) {
+            const list = $("workJobs");
+            const scroll = list.scrollTop;
+            const focused = document.activeElement?.dataset.workId;
+            const rows = evidence.jobs.map((job) => {
+              const row = workNode("button", undefined, "work-job");
+              row.type = "button";
+              row.dataset.workId = job.id;
+              row.setAttribute("aria-pressed", String(job.id === selectedWork));
+              row.append(
+                workNode("span", job.title, "work-job-title"),
+                workNode("span", job.provider, "work-job-provider"),
+              );
+              const meta = workNode("span", undefined, "work-job-meta");
+              meta.append(
+                workNode("span", workLabel(job.job_state)),
+                workNode("span", commerceMoney(job.amount_micro_usdc)),
+              );
+              row.append(meta);
+              row.addEventListener("click", () => {
+                selectedWork = job.id;
+                for (const child of list.children)
+                  child.setAttribute(
+                    "aria-pressed",
+                    String(child.dataset.workId === selectedWork),
+                  );
+                renderWorkDetail();
+              });
+              return row;
+            });
+            list.replaceChildren(
+              ...(rows.length
+                ? rows
+                : [
+                    workEmpty(
+                      "No commissioned work yet",
+                      "Production jobs appear here when a configured provider receives a real request. Local experiments and test payments are kept separate.",
+                    ),
+                  ]),
+            );
+            list.scrollTop = scroll;
+            if (focused)
+              rows
+                .find((row) => row.dataset.workId === focused)
+                ?.focus({ preventScroll: true });
+            workSignature = signature;
+          }
+          renderWorkDetail();
+          $("workCatalog").replaceChildren(
+            ...evidence.catalog.map((item) => {
+              const card = workNode("article");
+              card.append(
+                workNode("span", workLabel(item.status), "work-kicker"),
+                workNode("h3", item.name),
+                workNode("p", item.detail),
+              );
+              return card;
+            }),
+          );
+          const money = evidence.money,
+            policy = money.policy;
+          $("workBalance").textContent = commerceMoney(money.balance?.micro_usdc);
+          $("workCommitted").textContent = commerceMoney(money.committed_micro_usdc);
+          $("workSpent").textContent = commerceMoney(money.settled_micro_usdc);
+          $("workExecution").textContent = evidence.financial_execution
+            ? "Enabled"
+            : "Off";
+          $("workCreator").textContent = policy.creator_wallet || "Not configured";
+          $("workWallet").textContent = policy.spending_wallet || "Not configured";
+          $("copyWorkWallet").disabled = !policy.spending_wallet;
+          $("workPolicy").textContent =
+            `${commerceMoney(policy.per_day_micro_usdc)} / day · ${commerceMoney(policy.per_job_micro_usdc)} / job · ${commerceMoney(policy.reserve_micro_usdc)} reserve`;
+          $("workMoneyNote").textContent = money.balance
+            ? "Balance is an observed finalized USDC balance. A deposit is not proof of creator fees or a useful purchase."
+            : "No operating wallet balance has been established. Creator fees, claimed funds and available treasury are separate observations.";
+          const measured = evidence.jobs.filter(
+            (job) => job.outcome_state === "measured",
+          );
+          $("workResults").replaceChildren(
+            ...(measured.length
+              ? measured.map((job) => {
+                  const card = workNode("article", undefined, "work-result");
+                  card.append(
+                    workNode("h3", job.title),
+                    workNode("p", job.purpose),
+                    workFacts([
+                      ["Measured reward", job.reward.toFixed(6)],
+                      ["Artifact", job.artifact_sha256],
+                      [
+                        "Attribution",
+                        "Task-specific evaluated outcome; no claim of whole-system superiority.",
+                      ],
+                    ]),
+                  );
+                  return card;
+                })
+              : [
+                  workEmpty(
+                    "No measured paid outcomes",
+                    "Delivery comes first. Results appear after the declared evaluation has run; a successful transfer alone earns no learning credit.",
+                  ),
+                ]),
+          );
+          $("workEvidence").replaceChildren(
+            workFacts([
+              ["Journal events", String(evidence.integrity.events)],
+              ["Recorded head", evidence.integrity.head],
+              [
+                "Coverage",
+                `${evidence.jobs.length} recent jobs of ${evidence.total_jobs} recorded${evidence.coverage?.truncated ? "; use the payment ledger for complete event history" : ""}`,
+              ],
+              [
+                "Verification",
+                "Local hash continuity. Payment, delivery and outcome require their own evidence; this is not an independent attestation.",
+              ],
+            ]),
+          );
+          $("workExport").setAttribute("href", "/api/work");
+          $("workExport").setAttribute("aria-disabled", "false");
+          $("workExport").setAttribute("tabindex", "0");
+        }
+        function clearWork() {
+          workSnapshot = null;
+          workSignature = "";
+          $("workHealth").textContent = "Evidence unavailable";
+          $("workHealth").dataset.state = "unknown";
+          for (const id of ["workBalance", "workCommitted", "workSpent"])
+            $(id).textContent = "—";
+          $("workExecution").textContent = "Unknown";
+          for (const id of ["workCreator", "workWallet", "workPolicy"])
+            $(id).textContent = "Unavailable";
+          $("copyWorkWallet").disabled = true;
+          $("workJobs").replaceChildren(
+            workEmpty(
+              "Work evidence unavailable",
+              "The latest record could not be verified. Previous balances and job states are not displayed as current.",
+            ),
+          );
+          $("workDetail").replaceChildren(
+            workEmpty(
+              "Awaiting a verified record",
+              "Payment, delivery and outcome are unknown.",
+            ),
+          );
+          $("workResults").replaceChildren(
+            workEmpty(
+              "Outcome evidence unavailable",
+              "The latest result has not been verified.",
+            ),
+          );
+          $("workCatalog").replaceChildren();
+          $("workEvidence").replaceChildren(
+            workNode("p", "Current journal evidence is unavailable."),
+          );
+          $("workMoneyNote").textContent =
+            "Financial evidence is unavailable. Missing observations are unknown.";
+          $("workExport").removeAttribute("href");
+          $("workExport").setAttribute("aria-disabled", "true");
+          $("workExport").setAttribute("tabindex", "-1");
+        }
+        async function pollWork() {
+          if (document.hidden || workRequest) return;
+          workRequest = true;
+          try {
+            renderWork(validWorkEvidence(await fetchJSON("/api/work")));
+          } catch (_) {
+            clearWork();
+          } finally {
+            workRequest = false;
+          }
+        }
+        $("copyWorkWallet").addEventListener("click", async () => {
+          const wallet = workSnapshot?.money.policy.spending_wallet;
+          if (!wallet) return;
+          try {
+            await navigator.clipboard.writeText(wallet);
+            $("copyWorkWallet").textContent = "Copied";
+          } catch (_) {
+            $("copyWorkWallet").textContent = "Select address";
+          }
+        });
+        pollWork();
+        setInterval(pollWork, 5000);
+
         async function poll() {
           if (polling) return;
           polling = true;
@@ -15312,6 +16944,7 @@
               ? "Last received evidence"
               : "Evidence unavailable";
             $("feedBadge").textContent = "Evidence unavailable";
+            $("fieldSource").textContent = "Input source unavailable";
             if (!state) {
               $("fieldStatus").textContent = "Neural evidence unavailable";
               $("fieldStatus").classList.remove("hidden");
@@ -15473,6 +17106,7 @@
         }
         document.querySelectorAll('a[href^="#"]').forEach((a) =>
           a.addEventListener("click", (event) => {
+            if (a.dataset.workView) return;
             const target = document.getElementById(a.hash.slice(1));
             if (!target) return;
             event.preventDefault();

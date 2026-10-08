@@ -1,13 +1,13 @@
 {
   "name": "nuria-observatory",
   "private": true,
-  "version": "0.6.6",
+  "version": "0.7.0",
   "description": "Nuria observatory and documentation build",
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "python3 build-docs.py && prettier --write index.html docs-script-check.js",
-    "check:frontend": "node --check docs-script-check.js && node --test tests/neural-field.test.cjs tests/commerce-view.test.cjs tests/evidence-fetch.test.cjs"
+    "check:frontend": "node --check docs-script-check.js && node --test tests/neural-field.test.cjs tests/commerce-view.test.cjs tests/evidence-fetch.test.cjs tests/work-view.test.cjs"
   },
   "devDependencies": {
     "prettier": "3.9.9"

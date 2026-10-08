@@ -514,6 +514,7 @@ function draw(now) {
   lastPaint = now;
   if (!paused) motionClock += elapsed;
   const { w, h, dpr } = resize(canvas);
+  if (w < 1 || h < 120) return;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   if (!topology || !neuralFrame) return;
   const fresh =

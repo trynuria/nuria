@@ -22,6 +22,7 @@ ROUTES = {
     "/api/commerce": "commerce/status.json",
     "/api/commerce/index": "commerce/index.json",
     "/api/commerce/observer": "commerce/observer.json",
+    "/api/work": "commerce/work.json",
     "/api/topology": "topology.json",
     "/api/events": "events.json",
     "/api/receipts": "receipts.json",
@@ -150,7 +151,8 @@ class Handler(BaseHTTPRequestHandler):
                     900
                     if path == "/api/verify"
                     else 60
-                    if path == "/api/treasury" or path.startswith("/api/commerce")
+                    if path in ("/api/treasury", "/api/work")
+                    or path.startswith("/api/commerce")
                     else 15
                 )
             ):
