@@ -1,0 +1,35 @@
+[Unit]
+Description=Nuria finalized financial-wallet evidence
+After=network-online.target nuria-commerce.service
+
+[Service]
+User=nuria-commerce
+Group=nuria-commerce
+SupplementaryGroups=nuria-code nuria-public
+WorkingDirectory=/opt/nuria/commerce-current
+ExecStart=/opt/nuria/commerce-venv/bin/python -m commerce.observer
+EnvironmentFile=/etc/nuria-commerce/rpc.env
+Environment=NURIA_COMMERCE_CONFIG=/etc/nuria-commerce/policy.json
+Environment=NURIA_COMMERCE_DATA=/var/lib/nuria/commerce
+Environment=NURIA_COMMERCE_PUBLIC=/var/lib/nuria/public/commerce
+ReadWritePaths=/var/lib/nuria/commerce /var/lib/nuria/public/commerce
+UMask=0027
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryMax=192M
+CPUQuota=15%
+Environment=PYTHONDONTWRITEBYTECODE=1
+
+[Install]
+WantedBy=multi-user.target

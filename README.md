@@ -96,22 +96,22 @@ The visitor can orbit, filter populations, inspect an exact neuron ID, change re
 
 ## Source map
 
-| Source                                                           | Responsibility                                                                                     |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `cognition/brain.py`                                             | Spiking circuit, reward eligibility, checkpoints and matched probes                                |
-| `cognition/worker.py`                                            | Single cognitive writer and feedback loop                                                          |
-| `cognition/discovery.py`, `spike_sensor.py`, `lab_worker.py`     | Isolated hidden-world decisions, measured sensory spikes and durable lab history                   |
-| `cognition/learning.py`                                          | Source-specific readouts and controlled fixture tasks                                              |
-| `cognition/memory.py`, `policy.py`, `world.py`, `jobs.py`        | Recall, workspace, arbitration, habitat and local jobs                                             |
-| `cognition/journal.py`, `backup.py`                              | Cognitive integrity records and consistent SQLite snapshots                                        |
-| `cognition/fee_observer.py`, `treasury.py`, `payments.py`        | Read-only balances, published limits and unsigned payment preparation                              |
-| `commerce/`                                                      | Isolated exact x402 execution, Pump claim planning, purchase accounting and measured paid outcomes |
-| `life.py`, `engine.py`                                           | Original circuit, receipts and continuity                                                          |
-| `pump_feed.py`, `ingest.py`, `store.py`                          | Protocol decoding and durable finalized input ingestion                                            |
-| `verify_worker.py`, `api.py`, `publish.py`                       | Verification and bounded cached public reads                                                       |
-| `observatory.html`, `cognition-view.*`, `docs/`, `build-docs.py` | Static observatory and documentation sources                                                       |
-| `scripts/benchmark_cognition.py`, `tests/`                       | Bounded evaluations and regression checks                                                          |
-| `scripts/evaluate_discovery.py`, `discovery-view.*`              | Fresh-world paired validation and live lab evidence                                                |
+| Source                                                           | Responsibility                                                                                                     |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `cognition/brain.py`                                             | Spiking circuit, reward eligibility, checkpoints and matched probes                                                |
+| `cognition/worker.py`                                            | Single cognitive writer and feedback loop                                                                          |
+| `cognition/discovery.py`, `spike_sensor.py`, `lab_worker.py`     | Isolated hidden-world decisions, measured sensory spikes and durable lab history                                   |
+| `cognition/learning.py`                                          | Source-specific readouts and controlled fixture tasks                                                              |
+| `cognition/memory.py`, `policy.py`, `world.py`, `jobs.py`        | Recall, workspace, arbitration, habitat and local jobs                                                             |
+| `cognition/journal.py`, `backup.py`                              | Cognitive integrity records and consistent SQLite snapshots                                                        |
+| `cognition/fee_observer.py`, `treasury.py`, `payments.py`        | Read-only balances, published limits and unsigned payment preparation                                              |
+| `commerce/`                                                      | Managed x402 purchases, gated fee/funding/conversion rails, complete financial evidence and measured paid outcomes |
+| `life.py`, `engine.py`                                           | Original circuit, receipts and continuity                                                                          |
+| `pump_feed.py`, `ingest.py`, `store.py`                          | Protocol decoding and durable finalized input ingestion                                                            |
+| `verify_worker.py`, `api.py`, `publish.py`                       | Verification and bounded cached public reads                                                                       |
+| `observatory.html`, `cognition-view.*`, `docs/`, `build-docs.py` | Static observatory and documentation sources                                                                       |
+| `scripts/benchmark_cognition.py`, `tests/`                       | Bounded evaluations and regression checks                                                                          |
+| `scripts/evaluate_discovery.py`, `discovery-view.*`              | Fresh-world paired validation and live lab evidence                                                                |
 
 ## Recovery and evidence
 
@@ -154,3 +154,5 @@ Tests cover protocol decoding, fee-beneficiary identity, credential-safe failure
 CI uses read-only permissions and pinned actions and formatters. Runtime data, secrets, private infrastructure, provider identifiers and recovery archives are excluded. No license grant for Nuria-authored code is added by this publication. `SOURCE-MANIFEST.json` identifies published file hashes. The running release identifies component commits and source hashes; the unchanged original engine has its own historical startup hash.
 
 Brian2: [documentation](https://brian2.readthedocs.io/) and [reward-modulated STDP example](https://brian2.readthedocs.io/en/stable/examples/frompapers.Izhikevich_2007.html). Pump interfaces: [official public documentation](https://github.com/pump-fun/pump-public-docs). Consciousness research: [Butlin et al., 2023](https://arxiv.org/abs/2308.08708).
+
+Financial setup and authority boundaries: [activation](docs/launch-finance.md), [execution and proof](docs/spending.md). Production spending is disabled until project-specific accounts, wallets, allowances and live verification are configured.

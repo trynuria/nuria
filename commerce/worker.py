@@ -4,6 +4,7 @@ There is no HTTP listener or general transaction-signing endpoint. A fixed job
 catalog turns fresh recorded cognitive decisions into bounded purchase requests.
 """
 
+import base64
 import fcntl
 import hashlib
 import json
@@ -17,12 +18,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from solders.keypair import Keypair
+from solders.signature import Signature
+from solders.transaction import VersionedTransaction
 
 from cognition.fee_observer import rpc
 from commerce.config import SOURCE, Policy
+from commerce.evidence import export_pages
 from commerce.fees import observe as fee_observation
+from commerce.funding import Collector
 from commerce.ledger import Ledger, canonical
+from commerce.managed import ManagedSigner, invoke
+from commerce.reserve import Replenisher
 from commerce.solana import settlement, usdc_balance
+from commerce.swaps import Converter
+from commerce.sweep import Sweeper
 from commerce.transport import request
 from commerce.x402 import authorize, decode_header, delivery, quote
 from publish import publish
@@ -125,6 +134,7 @@ class Executor:
             "provider": provider.id,
             "decision_hash": selected["decision_hash"],
             "action": selected["action"],
+            "schema": provider.schema,
             "amount": int(accepted["amount"]),
             "accepted": accepted,
             "cursor": selected["cursor"],
@@ -142,10 +152,17 @@ class Executor:
         try:
             authorization = self.signer(keypair, accepted, rpc_url)
             encoded = decode_header(authorization["header"])["payload"]["transaction"]
+            payment = VersionedTransaction.from_bytes(
+                base64.b64decode(encoded, validate=True)
+            )
+            unsigned = VersionedTransaction.populate(
+                payment.message,
+                [Signature.default()] * payment.message.header.num_required_signatures,
+            )
             simulated = self.fetch(
                 "simulateTransaction",
                 [
-                    encoded,
+                    base64.b64encode(bytes(unsigned)).decode(),
                     {
                         "encoding": "base64",
                         "sigVerify": False,
@@ -193,7 +210,7 @@ class Executor:
                 raise ValueError("Provider response does not establish settlement")
             # Retain settlement evidence even when the merchant delivers bad data.
             try:
-                delivered = delivery(raw, policy.mint, received)
+                delivered = delivery(raw, policy.mint, received, provider.schema)
             except (ValueError, TypeError):
                 delivered = None
             response = {"receipt": receipt, "delivery": delivered}
@@ -272,6 +289,8 @@ class Executor:
             "SELECT id,terms,delivery FROM jobs WHERE status='delivered' LIMIT 20"
         ).fetchall():
             job, delivered = json.loads(terms), json.loads(raw)
+            if delivered["schema"] != "nuria.forecast.v1":
+                continue  # Market context has no implemented neural reward attribution.
             # A missing recent-cache window cannot establish the next outcome.
             if effects and min(e["event_order"] for e in effects) > job["cursor"] + 1:
                 continue
@@ -369,6 +388,10 @@ def main():
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     ledger = Ledger(private / "commerce.sqlite3")
     executor = Executor(ledger)
+    collector = Collector(ledger, rpc)
+    replenisher = Replenisher(ledger, rpc)
+    converter = Converter(ledger, rpc)
+    sweeper = Sweeper(ledger, rpc)
     stop = threading.Event()
     signal.signal(signal.SIGTERM, lambda *_: stop.set())
     signal.signal(signal.SIGINT, lambda *_: stop.set())
@@ -382,10 +405,13 @@ def main():
             "usdc_balance": None,
             "missing": [],
             "rails": {
-                "pump_claim": "unsigned_standard_mode_adapter",
+                "pump_claim": "guarded_standard_collection_disabled",
                 "x402": "exact_solana_usdc",
-                "sol_to_usdc": "not_connected",
-                "squads": "not_connected",
+                "creator_to_reserve": "guarded_native_forwarding_disabled",
+                "sol_to_usdc": "constrained_jupiter_v2_adapter_disabled",
+                "squads": "destination_bound_usdc_adapter_disabled",
+                "custody": "privy_parsed_transactions",
+                "batch_settlement": "requires_verified_merchant_and_channel",
             },
         }
         try:
@@ -394,11 +420,20 @@ def main():
             )
             result["policy"], result["missing"] = policy.public(), policy.missing()
             key_path = Path(os.environ.get("NURIA_COMMERCE_KEY", "/nonexistent"))
-            if not key_path.exists():
-                result["missing"].append("isolated_signing_key")
+            custody_path = Path(
+                os.environ.get("NURIA_PRIVY_CREDENTIALS", "/nonexistent")
+            )
+            if not (
+                custody_path.exists() if policy.signer == "privy" else key_path.exists()
+            ):
+                result["missing"].append(
+                    "managed_custody_configuration"
+                    if policy.signer == "privy"
+                    else "isolated_signing_key"
+                )
             if policy.mint and policy.creator_wallet:
                 result["fee_path"] = fee_observation(
-                    policy.mint, policy.creator_wallet, rpc
+                    policy.mint, policy.creator_wallet, rpc, policy.pool
                 )
             if policy.spending_wallet:
                 result["usdc_balance"] = usdc_balance(
@@ -406,9 +441,79 @@ def main():
                 )
                 if not result["usdc_balance"]["micro_usdc"]:
                     result["missing"].append("USDC_funding")
+            executor.reconcile(policy)
+            collector.reconcile()
+            replenisher.reconcile()
+            converter.reconcile()
+            sweeper.reconcile()
             if policy.enabled:
-                keypair = load_key(key_path, policy.spending_wallet)
-                executor.reconcile(policy)
+                if policy.signer == "privy":
+                    keypair = ManagedSigner(policy.spending_wallet, ledger, policy)
+                    result["custody"] = keypair.check()
+                else:
+                    keypair = load_key(key_path, policy.spending_wallet)
+                controls_path = Path(
+                    os.environ.get("NURIA_COLLECTION_CONFIG", "/nonexistent")
+                )
+                if controls_path.exists():
+                    controls = json.loads(controls_path.read_text())
+                    if controls.get("enabled"):
+                        collector.collect(
+                            result["fee_path"], policy, keypair, controls, time.time()
+                        )
+                        result["rails"]["pump_claim"] = (
+                            "guarded_standard_collection_configured"
+                        )
+                sweep_path = Path(os.environ.get("NURIA_SWEEP_CONFIG", "/nonexistent"))
+                if sweep_path.exists():
+                    controls = json.loads(sweep_path.read_text())
+                    if controls.get("enabled"):
+                        creator_file = Path(
+                            os.environ["NURIA_CREATOR_PRIVY_CREDENTIALS"]
+                        )
+                        creator_signer = ManagedSigner(
+                            policy.creator_wallet,
+                            ledger,
+                            policy,
+                            lambda value: invoke(value, creator_file),
+                        )
+                        creator_signer.check()
+                        sweeper.sweep(policy, creator_signer, controls, time.time())
+                        result["rails"]["creator_to_reserve"] = (
+                            "guarded_native_forwarding_configured"
+                        )
+                reserve_path = Path(
+                    os.environ.get("NURIA_RESERVE_CONFIG", "/nonexistent")
+                )
+                if reserve_path.exists():
+                    controls = json.loads(reserve_path.read_text())
+                    if controls.get("enabled"):
+                        replenisher.replenish(
+                            policy,
+                            keypair,
+                            controls,
+                            result["usdc_balance"],
+                            time.time(),
+                        )
+                        result["rails"]["squads"] = (
+                            "destination_bound_usdc_funding_configured"
+                        )
+                conversion_path = Path(
+                    os.environ.get("NURIA_CONVERSION_CONFIG", "/nonexistent")
+                )
+                if conversion_path.exists():
+                    controls = json.loads(conversion_path.read_text())
+                    if controls.get("enabled"):
+                        converter.convert(
+                            policy,
+                            keypair,
+                            controls,
+                            result["usdc_balance"],
+                            time.time(),
+                        )
+                        result["rails"]["sol_to_usdc"] = (
+                            "constrained_jupiter_v2_conversion_configured"
+                        )
                 cognition_path = Path(os.environ["NURIA_COMMERCE_COGNITION"])
                 if (
                     not 0
@@ -454,12 +559,23 @@ def main():
                 "Financial configuration, evidence or execution check failed; details are not inferred and payment retries remain blocked."
             )
         result.update(ledger.summary())
+        result["ledger_index"] = export_pages(ledger, public)
+        result["headroom"] = {
+            "trade_volume_independent": True,
+            "maximum_paid_jobs_per_day": 86400 // policy.cooldown_seconds
+            if result["policy"]
+            else None,
+            "monthly_signature_limit": result["policy"].get("monthly_signature_limit")
+            if result["policy"]
+            else None,
+            "scope": "Payment scheduling and signing are bounded independently of trade ingestion. Reaching a ceiling pauses purchases, not the neural stream.",
+        }
         result["feedback"] = executor.feedback()
         result["learning_rule"] = (
             "Choose matching neural action when 0.5 uncertainty + 0.25 surprise + 0.25 learned provider reward - 0.1 relative cost exceeds 0.1. Reward: local Brier error minus paid Brier error minus 0.01 × USDC price."
         )
         result["scope"] = (
-            "Configured exact USDC purchases only. Claim planning does not broadcast, SOL conversion is not connected, and no consciousness result is established."
+            "Managed exact USDC purchases, gated standard-Pump collection and destination-bound Squads USDC funding. SOL conversion requires its separate reviewed route. No consciousness result is established."
         )
         publish(public, "status.json", result)
         stop.wait(10)

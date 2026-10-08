@@ -29,6 +29,12 @@ class CognitiveApiTests(unittest.TestCase):
         (cls.public / "commerce" / "status.json").write_text(
             json.dumps({"phase": "guarded", "financial_execution": False})
         )
+        (cls.public / "commerce" / "index.json").write_text(
+            json.dumps({"pages": 1, "events": 1})
+        )
+        (cls.public / "commerce" / "ledger-0.json").write_text(
+            json.dumps({"page": 0, "records": [{"state": "fixture"}]})
+        )
         with socket.socket() as channel:
             channel.bind(("127.0.0.1", 0))
             cls.port = channel.getsockname()[1]
@@ -87,6 +93,23 @@ class CognitiveApiTests(unittest.TestCase):
         with self.assertRaises(urllib.error.HTTPError) as failure:
             self.get("/api/cognition/decisions")
         self.assertEqual(failure.exception.code, 503)
+
+    def test_financial_pages_are_bounded_and_cannot_traverse_paths(self):
+        self.assertEqual(self.get("/api/commerce/ledger?page=0")["page"], 0)
+        self.assertEqual(self.get("/download/commerce?page=0")["page"], 0)
+        for query, code in (
+            ("page=../policy", 400),
+            ("page=0&page=1", 400),
+            ("page=99999999999999", 400),
+            ("page=1", 404),
+            ("page=-1", 400),
+        ):
+            with (
+                self.subTest(query=query),
+                self.assertRaises(urllib.error.HTTPError) as error,
+            ):
+                self.get("/api/commerce/ledger?" + query)
+            self.assertEqual(error.exception.code, code)
 
     def test_discovery_is_cache_only_and_stale_is_unavailable(self):
         self.assertEqual(self.get("/api/discovery")["tick"], 12)

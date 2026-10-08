@@ -15,7 +15,7 @@ Pump/PumpSwap trade
   → future measured outcome + purchasing-action credit
 ```
 
-These arrows are distinct integrations. The implementation includes a reviewed-standard-mode **unsigned Pump claim planner** and an **exact Solana USDC buyer**. Automatic claim broadcasting, collection-wallet funding, PumpSwap/fee-sharing claims and SOL-to-USDC conversion are **not connected**. They must not be described as completed by a balance check or an offline test.
+These arrows are distinct integrations. The implementation now includes a **managed exact Solana USDC buyer**, **pinned standard Pump/PumpSwap collection**, **exact creator-to-reserve SOL forwarding**, **destination-bound Squads replenishment** and a **constrained Jupiter v2 SOL-to-USDC converter**. Each rail is independently disabled until its actual wallets, deployment pins, allowance and budget are configured. They have offline verification, not a funded production loop test. Unsupported fee-sharing and nonstandard launch modes remain blocked.
 
 A creator vault can aggregate income from multiple coins. Its whole balance cannot be attributed to Nuria without mint-specific trade and payout evidence. A permissionless payout says who received funds, not who endorsed the project.
 
@@ -58,7 +58,7 @@ Verified rewards update the purchasing action's value once. The feedback cursor,
 2. Accept one x402 v2 `exact` option for Solana mainnet and native USDC only. Recipient, facilitator fee payer and price must match policy. Seller blockhashes and unsupported extensions are rejected.
 3. Reserve integer micro-USDC using a SQLite immediate transaction. Apply action and UTC daily caps, reserve floor, outstanding authorizations and a global cooldown.
 4. Build through pinned `x402[svm]` 2.25.0. Before the key signs, inspect the v0 message: two required signers, no address lookup tables, exact known accounts, two fixed compute instructions, one exact USDC `TransferChecked`, and a bounded memo. No approval, delegate, authority change, account close, SOL transfer or arbitrary instruction is accepted.
-5. Simulate the exact partially signed transaction through project RPC. The configured facilitator pays gas; its signature remains absent until settlement.
+5. Strip signatures and simulate the exact message through project RPC. The configured facilitator pays gas; its signature remains absent until settlement.
 6. Persist the authorization before disclosing it to the merchant. Send it in `PAYMENT-SIGNATURE` once.
 7. Retain the merchant's `PAYMENT-RESPONSE`; verify the reported transaction through finalized RPC. Nuria's client signature must appear, and both associated-token balance deltas must equal the authorized USDC amount.
 8. Record payment settlement, then separately validate delivery and later score its outcome.
@@ -69,7 +69,9 @@ A timeout after authorization disclosure is ambiguous. Reserved, authorized and 
 
 `nuria-commerce` owns its private payment ledger and reads a root-managed policy. There is no inbound port or general signing endpoint. The public API only reads sanitized cache files. The neural worker has no RPC or signing credential. The SDK runs in a separate environment to preserve the existing neural dependency versions.
 
-The initial signer adapter accepts a dedicated 0600 key file owned only by the financial service. No key has been generated or installed. This is a hot-wallet adapter, not hardware custody: host root and whoever controls policy or key replacement retain ultimate authority. Keep the treasury separate and fund only a small operating balance. Software limits do not protect a hot key stolen outside the policy service. A managed signer or onchain spending allowance can strengthen that boundary later.
+The production adapter uses Privy’s official Node SDK 0.35.0 to sign parsed transactions. The worker holds a delegated authorization credential rather than a Solana wallet private key. Each request checks the wallet’s independent owner, the delegate’s exact policy attachment and a pinned, independently owned policy hash. Returned signatures must preserve the exact message and every other signature. No raw-message signing endpoint, key export or unrestricted signing API is called. The local key adapter is retained for explicitly configured tests only.
+
+UTC daily reservations, a monthly ceiling of 40,000 signing requests, a minimum sixty-second job interval and a three-unresolved-job breaker are enforced before new purchases. Custody errors consume their signing-request reservation. These controls do not make the host immutable: an administrator retains local control. Independent policy ownership and an onchain destination-bound reserve allowance constrain the operating credential. Privy’s stateful cumulative policy controls are currently Ethereum-specific; no hard Solana daily custody cap is claimed.
 
 Do not place wallet keys in chat, the browser, source control, research history or prompts. Recovery ownership and signer provisioning must be settled before funding. Do not reuse a personal or unrelated project's wallet.
 
@@ -89,11 +91,11 @@ An x402 buyer does not inherently need a separate x402 API key. The seller may r
 
 [Jupiter Swap API](https://developers.jup.ag/docs/swap) currently requires an API key. Automatic SOL-to-USDC conversion needs project-specific access plus an independently validated swap adapter, maximum SOL input, slippage/minimum USDC output, fee limits and reserve protection. A generic externally supplied transaction must not be forwarded to the signer. Token buybacks are a separate authorization and rail.
 
-[Squads spending limits](https://docs.squads.so/main/development/typescript/instructions/create-config-transaction) can restrict an agent's allowance by asset and destinations. They are not a drop-in replacement for x402's direct SPL authorization or arbitrary Jupiter swaps. No Squads multisig or paid custody account has been created.
+[Squads spending limits](https://docs.squads.so/main/development/typescript/instructions/create-config-transaction) can restrict an agent's allowance by asset and destinations. They are not a drop-in replacement for x402's direct SPL authorization or arbitrary Jupiter swaps. The reserve decoder and withdrawal builder support exact daily SOL or USDC allowances and match official SDK instruction fixtures. They require an independent quorum and an execution-only operating member. No Squads multisig or custody account has been created. SOL allowance and gas budgets require explicit native-unit configuration; a USDC merchant cap cannot authorize an arbitrary SOL withdrawal.
 
 ## Public evidence
 
-`/api/commerce` publishes current policy, readiness gaps, verified fee-path observations, finalized USDC inventory, job counts, settlement records, delivery hashes, measured rewards and a local event-hash chain. It never publishes the payment authorization header or key. Local hashes detect altered records; they are not independent attestations.
+`/api/commerce` publishes current policy, readiness gaps, verified fee-path observations, finalized USDC inventory, daily commitments, monthly signing requests, job counts, settlement records, delivery hashes, measured rewards and a local event-hash chain. It never publishes the payment authorization header or key. Local hashes detect altered records; they are not independent attestations.
 
 The Resources tab shows payment, delivery and evaluation separately. The original `/api/treasury` remains a read-only creator-wallet balance view. SOL balance, USDC inventory and attributed income remain distinct.
 
@@ -102,3 +104,25 @@ The Resources tab shows payment, delivery and evaluation separately. The origina
 Offline tests cover hostile invoices, wrong chains/assets/recipients, private DNS, caps, duplicate decisions, concurrent database handles, crash recovery, uncertain payments, exact settlement deltas, invalid deliveries, Pump mode/program gates, real SDK partial signatures and once-only cognitive feedback. They use ephemeral unfunded fixture keys and synthetic RPC responses. A funded end-to-end merchant test and the exact launch fee path still require configuration.
 
 References: [x402 buyers](https://docs.x402.org/getting-started/quickstart-for-buyers), [Solana signing](https://solana.com/docs/core/transactions/signing-in-production), [Pump public interfaces](https://github.com/pump-fun/pump-public-docs).
+
+## Full financial history
+
+A separate read-only RPC observer scans the configured financial wallets and their USDC and WSOL associated accounts. Signature pagination resumes across restart. Missing transactions remain pending; a retention gap remains a gap after later successful checks. SOL movements, SPL balance changes, failed-transaction gas and unplanned movements are recorded without inferring endorsement or token-specific fee provenance. Coverage is limited to the tracked addresses and available finalized RPC history.
+
+`/api/commerce/index` advertises the current event count, genesis and head. `/api/commerce/ledger?page=0` and subsequent zero-based pages expose **all recorded financial events**, 250 at a time. The summary retains only a recent window. Complete pages are immutable during normal operation; only the tail grows. `/download/commerce?page=0` downloads a page. The cached public API has no ledger database access, wallet key or signing authority.
+
+```sh
+python -m scripts.verify_commerce --output run/verified-commerce
+```
+
+The verifier downloads a fixed advertised snapshot with bounded page reads and validates every page digest and hash link. Page records preserve the canonical payload object. The rule is SHA256(previous hash as UTF-8 text + sorted, compact payload JSON as UTF-8). A locally generated chain detects inconsistency; an operator can rewrite it and it does not prove all real-world events were observed. Finalized transaction signatures and explicit sender/recipient deltas provide separate onchain evidence.
+
+Funding, conversion and merchant settlement are distinct events, so moving 25 USDC to the operating wallet is not also counted as 25 USDC of merchant spending. Paid delivery has a content hash. Forecast usefulness has its own later outcome; purchased CoinGecko market context receives no implemented neural-learning credit.
+
+See [financial activation](launch-finance.md) for exact prerequisites, custody and allowance boundaries, high-volume limits, and the batch-payment gate.
+
+## Ledger capacity
+
+A 2026-10-08 probe on the dedicated production host wrote 100,000 synthetic financial events with SQLite FULL/WAL durability in 65.57 seconds (about 1,525 events/second), exported all 400 pages in 9.10 seconds and verified every hash link in 8.01 seconds. The isolated unit was limited to 25% of one CPU and 256 MiB; measured peak RSS was 22,272 KiB. The fixture never touched production balances, signing or the production ledger. [Machine-readable measurement](finance-capacity.json).
+
+This measures event persistence, export and verification. It is not a real-trade ingest benchmark, browser-load test, merchant throughput measurement or 24-hour soak. RPC retention, provider quotas, payment signatures, disk growth and recovery capacity remain separate limits. Nothing is advertised as unlimited.

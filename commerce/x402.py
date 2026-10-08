@@ -4,6 +4,7 @@ import base64
 import hashlib
 import json
 import math
+from urllib.parse import urlsplit, urlunsplit
 
 from solders.message import MessageV0
 from solders.transaction import VersionedTransaction
@@ -58,7 +59,12 @@ def quote(header, provider):
     if len(matches) != 1:
         raise ValueError("Invoice requires exactly one approved Solana USDC option")
     resource = required.get("resource", {})
-    if resource and resource.get("url") != provider.endpoint:
+    resource_url = provider.endpoint
+    if provider.schema == "coingecko.sol-price.v1":
+        provider.validate()
+        parts = urlsplit(provider.endpoint)
+        resource_url = urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+    if resource and resource.get("url") != resource_url:
         raise ValueError("Invoice resource differs from approved endpoint")
     return matches[0]
 
@@ -169,8 +175,20 @@ def authorize(keypair, accepted, rpc_url, scheme_factory=None):
     }
 
 
-def delivery(raw, mint, now):
+def delivery(raw, mint, now, schema="nuria.forecast.v1"):
     body = json.loads(raw)
+    if schema == "coingecko.sol-price.v1":
+        price = body.get("solana", {}).get("usd")
+        if type(price) not in (int, float) or not math.isfinite(price) or price <= 0:
+            raise ValueError("Merchant price result is invalid")
+        return {
+            "schema": schema,
+            "usd": price,
+            "asset": "SOL",
+            "delivered_at": now,
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "scope": "Delivered market context. Correctness and learning benefit are not established.",
+        }
     probability, expiry = body.get("p_buy"), body.get("expires_at")
     if (
         body.get("schema") != "nuria.forecast.v1"

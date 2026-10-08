@@ -41,7 +41,7 @@ def request(endpoint, headers=None):
     try:
         connection.request(
             "GET",
-            url.path or "/",
+            (url.path or "/") + ("?" + url.query if url.query else ""),
             headers={
                 "Accept": "application/json",
                 "User-Agent": "Nuria-commerce/0.5",

@@ -3,9 +3,11 @@
 import json
 import os
 import time
+from collections import OrderedDict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from threading import Lock
+from urllib.parse import parse_qs, urlparse
 
 PUBLIC = Path(os.environ["NURIA_PUBLIC"])
 ROUTES = {
@@ -18,6 +20,8 @@ ROUTES = {
     "/api/discovery": "discovery/status.json",
     "/api/treasury": "treasury/treasury.json",
     "/api/commerce": "commerce/status.json",
+    "/api/commerce/index": "commerce/index.json",
+    "/api/commerce/observer": "commerce/observer.json",
     "/api/topology": "topology.json",
     "/api/events": "events.json",
     "/api/receipts": "receipts.json",
@@ -25,10 +29,16 @@ ROUTES = {
     "/download/ledger": "ledger.json",
     "/download/state": "network-state.json",
 }
-CACHE = {}
+CACHE = OrderedDict()
+CACHE_LOCK = Lock()
 
 
 def load(name):
+    with CACHE_LOCK:
+        return cached(name)
+
+
+def cached(name):
     now = time.monotonic()
     if name not in CACHE or now - CACHE[name][0] > 1:
         path = (
@@ -44,6 +54,9 @@ def load(name):
             / name
         )
         CACHE[name] = (now, path.read_bytes(), path.stat().st_mtime)
+        while len(CACHE) > 64:
+            CACHE.popitem(last=False)
+    CACHE.move_to_end(name)
     return CACHE[name][1:]
 
 
@@ -66,6 +79,30 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = urlparse(self.path).path
         try:
+            if path in ("/api/commerce/ledger", "/download/commerce"):
+                query = parse_qs(urlparse(self.path).query, keep_blank_values=True)
+                values = query.get("page", ["0"])
+                if (
+                    set(query) - {"page"}
+                    or len(values) != 1
+                    or not values[0].isdigit()
+                    or len(values[0]) > 8
+                ):
+                    return self.send(b'{"error":"Invalid ledger page"}', 400)
+                page = int(values[0])
+                index_raw, stamp = load("commerce/index.json")
+                index = json.loads(index_raw)
+                if time.time() - stamp > 60:
+                    return self.send(b'{"error":"Ledger index is stale"}', 503)
+                if page >= index["pages"]:
+                    return self.send(b'{"error":"Ledger page does not exist"}', 404)
+                raw, _ = load(f"commerce/ledger-{page}.json")
+                return self.send(
+                    raw,
+                    filename=f"nuria-commerce-{page}.json"
+                    if path.startswith("/download/")
+                    else None,
+                )
             if path == "/healthz":
                 raw, stamp = load("status.json")
                 state = json.loads(raw)
@@ -113,7 +150,7 @@ class Handler(BaseHTTPRequestHandler):
                     900
                     if path == "/api/verify"
                     else 60
-                    if path in ("/api/treasury", "/api/commerce")
+                    if path == "/api/treasury" or path.startswith("/api/commerce")
                     else 15
                 )
             ):

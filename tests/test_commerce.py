@@ -14,7 +14,10 @@ from unittest.mock import patch
 
 from solders.hash import Hash
 from solders.keypair import Keypair
+from solders.message import MessageV0
 from solders.pubkey import Pubkey
+from solders.signature import Signature
+from solders.transaction import VersionedTransaction
 
 from commerce.backup import snapshot
 from commerce.config import NETWORK, SOURCE, USDC, Policy, Provider
@@ -307,12 +310,26 @@ class CommerceTests(unittest.TestCase):
                 },
             }
 
+        fixture_payment = VersionedTransaction.populate(
+            MessageV0.try_compile(
+                Pubkey.from_string(policy.spending_wallet), [], [], Hash.default()
+            ),
+            [Signature.default()],
+        )
         executor = Executor(
             ledger,
             fetch,
             http,
             lambda *_: {
-                "header": encoded({"payload": {"transaction": "fixture"}}),
+                "header": encoded(
+                    {
+                        "payload": {
+                            "transaction": base64.b64encode(
+                                bytes(fixture_payment)
+                            ).decode()
+                        }
+                    }
+                ),
                 "client_signature": "fixture",
                 "transaction_sha256": "a" * 64,
             },

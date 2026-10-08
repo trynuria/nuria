@@ -3,9 +3,13 @@
   "mint": null,
   "creator_wallet": null,
   "spending_wallet": null,
-  "per_job_micro_usdc": 0,
-  "per_day_micro_usdc": 0,
-  "reserve_micro_usdc": 0,
-  "cooldown_seconds": 300,
-  "providers": []
+  "per_job_micro_usdc": 2000000,
+  "per_day_micro_usdc": 25000000,
+  "reserve_micro_usdc": 5000000,
+  "cooldown_seconds": 60,
+  "providers": [],
+  "signer": "privy",
+  "monthly_signature_limit": 40000,
+  "maximum_unresolved_jobs": 3,
+  "reserve_wallet": null
 }

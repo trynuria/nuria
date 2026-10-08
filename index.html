@@ -99,6 +99,7 @@
         display: none !important;
       }
       .app {
+        grid-template-columns: minmax(0, 1fr);
         height: 100%;
         height: 100dvh;
         display: grid;
@@ -5251,6 +5252,63 @@
         white-space: pre-wrap;
         overflow-wrap: anywhere;
       }
+      .commerce-limits,
+      .commerce-proof-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 24px;
+        font-size: 11px;
+        line-height: 20px;
+      }
+      .commerce-limits {
+        color: var(--muted);
+        margin: 20px 0;
+      }
+      .commerce-limits strong {
+        display: block;
+        font-weight: 400;
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+      }
+      .commerce-proof-links {
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+      }
+      .commerce-proof-links a {
+        color: var(--green);
+        text-decoration: none;
+      }
+      .commerce-proof-links a:hover {
+        text-decoration: underline;
+      }
+      .commerce-events {
+        height: 176px;
+        overflow: auto;
+        margin: 8px 0 18px;
+      }
+      .commerce-events > div {
+        display: grid;
+        grid-template-columns: 100px minmax(0, 1fr);
+        gap: 14px;
+        padding: 7px 0;
+        font-size: 11px;
+        line-height: 16px;
+      }
+      .commerce-events code {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--muted);
+      }
+      .commerce-events p {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      @media (max-width: 600px) {
+        .header .live-status {
+          display: none;
+        }
+      }
       @media (max-width: 600px) {
         .commerce-stats {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7012,7 +7070,7 @@
                 ></div
               ><section class="commerce-panel" aria-labelledby="commerceTitle"
                 ><div class="commerce-heading"
-                  ><h3 id="commerceTitle">Paid jobs</h3
+                  ><h3 id="commerceTitle">Money & results</h3
                   ><span class="badge" id="commercePhase">Checking evidence</span></div
                 ><div class="commerce-stats"
                   ><div
@@ -7036,6 +7094,25 @@
                   ></div
                 ><p class="commerce-note" id="commerceNote"
                   >Waiting for independent payment evidence.</p
+                ><div class="commerce-limits"
+                  ><span>Daily ceiling <strong id="commerceDailyLimit">—</strong></span
+                  ><span>Per job <strong id="commerceJobLimit">—</strong></span
+                  ><span
+                    >Committed today <strong id="commerceToday">—</strong></span
+                  ></div
+                ><div class="commerce-proof-links"
+                  ><a href="/api/commerce/index" target="_blank" rel="noopener"
+                    >Ledger index</a
+                  ><a href="/download/commerce?page=0" id="commerceDownload"
+                    >Download records</a
+                  ><a
+                    href="https://github.com/trynuria/nuria/blob/main/docs/spending.md"
+                    target="_blank"
+                    rel="noopener"
+                    >How to verify</a
+                  ></div
+                ><div class="commerce-events" id="commerceTimeline" aria-live="polite"
+                  ><p>No money movements recorded.</p></div
                 ><details
                   ><summary>Policy and purchase records</summary
                   ><pre id="commerceRecords">No evidence received.</pre>
@@ -7649,128 +7726,138 @@
                   data-title="Fees & resources"
                   data-category="The system"
                 >
-                  <div class="docs-eyebrow">Nuria / Finance</div
-                  ><h1 tabindex="-1">Fees & resources</h1>
+                  <div class="docs-eyebrow">Nuria / Finance</div>
+                  <h1 tabindex="-1">Fees & resources</h1>
                   <p class="docs-lead"
-                    >A purchase has three outcomes to verify: payment, delivery and
-                    usefulness.</p
+                    >Follow the money. Then check what it delivered.</p
                   >
-                  <h2 id="resources--flow">From trades to purchases</h2>
+                  <h2 id="resources--flow">The money path</h2>
                   <p
-                    >Creator fees accrue inside Pump-controlled vaults. Collection
-                    transfers those funds to the configured beneficiary. A separate
-                    spending wallet holds a limited operating balance. Nuria can use
-                    that balance for approved jobs. A trade, vault balance, creator
-                    payout and provider payment are separate records.</p
-                  >
-                  <p
-                    >The current adapter checks the live Pump curve creator and explicit
-                    mode fields. It prepares an unsigned native-SOL claim only for a
-                    reviewed standard mode and a pinned deployed program. Fee-sharing,
-                    holder rewards, legacy layouts and PumpSwap collection remain
-                    separate activation checks. A creator vault can hold fees from more
-                    than one token; its balance is not automatically Nuria income.</p
-                  >
-                  <h2 id="resources--payments">What x402 does</h2>
-                  <p
-                    >A provider returns HTTP 402 with a price and payment terms. Nuria
-                    accepts only the configured Solana network, USDC mint, provider
-                    recipient and facilitator fee payer. The isolated service reserves
-                    the price, inspects the SDK’s exact transfer, simulates it and sends
-                    the signed payment to that provider. The facilitator covers the
-                    transaction fee and submits it.</p
+                    >Creator fees accrue in protocol vaults. A verified collection pays
+                    the existing beneficiary. An independently owned Squads reserve can
+                    fund a single operating destination through a daily allowance. The
+                    isolated worker converts bounded SOL inventory into USDC and pays an
+                    approved provider through x402. Collection, funding, conversion and
+                    purchase have separate records.</p
                   >
                   <p
-                    >Finalized RPC evidence must contain Nuria’s authorization and the
-                    exact outgoing and incoming USDC amounts. A successful HTTP response
-                    alone does not prove payment. A finalized payment alone does not
-                    prove a useful result.</p
-                  >
-                  <h2 id="resources--local">How jobs affect decisions</h2>
-                  <p
-                    >The initial external job contract is a time-limited probability
-                    forecast for the configured token. A matching cognitive action,
-                    uncertainty, surprise, learned provider value and price determine
-                    whether a job is worth trying. Simulated inputs cannot trigger
-                    purchases.</p
+                    >Standard Pump and WSOL PumpSwap collection require verified mode
+                    fields, exact mint and beneficiary, and pinned deployed program
+                    data. Sharing, holder rewards, cashback, mayhem and unknown layouts
+                    are blocked. Creator vaults can aggregate several tokens; their
+                    balance is not automatically Nuria income.</p
                   >
                   <p
-                    >A valid delivered forecast is compared with a later finalized trade
-                    and Nuria’s recorded local forecast. Measured improvement minus a
-                    published cost penalty updates the purchasing action’s value once.
-                    Invalid data earns no delivery credit. Missing history, unknown
-                    settlement or a missing future trade cannot establish success. This
-                    operational comparison is not a controlled research benchmark or
-                    evidence of consciousness.</p
+                    >The collection beneficiary and reserve can be different wallets. A
+                    separate creator-wallet delegate can forward SOL only to the
+                    configured reserve, within explicit native-unit and gas ceilings.
+                    The operating signer cannot sweep an unrelated creator wallet. If
+                    the verified reserve receives fees directly, forwarding is
+                    unnecessary.</p
                   >
-                  <h2 id="resources--authority">Limits and key isolation</h2>
+                  <h2 id="resources--payments">What a payment proves</h2>
                   <p
-                    >The payment worker runs under a separate service identity. It has
-                    no public listener or general signing endpoint. Its policy fixes
-                    providers, recipients, per-job and UTC daily limits, reserve floor
-                    and cooldown. The public API and neural worker hold no wallet
-                    signing key. Anyone able to change that policy or replace the signer
-                    retains ultimate administrative control.</p
+                    >The x402 buyer accepts one approved Solana-mainnet USDC invoice.
+                    Before signing, it checks the exact amount, recipient, fee payer,
+                    accounts and instructions. It records authorization before sending
+                    it, then verifies the finalized transaction and both token-balance
+                    deltas. A timeout never triggers a second automatic payment.</p
                   >
                   <p
-                    >Each authorization is recorded before disclosure. Ambiguous
-                    payments stay reserved across restarts and day boundaries. They are
-                    reconciled rather than automatically paid again. Purchase records,
-                    result hashes, policy and the local integrity chain are published at
-                    <code>/api/commerce</code>.</p
+                    >Payment, delivery and usefulness are different outcomes. A
+                    delivered forecast has a content hash and can later be compared with
+                    an observed trade. CoinGecko market context has a separate delivery
+                    contract; receiving a price is not a demonstrated neural-learning
+                    result.</p
                   >
-                  <h2 id="resources--conversion">SOL and USDC are separate</h2>
+                  <h2 id="resources--authority">Standing limits</h2>
                   <p
-                    >The x402 rail pays native Solana USDC. Pump fees may arrive as SOL
-                    or wrapped SOL. An unsigned claim does not fund USDC purchases.
-                    Automatic SOL-to-USDC conversion and automatic funding from the
-                    collection wallet are not connected. Jupiter integration needs
-                    project API access, a reviewed swap adapter and separate swap
-                    limits. A small USDC operating balance can enable the first paid-job
-                    test without pretending that conversion is already automatic.</p
+                    >The starting merchant ceilings are 25 USDC per UTC day and 2 USDC
+                    per job, with a 5-USDC inventory floor, a minimum sixty-second
+                    interval, a three-unresolved-job breaker and 40,000 monthly signing
+                    requests. They are ceilings, not targets. Trade processing never
+                    signs a payment for every trade.</p
+                  >
+                  <p
+                    >Privy’s managed wallet signs parsed transactions. The service
+                    verifies an independently owned wallet and pinned policy; it
+                    receives a delegated credential, not the wallet owner’s recovery
+                    key. Squads allowance checks require an execution-only operating
+                    member, an independent quorum and exactly one destination. An
+                    onchain funding allowance bounds replenishment; existing operating
+                    inventory remains additional exposure. Local daily USDC limits are
+                    not advertised as a Solana custody-level daily cap.</p
+                  >
+                  <h2 id="resources--conversion">Conversion and reserve</h2>
+                  <p
+                    >Jupiter v2 returns the instructions for a bounded SOL-to-USDC
+                    conversion. The worker checks the onchain output floor, source and
+                    destination accounts, known route layout, finalized lookup-table
+                    contents, slippage, program pin and network-fee ceiling. Unexpected
+                    transfers, approvals, tips and instructions are rejected. Network
+                    fees, rent and native-SOL allowances have separate budgets; a
+                    25-USDC merchant ceiling does not authorize an arbitrary SOL
+                    withdrawal.</p
+                  >
+                  <h2 id="resources--records">Complete money records</h2>
+                  <p
+                    >A separate observer reconciles the tracked financial wallets and
+                    their USDC/WSOL accounts. Pagination survives restarts. Missing
+                    transactions remain pending and history gaps remain visible.
+                    Unplanned transfers and failed-transaction gas are recorded too,
+                    within available finalized RPC history.</p
+                  >
+                  <p
+                    >The Resources panel shows current policy and recent records.
+                    <a href="/api/commerce/index" target="_blank" rel="noopener"
+                      >The ledger index</a
+                    >
+                    describes the complete history. Each
+                    <a href="/api/commerce/ledger?page=0" target="_blank" rel="noopener"
+                      >ledger page</a
+                    >
+                    contains up to 250 events. The public snapshot verifier checks every
+                    hash link. These local hashes establish continuity, not an
+                    independent witness or proof that every possible event was observed.
+                    Transaction signatures and finalized balance deltas provide separate
+                    onchain evidence.</p
                   >
                   <h2 id="resources--activation">Current activation state</h2>
                   <p
-                    >Financial execution is disabled. Activation requires the exact mint
-                    and verified fee beneficiary, a dedicated spending wallet and
-                    signer, approved limits and a funded USDC account, and a real
-                    provider delivering the supported result contract. No paid job or
-                    real transfer is claimed by the offline tests.</p
+                    >Financial execution remains disabled. The adapters and ledger are
+                    installed; project-specific custody access, exact token and wallets,
+                    reviewed allowances and program pins, funding and a real end-to-end
+                    merchant test remain required. Offline tests do not establish a live
+                    fee-funded loop.</p
                   >
                   <p
-                    >Local experiments continue on included server capacity and report
-                    zero incremental SOL spending. Squads, managed signing, token
-                    buybacks, subscriptions and physical purchases are not active
-                    integrations.</p
+                    >Solana batch-payment channels are a possible higher-volume rail. No
+                    channel is opened until a real merchant and facilitator have
+                    demonstrated compatible support, bounded escrow, voucher authority
+                    and refund behavior. Batching onchain settlement does not
+                    automatically remove per-signature custody costs.</p
                   >
-                  <h2 id="resources--protocol">References</h2>
+                  <h2 id="resources--protocol">Technical specification</h2>
                   <p
                     ><a
-                      href="https://github.com/pump-fun/pump-public-docs"
-                      target="_blank"
-                      rel="noreferrer"
-                      >Pump protocol</a
-                    >
-                    ·
-                    <a
-                      href="https://docs.x402.org/getting-started/quickstart-for-buyers"
-                      target="_blank"
-                      rel="noreferrer"
-                      >x402 buyers</a
-                    >
-                    ·
-                    <a
-                      href="https://developers.jup.ag/docs/swap"
-                      target="_blank"
-                      rel="noreferrer"
-                      >Jupiter swaps</a
-                    >
-                    ·
-                    <a
                       href="https://github.com/trynuria/nuria/blob/main/docs/spending.md"
                       target="_blank"
                       rel="noreferrer"
-                      >Execution specification</a
+                      >Execution and evidence</a
+                    >
+                    ·
+                    <a
+                      href="https://github.com/trynuria/nuria/blob/main/docs/launch-finance.md"
+                      target="_blank"
+                      rel="noreferrer"
+                      >Activation requirements</a
+                    >
+                    ·
+                    <a
+                      href="https://docs.x402.org/schemes/batch-settlement"
+                      target="_blank"
+                      rel="noreferrer"
+                      >x402 batch channels</a
                     ></p
                   >
                 </article>
@@ -10775,6 +10862,45 @@
               (counts.delivered || 0) + (counts.evaluated || 0),
             );
             $("commerceEvaluated").textContent = fmt(counts.evaluated || 0);
+            $("commerceDailyLimit").textContent = commerceMoney(
+              evidence.policy?.per_day_micro_usdc,
+            );
+            $("commerceJobLimit").textContent = commerceMoney(
+              evidence.policy?.per_job_micro_usdc,
+            );
+            $("commerceToday").textContent = commerceMoney(
+              evidence.daily_committed_micro_usdc,
+            );
+            $("commerceDownload").setAttribute(
+              "aria-disabled",
+              evidence.ledger_index?.pages ? "false" : "true",
+            );
+            $("commerceDownload").style.pointerEvents = evidence.ledger_index?.pages
+              ? ""
+              : "none";
+            const timeline = $("commerceTimeline");
+            const events = (evidence.records || []).slice(0, 6);
+            const signature = events.map((event) => event.hash).join(":");
+            if (timeline.dataset.signature !== signature) {
+              timeline.replaceChildren();
+              for (const event of events) {
+                const row = document.createElement("div");
+                const label = document.createElement("span");
+                label.textContent = event.state.replaceAll("_", " ");
+                const detail = document.createElement("code");
+                detail.textContent =
+                  event.transaction || event.recipient || event.job_id || event.hash;
+                detail.title = detail.textContent;
+                row.append(label, detail);
+                timeline.append(row);
+              }
+              if (!events.length) {
+                const empty = document.createElement("p");
+                empty.textContent = "No money movements recorded.";
+                timeline.append(empty);
+              }
+              timeline.dataset.signature = signature;
+            }
             commerceWallet = evidence.policy?.spending_wallet || null;
             $("commerceWallet").textContent = commerceWallet || "Not configured";
             $("commerceWallet").title = commerceWallet || "";
@@ -10789,13 +10915,14 @@
               verified_provider: "provider",
               spending_limits: "limits",
               isolated_signing_key: "signer",
+              managed_custody_configuration: "managed signer",
               USDC_funding: "USDC funding",
             };
             $("commerceNote").textContent =
               evidence.error ||
               (evidence.missing?.length
                 ? `To connect: ${evidence.missing.map((item) => names[item] || item).join(", ")}.`
-                : "Payments, delivered data and evaluated outcomes have separate records. SOL conversion is not connected.");
+                : "Payments, delivered data and evaluated outcomes have separate records. Each financial rail reports its own activation status.");
             $("commerceRecords").textContent = JSON.stringify(
               {
                 policy: evidence.policy,
@@ -10815,6 +10942,9 @@
               "commerceSpent",
               "commerceDelivered",
               "commerceEvaluated",
+              "commerceDailyLimit",
+              "commerceJobLimit",
+              "commerceToday",
             ])
               $(name).textContent = "—";
             $("commerceNote").textContent =

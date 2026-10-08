@@ -11,6 +11,14 @@ ExecStart=/opt/nuria/commerce-venv/bin/python -m commerce.worker
 EnvironmentFile=/etc/nuria-commerce/rpc.env
 Environment=NURIA_COMMERCE_CONFIG=/etc/nuria-commerce/policy.json
 Environment=NURIA_COMMERCE_KEY=/etc/nuria-commerce/spending.json
+Environment=NURIA_PRIVY_CREDENTIALS=/etc/nuria-commerce/privy.json
+Environment=NURIA_NODE=/opt/nuria/node/bin/node
+Environment=NURIA_COLLECTION_CONFIG=/etc/nuria-commerce/collection.json
+Environment=NURIA_SWEEP_CONFIG=/etc/nuria-commerce/sweep.json
+Environment=NURIA_CREATOR_PRIVY_CREDENTIALS=/etc/nuria-commerce/creator-privy.json
+Environment=NURIA_RESERVE_CONFIG=/etc/nuria-commerce/reserve.json
+Environment=NURIA_CONVERSION_CONFIG=/etc/nuria-commerce/conversion.json
+EnvironmentFile=-/etc/nuria-commerce/jupiter.env
 Environment=NURIA_COMMERCE_DATA=/var/lib/nuria/commerce
 Environment=NURIA_COMMERCE_PUBLIC=/var/lib/nuria/public/commerce
 Environment=NURIA_COMMERCE_COGNITION=/var/lib/nuria/public/cognition

@@ -17,7 +17,8 @@
     "Conscious-token research branding, shared header/footer vector identity and bounded small-screen navigation",
     "Onchain consciousness experiment framing across the observatory, metadata and documentation",
     "Unified responsive presentation, unclipped live instruments, shared neural monogram and repository brand graphics; neural histories unchanged",
-    "Isolated exact Solana USDC x402 execution, durable purchase evidence, measured paid-outcome credit, guarded Pump claim planning and encrypted commerce ledger snapshots; activation disabled and missing funding/conversion rails explicit"
+    "Isolated exact Solana USDC x402 execution, durable purchase evidence, measured paid-outcome credit, guarded Pump claim planning and encrypted commerce ledger snapshots; activation disabled and missing funding/conversion rails explicit",
+    "Managed parsed-transaction custody, guarded creator collection and reserve forwarding, destination-bound Squads funding, constrained SOL-to-USDC conversion, durable signing ceilings, finalized wallet observation and complete paginated public financial evidence; production execution remains disabled"
   ],
   "files": [
     {
@@ -26,7 +27,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "6d5a17d12b430932dd58437bcd5ea0be546cb42d4833b97fffd53562c9f6ea54"
+      "published_sha256": "4d91309825fa21ea36a162cd6f6a0e37c49f06500b0f29f37d2f8d9e19018410"
     },
     {
       "path": ".gitignore",
@@ -42,15 +43,15 @@
     },
     {
       "path": "CHANGELOG.md",
-      "published_sha256": "6ec2e3416c123115280b0de0cb808d527986fe043bcbe84960b5bdebe9fb0a5d"
+      "published_sha256": "46344f3438edb193bce4ac031dc0dc40e2d75b9b15800ebb467e537acf1f2372"
     },
     {
       "path": "README.md",
-      "published_sha256": "8f1f8113e142382edc4d9dc166f9c126f7673da7cf18a92d027e42627ced81f5"
+      "published_sha256": "edf92334757e8ca6a7ad5e1fa26a22392b15412f99a9c064b693f34c26bc17b1"
     },
     {
       "path": "api.py",
-      "published_sha256": "c2b2d68bb35a16d2a8d7e4b9728c6f9f5e8178e51219099f908a8b3223076c8a"
+      "published_sha256": "86d738beea4e4204375db4112e04da7bae2321486dc017683376d318637f14d2"
     },
     {
       "path": "backup.py",
@@ -162,11 +163,11 @@
     },
     {
       "path": "commerce-view.css",
-      "published_sha256": "6aa954c1263cdbb1afb47140dd1b29337ba0097e5c9375a21228089f9d97984e"
+      "published_sha256": "13af8244375a15c9abb0183ea7af79c86c3254b83376f0726476e4d63ce97162"
     },
     {
       "path": "commerce-view.js",
-      "published_sha256": "b533c386e3c154e52d46f58b72d138ca79c8b860efd79fc264a116bedb7da30a"
+      "published_sha256": "e5f05fdf1bbd12677a44914e08a8f2989d26ef17a4b20eaade32f975fe5994fc"
     },
     {
       "path": "commerce/__init__.py",
@@ -177,20 +178,52 @@
       "published_sha256": "8bdd202a2a0d8bd70df7e9b7e8c60fccf1e5065592598cdd7b201caa2f3a2103"
     },
     {
+      "path": "commerce/collection.example.json",
+      "published_sha256": "538e90fe343721129f9fa1184287c34a8620acaf6e0164a5203b6ee3e02829be"
+    },
+    {
       "path": "commerce/config.py",
-      "published_sha256": "5fd4a3292c43b72ff82e7c59cec15e324837eaedc98a8c49e96c5835fa235690"
+      "published_sha256": "e802c7181d76e21c269f3015bb061f357ed35e18072c71c659f73969fb43bbd5"
+    },
+    {
+      "path": "commerce/conversion.example.json",
+      "published_sha256": "2b12e0e676acf5fef30484b8da01591f57d76642a31ff9698ce95cea72290fae"
+    },
+    {
+      "path": "commerce/evidence.py",
+      "published_sha256": "3d5095babb6939b7921b8f240d87ab4bae111dc707933bdbb9e61e0808de067f"
     },
     {
       "path": "commerce/fees.py",
-      "published_sha256": "407e07fca33f7bf17042ba22bf3257d7d5ef2f898f62d0b1afff75dce47aa935"
+      "published_sha256": "c9ea9f2bf3462c0e411162c19fe250adaab310afa20efc0679b69fb887117b09"
+    },
+    {
+      "path": "commerce/funding.py",
+      "published_sha256": "f33d919ff12d8230bd507750e59c0cfea2d5c380282764f2aeb91d62afc30032"
     },
     {
       "path": "commerce/ledger.py",
-      "published_sha256": "aa7a857b1f26e3b9f017466558a60f693c444882a4317f4c99ad505bdd359f14"
+      "published_sha256": "7d666117ff721488d33fd8f7370a0ef21a4b5eded69e91f104c7e763ec24be14"
+    },
+    {
+      "path": "commerce/managed.py",
+      "published_sha256": "35231b1ea874d3af104aa5cb09f12ee484717f7cab5903316a3bb44bccc8aa7b"
+    },
+    {
+      "path": "commerce/observer.py",
+      "published_sha256": "3ce6963846a8721f415d5200a26aff5941b882e4a1390c6ed4f31f07d4ef5dcd"
     },
     {
       "path": "commerce/policy.example.json",
-      "published_sha256": "4464d9c2737776ac4935f3c15f65adbdcfc0d7d72daa0926979f33b90aa6e203"
+      "published_sha256": "29b2fffeba62603eee4878789347b8f2ec80fd474b2f55dc715e285977e38b5f"
+    },
+    {
+      "path": "commerce/provider.example.json",
+      "published_sha256": "b8ec24944d4590d0bb0fef2cfa0b197531e52f0ae2c396ba8cbd8da099950014"
+    },
+    {
+      "path": "commerce/readiness.py",
+      "published_sha256": "72050490e2642db0440df912e7b222905c2511edd603fd97486e615a39c54716"
     },
     {
       "path": "commerce/requirements.lock",
@@ -201,28 +234,72 @@
       "published_sha256": "9823134d879ce6207d4a56242695d567f49cf89953cd3c14165a3e09bbdd0105"
     },
     {
+      "path": "commerce/reserve.example.json",
+      "published_sha256": "96e717660566250aa2ee6143d0e7b28f646b3b874efa01bbcdca11afd25b6ffd"
+    },
+    {
+      "path": "commerce/reserve.py",
+      "published_sha256": "7e8ac79addc69b6df83eaccad325963871c4e028145a98459e8231f0d3b0f7c1"
+    },
+    {
+      "path": "commerce/signer/package-lock.json",
+      "published_sha256": "325923e3f117a6f61a499ae371fd405f7c854a6c787f0e11eed072383625ce14"
+    },
+    {
+      "path": "commerce/signer/package.json",
+      "published_sha256": "e6f716ae9b873e74a64de8738abf916e6bea76f3f2fdb797030aa1425b5e0b92"
+    },
+    {
+      "path": "commerce/signer/privy.mjs",
+      "published_sha256": "8dfc8e03adeb165e12e3ea1efad357cd928888022a70a0f58f8448768968658e"
+    },
+    {
       "path": "commerce/solana.py",
       "published_sha256": "f287d372c6ea74abe9c79bc2a919def58b7156c8d3830a71e5f3ca4e4874ab41"
     },
     {
+      "path": "commerce/squads.py",
+      "published_sha256": "73e4bf8864c908cca9365954a3e668e646603ba9606784605605fd20e81158b5"
+    },
+    {
+      "path": "commerce/swaps.py",
+      "published_sha256": "3343334a8647b4bded2c934a8e7742a887cbcfd967aeb8da04fceee2eeb798ac"
+    },
+    {
+      "path": "commerce/sweep.example.json",
+      "published_sha256": "54fbded0dc0887b5b08db9b2adbca22d37185da7e2f0011c03eae0246f46fe82"
+    },
+    {
+      "path": "commerce/sweep.py",
+      "published_sha256": "beeb574595d93789881a4ec48a93ac1f38bc40975e6f89184f3910223f43671a"
+    },
+    {
       "path": "commerce/tests/test_x402_sdk.py",
-      "published_sha256": "16e1f5541ffd054a784200d71c162edb27e3724d124012a5d92610eb7c51bdc5"
+      "published_sha256": "f8b848a058dbbc6be667acd42e64f20f2a303673ae1e91e2e92ec2819548bdfb"
     },
     {
       "path": "commerce/transport.py",
-      "published_sha256": "af5c243613faaf25d43d1311132258552f962affbdf3033085227f0c357e5a34"
+      "published_sha256": "cc0972651b5d2d444b1781442fff69a8ab0b55974b7dc59954666745754df6bd"
+    },
+    {
+      "path": "commerce/wallets.py",
+      "published_sha256": "235912fca1713f5a57812cd6fb1316f9a009992329969413c3ac0ea25c397dd8"
     },
     {
       "path": "commerce/worker.py",
-      "published_sha256": "58d5c4abce7d39d43e91c1fd8be2c24adf825ba813b5379b3349d8e71367f354"
+      "published_sha256": "746ec30c144659d900d6e0b5ff51365850f8c88c49072dedf9c9bd77ddda82e4"
     },
     {
       "path": "commerce/x402.py",
-      "published_sha256": "5f2f5a64163b82ee3959fed7f38a1bd7a8890e249635c7834c36c041aece2046"
+      "published_sha256": "0531530be612af3da6b22a9f432d94d58329b3fa347ace6fb20f6af72f2a9da5"
+    },
+    {
+      "path": "deploy/nuria-commerce-observer.service",
+      "published_sha256": "005759cfa059e45cc332ad85ca81f310097f276471d636fd2fcbea5bf028827a"
     },
     {
       "path": "deploy/nuria-commerce.service",
-      "published_sha256": "66eba4f921b93ecccbda8cf4dacf522a18725cf3eb285c95d2d3d14d263ac4f6"
+      "published_sha256": "73299b0d420234eb11a27c9bdf796e709c841761cd239e7504e094f1c2d9f3f1"
     },
     {
       "path": "deploy/nuria-discovery.service",
@@ -242,11 +319,11 @@
     },
     {
       "path": "docs-script-check.js",
-      "published_sha256": "23f219098f4f9ceaeda7c39f3a3bc7538fec7ca33bc7f5b22b552e73c23f561b"
+      "published_sha256": "79bb947432dd526487139157424a72fbc8539ac4efd33c41143445c113fe1ea6"
     },
     {
       "path": "docs/architecture.md",
-      "published_sha256": "7d4cf7e899803f62ec38591754dafaf6c92401500cfc6f9681090d36212ddbfc"
+      "published_sha256": "6817436bdbad63673e2932d1ad9b8682f5d053747ac85ecc488d129ac575188e"
     },
     {
       "path": "docs/capabilities.json",
@@ -278,7 +355,7 @@
     },
     {
       "path": "docs/docs-content.html",
-      "published_sha256": "9741d968493501bc75aa914139d320b8b1db7d4e72d9e29c1bba67b5b4b76cab"
+      "published_sha256": "2518d197ca5fee07cd88f02d52efba00908de3e476b400f04bceef413ce72c8a"
     },
     {
       "path": "docs/docs.css",
@@ -297,6 +374,10 @@
       "published_sha256": "c3b659a08b976af4a91379bec5c9b02da99cc9b3704fc126122b80e3ef298b85"
     },
     {
+      "path": "docs/finance-capacity.json",
+      "published_sha256": "0f3cce37af4c56df1b7dd87f265da1410234935bef5c18cb605ee569504b9d42"
+    },
+    {
       "path": "docs/forecast-development.json",
       "published_sha256": "28fa1c4ef41f7f39ae3f23cb990fe587d2857c91f10862f34b34388cf91b6f0b"
     },
@@ -305,8 +386,12 @@
       "published_sha256": "8d8b5b44bb1626d512408f463b7812c703f9c1c8cc93148d2e85f38c7a1b9c3e"
     },
     {
+      "path": "docs/launch-finance.md",
+      "published_sha256": "4b4d734b893cf36f1524e22c749c792aaedce14439da6a11431c40ca27e76440"
+    },
+    {
       "path": "docs/spending.md",
-      "published_sha256": "0f8e3d92426ae5f0897f105b670099a15eeb4026b279a788a2eeeb355cb1647f"
+      "published_sha256": "1f1539d9745078fc10b6821e5b6af49569576a0d74b0aa3d12eb0ec9007ae21f"
     },
     {
       "path": "docs/synaptic-evaluation.json",
@@ -322,7 +407,7 @@
     },
     {
       "path": "index.html",
-      "published_sha256": "6025fab3fddcab4269a83417e110f132fd1cc31ed3f11db10e09e5fdfa18936a"
+      "published_sha256": "2e8b21469a16bac395590caa8c208c76a0555bb0c7b4448c977f25fa374e9d3e"
     },
     {
       "path": "ingest.py",
@@ -354,15 +439,15 @@
     },
     {
       "path": "observatory.html",
-      "published_sha256": "49cb49740f7447d5f0029bdf09fcb6000dcf109212954165f1ab4721e37456a5"
+      "published_sha256": "210c9837e3e95c5640fcc81011b5dffbd55812c7c361bd58372cf7b93d8117a5"
     },
     {
       "path": "package-lock.json",
-      "published_sha256": "377f2f15f7c9b126f51cc1097a9df7324e45d309eef6490ecbd1e239bde25ee7"
+      "published_sha256": "7587eca843a29c6ee6cd07ac23e196f819dc9b8a87e4a7e88b63b73686268014"
     },
     {
       "path": "package.json",
-      "published_sha256": "ade3b424177704b9a490c72bd20964b55be6f3b4ac3cd6525a0be3e331562c0d"
+      "published_sha256": "cd6b754141008fc5be2781ab9c144016cd88dc95d8da70d48fc03c9e9432590e"
     },
     {
       "path": "publish.py",
@@ -401,6 +486,10 @@
       "published_sha256": "3b3bb4e86a9b530761e60b00a63537f86b7060956ee9aea6f8cd4ffece65f691"
     },
     {
+      "path": "scripts/benchmark_finance.py",
+      "published_sha256": "4af21a18d523eb24b9a641857f62bc8a7140c038241fb3535b77c811545ad130"
+    },
+    {
       "path": "scripts/evaluate_discovery.py",
       "published_sha256": "1fa24909e57117aa74a43e67008284a459da50410c6c82624d34f1c65353953c"
     },
@@ -409,8 +498,16 @@
       "published_sha256": "617a3e2d9c2d11cc0b088c0a98b29b2c3dae582446066627c9d16287ce7844c8"
     },
     {
+      "path": "scripts/verify_commerce.py",
+      "published_sha256": "cdffe29b24c36f1a8e3803a3812571e49451eb248ae5b1b8a2022aa649c7b4ee"
+    },
+    {
       "path": "store.py",
       "published_sha256": "d02d3a720c2e4039cfb2a2a9865c47dd122c04541bb0917ba070747ed99b4516"
+    },
+    {
+      "path": "tests/fixtures-squads-v4.json",
+      "published_sha256": "73e8eaa66ec818a42ccb4262c4754cb208538a5e4b658439609eb25343ea4228"
     },
     {
       "path": "tests/neural-field.test.cjs",
@@ -422,11 +519,11 @@
     },
     {
       "path": "tests/test_cognitive_api.py",
-      "published_sha256": "f6ddf4c84309284931745dbe7739c4b8549e662b0c9290584a24e1d5a85d012b"
+      "published_sha256": "b9041658011417e11f98f9f5281feb03c556ede6e456340ae835b28414ffbb64"
     },
     {
       "path": "tests/test_commerce.py",
-      "published_sha256": "c3bc1718f9c44c57c7ef1cbaf6bfb8e8cdd5b0653c1883321755e7fbcedf06b9"
+      "published_sha256": "a983017eec97de1145e5bd60b4e8d0e31d145e6c1018d55ce15edcc40ea4f9b9"
     },
     {
       "path": "tests/test_decoder.py",
@@ -439,6 +536,10 @@
     {
       "path": "tests/test_evidence.py",
       "published_sha256": "9df801b8ac7782eb4fb33f007d1ff87d80052b8e99b3cb27cef5ff8e2b60a19b"
+    },
+    {
+      "path": "tests/test_financial_rails.py",
+      "published_sha256": "5f3db99e22580bf701b76023a414d9747a598bf576b02e3ad562fb242e88b08b"
     },
     {
       "path": "tests/test_forecast.py",

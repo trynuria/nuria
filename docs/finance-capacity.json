@@ -1,0 +1,22 @@
+{
+  "schema": "nuria.finance.capacity.v1",
+  "system": "Linux",
+  "events": 100000,
+  "write_seconds": 65.57169921799868,
+  "events_per_second": 1525.0481715830103,
+  "export_seconds": 9.102025692001916,
+  "verify_seconds": 8.011473284997919,
+  "pages": 400,
+  "database_bytes": 37638144,
+  "peak_rss_platform_units": 22272,
+  "verification": {
+    "valid": true,
+    "events": 100000,
+    "head": "dd6d44151dc262faba26a220f101e6d4f03ec8feca0914db0371f3d546c089fa"
+  },
+  "scope": "Unpaced synthetic SQLite FULL/WAL event writes, cache export and hash verification. No RPC load, transactions, merchant calls, signatures or 24-hour soak.",
+  "observed_utc": "2026-10-08",
+  "cpu_quota_percent": 25,
+  "unit_memory_limit_bytes": 268435456,
+  "peak_rss_bytes": 22806528
+}

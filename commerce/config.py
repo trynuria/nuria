@@ -38,7 +38,7 @@ class Provider:
             or url.username
             or url.password
             or url.fragment
-            or url.query
+            or (url.query and self.schema != "coingecko.sol-price.v1")
             or url.port not in (None, 443)
         ):
             raise ValueError(
@@ -52,7 +52,13 @@ class Provider:
             or self.action not in ("predict", "experiment", "compare")
         ):
             raise ValueError("Unsupported provider job")
-        if self.schema != "nuria.forecast.v1":
+        if self.schema == "coingecko.sol-price.v1" and (
+            self.endpoint
+            != "https://pro-api.coingecko.com/api/v3/x402/simple/price?ids=solana&vs_currencies=usd"
+            or self.action != "compare"
+        ):
+            raise ValueError("Price adapter requires the exact Solana/USD resource")
+        if self.schema not in ("nuria.forecast.v1", "coingecko.sol-price.v1"):
             raise ValueError("Delivery schema is not supported")
         if type(self.maximum_micro_usdc) is not int or self.maximum_micro_usdc <= 0:
             raise ValueError("Provider price ceiling is invalid")
@@ -69,6 +75,11 @@ class Policy:
     reserve_micro_usdc: int = 0
     cooldown_seconds: int = 300
     providers: tuple[Provider, ...] = ()
+    signer: str = "privy"
+    monthly_signature_limit: int = 40_000
+    maximum_unresolved_jobs: int = 3
+    reserve_wallet: str | None = None
+    pool: str | None = None
 
     @classmethod
     def load(cls, raw):
@@ -85,13 +96,28 @@ class Policy:
             "per_day_micro_usdc",
             "reserve_micro_usdc",
             "cooldown_seconds",
+            "monthly_signature_limit",
+            "maximum_unresolved_jobs",
         ):
             value = getattr(result, field)
             if type(value) is not int or value < 0:
                 raise ValueError("Policy limits must be nonnegative integers")
         if result.cooldown_seconds < 60:
             raise ValueError("Paid jobs require at least a sixty-second cooldown")
-        for field in ("mint", "creator_wallet", "spending_wallet"):
+        if result.signer not in ("privy", "local_test"):
+            raise ValueError("Unsupported signer")
+        if (
+            not 1 <= result.monthly_signature_limit <= 40_000
+            or not 1 <= result.maximum_unresolved_jobs <= 3
+        ):
+            raise ValueError("Signature or unresolved-job limit is invalid")
+        for field in (
+            "mint",
+            "creator_wallet",
+            "spending_wallet",
+            "reserve_wallet",
+            "pool",
+        ):
             if getattr(result, field) is not None:
                 address(getattr(result, field))
         for provider in result.providers:

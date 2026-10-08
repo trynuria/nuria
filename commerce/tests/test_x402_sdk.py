@@ -141,6 +141,12 @@ class SDKTests(unittest.TestCase):
 
         def fetch(method, params):
             if method == "simulateTransaction":
+                simulation = VersionedTransaction.from_bytes(
+                    base64.b64decode(params[0])
+                )
+                self.assertTrue(
+                    all(bytes(s) == bytes(64) for s in simulation.signatures)
+                )
                 return {"value": {"err": None}}
             if method == "getAccountInfo":
                 return {

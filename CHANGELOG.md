@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 — 2026-10-08
+
+- Added managed parsed-transaction signing with independent policy ownership checks and a monthly request ceiling.
+- Added gated standard Pump/PumpSwap collection and exact creator-to-reserve forwarding, destination-bound Squads SOL/USDC refills and constrained Jupiter v2 conversion.
+- Published complete paginated money records and a snapshot verifier; reconciled financial wallets in a separate process with visible gaps.
+- Installed the agreed 25-USDC daily and 2-USDC job ceilings while preserving disabled execution.
+- Added a CoinGecko market-context adapter, separate from forecast learning, and precise launch prerequisites.
+- Repaired the implicit small-screen grid width and reserved space for live financial records.
+
 ## 0.5.0 — 2026-10-08
 
 - Added an isolated Solana USDC x402 buyer with exact invoice checks, pre-sign instruction inspection and simulation.

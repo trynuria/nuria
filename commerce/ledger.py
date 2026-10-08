@@ -25,6 +25,16 @@ class Ledger:
           seq INTEGER PRIMARY KEY, previous_hash TEXT NOT NULL, hash TEXT UNIQUE NOT NULL, payload TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS authorizations(
           job_id TEXT PRIMARY KEY, payload TEXT NOT NULL, response TEXT);
+        CREATE TABLE IF NOT EXISTS signing_requests(
+          id TEXT PRIMARY KEY, month TEXT NOT NULL, created REAL NOT NULL);
+        CREATE TABLE IF NOT EXISTS wallet_cursors(
+          wallet TEXT PRIMARY KEY, newest TEXT, scan_before TEXT, candidate TEXT,
+          checked REAL, phase TEXT NOT NULL DEFAULT 'not_started');
+        CREATE TABLE IF NOT EXISTS chain_transactions(
+          signature TEXT PRIMARY KEY, state TEXT NOT NULL DEFAULT 'pending', evidence TEXT);
+        CREATE INDEX IF NOT EXISTS jobs_created ON jobs(created);
+        CREATE INDEX IF NOT EXISTS jobs_status ON jobs(status);
+        CREATE INDEX IF NOT EXISTS signing_month ON signing_requests(month);
         """)
         self.verify()
 
@@ -61,6 +71,37 @@ class Ledger:
             "INSERT INTO events VALUES(?,?,?,?)", (seq + 1, previous, digest, raw)
         )
 
+    def record(self, payload):
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            self.event(payload)
+            self.db.execute("COMMIT")
+        except Exception:
+            self.db.execute("ROLLBACK")
+            raise
+
+    def claim_signature(self, ident, cap, now):
+        """Reserve a billable request before contacting custody; failures count."""
+        month = datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m")
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            exists = self.db.execute(
+                "SELECT 1 FROM signing_requests WHERE id=?", (ident,)
+            ).fetchone()
+            if not exists:
+                used = self.db.execute(
+                    "SELECT count(*) FROM signing_requests WHERE month=?", (month,)
+                ).fetchone()[0]
+                if used >= cap:
+                    raise ValueError("Monthly signing request ceiling reached")
+                self.db.execute(
+                    "INSERT INTO signing_requests VALUES(?,?,?)", (ident, month, now)
+                )
+            self.db.execute("COMMIT")
+        except Exception:
+            self.db.execute("ROLLBACK")
+            raise
+
     def reserve(self, job, policy, balance, now):
         if not policy.enabled:
             raise ValueError("Payments are disabled")
@@ -83,6 +124,11 @@ class Ledger:
             pending = self.db.execute(
                 "SELECT coalesce(sum(amount),0) FROM jobs WHERE status IN ('reserved','authorized','uncertain')"
             ).fetchone()[0]
+            unresolved = self.db.execute(
+                "SELECT count(*) FROM jobs WHERE status IN ('reserved','authorized','uncertain')"
+            ).fetchone()[0]
+            if unresolved >= policy.maximum_unresolved_jobs:
+                raise ValueError("Unresolved payment circuit breaker is open")
             daily = self.db.execute(
                 "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=?", (day,)
             ).fetchone()[0]
@@ -114,6 +160,10 @@ class Ledger:
                     "amount_micro_usdc": amount,
                     "at": now,
                     "terms_sha256": hashlib.sha256(canonical(job).encode()).hexdigest(),
+                    "provider": job["provider"],
+                    "action": job["action"],
+                    "decision_hash": job["decision_hash"],
+                    "recipient": job.get("accepted", {}).get("payTo"),
                 }
             )
             self.db.execute("COMMIT")
@@ -137,7 +187,7 @@ class Ledger:
             if not current or state not in allowed.get(current[0], set()):
                 raise ValueError("Invalid payment lifecycle transition")
             self.db.execute("UPDATE jobs SET status=? WHERE id=?", (state, ident))
-            self.event({"job_id": ident, "state": state, "at": now, **detail})
+            self.event({**detail, "job_id": ident, "state": state, "at": now})
             self.db.execute("COMMIT")
         except Exception:
             self.db.execute("ROLLBACK")
@@ -163,7 +213,25 @@ class Ledger:
         )
 
     def summary(self):
+        now = datetime.now(timezone.utc)
         return {
+            "daily_committed_micro_usdc": self.db.execute(
+                "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=?",
+                (now.strftime("%Y-%m-%d"),),
+            ).fetchone()[0],
+            "monthly_signing_requests": self.db.execute(
+                "SELECT count(*) FROM signing_requests WHERE month=?",
+                (now.strftime("%Y-%m"),),
+            ).fetchone()[0],
+            "wallet_coverage": [
+                {"wallet": w, "checked_at": checked, "phase": phase}
+                for w, checked, phase in self.db.execute(
+                    "SELECT wallet,checked,phase FROM wallet_cursors ORDER BY wallet"
+                )
+            ],
+            "pending_chain_transactions": self.db.execute(
+                "SELECT count(*) FROM chain_transactions WHERE state='pending'"
+            ).fetchone()[0],
             "counts": dict(
                 self.db.execute("SELECT status,count(*) FROM jobs GROUP BY status")
             ),
