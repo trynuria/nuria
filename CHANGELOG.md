@@ -4,6 +4,7 @@
 
 - Replace browser replay menus with a styled, keyboard-accessible listbox.
 - Suppress form completion, spelling assistance and native numeric/search widgets.
+- Replace the capability table with six grouped sections, readable evidence and status filters; preserve all 51 entries.
 - Fix vertical scrolling over documentation tables; regroup the sidebar and link the Brian2 attribution.
 - Add the project contact address and consistent linked GitHub marks.
 - Explain learning, financial authority and evidence with shared vector diagrams and readable mobile layouts.

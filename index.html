@@ -6637,6 +6637,173 @@
         background: #121817;
         border-color: var(--line);
       }
+
+      /* Capability status is readable independently of the color treatment. */
+      .capability-tools {
+        margin: 24px 0 28px;
+      }
+      .capability-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .capability-filters button {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        min-height: 36px;
+        padding: 7px 11px;
+        border: 1px solid #303a33;
+        border-radius: 6px;
+        background: transparent;
+        color: #a6b0a8;
+        font: 12px var(--sans);
+        cursor: pointer;
+      }
+      .capability-filters button span {
+        color: #7e8b81;
+        font: 10px var(--mono);
+        font-variant-numeric: tabular-nums;
+      }
+      .capability-filters button:hover {
+        border-color: #596b55;
+        color: #d8e4ce;
+      }
+      .capability-filters button[aria-pressed="true"] {
+        color: #d4e6c4;
+        border-color: #627358;
+        background: #1d2a20;
+      }
+      .capability-filters button[aria-pressed="true"] span {
+        color: #b0c09f;
+      }
+      .capability-filters button:focus-visible {
+        outline: 2px solid #afc997;
+        outline-offset: 3px;
+      }
+      .docs-article .capability-count {
+        margin: 12px 0 0;
+        color: #85958a;
+        font: 11px/1.6 var(--mono);
+      }
+      .capability-group {
+        margin-bottom: 24px;
+        border: 1px solid #2c3830;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #101714;
+      }
+      .capability-group-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 17px 22px;
+        border-bottom: 1px solid #2c3830;
+        background: #142019;
+      }
+      .docs-article .capability-group-head h3 {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.5;
+        font-weight: 500;
+        letter-spacing: -0.015em;
+        color: #c7d8bd;
+      }
+      .capability-group-head > span {
+        flex: none;
+        color: #7d9281;
+        font: 10px var(--mono);
+      }
+      .docs-article .capability-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .docs-article .capability-item {
+        margin: 0;
+        padding: 18px 22px;
+      }
+      .capability-item + .capability-item {
+        border-top: 1px solid #26322b;
+      }
+      .capability-item-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .capability-item h4 {
+        margin: 0;
+        color: #d5dfd1;
+        font-size: 15px;
+        line-height: 1.6;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      .docs-article .capability-item p {
+        margin: 7px 0 0;
+        color: #a1b1a7;
+        font-size: 13px;
+        line-height: 1.75;
+        max-width: 70ch;
+      }
+      .capability-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        flex: none;
+        padding: 3px 7px;
+        border-radius: 4px;
+        color: #c0ceb7;
+        background: #213322;
+        font: 10px/1.4 var(--mono);
+      }
+      .capability-status::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .capability-status[data-status="evaluation"] {
+        color: #d0bd93;
+        background: #30291c;
+      }
+      .capability-status[data-status="prepared"] {
+        color: #a4c2cf;
+        background: #1c2a30;
+      }
+      .capability-status[data-status="research"] {
+        color: #abb6b2;
+        background: #252c2a;
+      }
+      @media (max-width: 600px) {
+        .capability-group-head {
+          display: block;
+          padding: 16px;
+        }
+        .capability-group-head > span {
+          display: block;
+          margin-top: 4px;
+        }
+        .docs-article .capability-item {
+          padding: 16px;
+        }
+        .capability-item-head {
+          display: block;
+        }
+        .capability-item h4 {
+          font-size: 15px;
+        }
+        .capability-status {
+          margin-top: 6px;
+        }
+        .docs-article .capability-item p {
+          margin-top: 9px;
+          font-size: 13px;
+        }
+      }
     </style></head
   ><body>
     <a class="skip" href="#neural-field">Skip to neural field</a>
@@ -9890,340 +10057,824 @@
                     means a concrete objective and gate remain before implementation or
                     activation.</p
                   ><h2 id="roadmap--map">Capability map</h2
-                  ><div class="docs-table-wrap"
-                    ><table
-                      ><thead
-                        ><tr
-                          ><th>Step</th><th>Capability</th><th>Status</th
-                          ><th>Evidence or next gate</th></tr
-                        ></thead
-                      ><tbody
-                        ><tr
-                          ><td>1</td><td>Persistent membrane dynamics</td><td>Active</td
-                          ><td
+                  ><div class="capability-map" id="capabilityMap">
+                    <div class="capability-tools"
+                      ><div
+                        class="capability-filters"
+                        role="group"
+                        aria-label="Filter capabilities by status"
+                      >
+                        <button
+                          type="button"
+                          data-capability-filter="all"
+                          aria-pressed="true"
+                          >All<span>51</span></button
+                        >
+                        <button
+                          type="button"
+                          data-capability-filter="active"
+                          aria-pressed="false"
+                          >Active<span>28</span></button
+                        >
+                        <button
+                          type="button"
+                          data-capability-filter="evaluation"
+                          aria-pressed="false"
+                          >Evaluation<span>2</span></button
+                        >
+                        <button
+                          type="button"
+                          data-capability-filter="prepared"
+                          aria-pressed="false"
+                          >Prepared<span>7</span></button
+                        >
+                        <button
+                          type="button"
+                          data-capability-filter="research"
+                          aria-pressed="false"
+                          >Research<span>14</span></button
+                        > </div
+                      ><p class="capability-count" id="capabilityCount" role="status"
+                        >Showing all 51 capabilities</p
+                      ></div
+                    >
+                    <section
+                      class="capability-group"
+                      aria-labelledby="capability-neural-dynamics"
+                    >
+                      <header class="capability-group-head"
+                        ><h3 id="capability-neural-dynamics">Neural dynamics</h3
+                        ><span>6 capabilities</span></header
+                      >
+                      <ul class="capability-list">
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="1"
+                          ><div class="capability-item-head"
+                            ><h4>Persistent membrane dynamics</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Neural variables and random state resume from a trusted
-                            checkpoint.</td
-                          ></tr
-                        ><tr
-                          ><td>2</td><td>Recurrent excitation and inhibition</td
-                          ><td>Active</td
-                          ><td
+                            checkpoint.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="2"
+                          ><div class="capability-item-head"
+                            ><h4>Recurrent excitation and inhibition</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Six-population 1024-neuron circuit with complete
-                            connectivity in the worker.</td
-                          ></tr
-                        ><tr
-                          ><td>3</td><td>Multi-timescale dynamics</td><td>Active</td
-                          ><td
+                            connectivity in the worker.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="3"
+                          ><div class="capability-item-head"
+                            ><h4>Multi-timescale dynamics</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Sensory, memory and association use different time
-                            constants.</td
-                          ></tr
-                        ><tr
-                          ><td>4</td><td>Spike-timing plasticity</td><td>Active</td
-                          ><td>Timing traces change bounded excitatory weights.</td></tr
-                        ><tr
-                          ><td>5</td><td>Eligibility-based feedback</td><td>Active</td
-                          ><td
-                            >Observed rewards modulate recently eligible synapses.</td
-                          ></tr
-                        ><tr
-                          ><td>6</td><td>Homeostatic control</td><td>Active</td
-                          ><td
-                            >Bounded bias feedback regulates population firing.</td
-                          ></tr
-                        ><tr
-                          ><td>7</td><td>Finalized trade reader</td><td>Prepared</td
-                          ><td
+                            constants.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="4"
+                          ><div class="capability-item-head"
+                            ><h4>Spike-timing plasticity</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p>Timing traces change bounded excitatory weights.</p></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="5"
+                          ><div class="capability-item-head"
+                            ><h4>Eligibility-based feedback</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
+                            >Observed rewards modulate recently eligible synapses.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="6"
+                          ><div class="capability-item-head"
+                            ><h4>Homeostatic control</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p>Bounded bias feedback regulates population firing.</p></li
+                        >
+                      </ul></section
+                    >
+                    <section
+                      class="capability-group"
+                      aria-labelledby="capability-inputs-and-prediction"
+                    >
+                      <header class="capability-group-head"
+                        ><h3 id="capability-inputs-and-prediction"
+                          >Inputs and prediction</h3
+                        ><span>8 capabilities</span></header
+                      >
+                      <ul class="capability-list">
+                        <li
+                          class="capability-item"
+                          data-capability-status="prepared"
+                          data-capability-id="7"
+                          ><div class="capability-item-head"
+                            ><h4>Finalized trade reader</h4
+                            ><span class="capability-status" data-status="prepared"
+                              >Prepared</span
+                            ></div
+                          ><p
                             >Finalized protocol reader is implemented; exact mint is not
                             configured, so no live-token feedback loop is
-                            established.</td
-                          ></tr
-                        ><tr
-                          ><td>8</td><td>Individual event encoding</td><td>Active</td
-                          ><td
+                            established.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="8"
+                          ><div class="capability-item-head"
+                            ><h4>Individual event encoding</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Each input has its own sensory window and event-ID
-                            texture.</td
-                          ></tr
-                        ><tr
-                          ><td>9</td><td>Idempotent source history</td><td>Active</td
-                          ><td
+                            texture.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="9"
+                          ><div class="capability-item-head"
+                            ><h4>Idempotent source history</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Changed or reordered duplicate inputs refuse
-                            continuation.</td
-                          ></tr
-                        ><tr
-                          ><td>10</td><td>Causal perturbation probes</td><td>Active</td
-                          ><td
+                            continuation.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="10"
+                          ><div class="capability-item-head"
+                            ><h4>Causal perturbation probes</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Matched current-state input and no-input replay with RNG
-                            restoration.</td
-                          ></tr
-                        ><tr
-                          ><td>11</td><td>Neural feature extraction</td><td>Active</td
-                          ><td
-                            >64 spike-derived features feed the predictor and
-                            memory.</td
-                          ></tr
-                        ><tr
-                          ><td>12</td><td>Prequential prediction</td><td>Active</td
-                          ><td
+                            restoration.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="11"
+                          ><div class="capability-item-head"
+                            ><h4>Neural feature extraction</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
+                            >64 spike-derived features feed the predictor and memory.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="12"
+                          ><div class="capability-item-head"
+                            ><h4>Prequential prediction</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Stored forecast is scored before its next observed outcome
-                            trains the readout.</td
-                          ></tr
-                        ><tr
-                          ><td>13</td><td>Source-isolated learning</td><td>Active</td
-                          ><td
+                            trains the readout.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="13"
+                          ><div class="capability-item-head"
+                            ><h4>Source-isolated learning</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Source-specific forecast council learns transition memory
                             and specialist weights; old neural readouts are retained
-                            separately.</td
-                          ></tr
-                        ><tr
-                          ><td>14</td><td>Calibrated measurement</td><td>Active</td
-                          ><td
+                            separately.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="14"
+                          ><div class="capability-item-head"
+                            ><h4>Calibrated measurement</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Prequential Brier error and learned repeat baseline; expert
-                            losses and forecast attention are public.</td
-                          ></tr
-                        ><tr
-                          ><td>15</td><td>Persistent episodic memory</td><td>Active</td
-                          ><td
-                            >Inputs, feature vectors and importance survive restart.</td
-                          ></tr
-                        ><tr
-                          ><td>16</td><td>Similarity-based recall</td><td>Active</td
-                          ><td
+                            losses and forecast attention are public.</p
+                          ></li
+                        >
+                      </ul></section
+                    >
+                    <section
+                      class="capability-group"
+                      aria-labelledby="capability-memory-attention-and-actions"
+                    >
+                      <header class="capability-group-head"
+                        ><h3 id="capability-memory-attention-and-actions"
+                          >Memory, attention and actions</h3
+                        ><span>12 capabilities</span></header
+                      >
+                      <ul class="capability-list">
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="15"
+                          ><div class="capability-item-head"
+                            ><h4>Persistent episodic memory</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
+                            >Inputs, feature vectors and importance survive restart.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="16"
+                          ><div class="capability-item-head"
+                            ><h4>Similarity-based recall</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Bounded context-specific candidates are scored by
-                            similarity and importance.</td
-                          ></tr
-                        ><tr
-                          ><td>17</td><td>Replay actions</td><td>Active</td
-                          ><td
-                            >Selected past inputs re-stimulate the neural circuit.</td
-                          ></tr
-                        ><tr
-                          ><td>18</td><td>Novelty signals</td><td>Active</td
-                          ><td
+                            similarity and importance.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="17"
+                          ><div class="capability-item-head"
+                            ><h4>Replay actions</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
+                            >Selected past inputs re-stimulate the neural circuit.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="18"
+                          ><div class="capability-item-head"
+                            ><h4>Novelty signals</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Context visits reduce novelty rather than novelty being a
-                            narrative label.</td
-                          ></tr
-                        ><tr
-                          ><td>19</td><td>Workspace competition</td><td>Active</td
-                          ><td
-                            >Three selected salience slots affect neural drive.</td
-                          ></tr
-                        ><tr
-                          ><td>20</td><td>Uncertainty-driven arbitration</td
-                          ><td>Active</td
-                          ><td
+                            narrative label.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="19"
+                          ><div class="capability-item-head"
+                            ><h4>Workspace competition</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p>Three selected salience slots affect neural drive.</p></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="20"
+                          ><div class="capability-item-head"
+                            ><h4>Uncertainty-driven arbitration</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Prediction uncertainty competes with surprise and resource
-                            pressure.</td
-                          ></tr
-                        ><tr
-                          ><td>21</td><td>Published hybrid action selection</td
-                          ><td>Active</td
-                          ><td
+                            pressure.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="21"
+                          ><div class="capability-item-head"
+                            ><h4>Published hybrid action selection</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >65% utility and 35% neural score, with a deterministic tie
-                            rule.</td
-                          ></tr
-                        ><tr
-                          ><td>22</td><td>Learned action values</td><td>Active</td
-                          ><td
-                            >Observed rewards update future utility estimates.</td
-                          ></tr
-                        ><tr
-                          ><td>23</td><td>Measured action costs</td><td>Active</td
-                          ><td
-                            >Runtime updates cost estimates used in action
-                            selection.</td
-                          ></tr
-                        ><tr
-                          ><td>24</td><td>Resource regulation</td><td>Active</td
-                          ><td
+                            rule.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="22"
+                          ><div class="capability-item-head"
+                            ><h4>Learned action values</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p>Observed rewards update future utility estimates.</p></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="23"
+                          ><div class="capability-item-head"
+                            ><h4>Measured action costs</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
+                            >Runtime updates cost estimates used in action selection.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="24"
+                          ><div class="capability-item-head"
+                            ><h4>Resource regulation</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Explicit model energy and fatigue affect activity and
-                            rest.</td
-                          ></tr
-                        ><tr
-                          ><td>25</td><td>Software embodiment</td><td>Active</td
-                          ><td
+                            rest.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="25"
+                          ><div class="capability-item-head"
+                            ><h4>Software embodiment</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Actions change habitat position, visitation and virtual
-                            resource collection.</td
-                          ></tr
-                        ><tr
-                          ><td>26</td><td>Autonomous local experiments</td
-                          ><td>Active</td
-                          ><td
+                            resource collection.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="26"
+                          ><div class="capability-item-head"
+                            ><h4>Autonomous local experiments</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Retrospective chronological diagnostics compare forecast
                             components on recorded same-source inputs; no hypothesis
-                            invention.</td
-                          ></tr
-                        ><tr
-                          ><td>27</td><td>Actual-neuron evaluation</td
-                          ><td>Evaluation</td
-                          ><td
+                            invention.</p
+                          ></li
+                        >
+                      </ul></section
+                    >
+                    <section
+                      class="capability-group"
+                      aria-labelledby="capability-measurement-and-continuity"
+                    >
+                      <header class="capability-group-head"
+                        ><h3 id="capability-measurement-and-continuity"
+                          >Measurement and continuity</h3
+                        ><span>4 capabilities</span></header
+                      >
+                      <ul class="capability-list">
+                        <li
+                          class="capability-item"
+                          data-capability-status="evaluation"
+                          data-capability-id="27"
+                          ><div class="capability-item-head"
+                            ><h4>Actual-neuron evaluation</h4
+                            ><span class="capability-status" data-status="evaluation"
+                              >Evaluation</span
+                            ></div
+                          ><p
                             >Actual spike tasks do not beat the learned repeat
                             predictor; a matched training-synapse ablation is published
-                            separately.</td
-                          ></tr
-                        ><tr
-                          ><td>28</td><td>Public decision evidence</td><td>Active</td
-                          ><td
+                            separately.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="28"
+                          ><div class="capability-item-head"
+                            ><h4>Public decision evidence</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Numerical selection, outcome and model projection hashes
-                            are published.</td
-                          ></tr
-                        ><tr
-                          ><td>29</td><td>Atomic recovery</td><td>Active</td
-                          ><td
+                            are published.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="29"
+                          ><div class="capability-item-head"
+                            ><h4>Atomic recovery</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Journal, learning, memory and neural checkpoint commit
-                            together.</td
-                          ></tr
-                        ><tr
-                          ><td>30</td><td>Bounded read-only web path</td><td>Active</td
-                          ><td
+                            together.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="active"
+                          data-capability-id="30"
+                          ><div class="capability-item-head"
+                            ><h4>Bounded read-only web path</h4
+                            ><span class="capability-status" data-status="active"
+                              >Active</span
+                            ></div
+                          ><p
                             >Visitors read cached evidence and cannot trigger RPC, jobs
-                            or signing.</td
-                          ></tr
-                        ><tr
-                          ><td>31</td><td>Treasury observation</td><td>Prepared</td
-                          ><td
+                            or signing.</p
+                          ></li
+                        >
+                      </ul></section
+                    >
+                    <section
+                      class="capability-group"
+                      aria-labelledby="capability-fees-custody-and-purchases"
+                    >
+                      <header class="capability-group-head"
+                        ><h3 id="capability-fees-custody-and-purchases"
+                          >Fees, custody and purchases</h3
+                        ><span>6 capabilities</span></header
+                      >
+                      <ul class="capability-list">
+                        <li
+                          class="capability-item"
+                          data-capability-status="prepared"
+                          data-capability-id="31"
+                          ><div class="capability-item-head"
+                            ><h4>Treasury observation</h4
+                            ><span class="capability-status" data-status="prepared"
+                              >Prepared</span
+                            ></div
+                          ><p
                             >Read-only finalized wallet balance requires the exact mint
-                            and creator-wallet configuration.</td
-                          ></tr
-                        ><tr
-                          ><td>32</td><td>Creator-fee attribution</td><td>Prepared</td
-                          ><td
+                            and creator-wallet configuration.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="prepared"
+                          data-capability-id="32"
+                          ><div class="capability-item-head"
+                            ><h4>Creator-fee attribution</h4
+                            ><span class="capability-status" data-status="prepared"
+                              >Prepared</span
+                            ></div
+                          ><p
                             >Live Pump creator/mode checks and unsigned standard claims;
                             mint-specific attribution, unsupported modes and automatic
-                            collection remain activation gates.</td
-                          ></tr
-                        ><tr
-                          ><td>33</td><td>Durable spending reservations</td
-                          ><td>Prepared</td
-                          ><td
+                            collection remain activation gates.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="prepared"
+                          data-capability-id="33"
+                          ><div class="capability-item-head"
+                            ><h4>Durable spending reservations</h4
+                            ><span class="capability-status" data-status="prepared"
+                              >Prepared</span
+                            ></div
+                          ><p
                             >Durable SOL and USDC limits, reserve floor, unique
                             decisions, ambiguous payment reconciliation and restart
-                            protection are tested; spending disabled.</td
-                          ></tr
-                        ><tr
-                          ><td>34</td><td>Unsigned single-transfer rail</td
-                          ><td>Prepared</td
-                          ><td
+                            protection are tested; spending disabled.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="prepared"
+                          data-capability-id="34"
+                          ><div class="capability-item-head"
+                            ><h4>Unsigned single-transfer rail</h4
+                            ><span class="capability-status" data-status="prepared"
+                              >Prepared</span
+                            ></div
+                          ><p
                             >Only a fixed system-transfer message is prepared; no
-                            signing or broadcast.</td
-                          ></tr
-                        ><tr
-                          ><td>35</td><td>Isolated autonomous signer</td
-                          ><td>Prepared</td
-                          ><td
+                            signing or broadcast.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="prepared"
+                          data-capability-id="35"
+                          ><div class="capability-item-head"
+                            ><h4>Isolated autonomous signer</h4
+                            ><span class="capability-status" data-status="prepared"
+                              >Prepared</span
+                            ></div
+                          ><p
                             >Isolated exact Solana USDC x402 signer adapter and guarded
                             service installed; no production key or funded provider
-                            configured.</td
-                          ></tr
-                        ><tr
-                          ><td>36</td><td>Paid job outcome verification</td
-                          ><td>Prepared</td
-                          ><td
+                            configured.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="prepared"
+                          data-capability-id="36"
+                          ><div class="capability-item-head"
+                            ><h4>Paid job outcome verification</h4
+                            ><span class="capability-status" data-status="prepared"
+                              >Prepared</span
+                            ></div
+                          ><p
                             >Payment, delivery hashes and delayed paid-forecast outcomes
                             are implemented and tested offline; a real provider and
-                            funded production test remain required.</td
-                          ></tr
-                        ><tr
-                          ><td>37</td><td>Independent public attestation</td
-                          ><td>Research</td
-                          ><td
+                            funded production test remain required.</p
+                          ></li
+                        >
+                      </ul></section
+                    >
+                    <section
+                      class="capability-group"
+                      aria-labelledby="capability-research-and-validation"
+                    >
+                      <header class="capability-group-head"
+                        ><h3 id="capability-research-and-validation"
+                          >Research and validation</h3
+                        ><span>15 capabilities</span></header
+                      >
+                      <ul class="capability-list">
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="37"
+                          ><div class="capability-item-head"
+                            ><h4>Independent public attestation</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Publish externally witnessed heads and optional chain
-                            anchors with a defined cost budget.</td
-                          ></tr
-                        ><tr
-                          ><td>38</td><td>Learned transition models</td><td>Research</td
-                          ><td
+                            anchors with a defined cost budget.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="38"
+                          ><div class="capability-item-head"
+                            ><h4>Learned transition models</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Predict habitat transitions from experience and test
-                            against a held-out map.</td
-                          ></tr
-                        ><tr
-                          ><td>39</td><td>Multi-step planning</td><td>Research</td
-                          ><td
+                            against a held-out map.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="39"
+                          ><div class="capability-item-head"
+                            ><h4>Multi-step planning</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Compare learned planning against the current explicit local
-                            path planner.</td
-                          ></tr
-                        ><tr
-                          ><td>40</td><td>Attention efficacy tests</td
-                          ><td>Evaluation</td
-                          ><td
+                            path planner.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="evaluation"
+                          data-capability-id="40"
+                          ><div class="capability-item-head"
+                            ><h4>Attention efficacy tests</h4
+                            ><span class="capability-status" data-status="evaluation"
+                              >Evaluation</span
+                            ></div
+                          ><p
                             >Learned forecast attention is tested across 20 seeds; the
                             separate hand-designed workspace still needs a causal
-                            efficacy test.</td
-                          ></tr
-                        ><tr
-                          ><td>41</td><td>Memory consolidation</td><td>Research</td
-                          ><td
+                            efficacy test.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="41"
+                          ><div class="capability-item-head"
+                            ><h4>Memory consolidation</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Distill older episodes into slower representation without
-                            destroying their evidence.</td
-                          ></tr
-                        ><tr
-                          ><td>42</td><td>Continual-learning retention</td
-                          ><td>Research</td
-                          ><td
+                            destroying their evidence.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="42"
+                          ><div class="capability-item-head"
+                            ><h4>Continual-learning retention</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Measure forgetting across task changes before enabling new
-                            objectives.</td
-                          ></tr
-                        ><tr
-                          ><td>43</td><td>Adaptive goal weighting</td><td>Research</td
-                          ><td
+                            objectives.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="43"
+                          ><div class="capability-item-head"
+                            ><h4>Adaptive goal weighting</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Learn arbitration weights under stable published safety and
-                            resource limits.</td
-                          ></tr
-                        ><tr
-                          ><td>44</td><td>Uncertainty-aware interventions</td
-                          ><td>Research</td
-                          ><td
+                            resource limits.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="44"
+                          ><div class="capability-item-head"
+                            ><h4>Uncertainty-aware interventions</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Select experiments by expected information gain and verify
-                            actual gains.</td
-                          ></tr
-                        ><tr
-                          ><td>45</td><td>Causal model learning</td><td>Research</td
-                          ><td
+                            actual gains.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="45"
+                          ><div class="capability-item-head"
+                            ><h4>Causal model learning</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Learn intervention effects beyond the current matched
-                            perturbation report.</td
-                          ></tr
-                        ><tr
-                          ><td>46</td><td>Counterfactual action evaluation</td
-                          ><td>Research</td
-                          ><td
+                            perturbation report.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="46"
+                          ><div class="capability-item-head"
+                            ><h4>Counterfactual action evaluation</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Compare prospective actions without treating a chosen
-                            replay as original-history proof.</td
-                          ></tr
-                        ><tr
-                          ><td>47</td><td>Multi-modal perception</td><td>Research</td
-                          ><td
+                            replay as original-history proof.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="47"
+                          ><div class="capability-item-head"
+                            ><h4>Multi-modal perception</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Add authorized structured signals with provenance, rate
-                            limits and a useful behavioral objective.</td
-                          ></tr
-                        ><tr
-                          ><td>48</td><td>Social interaction tasks</td><td>Research</td
-                          ><td
+                            limits and a useful behavioral objective.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="48"
+                          ><div class="capability-item-head"
+                            ><h4>Social interaction tasks</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Evaluate coordination with other independent entities in a
-                            bounded environment.</td
-                          ></tr
-                        ><tr
-                          ><td>49</td><td>Long-horizon resource planning</td
-                          ><td>Research</td
-                          ><td
+                            bounded environment.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="49"
+                          ><div class="capability-item-head"
+                            ><h4>Long-horizon resource planning</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Measure budget prediction and reserve preservation over
-                            changing cost regimes.</td
-                          ></tr
-                        ><tr
-                          ><td>50</td><td>Independent capability replication</td
-                          ><td>Research</td
-                          ><td
+                            changing cost regimes.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="50"
+                          ><div class="capability-item-head"
+                            ><h4>Independent capability replication</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Reproduce outcomes from public code and fixed benchmarks on
-                            separate hardware.</td
-                          ></tr
-                        ><tr
-                          ><td>51</td><td>Open-ended cumulative development</td
-                          ><td>Research</td
-                          ><td
+                            separate hardware.</p
+                          ></li
+                        >
+                        <li
+                          class="capability-item"
+                          data-capability-status="research"
+                          data-capability-id="51"
+                          ><div class="capability-item-head"
+                            ><h4>Open-ended cumulative development</h4
+                            ><span class="capability-status" data-status="research"
+                              >Research</span
+                            ></div
+                          ><p
                             >Expand only with measured capability, retained continuity,
-                            explicit failure boundaries and independent evaluation.</td
-                          ></tr
-                        ></tbody
-                      ></table
-                    ></div
+                            explicit failure boundaries and independent evaluation.</p
+                          ></li
+                        >
+                      </ul></section
+                    > </div
                   ><h2 id="roadmap--standard">The standard for adding a capability</h2
                   ><p
                     >Define the behavioral target, use a held-out or prequential
@@ -10459,6 +11110,37 @@
               context: text.join(" ").replace(/\s+/g, " ").trim(),
             });
           }
+        }
+        const capabilityMap = byId("capabilityMap");
+        for (const button of capabilityMap.querySelectorAll(
+          "[data-capability-filter]",
+        )) {
+          button.addEventListener("click", () => {
+            const status = button.dataset.capabilityFilter;
+            let visible = 0;
+            for (const item of capabilityMap.querySelectorAll(
+              "[data-capability-status]",
+            )) {
+              item.hidden =
+                status !== "all" && item.dataset.capabilityStatus !== status;
+              if (!item.hidden) visible++;
+            }
+            for (const group of capabilityMap.querySelectorAll(".capability-group")) {
+              const items = [...group.querySelectorAll("[data-capability-status]")];
+              const shown = items.filter((item) => !item.hidden).length;
+              group.hidden = shown === 0;
+              group.querySelector(".capability-group-head > span").textContent =
+                shown + (shown === 1 ? " capability" : " capabilities");
+            }
+            for (const filter of capabilityMap.querySelectorAll(
+              "[data-capability-filter]",
+            ))
+              filter.setAttribute("aria-pressed", String(filter === button));
+            byId("capabilityCount").textContent =
+              status === "all"
+                ? "Showing all 51 capabilities"
+                : "Showing " + visible + " of 51 capabilities";
+          });
         }
         function setMenu(open) {
           frame.classList.toggle("docs-menu-open", open);

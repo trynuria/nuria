@@ -1103,3 +1103,170 @@
   background: #121817;
   border-color: var(--line);
 }
+
+/* Capability status is readable independently of the color treatment. */
+.capability-tools {
+  margin: 24px 0 28px;
+}
+.capability-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.capability-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid #303a33;
+  border-radius: 6px;
+  background: transparent;
+  color: #a6b0a8;
+  font: 12px var(--sans);
+  cursor: pointer;
+}
+.capability-filters button span {
+  color: #7e8b81;
+  font: 10px var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+.capability-filters button:hover {
+  border-color: #596b55;
+  color: #d8e4ce;
+}
+.capability-filters button[aria-pressed="true"] {
+  color: #d4e6c4;
+  border-color: #627358;
+  background: #1d2a20;
+}
+.capability-filters button[aria-pressed="true"] span {
+  color: #b0c09f;
+}
+.capability-filters button:focus-visible {
+  outline: 2px solid #afc997;
+  outline-offset: 3px;
+}
+.docs-article .capability-count {
+  margin: 12px 0 0;
+  color: #85958a;
+  font: 11px/1.6 var(--mono);
+}
+.capability-group {
+  margin-bottom: 24px;
+  border: 1px solid #2c3830;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #101714;
+}
+.capability-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 17px 22px;
+  border-bottom: 1px solid #2c3830;
+  background: #142019;
+}
+.docs-article .capability-group-head h3 {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #c7d8bd;
+}
+.capability-group-head > span {
+  flex: none;
+  color: #7d9281;
+  font: 10px var(--mono);
+}
+.docs-article .capability-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.docs-article .capability-item {
+  margin: 0;
+  padding: 18px 22px;
+}
+.capability-item + .capability-item {
+  border-top: 1px solid #26322b;
+}
+.capability-item-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+}
+.capability-item h4 {
+  margin: 0;
+  color: #d5dfd1;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.docs-article .capability-item p {
+  margin: 7px 0 0;
+  color: #a1b1a7;
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 70ch;
+}
+.capability-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  padding: 3px 7px;
+  border-radius: 4px;
+  color: #c0ceb7;
+  background: #213322;
+  font: 10px/1.4 var(--mono);
+}
+.capability-status::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.capability-status[data-status="evaluation"] {
+  color: #d0bd93;
+  background: #30291c;
+}
+.capability-status[data-status="prepared"] {
+  color: #a4c2cf;
+  background: #1c2a30;
+}
+.capability-status[data-status="research"] {
+  color: #abb6b2;
+  background: #252c2a;
+}
+@media (max-width: 600px) {
+  .capability-group-head {
+    display: block;
+    padding: 16px;
+  }
+  .capability-group-head > span {
+    display: block;
+    margin-top: 4px;
+  }
+  .docs-article .capability-item {
+    padding: 16px;
+  }
+  .capability-item-head {
+    display: block;
+  }
+  .capability-item h4 {
+    font-size: 15px;
+  }
+  .capability-status {
+    margin-top: 6px;
+  }
+  .docs-article .capability-item p {
+    margin-top: 9px;
+    font-size: 13px;
+  }
+}

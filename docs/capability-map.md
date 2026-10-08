@@ -1,59 +1,86 @@
-# Development gates
+# Capability map
 
-The 51 entries are implementation and research gates, not a ranking of consciousness. An active mechanism is not proof of useful capability. The next whole-organism milestone is a fair task where neural plasticity, episodic memory and workspace attention each improve behavior against strong alternatives.
+Implementation status and evidence for all 51 capabilities. The categories describe the system; they are not levels of consciousness.
 
-The separate [Discovery lab](discovery.md) now implements partial observation, learned action outcomes, uncertainty-aware exploration, active sensing, virtual budgets, delayed credit, cue memory, continual adaptation, an adaptive curriculum and paired controls. Its validation concerns that explicit decision controller and stored sensory representations; it does not promote the main circuit's unproven STDP, workspace, neural replay or multi-step planning gates to demonstrated capability.
+Active mechanisms are implemented. Evaluation identifies bounded experiments needing broader validation. Prepared mechanisms require live configuration. Research identifies an objective and its next gate.
 
-| Step | Capability                          | Status     | Evidence or next gate                                                                                                                                       |
-| ---- | ----------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Persistent membrane dynamics        | Active     | Neural variables and random state resume from a trusted checkpoint.                                                                                         |
-| 2    | Recurrent excitation and inhibition | Active     | Six-population 1024-neuron circuit with complete connectivity in the worker.                                                                                |
-| 3    | Multi-timescale dynamics            | Active     | Sensory, memory and association use different time constants.                                                                                               |
-| 4    | Spike-timing plasticity             | Active     | Timing traces change bounded excitatory weights.                                                                                                            |
-| 5    | Eligibility-based feedback          | Active     | Observed rewards modulate recently eligible synapses.                                                                                                       |
-| 6    | Homeostatic control                 | Active     | Bounded bias feedback regulates population firing.                                                                                                          |
-| 7    | Finalized trade reader              | Prepared   | Finalized protocol reader is implemented; exact mint is not configured, so no live-token feedback loop is established.                                      |
-| 8    | Individual event encoding           | Active     | Each input has its own sensory window and event-ID texture.                                                                                                 |
-| 9    | Idempotent source history           | Active     | Changed or reordered duplicate inputs refuse continuation.                                                                                                  |
-| 10   | Causal perturbation probes          | Active     | Matched current-state input and no-input replay with RNG restoration.                                                                                       |
-| 11   | Neural feature extraction           | Active     | 64 spike-derived features feed the predictor and memory.                                                                                                    |
-| 12   | Prequential prediction              | Active     | Stored forecast is scored before its next observed outcome trains the readout.                                                                              |
-| 13   | Source-isolated learning            | Active     | Source-specific forecast council learns transition memory and specialist weights; old neural readouts are retained separately.                              |
-| 14   | Calibrated measurement              | Active     | Prequential Brier error and learned repeat baseline; expert losses and forecast attention are public.                                                       |
-| 15   | Persistent episodic memory          | Active     | Inputs, feature vectors and importance survive restart.                                                                                                     |
-| 16   | Similarity-based recall             | Active     | Bounded context-specific candidates are scored by similarity and importance.                                                                                |
-| 17   | Replay actions                      | Active     | Selected past inputs re-stimulate the neural circuit.                                                                                                       |
-| 18   | Novelty signals                     | Active     | Context visits reduce novelty rather than novelty being a narrative label.                                                                                  |
-| 19   | Workspace competition               | Active     | Three selected salience slots affect neural drive.                                                                                                          |
-| 20   | Uncertainty-driven arbitration      | Active     | Prediction uncertainty competes with surprise and resource pressure.                                                                                        |
-| 21   | Published hybrid action selection   | Active     | 65% utility and 35% neural score, with a deterministic tie rule.                                                                                            |
-| 22   | Learned action values               | Active     | Observed rewards update future utility estimates.                                                                                                           |
-| 23   | Measured action costs               | Active     | Runtime updates cost estimates used in action selection.                                                                                                    |
-| 24   | Resource regulation                 | Active     | Explicit model energy and fatigue affect activity and rest.                                                                                                 |
-| 25   | Software embodiment                 | Active     | Actions change habitat position, visitation and virtual resource collection.                                                                                |
-| 26   | Autonomous local experiments        | Active     | Retrospective chronological diagnostics compare forecast components on recorded same-source inputs; no hypothesis invention.                                |
-| 27   | Actual-neuron evaluation            | Evaluation | Actual spike tasks do not beat the learned repeat predictor; a matched training-synapse ablation is published separately.                                   |
-| 28   | Public decision evidence            | Active     | Numerical selection, outcome and model projection hashes are published.                                                                                     |
-| 29   | Atomic recovery                     | Active     | Journal, learning, memory and neural checkpoint commit together.                                                                                            |
-| 30   | Bounded read-only web path          | Active     | Visitors read cached evidence and cannot trigger RPC, jobs or signing.                                                                                      |
-| 31   | Treasury observation                | Prepared   | Read-only finalized wallet balance requires the exact mint and creator-wallet configuration.                                                                |
-| 32   | Creator-fee attribution             | Prepared   | Live Pump creator/mode checks and unsigned standard claims; mint-specific attribution, unsupported modes and automatic collection remain activation gates.  |
-| 33   | Durable spending reservations       | Prepared   | Durable SOL and USDC limits, reserve floor, unique decisions, ambiguous payment reconciliation and restart protection are tested; spending disabled.        |
-| 34   | Unsigned single-transfer rail       | Prepared   | Only a fixed system-transfer message is prepared; no signing or broadcast.                                                                                  |
-| 35   | Isolated autonomous signer          | Prepared   | Isolated exact Solana USDC x402 signer adapter and guarded service installed; no production key or funded provider configured.                              |
-| 36   | Paid job outcome verification       | Prepared   | Payment, delivery hashes and delayed paid-forecast outcomes are implemented and tested offline; a real provider and funded production test remain required. |
-| 37   | Independent public attestation      | Research   | Publish externally witnessed heads and optional chain anchors with a defined cost budget.                                                                   |
-| 38   | Learned transition models           | Research   | Predict habitat transitions from experience and test against a held-out map.                                                                                |
-| 39   | Multi-step planning                 | Research   | Compare learned planning against the current explicit local path planner.                                                                                   |
-| 40   | Attention efficacy tests            | Evaluation | Learned forecast attention is tested across 20 seeds; the separate hand-designed workspace still needs a causal efficacy test.                              |
-| 41   | Memory consolidation                | Research   | Distill older episodes into slower representation without destroying their evidence.                                                                        |
-| 42   | Continual-learning retention        | Research   | Measure forgetting across task changes before enabling new objectives.                                                                                      |
-| 43   | Adaptive goal weighting             | Research   | Learn arbitration weights under stable published safety and resource limits.                                                                                |
-| 44   | Uncertainty-aware interventions     | Research   | Select experiments by expected information gain and verify actual gains.                                                                                    |
-| 45   | Causal model learning               | Research   | Learn intervention effects beyond the current matched perturbation report.                                                                                  |
-| 46   | Counterfactual action evaluation    | Research   | Compare prospective actions without treating a chosen replay as original-history proof.                                                                     |
-| 47   | Multi-modal perception              | Research   | Add authorized structured signals with provenance, rate limits and a useful behavioral objective.                                                           |
-| 48   | Social interaction tasks            | Research   | Evaluate coordination with other independent entities in a bounded environment.                                                                             |
-| 49   | Long-horizon resource planning      | Research   | Measure budget prediction and reserve preservation over changing cost regimes.                                                                              |
-| 50   | Independent capability replication  | Research   | Reproduce outcomes from public code and fixed benchmarks on separate hardware.                                                                              |
-| 51   | Open-ended cumulative development   | Research   | Expand only with measured capability, retained continuity, explicit failure boundaries and independent evaluation.                                          |
+## Neural dynamics
+
+| Capability                          | Status | Evidence or next gate                                                        |
+| ----------------------------------- | ------ | ---------------------------------------------------------------------------- |
+| Persistent membrane dynamics        | Active | Neural variables and random state resume from a trusted checkpoint.          |
+| Recurrent excitation and inhibition | Active | Six-population 1024-neuron circuit with complete connectivity in the worker. |
+| Multi-timescale dynamics            | Active | Sensory, memory and association use different time constants.                |
+| Spike-timing plasticity             | Active | Timing traces change bounded excitatory weights.                             |
+| Eligibility-based feedback          | Active | Observed rewards modulate recently eligible synapses.                        |
+| Homeostatic control                 | Active | Bounded bias feedback regulates population firing.                           |
+
+## Inputs and prediction
+
+| Capability                 | Status   | Evidence or next gate                                                                                                          |
+| -------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Finalized trade reader     | Prepared | Finalized protocol reader is implemented; exact mint is not configured, so no live-token feedback loop is established.         |
+| Individual event encoding  | Active   | Each input has its own sensory window and event-ID texture.                                                                    |
+| Idempotent source history  | Active   | Changed or reordered duplicate inputs refuse continuation.                                                                     |
+| Causal perturbation probes | Active   | Matched current-state input and no-input replay with RNG restoration.                                                          |
+| Neural feature extraction  | Active   | 64 spike-derived features feed the predictor and memory.                                                                       |
+| Prequential prediction     | Active   | Stored forecast is scored before its next observed outcome trains the readout.                                                 |
+| Source-isolated learning   | Active   | Source-specific forecast council learns transition memory and specialist weights; old neural readouts are retained separately. |
+| Calibrated measurement     | Active   | Prequential Brier error and learned repeat baseline; expert losses and forecast attention are public.                          |
+
+## Memory, attention and actions
+
+| Capability                        | Status | Evidence or next gate                                                                                                        |
+| --------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Persistent episodic memory        | Active | Inputs, feature vectors and importance survive restart.                                                                      |
+| Similarity-based recall           | Active | Bounded context-specific candidates are scored by similarity and importance.                                                 |
+| Replay actions                    | Active | Selected past inputs re-stimulate the neural circuit.                                                                        |
+| Novelty signals                   | Active | Context visits reduce novelty rather than novelty being a narrative label.                                                   |
+| Workspace competition             | Active | Three selected salience slots affect neural drive.                                                                           |
+| Uncertainty-driven arbitration    | Active | Prediction uncertainty competes with surprise and resource pressure.                                                         |
+| Published hybrid action selection | Active | 65% utility and 35% neural score, with a deterministic tie rule.                                                             |
+| Learned action values             | Active | Observed rewards update future utility estimates.                                                                            |
+| Measured action costs             | Active | Runtime updates cost estimates used in action selection.                                                                     |
+| Resource regulation               | Active | Explicit model energy and fatigue affect activity and rest.                                                                  |
+| Software embodiment               | Active | Actions change habitat position, visitation and virtual resource collection.                                                 |
+| Autonomous local experiments      | Active | Retrospective chronological diagnostics compare forecast components on recorded same-source inputs; no hypothesis invention. |
+
+## Measurement and continuity
+
+| Capability                 | Status     | Evidence or next gate                                                                                                     |
+| -------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Actual-neuron evaluation   | Evaluation | Actual spike tasks do not beat the learned repeat predictor; a matched training-synapse ablation is published separately. |
+| Public decision evidence   | Active     | Numerical selection, outcome and model projection hashes are published.                                                   |
+| Atomic recovery            | Active     | Journal, learning, memory and neural checkpoint commit together.                                                          |
+| Bounded read-only web path | Active     | Visitors read cached evidence and cannot trigger RPC, jobs or signing.                                                    |
+
+## Fees, custody and purchases
+
+| Capability                    | Status   | Evidence or next gate                                                                                                                                       |
+| ----------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Treasury observation          | Prepared | Read-only finalized wallet balance requires the exact mint and creator-wallet configuration.                                                                |
+| Creator-fee attribution       | Prepared | Live Pump creator/mode checks and unsigned standard claims; mint-specific attribution, unsupported modes and automatic collection remain activation gates.  |
+| Durable spending reservations | Prepared | Durable SOL and USDC limits, reserve floor, unique decisions, ambiguous payment reconciliation and restart protection are tested; spending disabled.        |
+| Unsigned single-transfer rail | Prepared | Only a fixed system-transfer message is prepared; no signing or broadcast.                                                                                  |
+| Isolated autonomous signer    | Prepared | Isolated exact Solana USDC x402 signer adapter and guarded service installed; no production key or funded provider configured.                              |
+| Paid job outcome verification | Prepared | Payment, delivery hashes and delayed paid-forecast outcomes are implemented and tested offline; a real provider and funded production test remain required. |
+
+## Research and validation
+
+| Capability                         | Status     | Evidence or next gate                                                                                                          |
+| ---------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Independent public attestation     | Research   | Publish externally witnessed heads and optional chain anchors with a defined cost budget.                                      |
+| Learned transition models          | Research   | Predict habitat transitions from experience and test against a held-out map.                                                   |
+| Multi-step planning                | Research   | Compare learned planning against the current explicit local path planner.                                                      |
+| Attention efficacy tests           | Evaluation | Learned forecast attention is tested across 20 seeds; the separate hand-designed workspace still needs a causal efficacy test. |
+| Memory consolidation               | Research   | Distill older episodes into slower representation without destroying their evidence.                                           |
+| Continual-learning retention       | Research   | Measure forgetting across task changes before enabling new objectives.                                                         |
+| Adaptive goal weighting            | Research   | Learn arbitration weights under stable published safety and resource limits.                                                   |
+| Uncertainty-aware interventions    | Research   | Select experiments by expected information gain and verify actual gains.                                                       |
+| Causal model learning              | Research   | Learn intervention effects beyond the current matched perturbation report.                                                     |
+| Counterfactual action evaluation   | Research   | Compare prospective actions without treating a chosen replay as original-history proof.                                        |
+| Multi-modal perception             | Research   | Add authorized structured signals with provenance, rate limits and a useful behavioral objective.                              |
+| Social interaction tasks           | Research   | Evaluate coordination with other independent entities in a bounded environment.                                                |
+| Long-horizon resource planning     | Research   | Measure budget prediction and reserve preservation over changing cost regimes.                                                 |
+| Independent capability replication | Research   | Reproduce outcomes from public code and fixed benchmarks on separate hardware.                                                 |
+| Open-ended cumulative development  | Research   | Expand only with measured capability, retained continuity, explicit failure boundaries and independent evaluation.             |

@@ -36,6 +36,30 @@ function initNuriaDocs() {
       });
     }
   }
+  const capabilityMap = byId("capabilityMap");
+  for (const button of capabilityMap.querySelectorAll("[data-capability-filter]")) {
+    button.addEventListener("click", () => {
+      const status = button.dataset.capabilityFilter;
+      let visible = 0;
+      for (const item of capabilityMap.querySelectorAll("[data-capability-status]")) {
+        item.hidden = status !== "all" && item.dataset.capabilityStatus !== status;
+        if (!item.hidden) visible++;
+      }
+      for (const group of capabilityMap.querySelectorAll(".capability-group")) {
+        const items = [...group.querySelectorAll("[data-capability-status]")];
+        const shown = items.filter((item) => !item.hidden).length;
+        group.hidden = shown === 0;
+        group.querySelector(".capability-group-head > span").textContent =
+          shown + (shown === 1 ? " capability" : " capabilities");
+      }
+      for (const filter of capabilityMap.querySelectorAll("[data-capability-filter]"))
+        filter.setAttribute("aria-pressed", String(filter === button));
+      byId("capabilityCount").textContent =
+        status === "all"
+          ? "Showing all 51 capabilities"
+          : "Showing " + visible + " of 51 capabilities";
+    });
+  }
   function setMenu(open) {
     frame.classList.toggle("docs-menu-open", open);
     byId("docsMenu").setAttribute("aria-expanded", String(open));
