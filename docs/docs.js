@@ -23,7 +23,20 @@ function initNuriaDocs() {
       let text = [],
         next = heading.nextElementSibling;
       while (next && next.tagName !== "H2") {
-        text.push(next.textContent);
+        if (next.classList.contains("capability-map")) {
+          text.push(
+            [...next.querySelectorAll(".capability-item")]
+              .map((item) => {
+                const name = item.querySelector("h4").textContent.trim();
+                const status = item
+                  .querySelector(".capability-status")
+                  .textContent.trim();
+                const evidence = item.querySelector("p").textContent.trim();
+                return name + ". " + status + ". " + evidence;
+              })
+              .join(" "),
+          );
+        } else text.push(next.textContent);
         next = next.nextElementSibling;
       }
       if (!text.length && heading.parentElement.classList.contains("docs-question"))
