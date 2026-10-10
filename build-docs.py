@@ -74,7 +74,14 @@ def build(root: Path = ROOT) -> None:
     acquisition = acquisition[acquisition.index("<svg") :]
     docs = docs.replace("{{ACQUISITION_RESULTS}}", acquisition)
     source = source.replace(
-        "</style>", css + "\n" + (root / "experience.css").read_text() + "\n</style>", 1
+        "</style>",
+        css
+        + "\n"
+        + (root / "experience.css").read_text()
+        + "\n"
+        + (root / "lab-design.css").read_text()
+        + "\n</style>",
+        1,
     )
     source = source.replace(
         "<script>",

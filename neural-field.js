@@ -244,14 +244,14 @@ function drawSynapses(activity, fresh, cursor) {
       ? 0.015
       : inspect
         ? 0.65
-        : clamp(0.075 + weight * 1.25, 0.07, 0.26) * depth;
+        : clamp(0.032 + weight * 0.6, 0.03, 0.14) * depth;
     ctx.strokeStyle = inspect
       ? e[2] === "inh"
         ? "#a5bff2b0"
         : "#e4ead3b0"
       : e[2] === "inh"
         ? `rgba(142,171,209,${alpha * 0.55})`
-        : `rgba(181,204,192,${alpha})`;
+        : `rgba(152,224,179,${alpha})`;
     if (fieldLayer === "weights" && !dim && !inspect) {
       ctx.strokeStyle =
         changed > 0.00001
@@ -264,7 +264,7 @@ function drawSynapses(activity, fresh, cursor) {
       ? 1.15
       : fieldLayer === "weights"
         ? 0.35 + clamp(weight, 0, 0.15) * 10
-        : 0.45 + Math.min(0.07, weight) * 3;
+        : 0.4 + Math.min(0.07, weight) * 2;
     ctx.beginPath();
     traceCurve(curve);
     ctx.stroke();
@@ -324,8 +324,8 @@ function drawNeurons(activity) {
       (actualV - (displayVoltage[id] ?? actualV)) * (paused ? 1 : 0.12);
     const voltage = clamp(displayVoltage[id], 0, 1.2),
       depth = clamp(0.58 + p.z * 0.48, 0.22, 1);
-    const radius = (0.9 + voltage * 0.46 + active * 0.95) * p.depth;
-    ctx.globalAlpha = dim ? 0.1 : depth * (0.48 + voltage * 0.38) + active * 0.5;
+    const radius = (1.1 + voltage * 0.52 + active * 1.05) * p.depth;
+    ctx.globalAlpha = dim ? 0.1 : depth * (0.6 + voltage * 0.38) + active * 0.5;
     if (!dim && active > 0.018) {
       const size = (7 + active * 13) * p.depth;
       ctx.globalCompositeOperation = "screen";
@@ -697,14 +697,16 @@ function bindOrbit() {
     updateInspector();
     $("fieldTools").querySelector("summary").focus();
   });
-  $("inspectId").addEventListener("change", () => {
+  const selectInspectorNeuron = () => {
     const id = Number($("inspectId").value);
     if (Number.isInteger(id) && id >= 0 && id < points.length) {
       pinned = id;
       hover = -1;
       updateInspector();
     }
-  });
+  };
+  $("inspectId").addEventListener("input", selectInspectorNeuron);
+  $("inspectId").addEventListener("change", selectInspectorNeuron);
   $("playbackRate").addEventListener("change", () => {
     playbackRate = Number($("playbackRate").value);
     frameStart = performance.now();

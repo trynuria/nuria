@@ -7812,6 +7812,756 @@
           transition: none;
         }
       }
+
+      /* Lab presentation. The neural field continues to render measured records. */
+      @font-face {
+        font-family: "Nuria Condensed";
+        src: url("/media/nuria-lab-bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      :root {
+        --bg: #050908;
+        --paper: #e0eee4;
+        --muted: #a0b2a8;
+        --dim: #819a8b;
+        --line: #20382b;
+        --green: #b9f2ce;
+        --surface: #0a120e;
+        --surface-raised: #112018;
+        --display: "Nuria Condensed", "Arial Narrow", Impact, sans-serif;
+      }
+      .app {
+        grid-template-rows: 58px minmax(0, 1fr);
+      }
+      .header,
+      .docs-header {
+        background: var(--bg);
+        border-color: var(--line);
+        padding-inline: max(32px, calc((100vw - 1560px) / 2));
+      }
+      .logo {
+        gap: 10px;
+      }
+      .logo-mark {
+        width: 28px;
+        height: 30px;
+      }
+      .wordmark-svg {
+        width: 89px;
+        height: 31px;
+      }
+      .header .nav {
+        gap: 26px;
+      }
+      .header .nav a {
+        gap: 5px;
+        font: 11px/1 var(--mono);
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .header .nav a::before,
+      .hero-links a::before {
+        content: "[";
+        color: var(--dim);
+      }
+      .header .nav a::after,
+      .hero-links a::after {
+        content: "]";
+        color: var(--dim);
+      }
+      .header .nav a:hover,
+      .header .nav a[aria-current="page"],
+      .hero-links a:hover {
+        color: var(--green);
+      }
+      .header .live-status {
+        padding-left: 20px;
+        width: 138px;
+        font: 10px/1.4 var(--mono);
+      }
+      .live-dot {
+        border-radius: 0;
+        box-shadow: none;
+        width: 4px;
+        height: 4px;
+      }
+      .shell {
+        max-width: 1624px;
+        padding-inline: 48px;
+      }
+      .observatory {
+        position: relative;
+      }
+      .stage {
+        height: clamp(720px, calc(100dvh - 168px), 920px);
+        min-height: 0;
+        max-height: none;
+        grid-template-rows: minmax(0, 1fr) 54px;
+      }
+      .field {
+        background: radial-gradient(ellipse at 72% 43%, #142b1c50 0%, #05090800 65%);
+        isolation: isolate;
+      }
+      .field::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 6;
+        pointer-events: none;
+        background: repeating-linear-gradient(0deg, #0000 0 3px, #b9f2ce03 3px 4px);
+      }
+      .lab-wiring {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        color: #86cb9d;
+        opacity: 0.1;
+        pointer-events: none;
+        z-index: -1;
+      }
+      .neural-introduction {
+        width: 46%;
+        padding: 40px 0 12px;
+        gap: 23px;
+        justify-content: center;
+      }
+      .lab-label {
+        color: var(--green);
+        font: 10px/1.4 var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 2px;
+      }
+      .neural-introduction h1 {
+        font: 700 clamp(64px, 7.6vw, 119px)/0.86 var(--display);
+        text-transform: uppercase;
+        letter-spacing: -0.025em;
+        color: var(--green);
+        max-width: 100%;
+      }
+      .neural-introduction h1 span {
+        white-space: nowrap;
+      }
+      .neural-introduction .hero-copy {
+        max-width: 335px;
+        margin-top: 7px;
+      }
+      .neural-introduction .hero-copy p {
+        font: 12px/1.9 var(--mono);
+        max-width: 335px;
+        color: var(--muted);
+      }
+      .neural-introduction .hero-links {
+        margin-top: 24px;
+        gap: 20px;
+      }
+      .neural-introduction .hero-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 44px;
+        border: 0;
+        font: 11px/1 var(--mono);
+        color: var(--green);
+      }
+      .field #network {
+        inset: 0 0 0 43%;
+        width: 57%;
+        height: 100%;
+      }
+      .field-top {
+        top: 26px;
+        left: 0;
+        right: 0;
+        width: auto;
+      }
+      .field-meta {
+        width: auto;
+        max-width: 35%;
+      }
+      #graphBadge {
+        color: var(--muted);
+      }
+      .field-meta .micro,
+      .field-source,
+      .frame-label {
+        font: 10px/1.7 var(--mono);
+        letter-spacing: 0.015em;
+      }
+      .stage-head {
+        top: 20px;
+        right: 0;
+        height: 32px;
+      }
+      .segmented {
+        gap: 22px;
+      }
+      .segmented button {
+        font: 10px/1 var(--mono);
+        min-height: 34px;
+      }
+      .segmented button:hover {
+        color: var(--green);
+      }
+      .segmented button[aria-pressed="true"] {
+        color: var(--green);
+        box-shadow: inset 0 -1px var(--green);
+      }
+      .field-readings {
+        top: 73px;
+        right: 0;
+        color: var(--muted);
+        gap: 6px;
+      }
+      .field-readings strong {
+        color: var(--green);
+        font-weight: 400;
+        font-variant-numeric: tabular-nums;
+      }
+      .field-bottom {
+        left: 42%;
+        right: 0;
+        bottom: 21px;
+      }
+      .field-layers {
+        border-color: var(--line);
+        border-radius: 0;
+        padding: 0;
+        background: #050908ed;
+      }
+      .field-layers button {
+        font: 10px/1 var(--mono);
+        min-height: 34px;
+        padding-inline: 13px;
+        border-radius: 0;
+      }
+      .field-layers button[aria-pressed="true"] {
+        color: var(--green);
+        background: var(--surface-raised);
+      }
+      .icon-btn,
+      .field-tools > summary {
+        border-radius: 0;
+        color: var(--muted);
+      }
+      .icon-btn:hover,
+      .field-tools > summary:hover {
+        color: var(--green);
+        background: var(--surface-raised);
+      }
+      .field-tool-menu,
+      .nuria-select-popup,
+      .inspection {
+        border-radius: 0;
+        border-color: #345943;
+        background: #08120df5;
+        box-shadow: 0 14px 50px #0009;
+      }
+      .nuria-select-trigger {
+        border-radius: 0;
+      }
+      .inspection {
+        z-index: 12;
+      }
+      .window-caption {
+        bottom: 28px;
+        right: 0;
+      }
+      .field-status {
+        left: 51%;
+        right: 9%;
+        background: #050908ed;
+        border-color: var(--line);
+        font: 11px/1.6 var(--mono);
+        color: var(--muted);
+      }
+      .field-filters {
+        gap: 22px;
+        border-color: var(--line);
+      }
+      .field-filters .filter {
+        min-height: 40px;
+        font: 10px/1 var(--mono);
+        color: var(--dim);
+      }
+      .field-filters .filter:hover,
+      .field-filters .filter[aria-pressed="true"] {
+        color: var(--green);
+      }
+      .instrument-strip {
+        display: grid;
+        height: 100px;
+        border-bottom: 1px solid var(--line);
+        grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+      }
+      .instrument:not(:first-child) {
+        display: grid;
+        grid-template-rows: 16px 42px;
+        align-content: center;
+        gap: 3px;
+        padding-inline: 24px;
+        border-left: 1px solid var(--line);
+      }
+      .instrument:not(:first-child) > * {
+        order: 0;
+      }
+      .instrument strong {
+        font: 700 38px/1 var(--display);
+        color: var(--green);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0;
+        height: 42px;
+        min-height: 42px;
+        min-width: 82px;
+        width: auto;
+        overflow: visible;
+      }
+      .instrument strong .unit {
+        margin-left: 4px;
+      }
+      .instrument .micro,
+      .instrument .unit {
+        font: 10px/1.4 var(--mono);
+        color: var(--dim);
+      }
+      .below-field {
+        height: 42px;
+        font: 9px/1.4 var(--mono);
+        color: var(--dim);
+      }
+      .cognitive-section,
+      .discovery-section,
+      .workspace {
+        padding-block: 54px;
+      }
+      .cognitive-heading h2,
+      .discovery-heading h2,
+      .work-heading h2 {
+        font: 700 48px/1.02 var(--display);
+        text-transform: uppercase;
+        color: var(--green);
+        letter-spacing: -0.01em;
+      }
+      .cognitive-heading,
+      .discovery-heading {
+        align-items: baseline;
+      }
+      .cognitive-card,
+      .lab-panel,
+      .note,
+      .commerce-card {
+        border-radius: 0;
+        background: var(--surface);
+        border-color: var(--line);
+      }
+      .cognitive-card .card-label,
+      .cognitive-state,
+      .lab-state,
+      .tablist button,
+      .work-tabs button {
+        font-family: var(--mono);
+        font-size: 11px;
+      }
+      .lab-tabs button,
+      .tabs button,
+      .work-tabs button,
+      .capability-filters button {
+        border-radius: 0;
+      }
+      .lab-tabs button:hover,
+      .work-tabs button:hover,
+      .tabs button:hover {
+        color: var(--green);
+      }
+      .lab-panel-head,
+      .cognitive-card-head,
+      .region,
+      .work-catalog h3 {
+        font-family: var(--mono);
+      }
+      .input-inspector,
+      .model-disclosure,
+      .record-disclosure {
+        border-radius: 0;
+        border-color: var(--line);
+      }
+      .event:hover {
+        background: #122319;
+      }
+      .footer {
+        padding-block: 36px;
+      }
+      .footer-caption,
+      .footer-links a {
+        font: 10px/1.5 var(--mono);
+      }
+      .work-mode .work-hub {
+        padding-top: 64px;
+      }
+      .work-heading {
+        margin-bottom: 32px;
+      }
+      .work-kicker,
+      .work-health {
+        color: var(--dim);
+      }
+      .work-tabs {
+        gap: 32px;
+      }
+      .work-job:hover {
+        background: var(--surface);
+      }
+      .work-money strong {
+        font: 700 42px/1.15 var(--display);
+        color: var(--green);
+      }
+      .docs-page {
+        --bg: #050908;
+        --line: #20382b;
+      }
+      .docs-app {
+        grid-template-rows: 58px minmax(0, 1fr);
+      }
+      .docs-header {
+        height: 58px;
+      }
+      .docs-brand-label,
+      .docs-header-actions,
+      .docs-search-trigger,
+      .docs-nav-label,
+      .docs-nav-link,
+      .docs-sidebar-foot,
+      .docs-breadcrumb,
+      .docs-toc,
+      .docs-footer {
+        font-family: var(--mono);
+      }
+      .docs-brand-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .docs-header .logo-mark {
+        display: block;
+      }
+      .docs-header-actions {
+        font-size: 11px;
+        gap: 24px;
+      }
+      .docs-search-trigger {
+        width: 185px;
+        border-radius: 0;
+        font-size: 11px;
+        background: var(--surface);
+      }
+      .docs-sidebar {
+        padding: 24px 18px 14px;
+      }
+      .docs-nav-link {
+        min-height: 40px;
+        font-size: 11px;
+        border-radius: 0;
+        border-left: 1px solid transparent;
+      }
+      .docs-nav-link.active {
+        border-left-color: var(--green);
+        color: var(--green);
+        background: var(--surface-raised);
+      }
+      .docs-nav-link:hover {
+        color: var(--green);
+        background: var(--surface);
+      }
+      .docs-nav-label {
+        font-size: 9px;
+        color: var(--dim);
+      }
+      .docs-nav-group + .docs-nav-group {
+        margin-top: 30px;
+      }
+      .docs-breadcrumb {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .docs-article > h1 {
+        font: 700 clamp(40px, 4.5vw, 64px)/1.05 var(--display);
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+        color: var(--green);
+        margin-top: 26px;
+      }
+      .docs-article h2 {
+        font-size: 22px;
+        margin-top: 40px;
+      }
+      .docs-article .docs-lead {
+        color: var(--paper);
+        font-size: 19px;
+      }
+      .docs-article p,
+      .docs-article li {
+        color: var(--muted);
+        line-height: 1.85;
+      }
+      .docs-callout,
+      .docs-table-wrap,
+      .docs-search-dialog,
+      .docs-search-result,
+      .capability-group,
+      .capability-card,
+      .flow-figure,
+      .acquisition-figure {
+        border-radius: 0;
+        border-color: var(--line);
+        background: var(--surface);
+      }
+      .docs-search-dialog {
+        box-shadow: 0 26px 90px #000b;
+      }
+      .docs-search-result:hover,
+      .docs-search-result[aria-selected="true"] {
+        background: var(--surface-raised);
+      }
+      .focus-mode .lab-wiring,
+      .focus-mode .field::after {
+        display: none;
+      }
+      .focus-mode .stage {
+        height: calc(100dvh - 58px);
+        grid-template-rows: minmax(0, 1fr) 54px;
+      }
+      .focus-mode .field #network {
+        inset: 0;
+        width: 100%;
+      }
+      .focus-mode .field-status {
+        left: 30%;
+        right: 30%;
+      }
+      @media (max-width: 1100px) {
+        .shell {
+          padding-inline: 32px;
+        }
+        .header .nav {
+          gap: 18px;
+        }
+        .header .live-status {
+          display: none;
+        }
+        .neural-introduction h1 {
+          font-size: clamp(56px, 7.4vw, 83px);
+        }
+        .field-filters {
+          gap: 16px;
+        }
+        .window-caption {
+          display: none;
+        }
+      }
+      @media (max-width: 760px) {
+        .shell {
+          padding-inline: 20px;
+        }
+        .header,
+        .docs-header {
+          padding-inline: 20px;
+        }
+        .header .nav {
+          gap: 16px;
+        }
+        .header .nav a::before,
+        .header .nav a::after {
+          display: none;
+        }
+        .header .nav a[data-work-view="treasury"],
+        .header .nav a[data-work-view="evidence"] {
+          display: none;
+        }
+        .stage {
+          height: 870px;
+          grid-template-rows: 782px 88px;
+        }
+        .neural-introduction {
+          inset: 83px 0 auto;
+          width: 100%;
+          height: 330px;
+          padding: 0;
+          gap: 17px;
+          justify-content: flex-start;
+        }
+        .lab-label {
+          font-size: 9px;
+          margin-bottom: 5px;
+        }
+        .neural-introduction h1 {
+          font-size: clamp(58px, 12.9vw, 92px);
+          line-height: 0.87;
+        }
+        .neural-introduction .hero-copy {
+          max-width: 340px;
+          margin: 0;
+        }
+        .neural-introduction .hero-copy p {
+          font-size: 11px;
+          line-height: 1.8;
+        }
+        .neural-introduction .hero-links {
+          margin-top: 8px;
+          gap: 20px;
+        }
+        .field #network {
+          inset: 374px 0 0;
+          width: 100%;
+          height: calc(100% - 374px);
+        }
+        .field-top {
+          top: 18px;
+        }
+        .field-meta {
+          max-width: calc(100% - 158px);
+        }
+        .field-source {
+          margin-top: 0;
+        }
+        .frame-label {
+          display: none;
+        }
+        .stage-head {
+          top: 15px;
+          right: 0;
+        }
+        .segmented {
+          gap: 16px;
+        }
+        .segmented button {
+          font-size: 9px;
+        }
+        .stage-actions {
+          gap: 8px;
+        }
+        .field-readings {
+          top: 408px;
+          right: 0;
+          font-size: 9px;
+        }
+        .field-bottom {
+          left: 0;
+          right: 0;
+          bottom: 18px;
+        }
+        .field-status {
+          left: 12%;
+          right: 12%;
+          top: 64%;
+        }
+        .field-filters {
+          flex-wrap: wrap;
+          align-content: center;
+          justify-content: center;
+          column-gap: 19px;
+          row-gap: 0;
+          padding-block: 8px;
+        }
+        .field-filters .filter {
+          min-height: 32px;
+          font-size: 9px;
+        }
+        .instrument-strip {
+          height: 132px;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .instrument:first-child {
+          grid-column: 1 / -1;
+          padding-block: 12px;
+          border-bottom: 1px solid var(--line);
+        }
+        .instrument:not(:first-child) {
+          padding: 13px 4px;
+          grid-template-rows: 13px 36px;
+          border-left: 0;
+        }
+        .instrument strong {
+          font-size: 32px;
+          height: 36px;
+          min-height: 36px;
+          min-width: 72px;
+        }
+        .instrument .micro {
+          font-size: 9px;
+        }
+        .cognitive-heading h2,
+        .discovery-heading h2,
+        .work-heading h2 {
+          font-size: 39px;
+        }
+        .cognitive-section,
+        .discovery-section,
+        .workspace {
+          padding-block: 38px;
+        }
+        .footer-links {
+          gap: 18px;
+        }
+        .docs-header-actions {
+          gap: 16px;
+        }
+        .docs-search-trigger {
+          width: 34px;
+          min-height: 34px;
+          padding: 8px;
+        }
+        .docs-search-trigger span {
+          display: none;
+        }
+        .docs-brand-label {
+          padding-left: 10px;
+        }
+        .docs-header .docs-observe {
+          display: none;
+        }
+        .docs-header .github-link span {
+          display: none;
+        }
+        .docs-reading {
+          padding-top: 26px;
+        }
+        .docs-article > h1 {
+          font-size: 43px;
+          margin-top: 22px;
+        }
+        .work-mode .work-hub {
+          padding-top: 36px;
+        }
+      }
+      @media (max-width: 380px) {
+        .header .nav {
+          gap: 12px;
+        }
+        .logo-mark {
+          width: 23px;
+        }
+        .wordmark-svg {
+          width: 76px;
+        }
+        .neural-introduction h1 {
+          font-size: 51px;
+        }
+        .field-meta .micro,
+        .field-source {
+          font-size: 9px;
+        }
+        .segmented {
+          gap: 10px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .field::after {
+          display: none;
+        }
+      }
     </style></head
   ><body>
     <a class="skip" href="#neural-field">Skip to neural field</a>
@@ -7912,7 +8662,33 @@
             <div class="stage-grid"
               ><div class="stage"
                 ><div class="field">
+                  <svg
+                    class="lab-wiring"
+                    viewBox="0 0 1440 800"
+                    preserveAspectRatio="none"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <g stroke="currentColor" stroke-width=".65">
+                      <path d="M0 110H300L610 420H1040" />
+                      <path d="M0 150H280L570 440H1010" />
+                      <path d="M0 190H260L530 460H990" />
+                      <path d="M0 230H240L490 480H970" />
+                      <path d="M0 630H260L530 360H960" />
+                      <path d="M0 670H290L560 400H1010" />
+                      <path d="M0 710H320L610 420H1060" />
+                      <path d="M1440 100H1230L1040 290H940" />
+                      <path d="M1440 140H1260L1070 330H970" />
+                      <path d="M1440 650H1260L1080 470H970" />
+                    </g>
+                    <g fill="currentColor">
+                      <circle cx="1040" cy="420" r="2" />
+                      <circle cx="960" cy="360" r="2" />
+                      <circle cx="940" cy="290" r="2" />
+                    </g>
+                  </svg>
                   <div class="hero neural-introduction"
+                    ><div class="lab-label">Nuria / observatory</div
                     ><div class="hero-title"
                       ><h1
                         ><span>An onchain</span><span>consciousness</span
@@ -15172,14 +15948,14 @@
               ? 0.015
               : inspect
                 ? 0.65
-                : clamp(0.075 + weight * 1.25, 0.07, 0.26) * depth;
+                : clamp(0.032 + weight * 0.6, 0.03, 0.14) * depth;
             ctx.strokeStyle = inspect
               ? e[2] === "inh"
                 ? "#a5bff2b0"
                 : "#e4ead3b0"
               : e[2] === "inh"
                 ? `rgba(142,171,209,${alpha * 0.55})`
-                : `rgba(181,204,192,${alpha})`;
+                : `rgba(152,224,179,${alpha})`;
             if (fieldLayer === "weights" && !dim && !inspect) {
               ctx.strokeStyle =
                 changed > 0.00001
@@ -15192,7 +15968,7 @@
               ? 1.15
               : fieldLayer === "weights"
                 ? 0.35 + clamp(weight, 0, 0.15) * 10
-                : 0.45 + Math.min(0.07, weight) * 3;
+                : 0.4 + Math.min(0.07, weight) * 2;
             ctx.beginPath();
             traceCurve(curve);
             ctx.stroke();
@@ -15255,10 +16031,8 @@
               (actualV - (displayVoltage[id] ?? actualV)) * (paused ? 1 : 0.12);
             const voltage = clamp(displayVoltage[id], 0, 1.2),
               depth = clamp(0.58 + p.z * 0.48, 0.22, 1);
-            const radius = (0.9 + voltage * 0.46 + active * 0.95) * p.depth;
-            ctx.globalAlpha = dim
-              ? 0.1
-              : depth * (0.48 + voltage * 0.38) + active * 0.5;
+            const radius = (1.1 + voltage * 0.52 + active * 1.05) * p.depth;
+            ctx.globalAlpha = dim ? 0.1 : depth * (0.6 + voltage * 0.38) + active * 0.5;
             if (!dim && active > 0.018) {
               const size = (7 + active * 13) * p.depth;
               ctx.globalCompositeOperation = "screen";
@@ -15653,14 +16427,16 @@
             updateInspector();
             $("fieldTools").querySelector("summary").focus();
           });
-          $("inspectId").addEventListener("change", () => {
+          const selectInspectorNeuron = () => {
             const id = Number($("inspectId").value);
             if (Number.isInteger(id) && id >= 0 && id < points.length) {
               pinned = id;
               hover = -1;
               updateInspector();
             }
-          });
+          };
+          $("inspectId").addEventListener("input", selectInspectorNeuron);
+          $("inspectId").addEventListener("change", selectInspectorNeuron);
           $("playbackRate").addEventListener("change", () => {
             playbackRate = Number($("playbackRate").value);
             frameStart = performance.now();
