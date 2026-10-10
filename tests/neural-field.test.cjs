@@ -132,3 +132,20 @@ test("holding the field preserves the captured tick; resume ingests the newest s
   assert.equal(vm.runInContext("neuralFrame.tick", sandbox), 2);
   assert.ok(Math.abs(vm.runInContext("weightDeltas[0]", sandbox) - 0.02) < 1e-12);
 });
+
+test("schematic contours cannot be mistaken for additional recorded neuron identities", () => {
+  for (let region = 0; region < 6; region++) {
+    const contours = math.contours(region);
+    assert.deepEqual(contours, math.contours(region));
+    for (const ring of contours) {
+      assert.ok(ring.length > 3);
+      for (const point of ring) {
+        assert.equal(point.id, undefined);
+        assert.equal(point.region, undefined);
+        assert.ok(["x", "y", "z"].every((key) => Number.isFinite(point[key])));
+      }
+      assert.ok(Math.abs(ring[0].x - ring.at(-1).x) < 1e-12);
+      assert.ok(Math.abs(ring[0].z - ring.at(-1).z) < 1e-12);
+    }
+  }
+});

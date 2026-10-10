@@ -5,13 +5,33 @@ const NeuralMath = (() => {
   const hash = (id, salt = 0) =>
     fract(Math.sin(id * 127.1 + salt * 311.7) * 43758.5453);
   const lobes = [
-    [-0.99, 0.08, 0.08, 0.38, 0.61, 0.44],
-    [-0.28, 0.29, -0.06, 0.66, 0.62, 0.63],
-    [0.5, 0.49, -0.14, 0.4, 0.36, 0.48],
-    [0.19, -0.13, 0.49, 0.4, 0.37, 0.29],
-    [0.99, -0.12, 0.02, 0.37, 0.49, 0.46],
-    [-0.05, -0.65, -0.17, 0.72, 0.24, 0.41],
+    [-0.48, 0.52, -0.04, 0.56, 0.7, 0.64],
+    [0.02, 0.4, 0.08, 0.72, 0.88, 0.68],
+    [0.48, 0.65, -0.08, 0.44, 0.5, 0.57],
+    [0.28, -0.04, 0.45, 0.43, 0.5, 0.35],
+    [0.42, -0.57, 0.02, 0.37, 0.61, 0.45],
+    [-0.06, -1.06, -0.12, 0.35, 0.39, 0.3],
   ];
+  const foldedPoint = (lobe, angle, latitude, shell = 1) => {
+    const ring = Math.sqrt(Math.max(0, 1 - latitude * latitude));
+    const fold =
+      0.86 + 0.1 * Math.cos(angle * 3 + latitude * 9) + 0.04 * Math.cos(angle * 7);
+    return {
+      x: lobe[0] + Math.cos(angle) * ring * lobe[3] * fold * shell,
+      y: lobe[1] + latitude * lobe[4] * shell,
+      z: lobe[2] + Math.sin(angle) * ring * lobe[5] * fold * shell,
+    };
+  };
+  // Decorative contours have no neuron IDs and never enter spike counts or hit testing.
+  function contours(regionIndex) {
+    const lobe = lobes[regionIndex % lobes.length];
+    return Array.from({ length: 15 }, (_, i) => {
+      const latitude = -0.93 + (1.86 * i) / 14;
+      return Array.from({ length: 41 }, (_, j) =>
+        foldedPoint(lobe, (j / 40) * Math.PI * 2, latitude),
+      );
+    });
+  }
   function layout(nodes, regions) {
     return nodes.map((node) => {
       const ri = regions.findIndex((r) => r.id === node.region);
@@ -21,8 +41,6 @@ const NeuralMath = (() => {
         count = region.end - region.start;
       const latitude = 1 - (2 * (j + 0.5)) / count;
       const angle = j * 2.399963229728653;
-      const ring = Math.sqrt(Math.max(0, 1 - latitude * latitude));
-      const fold = 0.88 + 0.12 * Math.cos(angle * 3 + latitude * 9);
       const shell =
         hash(node.id, 7) > 0.24
           ? 0.88 + hash(node.id, 11) * 0.12
@@ -31,9 +49,7 @@ const NeuralMath = (() => {
         id: node.id,
         region: node.region,
         ri,
-        x: lobe[0] + Math.cos(angle) * ring * lobe[3] * fold * shell,
-        y: lobe[1] + latitude * lobe[4] * shell,
-        z: lobe[2] + Math.sin(angle) * ring * lobe[5] * fold * shell,
+        ...foldedPoint(lobe, angle, latitude, shell),
       };
     });
   }
@@ -126,6 +142,17 @@ const NeuralMath = (() => {
         t * t * t * c.b.y,
     };
   }
-  return { clamp, hash, layout, project, recordedFrame, energy, transit, hit, bezier };
+  return {
+    clamp,
+    hash,
+    layout,
+    contours,
+    project,
+    recordedFrame,
+    energy,
+    transit,
+    hit,
+    bezier,
+  };
 })();
 if (typeof module !== "undefined" && module.exports) module.exports = NeuralMath;

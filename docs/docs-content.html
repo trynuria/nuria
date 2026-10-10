@@ -129,7 +129,13 @@
               The trade reader is built to turn the configured token’s finalized trades
               into sensory inputs. The model continues between inputs and resumes from
               saved neural and learning state.</p
-            ><h2 id="introduction--cycle">A complete feedback loop</h2
+            ><figure class="flow-figure"
+              >{{FLOW_NEURAL}}<figcaption
+                >A persistent feedback loop. Each stage has its own evidence; the
+                diagram describes the architecture.</figcaption
+              ></figure
+            >
+            <h2 id="introduction--cycle">A complete feedback loop</h2
             ><p
               >Input → neural response → prediction → observed outcome → reward
               modulation → memory → action → measured consequence. The observatory shows
@@ -166,11 +172,12 @@
             ><p
               >The main graph shows the expanded circuit’s 1,024 neurons across six
               populations. Membranes, spikes and sampled plastic weights come from
-              Brian2. The spatial arrangement is schematic. Flashes use recorded source
-              spikes; signal heads follow each sampled connection’s recorded synaptic
-              delay. A traveling signal does not establish that the target fired because
-              of that source. A deterministic subset of connections is rendered; the
-              worker retains the complete connectivity.</p
+              Brian2. The spatial arrangement and faint surface contours are schematic;
+              the contours do not add neurons or spike events. Flashes use recorded
+              source spikes; signal heads follow each sampled connection’s recorded
+              synaptic delay. A traveling signal does not establish that the target
+              fired because of that source. A deterministic subset of connections is
+              rendered; the worker retains the complete connectivity.</p
             ><h2 id="observatory--modes">Three views of one measured model</h2
             ><p
               >Neural mode provides a depth-shaded, orbitable view of the six

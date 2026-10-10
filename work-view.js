@@ -415,11 +415,18 @@ function renderWork(evidence) {
   renderWorkDetail();
   $("workCatalog").replaceChildren(
     ...evidence.catalog.map((item) => {
-      const card = workNode("article");
+      const card = workNode("article", undefined, "work-capability");
+      const descriptions = {
+        "data:gated": "Provider access and funded purchases are not active.",
+        "agents:prepared":
+          "Briefs and delivery checks are ready. External hiring is not active.",
+        "humans:planned": "Human commissioning requires a marketplace integration.",
+        "compute:planned": "External compute requires a connected provider.",
+      };
       card.append(
         workNode("span", workLabel(item.status), "work-kicker"),
         workNode("h3", item.name),
-        workNode("p", item.detail),
+        workNode("p", descriptions[item.id + ":" + item.status] || item.detail),
       );
       return card;
     }),

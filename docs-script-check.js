@@ -506,11 +506,11 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     activeTab = "experience";
   const colors = {
     buy: "#c7f4b0",
-    sensory: "#bdcf9f",
-    workspace: "#d8c18b",
+    sensory: "#c3f99d",
+    workspace: "#d7e3a0",
     sell: "#dfa6b2",
-    association: "#b8d2cb",
-    memory: "#b9b0d8",
+    association: "#a2d89c",
+    memory: "#96c4b2",
     policy: "#c8dba4",
     inhibition: "#96b6d2",
   };
@@ -546,13 +546,33 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     const hash = (id, salt = 0) =>
       fract(Math.sin(id * 127.1 + salt * 311.7) * 43758.5453);
     const lobes = [
-      [-0.99, 0.08, 0.08, 0.38, 0.61, 0.44],
-      [-0.28, 0.29, -0.06, 0.66, 0.62, 0.63],
-      [0.5, 0.49, -0.14, 0.4, 0.36, 0.48],
-      [0.19, -0.13, 0.49, 0.4, 0.37, 0.29],
-      [0.99, -0.12, 0.02, 0.37, 0.49, 0.46],
-      [-0.05, -0.65, -0.17, 0.72, 0.24, 0.41],
+      [-0.48, 0.52, -0.04, 0.56, 0.7, 0.64],
+      [0.02, 0.4, 0.08, 0.72, 0.88, 0.68],
+      [0.48, 0.65, -0.08, 0.44, 0.5, 0.57],
+      [0.28, -0.04, 0.45, 0.43, 0.5, 0.35],
+      [0.42, -0.57, 0.02, 0.37, 0.61, 0.45],
+      [-0.06, -1.06, -0.12, 0.35, 0.39, 0.3],
     ];
+    const foldedPoint = (lobe, angle, latitude, shell = 1) => {
+      const ring = Math.sqrt(Math.max(0, 1 - latitude * latitude));
+      const fold =
+        0.86 + 0.1 * Math.cos(angle * 3 + latitude * 9) + 0.04 * Math.cos(angle * 7);
+      return {
+        x: lobe[0] + Math.cos(angle) * ring * lobe[3] * fold * shell,
+        y: lobe[1] + latitude * lobe[4] * shell,
+        z: lobe[2] + Math.sin(angle) * ring * lobe[5] * fold * shell,
+      };
+    };
+    // Decorative contours have no neuron IDs and never enter spike counts or hit testing.
+    function contours(regionIndex) {
+      const lobe = lobes[regionIndex % lobes.length];
+      return Array.from({ length: 15 }, (_, i) => {
+        const latitude = -0.93 + (1.86 * i) / 14;
+        return Array.from({ length: 41 }, (_, j) =>
+          foldedPoint(lobe, (j / 40) * Math.PI * 2, latitude),
+        );
+      });
+    }
     function layout(nodes, regions) {
       return nodes.map((node) => {
         const ri = regions.findIndex((r) => r.id === node.region);
@@ -562,8 +582,6 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
           count = region.end - region.start;
         const latitude = 1 - (2 * (j + 0.5)) / count;
         const angle = j * 2.399963229728653;
-        const ring = Math.sqrt(Math.max(0, 1 - latitude * latitude));
-        const fold = 0.88 + 0.12 * Math.cos(angle * 3 + latitude * 9);
         const shell =
           hash(node.id, 7) > 0.24
             ? 0.88 + hash(node.id, 11) * 0.12
@@ -572,9 +590,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
           id: node.id,
           region: node.region,
           ri,
-          x: lobe[0] + Math.cos(angle) * ring * lobe[3] * fold * shell,
-          y: lobe[1] + latitude * lobe[4] * shell,
-          z: lobe[2] + Math.sin(angle) * ring * lobe[5] * fold * shell,
+          ...foldedPoint(lobe, angle, latitude, shell),
         };
       });
     }
@@ -671,6 +687,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       clamp,
       hash,
       layout,
+      contours,
       project,
       recordedFrame,
       energy,
@@ -696,8 +713,11 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     spriteCache = new Map();
   let regionCenters = [],
     projectedCenters = [],
+    formContours = [],
+    projectedContours = [],
     edgeCurves = [],
     nodeOrder = [];
+  let sceneOrigin = { x: 0, y: 0 };
   let lastHudPaint = 0,
     fieldVisible = true,
     playbackRate = 22;
@@ -732,6 +752,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         z: members.reduce((v, p) => v + p.z, 0) / members.length,
       };
     });
+    formContours = topology.regions.map((_, index) => NeuralMath.contours(index));
     let wi = 0;
     weightedEdges = topology.edges.map((edge, index) => ({
       edge,
@@ -812,19 +833,27 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       zoomEase += (zoom - zoomEase) * ease;
     }
     lastCamera = { ...camera };
-    const scale = Math.min(w * (w < 720 ? 0.34 : 0.3), (h - 145) * 0.46) * zoomEase;
+    const immersive =
+      !document.body.classList.contains("focus-mode") && mode !== "topology";
+    const scale =
+      Math.min(w * (w < 760 ? 0.39 : immersive ? 0.235 : 0.27), (h - 130) * 0.35) *
+      zoomEase;
+    sceneOrigin = { x: w * (immersive && w >= 760 ? 0.73 : 0.5), y: (h - 65) * 0.52 };
     const projectPoint = (p) =>
       NeuralMath.project(
         p,
         mode === "topology" ? 0 : cameraEase.yaw,
         mode === "topology" ? 0 : cameraEase.pitch,
         scale,
-        w * 0.5,
-        (h - 90) * 0.52,
+        sceneOrigin.x,
+        sceneOrigin.y,
         mode !== "topology",
       );
     points = basePoints.map((p) => ({ ...p, ...projectPoint(p) }));
     projectedCenters = regionCenters.map(projectPoint);
+    projectedContours = formContours.map((rings) =>
+      rings.map((ring) => ring.map(projectPoint)),
+    );
     edgeCurves = weightedEdges.map((item) => {
       const a = points[item.edge[0]],
         b = points[item.edge[1]];
@@ -879,8 +908,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   }
   function drawBackdrop(w, h, scale) {
     ctx.save();
-    const x = w / 2,
-      y = (h - 90) * 0.52;
+    const x = sceneOrigin.x,
+      y = sceneOrigin.y;
     const g = ctx.createRadialGradient(x, y, scale * 0.2, x, y, scale * 1.65);
     g.addColorStop(0, "#67867710");
     g.addColorStop(0.6, "#67867705");
@@ -903,7 +932,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       if (selected !== "all" && selected !== r.id) continue;
       const p = projectedCenters[i],
         size = scale * (i === 1 ? 1.2 : 0.75);
-      ctx.globalAlpha = 0.025 + Math.min(0.04, (neuralFrame.rates[i] || 0) / 400);
+      ctx.globalAlpha = 0.035 + Math.min(0.05, (neuralFrame.rates[i] || 0) / 400);
       ctx.drawImage(
         glowSprite(colors[r.id]),
         p.x - size / 2,
@@ -911,6 +940,40 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         size,
         size,
       );
+    }
+    ctx.restore();
+  }
+  function drawFormContours() {
+    ctx.save();
+    ctx.lineWidth = 0.55;
+    for (let i = 0; i < projectedContours.length; i++) {
+      if (selected !== "all" && topology.regions[i].id !== selected) continue;
+      ctx.strokeStyle = "#bafa9817";
+      ctx.beginPath();
+      for (const ring of projectedContours[i]) {
+        ctx.moveTo(ring[0].x, ring[0].y);
+        for (let j = 1; j < ring.length; j++) ctx.lineTo(ring[j].x, ring[j].y);
+      }
+      ctx.stroke();
+      // Schematic surface geometry remains separate from measured neuron flashes.
+      for (const ring of projectedContours[i]) {
+        for (let j = 0; j < ring.length - 1; j++) {
+          const p = ring[j];
+          ctx.globalAlpha = clamp(0.3 + p.z * 0.45, 0.06, 0.6);
+          ctx.fillStyle = "#8da976";
+          const size = 0.7 + p.depth * 0.38;
+          ctx.fillRect(p.x, p.y, size, size);
+        }
+      }
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = "#bafa9818";
+      ctx.beginPath();
+      for (let j = 0; j < 40; j += 4) {
+        const rings = projectedContours[i];
+        ctx.moveTo(rings[0][j].x, rings[0][j].y);
+        for (let k = 1; k < rings.length; k++) ctx.lineTo(rings[k][j].x, rings[k][j].y);
+      }
+      ctx.stroke();
     }
     ctx.restore();
   }
@@ -934,14 +997,14 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         ? 0.015
         : inspect
           ? 0.65
-          : clamp(0.032 + weight * 0.6, 0.03, 0.14) * depth;
+          : clamp(0.022 + weight * 0.36, 0.02, 0.08) * depth;
       ctx.strokeStyle = inspect
         ? e[2] === "inh"
           ? "#a5bff2b0"
           : "#e4ead3b0"
         : e[2] === "inh"
           ? `rgba(142,171,209,${alpha * 0.55})`
-          : `rgba(152,224,179,${alpha})`;
+          : `rgba(184,242,155,${alpha})`;
       if (fieldLayer === "weights" && !dim && !inspect) {
         ctx.strokeStyle =
           changed > 0.00001
@@ -1014,7 +1077,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         (actualV - (displayVoltage[id] ?? actualV)) * (paused ? 1 : 0.12);
       const voltage = clamp(displayVoltage[id], 0, 1.2),
         depth = clamp(0.58 + p.z * 0.48, 0.22, 1);
-      const radius = (1.1 + voltage * 0.52 + active * 1.05) * p.depth;
+      const radius = (0.9 + voltage * 0.48 + active * 1.1) * p.depth;
       ctx.globalAlpha = dim ? 0.1 : depth * (0.6 + voltage * 0.38) + active * 0.5;
       if (!dim && active > 0.018) {
         const size = (7 + active * 13) * p.depth;
@@ -1060,7 +1123,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     ctx.globalAlpha = 1;
   }
   function drawRegionLabels(w, h, scale) {
-    if (w < 720) return;
+    if (w < 720 || selected === "all") return;
     const anchors = [
       [-1.46, 0.42],
       [-0.61, 1.1],
@@ -1076,8 +1139,8 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       const p = projectedCenters[i],
         anchor = anchors[i],
         side = anchor[0] > 0 ? 1 : -1;
-      const x = clamp(w * 0.5 + anchor[0] * scale, 110, w - 110),
-        y = clamp((h - 90) * 0.52 - anchor[1] * scale, 102, h - 141);
+      const x = clamp(sceneOrigin.x + anchor[0] * scale, 110, w - 110),
+        y = clamp(sceneOrigin.y - anchor[1] * scale, 102, h - 141);
       ctx.strokeStyle = colors[r.id] + "40";
       ctx.lineWidth = 0.65;
       ctx.beginPath();
@@ -1101,10 +1164,11 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       first = chosen?.start || 0,
       last = chosen?.end || topology.nodes.length,
       range = last - first;
-    const left = compact ? 20 : 52,
+    const immersive = !document.body.classList.contains("focus-mode");
+    const left = compact ? (immersive && w >= 760 ? w * 0.62 : 20) : 52,
       right = w - (compact ? 20 : 25),
-      top = compact ? h - (w < 700 ? 142 : 122) : 154,
-      bottom = compact ? h - (w < 700 ? 110 : 90) : h - 117;
+      top = compact ? h - 96 : 154,
+      bottom = compact ? h - 64 : h - 117;
     ctx.save();
     ctx.font = "10px ui-monospace,monospace";
     ctx.lineWidth = 0.5;
@@ -1234,6 +1298,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     else {
       const scale = project(w, h, motionClock);
       drawBackdrop(w, h, scale);
+      if (mode === "neural") drawFormContours();
       drawSynapses(activity, fresh, cursor);
       drawNeurons(activity);
       drawRegionLabels(w, h, scale);
@@ -2706,11 +2771,18 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     renderWorkDetail();
     $("workCatalog").replaceChildren(
       ...evidence.catalog.map((item) => {
-        const card = workNode("article");
+        const card = workNode("article", undefined, "work-capability");
+        const descriptions = {
+          "data:gated": "Provider access and funded purchases are not active.",
+          "agents:prepared":
+            "Briefs and delivery checks are ready. External hiring is not active.",
+          "humans:planned": "Human commissioning requires a marketplace integration.",
+          "compute:planned": "External compute requires a connected provider.",
+        };
         card.append(
           workNode("span", workLabel(item.status), "work-kicker"),
           workNode("h3", item.name),
-          workNode("p", item.detail),
+          workNode("p", descriptions[item.id + ":" + item.status] || item.detail),
         );
         return card;
       }),
@@ -2918,6 +2990,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
     link.addEventListener("click", () => selectTab(link.dataset.open));
   function setMode(next) {
     mode = next;
+    $("neural-field").dataset.mode = next;
     hover = -1;
     for (const id of ["zoomIn", "zoomOut", "resetView"])
       $(id).classList.toggle("hidden", next === "spikes");

@@ -13,8 +13,11 @@ let frameSpikes = [],
   spriteCache = new Map();
 let regionCenters = [],
   projectedCenters = [],
+  formContours = [],
+  projectedContours = [],
   edgeCurves = [],
   nodeOrder = [];
+let sceneOrigin = { x: 0, y: 0 };
 let lastHudPaint = 0,
   fieldVisible = true,
   playbackRate = 22;
@@ -49,6 +52,7 @@ function structure() {
       z: members.reduce((v, p) => v + p.z, 0) / members.length,
     };
   });
+  formContours = topology.regions.map((_, index) => NeuralMath.contours(index));
   let wi = 0;
   weightedEdges = topology.edges.map((edge, index) => ({
     edge,
@@ -129,19 +133,27 @@ function project(w, h, time) {
     zoomEase += (zoom - zoomEase) * ease;
   }
   lastCamera = { ...camera };
-  const scale = Math.min(w * (w < 720 ? 0.34 : 0.3), (h - 145) * 0.46) * zoomEase;
+  const immersive =
+    !document.body.classList.contains("focus-mode") && mode !== "topology";
+  const scale =
+    Math.min(w * (w < 760 ? 0.39 : immersive ? 0.235 : 0.27), (h - 130) * 0.35) *
+    zoomEase;
+  sceneOrigin = { x: w * (immersive && w >= 760 ? 0.73 : 0.5), y: (h - 65) * 0.52 };
   const projectPoint = (p) =>
     NeuralMath.project(
       p,
       mode === "topology" ? 0 : cameraEase.yaw,
       mode === "topology" ? 0 : cameraEase.pitch,
       scale,
-      w * 0.5,
-      (h - 90) * 0.52,
+      sceneOrigin.x,
+      sceneOrigin.y,
       mode !== "topology",
     );
   points = basePoints.map((p) => ({ ...p, ...projectPoint(p) }));
   projectedCenters = regionCenters.map(projectPoint);
+  projectedContours = formContours.map((rings) =>
+    rings.map((ring) => ring.map(projectPoint)),
+  );
   edgeCurves = weightedEdges.map((item) => {
     const a = points[item.edge[0]],
       b = points[item.edge[1]];
@@ -195,8 +207,8 @@ function traceCurve(curve) {
 }
 function drawBackdrop(w, h, scale) {
   ctx.save();
-  const x = w / 2,
-    y = (h - 90) * 0.52;
+  const x = sceneOrigin.x,
+    y = sceneOrigin.y;
   const g = ctx.createRadialGradient(x, y, scale * 0.2, x, y, scale * 1.65);
   g.addColorStop(0, "#67867710");
   g.addColorStop(0.6, "#67867705");
@@ -219,8 +231,42 @@ function drawBackdrop(w, h, scale) {
     if (selected !== "all" && selected !== r.id) continue;
     const p = projectedCenters[i],
       size = scale * (i === 1 ? 1.2 : 0.75);
-    ctx.globalAlpha = 0.025 + Math.min(0.04, (neuralFrame.rates[i] || 0) / 400);
+    ctx.globalAlpha = 0.035 + Math.min(0.05, (neuralFrame.rates[i] || 0) / 400);
     ctx.drawImage(glowSprite(colors[r.id]), p.x - size / 2, p.y - size / 2, size, size);
+  }
+  ctx.restore();
+}
+function drawFormContours() {
+  ctx.save();
+  ctx.lineWidth = 0.55;
+  for (let i = 0; i < projectedContours.length; i++) {
+    if (selected !== "all" && topology.regions[i].id !== selected) continue;
+    ctx.strokeStyle = "#bafa9817";
+    ctx.beginPath();
+    for (const ring of projectedContours[i]) {
+      ctx.moveTo(ring[0].x, ring[0].y);
+      for (let j = 1; j < ring.length; j++) ctx.lineTo(ring[j].x, ring[j].y);
+    }
+    ctx.stroke();
+    // Schematic surface geometry remains separate from measured neuron flashes.
+    for (const ring of projectedContours[i]) {
+      for (let j = 0; j < ring.length - 1; j++) {
+        const p = ring[j];
+        ctx.globalAlpha = clamp(0.3 + p.z * 0.45, 0.06, 0.6);
+        ctx.fillStyle = "#8da976";
+        const size = 0.7 + p.depth * 0.38;
+        ctx.fillRect(p.x, p.y, size, size);
+      }
+    }
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "#bafa9818";
+    ctx.beginPath();
+    for (let j = 0; j < 40; j += 4) {
+      const rings = projectedContours[i];
+      ctx.moveTo(rings[0][j].x, rings[0][j].y);
+      for (let k = 1; k < rings.length; k++) ctx.lineTo(rings[k][j].x, rings[k][j].y);
+    }
+    ctx.stroke();
   }
   ctx.restore();
 }
@@ -244,14 +290,14 @@ function drawSynapses(activity, fresh, cursor) {
       ? 0.015
       : inspect
         ? 0.65
-        : clamp(0.032 + weight * 0.6, 0.03, 0.14) * depth;
+        : clamp(0.022 + weight * 0.36, 0.02, 0.08) * depth;
     ctx.strokeStyle = inspect
       ? e[2] === "inh"
         ? "#a5bff2b0"
         : "#e4ead3b0"
       : e[2] === "inh"
         ? `rgba(142,171,209,${alpha * 0.55})`
-        : `rgba(152,224,179,${alpha})`;
+        : `rgba(184,242,155,${alpha})`;
     if (fieldLayer === "weights" && !dim && !inspect) {
       ctx.strokeStyle =
         changed > 0.00001
@@ -324,7 +370,7 @@ function drawNeurons(activity) {
       (actualV - (displayVoltage[id] ?? actualV)) * (paused ? 1 : 0.12);
     const voltage = clamp(displayVoltage[id], 0, 1.2),
       depth = clamp(0.58 + p.z * 0.48, 0.22, 1);
-    const radius = (1.1 + voltage * 0.52 + active * 1.05) * p.depth;
+    const radius = (0.9 + voltage * 0.48 + active * 1.1) * p.depth;
     ctx.globalAlpha = dim ? 0.1 : depth * (0.6 + voltage * 0.38) + active * 0.5;
     if (!dim && active > 0.018) {
       const size = (7 + active * 13) * p.depth;
@@ -370,7 +416,7 @@ function drawNeurons(activity) {
   ctx.globalAlpha = 1;
 }
 function drawRegionLabels(w, h, scale) {
-  if (w < 720) return;
+  if (w < 720 || selected === "all") return;
   const anchors = [
     [-1.46, 0.42],
     [-0.61, 1.1],
@@ -386,8 +432,8 @@ function drawRegionLabels(w, h, scale) {
     const p = projectedCenters[i],
       anchor = anchors[i],
       side = anchor[0] > 0 ? 1 : -1;
-    const x = clamp(w * 0.5 + anchor[0] * scale, 110, w - 110),
-      y = clamp((h - 90) * 0.52 - anchor[1] * scale, 102, h - 141);
+    const x = clamp(sceneOrigin.x + anchor[0] * scale, 110, w - 110),
+      y = clamp(sceneOrigin.y - anchor[1] * scale, 102, h - 141);
     ctx.strokeStyle = colors[r.id] + "40";
     ctx.lineWidth = 0.65;
     ctx.beginPath();
@@ -411,10 +457,11 @@ function drawRaster(w, h, cursor, compact = false) {
     first = chosen?.start || 0,
     last = chosen?.end || topology.nodes.length,
     range = last - first;
-  const left = compact ? 20 : 52,
+  const immersive = !document.body.classList.contains("focus-mode");
+  const left = compact ? (immersive && w >= 760 ? w * 0.62 : 20) : 52,
     right = w - (compact ? 20 : 25),
-    top = compact ? h - (w < 700 ? 142 : 122) : 154,
-    bottom = compact ? h - (w < 700 ? 110 : 90) : h - 117;
+    top = compact ? h - 96 : 154,
+    bottom = compact ? h - 64 : h - 117;
   ctx.save();
   ctx.font = "10px ui-monospace,monospace";
   ctx.lineWidth = 0.5;
@@ -540,6 +587,7 @@ function draw(now) {
   else {
     const scale = project(w, h, motionClock);
     drawBackdrop(w, h, scale);
+    if (mode === "neural") drawFormContours();
     drawSynapses(activity, fresh, cursor);
     drawNeurons(activity);
     drawRegionLabels(w, h, scale);

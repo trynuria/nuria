@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0 — 2026-10-10
+
+- Rebuild the observatory around a full-screen neural specimen, responsive opening composition and separate scientific views.
+- Add folded schematic contours while preserving recorded neuron IDs, spikes, weights and inspection.
+- Redesign cognition, Discovery, resources, evidence, documentation and shared navigation; add a technical feedback-loop diagram.
+- Keep all engine processes, neural history, financial policy and deployment component identities independent of this presentation release.
+
 ## 0.7.3 — 2026-10-09
 
 - Remove token-address widgets, wallet identity cards and launch-mode presentation from the observatory and documentation.

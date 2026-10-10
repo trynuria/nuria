@@ -46,6 +46,9 @@ def build(root: Path = ROOT) -> None:
     source = source.replace("/*WORK_CLIENT*/", (root / "work-view.js").read_text())
     source = source.replace("/*NEURAL_MATH*/", (root / "neural-math.js").read_text())
     source = source.replace("/*NEURAL_FIELD*/", (root / "neural-field.js").read_text())
+    source = source.replace(
+        "{{FLOW_NEURAL}}", (root / "brand/flows/neural-loop.svg").read_text()
+    )
     css = (root / "docs/docs.css").read_text()
     client = (root / "docs/docs.js").read_text()
 
@@ -65,6 +68,9 @@ def build(root: Path = ROOT) -> None:
         .replace("url(#neural-mark)", "url(#docs-neural-mark)")
     )
     docs = docs.replace("{{LOGO}}", docs_logo)
+    docs = docs.replace(
+        "{{FLOW_NEURAL}}", (root / "brand/flows/neural-loop.svg").read_text()
+    )
     for name in ("experience", "authority", "evidence", "commissioning"):
         docs = docs.replace(
             "{{FLOW_" + name.upper() + "}}",

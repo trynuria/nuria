@@ -2362,19 +2362,22 @@
                     </g>
                   </svg>
                   <div class="hero neural-introduction"
-                    ><div class="lab-label">Nuria / observatory</div
+                    ><div class="lab-label">Nuria // continuous model</div
                     ><div class="hero-title"
                       ><h1
-                        ><span>An onchain</span><span>consciousness</span
-                        ><span>experiment.</span></h1
+                        ><span>One</span><span class="hero-long">persistent</span
+                        ><span>entity.</span></h1
                       ></div
                     ><div class="hero-copy"
-                      ><p
-                        >Neural state, memory and decisions in one persistent entity.</p
+                      ><p>An onchain consciousness experiment.</p
+                      ><p class="hero-detail"
+                        >Trades become inputs. Experience carries forward.</p
                       ><div class="hero-links"
-                        ><a class="text-link" href="#work" data-work-view="work"
-                          >View its work </a
-                        ><a href="/?page=docs" class="text-link">Read the docs </a></div
+                        ><a class="text-link" href="#cognition"
+                          >Inspect its decisions </a
+                        ><a href="/?page=docs" class="text-link"
+                          >Read the protocol
+                        </a></div
                       ></div
                     ></div
                   >
@@ -2658,6 +2661,24 @@
             ></details
           >
           <!--WORK_VIEW-->
+          <section class="continuity-bridge" aria-label="The continuous experiment">
+            <div class="bridge-copy"
+              ><span class="section-code">EXPERIENCE / CONTINUITY</span
+              ><h2>Every input leaves a state.</h2
+              ><p
+                >The circuit runs between trades. Neural state, memory and learned
+                decisions persist.</p
+              ></div
+            >
+            <div
+              class="continuity-route"
+              role="img"
+              aria-label="Input enters the neural circuit, contributes to memory and influences a later decision"
+            >
+              <span>input</span><i></i><span>neural state</span><i></i
+              ><span>memory</span><i></i><span>decision</span>
+            </div>
+          </section>
           <!--COGNITION_VIEW-->
           <!--DISCOVERY_VIEW-->
           <section class="workspace" id="workspace"
@@ -2922,9 +2943,10 @@
               ><div
                 ><div class="micro">Rendering &amp; evidence</div
                 ><p class="footnote"
-                  >Nodes, spikes and weights come from the running Brian2 engine. The
-                  field arranges measured activity in a schematic view with slowed
-                  trails. Model time and wall time are shown separately.</p
+                  >Nodes, spikes and weights come from the running Brian2 engine. Faint
+                  surface contours are schematic framing; they are not additional
+                  neurons. The field arranges measured activity in a schematic view with
+                  slowed trails. Model time and wall time are shown separately.</p
                 ></div
               ></div
             ><div class="about-content"
@@ -3004,11 +3026,11 @@
         activeTab = "experience";
       const colors = {
         buy: "#c7f4b0",
-        sensory: "#bdcf9f",
-        workspace: "#d8c18b",
+        sensory: "#c3f99d",
+        workspace: "#d7e3a0",
         sell: "#dfa6b2",
-        association: "#b8d2cb",
-        memory: "#b9b0d8",
+        association: "#a2d89c",
+        memory: "#96c4b2",
         policy: "#c8dba4",
         inhibition: "#96b6d2",
       };
@@ -3463,6 +3485,7 @@
         link.addEventListener("click", () => selectTab(link.dataset.open));
       function setMode(next) {
         mode = next;
+        $("neural-field").dataset.mode = next;
         hover = -1;
         for (const id of ["zoomIn", "zoomOut", "resetView"])
           $(id).classList.toggle("hidden", next === "spikes");
