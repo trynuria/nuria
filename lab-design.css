@@ -2347,3 +2347,15 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 38px;
   }
 }
+.cognitive-section .cognitive-heading .badge {
+  position: absolute;
+  right: 0;
+  top: 26px;
+  margin: 0;
+}
+@media (max-width: 760px) {
+  .cognitive-section .cognitive-heading .badge {
+    position: static;
+    margin-top: 25px;
+  }
+}

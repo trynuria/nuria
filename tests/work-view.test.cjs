@@ -28,7 +28,12 @@ async function harness() {
       this.listeners[k] = callback;
     },
     focus() {},
-    scrollTo() {},
+    scrollTo(options) {
+      this.lastScroll = options;
+    },
+    scrollIntoView(options) {
+      this.anchorScroll = options;
+    },
   });
   const get = (id) => {
     if (!elements.has(id)) elements.set(id, element());
@@ -69,6 +74,7 @@ async function harness() {
       hidden: false,
       activeElement: null,
       createElement: element,
+      getElementById: get,
       querySelectorAll: () => [],
       body: { classList: { toggle() {}, remove() {}, contains: () => false } },
     },
@@ -273,4 +279,14 @@ test("verified paid outcomes include failures and remain distinct from accepted 
     );
     assert.equal(get("workResults").children.length, 1);
   }
+});
+
+test("section links retain their destination instead of returning to the opening", async () => {
+  const { context, get } = await harness();
+  get("pageScroll").lastScroll = null;
+  vm.runInContext("workSurface('cognition')", context);
+  assert.equal(get("pageScroll").lastScroll, null);
+  assert.equal(get("cognition").anchorScroll.block, "start");
+  vm.runInContext("workSurface('neural-field')", context);
+  assert.equal(get("pageScroll").lastScroll.top, 0);
 });

@@ -20,7 +20,11 @@ function workSurface(view, updateURL = false) {
     if (current) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   }
-  $("pageScroll").scrollTo({ top: 0, behavior: "auto" });
+  if (active || ["", "observe", "overview", "neural-field"].includes(view)) {
+    $("pageScroll").scrollTo({ top: 0, behavior: "auto" });
+  } else {
+    document.getElementById(view)?.scrollIntoView({ block: "start", behavior: "auto" });
+  }
   if (updateURL) history.pushState(null, "", active ? "#" + view : "#neural-field");
 }
 
