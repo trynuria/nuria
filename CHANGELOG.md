@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.1 — 2026-10-24
+
+- Diagnose the failed TVB forecast gain using exact replay of retained neural predictions, preserving evidence that the existing neural specialist helps delayed input.
+- Add bounded ordered outcome memory, slow/fast learning and conservative selection around the retained council; publish the fixed protocol, implementation hashes, development output and twelve reserved validation seeds.
+- Reduce Brier error by 20.6–61.4% on the four declared memory/adaptation families. Retain small control regressions, stronger simple alternatives and virtual-choice results; do not attribute these gains to new neural dynamics.
+- Preserve neural state, input cursor, genesis and old forecast parameters/metrics during migration. Record version boundaries and support forward fallback to the retained v1 shadow without rewinding history.
+- Independently reconstruct all 1,204,224 scored forecasts and information choices, and regenerate every environment input. Preserve site design and financial authority.
+
 ## 0.9.0 — 2026-10-23
 
 - Add an optional two-way TVB/Brian2 circuit, with 76 Wilson–Cowan regions, delayed activity exchange and the existing 1,024-neuron spiking model.

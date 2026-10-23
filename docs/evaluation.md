@@ -2,6 +2,10 @@
 
 Nuria has working mechanisms. That does not establish why the complete neural architecture is useful. This report keeps unsuccessful comparisons alongside useful component results.
 
+## Ordered memory and adaptation
+
+The [adaptive-memory report](../research/adaptive-memory/README.md) follows the failed TVB comparison with exact trace diagnosis and a new precommitted forecast-component evaluation. Its twelve reserved seeds reduce Brier error by 20.6–61.4% across four ordered-memory/adaptation task families, while preserving small regressions on stable and independent-input controls. It includes lag-only and suffix-only alternatives, full prediction traces, an independent score/environment verifier and virtual information-choice outcomes. The original council remains an active specialist, and the earlier studies below remain historical results rather than measurements of the new method.
+
 ## Correction to the first neural tasks
 
 The original spike-feature readout achieved 92.5% accuracy on an alternating stream and 88.75% on a persistent stream. Those streams usually flip or repeat the previous side. A one-parameter predictor fitted to the same training transitions matches both accuracies and has substantially lower Brier error:
@@ -15,7 +19,7 @@ The baseline estimates `(training repeats + 1) / (training transitions + 2)` and
 
 ## The forecast component
 
-The deployed forecast council learns which of seven specialists to trust: frequency, repeat probability, amount context, fee-rate context, joint context, contextual logistic regression and the neural readout. Each source owns separate parameters, pending predictions and metrics. Stored forecasts are scored before the new label trains any specialist. Conditional counts forget with a fixed factor of 0.999 per observed training step. Attention updates discounted log weights with factor 0.995 and squared-error learning rate 2, plus a 1% fixed share. Public encodings and logistic parameters are in `cognition/forecast.py`.
+The retained v1 forecast council learns which of seven specialists to trust: frequency, repeat probability, amount context, fee-rate context, joint context, contextual logistic regression and the neural readout. Each source owns separate parameters, pending predictions and metrics. Stored forecasts are scored before the new label trains any specialist. Conditional counts forget with a fixed factor of 0.999 per observed training step. Attention updates discounted log weights with factor 0.995 and squared-error learning rate 2, plus a 1% fixed share. Public encodings and logistic parameters are in `cognition/forecast.py`.
 
 This is an adaptive statistical component alongside the spiking circuit. Its memory is conditional outcome statistics; its attention selects forecasters. Those mechanisms are distinct from neural episodic replay, workspace broadcast and synaptic STDP.
 

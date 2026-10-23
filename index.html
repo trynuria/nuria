@@ -13714,22 +13714,92 @@
                     loop.</p
                   ><h2 id="cognition--forecast">Forecast before observation</h2
                   ><p
-                    >Each source has a forecast council with seven competing
-                    specialists: frequency, repeat probability, amount context, fee-rate
-                    context, joint context, contextual logistic regression and the
-                    separate neural readout. A stored prediction is scored when the next
-                    same-source outcome arrives; learning happens afterwards. The neural
-                    specialist still uses 64 spike features and eight structured
-                    features. Its old weights and history are retained. The council has
-                    its own published start time and sample count.</p
+                    >Each source retains its original council: frequency, repeat,
+                    amount, fee-rate and joint contexts, contextual logistic regression
+                    and the separate neural readout. The new ordered-memory layer learns
+                    additional sequences around that council, which initially owns 90%
+                    of its mixture. A saved forecast is scored when the next same-source
+                    outcome arrives; learning happens afterwards. Neural readout weights
+                    and the original council's parameters and lifetime metrics are
+                    retained.</p
+                  ><h2 id="cognition--sequence">Ordered memory and changing rules</h2
                   ><p
-                    >Outcome memory stores conditional transition counts in fixed public
-                    amount and fee-rate bins, with exponential forgetting. Forecast
-                    attention changes each specialist’s weight from observed squared
-                    error. A small fixed share lets suppressed specialists recover after
-                    conditions change. This is statistical learning alongside the
-                    circuit. Its measured gains are not evidence that neural STDP
-                    produced those gains.</p
+                    >The predictor retains 16 observed sides and learns lagged
+                    relationships, suffixes up to eight events and contextual
+                    transitions. Slow counts keep useful stable knowledge; fast counts
+                    adapt when an old rule stops working. Observed prediction likelihood
+                    changes which specialists are trusted. Each source owns its pending
+                    predictions, history and count clocks, with a limit of 1,024 cells
+                    per speed.</p
+                  ><p
+                    >The earlier TVB comparison changed neural activity without
+                    demonstrating a useful prediction gain. Replaying its traces showed
+                    that the existing neural readout already helped delayed events,
+                    while ordered memory and slow adaptation limited the forecast path.
+                    This update addresses those measured limits; the TVB circuit remains
+                    a separate experiment.</p
+                  ><h2 id="cognition--memory-results"
+                    >Reserved-seed memory comparison</h2
+                  ><p
+                    >Twelve environment seeds were reserved before development. Across
+                    eight task families and seven branches, validation contains
+                    1,204,224 scored forecasts. The protocol and implementation hashes
+                    were committed before that run. Lower Brier error is better.</p
+                  ><div class="docs-table-wrap"
+                    ><table class="docs-table"
+                      ><thead
+                        ><tr
+                          ><th>Task</th><th>Previous</th><th>With memory</th
+                          ><th>Error reduction</th></tr
+                        ></thead
+                      ><tbody
+                        ><tr
+                          ><td>Delayed relation</td><td>0.247547</td><td>0.095551</td
+                          ><td>61.4%</td></tr
+                        ><tr
+                          ><td>Parity sequence</td><td>0.244049</td><td>0.106453</td
+                          ><td>56.4%</td></tr
+                        ><tr
+                          ><td>Changing lag</td><td>0.247617</td><td>0.116483</td
+                          ><td>53.0%</td></tr
+                        ><tr
+                          ><td>Changing context</td><td>0.171459</td><td>0.136118</td
+                          ><td>20.6%</td></tr
+                        ></tbody
+                      ></table
+                    ></div
+                  ><p
+                    >All four capability gates pass with positive paired confidence
+                    bounds. Stable and independent-input controls get slightly worse, by
+                    about 0.0003–0.0004 Brier, within the registered 0.005 limit. Random
+                    inputs remain unpredictable. Suffix-only prediction is stronger on
+                    parity; the full mixture is useful across the mixed families, rather
+                    than winning against every alternative on every task.</p
+                  ><p
+                    >A fixed rule choosing whether a 90%-accurate measurement is worth
+                    its known virtual cost gains 0.192899 net reward per choice on the
+                    four capability tasks. This is a synthetic decision test: no vendor
+                    or onchain purchase occurred. The
+                    <a
+                      href="https://github.com/trynuria/nuria/tree/main/research/adaptive-memory"
+                      target="_blank"
+                      rel="noreferrer"
+                      class="github-link"
+                      ><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true">
+                        <path
+                          d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+                        />
+                      </svg>
+                      <span>complete protocol, traces and independent verifier</span></a
+                    >
+                    retain all comparators, controls and negative results.</p
+                  ><p
+                    >New-method metrics begin at their actual version boundary. Earlier
+                    council and neural-readout metrics remain available separately. The
+                    journal records migration; neural state, input cursor and neural
+                    genesis continue. This is statistical sequence learning alongside
+                    the spiking circuit, not a demonstrated improvement from neural
+                    plasticity.</p
                   ><h2 id="cognition--memory">Retrieve relevant episodes</h2
                   ><p
                     >Each event creates an episode with compressed neural features,
@@ -13772,15 +13842,15 @@
                     88.75% accuracy and improves Brier error from 0.1601 / 0.1729 to
                     0.0703 / 0.0999. Those results remain public; removing all neural
                     features was an insufficient comparator.</p
-                  ><h2 id="cognition--comparison">Fresh-seed forecast comparison</h2
+                  ><h2 id="cognition--comparison">Earlier council comparison</h2
                   ><p
-                    >The production forecast component is tested on recurring amount and
-                    fee contexts, a switch between them, and an unpredictable control.
-                    Every model sees the same inputs, scores before updating and gets
-                    the same 500-event warmup. Twenty new seeds each contain 1,500
-                    scored predictions. We report every seed and comparator, including
-                    failures. The neural specialist is held at 0.5 in this component
-                    test; no synthetic spike features are invented.</p
+                    >The retained v1 forecast component was tested on recurring amount
+                    and fee contexts, a switch between them, and an unpredictable
+                    control. Every model sees the same inputs, scores before updating
+                    and gets the same 500-event warmup. Twenty new seeds each contain
+                    1,500 scored predictions. We report every seed and comparator,
+                    including failures. The neural specialist is held at 0.5 in this
+                    component test; no synthetic spike features are invented.</p
                   ><div class="docs-table-wrap"
                     ><table class="docs-table"
                       ><thead
@@ -14355,9 +14425,9 @@
                               >Active</span
                             ></div
                           ><p
-                            >Source-specific forecast council learns transition memory
-                            and specialist weights; old neural readouts are retained
-                            separately.</p
+                            >Source-specific ordered memory, slow/fast counts and a
+                            retained council learn from completed outcomes; old
+                            parameters and metrics remain separate.</p
                           ></li
                         >
                         <li

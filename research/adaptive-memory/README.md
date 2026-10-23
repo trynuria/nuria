@@ -60,14 +60,75 @@ models learn the subsequently observed true side. This tests the usefulness of
 confidence for cost decisions; it is not a live purchase, vendor evaluation,
 new hiring controller or bandit-learning result.
 
-Development output is retained in [development](development). The first fixed
-candidate passes its development gates. Validation determines whether it earns
-a production update; its results are reported separately.
+## Validation result
+
+**The frozen candidate passes all three predictive gates.** Validation contains
+96 new task/seed streams, 196,704 observations and 1,204,224 scored forecasts
+across seven branches. Twelve environment seeds were reserved before development.
+
+| Task           | Previous council Brier | Adaptive memory Brier | Relative error reduction |
+| -------------- | ---------------------: | --------------------: | -----------------------: |
+| Delayed copy   |               0.247547 |              0.095551 |                    61.4% |
+| Parity         |               0.244049 |              0.106453 |                    56.4% |
+| Lag switch     |               0.247617 |              0.116483 |                    53.0% |
+| Context switch |               0.171459 |              0.136118 |                    20.6% |
+
+The paired lower 95% gain bound is positive on all four capability tasks, and
+each mean gain exceeds the registered 0.01 Brier threshold. Stable-context,
+first-order and independent-input controls regress by about 0.0003–0.0004 Brier;
+every upper confidence bound remains below the 0.005 regression limit. Random
+inputs remain unpredictable.
+
+The fixed information-choice rule gains **0.192899 virtual net reward per
+choice** on the four capability tasks (paired 95% interval 0.187361–0.198437),
+with gains in all twelve seeds. This is a synthetic consequence of improved
+forecasts and confidence; no resource was purchased or delivered onchain.
+
+![Paired Brier improvements on all eight tasks](validation/paired-brier.svg)
+
+Sequence removal loses the delayed/parity capabilities. Removing fast memory
+hurts adaptation to changing rules. Frozen learning performs poorly after rule
+changes but can be slightly stronger on stable sequences. Strong simple
+alternatives also remain visible: suffix-only prediction beats the full model
+on parity, while lag-only is competitive on a fixed delayed-copy task. The
+full mixture performs best across the declared mixed families; this is not
+superiority over every alternative on every task.
+
+The complete [validation result](validation/result.json), per-task compressed
+prior-prediction traces and [independent reconstruction](validation/verification.json)
+are retained. The verifier independently recalculates Brier, accuracy, costs,
+choices, virtual rewards and confidence intervals, and can regenerate every
+environment observation and offered measurement. Internal hashes are integrity
+evidence, not an external witness.
+
+Development output is retained in [development](development), including all
+three seeds and traces from the single attempted configuration. Neither the
+candidate nor the validation tasks, seeds or scoring window changed after
+freezing the implementation.
+
+Mean measured predictor time was 0.102 ms per observation, versus 0.030 ms for
+the previous council; the full comparison took 88.15 s. Peak process RSS was
+80.11 MiB and serialized adaptive state stayed below 170 KiB per source in
+this run. These bounded local figures do not establish production throughput.
+
+## Runtime continuity
+
+The runtime adapter accepts v1 checkpoints and retains the entire original
+council as its continuously updated shadow. New metrics start at their actual
+method boundary. The journal records the version transition. Neural variables,
+source cursor, neural genesis and earlier records remain intact.
+
+`NURIA_FORECAST_MODE=legacy` selects the retained v1 council for a forward
+fallback. The suspended ordered-memory state is retained as evidence. Returning
+to memory mode starts a new ordered-memory epoch from current v1 parameters;
+it does not attach stale ordered state to a later input cursor. Both modes use
+the existing worker, user, database permissions and financial boundaries.
 
 ```sh
 python -m unittest discover -s tests -p test_adaptive_forecast.py -v
 python -m scripts.diagnose_multiscale research/multiscale/results .test-state/new-diagnosis.json
 python -m scripts.evaluate_adaptive_memory .test-state/new-memory-run --phase validation
+python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
 ```
 
 Use a new output directory. The evaluator refuses changed protocol bytes and

@@ -17,16 +17,16 @@ Active mechanisms are implemented. Evaluation identifies bounded experiments nee
 
 ## Inputs and prediction
 
-| Capability                 | Status   | Evidence or next gate                                                                                                                            |
-| -------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Finalized trade reader     | Prepared | Finalized protocol events are decoded, deduplicated and linked to individual neural effects. Coverage and unresolved retrievals remain explicit. |
-| Individual event encoding  | Active   | Each input has its own sensory window and event-ID texture.                                                                                      |
-| Idempotent source history  | Active   | Changed or reordered duplicate inputs refuse continuation.                                                                                       |
-| Causal perturbation probes | Active   | Matched current-state input and no-input replay with RNG restoration.                                                                            |
-| Neural feature extraction  | Active   | 64 spike-derived features feed the predictor and memory.                                                                                         |
-| Prequential prediction     | Active   | Stored forecast is scored before its next observed outcome trains the readout.                                                                   |
-| Source-isolated learning   | Active   | Source-specific forecast council learns transition memory and specialist weights; old neural readouts are retained separately.                   |
-| Calibrated measurement     | Active   | Prequential Brier error and learned repeat baseline; expert losses and forecast attention are public.                                            |
+| Capability                 | Status   | Evidence or next gate                                                                                                                              |
+| -------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Finalized trade reader     | Prepared | Finalized protocol events are decoded, deduplicated and linked to individual neural effects. Coverage and unresolved retrievals remain explicit.   |
+| Individual event encoding  | Active   | Each input has its own sensory window and event-ID texture.                                                                                        |
+| Idempotent source history  | Active   | Changed or reordered duplicate inputs refuse continuation.                                                                                         |
+| Causal perturbation probes | Active   | Matched current-state input and no-input replay with RNG restoration.                                                                              |
+| Neural feature extraction  | Active   | 64 spike-derived features feed the predictor and memory.                                                                                           |
+| Prequential prediction     | Active   | Stored forecast is scored before its next observed outcome trains the readout.                                                                     |
+| Source-isolated learning   | Active   | Source-specific ordered memory, slow/fast counts and a retained council learn from completed outcomes; old parameters and metrics remain separate. |
+| Calibrated measurement     | Active   | Prequential Brier error and learned repeat baseline; expert losses and forecast attention are public.                                              |
 
 ## Memory, attention and actions
 
