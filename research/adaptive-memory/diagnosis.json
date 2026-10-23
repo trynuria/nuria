@@ -1,0 +1,670 @@
+{
+  "schema": "nuria.multiscale.diagnosis.v1",
+  "trace_gzip_sha256": "f3010b4bf03a42107f166a125a00430142c4d6dbec51e11b63372db12c99e15d",
+  "replay_matches_original": true,
+  "current_count_half_life_inputs": 692.8005491785002,
+  "original_reversal_at_input": 80,
+  "original_windows_per_trial": 160,
+  "summary": {
+    "context_reversal": {
+      "current_expert_brier": {
+        "frequency": 0.25086798309963465,
+        "repeat": 0.2526380623190457,
+        "amount": 0.3588582378713757,
+        "fee_rate": 0.2526380623190457,
+        "joint_context": 0.3588582378713757,
+        "neural": 0.26248046372777434,
+        "context_logistic": 0.22599158147850304
+      },
+      "mean_absolute_neural_probability_change": 0.0017438499999999982,
+      "mean_absolute_council_probability_change": 8.207085413656807e-6,
+      "without_neural_council_brier": 0.25098399442136327
+    },
+    "delayed_dependency": {
+      "current_expert_brier": {
+        "frequency": 0.24758600154088387,
+        "repeat": 0.24481728313653972,
+        "amount": 0.2455986826271782,
+        "fee_rate": 0.24481728313653972,
+        "joint_context": 0.2455986826271782,
+        "neural": 0.20520356752843577,
+        "context_logistic": 0.23558186769398662
+      },
+      "mean_absolute_neural_probability_change": 0.0013599218750000026,
+      "mean_absolute_council_probability_change": 0.0006896744952873881,
+      "without_neural_council_brier": 0.2315367058441834
+    }
+  },
+  "trials": [
+    {
+      "seed": 701,
+      "task": "context_reversal",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2520963647810503,
+            "repeat": 0.24802563081027382,
+            "amount": 0.36338191730313857,
+            "fee_rate": 0.24802563081027382,
+            "joint_context": 0.36338191730313857,
+            "neural": 0.26137662740640627,
+            "context_logistic": 0.2596220501175453
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.001538190923570806,
+            "repeat": 0.0015861376519232626,
+            "amount": 0.20856639745306754,
+            "fee_rate": 0.0015861376519232626,
+            "joint_context": 0.20856639745306754,
+            "neural": 0.0014650327564175723,
+            "context_logistic": 0.57669170611003
+          },
+          "without_neural_council_brier": 0.28600917664608755
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2520963647810503,
+            "repeat": 0.24802563081027382,
+            "amount": 0.36338191730313857,
+            "fee_rate": 0.24802563081027382,
+            "joint_context": 0.36338191730313857,
+            "neural": 0.26126828830235416,
+            "context_logistic": 0.2596220501175453
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.0015381915681480145,
+            "repeat": 0.001586138553824607,
+            "amount": 0.2085664989299774,
+            "fee_rate": 0.001586138553824607,
+            "joint_context": 0.2085664989299774,
+            "neural": 0.0014622371827873089,
+            "context_logistic": 0.5766942962814607
+          },
+          "without_neural_council_brier": 0.28600917664608755
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0021277249999999996,
+      "mean_absolute_council_probability_change": 6.007378029947771e-6
+    },
+    {
+      "seed": 701,
+      "task": "delayed_dependency",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.25045484649416283,
+            "repeat": 0.2518113814606671,
+            "amount": 0.254095089042753,
+            "fee_rate": 0.2518113814606671,
+            "joint_context": 0.254095089042753,
+            "neural": 0.20696961720221876,
+            "context_logistic": 0.21812491858019886
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.07400716522166496,
+            "repeat": 0.09120894438406467,
+            "amount": 0.04449458253521368,
+            "fee_rate": 0.09120894438406467,
+            "joint_context": 0.04449458253521368,
+            "neural": 0.6468230852087978,
+            "context_logistic": 0.00776269573098049
+          },
+          "without_neural_council_brier": 0.23269819920593063
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.25045484649416283,
+            "repeat": 0.2518113814606671,
+            "amount": 0.254095089042753,
+            "fee_rate": 0.2518113814606671,
+            "joint_context": 0.254095089042753,
+            "neural": 0.20705152210291666,
+            "context_logistic": 0.21812491858019886
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.07454053470248677,
+            "repeat": 0.09194878171711429,
+            "amount": 0.044891733954902355,
+            "fee_rate": 0.09194878171711429,
+            "joint_context": 0.044891733954902355,
+            "neural": 0.6438975558315673,
+            "context_logistic": 0.007880878121912667
+          },
+          "without_neural_council_brier": 0.23269819920593063
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0013562687500000012,
+      "mean_absolute_council_probability_change": 0.0008001331847913405
+    },
+    {
+      "seed": 702,
+      "task": "context_reversal",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.24652082002305714,
+            "repeat": 0.24736579954041663,
+            "amount": 0.32162251184783497,
+            "fee_rate": 0.24736579954041663,
+            "joint_context": 0.32162251184783497,
+            "neural": 0.2540916951011042,
+            "context_logistic": 0.20182829448047887
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.004749793010342587,
+            "repeat": 0.005200427128673237,
+            "amount": 0.18139654114504666,
+            "fee_rate": 0.005200427128673237,
+            "joint_context": 0.18139654114504666,
+            "neural": 0.004243823459074407,
+            "context_logistic": 0.6178124469831432
+          },
+          "without_neural_council_brier": 0.21967777258780413
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.24652082002305714,
+            "repeat": 0.24736579954041663,
+            "amount": 0.32162251184783497,
+            "fee_rate": 0.24736579954041663,
+            "joint_context": 0.32162251184783497,
+            "neural": 0.25468805555340623,
+            "context_logistic": 0.20182829448047887
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.004750293491179971,
+            "repeat": 0.005200942689998536,
+            "amount": 0.18139787017895742,
+            "fee_rate": 0.005200942689998536,
+            "joint_context": 0.18139787017895742,
+            "neural": 0.004209858418624555,
+            "context_logistic": 0.6178422223522836
+          },
+          "without_neural_council_brier": 0.21967777258780413
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0010653999999999998,
+      "mean_absolute_council_probability_change": 1.423600196899643e-5
+    },
+    {
+      "seed": 702,
+      "task": "delayed_dependency",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2665640974889067,
+            "repeat": 0.2503942737989007,
+            "amount": 0.2534987180062283,
+            "fee_rate": 0.2503942737989007,
+            "joint_context": 0.2534987180062283,
+            "neural": 0.19696032381566667,
+            "context_logistic": 0.2058145683541776
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.01241337742733297,
+            "repeat": 0.008209658747731599,
+            "amount": 0.004595189968659146,
+            "fee_rate": 0.008209658747731599,
+            "joint_context": 0.004595189968659146,
+            "neural": 0.8252879366513394,
+            "context_logistic": 0.13668898848854621
+          },
+          "without_neural_council_brier": 0.21057375236878648
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2665640974889067,
+            "repeat": 0.2503942737989007,
+            "amount": 0.2534987180062283,
+            "fee_rate": 0.2503942737989007,
+            "joint_context": 0.2534987180062283,
+            "neural": 0.19673758691640625,
+            "context_logistic": 0.2058145683541776
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.012509749658649798,
+            "repeat": 0.008261381673065506,
+            "amount": 0.004620767310727104,
+            "fee_rate": 0.008261381673065506,
+            "joint_context": 0.004620767310727104,
+            "neural": 0.8251618015386682,
+            "context_logistic": 0.13656415083509674
+          },
+          "without_neural_council_brier": 0.21057375236878648
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0013939937500000064,
+      "mean_absolute_council_probability_change": 0.0009573709088546006
+    },
+    {
+      "seed": 703,
+      "task": "context_reversal",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.25458349423218185,
+            "repeat": 0.26491047219101604,
+            "amount": 0.3623211216371195,
+            "fee_rate": 0.26491047219101604,
+            "joint_context": 0.3623211216371195,
+            "neural": 0.2629464616832396,
+            "context_logistic": 0.22609077465472194
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.001457282217841804,
+            "repeat": 0.001452658120995705,
+            "amount": 0.16888041057621012,
+            "fee_rate": 0.001452658120995705,
+            "joint_context": 0.16888041057621012,
+            "neural": 0.0014460097291689067,
+            "context_logistic": 0.6564305706585777
+          },
+          "without_neural_council_brier": 0.2516260498932283
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.25458349423218185,
+            "repeat": 0.26491047219101604,
+            "amount": 0.3623211216371195,
+            "fee_rate": 0.26491047219101604,
+            "joint_context": 0.3623211216371195,
+            "neural": 0.2628398296792083,
+            "context_logistic": 0.22609077465472194
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.0014572822221739945,
+            "repeat": 0.0014526581246096131,
+            "amount": 0.16888041160920336,
+            "fee_rate": 0.0014526581246096131,
+            "joint_context": 0.16888041160920336,
+            "neural": 0.001445961827475301,
+            "context_logistic": 0.6564306164827247
+          },
+          "without_neural_council_brier": 0.2516260498932283
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0017882749999999985,
+      "mean_absolute_council_probability_change": 9.539227859503822e-6
+    },
+    {
+      "seed": 703,
+      "task": "delayed_dependency",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.23221324731462092,
+            "repeat": 0.22259562925004023,
+            "amount": 0.22591750032844693,
+            "fee_rate": 0.22259562925004023,
+            "joint_context": 0.22591750032844693,
+            "neural": 0.17446101016528126,
+            "context_logistic": 0.20942135128476908
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.12009787542556422,
+            "repeat": 0.10422207191001168,
+            "amount": 0.04032903668855116,
+            "fee_rate": 0.10422207191001168,
+            "joint_context": 0.04032903668855116,
+            "neural": 0.5682614965694043,
+            "context_logistic": 0.022538410807905838
+          },
+          "without_neural_council_brier": 0.21343581038236065
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.23221324731462092,
+            "repeat": 0.22259562925004023,
+            "amount": 0.22591750032844693,
+            "fee_rate": 0.22259562925004023,
+            "joint_context": 0.22591750032844693,
+            "neural": 0.17435758242525,
+            "context_logistic": 0.20942135128476908
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.1194352973327276,
+            "repeat": 0.10357489483817385,
+            "amount": 0.04007408069261696,
+            "fee_rate": 0.10357489483817385,
+            "joint_context": 0.04007408069261696,
+            "neural": 0.5710023754295412,
+            "context_logistic": 0.022264376176149476
+          },
+          "without_neural_council_brier": 0.21343581038236065
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.001199050000000005,
+      "mean_absolute_council_probability_change": 0.000615049432830031
+    },
+    {
+      "seed": 704,
+      "task": "context_reversal",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2539330234404515,
+            "repeat": 0.25236848791270816,
+            "amount": 0.34295958448396474,
+            "fee_rate": 0.25236848791270816,
+            "joint_context": 0.34295958448396474,
+            "neural": 0.27463331258525,
+            "context_logistic": 0.22449914515647978
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.0018037660383656547,
+            "repeat": 0.0017811661389720574,
+            "amount": 0.16173108836963,
+            "fee_rate": 0.0017811661389720574,
+            "joint_context": 0.16173108836963,
+            "neural": 0.0014759466367357484,
+            "context_logistic": 0.6696957783076946
+          },
+          "without_neural_council_brier": 0.24742328540236386
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2539330234404515,
+            "repeat": 0.25236848791270816,
+            "amount": 0.34295958448396474,
+            "fee_rate": 0.25236848791270816,
+            "joint_context": 0.34295958448396474,
+            "neural": 0.27428322126127086,
+            "context_logistic": 0.22449914515647978
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.0018037706474163498,
+            "repeat": 0.001781170452090851,
+            "amount": 0.16173120488849868,
+            "fee_rate": 0.001781170452090851,
+            "joint_context": 0.16173120488849868,
+            "neural": 0.0014724725181212333,
+            "context_logistic": 0.6696990061532834
+          },
+          "without_neural_council_brier": 0.24742328540236386
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0019249374999999967,
+      "mean_absolute_council_probability_change": 9.65705470316186e-6
+    },
+    {
+      "seed": 704,
+      "task": "delayed_dependency",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.24770906254064434,
+            "repeat": 0.2509940230196915,
+            "amount": 0.253157852076275,
+            "fee_rate": 0.2509940230196915,
+            "joint_context": 0.253157852076275,
+            "neural": 0.2391693943311979,
+            "context_logistic": 0.28184962970756344
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.20069196475222523,
+            "repeat": 0.18239057486742985,
+            "amount": 0.07862891763773948,
+            "fee_rate": 0.18239057486742985,
+            "joint_context": 0.07862891763773948,
+            "neural": 0.27089396170909474,
+            "context_logistic": 0.006375088528341417
+          },
+          "without_neural_council_brier": 0.25063617651037173
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.24770906254064434,
+            "repeat": 0.2509940230196915,
+            "amount": 0.253157852076275,
+            "fee_rate": 0.2509940230196915,
+            "joint_context": 0.253157852076275,
+            "neural": 0.23907617126892708,
+            "context_logistic": 0.28184962970756344
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.2016824266891215,
+            "repeat": 0.1828641536838347,
+            "amount": 0.07883744380475843,
+            "fee_rate": 0.1828641536838347,
+            "joint_context": 0.07883744380475843,
+            "neural": 0.2685319449635046,
+            "context_logistic": 0.006382433370187578
+          },
+          "without_neural_council_brier": 0.25063617651037173
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.001896031250000004,
+      "mean_absolute_council_probability_change": 0.0005035191739579177
+    },
+    {
+      "seed": 705,
+      "task": "context_reversal",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.24403957405606586,
+            "repeat": 0.250445910337466,
+            "amount": 0.3715758536709178,
+            "fee_rate": 0.250445910337466,
+            "joint_context": 0.3715758536709178,
+            "neural": 0.2507047055925104,
+            "context_logistic": 0.21125114769702552
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.0014697445562438275,
+            "repeat": 0.0014604525998572933,
+            "amount": 0.16909419847262097,
+            "fee_rate": 0.0014604525998572933,
+            "joint_context": 0.16909419847262097,
+            "neural": 0.001452837352888475,
+            "context_logistic": 0.6559681159459112
+          },
+          "without_neural_council_brier": 0.2378690832447007
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.24403957405606586,
+            "repeat": 0.250445910337466,
+            "amount": 0.3715758536709178,
+            "fee_rate": 0.250445910337466,
+            "joint_context": 0.3715758536709178,
+            "neural": 0.250352191262625,
+            "context_logistic": 0.21125114769702552
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.001469744705045261,
+            "repeat": 0.0014604527209910942,
+            "amount": 0.16909422425367596,
+            "fee_rate": 0.0014604527209910942,
+            "joint_context": 0.16909422425367596,
+            "neural": 0.0014515172552223485,
+            "context_logistic": 0.6559693840903983
+          },
+          "without_neural_council_brier": 0.2378690832447007
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0017710437499999982,
+      "mean_absolute_council_probability_change": 5.75827537349174e-6
+    },
+    {
+      "seed": 705,
+      "task": "delayed_dependency",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.242992403287722,
+            "repeat": 0.2524393157530838,
+            "amount": 0.2462411262693169,
+            "fee_rate": 0.2524393157530838,
+            "joint_context": 0.2462411262693169,
+            "neural": 0.21997932886807292,
+            "context_logistic": 0.2742289802648532
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.051728265802300805,
+            "repeat": 0.07818456738137629,
+            "amount": 0.06579152888416079,
+            "fee_rate": 0.07818456738137629,
+            "joint_context": 0.06579152888416079,
+            "neural": 0.6452996268156533,
+            "context_logistic": 0.01501991485097165
+          },
+          "without_neural_council_brier": 0.24738494702889838
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.242992403287722,
+            "repeat": 0.2524393157530838,
+            "amount": 0.2462411262693169,
+            "fee_rate": 0.2524393157530838,
+            "joint_context": 0.2462411262693169,
+            "neural": 0.21984092986459375,
+            "context_logistic": 0.2742289802648532
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.05117956681328419,
+            "repeat": 0.07742808118636384,
+            "amount": 0.06513431098469807,
+            "fee_rate": 0.07742808118636384,
+            "joint_context": 0.06513431098469807,
+            "neural": 0.648801596944583,
+            "context_logistic": 0.014894051900009054
+          },
+          "without_neural_council_brier": 0.24738494702889838
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0013058374999999995,
+      "mean_absolute_council_probability_change": 0.0007661107584148704
+    },
+    {
+      "seed": 706,
+      "task": "context_reversal",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.25403462206500127,
+            "repeat": 0.25271207312239347,
+            "amount": 0.3912884382852787,
+            "fee_rate": 0.25271207312239347,
+            "joint_context": 0.3912884382852787,
+            "neural": 0.27112997999813543,
+            "context_logistic": 0.23265807676476682
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.0015116832466781436,
+            "repeat": 0.0014939925680197638,
+            "amount": 0.17976802776442383,
+            "fee_rate": 0.0014939925680197638,
+            "joint_context": 0.17976802776442383,
+            "neural": 0.0014377874105459174,
+            "context_logistic": 0.6345264886778887
+          },
+          "without_neural_council_brier": 0.2632985987539951
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.25403462206500127,
+            "repeat": 0.25271207312239347,
+            "amount": 0.3912884382852787,
+            "fee_rate": 0.25271207312239347,
+            "joint_context": 0.3912884382852787,
+            "neural": 0.2712837729105,
+            "context_logistic": 0.23265807676476682
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.0015116834313263843,
+            "repeat": 0.0014939927120130288,
+            "amount": 0.17976804769567534,
+            "fee_rate": 0.0014939927120130288,
+            "joint_context": 0.17976804769567534,
+            "neural": 0.0014373227766059657,
+            "context_logistic": 0.634526912976691
+          },
+          "without_neural_council_brier": 0.2632985987539951
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0017857187499999965,
+      "mean_absolute_council_probability_change": 4.044574546839216e-6
+    },
+    {
+      "seed": 706,
+      "task": "delayed_dependency",
+      "branches": {
+        "current": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2455823521192464,
+            "repeat": 0.24066907553685496,
+            "amount": 0.24068181004004902,
+            "fee_rate": 0.24066907553685496,
+            "joint_context": 0.24068181004004902,
+            "neural": 0.19368173078817708,
+            "context_logistic": 0.22405175797235755
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.10567987390678316,
+            "repeat": 0.11323847084673765,
+            "amount": 0.07931052450761956,
+            "fee_rate": 0.11323847084673765,
+            "joint_context": 0.07931052450761956,
+            "neural": 0.5056341679872802,
+            "context_logistic": 0.0035879673972222153
+          },
+          "without_neural_council_brier": 0.23449134956875253
+        },
+        "coupled": {
+          "replayed_windows": 160,
+          "expert_brier": {
+            "frequency": 0.2455823521192464,
+            "repeat": 0.24066907553685496,
+            "amount": 0.24068181004004902,
+            "fee_rate": 0.24066907553685496,
+            "joint_context": 0.24068181004004902,
+            "neural": 0.19357621592239582,
+            "context_logistic": 0.22405175797235755
+          },
+          "mean_expert_attention_at_prediction": {
+            "frequency": 0.1056913198073352,
+            "repeat": 0.11323860728129821,
+            "amount": 0.07929727157813302,
+            "fee_rate": 0.11323860728129821,
+            "joint_context": 0.07929727157813302,
+            "neural": 0.5056488739974281,
+            "context_logistic": 0.003588048476374287
+          },
+          "without_neural_council_brier": 0.23449134956875253
+        }
+      },
+      "mean_absolute_neural_probability_change": 0.0010083499999999988,
+      "mean_absolute_council_probability_change": 0.0004958635128755682
+    }
+  ],
+  "source_hashes": {
+    "cognition/forecast.py": "5f8273e77f1bb0ac27998ac4414d865e5a80f725f5e03271b3d8d177ebec074c",
+    "cognition/learning.py": "91bf7b63c2ec02a27922f206ce231270cfe6a914edbe2c0ac4b2052863021f35",
+    "cognition/multiscale.py": "e0be56982d7c40155772516ec0d608adcbc307dc489be02bc1fb40427795a238"
+  },
+  "scope": "Exact replay of the forecast component from original prediction traces. Half-life and omitted ordered-history features are code observations. No causal attribution of all failure to a single factor, complete-organism evaluation or new neural advantage is implied."
+}
