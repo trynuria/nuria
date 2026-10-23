@@ -1,0 +1,74 @@
+{
+  "schema": "nuria.adaptive-memory.protocol.v1",
+  "frozen_utc": "2026-10-23T20:33:28.462709+00:00",
+  "baseline_commit": "6b951d601edb9d0cc59909640a245856a8a526c7",
+  "question": "Can explicit ordered outcome memory and multiple forgetting speeds improve the existing source-specific forecast component, including decisions about costly information, without adding neurons?",
+  "diagnosis_source": "../multiscale/results/traces.jsonl.gz",
+  "development_seeds": [
+    3211,
+    3212,
+    3213
+  ],
+  "validation_seeds": [
+    11001,
+    11002,
+    11003,
+    11004,
+    11005,
+    11006,
+    11007,
+    11008,
+    11009,
+    11010,
+    11011,
+    11012
+  ],
+  "transitions_per_trial": 2048,
+  "warmup_transitions": 256,
+  "tasks": {
+    "delayed_copy": "Choose lag from 3,4,5,7,9,12 by environment seed; side copies lagged side with probability 0.9. Initial lag is random. Amount and fee are independent distractors.",
+    "parity": "Next side is XOR of the previous two or three sides, selected by seed, with 0.1 flip noise.",
+    "lag_switch": "Lag and copy/invert mapping change every 384 inputs; lag is selected independently from 3,5,9. No regime or lag hint reaches the learner.",
+    "context_switch": "Sixteen amount and fee contexts; active context rule changes every 512 inputs, alternating amount and fee with new independently seeded mappings.",
+    "stable_context": "Sixteen recurring amount or fee contexts selected by seed, with fixed balanced 0.1/0.9 repeat probabilities.",
+    "first_order": "A fixed repeat probability of 0.1 or 0.9 selected by seed.",
+    "iid_fair": "Independent fair sides.",
+    "iid_biased": "Independent sides, buy probability chosen from 0.15,0.35,0.65,0.85."
+  },
+  "branches": [
+    "current",
+    "adaptive",
+    "no_sequence",
+    "no_fast",
+    "frozen",
+    "lag_only",
+    "suffix_only"
+  ],
+  "candidate": "Protected legacy forecaster plus lag-conditioned and variable-length suffix outcome memory, contextual repeat memory and slow/fast counts. Loss-based online weighting. Same observed side, amount, fee and neural probability in every applicable branch. Fixed memory caps.",
+  "neural_probability": "0.5 for controlled statistical comparisons. Original actual-neural traces are a separate descriptive component replay, not a new closed-loop neural experiment.",
+  "information_decision": {
+    "quality": 0.9,
+    "costs": [
+      0.05,
+      0.15,
+      0.3,
+      0.6
+    ],
+    "decision": "Before the next label arrives, use free predicted direction unless 2*quality-1-cost exceeds abs(2*prior_probability-1); in that case choose the offered measurement. The measurement equals the next side with probability 0.9.",
+    "reward": "Correct direction +1, wrong direction -1, less measurement cost if bought. All costs and rewards are virtual. Prices/quality are available before choice; label and delivered measurement are not. All models learn the actual observed next side after scoring, regardless of purchase.",
+    "scope": "A fixed information-selection rule tests whether forecasts support useful cost decisions. It is not a live purchase, actual vendor delivery, new autonomous hiring controller or a full-organism evaluation."
+  },
+  "scoring": "Each next-side forecast is saved at observation i-1 and scored on observation i before training on i. Warm-up transitions 1..256 are unscored; score indices 257..2048 equally. Update after scoring except frozen branch stops parameter updates after transition 256. Context history still advances for frozen inference.",
+  "primary": "For delayed_copy, parity, lag_switch and context_switch, paired mean current-minus-adaptive Brier reduction >=0.01 with positive lower 95% Student-t bound across twelve seeds (critical 2.200985160082949). The four-task assertion is an intersection claim.",
+  "regression_gate": "For stable_context, first_order, iid_fair and iid_biased, upper 95% paired adaptive-minus-current Brier increase <=0.005 on every task.",
+  "decision_gate": "Aggregate virtual net reward improvement >=0.01 with positive paired lower 95% bound, taking each validation seed as the unit and averaging its four primary task means.",
+  "mechanism_gate": "Report no_sequence, no_fast and frozen losses on every task; do not attribute all gains to neural dynamics. lag_only and suffix_only are stronger simple alternatives, not oracle-tuned lag or depth choices.",
+  "selection": "Architecture, numeric constants and complete implementation source are committed before validation. Development output and every attempted configuration are retained. Validation is run once for the frozen candidate; failed gates remain visible and cannot be removed by changing seeds, warm-up or tasks.",
+  "safety": "No active neural history is read into the benchmark or reset. No financial operations. Check source isolation, forecast timing, bounded state, v1 migration, exact recovery, failed commit and adversarial input before a production upgrade. Keep all visual source files and public design unchanged.",
+  "limits": [
+    "Synthetic bounded tasks, not evidence of market profit, broad intelligence or consciousness.",
+    "All methods observe the same completed next-side labels; this is not a bandit credit-assignment comparison.",
+    "Temporal statistical memory remains distinct from Brian2 STDP and TVB neural-mass dynamics.",
+    "A live update must retain the complete brain checkpoint, cursor, genesis, old forecaster parameters and historical metrics; new metrics start at their real version boundary."
+  ]
+}

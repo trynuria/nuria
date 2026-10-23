@@ -25,6 +25,7 @@ jobs:
           ruff check .
           ruff format --check .
           python -m unittest discover -s tests -v
+          python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
       - name: Check frontend
         run: |
           npm run format:check

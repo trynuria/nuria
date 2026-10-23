@@ -1,0 +1,31 @@
+{
+  "schema": "nuria.adaptive-memory.implementation.v1",
+  "frozen_utc": "2026-10-23T20:40:02.646115+00:00",
+  "protocol_sha256": "1be8b820880a18b8de0507f5743109d3483c3d5d3347fac31e3b38db1d6ca062",
+  "source_hashes": {
+    "cognition/adaptive_forecast.py": "13df911c00bc1053c135200a1728de620728a198e69eed76c16300dda107b82b",
+    "cognition/forecast.py": "5f8273e77f1bb0ac27998ac4414d865e5a80f725f5e03271b3d8d177ebec074c",
+    "scripts/evaluate_adaptive_memory.py": "e8b41f5058dfaf7dbf73f9e49379d9833de1a4fb71964df53ea1280de435d717"
+  },
+  "development_attempts": [
+    {
+      "directory": "development",
+      "configuration": "One fixed candidate; no parameter search or discarded run",
+      "all_development_gates_passed": true
+    }
+  ],
+  "constants": {
+    "history": 16,
+    "max_suffix_depth": 8,
+    "maximum_cells_per_speed": 1024,
+    "slow_decay": 0.999,
+    "fast_decay": 0.98,
+    "initial_current_weight": 0.9,
+    "log_weight_discount": 0.995,
+    "likelihood_learning_rate": 1.0,
+    "fixed_share": 0.01,
+    "suffix_prior_strength": 4,
+    "binary_count_prior": [1, 1]
+  },
+  "validation": "Twelve registered unseen environment seeds; run once without changing these source bytes. Retain failed gates and all comparators."
+}

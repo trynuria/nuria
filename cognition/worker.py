@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import fcntl
 import hashlib
 import json
@@ -15,7 +16,10 @@ from pathlib import Path
 
 import numpy as np
 
+from cognition.adaptive_forecast import VERSION as MEMORY_FORECAST_VERSION
+from cognition.adaptive_forecast import AdaptiveForecast
 from cognition.brain import MODEL_VERSION, AdaptiveBrain, sha
+from cognition.forecast import VERSION as LEGACY_FORECAST_VERSION
 from cognition.forecast import ForecastCouncil
 from cognition.jobs import Experiments
 from cognition.journal import Journal, canonical
@@ -33,9 +37,19 @@ def utc() -> str:
 
 
 class Organism:
-    def __init__(self, directory: Path, source_sha256: str):
+    def __init__(
+        self, directory: Path, source_sha256: str, *, forecast_mode: str = "memory"
+    ):
+        if forecast_mode not in ("memory", "legacy"):
+            raise ValueError("Unknown forecast mode")
         self.directory = Path(directory)
         self.source_sha256 = source_sha256
+        self.forecast_mode = forecast_mode
+        self.forecast_method = (
+            MEMORY_FORECAST_VERSION
+            if forecast_mode == "memory"
+            else LEGACY_FORECAST_VERSION
+        )
         self.journal = Journal(directory)
         self.brain = AdaptiveBrain(directory)
         self.memory = EpisodicMemory(self.journal.db)
@@ -50,11 +64,38 @@ class Organism:
             source: OnlineReadout(state)
             for source, state in metadata.get("readouts", {}).items()
         }
-        self.forecasts = {
-            source: ForecastCouncil(state)
-            for source, state in metadata.get("forecasts", {}).items()
-        }
-        self.forecast_genesis = metadata.get("forecast_genesis_utc", utc())
+        self.forecasts = {}
+        self.retained_forecast_states = metadata.get("retained_forecast_states", {})
+        forecast_transitions = []
+        for source, state in metadata.get("forecasts", {}).items():
+            old_method = state.get("version")
+            if forecast_mode == "legacy" and old_method == MEMORY_FORECAST_VERSION:
+                # A forward fallback uses the continuously retained v1 shadow.
+                # Keep the suspended memory state; never rewrite old records.
+                self.retained_forecast_states[source] = copy.deepcopy(state)
+                self.forecasts[source] = ForecastCouncil(state["base"])
+            elif forecast_mode == "memory":
+                self.forecasts[source] = AdaptiveForecast(state)
+            else:
+                self.forecasts[source] = ForecastCouncil(state)
+            if old_method != self.forecast_method:
+                forecast_transitions.append(
+                    {"source": source, "from": old_method, "to": self.forecast_method}
+                )
+        original_forecast_genesis = metadata.get("forecast_genesis_utc", utc())
+        self.legacy_forecast_genesis = metadata.get(
+            "legacy_forecast_genesis_utc", original_forecast_genesis
+        )
+        self.memory_forecast_genesis = metadata.get("memory_forecast_genesis_utc")
+        if forecast_mode == "memory" and (
+            not self.memory_forecast_genesis or forecast_transitions
+        ):
+            self.memory_forecast_genesis = utc()
+        self.forecast_genesis = (
+            self.memory_forecast_genesis
+            if forecast_mode == "memory"
+            else self.legacy_forecast_genesis
+        )
         self.committed_tick = int(metadata.get("tick", 0))
         self.committed_cursor = int(metadata.get("cursor", 0))
         self.workspace = Workspace(metadata.get("workspace"))
@@ -71,6 +112,19 @@ class Organism:
         self.ledger_check = self.journal.verify(full=True)
         if not self.ledger_check["valid"]:
             raise RuntimeError("Cognitive integrity check failed; continuation refused")
+        if forecast_transitions:
+            self.journal.append(
+                "forecast_version_change",
+                {
+                    "utc": utc(),
+                    "tick": self.tick,
+                    "cursor": self.cursor,
+                    "source_sha256": self.source_sha256,
+                    "neural_state_sha256": self.brain.state_hash(),
+                    "transitions": forecast_transitions,
+                    "scope": "Forecast parameters and historical metrics retained; new memory metrics begin at their actual version boundary. Neural state and source history are not reset.",
+                },
+            )
         if not saved:
             self.experiments.run("experiment", self.brain, self.memory, 0)
             self.save()
@@ -120,11 +174,40 @@ class Organism:
             event, self.features, self.resources.energy, self.workspace.uncertainty
         )
         neural_learning = readout.observe(event, features)
-        council = self.forecasts.setdefault(
-            event.get("source", "unknown"), ForecastCouncil()
+        source = event.get("source", "unknown")
+        council = self.forecasts.get(source)
+        if council is None:
+            council = (
+                AdaptiveForecast()
+                if self.forecast_mode == "memory"
+                else ForecastCouncil()
+            )
+            self.forecasts[source] = council
+        outstanding_legacy = (
+            council.base.pending
+            if isinstance(council, AdaptiveForecast)
+            and council.steps == 0
+            and council.migration
+            else None
         )
         learning = council.observe(event, neural_learning["prediction_buy"])
         feedback = learning["feedback"]
+        settled_method = self.forecast_method if feedback else None
+        if feedback is None and outstanding_legacy:
+            # Settle the actual v1 prediction issued before the upgrade. Its
+            # reward belongs to v1; do not manufacture a v2 historical score.
+            outcome = int(event["side"] == "buy")
+            probability = outstanding_legacy["probability"]
+            loss = (probability - outcome) ** 2
+            baseline_loss = (outstanding_legacy["experts"]["repeat"] - outcome) ** 2
+            feedback = {
+                "probability": probability,
+                "error": outcome - probability,
+                "loss": loss,
+                "baseline_loss": baseline_loss,
+                "improvement": baseline_loss - loss,
+            }
+            settled_method = LEGACY_FORECAST_VERSION
         improvement = float(feedback["improvement"]) if feedback else 0.0
         plasticity = self.brain.reward(improvement)
         surprise = abs(float(feedback["error"])) if feedback else 0.0
@@ -151,7 +234,11 @@ class Organism:
             "spike_count": frame["spike_count"],
             "spikes_sha256": frame["spikes_sha256"],
             "next_buy_probability": learning["prediction_buy"],
-            "forecast_method": "forecast-council-v1",
+            "forecast_method": self.forecast_method,
+            "settled_forecast_method": settled_method,
+            "settled_forecast_probability": feedback["probability"]
+            if feedback
+            else None,
             "forecast_experts": council.pending["experts"],
             "forecast_attention": learning["attention"],
             "neural_readout_probability": neural_learning["prediction_buy"],
@@ -328,6 +415,10 @@ class Organism:
                 source: forecast.state() for source, forecast in self.forecasts.items()
             },
             "forecast_genesis_utc": self.forecast_genesis,
+            "forecast_method": self.forecast_method,
+            "legacy_forecast_genesis_utc": self.legacy_forecast_genesis,
+            "memory_forecast_genesis_utc": self.memory_forecast_genesis,
+            "retained_forecast_states": self.retained_forecast_states,
             "workspace": self.workspace.state(),
             "resources": self.resources.state(),
             "habitat": self.habitat.state(),
@@ -369,9 +460,11 @@ class Organism:
             "neural": frame,
             "workspace": self.workspace.state(),
             "learning": {
-                "method": "forecast-council-v1",
+                "method": self.forecast_method,
                 "genesis_utc": self.forecast_genesis,
-                "scope": "Outcome memory and learned forecast attention alongside a separate neural specialist; forecast gains do not establish a synaptic advantage",
+                "legacy_genesis_utc": self.legacy_forecast_genesis,
+                "mode": self.forecast_mode,
+                "scope": "Source-specific ordered outcome memory and adaptive forecast selection around a retained neural/statistical council; forecast gains do not establish a synaptic or TVB advantage",
                 "sources": {
                     source: {
                         "samples": forecast.stats["n"],
@@ -428,9 +521,10 @@ def main() -> None:
         fcntl.flock(writer_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         raise SystemExit("Cognitive writer already active")
+    forecast_mode = os.environ.get("NURIA_FORECAST_MODE", "memory")
     organism = None
     try:
-        organism = Organism(data, source)
+        organism = Organism(data, source, forecast_mode=forecast_mode)
         publish(public, "topology.json", organism.brain.topology)
         while not stop.is_set():
             begin = time.monotonic()
