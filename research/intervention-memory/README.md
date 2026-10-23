@@ -164,7 +164,7 @@ that distinct execution scope.
 Extract the retained public dataset and run a new isolated intervention history:
 
 ```sh
-python -c "import zipfile,pathlib; pathlib.Path('hour.csv').write_bytes(zipfile.ZipFile('research/intervention-memory/data/bike-sharing-original.zip').read('hour.csv'))"
+python -c "import zipfile; open('hour.csv','xb').write(zipfile.ZipFile('research/intervention-memory/data/bike-sharing-original.zip').read('hour.csv'))"
 python -m scripts.run_sqlite_interventions hour.csv research/intervention-memory/runner/workloads.jsonl .test-state/sqlite-agent-new .test-state/sqlite-agent-new.json
 python -m unittest discover -s tests -p 'test_intervention*.py' -v
 ```
@@ -172,8 +172,9 @@ python -m unittest discover -s tests -p 'test_intervention*.py' -v
 Use new output/state names for a fresh experiment; existing evidence is preserved.
 Native VM counts are build-specific. Full comparative reproduction requires the
 protocol's SQLite version, source ID and compile options; other builds are refused
-for that registered comparison. The standalone tool can establish its own isolated
-history on another build without pretending the counts are comparable:
+for that registered comparison. The standalone command above can establish its own
+isolated history on another build without treating the counts as comparable. On
+the exact registered build, reproduce the full comparison with:
 
 ```sh
 python -m scripts.evaluate_intervention_memory hour.csv .test-state/sqlite-comparison-new --phase validation
