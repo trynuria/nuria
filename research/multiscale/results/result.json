@@ -1,0 +1,2538 @@
+{
+  "schema": "nuria.multiscale.result.v1",
+  "protocol_sha256": "b55757569f56ec7a3a9eb1a114cec83b9d5f61b963da0b65ac7972a8ac2862cb",
+  "source_hashes": {
+    "cognition/brain.py": "f79cba0b06a2c5c861b17a48507bb7a93f05f5cbc73f0d1effc78a6649f18349",
+    "cognition/multiscale.py": "e0be56982d7c40155772516ec0d608adcbc307dc489be02bc1fb40427795a238",
+    "cognition/multiscale_loop.py": "c6f1e6a17fd04db0ea2412e33606fceb925b6130f0cedcef91c5fa935566187e",
+    "cognition/forecast.py": "5f8273e77f1bb0ac27998ac4414d865e5a80f725f5e03271b3d8d177ebec074c",
+    "cognition/learning.py": "91bf7b63c2ec02a27922f206ce231270cfe6a914edbe2c0ac4b2052863021f35",
+    "scripts/evaluate_multiscale.py": "465c1c4b42a71e5789b335585c5d23d0f111612ba5cc9b2567410f8085549fe9"
+  },
+  "summary": {
+    "delayed_dependency": {
+      "council_brier": {
+        "current": 0.21186165052001696,
+        "coupled": 0.21178310139009174,
+        "no_return": 0.21186165052001696,
+        "no_spike_feedback": 0.21181030137125342,
+        "shuffled": 0.21172948630472063
+      },
+      "comparisons_to_current": {
+        "coupled": {
+          "paired_gain": 7.854912992525757e-5,
+          "standard_error": 4.9528363057736826e-5,
+          "lower_95": -4.876758054822118e-5,
+          "upper_95": 0.00020586584039873634,
+          "seed_wins": 4
+        },
+        "no_return": {
+          "paired_gain": 0.0,
+          "standard_error": 0.0,
+          "lower_95": 0.0,
+          "upper_95": 0.0,
+          "seed_wins": 0
+        },
+        "no_spike_feedback": {
+          "paired_gain": 5.134914876359087e-5,
+          "standard_error": 6.78694952776015e-5,
+          "lower_95": -0.00012311494305722136,
+          "upper_95": 0.0002258132405844031,
+          "seed_wins": 2
+        },
+        "shuffled": {
+          "paired_gain": 0.00013216421529635888,
+          "standard_error": 9.985873118946006e-5,
+          "lower_95": -0.0001245308253266609,
+          "upper_95": 0.00038885925591937865,
+          "seed_wins": 4
+        }
+      }
+    },
+    "context_reversal": {
+      "council_brier": {
+        "current": 0.2509211227692726,
+        "coupled": 0.25092073719820507,
+        "no_return": 0.2509211227692726,
+        "no_spike_feedback": 0.2509209207227823,
+        "shuffled": 0.2509207547809324
+      },
+      "comparisons_to_current": {
+        "coupled": {
+          "paired_gain": 3.8557106750436443e-7,
+          "standard_error": 2.1628219784579086e-7,
+          "lower_95": -1.704000218611411e-7,
+          "upper_95": 9.415421568698699e-7,
+          "seed_wins": 4
+        },
+        "no_return": {
+          "paired_gain": 0.0,
+          "standard_error": 0.0,
+          "lower_95": 0.0,
+          "upper_95": 0.0,
+          "seed_wins": 0
+        },
+        "no_spike_feedback": {
+          "paired_gain": 2.0204649023303212e-7,
+          "standard_error": 1.2043233576358787e-7,
+          "lower_95": -1.0753468462193453e-7,
+          "upper_95": 5.116276650879988e-7,
+          "seed_wins": 5
+        },
+        "shuffled": {
+          "paired_gain": 3.6798834015157783e-7,
+          "standard_error": 1.2416201212058797e-7,
+          "lower_95": 4.881972699685528e-8,
+          "upper_95": 6.871569533063004e-7,
+          "seed_wins": 5
+        }
+      }
+    }
+  },
+  "trials": [
+    {
+      "seed": 701,
+      "task": "delayed_dependency",
+      "stream_sha256": "62b6b190b22e94d34bab3429aecd79fa54f494d60c128ddb9c1b937f0f6486c5",
+      "branches": {
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2167088393479938,
+          "neural_brier": 0.20696958805532617,
+          "repeat_brier": 0.2518113814606671,
+          "accuracy": 0.6875,
+          "mean_neural_attention": 0.6546680779439827,
+          "setup_seconds": 0.1140536250313744,
+          "mean_window_seconds": 0.044622703368077055,
+          "p95_window_seconds": 0.04814216044032946,
+          "max_window_seconds": 0.0921922919806093,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.21680944124187393,
+          "neural_brier": 0.20705147802329327,
+          "repeat_brier": 0.2518113814606671,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.6517397095469448,
+          "setup_seconds": 1.314814917044714,
+          "mean_window_seconds": 0.06942808050589519,
+          "p95_window_seconds": 0.07551696455921046,
+          "max_window_seconds": 0.11045945796649903,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2167088393479938,
+          "neural_brier": 0.20696958805532617,
+          "repeat_brier": 0.2518113814606671,
+          "accuracy": 0.6875,
+          "mean_neural_attention": 0.6546680779439827,
+          "setup_seconds": 0.18783945799805224,
+          "mean_window_seconds": 0.07285190491820685,
+          "p95_window_seconds": 0.07845277503947727,
+          "max_window_seconds": 0.09678649995476007,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.21681276139909134,
+          "neural_brier": 0.20703930958356417,
+          "repeat_brier": 0.2518113814606671,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.6523323532872619,
+          "setup_seconds": 0.1917792910244316,
+          "mean_window_seconds": 0.07290409039487714,
+          "p95_window_seconds": 0.0775587597861886,
+          "max_window_seconds": 0.1097057081060484,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.21676911861102963,
+          "neural_brier": 0.20696934984174442,
+          "repeat_brier": 0.2518113814606671,
+          "accuracy": 0.6875,
+          "mean_neural_attention": 0.6518649631065468,
+          "setup_seconds": 0.19812529196497053,
+          "mean_window_seconds": 0.07159667371524847,
+          "p95_window_seconds": 0.07707857539062388,
+          "max_window_seconds": 0.08053533406928182,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 157
+    },
+    {
+      "seed": 701,
+      "task": "context_reversal",
+      "stream_sha256": "7afde4f71e32f2c60aafab0a8157ba7083ba888e7598f3fe337822412ed4e789",
+      "branches": {
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.28593391217478226,
+          "neural_brier": 0.2612682377382923,
+          "repeat_brier": 0.24802563081027382,
+          "accuracy": 0.6041666666666666,
+          "mean_neural_attention": 0.0014623420942327227,
+          "setup_seconds": 0.19205883296672255,
+          "mean_window_seconds": 0.07293798642567709,
+          "p95_window_seconds": 0.07808266393840312,
+          "max_window_seconds": 0.08728620898909867,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2859344609471714,
+          "neural_brier": 0.261376636040815,
+          "repeat_brier": 0.24802563081027382,
+          "accuracy": 0.6041666666666666,
+          "mean_neural_attention": 0.0014651395345297118,
+          "setup_seconds": 0.19669116707518697,
+          "mean_window_seconds": 0.07107188691225019,
+          "p95_window_seconds": 0.07634044100996107,
+          "max_window_seconds": 0.08740974997635931,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2859341576865644,
+          "neural_brier": 0.2612836836713522,
+          "repeat_brier": 0.24802563081027382,
+          "accuracy": 0.6041666666666666,
+          "mean_neural_attention": 0.0014646359198739252,
+          "setup_seconds": 0.19759604090359062,
+          "mean_window_seconds": 0.07281125963054365,
+          "p95_window_seconds": 0.07971325833350419,
+          "max_window_seconds": 0.09468366706278175,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2859340141985537,
+          "neural_brier": 0.26137142912284766,
+          "repeat_brier": 0.24802563081027382,
+          "accuracy": 0.6041666666666666,
+          "mean_neural_attention": 0.001461751244283541,
+          "setup_seconds": 0.18578804202843457,
+          "mean_window_seconds": 0.07216368416629848,
+          "p95_window_seconds": 0.07658222712343557,
+          "max_window_seconds": 0.08277716697193682,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2859344609471714,
+          "neural_brier": 0.261376636040815,
+          "repeat_brier": 0.24802563081027382,
+          "accuracy": 0.6041666666666666,
+          "mean_neural_attention": 0.0014651395345297118,
+          "setup_seconds": 0.0925381249981001,
+          "mean_window_seconds": 0.07063548963196808,
+          "p95_window_seconds": 0.07562097290647214,
+          "max_window_seconds": 0.07937399996444583,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 159
+    },
+    {
+      "seed": 702,
+      "task": "delayed_dependency",
+      "stream_sha256": "ec73f0f32e36bc4d0ecdf26b47a976dde8887081626bad38dc8e4ed62a626a81",
+      "branches": {
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.19883100722924651,
+          "neural_brier": 0.19673757916184154,
+          "repeat_brier": 0.2503942737989007,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.8271889346733068,
+          "setup_seconds": 0.19163362495601177,
+          "mean_window_seconds": 0.07220147240441292,
+          "p95_window_seconds": 0.07806080416194162,
+          "max_window_seconds": 0.08256925002206117,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.19902718283449072,
+          "neural_brier": 0.1969602966912091,
+          "repeat_brier": 0.2503942737989007,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.8272779919531353,
+          "setup_seconds": 0.1940534160239622,
+          "mean_window_seconds": 0.07257116453911294,
+          "p95_window_seconds": 0.07799507085001096,
+          "max_window_seconds": 0.08359316596761346,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.1990593200480152,
+          "neural_brier": 0.1970040372959824,
+          "repeat_brier": 0.2503942737989007,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.8275609548979582,
+          "setup_seconds": 0.18356691696681082,
+          "mean_window_seconds": 0.07162252447815262,
+          "p95_window_seconds": 0.07634263401268981,
+          "max_window_seconds": 0.08306212502066046,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.19878156535038605,
+          "neural_brier": 0.19669495590008637,
+          "repeat_brier": 0.2503942737989007,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.8281484147635823,
+          "setup_seconds": 0.1875314589124173,
+          "mean_window_seconds": 0.07265901176433545,
+          "p95_window_seconds": 0.07825847468338906,
+          "max_window_seconds": 0.09432120795827359,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.19902718283449072,
+          "neural_brier": 0.1969602966912091,
+          "repeat_brier": 0.2503942737989007,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.8272779919531353,
+          "setup_seconds": 0.09231070906389505,
+          "mean_window_seconds": 0.06917237257221132,
+          "p95_window_seconds": 0.07518397047533654,
+          "max_window_seconds": 0.1119629159802571,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 159
+    },
+    {
+      "seed": 702,
+      "task": "context_reversal",
+      "stream_sha256": "f835d2c5618b46b72a60c2b33ef6da21ba7487fdceeafe8d8b35bf0b12207850",
+      "branches": {
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.21964219014230243,
+          "neural_brier": 0.25409167713876446,
+          "repeat_brier": 0.2473657995404166,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.004243822377886706,
+          "setup_seconds": 0.18911308306269348,
+          "mean_window_seconds": 0.07331830987459398,
+          "p95_window_seconds": 0.07891846182174049,
+          "max_window_seconds": 0.08759704104159027,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.21964257217135516,
+          "neural_brier": 0.25456863321570933,
+          "repeat_brier": 0.2473657995404166,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.004201629102692725,
+          "setup_seconds": 0.18720141693484038,
+          "mean_window_seconds": 0.07626169586874312,
+          "p95_window_seconds": 0.08245224649435841,
+          "max_window_seconds": 0.0886456670705229,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2196422691516231,
+          "neural_brier": 0.25454109425708876,
+          "repeat_brier": 0.2473657995404166,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.004193825489525092,
+          "setup_seconds": 0.1961045409552753,
+          "mean_window_seconds": 0.07371189380210126,
+          "p95_window_seconds": 0.07912620627903379,
+          "max_window_seconds": 0.08368583302944899,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.21964219014230243,
+          "neural_brier": 0.25409167713876446,
+          "repeat_brier": 0.2473657995404166,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.004243822377886706,
+          "setup_seconds": 0.09679245797451586,
+          "mean_window_seconds": 0.06956696228080546,
+          "p95_window_seconds": 0.07560405210242606,
+          "max_window_seconds": 0.08050420903600752,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.21964265999204868,
+          "neural_brier": 0.254688073046811,
+          "repeat_brier": 0.2473657995404166,
+          "accuracy": 0.6979166666666666,
+          "mean_neural_attention": 0.004209857336150031,
+          "setup_seconds": 0.1839419580064714,
+          "mean_window_seconds": 0.07474520075702458,
+          "p95_window_seconds": 0.08028624407597816,
+          "max_window_seconds": 0.10194358299486339,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 158
+    },
+    {
+      "seed": 703,
+      "task": "delayed_dependency",
+      "stream_sha256": "66d90fa5e174b1d03a2725a5d00afa824d50519ca5d07c96594b57e1eb0502fb",
+      "branches": {
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.17963611905088606,
+          "neural_brier": 0.1744610377825863,
+          "repeat_brier": 0.2225956292500402,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.5748359564390156,
+          "setup_seconds": 0.19398016692139208,
+          "mean_window_seconds": 0.07766788107401226,
+          "p95_window_seconds": 0.0858157379028853,
+          "max_window_seconds": 0.23837499995715916,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.1796414574020094,
+          "neural_brier": 0.17445820996144676,
+          "repeat_brier": 0.2225956292500402,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.5747310769487309,
+          "setup_seconds": 0.1975583330495283,
+          "mean_window_seconds": 0.0775364752553287,
+          "p95_window_seconds": 0.08258398598409256,
+          "max_window_seconds": 0.09509254107251763,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.17958862594444694,
+          "neural_brier": 0.1744475788178983,
+          "repeat_brier": 0.2225956292500402,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.575976171078389,
+          "setup_seconds": 0.19792637496721,
+          "mean_window_seconds": 0.0762401192332618,
+          "p95_window_seconds": 0.08308661251794545,
+          "max_window_seconds": 0.08991370792500675,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.17963611905088606,
+          "neural_brier": 0.1744610377825863,
+          "repeat_brier": 0.2225956292500402,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.5748359564390156,
+          "setup_seconds": 0.09775516693480313,
+          "mean_window_seconds": 0.07662678357010008,
+          "p95_window_seconds": 0.09062278121127745,
+          "max_window_seconds": 0.150418582954444,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.17950701148273093,
+          "neural_brier": 0.17435758080191222,
+          "repeat_brier": 0.2225956292500402,
+          "accuracy": 0.7083333333333334,
+          "mean_neural_attention": 0.5775479632074304,
+          "setup_seconds": 0.19317754195071757,
+          "mean_window_seconds": 0.097131464866834,
+          "p95_window_seconds": 0.08376466484623961,
+          "max_window_seconds": 2.728878707974218,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 157
+    },
+    {
+      "seed": 703,
+      "task": "context_reversal",
+      "stream_sha256": "f3d42d9e7f57c11dfa28a583e61160028c01c62cf3ad104aca8c55d2a7c2c343",
+      "branches": {
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2515641805048721,
+          "neural_brier": 0.2629106037409261,
+          "repeat_brier": 0.2649104721910161,
+          "accuracy": 0.6354166666666666,
+          "mean_neural_attention": 0.0014459449747238468,
+          "setup_seconds": 0.1965037080226466,
+          "mean_window_seconds": 0.0755173890516744,
+          "p95_window_seconds": 0.08293579934979789,
+          "max_window_seconds": 0.0902858329936862,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.25156416820099164,
+          "neural_brier": 0.26302320557267783,
+          "repeat_brier": 0.2649104721910161,
+          "accuracy": 0.6354166666666666,
+          "mean_neural_attention": 0.0014460684041167965,
+          "setup_seconds": 0.20386787492316216,
+          "mean_window_seconds": 0.07524742814493948,
+          "p95_window_seconds": 0.08257272081682458,
+          "max_window_seconds": 0.09573387505952269,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2515645679481147,
+          "neural_brier": 0.26294646901038093,
+          "repeat_brier": 0.2649104721910161,
+          "accuracy": 0.6354166666666666,
+          "mean_neural_attention": 0.0014460228803904963,
+          "setup_seconds": 0.09730695805046707,
+          "mean_window_seconds": 0.07429737790153013,
+          "p95_window_seconds": 0.08073918544105252,
+          "max_window_seconds": 0.09288250003010035,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.25156386708429906,
+          "neural_brier": 0.26283981721565725,
+          "repeat_brier": 0.2649104721910161,
+          "accuracy": 0.6354166666666666,
+          "mean_neural_attention": 0.0014459749661657345,
+          "setup_seconds": 0.19417795806657523,
+          "mean_window_seconds": 0.0770331854102551,
+          "p95_window_seconds": 0.08264041629736311,
+          "max_window_seconds": 0.10656891693361104,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2515645679481147,
+          "neural_brier": 0.26294646901038093,
+          "repeat_brier": 0.2649104721910161,
+          "accuracy": 0.6354166666666666,
+          "mean_neural_attention": 0.0014460228803904963,
+          "setup_seconds": 0.18893395795021206,
+          "mean_window_seconds": 0.07705863279552431,
+          "p95_window_seconds": 0.08183400658308528,
+          "max_window_seconds": 0.0883012079866603,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 158
+    },
+    {
+      "seed": 704,
+      "task": "delayed_dependency",
+      "stream_sha256": "f364bef310260cb155ba258ba702fb9d978229adb2d2a794afdccaa104a00b6f",
+      "branches": {
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2472769216567138,
+          "neural_brier": 0.23913482492599525,
+          "repeat_brier": 0.2509940230196915,
+          "accuracy": 0.5729166666666666,
+          "mean_neural_attention": 0.27323201479258163,
+          "setup_seconds": 0.18877808295655996,
+          "mean_window_seconds": 0.07495839635084849,
+          "p95_window_seconds": 0.08142935861833393,
+          "max_window_seconds": 0.08455287502147257,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24736197512521174,
+          "neural_brier": 0.23930578734823618,
+          "repeat_brier": 0.2509940230196915,
+          "accuracy": 0.5729166666666666,
+          "mean_neural_attention": 0.27002756118808674,
+          "setup_seconds": 0.18718537501990795,
+          "mean_window_seconds": 0.07677103413880104,
+          "p95_window_seconds": 0.08211650652810931,
+          "max_window_seconds": 0.20463470800314099,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24726200002606516,
+          "neural_brier": 0.23916940181724125,
+          "repeat_brier": 0.2509940230196915,
+          "accuracy": 0.5729166666666666,
+          "mean_neural_attention": 0.2738292268992475,
+          "setup_seconds": 0.09605704201385379,
+          "mean_window_seconds": 0.07378983020607847,
+          "p95_window_seconds": 0.08104707977036013,
+          "max_window_seconds": 0.10068729193881154,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24726612303734488,
+          "neural_brier": 0.23907619845901698,
+          "repeat_brier": 0.2509940230196915,
+          "accuracy": 0.5729166666666666,
+          "mean_neural_attention": 0.2714906123793905,
+          "setup_seconds": 0.18637837504502386,
+          "mean_window_seconds": 0.075429289056774,
+          "p95_window_seconds": 0.08220396421966142,
+          "max_window_seconds": 0.08562804199755192,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24726200002606516,
+          "neural_brier": 0.23916940181724125,
+          "repeat_brier": 0.2509940230196915,
+          "accuracy": 0.5729166666666666,
+          "mean_neural_attention": 0.2738292268992475,
+          "setup_seconds": 0.1907282080501318,
+          "mean_window_seconds": 0.07590195805823896,
+          "p95_window_seconds": 0.08185541882994583,
+          "max_window_seconds": 0.09466545807663351,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 159
+    },
+    {
+      "seed": 704,
+      "task": "context_reversal",
+      "stream_sha256": "fcfbb25d3dd43e2785d33ab82ed25d3abff347f2f54b9cfabb2df337fa77e38d",
+      "branches": {
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24738810659625718,
+          "neural_brier": 0.274295201628769,
+          "repeat_brier": 0.25236848791270816,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.0014732848397171882,
+          "setup_seconds": 0.19266929209697992,
+          "mean_window_seconds": 0.07963974560698261,
+          "p95_window_seconds": 0.08608925867010839,
+          "max_window_seconds": 0.09505212493240833,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24738862364716044,
+          "neural_brier": 0.27463335650874904,
+          "repeat_brier": 0.25236848791270816,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.0014759472459608496,
+          "setup_seconds": 0.09422825009096414,
+          "mean_window_seconds": 0.07477953151610564,
+          "p95_window_seconds": 0.07900276873260736,
+          "max_window_seconds": 0.09248950006440282,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24738794764766922,
+          "neural_brier": 0.2742831706228838,
+          "repeat_brier": 0.25236848791270816,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.0014724731597426475,
+          "setup_seconds": 0.19038112496491522,
+          "mean_window_seconds": 0.07729818309890106,
+          "p95_window_seconds": 0.08283856043708511,
+          "max_window_seconds": 0.08623712498228997,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24738862364716044,
+          "neural_brier": 0.27463335650874904,
+          "repeat_brier": 0.25236848791270816,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.0014759472459608496,
+          "setup_seconds": 0.189699542010203,
+          "mean_window_seconds": 0.07871836902122595,
+          "p95_window_seconds": 0.08212314823758787,
+          "max_window_seconds": 0.10151966696139425,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.24738820739095504,
+          "neural_brier": 0.27430841534406775,
+          "repeat_brier": 0.25236848791270816,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.0014744548897541888,
+          "setup_seconds": 0.19221358303911984,
+          "mean_window_seconds": 0.0784604218795721,
+          "p95_window_seconds": 0.08277783575467765,
+          "max_window_seconds": 0.08455783408135176,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 158
+    },
+    {
+      "seed": 705,
+      "task": "delayed_dependency",
+      "stream_sha256": "a96a4ede0887f33a834c8e91ff3b8bcd757957d9793183ff8d1cd33c29c19fcc",
+      "branches": {
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.22451426804304334,
+          "neural_brier": 0.21952597806011184,
+          "repeat_brier": 0.2524393157530838,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.6604554805404775,
+          "setup_seconds": 0.19210850005038083,
+          "mean_window_seconds": 0.0771812291459355,
+          "p95_window_seconds": 0.08274940627161413,
+          "max_window_seconds": 0.0879327500006184,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.22507870399027638,
+          "neural_brier": 0.21997934427275026,
+          "repeat_brier": 0.2524393157530838,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.6512515055334517,
+          "setup_seconds": 0.09806295798625797,
+          "mean_window_seconds": 0.07695653644332197,
+          "p95_window_seconds": 0.0818323878047522,
+          "max_window_seconds": 0.09677962504792958,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.22487001171133522,
+          "neural_brier": 0.21984090654541943,
+          "repeat_brier": 0.2524393157530838,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.6547027427221828,
+          "setup_seconds": 0.19222695904318243,
+          "mean_window_seconds": 0.08026586765263347,
+          "p95_window_seconds": 0.08533941661007702,
+          "max_window_seconds": 0.10385529103223234,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.22507870399027638,
+          "neural_brier": 0.21997934427275026,
+          "repeat_brier": 0.2524393157530838,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.6512515055334517,
+          "setup_seconds": 0.19353379192762077,
+          "mean_window_seconds": 0.08060797443831688,
+          "p95_window_seconds": 0.0837826702161692,
+          "max_window_seconds": 0.08779483300168067,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.22471595100997943,
+          "neural_brier": 0.21962123326191318,
+          "repeat_brier": 0.2524393157530838,
+          "accuracy": 0.6458333333333334,
+          "mean_neural_attention": 0.6532662301062531,
+          "setup_seconds": 0.19097416708245873,
+          "mean_window_seconds": 0.07969484088607715,
+          "p95_window_seconds": 0.08445267110364511,
+          "max_window_seconds": 0.0891375420615077,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 157
+    },
+    {
+      "seed": 705,
+      "task": "context_reversal",
+      "stream_sha256": "caad9d967feed90bcffd5cfce81dde56fb13d8e2a25f2689022c63626428209f",
+      "branches": {
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2377749418580584,
+          "neural_brier": 0.250704697568519,
+          "repeat_brier": 0.25044591033746594,
+          "accuracy": 0.71875,
+          "mean_neural_attention": 0.0014528375009880575,
+          "setup_seconds": 0.09482800005935133,
+          "mean_window_seconds": 0.07513345202314667,
+          "p95_window_seconds": 0.0802597007190343,
+          "max_window_seconds": 0.10362766694743186,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.23777403478002,
+          "neural_brier": 0.25035220207791725,
+          "repeat_brier": 0.25044591033746594,
+          "accuracy": 0.71875,
+          "mean_neural_attention": 0.001451517406238264,
+          "setup_seconds": 0.19130912504624575,
+          "mean_window_seconds": 0.08010557263405645,
+          "p95_window_seconds": 0.08442267088103109,
+          "max_window_seconds": 0.08886720903683454,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2377749418580584,
+          "neural_brier": 0.250704697568519,
+          "repeat_brier": 0.25044591033746594,
+          "accuracy": 0.71875,
+          "mean_neural_attention": 0.0014528375009880575,
+          "setup_seconds": 0.19106979190837592,
+          "mean_window_seconds": 0.07943144161545206,
+          "p95_window_seconds": 0.083968042046763,
+          "max_window_seconds": 0.09127987490501255,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.23777469639025514,
+          "neural_brier": 0.250638062256666,
+          "repeat_brier": 0.25044591033746594,
+          "accuracy": 0.71875,
+          "mean_neural_attention": 0.0014521827345222841,
+          "setup_seconds": 0.18744120805058628,
+          "mean_window_seconds": 0.07605330496589886,
+          "p95_window_seconds": 0.08093016484053805,
+          "max_window_seconds": 0.08529541699681431,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.237774151767566,
+          "neural_brier": 0.25045214040618885,
+          "repeat_brier": 0.25044591033746594,
+          "accuracy": 0.71875,
+          "mean_neural_attention": 0.0014512298500775624,
+          "setup_seconds": 0.1858390000415966,
+          "mean_window_seconds": 0.07640055208903504,
+          "p95_window_seconds": 0.08259085895842873,
+          "max_window_seconds": 0.09249079192522913,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 158
+    },
+    {
+      "seed": 706,
+      "task": "delayed_dependency",
+      "stream_sha256": "c7bd2945f0889231cbba193a468db67aa73f7ca819ff023ae2786e6c4c39e9bf",
+      "branches": {
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2034570578703899,
+          "neural_brier": 0.19368172000896414,
+          "repeat_brier": 0.24066907553685493,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.514237463177336,
+          "setup_seconds": 0.09051954199094325,
+          "mean_window_seconds": 0.07212666669802274,
+          "p95_window_seconds": 0.07684523991774768,
+          "max_window_seconds": 0.08936954208184034,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        },
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.20341501363801898,
+          "neural_brier": 0.19357625164711903,
+          "repeat_brier": 0.24066907553685493,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.514273616378069,
+          "setup_seconds": 0.1863972080172971,
+          "mean_window_seconds": 0.07608314870667528,
+          "p95_window_seconds": 0.08101363340392709,
+          "max_window_seconds": 0.08586004097014666,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2034570578703899,
+          "neural_brier": 0.19368172000896414,
+          "repeat_brier": 0.24066907553685493,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.514237463177336,
+          "setup_seconds": 0.18118079099804163,
+          "mean_window_seconds": 0.07573607892845757,
+          "p95_window_seconds": 0.08022687269258312,
+          "max_window_seconds": 0.0839649171102792,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.2033553967117113,
+          "neural_brier": 0.19355941712631972,
+          "repeat_brier": 0.24066907553685493,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.5154583208544788,
+          "setup_seconds": 0.18096299993339926,
+          "mean_window_seconds": 0.07716830134304473,
+          "p95_window_seconds": 0.0822216895467136,
+          "max_window_seconds": 0.08463874994777143,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.20336136475420616,
+          "neural_brier": 0.1935460563419261,
+          "repeat_brier": 0.24066907553685493,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.5148879144740558,
+          "setup_seconds": 0.18805374996736646,
+          "mean_window_seconds": 0.07930038361082552,
+          "p95_window_seconds": 0.08370760245015844,
+          "max_window_seconds": 0.09632416698150337,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 159
+    },
+    {
+      "seed": 706,
+      "task": "context_reversal",
+      "stream_sha256": "ea3f60cff861fb79cd4e8d1ee93b8e8dcdeb30fa3bbcc67e4ede7d552cbc339d",
+      "branches": {
+        "coupled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.26322200151041114,
+          "neural_brier": 0.2712837667320917,
+          "repeat_brier": 0.25271207312239347,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.001437322809581549,
+          "setup_seconds": 0.18919583305250853,
+          "mean_window_seconds": 0.08011990159284324,
+          "p95_window_seconds": 0.08426864414941519,
+          "max_window_seconds": 0.13671479106415063,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_return": {
+          "scored_outcomes": 96,
+          "council_brier": 0.263221952072828,
+          "neural_brier": 0.2711300154958585,
+          "repeat_brier": 0.25271207312239347,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.0014377874439589929,
+          "setup_seconds": 0.19060687499586493,
+          "mean_window_seconds": 0.07959711648582016,
+          "p95_window_seconds": 0.08463058543857187,
+          "max_window_seconds": 0.09087179193738848,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.0,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "no_spike_feedback": {
+          "scored_outcomes": 96,
+          "council_brier": 0.26322171019269214,
+          "neural_brier": 0.2709766801425152,
+          "repeat_brier": 0.25271207312239347,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.0014373578981618602,
+          "setup_seconds": 0.1899027080507949,
+          "mean_window_seconds": 0.07854799428969272,
+          "p95_window_seconds": 0.08386047679232433,
+          "max_window_seconds": 0.09112929203547537,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.0,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": null
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "dc67246dc7b67a19c1656d3daafd3f8f1f888d6eff06118bc689b95f48157ca0",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "shuffled": {
+          "scored_outcomes": 96,
+          "council_brier": 0.26322181877060286,
+          "neural_brier": 0.2710265278751795,
+          "repeat_brier": 0.25271207312239347,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.0014373259041674774,
+          "setup_seconds": 0.18885375000536442,
+          "mean_window_seconds": 0.07786358334342366,
+          "p95_window_seconds": 0.08253542503807693,
+          "max_window_seconds": 0.09260812494903803,
+          "model_identity": {
+            "version": "nuria-multiscale-v1",
+            "config": {
+              "window_ms": 20,
+              "dt_ms": 1.0,
+              "speed_m_per_s": 4.0,
+              "global_gain": 0.1,
+              "spike_to_region_gain": 0.08,
+              "region_to_spike_gain": 0.12,
+              "input_gain": 0.3,
+              "washout_ms": 1000,
+              "shuffle_seed": 9021
+            },
+            "dataset": "connectivity_76.zip",
+            "dataset_sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+            "connectivity_sha256": "4b3e3cb550ec42059b2488e0cc5bbe45d52d4a350015a28bcc6a9e3660e77373",
+            "ports": [
+              ["lV1", "rV1", "lA1", "rA1"],
+              ["lPFCDL", "rPFCDL"],
+              ["lHC", "rHC"],
+              ["lCCA", "rCCA"],
+              ["lM1", "rM1"],
+              ["lG", "rG"]
+            ],
+            "dependencies": {
+              "brian2": "2.10.1",
+              "tvb-library": "2.10.0",
+              "tvb-data": "3.0.0",
+              "numpy": "2.5.3"
+            }
+          }
+        },
+        "current": {
+          "scored_outcomes": 96,
+          "council_brier": 0.263221952072828,
+          "neural_brier": 0.2711300154958585,
+          "repeat_brier": 0.25271207312239347,
+          "accuracy": 0.65625,
+          "mean_neural_attention": 0.0014377874439589929,
+          "setup_seconds": 0.09409708296880126,
+          "mean_window_seconds": 0.0737659372651251,
+          "p95_window_seconds": 0.07918063094257376,
+          "max_window_seconds": 0.08082308399025351,
+          "model_identity": {
+            "model": "nuria-cognition-v1"
+          }
+        }
+      },
+      "zero_return_matches_current": true,
+      "coupled_changed_neural_windows": 159,
+      "coupled_changed_action_score_windows": 159
+    }
+  ],
+  "zero_return_matches_current": true,
+  "predictive_promotion_gate_passed": false,
+  "trace_uncompressed_sha256": "9d67cbaddf6692d3454129a9d0008d41ccc8de13af690474bd2669b5d90b101c",
+  "trace_gzip_sha256": "f3010b4bf03a42107f166a125a00430142c4d6dbec51e11b63372db12c99e15d",
+  "trace_rows": 9600,
+  "elapsed_seconds": 738.1158021249576,
+  "process_peak_rss_bytes": 410533888,
+  "environment": {
+    "python": "3.14.7",
+    "system": "Darwin",
+    "machine": "arm64",
+    "packages": {
+      "Brian2": "2.10.1",
+      "Cython": "3.1.3",
+      "Deprecated": "3.0.0",
+      "Jinja2": "3.1.6",
+      "Mako": "1.4.3",
+      "MarkupSafe": "3.0.4",
+      "Pygments": "2.21.0",
+      "asttokens": "3.0.2",
+      "autocommand": "2.2.2",
+      "autopep8": "2.3.2",
+      "backports.tarfile": "1.2.0",
+      "comm": "0.2.3",
+      "contourpy": "1.4.0",
+      "cycler": "0.12.1",
+      "docutils": "0.23",
+      "executing": "2.3.0",
+      "fonttools": "4.67.0",
+      "importlib_metadata": "8.7.1",
+      "ipython": "9.17.1",
+      "ipython_pygments_lexers": "1.1.1",
+      "ipywidgets": "8.1.9",
+      "jaraco.context": "6.1.0",
+      "jaraco.functools": "4.4.0",
+      "jaraco.text": "4.0.0",
+      "jedi": "0.20.1",
+      "jupyterlab_widgets": "3.0.17",
+      "kiwisolver": "1.5.1",
+      "llvmlite": "0.50.0",
+      "matplotlib": "3.11.2",
+      "matplotlib-inline": "0.2.2",
+      "more-itertools": "10.8.0",
+      "mpmath": "1.3.0",
+      "networkx": "3.7",
+      "numba": "0.68.0",
+      "numexpr": "2.14.2",
+      "numpy": "2.5.3",
+      "packaging": "26.3",
+      "parso": "0.8.7",
+      "pexpect": "4.9.0",
+      "pillow": "13.0.0",
+      "pip": "26.2.1",
+      "platformdirs": "4.4.0",
+      "prompt_toolkit": "3.0.53",
+      "psutil": "7.2.2",
+      "ptyprocess": "0.7.0",
+      "pure_eval": "0.2.4",
+      "pycodestyle": "2.15.0",
+      "pyparsing": "3.3.3",
+      "python-dateutil": "3.0.0",
+      "ruff": "0.16.10",
+      "scipy": "1.18.1",
+      "setuptools": "84.2.1",
+      "six": "1.17.0",
+      "stack-data": "0.6.3",
+      "sympy": "1.14.0",
+      "tomli": "2.4.0",
+      "traitlets": "5.16.1",
+      "tvb-data": "3.0.0",
+      "tvb-library": "2.10.0",
+      "tzdata": "2026.5",
+      "wcwidth": "0.9.3",
+      "wheel": "0.46.3",
+      "widgetsnbextension": "4.0.16",
+      "wrapt": "2.5.1",
+      "zipp": "3.23.0"
+    }
+  },
+  "scope": "Controlled synthetic perception/forecast comparison. No complete organism, market profitability, biological hardware or consciousness claim."
+}

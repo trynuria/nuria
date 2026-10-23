@@ -193,7 +193,19 @@ class AdaptiveBrain:
         utilities: dict | None = None,
         duration_ms: int = 100,
         context: dict | None = None,
+        *,
+        regional_drive: np.ndarray | None = None,
     ) -> dict:
+        if regional_drive is not None:
+            regional_drive = np.asarray(regional_drive, dtype=float)
+            if (
+                regional_drive.shape != (1024,)
+                or not np.isfinite(regional_drive).all()
+                or np.max(np.abs(regional_drive)) > 0.2
+            ):
+                raise ValueError(
+                    "Regional drive must be 1024 finite values within ±0.2"
+                )
         before = self.state_hash()
         before_weights = np.asarray(self.exc.w[:]).copy()
         self.neurons.drive = 0
@@ -213,6 +225,8 @@ class AdaptiveBrain:
             self.neurons.drive[768 + index * 16 : 784 + index * 16] = (
                 max(0, min(1, (utilities or {}).get(action, 0))) * 0.35
             )
+        if regional_drive is not None:
+            self.neurons.drive = np.asarray(self.neurons.drive[:]) + regional_drive
         self.neurons.bias = self.base_bias + self.offset
         monitor = b.SpikeMonitor(self.neurons, name="cognitive_window")
         self.net.add(monitor)

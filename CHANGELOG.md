@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0 — 2026-10-23
+
+- Add an optional two-way TVB/Brian2 circuit, with 76 Wilson–Cowan regions, delayed activity exchange and the existing 1,024-neuron spiking model.
+- Commit the comparison protocol before scoring; retain all five branches, raw prediction traces, source hashes and independent score reconstruction.
+- Retain the failed predictive promotion gate after 9,600 windows and 5,760 scored forecasts; the active model remains unchanged.
+- Check joint checkpoint continuation, interrupted commits, duplicate input, model mismatch and competing writers. Keep the research history separate from active workers.
+- Document the mixed CoCoMac/DSI dataset and limits of the anatomical mapping. Preserve the current site design, neural histories and financial authority.
+
 ## 0.8.1 — 2026-10-23
 
 - Restore the observatory, neural layout and documentation presentation from before the immersive redesign.

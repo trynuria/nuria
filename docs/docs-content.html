@@ -254,6 +254,34 @@
               Nominal wall pacing is one cycle per second. Under load, actual cycle cost
               determines catch-up rate; a nominal limit is not a throughput
               guarantee.</p
+            ><h2 id="model--multiscale">TVB–Brian2 comparison</h2
+            ><p
+              >A separate experimental circuit couples these 1,024 spiking neurons to 76
+              Wilson–Cowan regions running in The Virtual Brain. Previous-window spike
+              rates drive regional populations; regional activity returns as bounded
+              current to the spiking circuit. Both exchange every 20 ms. The joint
+              checkpoint preserves both models, tract-delay history, coupling buffers,
+              learning and input order.</p
+            ><p
+              >The fixed comparison uses the same neural readout and forecast council in
+              every branch. It tests full coupling against the current path,
+              disconnected directions and shuffled connectivity. The TVB demonstration
+              data combine CoCoMac and DSI sources; the named ports are engineering
+              choices. This is an isolated research history, separate from the running
+              circuit and its financial controls.
+              <a
+                href="https://github.com/trynuria/nuria/tree/main/research/multiscale"
+                target="_blank"
+                rel="noreferrer"
+                >Protocol, implementation and recorded comparison</a
+              >.</p
+            ><p
+              >The recorded comparison contains 9,600 windows and 5,760 scored
+              forecasts. The hybrid changes measured neural activity, but its small
+              prediction gains fail the precommitted improvement gate and both
+              confidence intervals include zero. The current Brian2 worker remains the
+              live default; the hybrid is available as a separately recoverable
+              experimental circuit.</p
             ><h2 id="model--references">Technical references</h2
             ><p
               >The Brian2 reward-modulated STDP example describes the

@@ -29,6 +29,23 @@ The experiment action performs a retrospective chronological comparison on recor
 
 Refractory period is 4 ms. Excitatory/inhibitory decay is 8/12 ms. Adaptation decay is 350 ms. Excitatory connections sample probability 0.025 from sources below 896, with 1–12 ms delays, STDP traces and reward eligibility. Inhibitory sources use probability 0.05 and 2 ms delays. Self-connections are excluded. Homeostatic bias and background rates are bounded.
 
+## Optional multiscale circuit
+
+The [TVB–Brian2 experiment](../research/multiscale/README.md) adds an isolated
+76-region Wilson–Cowan model around the existing 1,024-neuron spiking circuit.
+Previous-window population rates enter TVB; previous-window regional activity
+returns as bounded current to Brian2. Both use 20 ms exchange windows. The
+regional model retains tract delays, while the same neural readout and forecast
+council score the resulting spikes. Its joint checkpoint includes regional
+state, delay history, coupling buffers, spiking state, learning and input order.
+
+This is a separately versioned history, with no wallet or production queue
+credentials. It is not the current worker and cannot adopt its old checkpoint.
+The demonstration connectivity has mixed CoCoMac/DSI provenance. Named ports are
+engineering choices, not validated anatomical functions. The committed paired
+comparison and disconnected/shuffled controls determine whether it earns a
+predictive improvement claim; structural complexity alone does not.
+
 ## Commit and recovery
 
 SQLite uses WAL and full synchronous commits. Inputs, effects, memory, learning metadata, journal head and serialized network commit every five cycles. A graceful shutdown commits the pending state. A crash rolls back the uncommitted transaction; the prior network and cursor restore together. Status exposes latest and committed ticks separately. An exclusive file lock prevents competing workers.
