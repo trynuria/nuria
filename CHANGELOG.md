@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1 — 2026-10-23
+
+- Restore the observatory, neural layout and documentation presentation from before the immersive redesign.
+- Retain the section navigation fix, work evidence handling and all existing backend capabilities.
+- Publish as a static presentation update; running neural state and financial controls remain independent.
+
 ## 0.8.0 — 2026-10-10
 
 - Rebuild the observatory around a full-screen neural specimen, responsive opening composition and separate scientific views.
