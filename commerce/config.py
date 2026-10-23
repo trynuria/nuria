@@ -49,7 +49,7 @@ class Provider:
         if (
             not self.id
             or len(self.id) > 64
-            or self.action not in ("predict", "experiment", "compare")
+            or self.action not in ("predict", "experiment", "compare", "explore")
         ):
             raise ValueError("Unsupported provider job")
         if self.schema == "coingecko.sol-price.v1" and (
@@ -58,7 +58,11 @@ class Provider:
             or self.action != "compare"
         ):
             raise ValueError("Price adapter requires the exact Solana/USD resource")
-        if self.schema not in ("nuria.forecast.v1", "coingecko.sol-price.v1"):
+        if self.schema not in (
+            "nuria.forecast.v1",
+            "coingecko.sol-price.v1",
+            "nuria.task-result.v1",
+        ):
             raise ValueError("Delivery schema is not supported")
         if type(self.maximum_micro_usdc) is not int or self.maximum_micro_usdc <= 0:
             raise ValueError("Provider price ceiling is invalid")

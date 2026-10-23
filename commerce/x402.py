@@ -187,7 +187,51 @@ def authorize(keypair, accepted, rpc_url, scheme_factory=None):
     }
 
 
-def delivery(raw, mint, now, schema="nuria.forecast.v1"):
+def delivery(raw, mint, now, schema="nuria.forecast.v1", *, task=None, task_id=None):
+    if schema == "nuria.task-result.v1":
+        from commerce.tasks import verify_delivery
+
+        if not task or not task_id:
+            raise ValueError("An exact task contract is required")
+        body = json.loads(raw)
+        if body.get("schema") == "nuria.task-ack.v1":
+            from commerce.tasks import digest
+
+            if (
+                set(body)
+                != {
+                    "schema",
+                    "job_id",
+                    "contract_sha256",
+                    "status",
+                    "result_token",
+                    "expires_at",
+                }
+                or body["job_id"] != task_id
+                or body["contract_sha256"] != digest(task)
+                or body["status"] != "queued"
+                or not isinstance(body["result_token"], str)
+                or not 16 <= len(body["result_token"]) <= 256
+                or any(ord(c) < 33 or ord(c) > 126 for c in body["result_token"])
+                or not isinstance(body["expires_at"], (int, float))
+                or isinstance(body["expires_at"], bool)
+                or not math.isfinite(body["expires_at"])
+                or not now < body["expires_at"] <= now + task["delivery_seconds"]
+            ):
+                raise ValueError("Asynchronous task acknowledgment is malformed")
+            return {
+                **body,
+                "sha256": hashlib.sha256(raw).hexdigest(),
+                "delivered_at": now,
+            }
+        checked = verify_delivery(task, task_id, raw)
+        return {
+            "schema": schema,
+            "sha256": checked["artifact_sha256"],
+            "checks": checked,
+            "raw": raw.decode(),
+            "delivered_at": now,
+        }
     body = json.loads(raw)
     if schema == "coingecko.sol-price.v1":
         price = body.get("solana", {}).get("usd")

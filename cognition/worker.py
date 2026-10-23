@@ -18,7 +18,8 @@ import numpy as np
 
 from cognition.adaptive_forecast import VERSION as MEMORY_FORECAST_VERSION
 from cognition.adaptive_forecast import AdaptiveForecast
-from cognition.brain import MODEL_VERSION, AdaptiveBrain, sha
+from cognition.agency import NeuralTaskPolicy
+from cognition.brain import MODEL_VERSION, sha
 from cognition.forecast import VERSION as LEGACY_FORECAST_VERSION
 from cognition.forecast import ForecastCouncil
 from cognition.jobs import Experiments
@@ -26,6 +27,7 @@ from cognition.journal import Journal, canonical
 from cognition.learning import OnlineReadout
 from cognition.memory import EpisodicMemory, Workspace
 from cognition.policy import ResourceState
+from cognition.task_brain import TaskLearningBrain
 from cognition.treasury import public_treasury
 from cognition.world import Habitat
 from publish import publish
@@ -51,7 +53,7 @@ class Organism:
             else LEGACY_FORECAST_VERSION
         )
         self.journal = Journal(directory)
-        self.brain = AdaptiveBrain(directory)
+        self.brain = TaskLearningBrain(directory)
         self.memory = EpisodicMemory(self.journal.db)
         saved = self.journal.restore()
         metadata = saved[0] if saved else {}
@@ -105,6 +107,9 @@ class Organism:
         self.last_decision = metadata.get("last_decision")
         self.commerce_cursor = int(metadata.get("commerce_cursor", 0))
         self.commerce_outcomes = int(metadata.get("commerce_outcomes", 0))
+        self.agency = NeuralTaskPolicy(metadata.get("agency"))
+        self.agency_genesis = metadata.get("agency_genesis_utc", utc())
+        self.agency_tasks = []
         self.last_effects = []
         self.features = metadata.get("features", [0.0] * 64)
         self.memory_summary = self.memory.summary()
@@ -112,6 +117,19 @@ class Organism:
         self.ledger_check = self.journal.verify(full=True)
         if not self.ledger_check["valid"]:
             raise RuntimeError("Cognitive integrity check failed; continuation refused")
+        if saved and "agency" not in metadata:
+            self.journal.append(
+                "task_policy_version_change",
+                {
+                    "utc": self.agency_genesis,
+                    "tick": self.tick,
+                    "cursor": self.cursor,
+                    "method": self.agency.public()["method"],
+                    "source_sha256": self.source_sha256,
+                    "neural_state_sha256": self.brain.state_hash(),
+                    "scope": "Task readout initialized without resetting neural state, forecasts or source history",
+                },
+            )
         if forecast_transitions:
             self.journal.append(
                 "forecast_version_change",
@@ -227,7 +245,7 @@ class Organism:
             "source_evidence_sha256": sha(canonical(event)),
             "source_payload": event,
             "sensory_encoding_sha256": sha(
-                AdaptiveBrain.encode(event).astype("<f8").tobytes()
+                self.brain.encode(event).astype("<f8").tobytes()
             ),
             "before_state_sha256": frame["before_state_sha256"],
             "after_state_sha256": self.brain.state_hash(),
@@ -288,6 +306,31 @@ class Organism:
             )
             self.commerce_cursor = seq
             self.commerce_outcomes += 1
+
+    def task_feedback(self, records: list[dict]) -> None:
+        """Keep neural-context credit and the corresponding receipt atomic."""
+        for record in sorted(records, key=lambda item: item.get("seq", 0)):
+            pending = self.agency.pending.get(record.get("intent_id"))
+            trace = pending.get("synaptic_trace") if pending else None
+            if self.agency.learn(record):
+                if record.get("evidence_level") == "not_executed":
+                    self.journal.append(
+                        "task_closed", {**record, "utc": utc(), "tick": self.tick}
+                    )
+                    continue
+                credit = (
+                    self.brain.task_reward(trace, record["reward"]) if trace else None
+                )
+                self.resources.outcome(record["action"], record["reward"], 0)
+                self.journal.append(
+                    "task_outcome",
+                    {
+                        **record,
+                        "utc": utc(),
+                        "tick": self.tick,
+                        "neural_credit": credit,
+                    },
+                )
 
     def cycle(
         self,
@@ -354,6 +397,18 @@ class Organism:
             decision = self.resources.choose(
                 utilities, frame["action_spike_scores"], self.tick
             )
+            intent = (
+                self.agency.select(
+                    self.agency_tasks,
+                    frame["features"],
+                    frame["after_state_sha256"],
+                    self.tick,
+                    self.cursor,
+                    self.brain.task_trace,
+                )
+                if self.agency_tasks
+                else None
+            )
             action = decision["action"]
             habitat = self.habitat.act(action)
             job = self.experiments.run(action, self.brain, self.memory, self.tick)
@@ -374,6 +429,8 @@ class Organism:
                 "funds_spent_lamports": 0,
                 "explanation": f"{action.title()} selected by published goal and neural scores; outcome reward {reward:.4f}. Local execution used included server capacity.",
             }
+            if intent:
+                payload["intent"] = intent
             self.last_decision = self.journal.append(
                 "decision", payload, frame["spikes"]
             )
@@ -426,6 +483,8 @@ class Organism:
             "last_decision": self.last_decision,
             "commerce_cursor": self.commerce_cursor,
             "commerce_outcomes": self.commerce_outcomes,
+            "agency": self.agency.state(),
+            "agency_genesis_utc": self.agency_genesis,
             "features": self.features,
         }
         self.journal.save(metadata, raw)
@@ -494,6 +553,7 @@ class Organism:
             "integrity": self.ledger_check,
             "treasury": treasury or public_treasury(),
             "paid_outcomes": self.commerce_outcomes,
+            "agency": {**self.agency.public(), "genesis_utc": self.agency_genesis},
             "upstream": {
                 "tick": (upstream or {}).get("tick"),
                 "genesis_utc": (upstream or {}).get("genesis_utc"),
@@ -564,6 +624,17 @@ def main() -> None:
             ):
                 commerce = json.loads(commerce_path.read_text())
                 organism.commercial_feedback(commerce.get("feedback", []))
+                organism.task_feedback(commerce.get("task_feedback", []))
+            catalog_path = Path(os.environ.get("NURIA_AGENCY_CATALOG", "/nonexistent"))
+            if catalog_path.exists():
+                catalog = json.loads(catalog_path.read_text())
+                organism.agency_tasks = (
+                    catalog.get("tasks", [])
+                    if catalog.get("planning_enabled") is True
+                    else []
+                )
+            else:
+                organism.agency_tasks = []
             result = organism.cycle(
                 [(order, json.loads(raw)) for order, raw in rows],
                 treasury,

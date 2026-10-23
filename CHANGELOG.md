@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.0 — 2026-10-24
+
+- Add bounded spike-context task selection with retained decision contexts and action-region eligibility tags for exact delayed outcome credit.
+- Connect committed tasks to exact Solana x402 purchasing and a guarded RentAHuman bounty, applicant and payout adapter; keep external activation disabled.
+- Separate structural delivery checks from usefulness, with buyer-held prediction evaluation and time-separated HTTP service observations.
+- Share liabilities and limits across execution rails, preserve ambiguous writes without replay, and page feedback after the acknowledged cognitive cursor.
+- Expose task evidence through the existing Work and Results components while preserving presentation, history and custody authority.
+
 ## 0.9.1 — 2026-10-24
 
 - Diagnose the failed TVB forecast gain using exact replay of retained neural predictions, preserving evidence that the existing neural specialist helps delayed input.

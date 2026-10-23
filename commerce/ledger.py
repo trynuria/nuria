@@ -6,6 +6,8 @@ import math
 import sqlite3
 from datetime import datetime, timezone
 
+from commerce.action_budget import commitments
+
 
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
@@ -122,14 +124,33 @@ class Ledger:
         day = datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m-%d")
         self.db.execute("BEGIN IMMEDIATE")
         try:
+            linked = job.get("action_task_id")
+            if linked:
+                from commerce.tasks import digest
+
+                reserved = self.db.execute(
+                    "SELECT state,provider,account,amount,contract FROM action_tasks WHERE id=?",
+                    (linked,),
+                ).fetchone()
+                if (
+                    not reserved
+                    or reserved[0] not in ("reserved", "uncertain")
+                    or reserved[1] != job["provider"]
+                    or reserved[2] != policy.spending_wallet
+                    or reserved[3] != amount
+                    or digest(json.loads(reserved[4]))
+                    != digest(job.get("task_contract"))
+                ):
+                    raise ValueError("Payment differs from the reserved action task")
             pending = self.db.execute(
-                "SELECT coalesce(sum(amount),0) FROM jobs WHERE status IN ('reserved','authorized','uncertain')"
+                "SELECT coalesce(sum(amount),0) FROM jobs WHERE status IN ('reserved','authorized','uncertain') AND json_extract(terms,'$.action_task_id') IS NULL"
             ).fetchone()[0]
             unresolved = self.db.execute(
-                "SELECT count(*) FROM jobs WHERE status IN ('reserved','authorized','uncertain')"
+                "SELECT count(*) FROM jobs WHERE status IN ('reserved','authorized','uncertain') AND json_extract(terms,'$.action_task_id') IS NULL"
             ).fetchone()[0]
             daily = self.db.execute(
-                "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=?", (day,)
+                "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=? AND json_extract(terms,'$.action_task_id') IS NULL",
+                (day,),
             ).fetchone()[0]
             if self.db.execute(
                 "SELECT 1 FROM sqlite_master WHERE type='table' AND name='commissions'"
@@ -146,18 +167,29 @@ class Ledger:
                 ).fetchone()[0]
             else:
                 last_commission = None
-            if unresolved >= policy.maximum_unresolved_jobs:
+            actions = commitments(
+                self.db, day, getattr(policy, "spending_wallet", None)
+            )
+            daily += actions["daily"]
+            pending += actions["pending"]
+            unresolved += actions["unresolved"]
+            if unresolved + (0 if linked else 1) > policy.maximum_unresolved_jobs:
                 raise ValueError("Unresolved payment circuit breaker is open")
             last = self.db.execute("SELECT max(created) FROM jobs").fetchone()[0]
             last = max(
-                (value for value in (last, last_commission) if value is not None),
+                (
+                    value
+                    for value in (last, last_commission, actions["last"])
+                    if value is not None
+                ),
                 default=None,
             )
-            if last is not None and now - last < policy.cooldown_seconds:
+            if not linked and last is not None and now - last < policy.cooldown_seconds:
                 raise ValueError("Paid-job cooldown has not elapsed")
             if (
-                daily + amount > policy.per_day_micro_usdc
-                or units - pending - amount < policy.reserve_micro_usdc
+                daily + (0 if linked else amount) > policy.per_day_micro_usdc
+                or units - pending - (0 if linked else amount)
+                < policy.reserve_micro_usdc
             ):
                 raise ValueError("Payment exceeds daily cap or reserve floor")
             self.db.execute(

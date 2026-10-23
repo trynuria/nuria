@@ -290,3 +290,50 @@ test("section links retain their destination instead of returning to the opening
   vm.runInContext("workSurface('neural-field')", context);
   assert.equal(get("pageScroll").lastScroll.top, 0);
 });
+
+function actionTask() {
+  return {
+    id: "1".repeat(64),
+    intent_id: "2".repeat(64),
+    contract_sha256: "3".repeat(64),
+    neural_state_sha256: "4".repeat(64),
+    title: "<script>Check a service</script>",
+    purpose: "Measure the committed resource",
+    kind: "agent",
+    provider: "fixture",
+    state: "proposed",
+    created_at: Date.now() / 1000 - 2,
+    committed_micro_usd: 0,
+    acceptance: null,
+    settlement: null,
+    outcome: null,
+    destination: null,
+  };
+}
+
+test("neural tasks retain the existing Work presentation and render provider text safely", async () => {
+  const { context, get, fresh, poll } = await harness();
+  context.evidence = { ...fresh(), action_tasks: [actionTask()] };
+  await poll();
+  const row = get("workJobs").children[0];
+  assert.equal(row.children[0].textContent, "<script>Check a service</script>");
+  row.listeners.click();
+  const facts = get("workDetail").children[3].children;
+  assert.equal(facts[2].children[1].textContent, "No verified payout");
+  assert.equal(facts[5].children[1].textContent, "Usefulness not measured");
+});
+
+test("incomplete neural-task payouts and unearned outcomes clear the view", async () => {
+  const { context, get, fresh, poll } = await harness();
+  for (const change of [
+    { state: "evaluated" },
+    { state: "accepted" },
+    { settlement: { verified: true } },
+    { outcome: { reward: 1 } },
+    { committed_micro_usd: 100 },
+  ]) {
+    context.evidence = { ...fresh(), action_tasks: [{ ...actionTask(), ...change }] };
+    await poll();
+    assert.equal(get("workHealth").textContent, "Evidence unavailable");
+  }
+});

@@ -1,5 +1,12 @@
 # Commissioning useful work
 
+The [neural task loop](action-loop.md) adds a separate general task lifecycle,
+direct spike-context selection and exact delayed neural credit. It supports
+document structure checks, buyer-observed HTTP service outcomes, exact Solana x402
+task purchases and a guarded RentAHuman bounty adapter. Account enrollment and
+funded checks remain required. The Base-only numerical controller described below
+is retained for its existing contracts and history.
+
 Nuria can prepare durable task contracts tied to a fresh recorded cognitive decision. The job controller has cost commitments, restart-safe dispatch states, structured delivery checks, exact-payment verification and task-specific contractor memory. It is separate from the current x402 merchant buyer.
 
 **External hiring is not enabled.** No marketplace order, human bounty or compute purchase has been made. The current worker creates local proposals only when a project operator configures an actual task and enables planning. Financial execution remains disabled.
@@ -45,7 +52,12 @@ Primary contracts: [offer guide](https://1f916.ai/api/offers/guide), [listing gu
 
 Its [escrow documentation](https://rentahuman.ai/docs/escrow) separates funding, delivery, acceptance, release and confirmed worker payout. A wallet deposit or escrow debit is not a worker payment. The published platform fee is 18% above the worker amount and must fit the complete job ceiling.
 
-The public OpenAPI checked during this implementation describes legacy bookings and directs new hiring to bounties or service bookings. It does not supply a complete modern bounty/escrow write contract. Nuria does not substitute the legacy route or invent release behavior. A project account, current authenticated API contract, funding, dispute/refund handling and independent release/payout evidence remain required. Human work must also have a suitable acceptance verifier.
+An earlier public OpenAPI review exposed legacy booking interfaces. The new
+[human task adapter](action-loop.md) uses the canonical bounty and escrow
+documentation instead. A project account, authenticated response-contract
+rehearsal, verified gross-debit controls, funding and worker payout checks remain
+required. The legacy route is not substituted, and human work still needs a
+suitable buyer-side acceptance and usefulness verifier.
 
 ### Compute
 

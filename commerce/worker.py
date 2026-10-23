@@ -35,6 +35,7 @@ from commerce.recovery import history_anchor, inspect_history
 from commerce.solana import settlement, usdc_balance
 from commerce.swaps import Converter
 from commerce.sweep import Sweeper
+from commerce.task_runtime import load_action_files, run_actions
 from commerce.transport import request
 from commerce.work import snapshot as work_snapshot
 from commerce.x402 import authorize, decode_header, delivery, quote
@@ -77,6 +78,8 @@ def select_job(policy, cognition, decision, now, ledger):
     surprise = cognition.get("workspace", {}).get("last_surprise", 0)
     scores = []
     for provider in policy.providers:
+        if provider.schema == "nuria.task-result.v1":
+            continue  # Task providers require a separately committed neural intent.
         if provider.action != action:
             continue
         learned = (
@@ -136,10 +139,30 @@ class Executor:
 
     def purchase(self, policy, selected, keypair, rpc_url, now):
         provider = selected["provider"]
-        status, headers, _ = self.http(provider.endpoint)
+        task_headers = {}
+        if provider.schema == "nuria.task-result.v1":
+            from commerce.tasks import contractor_brief
+
+            task_headers["X-Nuria-Task"] = base64.b64encode(
+                canonical(
+                    contractor_brief(selected["task"], selected["action_task_id"])
+                ).encode()
+            ).decode()
+            if len(task_headers["X-Nuria-Task"]) > 12000:
+                raise ValueError("Task brief exceeds its HTTP request bound")
+        status, headers, _ = (
+            self.http(provider.endpoint, task_headers)
+            if task_headers
+            else self.http(provider.endpoint)
+        )
         if status != 402:
             raise ValueError("Provider did not return a payable invoice")
         accepted = quote(headers.get("payment-required"), provider)
+        if selected.get("invoice_sha256"):
+            from commerce.tasks import digest
+
+            if digest(accepted) != selected["invoice_sha256"]:
+                raise ValueError("Task invoice changed after reservation")
         required = decode_header(headers["payment-required"])
         job = {
             "id": hashlib.sha256(
@@ -155,6 +178,11 @@ class Executor:
             "baseline_p_buy": selected["baseline_p_buy"],
             "expected_value": selected["expected_value"],
         }
+        if task_headers:
+            job.update(
+                action_task_id=selected["action_task_id"],
+                task_contract=selected["task"],
+            )
         balance = usdc_balance(
             policy.spending_wallet, self.fetch, self.ledger.minimum_balance_slot()
         )
@@ -216,19 +244,30 @@ class Executor:
         )
         try:
             status, headers, raw = self.http(
-                provider.endpoint, {"PAYMENT-SIGNATURE": authorization["header"]}
+                provider.endpoint,
+                {**task_headers, "PAYMENT-SIGNATURE": authorization["header"]},
             )
             received = time.time()
             receipt = decode_header(headers.get("payment-response"))
             if (
-                status != 200
+                status
+                not in (
+                    (200, 202) if provider.schema == "nuria.task-result.v1" else (200,)
+                )
                 or receipt.get("success") is not True
                 or receipt.get("network") != accepted["network"]
             ):
                 raise ValueError("Provider response does not establish settlement")
             # Retain settlement evidence even when the merchant delivers bad data.
             try:
-                delivered = delivery(raw, policy.mint, received, provider.schema)
+                delivered = delivery(
+                    raw,
+                    policy.mint,
+                    received,
+                    provider.schema,
+                    task=job.get("task_contract"),
+                    task_id=job.get("action_task_id"),
+                )
             except (ValueError, TypeError):
                 delivered = None
             response = {"receipt": receipt, "delivery": delivered}
@@ -308,6 +347,8 @@ class Executor:
                 "UPDATE jobs SET delivery=? WHERE id=?",
                 (canonical(response["delivery"]), ident),
             )
+            if response["delivery"]["schema"] == "nuria.task-ack.v1":
+                return  # Paid acceptance is not a completed task artifact.
             self.ledger.transition(
                 ident,
                 "delivered",
@@ -320,13 +361,13 @@ class Executor:
 
     def reconcile(self, policy):
         for (ident,) in self.ledger.db.execute(
-            "SELECT id FROM jobs WHERE status IN ('authorized','uncertain','settled') LIMIT 20"
+            "SELECT id FROM jobs WHERE status IN ('authorized','uncertain','settled') AND (status!='settled' OR json_extract(terms,'$.action_task_id') IS NULL) LIMIT 20"
         ).fetchall():
             self.reconcile_one(ident, policy)
 
     def evaluate(self, effects, now):
         for ident, terms, raw in self.ledger.db.execute(
-            "SELECT id,terms,delivery FROM jobs WHERE status='delivered' LIMIT 20"
+            "SELECT id,terms,delivery FROM jobs WHERE status='delivered' AND json_extract(terms,'$.schema')='nuria.forecast.v1' LIMIT 20"
         ).fetchall():
             job, delivered = json.loads(terms), json.loads(raw)
             if delivered["schema"] != "nuria.forecast.v1":
@@ -437,6 +478,7 @@ def main():
     signal.signal(signal.SIGTERM, lambda *_: stop.set())
     signal.signal(signal.SIGINT, lambda *_: stop.set())
     while not stop.is_set():
+        policy = Policy()
         result = {
             "updated_utc": datetime.now(timezone.utc).isoformat(),
             "phase": "guarded",
@@ -683,7 +725,6 @@ def main():
         result["commissions"] = commissioner.public()
         result["commission_totals"] = commissioner.summary()
         result["contractor_memory"] = commissioner.provider_memory()
-        result["ledger_index"] = export_pages(ledger, public)
         result["headroom"] = {
             "trade_volume_independent": True,
             "maximum_paid_jobs_per_day": 86400 // policy.cooldown_seconds
@@ -695,6 +736,56 @@ def main():
             "scope": "Payment scheduling and signing are bounded independently of trade ingestion. Reaching a ceiling pauses purchases, not the neural stream.",
         }
         result["feedback"] = executor.feedback()
+        try:
+            catalog, controls = load_action_files()
+            if result["phase"] == "unknown":
+                controls = {**controls, "enabled": False}
+            cognition_path = Path(os.environ["NURIA_COMMERCE_COGNITION"])
+            cognitive = json.loads((cognition_path / "status.json").read_text())
+            decisions = json.loads((cognition_path / "decisions.json").read_text())
+            if (
+                not 0
+                <= time.time() - (cognition_path / "status.json").stat().st_mtime
+                <= 15
+            ):
+                cognitive = {}
+                decisions = []
+            task_signer = None
+            if policy.enabled and controls.get("enabled") is True:
+                task_signer = (
+                    ManagedSigner(policy.spending_wallet, ledger, policy)
+                    if policy.signer == "privy"
+                    else load_key(key_path, policy.spending_wallet)
+                )
+            actions = run_actions(
+                ledger,
+                executor,
+                policy,
+                task_signer,
+                os.environ.get("HELIUS_RPC_URL")
+                or (
+                    "https://mainnet.helius-rpc.com/?api-key="
+                    + os.environ["HELIUS_API_KEY"]
+                    if os.environ.get("HELIUS_API_KEY")
+                    else ""
+                ),
+                catalog,
+                controls,
+                cognitive,
+                decisions,
+            )
+            result["task_feedback"] = actions.pop("feedback")
+            result["actions"] = actions
+        except (OSError, ValueError, KeyError, TypeError, UnboundLocalError):
+            result["actions"] = {
+                "schema": "nuria.action-loop.v1",
+                "execution_enabled": False,
+                "phase": "evidence_or_activation_required",
+                "tasks": [],
+            }
+            result["task_feedback"] = []
+        result.update(ledger.summary())
+        result["ledger_index"] = export_pages(ledger, public)
         result["learning_rule"] = (
             "Fresh free SOL/USD context displaces the basic paid-price adapter; unavailable free data defers that purchase. Structured forecasts still choose matching neural action when 0.5 uncertainty + 0.25 surprise + 0.25 learned provider reward - 0.1 relative cost exceeds 0.1. Reward: local Brier error minus paid Brier error minus 0.01 × USDC price."
         )

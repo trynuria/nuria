@@ -24,14 +24,14 @@ CATALOG = (
     {
         "id": "humans",
         "name": "Human contributors",
-        "status": "planned",
-        "detail": "Bounties, escrow and worker payouts require a separate marketplace integration.",
+        "status": "prepared",
+        "detail": "Guarded bounty, applicant and payout adapter implemented; project account, authenticated contract rehearsal and funded delivery test remain required.",
     },
     {
         "id": "compute",
         "name": "Compute",
         "status": "planned",
-        "detail": "Finite jobs with spending commitments, delivery receipts and measured utility. Provider activation is pending.",
+        "detail": "Finite task-service purchases and HTTP outcome checks are prepared; an enrolled provider is required. General cloud provisioning is not connected.",
     },
 )
 
@@ -43,7 +43,7 @@ def snapshot(ledger, commerce, limit=80):
     jobs = []
     for row in ledger.db.execute(
         "SELECT id,provider,action,amount,created,status,terms,delivery,settlement,reward "
-        "FROM jobs ORDER BY created DESC,id LIMIT ?",
+        "FROM jobs WHERE json_extract(terms,'$.action_task_id') IS NULL ORDER BY created DESC,id LIMIT ?",
         (limit,),
     ):
         ident, provider, action, amount, created, state, raw, artifact, paid, reward = (
@@ -124,7 +124,9 @@ def snapshot(ledger, commerce, limit=80):
                 else None,
             }
         )
-    total = ledger.db.execute("SELECT count(*) FROM jobs").fetchone()[0]
+    total = ledger.db.execute(
+        "SELECT count(*) FROM jobs WHERE json_extract(terms,'$.action_task_id') IS NULL"
+    ).fetchone()[0]
     catalog = [dict(item) for item in CATALOG]
     commissions = commerce.get("commissions", [])
     if (commerce.get("policy") or {}).get("providers"):
@@ -150,6 +152,10 @@ def snapshot(ledger, commerce, limit=80):
         "catalog": catalog,
         "commissions": commissions,
         "commissioning": commerce.get("commissioning"),
+        "action_tasks": commerce.get("actions", {}).get("tasks", []),
+        "action_rails": {
+            k: v for k, v in commerce.get("actions", {}).items() if k != "tasks"
+        },
         "commission_totals": commerce.get("commission_totals"),
         "money": {
             "balance": commerce.get("usdc_balance"),
@@ -160,5 +166,5 @@ def snapshot(ledger, commerce, limit=80):
         },
         "integrity": commerce["integrity"],
         "ledger_index": commerce["ledger_index"],
-        "scope": "Recent production payment jobs only. Local experiments, private funded tests and proposed external hires are not presented as commissioned work. Hash continuity is a local integrity check, not an independent witness.",
+        "scope": "Recent production merchant jobs and committed neural tasks. Local fixtures and private funded tests are excluded. A proposed hire does not establish an order or payment. Local hash continuity is not an independent witness.",
     }
