@@ -124,6 +124,20 @@ to memory mode starts a new ordered-memory epoch from current v1 parameters;
 it does not attach stale ordered state to a later input cursor. Both modes use
 the existing worker, user, database permissions and financial boundaries.
 
+The [private-checkpoint drill receipt](continuity.json) verifies a consistent
+1.506 GB copy containing 282,156 original records. The restored neural state and
+next 20 ms spikes/state match the previous code exactly. It checks both old
+forecast sources, uncommitted rollback, committed joint recovery and the full
+copied hash chain. The live processes remained unchanged during this test.
+The original private database is retained privately.
+
+For another trusted private copy, use
+[capture_neural_baseline.py](../../scripts/capture_neural_baseline.py) with the
+previous code on `PYTHONPATH`, then run
+[check_forecast_upgrade.py](../../scripts/check_forecast_upgrade.py) with the
+new code. Both require an explicit private-copy marker. They never call RPC,
+publish live status or operate a wallet.
+
 ```sh
 python -m unittest discover -s tests -p test_adaptive_forecast.py -v
 python -m scripts.diagnose_multiscale research/multiscale/results .test-state/new-diagnosis.json

@@ -1,0 +1,36 @@
+{
+  "schema": "nuria.forecast-memory.continuity.v1",
+  "verified_utc": "2026-10-23T21:00:16.636967+00:00",
+  "tested_source_commit": "7b8fabb3b4bc378b3b907657bcea18e665e63503",
+  "runtime_source_sha256": "b0f11a18e257f807e1758d14007adb40f495857e54f28caf87d573115551a775",
+  "private_checkpoint_bytes": 1506185216,
+  "private_checkpoint_file_sha256": "739f13b2074f369d71f04dc80a2d9c9cb5802d1075c446bb39b8c1a35257546b",
+  "elapsed_seconds": 241.37058013794012,
+  "live_worker_restarts_during_drill": 0,
+  "live_processes_unchanged_during_drill": true,
+  "verification": {
+    "verified": true,
+    "scope": "Trusted private copied checkpoint and isolated fixtures; no live input, public cache, RPC or payment modified",
+    "original_genesis_utc": "2026-10-07T20:01:08.346669+00:00",
+    "original_tick": 1385090,
+    "original_cursor": 5138,
+    "original_record_seq": 282156,
+    "original_record_head": "ccf180b122c537706b97db4390dd995c03005cd9d2bf99cfe4e0df56bde07845",
+    "checkpoint_sha256": "db7215289f8c4413bfaf57823646be57b0e5302b9f7efeb1939bf0509b11c03f",
+    "restored_neural_state_identical": true,
+    "next_spikes_and_state_identical_to_previous_code": true,
+    "legacy_sources_preserved": 2,
+    "uncommitted_state_rollback_verified": true,
+    "joint_forecast_and_neural_recovery_verified": true,
+    "copied_journal_integrity": {
+      "valid": true,
+      "checked": 282159,
+      "head": "9e3b5ec9c12bf3d51bc3c177ae95e1669defb5d678fa8b6751f59105b94f58ea",
+      "mode": "full",
+      "verified_through_seq": 282159,
+      "scope": "Local cognitive record and spike integrity; no independent witness or onchain attestation"
+    },
+    "financial_transactions": 0
+  },
+  "scope": "Private consistent copied journal, previous-code baseline and isolated new-code fixtures. Original private database, filesystem paths, host and credentials are not published. This receipt is internal verification evidence, not an external witness."
+}
