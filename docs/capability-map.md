@@ -56,31 +56,31 @@ Active mechanisms are implemented. Evaluation identifies bounded experiments nee
 
 ## Fees, custody and purchases
 
-| Capability                    | Status   | Evidence or next gate                                                                                                                                       |
-| ----------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Treasury observation          | Prepared | Read-only observation separates balances, protocol accrual and verified payment receipts.                                                                   |
-| Creator-fee attribution       | Prepared | Live Pump creator/mode checks and unsigned standard claims; asset-specific attribution, unsupported modes and automatic collection remain activation gates. |
-| Durable spending reservations | Prepared | Durable SOL and USDC limits, reserve floor, unique decisions, ambiguous payment reconciliation and restart protection are tested; spending disabled.        |
-| Unsigned single-transfer rail | Prepared | Only a fixed system-transfer message is prepared; no signing or broadcast.                                                                                  |
-| Isolated autonomous signer    | Prepared | Isolated exact Solana USDC x402 signer adapter and guarded service installed; no production key or funded provider configured.                              |
-| Paid job outcome verification | Prepared | Payment, delivery hashes and delayed paid-forecast outcomes are implemented and tested offline; a real provider and funded production test remain required. |
+| Capability                    | Status   | Evidence or next gate                                                                                                                                                                                                          |
+| ----------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Treasury observation          | Prepared | Read-only observation separates balances, protocol accrual and verified payment receipts.                                                                                                                                      |
+| Creator-fee attribution       | Prepared | Live Pump creator/mode checks and unsigned standard claims; asset-specific attribution, unsupported modes and automatic collection remain activation gates.                                                                    |
+| Durable spending reservations | Prepared | Durable SOL and USDC limits, reserve floor, unique decisions, ambiguous payment reconciliation and restart protection are tested; spending disabled.                                                                           |
+| Unsigned single-transfer rail | Prepared | Only a fixed system-transfer message is prepared; no signing or broadcast.                                                                                                                                                     |
+| Isolated autonomous signer    | Prepared | Isolated exact Solana USDC x402 signer adapter and guarded service installed; no production key or funded provider configured.                                                                                                 |
+| Paid job outcome verification | Prepared | Exact task payments, delivery checks and buyer-observed outcomes are implemented. Delayed results credit the retained neural context and tagged action synapses; account enrollment and funded external tests remain required. |
 
 ## Research and validation
 
-| Capability                         | Status     | Evidence or next gate                                                                                                          |
-| ---------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Independent public attestation     | Research   | Publish externally witnessed heads and optional chain anchors with a defined cost budget.                                      |
-| Learned transition models          | Research   | Predict habitat transitions from experience and test against a held-out map.                                                   |
-| Multi-step planning                | Research   | Compare learned planning against the current explicit local path planner.                                                      |
-| Attention efficacy tests           | Evaluation | Learned forecast attention is tested across 20 seeds; the separate hand-designed workspace still needs a causal efficacy test. |
-| Memory consolidation               | Research   | Distill older episodes into slower representation without destroying their evidence.                                           |
-| Continual-learning retention       | Research   | Measure forgetting across task changes before enabling new objectives.                                                         |
-| Adaptive goal weighting            | Research   | Learn arbitration weights under stable published safety and resource limits.                                                   |
-| Uncertainty-aware interventions    | Research   | Select experiments by expected information gain and verify actual gains.                                                       |
-| Causal model learning              | Research   | Learn intervention effects beyond the current matched perturbation report.                                                     |
-| Counterfactual action evaluation   | Research   | Compare prospective actions without treating a chosen replay as original-history proof.                                        |
-| Multi-modal perception             | Research   | Add authorized structured signals with provenance, rate limits and a useful behavioral objective.                              |
-| Social interaction tasks           | Research   | Evaluate coordination with other independent entities in a bounded environment.                                                |
-| Long-horizon resource planning     | Research   | Measure budget prediction and reserve preservation over changing cost regimes.                                                 |
-| Independent capability replication | Research   | Reproduce outcomes from public code and fixed benchmarks on separate hardware.                                                 |
-| Open-ended cumulative development  | Research   | Expand only with measured capability, retained continuity, explicit failure boundaries and independent evaluation.             |
+| Capability                         | Status     | Evidence or next gate                                                                                                                                                               |
+| ---------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Independent public attestation     | Research   | Publish externally witnessed heads and optional chain anchors with a defined cost budget.                                                                                           |
+| Learned transition models          | Research   | Predict habitat transitions from experience and test against a held-out map.                                                                                                        |
+| Multi-step planning                | Research   | Compare learned planning against the current explicit local path planner.                                                                                                           |
+| Attention efficacy tests           | Evaluation | Learned forecast attention is tested across 20 seeds; the separate hand-designed workspace still needs a causal efficacy test.                                                      |
+| Memory consolidation               | Research   | Distill older episodes into slower representation without destroying their evidence.                                                                                                |
+| Continual-learning retention       | Research   | Measure forgetting across task changes before enabling new objectives.                                                                                                              |
+| Adaptive goal weighting            | Research   | The main 65/35 action rule remains fixed. A separate bounded neural task readout and exact delayed eligibility credit are implemented; external outcome validation remains pending. |
+| Uncertainty-aware interventions    | Research   | Select experiments by expected information gain and verify actual gains.                                                                                                            |
+| Causal model learning              | Research   | Learn intervention effects beyond the current matched perturbation report.                                                                                                          |
+| Counterfactual action evaluation   | Research   | Compare prospective actions without treating a chosen replay as original-history proof.                                                                                             |
+| Multi-modal perception             | Research   | Add authorized structured signals with provenance, rate limits and a useful behavioral objective.                                                                                   |
+| Social interaction tasks           | Research   | Evaluate coordination with other independent entities in a bounded environment.                                                                                                     |
+| Long-horizon resource planning     | Research   | Measure budget prediction and reserve preservation over changing cost regimes.                                                                                                      |
+| Independent capability replication | Research   | Reproduce outcomes from public code and fixed benchmarks on separate hardware.                                                                                                      |
+| Open-ended cumulative development  | Research   | Expand only with measured capability, retained continuity, explicit failure boundaries and independent evaluation.                                                                  |

@@ -10,6 +10,7 @@ import math
 import re
 from datetime import datetime, timezone
 
+from commerce.action_budget import commitments
 from commerce.ledger import canonical
 
 STATES = {
@@ -367,14 +368,23 @@ class Commissioner:
                 "SELECT coalesce(sum(amount-coalesce(json_extract(settlement,'$.amount_micro_usdc'),0)),0),count(*) FROM commissions WHERE amount>coalesce(json_extract(settlement,'$.amount_micro_usdc'),0) AND state!='cancelled'"
             ).fetchone()
             merchant_pending = self.ledger.db.execute(
-                "SELECT count(*) FROM jobs WHERE status IN ('reserved','authorized','uncertain')"
+                "SELECT count(*) FROM jobs WHERE status IN ('reserved','authorized','uncertain') AND json_extract(terms,'$.action_task_id') IS NULL"
             ).fetchone()[0]
             daily = self.ledger.db.execute(
                 "SELECT coalesce(sum(amount),0) FROM commissions WHERE day=?", (day,)
             ).fetchone()[0]
             merchant = self.ledger.db.execute(
-                "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=?", (day,)
+                "SELECT coalesce(sum(amount),0) FROM jobs WHERE day=? AND json_extract(terms,'$.action_task_id') IS NULL",
+                (day,),
             ).fetchone()[0]
+            action_totals = commitments(self.ledger.db, day, controls["wallet"])
+            if (
+                action_totals["last"] is not None
+                and now - action_totals["last"] < payment_policy.cooldown_seconds
+            ):
+                raise ValueError("Shared paid-job cooldown has not elapsed")
+            daily += action_totals["daily"]
+            merchant_pending += action_totals["unresolved"]
             if (
                 pending[1] + merchant_pending >= payment_policy.maximum_unresolved_jobs
                 or total + daily + merchant > payment_policy.per_day_micro_usdc

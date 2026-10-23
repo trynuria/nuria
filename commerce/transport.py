@@ -24,9 +24,13 @@ class PinnedHTTPS(http.client.HTTPSConnection):
         self.sock = self._context.wrap_socket(raw, server_hostname=self.host)
 
 
-def request(endpoint, headers=None, *, max_body=MAX_BODY):
+def request(endpoint, headers=None, *, max_body=MAX_BODY, method="GET", body=None):
     if type(max_body) is not int or not 1 <= max_body <= 1_048_576:
         raise ValueError("Invalid provider response bound")
+    if method not in ("GET", "POST", "PATCH") or (
+        body is not None and (not isinstance(body, bytes) or len(body) > MAX_BODY)
+    ):
+        raise ValueError("Unsupported provider request")
     url = urlsplit(endpoint)
     if (
         url.scheme != "https"
@@ -42,13 +46,14 @@ def request(endpoint, headers=None, *, max_body=MAX_BODY):
     connection.pinned_address = public_addresses(url.hostname)[0]
     try:
         connection.request(
-            "GET",
+            method,
             (url.path or "/") + ("?" + url.query if url.query else ""),
             headers={
                 "Accept": "application/json",
                 "User-Agent": "Nuria-commerce/0.5",
                 **(headers or {}),
             },
+            body=body,
         )
         response = connection.getresponse()
         if 300 <= response.status < 400:

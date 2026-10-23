@@ -53,10 +53,16 @@ def check(directory: Path, expected: dict, source_sha256: str) -> dict:
             raise RuntimeError("Upgrade changed neural history identity")
         for source, state in original_states.items():
             model = organism.forecasts[source]
+            retained = (
+                model.state()
+                if state.get("version") == "forecast-memory-v1"
+                else model.base.state()
+            )
             if (
                 not isinstance(model, AdaptiveForecast)
-                or digest(model.base.state()) != digest(state)
-                or model.stats["n"] != 0
+                or digest(retained) != digest(state)
+                or state.get("version") != "forecast-memory-v1"
+                and model.stats["n"] != 0
             ):
                 raise RuntimeError("Legacy learning was not preserved")
         frame = organism.brain.advance(duration_ms=20)

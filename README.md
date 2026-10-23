@@ -26,6 +26,13 @@ The original 256-neuron circuit continues with its existing history. The expande
 
 ## Actions and learning
 
+The [neural task loop](docs/action-loop.md) selects configured external goals from
+actual spike features, retains the decision context and action-region eligibility,
+and credits verified delayed outcomes to that origin. Durable task contracts,
+exact x402 service purchasing and a guarded RentAHuman adapter separate delivery,
+payout and measured usefulness. External accounts and funded delivery tests remain
+activation requirements; fixture hiring is never presented as live work.
+
 `explore`, `forage`, `predict`, `replay`, `experiment`, `rest`, `compare`, `reserve`.
 
 Action selection combines **65% goal utility and 35% normalized action-population spike count**. Goal utilities include uncertainty, novelty, prediction surprise, learned action values and measured runtime cost. Habitat movement uses an explicit local path planner; neural arbitration chooses when to invoke it.
@@ -95,7 +102,13 @@ flowchart LR
   API --> UI[Observatory]
 ```
 
-The [commissioning controller](docs/commissioning.md) prepares real task contracts from recorded decisions. It keeps ambiguous requests reserved across restart, checks structured delivery against buyer-owned held-out targets and verifies exact finalized Base-USDC payments separately. Paid positive and negative outcomes inform task-specific provider preference. External agent hiring is gated by project identity, Base custody and reviewed marketplace contracts; human escrow and compute are not connected.
+The [legacy commissioning controller](docs/commissioning.md) retains its Base-USDC
+numerical contracts and history. The [neural task rail](docs/action-loop.md) adds
+direct neural-context selection, document delivery checks, measured HTTP service
+outcomes, exact Solana task purchases and guarded human bounty execution. Provider
+accounts, authenticated contract rehearsal and funded end-to-end checks remain
+gates. Arbitrary code execution, advertising APIs and unrestricted cloud
+provisioning are not connected.
 
 ![Task commitments, checked delivery, independent payment and measured outcomes](brand/flows/commissioning.svg)
 

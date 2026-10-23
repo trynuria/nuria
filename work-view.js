@@ -173,6 +173,82 @@ function validWorkEvidence(evidence, now = Date.now()) {
   )
     throw Error("Unverified work balance");
   const commissions = evidence.commissions || [];
+  const tasks = evidence.action_tasks || [];
+  if (
+    !Array.isArray(tasks) ||
+    tasks.length > 40 ||
+    new Set(tasks.map((item) => item.id)).size !== tasks.length ||
+    tasks.some(
+      (item) =>
+        !/^[a-f0-9]{64}$/.test(item.id) ||
+        !/^[a-f0-9]{64}$/.test(item.intent_id) ||
+        !/^[a-f0-9]{64}$/.test(item.contract_sha256) ||
+        !/^[a-f0-9]{64}$/.test(item.neural_state_sha256) ||
+        !["agent", "human", "compute"].includes(item.kind) ||
+        typeof item.title !== "string" ||
+        typeof item.purpose !== "string" ||
+        typeof item.provider !== "string" ||
+        !integer(item.committed_micro_usd) ||
+        !Number.isFinite(item.created_at) ||
+        ![
+          "proposed",
+          "reserved",
+          "uncertain",
+          "submitted",
+          "accepted",
+          "rejected",
+          "release_pending",
+          "evaluated",
+          "cancelled",
+        ].includes(item.state) ||
+        (["accepted", "rejected", "release_pending", "evaluated"].includes(
+          item.state,
+        ) &&
+          !item.acceptance) ||
+        (["proposed", "cancelled"].includes(item.state) &&
+          (item.committed_micro_usd !== 0 || item.settlement || item.acceptance)) ||
+        (["accepted", "release_pending"].includes(item.state) &&
+          item.acceptance?.passed !== true) ||
+        (item.state === "rejected" && item.acceptance?.passed !== false) ||
+        (item.acceptance &&
+          (typeof item.acceptance.passed !== "boolean" ||
+            (!/^[a-f0-9]{64}$/.test(item.acceptance.artifact_sha256) &&
+              !(
+                item.acceptance.metric === "delivery_deadline" &&
+                item.acceptance.passed === false &&
+                item.acceptance.artifact_sha256 === null &&
+                /^[a-f0-9]{64}$/.test(item.acceptance.evidence_sha256)
+              )))) ||
+        (item.settlement &&
+          (item.settlement.verified !== true ||
+            ![
+              "provider_confirmed_payout",
+              "finalized_chain_transfer",
+              "included_capacity",
+            ].includes(item.settlement.basis) ||
+            !integer(item.settlement.total_micro_usd) ||
+            item.settlement.total_micro_usd > item.committed_micro_usd ||
+            (item.settlement.basis === "finalized_chain_transfer" &&
+              (!/^[1-9A-HJ-NP-Za-km-z]{64,88}$/.test(item.settlement.transaction) ||
+                !integer(item.settlement.slot) ||
+                item.settlement.recipient_wallet !== item.destination?.wallet)) ||
+            (item.settlement.basis === "provider_confirmed_payout" &&
+              typeof item.settlement.worker_id !== "string") ||
+            !/^[a-f0-9]{64}$/.test(item.settlement.evidence_sha256))) ||
+        (item.outcome &&
+          (item.state !== "evaluated" ||
+            !item.acceptance ||
+            !item.settlement ||
+            item.outcome.evidence_level !== "verified_outcome" ||
+            !Number.isFinite(item.outcome.reward) ||
+            Math.abs(item.outcome.reward) > 1 ||
+            item.outcome.intent_id !== item.intent_id ||
+            item.outcome.result_sha256 !==
+              (item.acceptance.artifact_sha256 || item.acceptance.evidence_sha256))) ||
+        (item.state === "evaluated" && !item.outcome),
+    )
+  )
+    throw Error("Incomplete task-loop evidence");
   const hash = (value) => /^[a-f0-9]{64}$/.test(value);
   if (
     !Array.isArray(commissions) ||
@@ -254,6 +330,46 @@ function validWorkEvidence(evidence, now = Date.now()) {
 }
 
 function renderWorkDetail() {
+  const task = workSnapshot?.action_tasks?.find(
+    (item) => "task:" + item.id === selectedWork,
+  );
+  if (task) {
+    const paid = task.settlement;
+    $("workDetail").replaceChildren(
+      workNode("span", `${task.kind} · ${task.provider}`, "work-kicker"),
+      workNode("h3", task.title),
+      workNode("p", task.purpose),
+      workFacts([
+        ["Request", workLabel(task.state)],
+        ["Cost ceiling", commerceMoney(task.committed_micro_usd)],
+        [
+          "Payment evidence",
+          paid
+            ? `${commerceMoney(paid.total_micro_usd)} · ${workLabel(paid.basis)}`
+            : "No verified payout",
+        ],
+        ["Recipient wallet", paid?.recipient_wallet || task.destination?.wallet],
+        [
+          "Delivery",
+          task.acceptance
+            ? `${task.acceptance.passed ? "Passed" : "Failed"} · ${workLabel(task.acceptance.metric)}`
+            : "Not checked",
+        ],
+        [
+          "Outcome",
+          task.outcome
+            ? `${task.outcome.reward.toFixed(6)} · ${workLabel(task.outcome.metric)}`
+            : "Usefulness not measured",
+        ],
+        ["Transaction", paid?.transaction],
+        ["Artifact SHA-256", task.acceptance?.artifact_sha256],
+        ["Task contract SHA-256", task.contract_sha256],
+        ["Neural state SHA-256", task.neural_state_sha256],
+        ["Originating intent", task.intent_id],
+      ]),
+    );
+    return;
+  }
   const commission = workSnapshot?.commissions?.find(
     (item) => "commission:" + item.id === selectedWork,
   );
@@ -360,6 +476,12 @@ function renderWork(evidence) {
   const commissions = evidence.commissions || [];
   const requests = [
     ...evidence.jobs,
+    ...(evidence.action_tasks || []).map((item) => ({
+      ...item,
+      id: "task:" + item.id,
+      job_state: item.state,
+      amount_micro_usdc: item.committed_micro_usd,
+    })),
     ...commissions.map((item) => ({
       ...item,
       id: "commission:" + item.id,
@@ -448,6 +570,13 @@ function renderWork(evidence) {
     : "No operating wallet balance has been established. Creator fees, claimed funds and available treasury are separate observations.";
   const measured = evidence.jobs.filter((job) => job.outcome_state === "measured");
   measured.push(
+    ...(evidence.action_tasks || [])
+      .filter((item) => item.outcome)
+      .map((item) => ({
+        ...item,
+        reward: item.outcome.reward,
+        artifact_sha256: item.acceptance?.artifact_sha256,
+      })),
     ...commissions
       .filter((item) => item.outcome)
       .map((item) => ({ ...item, reward: item.outcome.reward })),

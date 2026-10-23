@@ -1,0 +1,60 @@
+{
+  "schema": "nuria.action-loop-check.v1",
+  "verified": true,
+  "scope": "Isolated contract fixture with actual Brian2 state. The local reference classifier uses included capacity; no external agent was hired, no market input was inserted, no payment or vendor integration is implied.",
+  "neural_intent_bound": true,
+  "originating_eligibility_bound": true,
+  "decision_before_delivery": true,
+  "private_targets_excluded_from_brief": true,
+  "acceptance": {
+    "artifact_sha256": "40b932d84f0bf74f1c9014dbf47e9dc135268db8180acf0fd0cd114cae4898e9",
+    "passed": true,
+    "utility": 0.24,
+    "metric": "held_out_brier_gain",
+    "baseline": 0.25,
+    "candidate": 0.009999999999999998,
+    "scope": "Buyer-owned held-out result; no executable delivery is run"
+  },
+  "outcome": {
+    "intent_id": "9926ae51c90e2f2793f7831e671783f43a16a94ed130cacd42fbbf942368548d",
+    "goal_id": "reference-classifier",
+    "action": "experiment",
+    "contract_sha256": "90cdbfe18b010cb79a73ac0c2645723ed475cec06fa372eb3f19cfb3b0b9bdb1",
+    "reward": 0.24,
+    "utility": 0.24,
+    "cost_micro_usd": 0,
+    "result_sha256": "40b932d84f0bf74f1c9014dbf47e9dc135268db8180acf0fd0cd114cae4898e9",
+    "evidence_level": "verified_outcome",
+    "metric": "held_out_brier_gain",
+    "settlement_basis": "included_capacity",
+    "measurement": null
+  },
+  "neural_credit": {
+    "after_state_sha256": "0057c9fd90a13007b98dcbb2005e13aec9f93ad5e3ba6ff24e489fc1b2ccb9f8",
+    "before_state_sha256": "95c380d564428b4154a3289d6abbde2acb51405ecc8d6d47d80c40c767fda482",
+    "changed_synapses": 256,
+    "scope": "Bounded engineering eligibility-tag credit to the originating action region; benefit requires causal evaluation",
+    "tagged_synapses": 256
+  },
+  "duplicate_feedback_no_effect": true,
+  "joint_recovery_verified": true,
+  "source_cursor_preserved": true,
+  "cognitive_integrity": {
+    "valid": true,
+    "checked": 2,
+    "head": "3c5e842fb7e1e42618b61c2ca657d89842c0c8ac5fac63fffd40f792fcde48cf",
+    "mode": "full",
+    "verified_through_seq": 2,
+    "scope": "Local cognitive record and spike integrity; no independent witness or onchain attestation"
+  },
+  "commerce_integrity": {
+    "valid": true,
+    "events": 7,
+    "head": "a5a685b1e3e82112b58a8596e200a0cb6889e4c42c8ca3dd4f8146d790fa9461",
+    "scope": "Startup full audit, then incremental local hash verification; not an independent attestation"
+  },
+  "financial_transactions": 0,
+  "paid_micro_usd": 0,
+  "local_reference_cpu_seconds": 5.000000000032756e-6,
+  "runtime_source_sha256": "1354907d55ff6d721e8b9979f439a39d680d61cb5bf36c476ea81a2c4e37d333"
+}
