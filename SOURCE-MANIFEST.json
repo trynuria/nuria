@@ -31,7 +31,8 @@
     "Remove public CA and launch-mode presentation, identity polling and address-copy controls; retain observed/simulated source distinctions, actual quotes, raw evidence, existing histories and unchanged financial authority.",
     "Dark laboratory presentation with self-hosted condensed typography, schematic circuit framing, clearer measured-neuron rendering, consistent work/docs surfaces and responsive controls; neuron inspection updates on valid input, with neural histories and guarded spending preserved.",
     "Full-screen continuous-entity observatory, folded schematic neuron framing, dedicated data views, rebuilt cognition/Discovery/work surfaces, coherent field-note design and shared technical feedback-loop diagrams. All recorded neuron identities, scientific results, financial controls and worker histories are preserved.",
-    "Restore the pre-immersive observatory and documentation presentation at the owner\u2019s request; preserve section navigation, evidence handling, running workers, histories and financial controls."
+    "Restore the pre-immersive observatory and documentation presentation at the owner\u2019s request; preserve section navigation, evidence handling, running workers, histories and financial controls.",
+    "Optional bidirectional 76-region TVB / 1024-neuron Brian2 circuit, joint recovery and isolated replay; fixed five-branch comparison, complete traces, independent score reconstruction and a retained failed predictive gate. Production model, financial authority and website design are unchanged; documentation records the experiment."
   ],
   "files": [
     {
@@ -40,15 +41,15 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "588e6533b095d4378115029d455f4c4cf5ee1eb6131a10dc64922fd0cf5dc033"
+      "published_sha256": "2842c3537d59138c593f51397d4f108c7f987431029110cc51e2ef7426e2fe25"
     },
     {
       "path": ".gitignore",
-      "published_sha256": "7c00a17c6a962c7d6d4fcd3504fbbbe6e305b8dc566461984359ded0227ed15a"
+      "published_sha256": "61c471ba72799e3f620cfd761cfc123ee6e78ba9767980b0a229ea473fdb0545"
     },
     {
       "path": ".prettierignore",
-      "published_sha256": "f13f5fc517fca9b7c00bc24c63e6a07d073514ec45227a322c9c72cd739ac73a"
+      "published_sha256": "d4cc237bf3a72bf23cd1c397c02803b4230d431c89d6b66dcf32862d268d4f57"
     },
     {
       "path": ".prettierrc.json",
@@ -56,11 +57,11 @@
     },
     {
       "path": "CHANGELOG.md",
-      "published_sha256": "f795220b48973a99cc42ff233235a22a3743f4c3671082e9bd60cbd4cfa0db4c"
+      "published_sha256": "b71a2aa01573e41d05aed59e8e97f07b3bf9ae243919e3ac63e11045fc028a7f"
     },
     {
       "path": "README.md",
-      "published_sha256": "f920a4143811587777329cd7ae17cf2cfb92cc947687b0979544922905e59a80"
+      "published_sha256": "aa4b5f67c497375563c63b97ca4856d337f6b631f487172d76dda5e8af9bc3aa"
     },
     {
       "path": "api.py",
@@ -172,7 +173,7 @@
     },
     {
       "path": "cognition/brain.py",
-      "published_sha256": "cda81c302c2e504a030c90479f29d91af985bda97aa766f2e79ee7633bb7cce0"
+      "published_sha256": "f79cba0b06a2c5c861b17a48507bb7a93f05f5cbc73f0d1effc78a6649f18349"
     },
     {
       "path": "cognition/discovery.py",
@@ -205,6 +206,14 @@
     {
       "path": "cognition/memory.py",
       "published_sha256": "b26448c4f2d05b725d43e66fae48749c1e35051ef25ac51fe9eba0bfe3011772"
+    },
+    {
+      "path": "cognition/multiscale.py",
+      "published_sha256": "e0be56982d7c40155772516ec0d608adcbc307dc489be02bc1fb40427795a238"
+    },
+    {
+      "path": "cognition/multiscale_loop.py",
+      "published_sha256": "c6f1e6a17fd04db0ea2412e33606fceb925b6130f0cedcef91c5fa935566187e"
     },
     {
       "path": "cognition/payments.py",
@@ -464,7 +473,7 @@
     },
     {
       "path": "docs/architecture.md",
-      "published_sha256": "4b5c4d09c20692a57b4ae5efd94fe9b7c6b1a6efa7dacbcae722a7fb9b8409dd"
+      "published_sha256": "53de1f23ec22a095bfa3ea1499cb1d316df2a764096d2c96e132fd0d5bd84a83"
     },
     {
       "path": "docs/capabilities.json",
@@ -512,7 +521,7 @@
     },
     {
       "path": "docs/docs-content.html",
-      "published_sha256": "dfd2de608a5ec7d33e9060e99e1b5ace97bc70bcbff8399fb3711670a8240ec4"
+      "published_sha256": "fb7b5ef9e0aed13a8065590508224befea3381f0500d52b723f3bbdb7939b3fe"
     },
     {
       "path": "docs/docs.css",
@@ -584,7 +593,7 @@
     },
     {
       "path": "index.html",
-      "published_sha256": "bdd0ac545098595e146105b52b25c196e51f2b5811cfb56733bb4f2051f11188"
+      "published_sha256": "768707dccc3d784e31bff6d31d005f3b79e2ea80c2913076c9f2c2401836ddbc"
     },
     {
       "path": "ingest.py",
@@ -624,11 +633,11 @@
     },
     {
       "path": "package-lock.json",
-      "published_sha256": "1c016707c47c71b8e46f26603443d660d7b91d82a7fe54e91141d9567d1e2547"
+      "published_sha256": "28515431967c483a291e7ee11d4bb3fe6df8aa7c830e20aa4611faf8fda5dc38"
     },
     {
       "path": "package.json",
-      "published_sha256": "39b7051f633c70285ec86b92fbb99d812f837375f5b51a13bee358f38dfa4ab5"
+      "published_sha256": "1c51fbd907353ad9a2d0e031e4b7fcfc5309e0f22c29feb6cb261a3c97853349"
     },
     {
       "path": "publish.py",
@@ -657,6 +666,38 @@
     {
       "path": "requirements.txt",
       "published_sha256": "74d246b6ff799bb0e75bc47562e0c3d908b8c52269bfd143a6570c8bf101fe30"
+    },
+    {
+      "path": "research/multiscale/README.md",
+      "published_sha256": "e4d4541ef03ddbc7b8d6336e90ced1a9bd9615ecc955631f474c51e65ce2950b"
+    },
+    {
+      "path": "research/multiscale/protocol.json",
+      "published_sha256": "b55757569f56ec7a3a9eb1a114cec83b9d5f61b963da0b65ac7972a8ac2862cb"
+    },
+    {
+      "path": "research/multiscale/protocol.sha256",
+      "published_sha256": "84e46aaf443039621fca70e317f3041144bf3d7c98ca47a353d683e89bda8223"
+    },
+    {
+      "path": "research/multiscale/requirements.txt",
+      "published_sha256": "6fd1c7342c4cf535994063c01f04f5d1238f9f2173c0559684ac6847012e9c2f"
+    },
+    {
+      "path": "research/multiscale/results/paired-brier.svg",
+      "published_sha256": "f90c098a551dc643cd0e007a62cb2b831b8aafaabd7899c16f182bdceaa7796d"
+    },
+    {
+      "path": "research/multiscale/results/result.json",
+      "published_sha256": "9eeb8e25f8ec663c6dfb46453a0ea138cd7ab27118ea6af4a2f82e37d6a36456"
+    },
+    {
+      "path": "research/multiscale/results/traces.jsonl.gz",
+      "published_sha256": "f3010b4bf03a42107f166a125a00430142c4d6dbec51e11b63372db12c99e15d"
+    },
+    {
+      "path": "research/multiscale/results/verification.json",
+      "published_sha256": "2c7838c2f90d8d468a76e09457fcb03a3aacff0b0e9474a7d1b4ff8451d68029"
     },
     {
       "path": "schema.sql",
@@ -691,6 +732,14 @@
       "published_sha256": "617a3e2d9c2d11cc0b088c0a98b29b2c3dae582446066627c9d16287ce7844c8"
     },
     {
+      "path": "scripts/evaluate_multiscale.py",
+      "published_sha256": "465c1c4b42a71e5789b335585c5d23d0f111612ba5cc9b2567410f8085549fe9"
+    },
+    {
+      "path": "scripts/plot_multiscale.py",
+      "published_sha256": "c434f9e6fc36b77918cb5b2bcb17a2461bbec88f1751136c126a414abc415138"
+    },
+    {
       "path": "scripts/render_acquisition.py",
       "published_sha256": "e58c415918117c991824292454d7f12ff33541d2f2d3050762d57ecd762517de"
     },
@@ -699,8 +748,16 @@
       "published_sha256": "35c0b2976e4306fbb57eae4f1598d01e2dd4468141df40438477a2a316d7a288"
     },
     {
+      "path": "scripts/replay_multiscale.py",
+      "published_sha256": "5a7b9d088a4e943788d32874bff16a5f1bb2be085b41e8eb5c44d48450110bb1"
+    },
+    {
       "path": "scripts/verify_commerce.py",
       "published_sha256": "717f7a271490a5e9b96e3a36a39f1f49594172dafe527beba62a64ed7c754939"
+    },
+    {
+      "path": "scripts/verify_multiscale_results.py",
+      "published_sha256": "a4a79a8d93beaf828dd368ef280ea484f5e88eb3283055035fb44d03bfff7967"
     },
     {
       "path": "store.py",
@@ -777,6 +834,14 @@
     {
       "path": "tests/test_information_choice.py",
       "published_sha256": "11ffadc71f427dffc36ffc472cab532f9bae84e67312ebcdd03cc33ed8a8d3a6"
+    },
+    {
+      "path": "tests/test_multiscale.py",
+      "published_sha256": "fe8580f44a11f669205585df66ba59de019cbc5f285ad6c8c2117c660531ca7a"
+    },
+    {
+      "path": "tests/test_multiscale_results.py",
+      "published_sha256": "8e13f257fa02948ba96d3a67d55b889fb74cd1e4674cea277b3a34414e5fcd45"
     },
     {
       "path": "tests/test_payment_recovery.py",

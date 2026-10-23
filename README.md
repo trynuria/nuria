@@ -40,6 +40,15 @@ An isolated [information-acquisition study](docs/acquisition.md) tests choosing 
 
 The first actual-spike tasks do **not** establish a neural advantage: a one-parameter repeat predictor matches accuracy and has lower Brier error. A fresh-seed component comparison tests memory, forecast attention and continual learning against contextual tables and logistic regression. Its gains are bounded synthetic forecast results, not evidence of useful STDP, whole-organism superiority, consciousness or market forecasting. Read the [evaluation report](docs/evaluation.md) and [all validation trials](docs/forecast-evaluation.json).
 
+The optional [TVB–Brian2 circuit](research/multiscale/README.md) connects 76
+Wilson–Cowan regional populations to the existing spiking model through delayed,
+bidirectional activity exchange. It owns a separate recoverable history and uses
+the same readout. Its fixed paired protocol compares full coupling with the
+current path, disconnected directions and shuffled connectivity. This research
+module is separate from the running cognitive worker; the published comparison
+shows altered neural activity but no established predictive advantage. The
+current live worker remains the default.
+
 Run a bounded evaluation without RPC access:
 
 ```sh

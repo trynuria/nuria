@@ -54,3 +54,5 @@ jobs:
         run: python -m pip install -r research/multiscale/requirements.txt
       - name: Check coupling and joint recovery
         run: python -m unittest discover -s tests -p test_multiscale.py -v
+      - name: Reconstruct retained comparison scores
+        run: python -m scripts.verify_multiscale_results research/multiscale/results
