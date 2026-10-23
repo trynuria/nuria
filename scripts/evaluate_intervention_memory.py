@@ -202,9 +202,7 @@ def run_policy(method, task, seed, schedule, neural, kernel, protocol):
             x = raw + np.tanh(projection @ np.asarray(raw)).tolist()
         ready = [item for item in pending if item[0] <= step]
         pending = [item for item in pending if item[0] > step]
-        for _, receipt in sorted(
-            ready, key=lambda item: (item[0], item[1]["intent_id"])
-        ):
+        for _, _, receipt in sorted(ready, key=lambda item: (item[0], item[1])):
             sequence += 1
             receipt["sequence"] = sequence
             learner.override = x if isinstance(learner, ReceiptTimeControl) else None
@@ -264,7 +262,7 @@ def run_policy(method, task, seed, schedule, neural, kernel, protocol):
                 "verified": True,
                 "sequence": 0,
             }
-            pending.append((step + block["delay"], receipt))
+            pending.append((step + block["delay"], step, receipt))
         trace.append(
             {
                 "method": method,
@@ -295,7 +293,7 @@ def run_policy(method, task, seed, schedule, neural, kernel, protocol):
             )
             if digest(learner.state()) != digest(checkpoint):
                 raise RuntimeError("Intervention recovery changed state")
-    for _, receipt in sorted(pending, key=lambda item: (item[0], item[1]["intent_id"])):
+    for _, _, receipt in sorted(pending, key=lambda item: (item[0], item[1])):
         sequence += 1
         receipt["sequence"] = sequence
         learner.override = x if isinstance(learner, ReceiptTimeControl) else None

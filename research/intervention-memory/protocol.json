@@ -1,6 +1,6 @@
 {
-  "schema": "nuria.intervention-protocol.v1",
-  "created_utc": "2026-10-23T22:57:08.546798+00:00",
+  "schema": "nuria.intervention-protocol.v2",
+  "created_utc": "2026-10-23T23:08:42.924218+00:00",
   "tasks": [
     "changing",
     "recurrent",
@@ -13,30 +13,30 @@
     3003
   ],
   "validation_seeds": [
-    4001,
-    4002,
-    4003,
-    4004,
-    4005,
-    4006,
-    4007,
-    4008,
-    4009,
-    4010,
-    4011,
-    4012,
-    4013,
-    4014,
-    4015,
-    4016,
-    4017,
-    4018,
-    4019,
-    4020,
-    4021,
-    4022,
-    4023,
-    4024
+    5001,
+    5002,
+    5003,
+    5004,
+    5005,
+    5006,
+    5007,
+    5008,
+    5009,
+    5010,
+    5011,
+    5012,
+    5013,
+    5014,
+    5015,
+    5016,
+    5017,
+    5018,
+    5019,
+    5020,
+    5021,
+    5022,
+    5023,
+    5024
   ],
   "episodes": 48,
   "warmup": 12,
@@ -165,5 +165,15 @@
     ],
     "dataset_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
     "rows": 17379
+  },
+  "feedback_order": "due_step,origin_step",
+  "revision": {
+    "previous_protocol": "v1/protocol.json",
+    "reason": "v1 broke simultaneous-delivery ties by method-specific intent hash; discounting made temporal-context comparisons partly confounded. v2 orders by method-independent origin step.",
+    "changes": [
+      "deterministic method-independent delivery order",
+      "fresh reserved validation seeds5001\u20135024"
+    ],
+    "unchanged": "Dataset, native build, all source modules except the evaluator ordering, alpha0.5 selected on development3001\u20133003, discount, metrics, methods, task families, episode counts and gates. No retuning on reserved outcomes."
   }
 }
