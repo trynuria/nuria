@@ -21,6 +21,7 @@ from cognition import (
     brain,
     intervention_encoding,
     intervention_memory,
+    journal,
     sqlite_lab,
     task_brain,
 )
@@ -116,12 +117,14 @@ class InterventionRunner:
             "numpy_version": np.__version__,
             "sqlite_version": self.lab._sqlite.version,
             "sqlite_source_id": self.lab._sqlite.source_id,
+            "sqlite_compile_options": list(self.lab.compile_options),
             "implementation_sha256": {
                 Path(module.__file__).name: sha(Path(module.__file__).read_bytes())
                 for module in (
                     brain,
                     intervention_encoding,
                     intervention_memory,
+                    journal,
                     sqlite_lab,
                     task_brain,
                 )

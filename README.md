@@ -45,6 +45,15 @@ The [Discovery lab](docs/discovery.md) adds an independent, continuously running
 
 An isolated [information-acquisition study](docs/acquisition.md) tests choosing paid information, retaining the free alternative and learning from delayed outcomes or failed delivery. Its 288 matched synthetic trials include contextless, cumulative, frozen, free-only and always-buy controls. Context helps and adaptation helps reversal, but cumulative learning wins stable tasks and exploration wastes resources on redundant information. The complete results and reproducible journal heads are published; this controller is not promoted to live spending.
 
+The [software-intervention laboratory](research/intervention-memory/README.md) moves
+from virtual rewards to actual SQLite execution. It selects registered indexes,
+checks query answers against a separate unindexed execution, measures native VM
+work and returns delayed results to the originating context. Its standalone
+runner checkpoints neural state, pending eligibility tags, controller and input
+cursor together. This is an isolated executable research tool; its comparison
+against raw-context learning and a workload heuristic determines what can be
+claimed, rather than assuming that additional neural machinery is useful.
+
 The first actual-spike tasks do **not** establish a neural advantage: a one-parameter repeat predictor matches accuracy and has lower Brier error. A fresh-seed component comparison tests memory, forecast attention and continual learning against contextual tables and logistic regression. Its gains are bounded synthetic forecast results, not evidence of useful STDP, whole-organism superiority, consciousness or market forecasting. Read the [evaluation report](docs/evaluation.md) and [all validation trials](docs/forecast-evaluation.json).
 
 The optional [TVB–Brian2 circuit](research/multiscale/README.md) connects 76

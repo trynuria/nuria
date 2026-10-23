@@ -1,2 +1,9 @@
 * text=auto eol=lf
 *.svg text
+
+# Retained machine-readable scientific output; keep code diffs readable.
+research/intervention-memory/**/kernel.json linguist-generated=true
+research/intervention-memory/**/batch-audits.json linguist-generated=true
+research/intervention-memory/**/result.json linguist-generated=true
+research/intervention-memory/runner/*.json linguist-generated=true
+research/intervention-memory/validation/comparison.svg linguist-generated=true

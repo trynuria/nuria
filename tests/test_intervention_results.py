@@ -1,18 +1,43 @@
 """Adversarial checks for independent measured-work result verification."""
 
 import copy
+import hashlib
+import json
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from scripts.verify_intervention_memory import (
     METHODS,
     IndependentPolicy,
     canonical,
+    committed_source,
     digest,
     equal,
     neural_features,
     reconstructed_summary,
     selected_work,
+    verify,
 )
+
+
+class MemoryFile:
+    def __init__(self, value):
+        self.value = value if isinstance(value, bytes) else json.dumps(value).encode()
+
+    def read_text(self):
+        return self.value.decode()
+
+    def read_bytes(self):
+        return self.value
+
+
+class MemoryDirectory:
+    def __init__(self, files):
+        self.files = files
+
+    def __truediv__(self, name):
+        return self.files[name]
 
 
 class InterventionEvidenceTests(unittest.TestCase):
@@ -148,6 +173,50 @@ class InterventionEvidenceTests(unittest.TestCase):
         self.assertEqual(policy.models[0][0][1, 1], 1.0)
         self.assertGreater(policy.models[0][0][0, 0], 1.0)
 
+    def simultaneous_coverage(self, policy):
+        """Two original decisions settle together, with reverse legacy hashes."""
+        context = [0.0] * (policy.width - 1)
+        for step in range(2):
+            row, _ = self.initial()
+            intent = row["decision"]
+            row["step"] = intent["step"] = step
+            row["arm"] = intent["arm"] = step
+            intent["context"] = context
+            intent["covered_arms_before"] = list(range(step))
+            intent["id"] = digest({k: v for k, v in intent.items() if k != "id"})
+            row["intent_sha256"] = intent["id"]
+            row["delay"] = 4 - step
+            policy.check_decision(row, context)
+        return context
+
+    def test_v2_simultaneous_feedback_order_is_method_independent(self):
+        protocol = {**self.protocol, "feedback_order": "due_step,origin_step"}
+        for method in (
+            "raw_origin",
+            "raw_receipt_time",
+            "neural_origin",
+            "neural_receipt_time",
+        ):
+            with self.subTest(method=method):
+                policy = IndependentPolicy(method, protocol)
+                context = self.simultaneous_coverage(policy)
+                self.assertEqual([item[1] for item in policy.pending], [0, 1])
+                policy.arrive(4, context)
+                self.assertEqual(policy.models[0][3], 1)
+                self.assertEqual(policy.models[1][3], 2)
+
+    def test_v1_simultaneous_feedback_keeps_intent_hash_order(self):
+        policy = IndependentPolicy("raw_origin", self.protocol)
+        context = self.simultaneous_coverage(policy)
+        self.assertGreater(policy.pending[0][1], policy.pending[1][1])
+        policy.arrive(4, context)
+        self.assertEqual(policy.models[1][3], 1)
+        self.assertEqual(policy.models[0][3], 2)
+
+    def test_unregistered_feedback_order_is_refused(self):
+        with self.assertRaisesRegex(ValueError, "feedback order"):
+            IndependentPolicy("raw_origin", {**self.protocol, "feedback_order": "x"})
+
     def test_paired_scores_and_tampered_summary(self):
         protocol = {
             "tasks": ["changing"],
@@ -172,6 +241,79 @@ class InterventionEvidenceTests(unittest.TestCase):
         tampered["changing"]["means"]["neural_origin"] = 1.0
         with self.assertRaisesRegex(ValueError, "differs"):
             equal(tampered, summary)
+
+    def evidence_header(self):
+        protocol = {"data": {"csv_sha256": "1" * 64}}
+        artifacts = {
+            name: MemoryFile(b"original retained bytes")
+            for name in ("kernel.json", "traces.jsonl.gz", "batch-audits.json")
+        }
+        result = {
+            "phase": "development",
+            "protocol_sha256": digest(protocol),
+            "dataset_sha256": "1" * 64,
+            "methods": list(METHODS),
+            "financial_transactions": 0,
+            "all_answers_equal": True,
+            "artifacts": {
+                name: hashlib.sha256(file.read_bytes()).hexdigest()
+                for name, file in artifacts.items()
+            },
+        }
+        return protocol, result, artifacts
+
+    def test_changed_trace_bytes_are_refused_before_parsing(self):
+        protocol, result, files = self.evidence_header()
+        files["traces.jsonl.gz"] = MemoryFile(b"changed retained trace")
+        files["result.json"] = MemoryFile(result)
+        with self.assertRaisesRegex(
+            ValueError, "Evidence artifact changed: traces.jsonl.gz"
+        ):
+            verify(MemoryDirectory(files), MemoryFile(protocol))
+
+    def test_removed_branch_is_refused_before_scoring(self):
+        protocol, result, files = self.evidence_header()
+        result["methods"].remove("raw_origin")
+        files["result.json"] = MemoryFile(result)
+        with self.assertRaisesRegex(ValueError, "registered method"):
+            verify(MemoryDirectory(files), MemoryFile(protocol))
+
+    def test_historical_source_uses_explicit_immutable_revision(self):
+        revision, name = "a" * 40, "cognition/intervention_memory.py"
+        with patch(
+            "scripts.verify_intervention_memory.subprocess.run",
+            return_value=SimpleNamespace(stdout=b"historical source"),
+        ) as run:
+            self.assertEqual(committed_source(name, revision), b"historical source")
+        self.assertEqual(run.call_args.args[0], ["git", "show", f"{revision}:{name}"])
+        self.assertNotIn("shell", run.call_args.kwargs)
+        self.assertTrue(run.call_args.kwargs["check"])
+
+    def test_invalid_source_revision_and_paths_are_refused(self):
+        with patch("scripts.verify_intervention_memory.subprocess.run") as run:
+            for revision in ("HEAD", "a" * 39, "A" * 40, "a" * 40 + "; echo x"):
+                with self.subTest(revision=revision):
+                    with self.assertRaisesRegex(ValueError, "full lowercase commit"):
+                        verify(MemoryDirectory({}), source_ref=revision)
+            for name in ("/etc/file", "../file", "./file", "cognition/../file", "a//b"):
+                with self.subTest(name=name):
+                    with self.assertRaisesRegex(ValueError, "source commitment path"):
+                        committed_source(name, "a" * 40)
+            run.assert_not_called()
+
+    def test_historical_source_mismatch_is_refused_before_scoring(self):
+        protocol, result, files = self.evidence_header()
+        name = "cognition/intervention_memory.py"
+        result["source_hashes"] = {
+            name: hashlib.sha256(b"committed source").hexdigest()
+        }
+        files["result.json"] = MemoryFile(result)
+        with patch(
+            "scripts.verify_intervention_memory.subprocess.run",
+            return_value=SimpleNamespace(stdout=b"different source"),
+        ):
+            with self.assertRaisesRegex(ValueError, "Evaluated source changed"):
+                verify(MemoryDirectory(files), MemoryFile(protocol), "a" * 40)
 
 
 if __name__ == "__main__":

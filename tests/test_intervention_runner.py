@@ -4,7 +4,9 @@ from contextlib import contextmanager
 from pathlib import Path
 from unittest.mock import patch
 
+from cognition import journal
 from cognition.intervention_runner import InterventionRunner
+from cognition.sqlite_lab import SQLiteLab
 
 CSV = (
     "hr,weekday,mnth,workingday,weathersit,season,cnt\n"
@@ -201,6 +203,44 @@ class InterventionRunnerTests(unittest.TestCase):
                 self.assertEqual(recovered.policy.completed, 0)
                 self.assertTrue(recovered.accounting_uncertain)
                 self.assertEqual(recovered.summary()["observations"], 0)
+            finally:
+                recovered.close()
+
+    def test_resume_refuses_changed_sqlite_build_or_journal_implementation(self):
+        with preserved_directory() as temporary:
+            directory = Path(temporary) / "lab"
+            runner = InterventionRunner(directory, CSV, "isolated-runner-test")
+            runner.observe(workload(0))
+            before = runner.state()
+            marker = directory / "SQLITE-NEURAL-LAB.json"
+            original_marker = marker.read_bytes()
+            runner.close()
+
+            initialize = SQLiteLab.__init__
+
+            def alternative_build(lab, *args, **kwargs):
+                initialize(lab, *args, **kwargs)
+                lab.compile_options = [
+                    *lab.compile_options,
+                    "NURIA_TEST_ALTERNATIVE_BUILD",
+                ]
+
+            # Version and source ID can match across differently compiled builds.
+            with patch.object(SQLiteLab, "__init__", alternative_build):
+                with self.assertRaisesRegex(ValueError, "identity or implementation"):
+                    InterventionRunner(directory, CSV, "isolated-runner-test")
+
+            alternative_journal = Path(temporary) / "journal.py"
+            alternative_journal.write_bytes(Path(journal.__file__).read_bytes() + b"\n")
+            with patch.object(journal, "__file__", str(alternative_journal)):
+                with self.assertRaisesRegex(ValueError, "identity or implementation"):
+                    InterventionRunner(directory, CSV, "isolated-runner-test")
+
+            self.assertEqual(marker.read_bytes(), original_marker)
+            recovered = InterventionRunner(directory, CSV, "isolated-runner-test")
+            try:
+                self.assertEqual(recovered.state(), before)
+                self.assertTrue(recovered.summary()["integrity"]["valid"])
             finally:
                 recovered.close()
 

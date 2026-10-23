@@ -13,7 +13,8 @@ import itertools
 import json
 import math
 import re
-from pathlib import Path
+import subprocess
+from pathlib import Path, PurePosixPath
 from statistics import mean, stdev
 
 import numpy as np
@@ -43,6 +44,7 @@ CONTRASTS = (
 )
 RANGES = (((0, 23), (0, 6)), ((1, 12), (0, 1)), ((1, 4), (1, 4)))
 HASH = re.compile(r"[a-f0-9]{64}\Z")
+REVISION = re.compile(r"[a-f0-9]{40}\Z")
 
 
 def canonical(value):
@@ -257,6 +259,11 @@ class IndependentPolicy:
 
     def __init__(self, method, protocol):
         self.method, self.protocol = method, protocol
+        require(
+            protocol.get("feedback_order", "due_step,intent_id")
+            in ("due_step,intent_id", "due_step,origin_step"),
+            "Unregistered feedback order",
+        )
         self.width = 8 if method.startswith("raw") else 24
         self.clock = 0
         self.models = [
@@ -357,7 +364,15 @@ class IndependentPolicy:
         )
         self.covered.add(arm)
         self.pending.append(
-            (row["step"] + row["delay"], intent["id"], arm, context, row["total_steps"])
+            (
+                row["step"] + row["delay"],
+                row["step"]
+                if self.protocol.get("feedback_order") == "due_step,origin_step"
+                else intent["id"],
+                arm,
+                context,
+                row["total_steps"],
+            )
         )
 
 
@@ -398,7 +413,43 @@ def reconstructed_summary(trials, protocol, phase):
     return summary
 
 
-def verify(directory: Path, protocol_path: Path | None = None):
+def committed_source(name, source_ref=None):
+    """Read one safe relative source path, optionally at an immutable revision."""
+    require(
+        isinstance(name, str)
+        and name
+        and "\\" not in name
+        and "\x00" not in name
+        and not PurePosixPath(name).is_absolute()
+        and str(PurePosixPath(name)) == name
+        and all(part not in (".", "..") for part in PurePosixPath(name).parts),
+        "Invalid source commitment path",
+    )
+    if source_ref is not None:
+        require(
+            isinstance(source_ref, str) and REVISION.fullmatch(source_ref),
+            "Source revision must be a full lowercase commit hash",
+        )
+        try:
+            return subprocess.run(
+                ["git", "show", f"{source_ref}:{name}"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+            ).stdout
+        except subprocess.CalledProcessError as error:
+            raise ValueError("Historical source unavailable: " + name) from error
+    path = (ROOT / name).resolve()
+    require(path.is_relative_to(ROOT), "Invalid source commitment path")
+    return path.read_bytes()
+
+
+def verify(directory: Path, protocol_path: Path | None = None, source_ref=None):
+    if source_ref is not None:
+        require(
+            isinstance(source_ref, str) and REVISION.fullmatch(source_ref),
+            "Source revision must be a full lowercase commit hash",
+        )
     protocol_path = protocol_path or ROOT / "research/intervention-memory/protocol.json"
     protocol = json.loads(protocol_path.read_text())
     result = json.loads((directory / "result.json").read_text())
@@ -442,13 +493,9 @@ def verify(directory: Path, protocol_path: Path | None = None):
             "Frozen revision identity missing",
         )
     for name, expected in result.get("source_hashes", {}).items():
-        path = (ROOT / name).resolve()
+        require(HASH.fullmatch(expected), "Invalid source commitment")
         require(
-            path.is_relative_to(ROOT) and HASH.fullmatch(expected),
-            "Invalid source commitment",
-        )
-        require(
-            hashlib.sha256(path.read_bytes()).hexdigest() == expected,
+            hashlib.sha256(committed_source(name, source_ref)).hexdigest() == expected,
             "Evaluated source changed: " + name,
         )
     required_artifacts = {"kernel.json", "traces.jsonl.gz", "batch-audits.json"}
@@ -709,7 +756,7 @@ def verify(directory: Path, protocol_path: Path | None = None):
         == result["native_batch_audits"],
         "Native batch audits missing",
     )
-    return {
+    verification = {
         "schema": "nuria.intervention-verification.v1",
         "verified": True,
         "phase": phase,
@@ -730,14 +777,19 @@ def verify(directory: Path, protocol_path: Path | None = None):
         ],
         "scope": "Independent retained-evidence reconstruction; not an independent SQLite/Brian2 rerun, external witness, walltime or neural superiority claim.",
     }
+    if source_ref is not None:
+        verification["source_ref"] = source_ref
+    return verification
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--protocol", type=Path)
+    parser.add_argument("--source-ref")
     args = parser.parse_args()
-    result = verify(args.directory)
+    result = verify(args.directory, args.protocol, args.source_ref)
     if args.output:
         with args.output.open("x") as stream:
             stream.write(json.dumps(result, indent=2) + "\n")
