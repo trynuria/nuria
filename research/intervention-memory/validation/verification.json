@@ -1,0 +1,27 @@
+{
+  "schema": "nuria.intervention-verification.v1",
+  "verified": true,
+  "phase": "validation",
+  "protocol_sha256": "077333a54a9f628d09822e47be79a55bd5bd9120c56c68d50c105dd4eae95d4e",
+  "trace_rows": 46080,
+  "trials": 960,
+  "kernel_queries": 208,
+  "native_batch_audits": 480,
+  "gates": {
+    "correctness": true,
+    "benefit": true,
+    "credit": true,
+    "neural_specificity": false,
+    "stable": true
+  },
+  "checks": [
+    "complete registered coverage",
+    "native kernel cost and exact answer composition",
+    "fresh recorded batch agreement",
+    "origin-bound selected feedback and independent ridge scores",
+    "spike count feature reconstruction",
+    "charged static calibration",
+    "independent paired intervals"
+  ],
+  "scope": "Independent retained-evidence reconstruction; not an independent SQLite/Brian2 rerun, external witness, walltime or neural superiority claim."
+}

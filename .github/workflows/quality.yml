@@ -28,6 +28,7 @@ jobs:
           python -m unittest discover -s tests -v
           python -m scripts.check_action_loop .test-state/action-integration .test-state/action-integration.json
           python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
+          python -m scripts.verify_intervention_memory research/intervention-memory/validation
       - name: Check frontend
         run: |
           npm run format:check

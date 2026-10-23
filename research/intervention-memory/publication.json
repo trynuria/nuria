@@ -1,0 +1,15 @@
+{
+  "schema": "nuria.intervention-publication.v1",
+  "v1": {
+    "commit": "a7e9b323149f5cbaa18dee338de73cc5b29ca338",
+    "protocol": "v1/protocol.json",
+    "source_manifest": "v1/implementation.json"
+  },
+  "v2": {
+    "commit": "6c1d59156b2eaca9a81cf578fb040d4032606cfa",
+    "protocol": "protocol.json",
+    "source_manifest": "implementation.json"
+  },
+  "clarification": "The implementation manifests were assembled against their parent revision; their frozen_commit field names that base. The commits listed here contain the actual protocol and exact evaluated file hashes before their reserved runs. Historical manifests remain unchanged.",
+  "witness_scope": "Git publication is a public commitment; not external execution witnessing or trusted hardware attestation."
+}

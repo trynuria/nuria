@@ -84,3 +84,9 @@ Active mechanisms are implemented. Evaluation identifies bounded experiments nee
 | Long-horizon resource planning     | Research   | Measure budget prediction and reserve preservation over changing cost regimes.                                                                                                      |
 | Independent capability replication | Research   | Reproduce outcomes from public code and fixed benchmarks on separate hardware.                                                                                                      |
 | Open-ended cumulative development  | Research   | Expand only with measured capability, retained continuity, explicit failure boundaries and independent evaluation.                                                                  |
+
+The separate [software-intervention lab](../research/intervention-memory/README.md)
+executes checked SQLite interventions with selected-only delayed feedback and joint
+neural/controller recovery. It extends intervention measurement without promoting
+its controller to the running worker. Its retained comparisons distinguish actual
+execution, temporal credit, useful policy learning and a neural contribution.

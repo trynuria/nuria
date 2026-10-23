@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.0 — 2026-10-24
+
+- Add bounded native SQLite interventions on licensed public observations, exact answer checks, construction-inclusive VM accounting and selected-only delayed learning.
+- Connect actual Brian2 context and originating eligibility tags to a standalone runner with joint neural/controller recovery and immutable source history.
+- Bind recovery to code, dataset, controller configuration and simulator/native build settings; retain uncertain physical-compute accounting after interrupted attempts.
+- Publish reserved-workload comparisons, full measurement traces, independent decision/score reconstruction and the retained earlier receipt-ordering flaw.
+- Document simpler-baseline wins and failed neural-specificity results. Keep the website presentation, live neural histories and financial authority unchanged; the lab is isolated.
+
 ## 0.10.0 — 2026-10-24
 
 - Add bounded spike-context task selection with retained decision contexts and action-region eligibility tags for exact delayed outcome credit.
