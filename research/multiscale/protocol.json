@@ -1,0 +1,76 @@
+{
+  "schema": "nuria.multiscale.evaluation.v1",
+  "frozen_utc": "2026-10-23T19:32:51.532424+00:00",
+  "baseline_commit": "84d7a0884bb69e0bd8752e2174b48f86123a2b30",
+  "baseline": "Existing AdaptiveBrain, OnlineReadout and ForecastCouncil implementations; identical 72-dimensional input/readout and learning rules in every branch. This is the perception/forecast path, not a full-organism or market evaluation.",
+  "seeds": [
+    701,
+    702,
+    703,
+    704,
+    705,
+    706
+  ],
+  "tasks": [
+    "delayed_dependency",
+    "context_reversal"
+  ],
+  "events_per_trial": 160,
+  "warmup_events": 64,
+  "window_ms": 20,
+  "branches": {
+    "current": {},
+    "coupled": {
+      "region_to_spike_gain": 0.12,
+      "spike_to_region_gain": 0.08
+    },
+    "no_return": {
+      "region_to_spike_gain": 0.0,
+      "spike_to_region_gain": 0.08
+    },
+    "no_spike_feedback": {
+      "region_to_spike_gain": 0.12,
+      "spike_to_region_gain": 0.0
+    },
+    "shuffled": {
+      "region_to_spike_gain": 0.12,
+      "spike_to_region_gain": 0.08,
+      "shuffle_seed": 9021
+    }
+  },
+  "worlds": {
+    "delayed_dependency": "First four sides are random; subsequent side copies the side four events earlier with 0.90 probability. Quote amount is independently chosen from 0.25 and 2.0 SOL-equivalent synthetic units; fee is 0.005 times quote. No actual coin or transaction is represented.",
+    "context_reversal": "Repeat the previous side with probability 0.9 for small quotes and 0.1 for large quotes; the mapping reverses halfway through. The generating amount precedes its next-side label, which is not revealed until the next observation."
+  },
+  "scoring": "Score each stored next-side probability when the next side arrives, before any training on it. Include observations indexed 64 through 159, 96 scored outcomes per task/seed/branch.",
+  "primary": "Paired mean council Brier reduction current minus coupled; lower loss is better.",
+  "secondary": [
+    "Neural specialist Brier",
+    "Forecast accuracy",
+    "Repeat baseline Brier",
+    "Mean neural-expert attention",
+    "Proportion of differing neural hashes and action-score vectors",
+    "Per-window wall time, cold setup cost and peak RSS"
+  ],
+  "inference": {
+    "interval": "two-sided 95% Student t interval across six paired environment seeds, critical=2.5705818366147395; no independent neural-initialization replication",
+    "promotion_gate": "Every task must have mean council Brier reduction >=0.005 and a positive lower 95% bound; zero-return branch must reproduce current neural hashes; causal direction and exact checkpoint continuation tests must pass. Both tasks must pass, so the gate is an intersection claim. All other contrasts are descriptive."
+  },
+  "coupling": "TVB Wilson-Cowan, deterministic Heun dt=1 ms, 4 m/s conduction and gain 0.1; warm up 1000 ms. Exchange previous-window regional activity and Brian population rates with a 20 ms delay in both directions. Six declared engineering ports; no inferred anatomical functional equivalence.",
+  "dataset": {
+    "package": "tvb-data==3.0.0",
+    "file": "connectivity_76.zip",
+    "sha256": "8b856d5fa80a8593e01dc18b95efff829ca98d2daf43cea38fd3309fed726b2e",
+    "provenance": "TVB demonstration connectivity, documented as hybrid CoCoMac/DSI. It must not be described as a purely human or owner-specific connectome.",
+    "source": "https://docs.thevirtualbrain.org/manuals/UserGuide/Complete_Dataset_Description.html"
+  },
+  "shuffle": "Relocate nonzero weight/tract-length pairs without self edges using a fixed seed. Preserve density and the joint nonzero weight/length distribution, then normalize by maximum row sum. Degree and strength sequences are not preserved; this is a limited topology null.",
+  "limits": [
+    "Synthetic task families, small sample and one fixed Brian neural initialization",
+    "No live production checkpoints or wallet credentials",
+    "No real token activity, biological neurons, paid jobs or consciousness inference",
+    "No use of task names, hidden regime, future sides or unchosen counterfactual outcomes by the learner",
+    "No parameter search or result-driven task selection; failures and non-positive results must be published",
+    "The running production worker is not replaced on the basis of mechanism complexity alone"
+  ]
+}
