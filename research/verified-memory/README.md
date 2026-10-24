@@ -8,8 +8,8 @@ memory.
 
 The result is a **checked finite capability**, not evidence of consciousness or
 a new general learning algorithm. This module is separate from Nuria's running
-Brian2/TVB systems. It has no wallet, market feed, spending authority or production
-worker import.
+Brian2 system and its isolated TVB comparisons. It has no wallet, market feed,
+spending authority or production worker import.
 
 ## What changed
 
