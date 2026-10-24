@@ -60,15 +60,17 @@ jobs versus 337 for the same-language conventional control, using the same four
 examples and search cap. Both made one incorrect proposal. All 5,184 method-job
 records, complete generated traces and failed development attempts are published
 in the [research record](research/guarded-skills/README.md). This is a bounded
-software capability gain; neural superiority and consciousness remain unproven.
+software capability gain; it does not establish neural superiority or consciousness.
 
-A separate [trainable spiking specialist](research/neural-digits/README.md) tests
-whether learned neural input synapses improve bounded digit-reading decisions.
-Its protocol, eleven checkpoints and independent Brian2 reference are frozen
-before the official writer-held-out benchmark is opened. Strong linear,
-memory-based, continuous and input-frozen controls remain visible. This is a
-separate perception capability; it does not establish improved treasury or
-hiring decisions in the original recurrent circuit.
+A separate [trainable spiking specialist](research/neural-digits/README.md)
+demonstrates learned neural features on bounded digit-reading decisions. Its
+three frozen fits average **96.75%** accuracy on 1,797 writer-held-out images,
+versus **95.27%** for tuned linear softmax and **91.69%** with input synapses
+frozen. All three improve over those controls. **5-nearest-neighbours is stronger
+at 97.89%**, and a matched continuous network is similar to the spiking network.
+All eleven checkpoints, predictions, paired errors and independent checks are
+published. This is a separate supervised perception capability; it does not
+establish improved treasury or hiring decisions in the original recurrent circuit.
 
 Skill acquisition uses conventional program synthesis and verified retention.
 The [comparison record](research/skill-acquisition/README.md) retains the failed

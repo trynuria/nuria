@@ -45,7 +45,8 @@
     "Publish one frozen external qualification with complete denominators, failed improvement gates and post-hoc retention-interference diagnosis. Existing result facts show typed audit/row-check evidence and explicit abstention; layout and runtime worker sources are unchanged.",
     "Completed input-only numeric acquisition and reuse course with all 36 outcomes acknowledged; preserved unmet initial reuse gate, unsupported-task rejection and original records, added explicit fresh-recurrence planning checks and published independent safe certificates. Runtime, financial authority and presentation design are unchanged.",
     "Bounded composed text search with a publicly frozen four-audit qualification, all 5184 deterministic records replayed exactly, and a completed 25-job live acquisition/reuse course with every rejection preserved. Original histories, financial authority and observatory design are unchanged.",
-    "Task-specific supervised spiking digit decisions with strict learned-state identity, atomic verified-label feedback, independent hard-spike and Brian2 reference checks, complete frozen checkpoints and prospective writer-held-out qualification. Original neural workers, financial authority and website design are unchanged."
+    "Task-specific supervised spiking digit decisions with strict learned-state identity, atomic verified-label feedback, independent hard-spike and Brian2 reference checks, complete frozen checkpoints and prospective writer-held-out qualification. Original neural workers, financial authority and website design are unchanged.",
+    "Completed writer-held-out spiking digit qualification with learned-input gains over linear and input-frozen controls, stronger kNN and similar continuous controls retained. Full frozen predictions, independent offline score reconstruction, paired-error supplement and private durable inference/reproduction CLI are published; original workers, financial authority and site design are unchanged."
   ],
   "files": [
     {
@@ -54,7 +55,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "edff7660c25d06b2cce294b4942d19759e4aa333d575d0b278002fc9c785f716"
+      "published_sha256": "66a2ab8a6337e2390edd021f4996a0030069582dcadf4e837ba6070a1c145075"
     },
     {
       "path": ".gitignore",
@@ -74,7 +75,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "a9a4a706c00ce415f6cbcad381e1c6e3e9b851b5fce09c71c40a872d4b555576"
+      "published_sha256": "fbeed9fbb7b2e06bdb01ed78d146e792bf0d8800517ca0afea26a766559bcb14"
     },
     {
       "path": "api.py",
@@ -575,6 +576,10 @@
     {
       "path": "deploy/nuria-commerce.service",
       "published_sha256": "7cb78126f005a548f3079249ff6bc19f5f0b7dfc8e92a4f2107a8821e38cb540"
+    },
+    {
+      "path": "deploy/nuria-digit-reproduction.service",
+      "published_sha256": "d8f527733d078bfe20114740a3dd4a56daf9703f5b1b3721bdd817b59f67cb51"
     },
     {
       "path": "deploy/nuria-discovery.service",
@@ -1678,7 +1683,15 @@
     },
     {
       "path": "research/neural-digits/README.md",
-      "published_sha256": "199414c54e6e9c056a921ac30fac8a3d653dc26332cd2aa76146bb8b5391f29a"
+      "published_sha256": "2e98187c7edcce0b09d8cefed53aa5eecd5a245b3cbf8d548c2fde998b72c0f3"
+    },
+    {
+      "path": "research/neural-digits/RESULTS.md",
+      "published_sha256": "4c577b829777103a5036b032cdcac0ea75c26fb38f77a0772fbaeac301ea5962"
+    },
+    {
+      "path": "research/neural-digits/SERVICE.md",
+      "published_sha256": "921e0110d3fd8ac96827bcb647a5eb8632cfac2cd3d6d5ef3a513f4ca272a5eb"
     },
     {
       "path": "research/neural-digits/data/optdigits-original.zip",
@@ -1859,6 +1872,30 @@
     {
       "path": "research/neural-digits/protocol.json",
       "published_sha256": "024d75219d4c8de71e3ff2f308b5f497a2262b2f24d0fdd28ca03ab38bf20fd2"
+    },
+    {
+      "path": "research/neural-digits/qualification/PREDICTIONS-COMMITTED.json",
+      "published_sha256": "db03ef81e684386fb494fb735f76318f39550922d862c95e434e0ad6c07daa7c"
+    },
+    {
+      "path": "research/neural-digits/qualification/paired-all.json",
+      "published_sha256": "d10fa47199923f848f2a72f51f3a3358684514da2271dd304c6059b16a4d4c4a"
+    },
+    {
+      "path": "research/neural-digits/qualification/predictions.json.gz",
+      "published_sha256": "9a3fded2a7f099fb6973bd7728f976bec2b897c391510ff645487be51b0b5ae3"
+    },
+    {
+      "path": "research/neural-digits/qualification/result.json",
+      "published_sha256": "17c96e6093b5c326175264f4015a05c7eb5593645ced781b5714782bf8602f7d"
+    },
+    {
+      "path": "research/neural-digits/qualification/started.json",
+      "published_sha256": "1729fc28b08711238875f188a8fd3d95c624858a3398b3746e0dd9e4f21f3d04"
+    },
+    {
+      "path": "research/neural-digits/qualification/verification.json",
+      "published_sha256": "2d5ab8db5c2ae256e78b1b15a7c89e2614174c247b1dc3f5f741b9c889284414"
     },
     {
       "path": "research/skill-acquisition/README.md",
@@ -2585,6 +2622,10 @@
       "published_sha256": "b5d67be74ba5d8ab659d51a07f82e2e29c77d712d3646974d5874be9963bf2ea"
     },
     {
+      "path": "scripts/check_neural_digit_results.py",
+      "published_sha256": "02f4ce101e6f6a72599523816db3c51f64a5276034768b81be1d0d792b52b0ea"
+    },
+    {
       "path": "scripts/check_publication.py",
       "published_sha256": "a4de769977a315c5c60a5c32c9265f820dbe57a9f426f31aa4ac241560a83759"
     },
@@ -2687,6 +2728,10 @@
     {
       "path": "scripts/replay_multiscale.py",
       "published_sha256": "5a7b9d088a4e943788d32874bff16a5f1bb2be085b41e8eb5c44d48450110bb1"
+    },
+    {
+      "path": "scripts/run_neural_digit_service.py",
+      "published_sha256": "90d5856acc607efe43cab92a88a97edb3627d6cb669f3aef15d2d25fb7eb3ae0"
     },
     {
       "path": "scripts/run_sqlite_interventions.py",
@@ -2971,6 +3016,14 @@
     {
       "path": "tests/test_neural_digit_evaluation.py",
       "published_sha256": "5f842dca475088638907e78a80955495c5a068edc5d40409978173b73d268b68"
+    },
+    {
+      "path": "tests/test_neural_digit_results.py",
+      "published_sha256": "19faba6b91e7229ce6b1be86438c50aced250cdb8804b81e83837097ea5284b8"
+    },
+    {
+      "path": "tests/test_neural_digit_service_runner.py",
+      "published_sha256": "d59a1d7e628a1f2861313fcbf17f651c429839a32b4ca7dd4e3c9acc7eac4416"
     },
     {
       "path": "tests/test_neural_digit_verifier.py",

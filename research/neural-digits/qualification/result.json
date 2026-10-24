@@ -1,0 +1,226 @@
+{
+  "schema": "nuria.neural-digit-result.v1",
+  "scored_utc": "2026-10-24T16:54:26.670873+00:00",
+  "protocol_sha256": "024d75219d4c8de71e3ff2f308b5f497a2262b2f24d0fdd28ca03ab38bf20fd2",
+  "predictions_sha256": "04887a96aed7dea3de984bac9483bdc88a88cd05713bb93e0c69f5068d2bf566",
+  "rows": 1797,
+  "models": [
+    {
+      "id": "linear",
+      "method": "linear",
+      "seed": null,
+      "correct": 1712,
+      "rows": 1797,
+      "accuracy": 0.9526989426822482,
+      "model_sha256": "a98fec281bbad778d3e51b67a8edbe6ecff09eb245920838784a2370b7a0429b",
+      "inference_cpu_seconds": 0.0008790000000000187,
+      "checkpoint_file_bytes": 25873
+    },
+    {
+      "id": "knn5",
+      "method": "knn5",
+      "seed": null,
+      "correct": 1759,
+      "rows": 1797,
+      "accuracy": 0.9788536449638287,
+      "model_sha256": "cd63eeff3936df38533268c88d0948493e7e3d1717acc52a1bb4a4d107a0cb07",
+      "inference_cpu_seconds": 0.367339,
+      "checkpoint_file_bytes": 571745
+    },
+    {
+      "id": "snn_trained-202611",
+      "method": "snn_trained",
+      "seed": 202611,
+      "correct": 1741,
+      "rows": 1797,
+      "accuracy": 0.9688369504730105,
+      "model_sha256": "acdb30bc6394ba1261a2b61ec195c01654c6c0782bd1191f138d798aaffab2c0",
+      "inference_cpu_seconds": 0.02010999999999996,
+      "checkpoint_file_bytes": 426157,
+      "hidden_spikes": 845914,
+      "reverted_input_correct": 737,
+      "zero_spike_correct": 183
+    },
+    {
+      "id": "snn_trained-202612",
+      "method": "snn_trained",
+      "seed": 202612,
+      "correct": 1742,
+      "rows": 1797,
+      "accuracy": 0.9693934335002783,
+      "model_sha256": "fbecbc0a8140a065949c91d0c82eb8577b0ec91b9b802c2ef6b5031a9f29f1e7",
+      "inference_cpu_seconds": 0.020314999999999972,
+      "checkpoint_file_bytes": 426458,
+      "hidden_spikes": 878887,
+      "reverted_input_correct": 964,
+      "zero_spike_correct": 181
+    },
+    {
+      "id": "snn_trained-202613",
+      "method": "snn_trained",
+      "seed": 202613,
+      "correct": 1733,
+      "rows": 1797,
+      "accuracy": 0.9643850862548692,
+      "model_sha256": "cfb4af0297d52c50e73e1a2946740442695355eb3055667d452918c93410cdff",
+      "inference_cpu_seconds": 0.020310999999999968,
+      "checkpoint_file_bytes": 426981,
+      "hidden_spikes": 782522,
+      "reverted_input_correct": 712,
+      "zero_spike_correct": 181
+    },
+    {
+      "id": "snn_input_frozen-202611",
+      "method": "snn_input_frozen",
+      "seed": 202611,
+      "correct": 1658,
+      "rows": 1797,
+      "accuracy": 0.9226488592097941,
+      "model_sha256": "a1930fbc6c8eca51abd0890ba6200ce960fb03738a91de050c1a3ad7f49777f5",
+      "inference_cpu_seconds": 0.014857000000000009,
+      "checkpoint_file_bytes": 269008,
+      "hidden_spikes": 411346
+    },
+    {
+      "id": "snn_input_frozen-202612",
+      "method": "snn_input_frozen",
+      "seed": 202612,
+      "correct": 1663,
+      "rows": 1797,
+      "accuracy": 0.9254312743461325,
+      "model_sha256": "90281953c04919c4de3bb8463b5e7728774e702ec6051ec28c4e4a26634c2c32",
+      "inference_cpu_seconds": 0.015971999999999986,
+      "checkpoint_file_bytes": 268885,
+      "hidden_spikes": 525469
+    },
+    {
+      "id": "snn_input_frozen-202613",
+      "method": "snn_input_frozen",
+      "seed": 202613,
+      "correct": 1622,
+      "rows": 1797,
+      "accuracy": 0.902615470228158,
+      "model_sha256": "467ecf9942b8ebc6b7cc2a9d07eeca631421fda9d31c767ed891cb788eedeed7",
+      "inference_cpu_seconds": 0.014464000000000032,
+      "checkpoint_file_bytes": 268767,
+      "hidden_spikes": 496653
+    },
+    {
+      "id": "continuous-202611",
+      "method": "continuous",
+      "seed": 202611,
+      "correct": 1737,
+      "rows": 1797,
+      "accuracy": 0.9666110183639399,
+      "model_sha256": "15ceb99fc269187658eb9e4b304b7208c7514c7781f7a8500f73351fe3ce5e56",
+      "inference_cpu_seconds": 0.013329000000000035,
+      "checkpoint_file_bytes": 426778
+    },
+    {
+      "id": "continuous-202612",
+      "method": "continuous",
+      "seed": 202612,
+      "correct": 1741,
+      "rows": 1797,
+      "accuracy": 0.9688369504730105,
+      "model_sha256": "abb345e6de66152c04f82fc39aee36544c510aefdbbfe533126c529c4dbf81bb",
+      "inference_cpu_seconds": 0.012904999999999944,
+      "checkpoint_file_bytes": 427281
+    },
+    {
+      "id": "continuous-202613",
+      "method": "continuous",
+      "seed": 202613,
+      "correct": 1734,
+      "rows": 1797,
+      "accuracy": 0.9649415692821369,
+      "model_sha256": "a67babe7428599dcbc265bcc58807a458f2e6bcda9944cf978b097aa62624eb4",
+      "inference_cpu_seconds": 0.013108000000000009,
+      "checkpoint_file_bytes": 426931
+    }
+  ],
+  "paired": {
+    "snn_trained-202611": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1741,
+        "second_correct": 1712,
+        "both_correct": 1707,
+        "first_only_correct": 34,
+        "second_only_correct": 5,
+        "neither_correct": 51,
+        "accuracy_difference": 0.016138007790762382,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1741,
+        "second_correct": 1759,
+        "both_correct": 1731,
+        "first_only_correct": 10,
+        "second_only_correct": 28,
+        "neither_correct": 28,
+        "accuracy_difference": -0.01001669449081803,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_trained-202612": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1742,
+        "second_correct": 1712,
+        "both_correct": 1703,
+        "first_only_correct": 39,
+        "second_only_correct": 9,
+        "neither_correct": 46,
+        "accuracy_difference": 0.01669449081803005,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1742,
+        "second_correct": 1759,
+        "both_correct": 1727,
+        "first_only_correct": 15,
+        "second_only_correct": 32,
+        "neither_correct": 23,
+        "accuracy_difference": -0.009460211463550361,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_trained-202613": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1733,
+        "second_correct": 1712,
+        "both_correct": 1705,
+        "first_only_correct": 28,
+        "second_only_correct": 7,
+        "neither_correct": 57,
+        "accuracy_difference": 0.011686143572621035,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1733,
+        "second_correct": 1759,
+        "both_correct": 1723,
+        "first_only_correct": 10,
+        "second_only_correct": 36,
+        "neither_correct": 28,
+        "accuracy_difference": -0.014468558708959377,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    }
+  },
+  "gates": {
+    "neural_over_linear": true,
+    "learned_input_contribution": true,
+    "all_rows_and_models_retained": true
+  },
+  "neural_mean_accuracy": 0.9675384900760527,
+  "linear_accuracy": 0.9526989426822482,
+  "input_frozen_mean_accuracy": 0.916898534594695,
+  "scope": "Bounded supervised neural perception on already segmented 8 by 8 digits. This is a new task-specific spiking specialist, separate from the original 1,024-cell recurrent circuit. No result about general OCR, consciousness, market decisions, treasury choices or hiring is claimed.",
+  "uncertainty": "Exact finite-benchmark comparisons. Rows share writers; writer identifiers are unavailable. No independent-writer population confidence claim or independent execution witness."
+}

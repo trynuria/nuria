@@ -1,0 +1,35 @@
+[Unit]
+Description=Nuria isolated spiking digit service reproduction
+Documentation=https://github.com/trynuria/nuria/tree/main/research/neural-digits
+
+[Service]
+Type=oneshot
+User=nuria-digit
+Group=nuria-digit
+WorkingDirectory=/opt/nuria/neural-digits/current
+ExecStart=/opt/nuria/venv/bin/python -m scripts.run_neural_digit_service reproduce research/neural-digits/protocol.json research/neural-digits/data/optdigits-original.zip research/neural-digits/models /var/lib/nuria-digits/reproduction
+StateDirectory=nuria-digits
+StateDirectoryMode=0700
+ReadWritePaths=/var/lib/nuria-digits
+UMask=0077
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=OMP_NUM_THREADS=1
+Environment=MKL_NUM_THREADS=1
+Environment=NUMEXPR_NUM_THREADS=1
+PrivateNetwork=yes
+RestrictAddressFamilies=AF_UNIX
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+NoNewPrivileges=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+TasksMax=32
+MemoryMax=512M
+CPUQuota=50%
+TimeoutStartSec=300

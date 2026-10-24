@@ -1,0 +1,275 @@
+{
+  "schema": "nuria.neural-digit-paired-supplement.v1",
+  "protocol_sha256": "024d75219d4c8de71e3ff2f308b5f497a2262b2f24d0fdd28ca03ab38bf20fd2",
+  "predictions_sha256": "04887a96aed7dea3de984bac9483bdc88a88cd05713bb93e0c69f5068d2bf566",
+  "original_result_sha256": "17c96e6093b5c326175264f4015a05c7eb5593645ced781b5714782bf8602f7d",
+  "rows": 1797,
+  "models": 11,
+  "paired": {
+    "linear": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1712,
+        "second_correct": 1712,
+        "both_correct": 1712,
+        "first_only_correct": 0,
+        "second_only_correct": 0,
+        "neither_correct": 85,
+        "accuracy_difference": 0.0,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1712,
+        "second_correct": 1759,
+        "both_correct": 1702,
+        "first_only_correct": 10,
+        "second_only_correct": 57,
+        "neither_correct": 28,
+        "accuracy_difference": -0.02615470228158041,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "knn5": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1759,
+        "second_correct": 1712,
+        "both_correct": 1702,
+        "first_only_correct": 57,
+        "second_only_correct": 10,
+        "neither_correct": 28,
+        "accuracy_difference": 0.02615470228158041,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1759,
+        "second_correct": 1759,
+        "both_correct": 1759,
+        "first_only_correct": 0,
+        "second_only_correct": 0,
+        "neither_correct": 38,
+        "accuracy_difference": 0.0,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_trained-202611": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1741,
+        "second_correct": 1712,
+        "both_correct": 1707,
+        "first_only_correct": 34,
+        "second_only_correct": 5,
+        "neither_correct": 51,
+        "accuracy_difference": 0.016138007790762382,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1741,
+        "second_correct": 1759,
+        "both_correct": 1731,
+        "first_only_correct": 10,
+        "second_only_correct": 28,
+        "neither_correct": 28,
+        "accuracy_difference": -0.01001669449081803,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_trained-202612": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1742,
+        "second_correct": 1712,
+        "both_correct": 1703,
+        "first_only_correct": 39,
+        "second_only_correct": 9,
+        "neither_correct": 46,
+        "accuracy_difference": 0.01669449081803005,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1742,
+        "second_correct": 1759,
+        "both_correct": 1727,
+        "first_only_correct": 15,
+        "second_only_correct": 32,
+        "neither_correct": 23,
+        "accuracy_difference": -0.009460211463550361,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_trained-202613": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1733,
+        "second_correct": 1712,
+        "both_correct": 1705,
+        "first_only_correct": 28,
+        "second_only_correct": 7,
+        "neither_correct": 57,
+        "accuracy_difference": 0.011686143572621035,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1733,
+        "second_correct": 1759,
+        "both_correct": 1723,
+        "first_only_correct": 10,
+        "second_only_correct": 36,
+        "neither_correct": 28,
+        "accuracy_difference": -0.014468558708959377,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_input_frozen-202611": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1658,
+        "second_correct": 1712,
+        "both_correct": 1633,
+        "first_only_correct": 25,
+        "second_only_correct": 79,
+        "neither_correct": 60,
+        "accuracy_difference": -0.03005008347245409,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1658,
+        "second_correct": 1759,
+        "both_correct": 1647,
+        "first_only_correct": 11,
+        "second_only_correct": 112,
+        "neither_correct": 27,
+        "accuracy_difference": -0.0562047857540345,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_input_frozen-202612": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1663,
+        "second_correct": 1712,
+        "both_correct": 1631,
+        "first_only_correct": 32,
+        "second_only_correct": 81,
+        "neither_correct": 53,
+        "accuracy_difference": -0.027267668336115748,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1663,
+        "second_correct": 1759,
+        "both_correct": 1653,
+        "first_only_correct": 10,
+        "second_only_correct": 106,
+        "neither_correct": 28,
+        "accuracy_difference": -0.05342237061769616,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "snn_input_frozen-202613": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1622,
+        "second_correct": 1712,
+        "both_correct": 1591,
+        "first_only_correct": 31,
+        "second_only_correct": 121,
+        "neither_correct": 54,
+        "accuracy_difference": -0.05008347245409015,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1622,
+        "second_correct": 1759,
+        "both_correct": 1614,
+        "first_only_correct": 8,
+        "second_only_correct": 145,
+        "neither_correct": 30,
+        "accuracy_difference": -0.07623817473567056,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "continuous-202611": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1737,
+        "second_correct": 1712,
+        "both_correct": 1705,
+        "first_only_correct": 32,
+        "second_only_correct": 7,
+        "neither_correct": 53,
+        "accuracy_difference": 0.013912075681691708,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1737,
+        "second_correct": 1759,
+        "both_correct": 1724,
+        "first_only_correct": 13,
+        "second_only_correct": 35,
+        "neither_correct": 25,
+        "accuracy_difference": -0.012242626599888704,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "continuous-202612": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1741,
+        "second_correct": 1712,
+        "both_correct": 1700,
+        "first_only_correct": 41,
+        "second_only_correct": 12,
+        "neither_correct": 44,
+        "accuracy_difference": 0.016138007790762382,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1741,
+        "second_correct": 1759,
+        "both_correct": 1726,
+        "first_only_correct": 15,
+        "second_only_correct": 33,
+        "neither_correct": 23,
+        "accuracy_difference": -0.01001669449081803,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    },
+    "continuous-202613": {
+      "linear": {
+        "rows": 1797,
+        "first_correct": 1734,
+        "second_correct": 1712,
+        "both_correct": 1703,
+        "first_only_correct": 31,
+        "second_only_correct": 9,
+        "neither_correct": 54,
+        "accuracy_difference": 0.012242626599888704,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      },
+      "knn5": {
+        "rows": 1797,
+        "first_correct": 1734,
+        "second_correct": 1759,
+        "both_correct": 1725,
+        "first_only_correct": 9,
+        "second_only_correct": 34,
+        "neither_correct": 29,
+        "accuracy_difference": -0.013912075681691708,
+        "scope": "Exact matched counts on the supplied finite rows; no independence, writer-cluster or population-generalization assertion"
+      }
+    }
+  },
+  "scope": "Arithmetic-only secondary coverage supplement. The frozen scorer omitted paired control tables; original predictions, result, models and gates remain unchanged. Every comparison uses the same already-scored 1,797 rows. No new training, tuning, prediction or unseen qualification. The neural mean is three fixed initializations, not an ensemble."
+}
