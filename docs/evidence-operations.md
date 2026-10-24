@@ -4,11 +4,13 @@ The receipt verifier is a separate, read-only process. It does not run the neura
 
 ## Bounded verification
 
-History is scanned from genesis using ordered, limited batches. A scan has a fixed target and validates its cursor against the database before continuing. Receipt sequence, parent hash, payload hash, decompressed spike hash and referenced input hashes must all agree. A regressed head, a replaced cursor or a missing row cannot produce a successful result.
+History is scanned from genesis using ordered, limited batches. Spike prefetch has an 8 MiB compressed page budget; rows outside that cache use the same bounded individual check. A scan has a fixed target and validates its cursor against the database before continuing. Receipt sequence, parent hash, payload hash, decompressed spike hash and referenced input hashes must all agree. A regressed head, a replaced cursor or a missing row cannot produce a successful result.
 
 The public result distinguishes a complete pass, a pass catching up, a detected mismatch and unavailable evidence. Partially checked history is never reported as fully verified. Evidence downloads cover only checked receipts and have explicit row and byte limits; a shortened export is explicitly marked as truncated, with its limits and checked range. Oversized or unavailable evidence cannot silently become a complete export. No trusted progress file can skip the initial scan after a process restart.
 
 The worker imports no neural simulator. Its steady memory use depends on a configured batch and export limit rather than the total receipt count. Catch-up proceeds through cooperative bounded iterations; normal polling resumes when it reaches the current head. A daily full pass repeats the checks.
+
+A bounded read-only operational pilot checked the same 10,240-receipt prefix twice per variant, in baseline/prefetch/prefetch/baseline order. Prefetch took 1.49–1.69 seconds; the prior paged reader took 3.44–3.77 seconds. All four resulting prefix hashes matched. The process peak was 37.4 MiB. These observations were made alongside a backup and exclude export work and cooperative worker waits; they are not a complete-history throughput guarantee or a portable research benchmark.
 
 ## Consistent backups
 

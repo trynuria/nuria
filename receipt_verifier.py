@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 
 ZERO = "0" * 64
+UNFETCHED = object()
 SCOPE = (
     "Local input, spike and receipt hash integrity. "
     "No independent witness or Solana anchoring."
@@ -60,6 +61,7 @@ class Limits:
     input_bytes: int = 256 * 1024
     compressed_spike_bytes: int = 4 * 1024 * 1024
     spike_bytes: int = 4 * 1024 * 1024
+    page_spike_bytes: int = 8 * 1024 * 1024
     inputs_per_receipt: int = 4096
     export_ticks: int = 300
     export_bytes: int = 8 * 1024 * 1024
@@ -93,7 +95,44 @@ def inflate(raw, limits):
     return decoded
 
 
-def check_evidence(db, row, limits, *, retain=False):
+def prefetch_spikes(db, numbers, limits):
+    """Return at most one SQL page and one cumulative byte budget of blobs.
+
+    The window contains only sequence numbers and lengths, not blob contents.
+    An outer CASE fetches data only within BOTH individual and page limits.
+    Exact receipt IDs also bound the row count if a malformed chain has gaps.
+    Uncached rows retain the ordinary bounded one-row lookup path.
+    """
+    if len(numbers) > 256 or any(type(n) is not int or n < 1 for n in numbers):
+        raise ValueError("Unsupported spike prefetch page")
+    if not numbers:
+        return {}
+    placeholders = ",".join("?" for _ in numbers)
+    rows = db.execute(
+        "SELECT source.seq,CASE WHEN lengths.bytes<=? "
+        "AND lengths.total_bytes<=? THEN source.data ELSE NULL END "
+        "FROM spike_windows AS source JOIN ("
+        "SELECT seq,length(data) AS bytes,SUM(length(data)) OVER "
+        "(ORDER BY seq ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) "
+        "AS total_bytes FROM spike_windows WHERE seq IN ("
+        + placeholders
+        + ")) AS lengths ON source.seq=lengths.seq ORDER BY source.seq",
+        (limits.compressed_spike_bytes, limits.page_spike_bytes, *numbers),
+    ).fetchall()
+    cached, total = {}, 0
+    for number, raw in rows:
+        if raw is not None:
+            total += len(raw)
+            if (
+                len(raw) > limits.compressed_spike_bytes
+                or total > limits.page_spike_bytes
+            ):
+                raise VerificationUnavailable("Spike prefetch exceeds byte limit")
+            cached[number] = raw
+    return cached
+
+
+def check_evidence(db, row, limits, *, retain=False, spike_data=UNFETCHED):
     number, parent, current, payload = row
     payload = bounded_text(payload, limits.receipt_bytes, "Receipt")
     if digest(parent.encode() + payload.encode()) != current:
@@ -113,14 +152,16 @@ def check_evidence(db, row, limits, *, retain=False):
         raise VerificationError("Input evidence length mismatch")
     if len(identifiers) > limits.inputs_per_receipt:
         raise VerificationUnavailable("Input count exceeds verification size limit")
-    raw = db.execute(
-        "SELECT CASE WHEN length(data)<=? THEN data ELSE NULL END "
-        "FROM spike_windows WHERE seq=?",
-        (limits.compressed_spike_bytes, number),
-    ).fetchone()
-    if not raw:
-        raise VerificationError("Spike evidence missing")
-    decoded = inflate(raw[0], limits)
+    if spike_data is UNFETCHED:
+        raw = db.execute(
+            "SELECT CASE WHEN length(data)<=? THEN data ELSE NULL END "
+            "FROM spike_windows WHERE seq=?",
+            (limits.compressed_spike_bytes, number),
+        ).fetchone()
+        if not raw:
+            raise VerificationError("Spike evidence missing")
+        spike_data = raw[0]
+    decoded = inflate(spike_data, limits)
     if digest(decoded) != spike_hash:
         raise VerificationError("Spike evidence mismatch")
     retained_inputs = {}
@@ -210,12 +251,18 @@ class ReceiptVerifier:
             "FROM receipts WHERE seq>? AND seq<=? ORDER BY seq LIMIT ?",
             (self.limits.receipt_bytes, self.seq, self.target[0], self.batch_size),
         ).fetchall()
+        cached_spikes = prefetch_spikes(db, [row[0] for row in rows], self.limits)
         for row in rows:
             number, parent, current_hash, _ = row
             if number != self.seq + 1 or parent != self.previous:
                 raise VerificationError("Receipt chain mismatch", self.seq + 1)
             try:
-                check_evidence(db, row, self.limits)
+                check_evidence(
+                    db,
+                    row,
+                    self.limits,
+                    spike_data=cached_spikes.pop(number, UNFETCHED),
+                )
             except VerificationError as exc:
                 exc.sequence = number
                 raise

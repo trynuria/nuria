@@ -19,7 +19,9 @@ from receipt_verifier import (
     VerificationError,
     VerificationUnavailable,
     canonical,
+    check_evidence,
     digest,
+    prefetch_spikes,
 )
 from verify_worker import run
 
@@ -290,3 +292,52 @@ class ReceiptVerifierTests(unittest.TestCase):
             "assert not {'life','brian2','numpy','psycopg'} & set(sys.modules)"
         )
         subprocess.run([sys.executable, "-c", program], cwd=ROOT, check=True, timeout=5)
+
+    def test_prefetch_replaces_per_receipt_queries_without_skipping_checks(self):
+        self.fill(256)
+        rows = self.db.execute(
+            "SELECT seq,previous_hash,hash,payload FROM receipts ORDER BY seq"
+        ).fetchall()
+        queries = []
+        self.db.set_trace_callback(queries.append)
+        for row in rows:
+            check_evidence(self.db, row, Limits())
+        baseline = [q for q in queries if "FROM spike_windows WHERE seq=" in q]
+        self.assertEqual(len(baseline), 256)
+        queries.clear()
+        status = ReceiptVerifier().advance(self.db)
+        self.assertTrue(status["valid"])
+        bulk = [q for q in queries if "SUM(length(data)) OVER" in q]
+        fallback = [q for q in queries if "FROM spike_windows WHERE seq=" in q]
+        self.assertEqual((len(bulk), len(fallback)), (1, 0))
+        # Every input still receives its independent canonical hash/binding check.
+        self.assertEqual(sum("FROM inputs WHERE id=" in q for q in queries), 256)
+
+    def test_prefetch_page_budget_falls_back_without_losing_evidence(self):
+        self.fill(5)
+        sizes = [
+            len(r[0])
+            for r in self.db.execute("SELECT data FROM spike_windows ORDER BY seq")
+        ]
+        budget = sum(sizes[:2])
+        limits = replace(Limits(), page_spike_bytes=budget)
+        cached = prefetch_spikes(self.db, [1, 2, 3, 4, 5], limits)
+        self.assertEqual(set(cached), {1, 2})
+        self.assertLessEqual(sum(map(len, cached.values())), budget)
+        queries = []
+        self.db.set_trace_callback(queries.append)
+        self.assertTrue(ReceiptVerifier(limits=limits).advance(self.db)["valid"])
+        self.assertEqual(sum("FROM spike_windows WHERE seq=" in q for q in queries), 3)
+
+    def test_prefetch_never_returns_oversized_blobs_or_extra_ids(self):
+        self.fill(5)
+        self.db.execute("UPDATE spike_windows SET data=? WHERE seq=2", (b"x" * 1000,))
+        limits = replace(Limits(), compressed_spike_bytes=100, page_spike_bytes=2000)
+        cached = prefetch_spikes(self.db, [1, 2, 5], limits)
+        self.assertEqual(set(cached), {1, 5})
+        self.assertNotIn(2, cached)
+        self.assertLessEqual(sum(map(len, cached.values())), limits.page_spike_bytes)
+        with self.assertRaises(VerificationUnavailable):
+            ReceiptVerifier(limits=limits).advance(self.db)
+        with self.assertRaises(ValueError):
+            prefetch_spikes(self.db, list(range(1, 258)), limits)
