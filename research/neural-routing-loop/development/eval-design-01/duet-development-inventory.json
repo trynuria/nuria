@@ -1,0 +1,836 @@
+{
+  "scope": "Development-only format, prior183PROSE dedup and independently interpreted authored-oracle consistency. No task chosen/excluded by solve performance. All162reserved specification bodies remain unfetched and unopened; reserved coverage/dedup is unknown until publicfreeze.",
+  "source_commit": "62f3536b61355eb66aaf60df13fa2df7b762a7b9",
+  "summary": {
+    "all_source_tasks": 205,
+    "development_fetched": 43,
+    "reserved_unfetched": 162,
+    "prior_seen_prose_tasks": 183,
+    "development_input_output_types": {
+      "['String']->Bool": 1,
+      "['String']->String": 17,
+      "['String']->Int": 5,
+      "['String', 'String']->Int": 2,
+      "['String', 'String']->String": 17,
+      "['String', 'Int']->String": 1
+    },
+    "development_string_only_format": 34,
+    "development_enough_unique_for_4audits_and_heldout": 23,
+    "development_oracle_present": 29,
+    "development_oracle_constraints_match": 29,
+    "parse_errors": [],
+    "exact_prior_duplicates": [],
+    "nonzero_prior_example_overlaps": []
+  },
+  "tasks": [
+    {
+      "path": "tests/string/19274448.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "Bool",
+      "original_examples": 2,
+      "unique_inputs": 2,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/2171308.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/25239569.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/30732554.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 4,
+      "unique_inputs": 4,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/33619752.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 7,
+      "unique_inputs": 7,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/38871714.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 2,
+      "unique_inputs": 2,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/39060015.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 2,
+      "unique_inputs": 2,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/41503046.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/bikes-long-repeat.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 58,
+      "unique_inputs": 9,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/bikes-long.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 24,
+      "unique_inputs": 9,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/bikes.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/bikes_small.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/count-consecutive-monthly-orders.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "Int",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/count-line-breaks-in-cell.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "Int",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/count-specific-characters-in-a-cell.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "Int",
+      "original_examples": 5,
+      "unique_inputs": 5,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/count-specific-words-in-a-cell.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "Int",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/count-total-characters-in-a-cell.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "Int",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/count-total-words-in-a-cell.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "Int",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": false,
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/exceljet1.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 4,
+      "unique_inputs": 4,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/extract-nth-word-from-text-string.sl",
+      "input_types": [
+        "String",
+        "Int"
+      ],
+      "output_type": "String",
+      "original_examples": 4,
+      "unique_inputs": 4,
+      "oracle_present": false,
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/extract-text-between-parentheses.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "Int",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": false,
+      "string_only_format": false,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/extract-word-containing-specific-text.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 2,
+      "unique_inputs": 2,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/extract-word-that-begins-with-specific-character.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-2-long-repeat.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 204,
+      "unique_inputs": 54,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-2-long.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 54,
+      "unique_inputs": 54,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-2.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 4,
+      "unique_inputs": 4,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-2_short.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 4,
+      "unique_inputs": 4,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-3-long-repeat.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 200,
+      "unique_inputs": 50,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-3-long.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 50,
+      "unique_inputs": 50,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-3.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-3_short.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-4-long-repeat.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 200,
+      "unique_inputs": 50,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-4-long.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 50,
+      "unique_inputs": 50,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-4.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 5,
+      "unique_inputs": 5,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-4_short.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 5,
+      "unique_inputs": 5,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-long-repeat.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 204,
+      "unique_inputs": 54,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine-long.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 50,
+      "unique_inputs": 50,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/name-combine_short.sl",
+      "input_types": [
+        "String",
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 6,
+      "unique_inputs": 6,
+      "oracle_present": true,
+      "oracle_original_mismatches": [],
+      "oracle_errors": [],
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/stackoverflow10.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 16,
+      "unique_inputs": 16,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": true,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/strip-html-from-text-or-numbers.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/strip-non-numeric-characters.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    },
+    {
+      "path": "tests/string/strip-numeric-characters-from-cell.sl",
+      "input_types": [
+        "String"
+      ],
+      "output_type": "String",
+      "original_examples": 3,
+      "unique_inputs": 3,
+      "oracle_present": false,
+      "string_only_format": true,
+      "enough_unique_for_4audits_and_heldout": false,
+      "exact_prior_task_duplicates": [],
+      "maximum_prior_example_overlap": {
+        "count": 0,
+        "prior_task": null
+      }
+    }
+  ]
+}

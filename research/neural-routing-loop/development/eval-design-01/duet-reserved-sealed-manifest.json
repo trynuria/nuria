@@ -1,0 +1,1315 @@
+{
+  "schema": "duet-family-split-v1",
+  "repository": "https://github.com/wslee/duet",
+  "commit": "62f3536b61355eb66aaf60df13fa2df7b762a7b9",
+  "actual_git_tree": "b2d46a5b48a53e13ef107e20b98516f23e05d635",
+  "historical_inventory_api_sha": "62f3536b61355eb66aaf60df13fa2df7b762a7b9",
+  "pre_access_split_manifest_sha256": "24d31370b8ff780b9ec77ad1855fd67ebd70a5d84fe83fda44d08fb0012be14c",
+  "split_rule": "Group StackOverflow numeric identifiers together; otherwise first dash/underscore-free name prefix; development iff SHA256(nuria-neural-policy-dev-v1:<group>) modulo5 ==0. Rule fixed before any specification body retrieval.",
+  "development_tasks": 43,
+  "reserved_unfetched_tasks": 162,
+  "license": {
+    "path": "LICENSE",
+    "name": "GNU General Public License v3.0",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  "reserved_body_access": "None. File names, Git blob IDs and sizes only; semantic support, dedup and oracle integrity remain unknown until the public freeze.",
+  "reserved_tasks": [
+    {
+      "path": "tests/string/11440431.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7fdfeb2ddc87ad9fbbca7f52899d1e70f7ae4a64",
+      "size": 1150,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/7fdfeb2ddc87ad9fbbca7f52899d1e70f7ae4a64"
+    },
+    {
+      "path": "tests/string/11604909.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "395e0244ccc72bf95ad740dcec0dc472b5e4fa46",
+      "size": 1168,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/395e0244ccc72bf95ad740dcec0dc472b5e4fa46"
+    },
+    {
+      "path": "tests/string/12948338.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6da5658c7472a1e117c426059a0e95b5f266cd7",
+      "size": 1225,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e6da5658c7472a1e117c426059a0e95b5f266cd7"
+    },
+    {
+      "path": "tests/string/17212077.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b07b60181704b364e6e027d146f7484c709b8c5",
+      "size": 872,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1b07b60181704b364e6e027d146f7484c709b8c5"
+    },
+    {
+      "path": "tests/string/19558979.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "011659bd479e0d4238fb712adcf63af69f0d013e",
+      "size": 1093,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/011659bd479e0d4238fb712adcf63af69f0d013e"
+    },
+    {
+      "path": "tests/string/23435880.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9bad89a97702d44ac9f54fae806b4031341ba720",
+      "size": 987,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9bad89a97702d44ac9f54fae806b4031341ba720"
+    },
+    {
+      "path": "tests/string/28627624_1.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d69ea1c8cc814810a0186cfae7fb85768d0e010c",
+      "size": 1049,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/d69ea1c8cc814810a0186cfae7fb85768d0e010c"
+    },
+    {
+      "path": "tests/string/31753108.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9bfbdc1909a0cb15fc3e88ba351e2336d627faf7",
+      "size": 954,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9bfbdc1909a0cb15fc3e88ba351e2336d627faf7"
+    },
+    {
+      "path": "tests/string/34801680.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4af243a9e5c523c7445ce0893dd2712aacc5d5fb",
+      "size": 994,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/4af243a9e5c523c7445ce0893dd2712aacc5d5fb"
+    },
+    {
+      "path": "tests/string/35016216.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd8d14767f13b538876654475f2f218365919779",
+      "size": 1071,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/dd8d14767f13b538876654475f2f218365919779"
+    },
+    {
+      "path": "tests/string/35744094.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b4c00d10b94ea323d8459c57af7caec6520e4b6",
+      "size": 981,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/8b4c00d10b94ea323d8459c57af7caec6520e4b6"
+    },
+    {
+      "path": "tests/string/36462127.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e3db917303a133a6496cdbb2c002dce93686460",
+      "size": 854,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/8e3db917303a133a6496cdbb2c002dce93686460"
+    },
+    {
+      "path": "tests/string/37281007.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "642684382d3ccdabeae1ebdd5989db37fddd539b",
+      "size": 903,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/642684382d3ccdabeae1ebdd5989db37fddd539b"
+    },
+    {
+      "path": "tests/string/37534494.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3853f1899569a560ff93f2c583f844908fb2f6b8",
+      "size": 1110,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/3853f1899569a560ff93f2c583f844908fb2f6b8"
+    },
+    {
+      "path": "tests/string/38664547.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30f84d927bd51d01ac639c0e80351fe482455521",
+      "size": 1126,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/30f84d927bd51d01ac639c0e80351fe482455521"
+    },
+    {
+      "path": "tests/string/40498040.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f0587274980bbbd392acf3f6798ecec0f590036",
+      "size": 1131,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/8f0587274980bbbd392acf3f6798ecec0f590036"
+    },
+    {
+      "path": "tests/string/43120683.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d168227de134825cee669d405adce21fe62229e",
+      "size": 1022,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/3d168227de134825cee669d405adce21fe62229e"
+    },
+    {
+      "path": "tests/string/43606446.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df7ad3391dc64de1f42afc6c5b7a50fbe53fbbc1",
+      "size": 995,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/df7ad3391dc64de1f42afc6c5b7a50fbe53fbbc1"
+    },
+    {
+      "path": "tests/string/44789427.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d07281af0fbe24f6e091e65fb07e888f531d6e7b",
+      "size": 979,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/d07281af0fbe24f6e091e65fb07e888f531d6e7b"
+    },
+    {
+      "path": "tests/string/add-a-line-break-with-a-formula.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0528ef22a14d9aa0d3595382527df82a933e26e3",
+      "size": 1297,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/0528ef22a14d9aa0d3595382527df82a933e26e3"
+    },
+    {
+      "path": "tests/string/cell-contains-all-of-many-things.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e530a4045695d8e2beb781822417373822854582",
+      "size": 1241,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e530a4045695d8e2beb781822417373822854582"
+    },
+    {
+      "path": "tests/string/cell-contains-number.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebf22638cc8d036e938adf4ac415bb3a6bdb5cf5",
+      "size": 1014,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/ebf22638cc8d036e938adf4ac415bb3a6bdb5cf5"
+    },
+    {
+      "path": "tests/string/cell-contains-one-of-many-things.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e4c552cf71814364354dd545e00d9ebf5e2939b",
+      "size": 1213,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/0e4c552cf71814364354dd545e00d9ebf5e2939b"
+    },
+    {
+      "path": "tests/string/cell-contains-one-of-many-with-exclusions.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4da38eb1739a4414a1a3fb36e0b394461b8de950",
+      "size": 1290,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/4da38eb1739a4414a1a3fb36e0b394461b8de950"
+    },
+    {
+      "path": "tests/string/cell-contains-some-words-but-not-others.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "627c5830b5dde4cbe52680328a1168ace87db36b",
+      "size": 1255,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/627c5830b5dde4cbe52680328a1168ace87db36b"
+    },
+    {
+      "path": "tests/string/cell-contains-specific-text.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed726e8ea05168f5166e38aa7fb25514bdfa4609",
+      "size": 1023,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/ed726e8ea05168f5166e38aa7fb25514bdfa4609"
+    },
+    {
+      "path": "tests/string/cell-equals-one-of-many-things.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c60f94694db6effe2d8803ad8250665c2ac8c503",
+      "size": 1107,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/c60f94694db6effe2d8803ad8250665c2ac8c503"
+    },
+    {
+      "path": "tests/string/change-negative-numbers-to-positive.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "144e3c2b84b2bb843dba2a2053530be995c6e3a5",
+      "size": 936,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/144e3c2b84b2bb843dba2a2053530be995c6e3a5"
+    },
+    {
+      "path": "tests/string/clean-and-reformat-telephone-numbers.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "553244ef7ad2c1dc048595b58bd4142c9b877344",
+      "size": 886,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/553244ef7ad2c1dc048595b58bd4142c9b877344"
+    },
+    {
+      "path": "tests/string/compare-two-strings.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "718aace590f4630fc2f30a186e73c8538d43ef73",
+      "size": 976,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/718aace590f4630fc2f30a186e73c8538d43ef73"
+    },
+    {
+      "path": "tests/string/convert-numbers-to-text.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1501f6a97064063a475e1784384e788f666fb6eb",
+      "size": 855,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1501f6a97064063a475e1784384e788f666fb6eb"
+    },
+    {
+      "path": "tests/string/convert-text-to-numbers.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cb2115be89c107cad3d9930d1753d5ac4627821",
+      "size": 849,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/4cb2115be89c107cad3d9930d1753d5ac4627821"
+    },
+    {
+      "path": "tests/string/create-email-address-from-name.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c48bafc32ba64ee6234b5bee4b77e9c34085bcb",
+      "size": 1023,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/6c48bafc32ba64ee6234b5bee4b77e9c34085bcb"
+    },
+    {
+      "path": "tests/string/create-email-address-with-name-and-domain.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c65366b9792a56e38c484c8bfe6bb0b71a69c5d7",
+      "size": 1113,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/c65366b9792a56e38c484c8bfe6bb0b71a69c5d7"
+    },
+    {
+      "path": "tests/string/dr-name-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "14b02231947619844b59cce74fa3be175e8a4062",
+      "size": 8461,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/14b02231947619844b59cce74fa3be175e8a4062"
+    },
+    {
+      "path": "tests/string/dr-name-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "0a1e97fd14fa187b8f74f15d91454ebed74d2236",
+      "size": 3349,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/0a1e97fd14fa187b8f74f15d91454ebed74d2236"
+    },
+    {
+      "path": "tests/string/dr-name.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "5c255e0f51d8aceff71e482861fcb41c0e7712d4",
+      "size": 991,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/5c255e0f51d8aceff71e482861fcb41c0e7712d4"
+    },
+    {
+      "path": "tests/string/dr-name_small.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "5c255e0f51d8aceff71e482861fcb41c0e7712d4",
+      "size": 991,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/5c255e0f51d8aceff71e482861fcb41c0e7712d4"
+    },
+    {
+      "path": "tests/string/exceljet2.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3697d8ac7e53810265fdd46de8c8895b8d386c0e",
+      "size": 835,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/3697d8ac7e53810265fdd46de8c8895b8d386c0e"
+    },
+    {
+      "path": "tests/string/exceljet3.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0978668be57842912e6aeb4be785d750ec87035d",
+      "size": 914,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/0978668be57842912e6aeb4be785d750ec87035d"
+    },
+    {
+      "path": "tests/string/exceljet4.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67f2829de68d09d8f74abd0607ac613c8a73d2ac",
+      "size": 980,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/67f2829de68d09d8f74abd0607ac613c8a73d2ac"
+    },
+    {
+      "path": "tests/string/find-nth-occurrence-of-character.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba7f1d3201a160f49dc81261449cfe301f65af19",
+      "size": 925,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/ba7f1d3201a160f49dc81261449cfe301f65af19"
+    },
+    {
+      "path": "tests/string/firstname-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "1efcb50fa6fd36285df63e3ee03411838360ab19",
+      "size": 10285,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1efcb50fa6fd36285df63e3ee03411838360ab19"
+    },
+    {
+      "path": "tests/string/firstname-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "41889b50375429db31efe30d46556655dd1ce882",
+      "size": 3217,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/41889b50375429db31efe30d46556655dd1ce882"
+    },
+    {
+      "path": "tests/string/firstname.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "28d4c2e20011e006cfaec3bf061af198cf384fb6",
+      "size": 861,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/28d4c2e20011e006cfaec3bf061af198cf384fb6"
+    },
+    {
+      "path": "tests/string/firstname_small.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "28d4c2e20011e006cfaec3bf061af198cf384fb6",
+      "size": 861,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/28d4c2e20011e006cfaec3bf061af198cf384fb6"
+    },
+    {
+      "path": "tests/string/get-domain-from-email-address_2.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7e40d34716c6b4147aa13e7381472e00a63a973",
+      "size": 1037,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/b7e40d34716c6b4147aa13e7381472e00a63a973"
+    },
+    {
+      "path": "tests/string/get-domain-name-from-url.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c89e655fa694c9950b5ffcfbd0c8638e4bf99fe",
+      "size": 921,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9c89e655fa694c9950b5ffcfbd0c8638e4bf99fe"
+    },
+    {
+      "path": "tests/string/get-first-name-from-name-with-comma.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02b9801c5b72ad3d9651a404d47a3c22432bcf0d",
+      "size": 917,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/02b9801c5b72ad3d9651a404d47a3c22432bcf0d"
+    },
+    {
+      "path": "tests/string/get-first-name-from-name.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b119bea41550bf692ca6ced37ffd8123f4c76e1d",
+      "size": 932,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/b119bea41550bf692ca6ced37ffd8123f4c76e1d"
+    },
+    {
+      "path": "tests/string/get-first-word.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d9364c17313382ee68038773c8c312ac3529c39",
+      "size": 914,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/4d9364c17313382ee68038773c8c312ac3529c39"
+    },
+    {
+      "path": "tests/string/get-last-line-in-cell.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd00dc09ff800f161e00e21c2f31278aa3a09f20",
+      "size": 1010,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/bd00dc09ff800f161e00e21c2f31278aa3a09f20"
+    },
+    {
+      "path": "tests/string/get-last-name-from-name-with-comma.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e87c57115ff7591ec66d06080b8017ae86e013c",
+      "size": 864,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/6e87c57115ff7591ec66d06080b8017ae86e013c"
+    },
+    {
+      "path": "tests/string/get-last-name-from-name.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84045eb9b00dfcf7195fc338d2a74497c24aff1c",
+      "size": 928,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/84045eb9b00dfcf7195fc338d2a74497c24aff1c"
+    },
+    {
+      "path": "tests/string/get-last-word.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58d74bcfe0935488deca170cacb2c5514987b438",
+      "size": 865,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/58d74bcfe0935488deca170cacb2c5514987b438"
+    },
+    {
+      "path": "tests/string/get-middle-name-from-full-name.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b1a5b6d2bef92e33032dcaba3735d34ce10eab5",
+      "size": 891,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/5b1a5b6d2bef92e33032dcaba3735d34ce10eab5"
+    },
+    {
+      "path": "tests/string/initials-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "aa87666488b757ab93d2fd83bac37cc6f4c15167",
+      "size": 9740,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/aa87666488b757ab93d2fd83bac37cc6f4c15167"
+    },
+    {
+      "path": "tests/string/initials-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "4d2384c907947a93c9254073b852146edbe1695c",
+      "size": 3017,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/4d2384c907947a93c9254073b852146edbe1695c"
+    },
+    {
+      "path": "tests/string/initials.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "5798c74b8d5e2e1f6874dee7af14d28c4fc95d5e",
+      "size": 776,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/5798c74b8d5e2e1f6874dee7af14d28c4fc95d5e"
+    },
+    {
+      "path": "tests/string/initials_small.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "5798c74b8d5e2e1f6874dee7af14d28c4fc95d5e",
+      "size": 776,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/5798c74b8d5e2e1f6874dee7af14d28c4fc95d5e"
+    },
+    {
+      "path": "tests/string/join-cells-with-comma.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42c6fde482f3edc14086e62da727032fab09f80c",
+      "size": 1085,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/42c6fde482f3edc14086e62da727032fab09f80c"
+    },
+    {
+      "path": "tests/string/join-first-and-last-name.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21591354af95c39b18c27ec20ccb136356624734",
+      "size": 920,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/21591354af95c39b18c27ec20ccb136356624734"
+    },
+    {
+      "path": "tests/string/lastname-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "629eed70943aca899239611e36c2b9f3c8355b73",
+      "size": 10357,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/629eed70943aca899239611e36c2b9f3c8355b73"
+    },
+    {
+      "path": "tests/string/lastname-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "a221029daadc31632b85e960b4143d0a58bc3a20",
+      "size": 3256,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/a221029daadc31632b85e960b4143d0a58bc3a20"
+    },
+    {
+      "path": "tests/string/lastname.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "c800b8db58d8fe9960af0e6ce57c01bc3a2610ed",
+      "size": 889,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/c800b8db58d8fe9960af0e6ce57c01bc3a2610ed"
+    },
+    {
+      "path": "tests/string/lastname_small.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "c800b8db58d8fe9960af0e6ce57c01bc3a2610ed",
+      "size": 889,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/c800b8db58d8fe9960af0e6ce57c01bc3a2610ed"
+    },
+    {
+      "path": "tests/string/most-frequently-occurring-text.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e876d8156466f7c74c77ccdad85b41ae83db7f5d",
+      "size": 1069,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e876d8156466f7c74c77ccdad85b41ae83db7f5d"
+    },
+    {
+      "path": "tests/string/phone-1-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "5c4fa9a78a3e1f2b5dcd87a9e4f32f6bb602da2c",
+      "size": 17062,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/5c4fa9a78a3e1f2b5dcd87a9e4f32f6bb602da2c"
+    },
+    {
+      "path": "tests/string/phone-1-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "b1d3767020bdeec3cdb90c0d39a181e9e6c30493",
+      "size": 4762,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/b1d3767020bdeec3cdb90c0d39a181e9e6c30493"
+    },
+    {
+      "path": "tests/string/phone-1.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "1e02066c1800b1dd1b3596c7d1960747c64e915b",
+      "size": 908,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1e02066c1800b1dd1b3596c7d1960747c64e915b"
+    },
+    {
+      "path": "tests/string/phone-10-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "64cf5c5f68e684829a54966f6b68b67a6faad9db",
+      "size": 24586,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/64cf5c5f68e684829a54966f6b68b67a6faad9db"
+    },
+    {
+      "path": "tests/string/phone-10-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "0b2924472e53a0f78e7ee2d8129f212484271795",
+      "size": 6646,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/0b2924472e53a0f78e7ee2d8129f212484271795"
+    },
+    {
+      "path": "tests/string/phone-10.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "edc66cae947a1e957e9493d6f8901087d47fd7af",
+      "size": 1081,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/edc66cae947a1e957e9493d6f8901087d47fd7af"
+    },
+    {
+      "path": "tests/string/phone-10_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "edc66cae947a1e957e9493d6f8901087d47fd7af",
+      "size": 1081,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/edc66cae947a1e957e9493d6f8901087d47fd7af"
+    },
+    {
+      "path": "tests/string/phone-1_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "1e02066c1800b1dd1b3596c7d1960747c64e915b",
+      "size": 908,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1e02066c1800b1dd1b3596c7d1960747c64e915b"
+    },
+    {
+      "path": "tests/string/phone-2-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "154c9b5308fa6846366678b3040b0900d881d6cd",
+      "size": 17068,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/154c9b5308fa6846366678b3040b0900d881d6cd"
+    },
+    {
+      "path": "tests/string/phone-2-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "8aac81a762c966ddb693e8c73aaf10e4a9cb4ff1",
+      "size": 4768,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/8aac81a762c966ddb693e8c73aaf10e4a9cb4ff1"
+    },
+    {
+      "path": "tests/string/phone-2.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "816c13de42e0a4dce2bf5426d35e32b6fb11e42b",
+      "size": 914,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/816c13de42e0a4dce2bf5426d35e32b6fb11e42b"
+    },
+    {
+      "path": "tests/string/phone-2_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "816c13de42e0a4dce2bf5426d35e32b6fb11e42b",
+      "size": 914,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/816c13de42e0a4dce2bf5426d35e32b6fb11e42b"
+    },
+    {
+      "path": "tests/string/phone-3-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "4e61f48def8b6f25265167c0019bc55669d1716b",
+      "size": 21105,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/4e61f48def8b6f25265167c0019bc55669d1716b"
+    },
+    {
+      "path": "tests/string/phone-3-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "f2c54461ffa3b6142125198e47e8d1be40434e1b",
+      "size": 5805,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/f2c54461ffa3b6142125198e47e8d1be40434e1b"
+    },
+    {
+      "path": "tests/string/phone-3.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "c28da37550845a75da4fdb6b350324316034ff89",
+      "size": 1062,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/c28da37550845a75da4fdb6b350324316034ff89"
+    },
+    {
+      "path": "tests/string/phone-3_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "c28da37550845a75da4fdb6b350324316034ff89",
+      "size": 1062,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/c28da37550845a75da4fdb6b350324316034ff89"
+    },
+    {
+      "path": "tests/string/phone-4-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "ce76184750fdc8d1169e4acae30ae240435ec0b4",
+      "size": 20305,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/ce76184750fdc8d1169e4acae30ae240435ec0b4"
+    },
+    {
+      "path": "tests/string/phone-4-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "e3c443b6fff0150f6e59e258cca4620b5da9e659",
+      "size": 5605,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e3c443b6fff0150f6e59e258cca4620b5da9e659"
+    },
+    {
+      "path": "tests/string/phone-4.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "02907151effedbcb5f41f9f05ea3207be79750ca",
+      "size": 999,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/02907151effedbcb5f41f9f05ea3207be79750ca"
+    },
+    {
+      "path": "tests/string/phone-4_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "02907151effedbcb5f41f9f05ea3207be79750ca",
+      "size": 999,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/02907151effedbcb5f41f9f05ea3207be79750ca"
+    },
+    {
+      "path": "tests/string/phone-5-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "e5fcb5f8c174d44dcce6aa0f77abf5be46506d10",
+      "size": 18532,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e5fcb5f8c174d44dcce6aa0f77abf5be46506d10"
+    },
+    {
+      "path": "tests/string/phone-5-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "b009e3ac787b6720b3ca01e335161a01dea6494e",
+      "size": 5092,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/b009e3ac787b6720b3ca01e335161a01dea6494e"
+    },
+    {
+      "path": "tests/string/phone-5-short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "1b4519b6e04dcda47a13bfc55166f6abe43242ec",
+      "size": 922,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1b4519b6e04dcda47a13bfc55166f6abe43242ec"
+    },
+    {
+      "path": "tests/string/phone-5.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "1b4519b6e04dcda47a13bfc55166f6abe43242ec",
+      "size": 922,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1b4519b6e04dcda47a13bfc55166f6abe43242ec"
+    },
+    {
+      "path": "tests/string/phone-6-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "17dcf119c1fd4171e7d1b1fe8ecd64dd7bb4bcb6",
+      "size": 18772,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/17dcf119c1fd4171e7d1b1fe8ecd64dd7bb4bcb6"
+    },
+    {
+      "path": "tests/string/phone-6-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "19dc98d5d124a2b56fbcf6f775d5b388ab6d1b07",
+      "size": 5152,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/19dc98d5d124a2b56fbcf6f775d5b388ab6d1b07"
+    },
+    {
+      "path": "tests/string/phone-6-short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "a94e876bf7ca73080b9a11f361613003bf567dfd",
+      "size": 928,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/a94e876bf7ca73080b9a11f361613003bf567dfd"
+    },
+    {
+      "path": "tests/string/phone-6.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "a94e876bf7ca73080b9a11f361613003bf567dfd",
+      "size": 928,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/a94e876bf7ca73080b9a11f361613003bf567dfd"
+    },
+    {
+      "path": "tests/string/phone-7-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "9ce504431b3ad10aa214a10959cf30efbb8aa46f",
+      "size": 18772,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9ce504431b3ad10aa214a10959cf30efbb8aa46f"
+    },
+    {
+      "path": "tests/string/phone-7-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "215fd7649f3b820fcc833dce27b1ea803f297505",
+      "size": 5152,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/215fd7649f3b820fcc833dce27b1ea803f297505"
+    },
+    {
+      "path": "tests/string/phone-7-short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "435c65799ebbe29ab2da869ec28d666c73835903",
+      "size": 928,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/435c65799ebbe29ab2da869ec28d666c73835903"
+    },
+    {
+      "path": "tests/string/phone-7.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "435c65799ebbe29ab2da869ec28d666c73835903",
+      "size": 928,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/435c65799ebbe29ab2da869ec28d666c73835903"
+    },
+    {
+      "path": "tests/string/phone-8-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "a423d614d23b85e024d76ed2706897d9db456b5f",
+      "size": 18853,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/a423d614d23b85e024d76ed2706897d9db456b5f"
+    },
+    {
+      "path": "tests/string/phone-8-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "b158ed0deed1f6c8e76c932ee9cf83e453d909df",
+      "size": 5233,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/b158ed0deed1f6c8e76c932ee9cf83e453d909df"
+    },
+    {
+      "path": "tests/string/phone-8.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "9d74ceb6f9bfc5b39bf25ed8496378eb44cf179c",
+      "size": 1009,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9d74ceb6f9bfc5b39bf25ed8496378eb44cf179c"
+    },
+    {
+      "path": "tests/string/phone-8_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "466c97a25ae295b6874f8ce484ab9256dfc402bf",
+      "size": 1005,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/466c97a25ae295b6874f8ce484ab9256dfc402bf"
+    },
+    {
+      "path": "tests/string/phone-9-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "aac78d3d1e0ef5c131af820d7a1e8dc0c26b60fd",
+      "size": 23332,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/aac78d3d1e0ef5c131af820d7a1e8dc0c26b60fd"
+    },
+    {
+      "path": "tests/string/phone-9-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "8b0a158b3a94045e6d781a0a303e3460934046ec",
+      "size": 6292,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/8b0a158b3a94045e6d781a0a303e3460934046ec"
+    },
+    {
+      "path": "tests/string/phone-9-short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "504052131be004c267b76408a1d22e89472ae15e",
+      "size": 1006,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/504052131be004c267b76408a1d22e89472ae15e"
+    },
+    {
+      "path": "tests/string/phone-9.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "504052131be004c267b76408a1d22e89472ae15e",
+      "size": 1006,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/504052131be004c267b76408a1d22e89472ae15e"
+    },
+    {
+      "path": "tests/string/phone-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "aa7ca851c7ed51e083dc50e28a7284a384db0247",
+      "size": 17062,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/aa7ca851c7ed51e083dc50e28a7284a384db0247"
+    },
+    {
+      "path": "tests/string/phone-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "f4e48949d96bd310fd22a4a57d6d94d0dc0f4a99",
+      "size": 4762,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/f4e48949d96bd310fd22a4a57d6d94d0dc0f4a99"
+    },
+    {
+      "path": "tests/string/phone.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "7dfc6b70b0fcc16cb046c9011cad8334cf32202f",
+      "size": 908,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/7dfc6b70b0fcc16cb046c9011cad8334cf32202f"
+    },
+    {
+      "path": "tests/string/phone_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "bb702f449c82c9c24627171fb91294b94edea7b2",
+      "size": 905,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/bb702f449c82c9c24627171fb91294b94edea7b2"
+    },
+    {
+      "path": "tests/string/position-of-2nd-3rd-etc-instance-of-character.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37aacc77096949c6fbe56dd91849518ad48bc900",
+      "size": 949,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/37aacc77096949c6fbe56dd91849518ad48bc900"
+    },
+    {
+      "path": "tests/string/remove-characters-from-left.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "708af5837f7e69b1daedc328e30e9482be175ebb",
+      "size": 939,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/708af5837f7e69b1daedc328e30e9482be175ebb"
+    },
+    {
+      "path": "tests/string/remove-characters-from-right.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53e2beaa50064e566f4682d66078f9b06470317c",
+      "size": 953,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/53e2beaa50064e566f4682d66078f9b06470317c"
+    },
+    {
+      "path": "tests/string/remove-file-extension-from-filename.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "429bc58aa949d4ded8465248e7a4aa705d65017b",
+      "size": 1013,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/429bc58aa949d4ded8465248e7a4aa705d65017b"
+    },
+    {
+      "path": "tests/string/remove-leading-and-trailing-spaces-from-text.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de477c845909db3cb7d216f2d419a22ca9fe3994",
+      "size": 1171,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/de477c845909db3cb7d216f2d419a22ca9fe3994"
+    },
+    {
+      "path": "tests/string/remove-text-by-matching.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dd6587db171dd8b4aebfbe8c51d91c6521671ba",
+      "size": 897,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1dd6587db171dd8b4aebfbe8c51d91c6521671ba"
+    },
+    {
+      "path": "tests/string/remove-text-by-position.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d103dc4fcf609825146f28d6e61b09eead2e6cf",
+      "size": 907,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/4d103dc4fcf609825146f28d6e61b09eead2e6cf"
+    },
+    {
+      "path": "tests/string/remove-unwanted-characters.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "911b37bc193c3234eaed6da90308882d48d12c45",
+      "size": 1061,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/911b37bc193c3234eaed6da90308882d48d12c45"
+    },
+    {
+      "path": "tests/string/replace-one-character-with-another.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4e395d18697e3b0542dc5e37bc01b40e42e07e0",
+      "size": 914,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e4e395d18697e3b0542dc5e37bc01b40e42e07e0"
+    },
+    {
+      "path": "tests/string/reverse-name-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "112c4cbcc57610fd9681c9bb5f02e99ae22efe8b",
+      "size": 12063,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/112c4cbcc57610fd9681c9bb5f02e99ae22efe8b"
+    },
+    {
+      "path": "tests/string/reverse-name-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "85a2319801b9691a8542d511ccda4d9d3aa8ea27",
+      "size": 3567,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/85a2319801b9691a8542d511ccda4d9d3aa8ea27"
+    },
+    {
+      "path": "tests/string/reverse-name.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "adcda8ffd2dd5d66d4756aeca5eab9e3d18b1709",
+      "size": 1071,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/adcda8ffd2dd5d66d4756aeca5eab9e3d18b1709"
+    },
+    {
+      "path": "tests/string/reverse-name_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "adcda8ffd2dd5d66d4756aeca5eab9e3d18b1709",
+      "size": 1071,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/adcda8ffd2dd5d66d4756aeca5eab9e3d18b1709"
+    },
+    {
+      "path": "tests/string/split-numbers-from-units-of-measure_1.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2600bf502d0c44f52793224e6d2d2f2520000bef",
+      "size": 970,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/2600bf502d0c44f52793224e6d2d2f2520000bef"
+    },
+    {
+      "path": "tests/string/split-numbers-from-units-of-measure_2.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4e90a5d0696a756e7eb57c311778c1f0fdaced3",
+      "size": 979,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e4e90a5d0696a756e7eb57c311778c1f0fdaced3"
+    },
+    {
+      "path": "tests/string/split-text-and-numbers.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "279f8e3731e782d2894f64eea42f82c54c07a6b3",
+      "size": 990,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/279f8e3731e782d2894f64eea42f82c54c07a6b3"
+    },
+    {
+      "path": "tests/string/split-text-string-at-specific-character.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b71a39d4fe813b62ae9719c0f61d785f45dd03e6",
+      "size": 975,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/b71a39d4fe813b62ae9719c0f61d785f45dd03e6"
+    },
+    {
+      "path": "tests/string/stackoverflow1.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00d608f791110126c8c867beed3a06613732a9ab",
+      "size": 909,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/00d608f791110126c8c867beed3a06613732a9ab"
+    },
+    {
+      "path": "tests/string/stackoverflow11.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db14b9ab27bf8b4ecadd7df6a830d1d59e66f45a",
+      "size": 1075,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/db14b9ab27bf8b4ecadd7df6a830d1d59e66f45a"
+    },
+    {
+      "path": "tests/string/stackoverflow2.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19a9023abe280749e7bf20130df4c453e89bb8b7",
+      "size": 886,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/19a9023abe280749e7bf20130df4c453e89bb8b7"
+    },
+    {
+      "path": "tests/string/stackoverflow3.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8e8a136db49a5be960c025b33333746052ec532",
+      "size": 978,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/e8e8a136db49a5be960c025b33333746052ec532"
+    },
+    {
+      "path": "tests/string/stackoverflow4.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b8a387a37dc512a3b2ed055d1facf71481209ed",
+      "size": 890,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/8b8a387a37dc512a3b2ed055d1facf71481209ed"
+    },
+    {
+      "path": "tests/string/stackoverflow5.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fc9d0f03859e1847b0e6c71ef559a16699fd7d1",
+      "size": 913,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/5fc9d0f03859e1847b0e6c71ef559a16699fd7d1"
+    },
+    {
+      "path": "tests/string/stackoverflow6.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78047bc77dfc4169670123081605e0af65422535",
+      "size": 925,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/78047bc77dfc4169670123081605e0af65422535"
+    },
+    {
+      "path": "tests/string/stackoverflow7.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7583ab84e4c383a59bdb13fc92122f37b1dc4abb",
+      "size": 917,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/7583ab84e4c383a59bdb13fc92122f37b1dc4abb"
+    },
+    {
+      "path": "tests/string/stackoverflow8.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e39be97f07425c6ae65c3b773c5ccf52546b33c",
+      "size": 901,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/8e39be97f07425c6ae65c3b773c5ccf52546b33c"
+    },
+    {
+      "path": "tests/string/stackoverflow9.sl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cf51f2419471251d6ed370bad4a851542460b48",
+      "size": 876,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/2cf51f2419471251d6ed370bad4a851542460b48"
+    },
+    {
+      "path": "tests/string/univ_1-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "f5678be3c935de8b50e7edcc7aad301e2ffd090b",
+      "size": 3586,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/f5678be3c935de8b50e7edcc7aad301e2ffd090b"
+    },
+    {
+      "path": "tests/string/univ_1-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "9dfc13cdea6a82f5e3940be95c3859b09e5095e2",
+      "size": 2694,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9dfc13cdea6a82f5e3940be95c3859b09e5095e2"
+    },
+    {
+      "path": "tests/string/univ_1.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "bf66b0ff25159709a7e5c40eba22671d00dd79ed",
+      "size": 1535,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/bf66b0ff25159709a7e5c40eba22671d00dd79ed"
+    },
+    {
+      "path": "tests/string/univ_1_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "a7f126353b6224a87224ed145099352edbd50f0f",
+      "size": 1405,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/a7f126353b6224a87224ed145099352edbd50f0f"
+    },
+    {
+      "path": "tests/string/univ_2-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "abe6e33279e48f9d78021dc1d7edb082447ff877",
+      "size": 3771,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/abe6e33279e48f9d78021dc1d7edb082447ff877"
+    },
+    {
+      "path": "tests/string/univ_2-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "af0e96c57e7f460accaa8f7f3e2c8a0f92e928bc",
+      "size": 2849,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/af0e96c57e7f460accaa8f7f3e2c8a0f92e928bc"
+    },
+    {
+      "path": "tests/string/univ_2.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "9449e474eb913df836b951f87551207a4225f8d1",
+      "size": 1477,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9449e474eb913df836b951f87551207a4225f8d1"
+    },
+    {
+      "path": "tests/string/univ_2_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "9449e474eb913df836b951f87551207a4225f8d1",
+      "size": 1477,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/9449e474eb913df836b951f87551207a4225f8d1"
+    },
+    {
+      "path": "tests/string/univ_3-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "02223bcf5a5477374fb1941416440e2bba062c87",
+      "size": 3148,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/02223bcf5a5477374fb1941416440e2bba062c87"
+    },
+    {
+      "path": "tests/string/univ_3-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "f6e73db23b05bbb7ec1b8660f4537165e7714d7c",
+      "size": 2442,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/f6e73db23b05bbb7ec1b8660f4537165e7714d7c"
+    },
+    {
+      "path": "tests/string/univ_3.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "d5aaac207eddfdc7d5fe6fcd4ba4b3486891849c",
+      "size": 1315,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/d5aaac207eddfdc7d5fe6fcd4ba4b3486891849c"
+    },
+    {
+      "path": "tests/string/univ_3_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "75a18397f111c901545a5c01494e24a758e76dce",
+      "size": 1313,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/75a18397f111c901545a5c01494e24a758e76dce"
+    },
+    {
+      "path": "tests/string/univ_4-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "70aed6dd37872552c7ffe932c76a0490b14bf4ba",
+      "size": 2993,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/70aed6dd37872552c7ffe932c76a0490b14bf4ba"
+    },
+    {
+      "path": "tests/string/univ_4-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "190b3b7c443677c6f4cfb41923a1126e3044e676",
+      "size": 2304,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/190b3b7c443677c6f4cfb41923a1126e3044e676"
+    },
+    {
+      "path": "tests/string/univ_4.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "319669f548589559cf3d8e602573b08982e41ce6",
+      "size": 1340,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/319669f548589559cf3d8e602573b08982e41ce6"
+    },
+    {
+      "path": "tests/string/univ_4_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "319669f548589559cf3d8e602573b08982e41ce6",
+      "size": 1340,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/319669f548589559cf3d8e602573b08982e41ce6"
+    },
+    {
+      "path": "tests/string/univ_5-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "b74d3251a9b5d3f8a92c2f4b4b5595b436f58c4d",
+      "size": 3078,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/b74d3251a9b5d3f8a92c2f4b4b5595b436f58c4d"
+    },
+    {
+      "path": "tests/string/univ_5-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "13d87dc05b50bd918b35e7b0a667bad0abbb7dab",
+      "size": 2378,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/13d87dc05b50bd918b35e7b0a667bad0abbb7dab"
+    },
+    {
+      "path": "tests/string/univ_5.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "222734bd900343b08028b55c9553c832697def98",
+      "size": 1413,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/222734bd900343b08028b55c9553c832697def98"
+    },
+    {
+      "path": "tests/string/univ_5_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "ec705c716f9b86f77a38bfc4066a7921a90d6d2f",
+      "size": 1414,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/ec705c716f9b86f77a38bfc4066a7921a90d6d2f"
+    },
+    {
+      "path": "tests/string/univ_6-long-repeat.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "ecf9ad5d778f563fc1af629f371ba4bbd96747d6",
+      "size": 3296,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/ecf9ad5d778f563fc1af629f371ba4bbd96747d6"
+    },
+    {
+      "path": "tests/string/univ_6-long.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "0142d992acdca3294d07e5a5bf9029b27a873b8d",
+      "size": 2519,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/0142d992acdca3294d07e5a5bf9029b27a873b8d"
+    },
+    {
+      "path": "tests/string/univ_6.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "895d44eb15feda469a4a2ba414543fb3f54add93",
+      "size": 1555,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/895d44eb15feda469a4a2ba414543fb3f54add93"
+    },
+    {
+      "path": "tests/string/univ_6_short.sl",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "1203f0c2b3813fd4427fb1547891aab1f174c472",
+      "size": 1340,
+      "url": "https://api.github.com/repos/wslee/duet/git/blobs/1203f0c2b3813fd4427fb1547891aab1f174c472"
+    }
+  ]
+}

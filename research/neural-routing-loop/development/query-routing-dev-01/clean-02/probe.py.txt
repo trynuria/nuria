@@ -1,0 +1,90 @@
+"""DEV only: metered correlated joins over pinned real bike-rental records."""
+from pathlib import Path
+import csv,ctypes,hashlib,io,json,time,zipfile,collections
+import numpy as np
+from cognition.sqlite_lab import _SQLite,ARCHIVE_SHA256,CSV_SHA256
+P=Path(__file__).parent
+archive=Path('./research/intervention-memory/data/bike-sharing-original.zip').read_bytes()
+assert hashlib.sha256(archive).hexdigest()==ARCHIVE_SHA256
+raw=zipfile.ZipFile(io.BytesIO(archive)).read('hour.csv');assert hashlib.sha256(raw).hexdigest()==CSV_SHA256
+records=list(csv.DictReader(io.StringIO(raw.decode())));assert len(records)==17379
+api=_SQLite();db=api.open()
+PROGRESS=ctypes.CFUNCTYPE(ctypes.c_int,ctypes.c_void_p);api.lib.sqlite3_progress_handler.argtypes=[ctypes.c_void_p,ctypes.c_int,PROGRESS,ctypes.c_void_p];api.lib.sqlite3_progress_handler.restype=None
+NONE=PROGRESS()
+def meter(sql,params=(),cap=2_000_000):
+ state={'progress_calls':0};began=time.process_time()
+ @PROGRESS
+ def callback(_):
+  state['progress_calls']+=1
+  return int(state['progress_calls']*100>=cap)
+ stmt=api.prepare(db,sql);rows=[];aborted=False
+ api.lib.sqlite3_progress_handler(db,100,callback,None)
+ try:
+  for i,v in enumerate(params,1):api.check(db,api.lib.sqlite3_bind_int64(stmt,i,int(v)))
+  while True:
+   code=api.lib.sqlite3_step(stmt)
+   if code==101:break
+   if code==9:aborted=True;break
+   if code!=100:api.check(db,code)
+   out=[]
+   for col in range(api.lib.sqlite3_column_count(stmt)):
+    kind=api.lib.sqlite3_column_type(stmt,col)
+    out.append(None if kind==5 else int(api.lib.sqlite3_column_int64(stmt,col)))
+   rows.append(out)
+  work=int(api.lib.sqlite3_stmt_status(stmt,4,0))
+  return {'rows':rows,'vm_steps':work,'progress_calls':state['progress_calls'],'guard_aborted':aborted,'cpu_seconds':time.process_time()-began,'result_sha256':hashlib.sha256(json.dumps(rows,separators=(',',':')).encode()).hexdigest() if not aborted else None}
+ finally:
+  api.lib.sqlite3_progress_handler(db,0,NONE,None);api.lib.sqlite3_finalize(stmt)
+setup=[]
+def sql(q):
+ v=meter(q,cap=10_000_000);assert not v['guard_aborted'];setup.append({'sql':q,'vm_steps':v['vm_steps']})
+for q in ('PRAGMA automatic_index=OFF','PRAGMA temp_store=MEMORY','CREATE TABLE calendar(id INTEGER PRIMARY KEY,month INTEGER NOT NULL,weekday INTEGER NOT NULL,working INTEGER NOT NULL)','CREATE TABLE weather(id INTEGER PRIMARY KEY,condition INTEGER NOT NULL,tempbin INTEGER NOT NULL,humiditybin INTEGER NOT NULL,season INTEGER NOT NULL)','CREATE TABLE rental(id INTEGER PRIMARY KEY,day INTEGER NOT NULL,weather INTEGER NOT NULL,hr INTEGER NOT NULL,cnt INTEGER NOT NULL)'):sql(q)
+dates={};weather={};facts=[]
+for r in records:
+ key=r['dteday']
+ if key not in dates:dates[key]=(len(dates)+1,int(r['mnth']),int(r['weekday']),int(r['workingday']))
+ w=(int(r['weathersit']),min(19,int(float(r['temp'])*20)),min(9,int(float(r['hum'])*10)),int(r['season']))
+ if w not in weather:weather[w]=(len(weather)+1,*w)
+ facts.append((int(r['instant']),dates[key][0],weather[w][0],int(r['hr']),int(r['cnt'])))
+def insert(table,values):
+ values=list(values);marks=','.join('?' for _ in values[0]);stmt=api.prepare(db,f'INSERT INTO {table} VALUES({marks})');began=time.process_time();api.run(db,'BEGIN')
+ try:
+  for row in values:
+   for i,v in enumerate(row,1):api.check(db,api.lib.sqlite3_bind_int64(stmt,i,v))
+   code=api.lib.sqlite3_step(stmt)
+   if code!=101:api.check(db,code)
+   api.check(db,api.lib.sqlite3_reset(stmt))
+  steps=int(api.lib.sqlite3_stmt_status(stmt,4,0));api.run(db,'COMMIT');setup.append({'operation':f'insert_{table}','rows':len(values),'vm_steps':steps,'cpu_seconds':time.process_time()-began})
+ finally:api.lib.sqlite3_finalize(stmt)
+insert('calendar',dates.values());insert('weather',weather.values());insert('rental',facts)
+for q in ('CREATE INDEX calendar_filter ON calendar(weekday,month,id)','CREATE INDEX weather_filter ON weather(condition,tempbin,id)','CREATE INDEX rental_day ON rental(day,hr,weather,cnt)','CREATE INDEX rental_weather ON rental(weather,hr,day,cnt)','ANALYZE','PRAGMA optimize','PRAGMA query_only=ON'):sql(q)
+WHERE=' WHERE f.day=c.id AND f.weather=w.id AND c.month BETWEEN ? AND ? AND c.weekday=? AND w.tempbin BETWEEN ? AND ? AND w.condition=? AND f.hr BETWEEN ? AND ?'
+SELECT='SELECT COUNT(*),COALESCE(SUM(f.cnt),0),COALESCE(SUM(f.cnt*f.hr),0) FROM '
+plans={'sqlite_planner':SELECT+'rental f JOIN calendar c ON f.day=c.id JOIN weather w ON f.weather=w.id'+WHERE,'calendar_first':SELECT+'calendar c INDEXED BY calendar_filter CROSS JOIN rental f INDEXED BY rental_day CROSS JOIN weather w'+WHERE,'weather_first':SELECT+'weather w INDEXED BY weather_filter CROSS JOIN rental f INDEXED BY rental_weather CROSS JOIN calendar c'+WHERE,'fact_scan':SELECT+'rental f NOT INDEXED CROSS JOIN calendar c CROSS JOIN weather w'+WHERE}
+dimday={v[0]:v for v in dates.values()};dimweather={v[0]:v for v in weather.values()}
+sourcehash=hashlib.sha256(Path(__file__).read_bytes()).hexdigest();rng=np.random.default_rng(20261024);queries=[]
+for number in range(120):
+ ml=int(rng.choice((1,2,6,12)));mlo=int(rng.integers(1,14-ml));mhi=mlo+ml-1
+ tl=int(rng.choice((1,3,10,20)));tlo=int(rng.integers(0,21-tl));thi=tlo+tl-1
+ hl=int(rng.choice((1,4,12,24)));hlo=int(rng.integers(0,25-hl));hhi=hlo+hl-1
+ params=(mlo,mhi,int(rng.integers(0,7)),tlo,thi,int(rng.choice((1,2,3),p=(.5,.35,.15))),hlo,hhi)
+ selected={name:meter(query,params) for name,query in plans.items()}
+ checks={v['result_sha256'] for v in selected.values()};assert None not in checks and len(checks)==1
+ # Strong marginal reference: exact qualifying fact cardinalities from public
+ # input records, not measured plan costs. Its scan CPU/startup burden is explicit.
+ begun=time.process_time();cm=wm=0;expected=[0,0,0]
+ for f in facts:
+  day=dimday[f[1]];we=dimweather[f[2]]
+  if not hlo<=f[3]<=hhi:continue
+  calendar_ok=mlo<=day[1]<=mhi and day[2]==params[2];weather_ok=tlo<=we[2]<=thi and we[1]==params[5]
+  cm+=int(calendar_ok);wm+=int(weather_ok)
+  if calendar_ok and weather_ok:expected[0]+=1;expected[1]+=f[4];expected[2]+=f[4]*f[3]
+ selectivity='calendar_first' if cm<=wm else 'weather_first';feature_cpu=time.process_time()-begun
+ assert all(v['rows']==[expected] for v in selected.values())
+ queries.append({'id':number,'parameters':params,'plans':selected,'exact_marginal_rows':{'calendar':cm,'weather':wm},'selectivity_rule':selectivity,'marginal_feature_scan_rows':len(facts),'marginal_feature_cpu_seconds':feature_cpu})
+ if (number+1)%30==0:print(number+1,flush=True)
+(P/'queries.json').write_text(json.dumps(queries,indent=2)+'\n')
+sums={name:{'vm_steps':sum(q['plans'][name]['vm_steps'] for q in queries),'cpu_seconds':sum(q['plans'][name]['cpu_seconds'] for q in queries),'wins':sum(q['plans'][name]['vm_steps']==min(v['vm_steps'] for v in q['plans'].values()) for q in queries)} for name in plans}
+best=min(sums,key=lambda name:sums[name]['vm_steps']);oracle=sum(min(v['vm_steps'] for v in q['plans'].values()) for q in queries);rule=sum(q['plans'][q['selectivity_rule']]['vm_steps'] for q in queries)
+report={'scope':'DEV metered three-table inner joins over normalized real UCI Bike Sharing data; experimental schema and generated readonly query parameters, not production workloads or a neural result. All four physicalplan options share indices and analyzeddata. INDEXED BY is mandatory, CROSSJOIN fixesinner looporder, no affinity coercion. Native VMsteps are a work proxy, not latency/energy; CPU separate.','archive_sha256':ARCHIVE_SHA256,'csv_sha256':CSV_SHA256,'rows':{'rental':len(facts),'calendar':len(dates),'weather':len(weather)},'queries':len(queries),'plan_sql':plans,'sqlite_version':api.version,'sqlite_source_id':api.source_id,'source_sha256':sourcehash,'plans':sums,'best_fixed':best,'oracle_best_vm_steps':oracle,'selectivity_rule_vm_steps':rule,'marginal_rule_feature_cpu_seconds':sum(q['marginal_feature_cpu_seconds'] for q in queries),'marginal_rule_feature_rows_scanned':sum(q['marginal_feature_scan_rows'] for q in queries),'all_result_checksums_equal':True,'independent_python_aggregate_matches_all':True,'guard':{'per_plan_vm_limit':2000000,'progress_interval':100,'native_counter_exact':True,'all_guards_passed':all(not v['guard_aborted'] for q in queries for v in q['plans'].values())},'setup':setup}
+(P/'summary.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2));api.close(db)

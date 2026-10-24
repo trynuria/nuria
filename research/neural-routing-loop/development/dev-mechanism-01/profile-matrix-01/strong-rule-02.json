@@ -1,0 +1,18 @@
+{
+  "scope": "Additional explicit strong DEV heuristic, designed from operation semantics and known developmental boundary. No learned result or held-out qualification. Uses onlysame4auditfeatures; excludesuppercaseconstraintofinitialrule. Keepbothdevelopmentattempts.",
+  "rule": "slice-first iff casefoldsubstringmatch>=.75, everydirect/strip/caseprojectionmatch<.75, aggregateoutputlength/256<=.065; defaultotherwise",
+  "results": {
+    "authored": {
+      "jobs": 384,
+      "accepted": 333,
+      "wrong": 1,
+      "work": 7003319
+    },
+    "duet": {
+      "jobs": 43,
+      "accepted": 22,
+      "wrong": 1,
+      "work": 185150
+    }
+  }
+}

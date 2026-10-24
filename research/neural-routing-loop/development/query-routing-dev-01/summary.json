@@ -1,0 +1,122 @@
+{
+  "scope": "DEV metered three-table inner joins over normalized real UCI Bike Sharing data; experimental schema and generated readonly query parameters, not production workloads or a neural result. All four physicalplan options share indices and analyzeddata. INDEXED BY is mandatory, CROSSJOIN fixesinner looporder, no affinity coercion. Native VMsteps are a work proxy, not latency/energy; CPU separate.",
+  "archive_sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+  "csv_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+  "rows": {
+    "rental": 17379,
+    "calendar": 731,
+    "weather": 826
+  },
+  "queries": 120,
+  "plan_sql": {
+    "sqlite_planner": "SELECT COUNT(*),COALESCE(SUM(f.cnt),0),COALESCE(SUM(f.cnt*f.hr),0) FROM rental f JOIN calendar c ON f.day=c.id JOIN weather w ON f.weather=w.id WHERE f.day=c.id AND f.weather=w.id AND c.month BETWEEN ? AND ? AND c.weekday=? AND w.tempbin BETWEEN ? AND ? AND w.condition=? AND f.hr BETWEEN ? AND ?",
+    "calendar_first": "SELECT COUNT(*),COALESCE(SUM(f.cnt),0),COALESCE(SUM(f.cnt*f.hr),0) FROM calendar c INDEXED BY calendar_filter CROSS JOIN rental f INDEXED BY rental_day CROSS JOIN weather w WHERE f.day=c.id AND f.weather=w.id AND c.month BETWEEN ? AND ? AND c.weekday=? AND w.tempbin BETWEEN ? AND ? AND w.condition=? AND f.hr BETWEEN ? AND ?",
+    "weather_first": "SELECT COUNT(*),COALESCE(SUM(f.cnt),0),COALESCE(SUM(f.cnt*f.hr),0) FROM weather w INDEXED BY weather_filter CROSS JOIN rental f INDEXED BY rental_weather CROSS JOIN calendar c WHERE f.day=c.id AND f.weather=w.id AND c.month BETWEEN ? AND ? AND c.weekday=? AND w.tempbin BETWEEN ? AND ? AND w.condition=? AND f.hr BETWEEN ? AND ?",
+    "fact_scan": "SELECT COUNT(*),COALESCE(SUM(f.cnt),0),COALESCE(SUM(f.cnt*f.hr),0) FROM rental f NOT INDEXED CROSS JOIN calendar c CROSS JOIN weather w WHERE f.day=c.id AND f.weather=w.id AND c.month BETWEEN ? AND ? AND c.weekday=? AND w.tempbin BETWEEN ? AND ? AND w.condition=? AND f.hr BETWEEN ? AND ?"
+  },
+  "sqlite_version": "3.43.2",
+  "sqlite_source_id": "2023-10-10 13:08:14 1b37c146ee9ebb7acd0160c0ab1fd11017a419fa8a3187386ed8cb32b709aapl",
+  "source_sha256": "d13bac9d2b485614c1caf8bf835168a99844fc23ebaf63387e8faf64c6a9034d",
+  "plans": {
+    "sqlite_planner": {
+      "vm_steps": 1064140,
+      "cpu_seconds": 0.014481999999999828,
+      "wins": 0
+    },
+    "calendar_first": {
+      "vm_steps": 696112,
+      "cpu_seconds": 0.01053900000000016,
+      "wins": 74
+    },
+    "weather_first": {
+      "vm_steps": 1757770,
+      "cpu_seconds": 0.026895999999999753,
+      "wins": 46
+    },
+    "fact_scan": {
+      "vm_steps": 13710467,
+      "cpu_seconds": 0.08217400000000033,
+      "wins": 0
+    }
+  },
+  "best_fixed": "calendar_first",
+  "oracle_best_vm_steps": 565650,
+  "selectivity_rule_vm_steps": 571030,
+  "marginal_rule_feature_cpu_seconds": 0.5253030000000002,
+  "marginal_rule_feature_rows_scanned": 2085480,
+  "all_result_checksums_equal": true,
+  "guard": {
+    "per_plan_vm_limit": 2000000,
+    "progress_interval": 100,
+    "native_counter_exact": true,
+    "all_guards_passed": true
+  },
+  "setup": [
+    {
+      "sql": "PRAGMA automatic_index=OFF",
+      "vm_steps": 5
+    },
+    {
+      "sql": "PRAGMA temp_store=MEMORY",
+      "vm_steps": 4
+    },
+    {
+      "sql": "CREATE TABLE calendar(id INTEGER PRIMARY KEY,month INTEGER NOT NULL,weekday INTEGER NOT NULL,working INTEGER NOT NULL)",
+      "vm_steps": 32
+    },
+    {
+      "sql": "CREATE TABLE weather(id INTEGER PRIMARY KEY,condition INTEGER NOT NULL,tempbin INTEGER NOT NULL,humiditybin INTEGER NOT NULL,season INTEGER NOT NULL)",
+      "vm_steps": 30
+    },
+    {
+      "sql": "CREATE TABLE rental(id INTEGER PRIMARY KEY,day INTEGER NOT NULL,weather INTEGER NOT NULL,hr INTEGER NOT NULL,cnt INTEGER NOT NULL)",
+      "vm_steps": 30
+    },
+    {
+      "operation": "insert_calendar",
+      "rows": 731,
+      "vm_steps": 13158,
+      "cpu_seconds": 0.0016169999999999934
+    },
+    {
+      "operation": "insert_weather",
+      "rows": 826,
+      "vm_steps": 16520,
+      "cpu_seconds": 0.0019959999999999978
+    },
+    {
+      "operation": "insert_rental",
+      "rows": 17379,
+      "vm_steps": 347580,
+      "cpu_seconds": 0.042360999999999996
+    },
+    {
+      "sql": "CREATE INDEX calendar_filter ON calendar(weekday,month,id)",
+      "vm_steps": 8067
+    },
+    {
+      "sql": "CREATE INDEX weather_filter ON weather(condition,tempbin,id)",
+      "vm_steps": 9112
+    },
+    {
+      "sql": "CREATE INDEX rental_day ON rental(day,hr,weather,cnt)",
+      "vm_steps": 208574
+    },
+    {
+      "sql": "CREATE INDEX rental_weather ON rental(weather,hr,day,cnt)",
+      "vm_steps": 208574
+    },
+    {
+      "sql": "ANALYZE",
+      "vm_steps": 417437
+    },
+    {
+      "sql": "PRAGMA optimize",
+      "vm_steps": 6
+    },
+    {
+      "sql": "PRAGMA query_only=ON",
+      "vm_steps": 5
+    }
+  ]
+}

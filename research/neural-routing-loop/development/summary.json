@@ -1,0 +1,1068 @@
+{
+  "budget_routing": {
+    "attempt_01": {
+      "accounting_valid_for_efficiency_claim": false,
+      "reason": "Four diagnostic audits were omitted from abstain/reuse costs. Utility also differs from attempt_02. Retain the attempt; do not use its utility or work to support an efficiency or promotion claim.",
+      "results": {
+        "always_full": {
+          "accepted": 295,
+          "jobs": 384,
+          "work": 8926441,
+          "wrong_proposals": 0
+        },
+        "always_small": {
+          "accepted": 142,
+          "jobs": 384,
+          "work": 1464107,
+          "wrong_proposals": 0
+        },
+        "continuous": {
+          "accepted": 266,
+          "jobs": 384,
+          "work": 4376663,
+          "wrong_proposals": 0
+        },
+        "detached": {
+          "accepted": 295,
+          "jobs": 384,
+          "work": 8926441,
+          "wrong_proposals": 0
+        },
+        "frozen_input": {
+          "accepted": 268,
+          "jobs": 384,
+          "work": 5076365,
+          "wrong_proposals": 0
+        },
+        "quadratic": {
+          "accepted": 269,
+          "jobs": 384,
+          "work": 4691888,
+          "wrong_proposals": 0
+        },
+        "raw": {
+          "accepted": 268,
+          "jobs": 384,
+          "work": 4796996,
+          "wrong_proposals": 0
+        },
+        "rff": {
+          "accepted": 260,
+          "jobs": 384,
+          "work": 4760259,
+          "wrong_proposals": 0
+        },
+        "rule": {
+          "accepted": 295,
+          "jobs": 384,
+          "work": 8926441,
+          "wrong_proposals": 0
+        },
+        "snn": {
+          "accepted": 268,
+          "jobs": 384,
+          "work": 4555374,
+          "wrong_proposals": 0
+        }
+      },
+      "synthesis_caps": {
+        "full": 50000,
+        "small": 4000
+      }
+    },
+    "attempt_02": {
+      "common_audits": 4,
+      "limitations": [
+        "384 authored development jobs across four known streams; held-stream folds are development only.",
+        "Twenty offline receipt presentations do not create twenty independent buyer observations.",
+        "A common logging/library history is shared across policies; this is not independent closed-loop skill acquisition.",
+        "Policy and feature CPU are outside native tool-work units."
+      ],
+      "results": {
+        "always_full": {
+          "accepted": 295,
+          "accepted_by_stream": [
+            75,
+            72,
+            74,
+            74
+          ],
+          "mean_utility": 0.7566061966145834,
+          "work": 8926441,
+          "work_by_stream": [
+            2105954,
+            2294140,
+            2171901,
+            2354446
+          ],
+          "wrong": 0
+        },
+        "always_small": {
+          "accepted": 142,
+          "accepted_by_stream": [
+            35,
+            36,
+            36,
+            35
+          ],
+          "mean_utility": 0.3659946041666666,
+          "work": 2916144,
+          "work_by_stream": [
+            738267,
+            702965,
+            721361,
+            753551
+          ],
+          "wrong": 0
+        },
+        "continuous": {
+          "accepted": 281,
+          "accepted_by_stream": [
+            69,
+            72,
+            72,
+            68
+          ],
+          "mean_utility": 0.7234213854166667,
+          "work": 6412376,
+          "work_by_stream": [
+            1366224,
+            1978347,
+            1467244,
+            1600561
+          ],
+          "wrong": 0
+        },
+        "detached": {
+          "accepted": 295,
+          "accepted_by_stream": [
+            75,
+            72,
+            74,
+            74
+          ],
+          "mean_utility": 0.7566061966145834,
+          "work": 8926441,
+          "work_by_stream": [
+            2105954,
+            2294140,
+            2171901,
+            2354446
+          ],
+          "wrong": 0
+        },
+        "frozen_input": {
+          "accepted": 283,
+          "accepted_by_stream": [
+            68,
+            71,
+            73,
+            71
+          ],
+          "mean_utility": 0.7278260182291667,
+          "work": 7029618,
+          "work_by_stream": [
+            1416957,
+            1753067,
+            1958877,
+            1900717
+          ],
+          "wrong": 0
+        },
+        "quadratic": {
+          "accepted": 287,
+          "accepted_by_stream": [
+            70,
+            72,
+            73,
+            72
+          ],
+          "mean_utility": 0.73865292578125,
+          "work": 6714553,
+          "work_by_stream": [
+            1533646,
+            1696524,
+            1690085,
+            1794298
+          ],
+          "wrong": 0
+        },
+        "raw": {
+          "accepted": 285,
+          "accepted_by_stream": [
+            71,
+            69,
+            74,
+            71
+          ],
+          "mean_utility": 0.7326384127604167,
+          "work": 7333699,
+          "work_by_stream": [
+            1508158,
+            1918660,
+            2074397,
+            1832484
+          ],
+          "wrong": 0
+        },
+        "rff": {
+          "accepted": 268,
+          "accepted_by_stream": [
+            66,
+            68,
+            68,
+            66
+          ],
+          "mean_utility": 0.68978950390625,
+          "work": 6241661,
+          "work_by_stream": [
+            1450169,
+            1749501,
+            1423853,
+            1618138
+          ],
+          "wrong": 0
+        },
+        "rule": {
+          "accepted": 295,
+          "accepted_by_stream": [
+            75,
+            72,
+            74,
+            74
+          ],
+          "mean_utility": 0.7566061966145834,
+          "work": 8926441,
+          "work_by_stream": [
+            2105954,
+            2294140,
+            2171901,
+            2354446
+          ],
+          "wrong": 0
+        },
+        "snn": {
+          "accepted": 278,
+          "accepted_by_stream": [
+            68,
+            70,
+            72,
+            68
+          ],
+          "mean_utility": 0.7156823984374999,
+          "work": 6355918,
+          "work_by_stream": [
+            1387102,
+            1742059,
+            1570847,
+            1655910
+          ],
+          "wrong": 0
+        }
+      },
+      "reward": "int(accepted) - 0.1 * complete_metered_work / 200000",
+      "synthesis_caps": {
+        "full": 50000,
+        "small": 10000
+      },
+      "verdict": "The learned router saves work by losing accepted deliveries; it does not beat full search on the declared utility or establish accuracy-preserving neural benefit."
+    }
+  },
+  "evidence": [
+    {
+      "path": "dev-mechanism-01/result.json",
+      "sha256": "adbd7a743dbf084bad5602d113e857cb3ba9d72712177add517fa4f7d1079ebc"
+    },
+    {
+      "path": "dev-mechanism-01/findings.json",
+      "sha256": "59fc56a1e1d5f195c92144d54995100a0b66afe653f141a5821d4f74e8740c0c"
+    },
+    {
+      "path": "dev-mechanism-01/attempt-02/aggregate.json",
+      "sha256": "9d80586bc20f3a2d1d51eaa15bba221764a5461b44d3fa1eaac7d4cda11c07eb"
+    },
+    {
+      "path": "dev-mechanism-01/attempt-02/result.json",
+      "sha256": "baf8de20d0f1d168e87b9ab7ba00a02a76ce9729226e02ec7b6d6f0bfc3d6d5f"
+    },
+    {
+      "path": "dev-mechanism-01/profile-matrix-01/authored-summary.json",
+      "sha256": "9737c7293563b32d3d0324d5a96090d7bcaff14653e3a92f8be8a589de04d561"
+    },
+    {
+      "path": "dev-mechanism-01/profile-matrix-01/duet-summary.json",
+      "sha256": "a42e58eed41ceef49f490cbeef7d47c29591e5989cd1721dfaa6bf8101d80e12"
+    },
+    {
+      "path": "dev-mechanism-01/profile-matrix-01/learning-aggregate.json",
+      "sha256": "10ee6844929673c80414b0763edf00c690905734d8876f7dee6a0c58cada0963"
+    },
+    {
+      "path": "dev-mechanism-01/profile-matrix-01/portfolio-summary.json",
+      "sha256": "7ea1cf720845f9849b922ee3301815e8b9c40307709d3e39c597951fa3ea24fb"
+    },
+    {
+      "path": "dev-mechanism-01/profile-matrix-01/strong-rule-02.json",
+      "sha256": "205b0e8042a23124058e7c664362cff3959638dd167625698ba4951b29622288"
+    },
+    {
+      "path": "dev-mechanism-01/profile-matrix-01/selector-two-arm-02/aggregate.json",
+      "sha256": "72a2f85cf5c12fc493ae664ceb28ba9e546730e240b7c5874253a1f76772b350"
+    },
+    {
+      "path": "dev-mechanism-01/profile-matrix-01/selector-two-arm-02/learning-summary.json",
+      "sha256": "0ea31cb84b7fc115b3a0bd56179db0971d1da6b4235137ed59f701044058095d"
+    },
+    {
+      "path": "query-routing-dev-01/summary.json",
+      "sha256": "00226327328747519d3493178e68606e98a65368edb7ae0c85947515af8c4694"
+    },
+    {
+      "path": "query-routing-dev-01/clean-02/summary.json",
+      "sha256": "9e900833b3564abe908b8c3b9452302938d66af88b08bd333fa035c1913abc4b"
+    },
+    {
+      "path": "query-routing-dev-01/clean-03/summary.json",
+      "sha256": "4dc4544903de5a25e50ab8fd07e43cf4fa0d788b3ac47453def9405c79918c64"
+    },
+    {
+      "path": "query-routing-dev-01/clean-03/histogram-rule-summary.json",
+      "sha256": "32eb520236a55f65bb00f3268eba941352d6e889f788aa6f11799621e061790e"
+    }
+  ],
+  "evidence_note": "References are relative to this development directory and identify the exact retained originals. Publication must retain referenced scripts, result tables and full traces with a checked manifest; this aggregate alone cannot reproduce them.",
+  "promotion": false,
+  "schema": "nuria.neural-routing-development.v1",
+  "scope": "Aggregate index of retained development attempts; numerical summaries are not a declaration of a live worker, main recurrent circuit advantage, independent replication, or frozen unseen qualification.",
+  "search_profiles": {
+    "authored_jobs": 384,
+    "bounded_two_tool_portfolio": {
+      "cpu_seconds": 9.377142,
+      "scope": "DEV deterministic complementary toolportfolio, common4audits once, firsttool25k then optional secondtoolremaining50kcap. First diagnostic-fitting proposal is delivered before any final buyer targets are read; no oraclechoice/retryafterbuyerrejection. Actualmeter+audit+buyer+bookkeeping tracked. UnscorableDuetentries staydenominator.",
+      "source_sha256": "ff988fd35149399293f623cb654ce1c6674c197ccaa4bbfc7669cdc1617994aa",
+      "summary": {
+        "default_then_slice": {
+          "authored": {
+            "accepted": 242,
+            "jobs": 384,
+            "work": 9432195,
+            "wrong": 1
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 186482,
+            "wrong": 1
+          }
+        },
+        "slice_then_default": {
+          "authored": {
+            "accepted": 241,
+            "jobs": 384,
+            "work": 11900852,
+            "wrong": 2
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 632244,
+            "wrong": 1
+          }
+        }
+      }
+    },
+    "eight_arm_selected_receipt_routing": {
+      "best_logged_fixed": {
+        "all": {
+          "accepted": 311,
+          "jobs": 427,
+          "work": 9137346,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 289,
+          "jobs": 384,
+          "work": 8949324,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 188022,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 0
+      },
+      "continuous": {
+        "all": {
+          "accepted": 299,
+          "jobs": 427,
+          "work": 9858983,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 277,
+          "jobs": 384,
+          "work": 9666660,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 192323,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 5.012344000000005
+      },
+      "default": {
+        "all": {
+          "accepted": 317,
+          "jobs": 427,
+          "work": 8962975,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 295,
+          "jobs": 384,
+          "work": 8776287,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 186688,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 0
+      },
+      "detached": {
+        "all": {
+          "accepted": 283,
+          "jobs": 427,
+          "work": 11013049,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 261,
+          "jobs": 384,
+          "work": 10827437,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 185612,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 4.275651
+      },
+      "frozen_input": {
+        "all": {
+          "accepted": 299,
+          "jobs": 427,
+          "work": 8199438,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 277,
+          "jobs": 384,
+          "work": 8005119,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 194319,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 4.661557000000043
+      },
+      "knn5": {
+        "all": {
+          "accepted": 311,
+          "jobs": 427,
+          "work": 8051632,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 289,
+          "jobs": 384,
+          "work": 7859517,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 192115,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 0.0009649999999723491
+      },
+      "observable_rule": {
+        "all": {
+          "accepted": 345,
+          "jobs": 427,
+          "work": 7654038,
+          "wrong_proposals": 2
+        },
+        "authored": {
+          "accepted": 323,
+          "jobs": 384,
+          "work": 7467350,
+          "wrong_proposals": 1
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 186688,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 0
+      },
+      "quadratic": {
+        "all": {
+          "accepted": 306,
+          "jobs": 427,
+          "work": 8479966,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 285,
+          "jobs": 384,
+          "work": 8239863,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 21,
+          "jobs": 43,
+          "work": 240103,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 0.05071700000001367
+      },
+      "raw": {
+        "all": {
+          "accepted": 314,
+          "jobs": 427,
+          "work": 7992344,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 293,
+          "jobs": 384,
+          "work": 7750604,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 21,
+          "jobs": 43,
+          "work": 241740,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 0.010613000000011141
+      },
+      "rff": {
+        "all": {
+          "accepted": 311,
+          "jobs": 427,
+          "work": 9381839,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 293,
+          "jobs": 384,
+          "work": 9017962,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 18,
+          "jobs": 43,
+          "work": 363877,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 0.010406000000017568
+      },
+      "spiking": {
+        "all": {
+          "accepted": 299,
+          "jobs": 427,
+          "work": 10021484,
+          "wrong_proposals": 1
+        },
+        "authored": {
+          "accepted": 277,
+          "jobs": 384,
+          "work": 9829421,
+          "wrong_proposals": 0
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 192063,
+          "wrong_proposals": 1
+        },
+        "training_api_cpu_seconds": 5.705601999999972
+      }
+    },
+    "external_development_jobs": 43,
+    "external_unscorable_retained": 18,
+    "maximum_disclosed_audits": 4,
+    "oracle_union": {
+      "authored": 333,
+      "external_development": 22,
+      "is_implementable_policy": false
+    },
+    "profiles": {
+      "composition_first": {
+        "authored": {
+          "accepted": 136,
+          "cpu_seconds": 4.794938999999985,
+          "losses_vs_default": 159,
+          "wins_vs_default": 0,
+          "work": 12646055,
+          "wrong_proposals": 0
+        },
+        "external_development": {
+          "accepted": 5,
+          "cpu_seconds": 0.47185600000000033,
+          "losses_vs_default": 17,
+          "wins_vs_default": 0,
+          "work": 1000088,
+          "wrong_proposals": 1
+        }
+      },
+      "default": {
+        "authored": {
+          "accepted": 295,
+          "cpu_seconds": 3.539801000000028,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 8776287,
+          "wrong_proposals": 0
+        },
+        "external_development": {
+          "accepted": 22,
+          "cpu_seconds": 0.09454699999999985,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 186688,
+          "wrong_proposals": 1
+        }
+      },
+      "extract_first": {
+        "authored": {
+          "accepted": 252,
+          "cpu_seconds": 5.639051999999986,
+          "losses_vs_default": 43,
+          "wins_vs_default": 0,
+          "work": 12282557,
+          "wrong_proposals": 0
+        },
+        "external_development": {
+          "accepted": 22,
+          "cpu_seconds": 0.08468700000000032,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 166853,
+          "wrong_proposals": 1
+        }
+      },
+      "number_first": {
+        "authored": {
+          "accepted": 271,
+          "cpu_seconds": 4.026455999999987,
+          "losses_vs_default": 24,
+          "wins_vs_default": 0,
+          "work": 9175902,
+          "wrong_proposals": 0
+        },
+        "external_development": {
+          "accepted": 22,
+          "cpu_seconds": 0.10236100000000029,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 196774,
+          "wrong_proposals": 1
+        }
+      },
+      "replace_first": {
+        "authored": {
+          "accepted": 32,
+          "cpu_seconds": 5.854725000000005,
+          "losses_vs_default": 263,
+          "wins_vs_default": 0,
+          "work": 17672643,
+          "wrong_proposals": 0
+        },
+        "external_development": {
+          "accepted": 22,
+          "cpu_seconds": 0.15165299999999984,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 315237,
+          "wrong_proposals": 1
+        }
+      },
+      "reverse_fields": {
+        "authored": {
+          "accepted": 271,
+          "cpu_seconds": 3.5694859999999893,
+          "losses_vs_default": 24,
+          "wins_vs_default": 0,
+          "work": 8487903,
+          "wrong_proposals": 0
+        },
+        "external_development": {
+          "accepted": 22,
+          "cpu_seconds": 0.09416599999999917,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 187617,
+          "wrong_proposals": 1
+        }
+      },
+      "slice_first": {
+        "authored": {
+          "accepted": 108,
+          "cpu_seconds": 5.645727000000011,
+          "losses_vs_default": 225,
+          "wins_vs_default": 38,
+          "work": 14148312,
+          "wrong_proposals": 2
+        },
+        "external_development": {
+          "accepted": 5,
+          "cpu_seconds": 0.47280600000000017,
+          "losses_vs_default": 17,
+          "wins_vs_default": 0,
+          "work": 993568,
+          "wrong_proposals": 1
+        }
+      },
+      "split_first": {
+        "authored": {
+          "accepted": 295,
+          "cpu_seconds": 3.820026000000046,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 9417651,
+          "wrong_proposals": 0
+        },
+        "external_development": {
+          "accepted": 22,
+          "cpu_seconds": 0.12562700000000016,
+          "losses_vs_default": 0,
+          "wins_vs_default": 0,
+          "work": 246571,
+          "wrong_proposals": 1
+        }
+      }
+    },
+    "source_library_initialization": "Fresh empty library for each measured tool/job pair.",
+    "strong_observable_rule": {
+      "results": {
+        "authored": {
+          "accepted": 333,
+          "jobs": 384,
+          "work": 7003319,
+          "wrong": 1
+        },
+        "duet": {
+          "accepted": 22,
+          "jobs": 43,
+          "work": 185150,
+          "wrong": 1
+        }
+      },
+      "rule": "slice-first iff casefoldsubstringmatch>=.75, everydirect/strip/caseprojectionmatch<.75, aggregateoutputlength/256<=.065; defaultotherwise",
+      "scope": "Additional explicit strong DEV heuristic, designed from operation semantics and known developmental boundary. No learned result or held-out qualification. Uses onlysame4auditfeatures; excludesuppercaseconstraintofinitialrule. Keepbothdevelopmentattempts."
+    },
+    "synthesis_cap_each": 50000,
+    "two_arm_selected_receipt_routing": {
+      "arms": [
+        "default",
+        "slice_first"
+      ],
+      "main_recurrent_features_used": false,
+      "results": {
+        "best_logged_fixed": {
+          "all": {
+            "accepted": 317,
+            "jobs": 427,
+            "work": 8962975,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 295,
+            "jobs": 384,
+            "work": 8776287,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 186688,
+            "wrong_proposals": 1
+          }
+        },
+        "continuous": {
+          "all": {
+            "accepted": 320,
+            "jobs": 427,
+            "work": 8670723,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 299,
+            "jobs": 384,
+            "work": 8437794,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 21,
+            "jobs": 43,
+            "work": 232929,
+            "wrong_proposals": 1
+          }
+        },
+        "default": {
+          "all": {
+            "accepted": 317,
+            "jobs": 427,
+            "work": 8962975,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 295,
+            "jobs": 384,
+            "work": 8776287,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 186688,
+            "wrong_proposals": 1
+          }
+        },
+        "detached": {
+          "all": {
+            "accepted": 317,
+            "jobs": 427,
+            "work": 8962975,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 295,
+            "jobs": 384,
+            "work": 8776287,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 186688,
+            "wrong_proposals": 1
+          }
+        },
+        "frozen_input": {
+          "all": {
+            "accepted": 322,
+            "jobs": 427,
+            "work": 8731896,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 300,
+            "jobs": 384,
+            "work": 8545208,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 186688,
+            "wrong_proposals": 1
+          }
+        },
+        "knn5": {
+          "all": {
+            "accepted": 318,
+            "jobs": 427,
+            "work": 8708723,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 296,
+            "jobs": 384,
+            "work": 8522035,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 186688,
+            "wrong_proposals": 1
+          }
+        },
+        "observable_rule": {
+          "all": {
+            "accepted": 345,
+            "jobs": 427,
+            "work": 7654038,
+            "wrong_proposals": 2
+          },
+          "authored": {
+            "accepted": 323,
+            "jobs": 384,
+            "work": 7467350,
+            "wrong_proposals": 1
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 186688,
+            "wrong_proposals": 1
+          }
+        },
+        "quadratic": {
+          "all": {
+            "accepted": 312,
+            "jobs": 427,
+            "work": 8990912,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 291,
+            "jobs": 384,
+            "work": 8757983,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 21,
+            "jobs": 43,
+            "work": 232929,
+            "wrong_proposals": 1
+          }
+        },
+        "raw": {
+          "all": {
+            "accepted": 314,
+            "jobs": 427,
+            "work": 8900844,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 293,
+            "jobs": 384,
+            "work": 8666377,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 21,
+            "jobs": 43,
+            "work": 234467,
+            "wrong_proposals": 1
+          }
+        },
+        "rff": {
+          "all": {
+            "accepted": 312,
+            "jobs": 427,
+            "work": 9002468,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 290,
+            "jobs": 384,
+            "work": 8817318,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 22,
+            "jobs": 43,
+            "work": 185150,
+            "wrong_proposals": 1
+          }
+        },
+        "spiking": {
+          "all": {
+            "accepted": 327,
+            "jobs": 427,
+            "work": 8413271,
+            "wrong_proposals": 1
+          },
+          "authored": {
+            "accepted": 306,
+            "jobs": 384,
+            "work": 8180342,
+            "wrong_proposals": 0
+          },
+          "duet": {
+            "accepted": 21,
+            "jobs": 43,
+            "work": 232929,
+            "wrong_proposals": 1
+          }
+        }
+      },
+      "scope": "Two grouped development folds; exact authored recipe identity or external source family groups never enter learner features. Only single-pass uniformly selected actual tool outcomes, delayed three jobs, train each method; internal replay is bounded. Two arms and update count were selected during development.",
+      "updates_per_receipt": 16
+    },
+    "verdict": "The two-arm spiking policy accepts327/427 development jobs, compared with355/427 for a stronger explicit observable rule. The rule has2 wrong proposals versus1 for the spiking policy. There is no broad superiority claim or promotion."
+  },
+  "sqlite_join_routing": {
+    "archive_sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+    "clean_03": {
+      "all_result_checksums_equal": true,
+      "guard": {
+        "all_guards_passed": true,
+        "native_counter_exact": true,
+        "per_plan_vm_limit": 2000000,
+        "progress_interval": 100
+      },
+      "histogram_bytes": 31488,
+      "histogram_query_cpu_seconds_total": 0.00033400000000000096,
+      "histogram_setup_cpu_seconds": 0.009135000000000004,
+      "independent_python_aggregate_matches_all": true,
+      "oracle_best_vm_steps": 565650,
+      "plan_vm_steps": {
+        "calendar_first": 696112,
+        "fact_scan": 13710467,
+        "sqlite_planner": 696112,
+        "weather_first": 1757770
+      },
+      "rule_matches_original_row_scan": true,
+      "strong_marginal_rule_vm_steps": 571030
+    },
+    "csv_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+    "data_rows": {
+      "calendar": 731,
+      "rental": 17379,
+      "weather": 826
+    },
+    "limitations": [
+      "Real observed rental rows with an experimental schema and generated read-only query parameters, not production query logs.",
+      "VM operations are a native execution-work proxy, not latency, energy or dollar savings.",
+      "Histogram construction and lookup CPU are separately measured; they are not free.",
+      "The histogram policy projects onto already measured checksum-verified plan costs, rather than separately rerunning selected plans.",
+      "No neural training or neural performance result exists for this query course."
+    ],
+    "plans_per_query": 4,
+    "queries": 120,
+    "sqlite_source_id": "2023-10-10 13:08:14 1b37c146ee9ebb7acd0160c0ab1fd11017a419fa8a3187386ed8cb32b709aapl",
+    "sqlite_version": "3.43.2",
+    "superseded_attempts": {
+      "clean_02": {
+        "planner_vm_steps": 1064140,
+        "reason": "Still contains redundant natural-planner join predicates; use clean_03 for current comparison."
+      },
+      "original": {
+        "planner_vm_steps": 1064140,
+        "reason": "Natural planner query redundantly repeated join predicates in ON and WHERE."
+      }
+    },
+    "verdict": "Cheap exact marginal statistics are within about0.95% of per-query oracle work, leaving no evidence that this course requires a neural router."
+  },
+  "status": "exploratory_development_not_qualification"
+}

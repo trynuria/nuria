@@ -29,3 +29,9 @@ research/neural-digits/development/*.json linguist-generated=true
 research/neural-digits/development/*.py.txt linguist-vendored=true
 research/neural-digits/development/*.npz linguist-vendored=true
 research/neural-digits/data/*.zip linguist-vendored=true
+
+# Exact upstream benchmark bytes and retained numerical development evidence.
+research/neural-routing-loop/development/**/*.json linguist-generated=true
+research/neural-routing-loop/development/**/*.jsonl linguist-generated=true
+research/neural-routing-loop/development/**/*.py.txt linguist-vendored=true
+research/neural-routing-loop/development/eval-design-01/duet-development/*.sl linguist-vendored=true -text whitespace=-blank-at-eol,-blank-at-eof

@@ -1,0 +1,94 @@
+"""DEV selected-receipt routing; frozen numerical policy, no oracle arm labels."""
+from pathlib import Path
+import hashlib,json,time,sys,numpy as np
+from cognition.spiking_policy import SpikingDecisionPolicy,digest
+from cognition.routed_text_search import PROFILES
+from scripts.build_guarded_skill_tasks import generate
+P=Path(__file__).parent
+DUET=Path('research/neural-routing-loop/development/eval-design-01/duet-development-jobs.json')
+def features(job):
+ ins=[json.loads(x) for x in job['diagnostic_inputs'][:4]];outs=job['diagnostic_outputs'][:4]
+ if not ins or not outs:return [0.]*21
+ relations=[]
+ for mode in range(6):
+  per=[]
+  for field in range(6):
+   hits=[]
+   for row,y in zip(ins,outs):
+    v=row[field] if field<len(row) else ''
+    hits.append(float((v==y,v.strip()==y,v.upper()==y,v.lower()==y,y in v,y.lower() in v.lower())[mode]))
+   per.append(float(np.mean(hits)))
+  relations += [max(per),float(np.mean(per))]
+ text=''.join(outs);total=max(1,len(text));allinput=''.join(s for row in ins for s in row)
+ return relations+[min(1,total/256),min(1,len(allinput)/4096),sum(c.isdigit() for c in text)/total,sum(c.isalpha() for c in text)/total,sum(c.isupper() for c in text)/total,sum(c.isspace() for c in text)/total,sum(not c.isalnum() and not c.isspace() for c in text)/total,len(set(outs))/max(1,len(outs)),0.]
+jobs={j['id']:j for seed in (0,1,2,3) for j in generate(seed,96)['tasks']};jobs|={j['id']:j for j in json.loads(DUET.read_text())}
+rows=[]
+for kind in ('authored','duet'):
+ for line in (P/f'{kind}-traces.jsonl').read_text().splitlines():
+  row=json.loads(line);j=jobs[row['job_id']];row['features']=features(j);row['kind']=kind
+  row['group']='authored:'+j['private_recipe']['program_sha256'] if kind=='authored' else 'duet:'+j['family']
+  row['fold']=int(hashlib.sha256(row['group'].encode()).hexdigest()[:8],16)%2
+  rows.append(row)
+class Ridge:
+ def __init__(self,d):self.P=np.repeat(np.eye(d)[None,:,:],len(PROFILES),axis=0);self.W=np.zeros((len(PROFILES),d))
+ def predict(self,x):return np.clip(self.W@x,-1,1)
+ def learn(self,x,a,y):
+  p=self.P[a]@x;k=p/(1+x@p);self.P[a]-=np.outer(k,p);self.W[a]+=k*(y-self.W[a]@x)
+class KNN:
+ def __init__(self):self.banks=[[] for _ in PROFILES]
+ def learn(self,x,a,y):self.banks[a].append((x.copy(),y))
+ def predict(self,x):
+  values=[]
+  for bank in self.banks:
+   if not bank:values.append(0.);continue
+   ds=sorted(((float(np.sum((v-x)**2)),i,y) for i,(v,y) in enumerate(bank)))[:5];values.append(float(np.mean([y for _,_,y in ds])))
+  return np.array(values)
+trials=[]
+for fold in (0,1):
+ training=[r for r in rows if r['fold']!=fold and not r.get('unscorable')];testing=[r for r in rows if r['fold']==fold];rng=np.random.default_rng(991+fold);order=rng.permutation(len(training));R=rng.normal(size=(48,21))*2;phase=rng.uniform(-np.pi,np.pi,48)
+ def ff(name,x):
+  x=np.asarray(x)
+  if name=='raw':return np.r_[1,x]
+  if name=='quadratic':return np.r_[1,x,[x[i]*x[j] for i in range(len(x)) for j in range(i,len(x))]]
+  if name=='rff':return np.r_[1,x,np.cos(x@R.T+phase)]
+  return x
+ controls={name:Ridge(len(ff(name,training[0]['features']))) for name in ('raw','quadratic','rff')};controls['knn5']=KNN()
+ neural={name:SpikingDecisionPolicy(source_id=f'nuria:profile-dev-{fold}-{name}',feature_dimension=21,arm_ids=list(PROFILES),seed=701+fold,mechanism='continuous' if name=='continuous' else 'spiking',frozen_input=name=='frozen_input') for name in ('spiking','frozen_input','continuous','detached')}
+ pending=[];seq={k:0 for k in neural};cost={k:0. for k in (*neural,*controls)};selected=[]
+ for t,index in enumerate(order):
+  row=training[int(index)];arm=int(rng.integers(len(PROFILES)));profile=PROFILES[arm];did=digest(['dev',fold,row['job_id']]);x=row['features'];action=row['profiles'][profile];reward=float(action['accepted'])-.1*action['work']/200000
+  for name,model in neural.items():
+   begin=time.process_time();model.choose([0.]*21 if name=='detached' else x,did,[profile]);cost[name]+=time.process_time()-begin
+  pending.append((t+3,did,arm,reward,x,row['job_id']))
+  due=[z for z in pending if z[0]<=t]
+  for item in due:
+   _,ident,a,y,x,jid=item
+   for name,model in controls.items():
+    begin=time.process_time();model.learn(ff(name,x),a,y);cost[name]+=time.process_time()-begin
+   for name,model in neural.items():
+    seq[name]+=1;begin=time.process_time();model.learn({'seq':seq[name],'decision_id':ident,'arm':PROFILES[a],'receipt_id':digest(['receipt',fold,jid,PROFILES[a]]),'reward':y});cost[name]+=time.process_time()-begin
+   selected.append({'job_id':jid,'arm':PROFILES[a],'reward':y});pending.remove(item)
+ for _,ident,a,y,x,jid in pending:
+  for name,model in controls.items():model.learn(ff(name,x),a,y)
+  for name,model in neural.items():
+   seq[name]+=1;model.learn({'seq':seq[name],'decision_id':ident,'arm':PROFILES[a],'receipt_id':digest(['receipt',fold,jid,PROFILES[a]]),'reward':y})
+  selected.append({'job_id':jid,'arm':PROFILES[a],'reward':y})
+ predictions={}
+ for name,model in controls.items():predictions[name]=[int(np.argmax(model.predict(ff(name,r['features'])))) for r in testing]
+ for name,model in neural.items():
+  predictions[name]=[int(np.argmax(model.forward([[0.]*21 if name=='detached' else r['features']])[0][0])) for r in testing]
+  with (P/f'model-{fold}-{name}.json').open('x') as f:json.dump(model.state(),f)
+ predictions['default']=[PROFILES.index('default')]*len(testing)
+ predictions['best_logged_fixed']=[max(range(len(PROFILES)),key=lambda a:np.mean([x['reward'] for x in selected if x['arm']==PROFILES[a]]) if any(x['arm']==PROFILES[a] for x in selected) else -1)]*len(testing)
+ predictions['observable_rule']=[PROFILES.index('slice_first') if (r['features'][10]>=.75 and r['features'][4]<.75 and r['features'][12]<=.065 and r['features'][16]>=.8) else PROFILES.index('default') for r in testing]
+ summary={}
+ for name,arms in predictions.items():
+  sub={}
+  for kind in ('authored','duet','all'):
+   pairs=[(r,r['profiles'][PROFILES[a]]) for r,a in zip(testing,arms) if kind=='all' or r['kind']==kind]
+   sub[kind]={'jobs':len(pairs),'accepted':sum(x['accepted'] for _,x in pairs),'wrong_proposals':sum(x.get('proposal',False) and not x['accepted'] for _,x in pairs),'work':sum(x['work'] for _,x in pairs),'mean_utility':float(np.mean([float(x['accepted'])-.1*x['work']/200000 for _,x in pairs])) if pairs else None}
+  summary[name]={'outcomes':sub,'learning_full_api_cpu_seconds':cost.get(name),'choices':np.bincount(arms,minlength=len(PROFILES)).tolist()}
+ trials.append({'held_fold':fold,'train_scorable_jobs':len(training),'test_jobs':len(testing),'selected_receipts':len(selected),'train_groups':sorted({r['group'] for r in training}),'test_groups':sorted({r['group'] for r in testing}),'results':summary})
+ print('fold complete',fold,flush=True)
+r={'scope':'DEV grouped feasibility only; authored groups are exact private recipe/program identities (never features), Duet groups upstream family. Root SpikingDecisionPolicy defaults, all8fixedtools50k, identicalsinglepass selecteduniform logging outcomes delay3, replayinternalbounded. No unselected arm outcomes train anymodel. Official162Duetunfetched. Mainbrainfeaturesunavailable and omitted, not a demonstrated mainrecurrent-neural contribution. FullpolicyAPIserialization overhead CPU recorded separately; allfixedprofiletaskwork retained. One-staticprofile selection uses only mean selected logging receipts. Observable rule is explicitDEVcontrol usingvisible4auditrelations/length/case.','trials':trials,'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+(P/'learning-summary.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r,indent=2))

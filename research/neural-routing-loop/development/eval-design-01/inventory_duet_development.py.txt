@@ -1,0 +1,149 @@
+"""DEV-only format/oracle inventory; never retrieves the reserved162files."""
+from pathlib import Path
+import collections,glob,hashlib,json,re
+
+ROOT=Path(__file__).resolve().parent
+
+class Str(str):
+    pass
+
+
+def tokens(text):
+    out=[];i=0
+    while i<len(text):
+        c=text[i]
+        if c.isspace():i+=1;continue
+        if c==';':
+            while i<len(text) and text[i]!='\n':i+=1
+            continue
+        if c in '()':out.append(c);i+=1;continue
+        if c=='"':
+            i+=1;s=''
+            while i<len(text):
+                if text[i]=='"':
+                    if i+1<len(text) and text[i+1]=='"':s+='"';i+=2;continue
+                    i+=1;break
+                s+=text[i];i+=1
+            else:raise ValueError('unterminated string')
+            out.append(Str(s));continue
+        start=i
+        while i<len(text) and not text[i].isspace() and text[i] not in '();':i+=1
+        out.append(text[start:i])
+    return out
+
+
+def parse(text):
+    stream=tokens(text);index=0
+    def one(depth=0):
+        nonlocal index
+        if depth>64 or index>=len(stream):raise ValueError('sexpression bounds')
+        node=stream[index];index+=1
+        if type(node) is str and node=='(':
+            result=[]
+            while index<len(stream) and not(type(stream[index]) is str and stream[index]==')'):
+                result.append(one(depth+1))
+            if index>=len(stream):raise ValueError('unclosed list')
+            index+=1;return result
+        if type(node) is str and node==')':raise ValueError('unmatched close')
+        return node
+    result=[]
+    while index<len(stream):result.append(one())
+    return result
+
+
+def ev(node,env,steps=None):
+    if steps is None:steps=[0]
+    steps[0]+=1
+    if steps[0]>4096:raise ValueError('oracle evaluation bound')
+    if isinstance(node,Str):return str(node)
+    if type(node) is str:
+        if node in env:return env[node]
+        if node=='true':return True
+        if node=='false':return False
+        if re.fullmatch('-?[0-9]+',node):return int(node)
+        raise ValueError('unknown oracle symbol '+node)
+    op=node[0]
+    if op=='ite':return ev(node[2] if ev(node[1],env,steps) else node[3],env,steps)
+    if op=='let':
+        values={p[0]:ev(p[1],env,steps) for p in node[1]}
+        return ev(node[2],{**env,**values},steps)
+    args=[ev(v,env,steps) for v in node[1:]]
+    if op=='str.++':return ''.join(args)
+    if op=='str.len':return len(args[0])
+    if op=='str.substr':return '' if args[1]<0 or args[2]<0 else args[0][args[1]:args[1]+args[2]]
+    if op=='str.at':return args[0][args[1]] if 0<=args[1]<len(args[0]) else ''
+    if op=='str.indexof':return args[0].find(args[1],args[2]) if 0<=args[2]<=len(args[0]) else -1
+    if op=='str.replace':return args[0].replace(args[1],args[2],1)
+    if op=='str.contains':return args[1] in args[0]
+    if op=='str.prefixof':return args[1].startswith(args[0])
+    if op=='str.suffixof':return args[1].endswith(args[0])
+    if op in ('str.to.int','str.to_int'):return int(args[0]) if re.fullmatch('[0-9]+',args[0]) else -1
+    if op in ('int.to.str','str.from_int'):return str(args[0]) if args[0]>=0 else ''
+    if op=='+':return sum(args)
+    if op=='-':return -args[0] if len(args)==1 else args[0]-args[1]
+    if op=='*':return args[0]*args[1]
+    if op=='=':return all(v==args[0] for v in args[1:])
+    if op=='<':return args[0]<args[1]
+    if op=='<=':return args[0]<=args[1]
+    if op=='>':return args[0]>args[1]
+    if op=='>=':return args[0]>=args[1]
+    if op=='and':return all(args)
+    if op=='or':return any(args)
+    if op=='not':return not args[0]
+    raise ValueError('unknown oracle operator '+str(op))
+
+
+def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False)
+def h(v):return hashlib.sha256(canonical(v).encode()).hexdigest()
+def fingerprint(pairs):return h(sorted(set(canonical(p) for p in pairs)))
+
+old=[]
+paths=glob.glob('historical-development/active-skills-source/development-specs/*.json')+glob.glob('historical-development/active-reserved-access-01/specifications/Transformation.Text/*/spec.json')
+for path in paths:
+    body=json.loads(Path(path).read_text())
+    pairs=[(p['Input'],p['Output']) for p in body['Examples']]
+    old.append({'id':Path(path).parent.name if Path(path).name=='spec.json' else Path(path).stem,'pairs':set(canonical(p) for p in pairs),'hash':fingerprint(pairs)})
+assert len(old)==183
+manifest=json.loads((ROOT/'duet-split-before-access.json').read_text())
+rows=[]
+for entry in manifest['development_tasks']:
+    path=ROOT/'duet-development'/Path(entry['path']).name
+    try:
+        forms=parse(path.read_text())
+        syn=next(f for f in forms if f and f[0]=='synth-fun')
+        name=syn[1];arguments=syn[2];rtype=syn[3]
+        pairs=[]
+        for f in forms:
+            if not(f and f[0]=='constraint'):continue
+            eq=f[1]
+            if eq[0]!='=':raise ValueError('non-equality source constraint')
+            lhs,rhs=eq[1:]
+            if not(type(lhs) is list and lhs[0]==name):lhs,rhs=rhs,lhs
+            if not(type(lhs) is list and lhs[0]==name):raise ValueError('source constraint target differs')
+            pairs.append(([ev(v,{}) for v in lhs[1:]],ev(rhs,{})))
+        definitions=[f for f in forms if f and f[0]=='define-fun']
+        oracle=next((f for f in definitions if f[1] in ('f_1',name)),None)
+        report={'path':entry['path'],'input_types':[p[1] for p in arguments],'output_type':rtype,'original_examples':len(pairs),'unique_inputs':len(set(canonical(x[0]) for x in pairs)),'oracle_present':oracle is not None}
+        if oracle:
+            params=oracle[2];mismatches=[];errors=[]
+            for index,(inputs,target) in enumerate(pairs):
+                try:
+                    value=ev(oracle[4],{p[0]:v for p,v in zip(params,inputs,strict=True)})
+                    if type(value)!=type(target) or value!=target:mismatches.append(index)
+                except (ValueError,TypeError,IndexError,OverflowError) as error:errors.append(str(error))
+            report.update(oracle_original_mismatches=mismatches,oracle_errors=sorted(set(errors)))
+        report['string_only_format']=all(p[1]=='String' for p in arguments) and rtype=='String'
+        report['enough_unique_for_4audits_and_heldout']=report['unique_inputs']>=5
+        report['exact_prior_task_duplicates']=[v['id'] for v in old if v['hash']==fingerprint(pairs)]
+        pairset=set(canonical(p) for p in pairs)
+        overlaps=[(len(pairset & v['pairs']),v['id']) for v in old]
+        overlap,prior=max(overlaps)
+        report['maximum_prior_example_overlap']={'count':overlap,'prior_task':prior if overlap else None}
+        rows.append(report)
+    except (ValueError,TypeError,IndexError,StopIteration) as error:
+        rows.append({'path':entry['path'],'parse_error':str(error)})
+summary={'all_source_tasks':205,'development_fetched':len(rows),'reserved_unfetched':len(manifest['sealed_unfetched_tasks']),'prior_seen_prose_tasks':len(old),'development_input_output_types':dict(collections.Counter(str(r.get('input_types'))+'->'+str(r.get('output_type')) for r in rows)),'development_string_only_format':sum(bool(r.get('string_only_format')) for r in rows),'development_enough_unique_for_4audits_and_heldout':sum(bool(r.get('enough_unique_for_4audits_and_heldout')) for r in rows),'development_oracle_present':sum(bool(r.get('oracle_present')) for r in rows),'development_oracle_constraints_match':sum(r.get('oracle_present') and not r.get('oracle_errors') and not r.get('oracle_original_mismatches') for r in rows),'parse_errors':[r for r in rows if 'parse_error' in r],'exact_prior_duplicates':[r for r in rows if r.get('exact_prior_task_duplicates')],'nonzero_prior_example_overlaps':[r for r in rows if r.get('maximum_prior_example_overlap',{}).get('count',0)>0]}
+report={'scope':'Development-only format, prior183PROSE dedup and independently interpreted authored-oracle consistency. No task chosen/excluded by solve performance. All162reserved specification bodies remain unfetched and unopened; reserved coverage/dedup is unknown until publicfreeze.','source_commit':json.loads((ROOT/'duet-commit.json').read_text())['sha'],'summary':summary,'tasks':rows}
+p=ROOT/'duet-development-inventory.json'
+with p.open('x') as f:json.dump(report,f,indent=2);f.write('\n')
+print(json.dumps(summary,indent=2))

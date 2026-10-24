@@ -1,0 +1,47 @@
+{
+  "scope": "Private DEV feasibility only, no neuraltraining, noqualification, no production mutation or spending.",
+  "chosen_route": "Actual guardedSQLite3tablequery-planrouting, comparedagainst continuingfinegrainPBEcontrol.",
+  "data": {
+    "real_pinned_csv_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+    "schema": "Experimental normalization of the17379real rentalrecords into rental/calendar/weather; generatedparameterqueries, not productionlogs",
+    "rows": {
+      "rental": 17379,
+      "calendar": 731,
+      "weather": 826
+    }
+  },
+  "current_evidence_directory": "clean-03",
+  "results": {
+    "queries": 120,
+    "plans_per_query": 4,
+    "all_480_planchecksums_equal": true,
+    "independent_python_aggregate_matches_all": true,
+    "sqlite_planner_after_analyze_and_optimize": 696112,
+    "calendar_first": 696112,
+    "weather_first": 1757770,
+    "fact_scan": 13710467,
+    "oracle_perquery_best": 565650,
+    "strong_marginal_rule": 571030,
+    "rule_histogram_bytes": 31488,
+    "rule_histogram_setup_cpu": 0.009135000000000004,
+    "rule_histogram_query_cpu": 0.00033400000000000096
+  },
+  "initial_attempt_corrections": [
+    "Original naturalplanner SQL repeated equalityjoins inbothON andWHERE andinflatednativeVMwork. Correctedclean-03 uses propernonredundantJOINs; currentplanner matchescalendarfixedexactly. Originalattemptspreserved.",
+    "Originalprototype had a redundantPythonloop whilecomputingfeaturecosts. Correctedbeforecurrentevidence; strongesthistogramcontrol furtherremovesperqueryrow-scanhandicap."
+  ],
+  "diagnosis": "Real18.7%headroom versusdefaultplanner/bestfixed, but conventionalexactmarginalhistograms attainwithin0.95%oraclewithsmallstate andmicrosecondqueryfeatures. Do not claim neuralneedortrain a weakbaselinewin. A publicchain/many-to-manyjoin workloadoffering conditionalfanout mistakes beyondmarginalselectivity is the stronger nextoption.",
+  "bounds": {
+    "per_plan_vm_limit": 2000000,
+    "progress_interval": 100,
+    "native_counter_exact": true,
+    "all_guards_passed": true
+  },
+  "sources": {
+    "clean-03/probe.py": "66a0ece7fc6eb3ff9e998da023657c8828b3a0da8f1a889b85a64df7177c694b",
+    "clean-03/summary.json": "4dc4544903de5a25e50ab8fd07e43cf4fa0d788b3ac47453def9405c79918c64",
+    "clean-03/queries.json": "f09f7ea9a75e2390d09a1c0f727b13be0179cddf302985541b0268cf4ea55aac",
+    "clean-03/histogram_rule.py": "bddb7a5f779d2215bda639c8a2f4f92549910613b9882a36db6451e5b06e1d23",
+    "clean-03/histogram-rule-summary.json": "32eb520236a55f65bb00f3268eba941352d6e889f788aa6f11799621e061790e"
+  }
+}

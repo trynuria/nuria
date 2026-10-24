@@ -47,12 +47,13 @@
     "Bounded composed text search with a publicly frozen four-audit qualification, all 5184 deterministic records replayed exactly, and a completed 25-job live acquisition/reuse course with every rejection preserved. Original histories, financial authority and observatory design are unchanged.",
     "Task-specific supervised spiking digit decisions with strict learned-state identity, atomic verified-label feedback, independent hard-spike and Brian2 reference checks, complete frozen checkpoints and prospective writer-held-out qualification. Original neural workers, financial authority and website design are unchanged.",
     "Completed writer-held-out spiking digit qualification with learned-input gains over linear and input-frozen controls, stronger kNN and similar continuous controls retained. Full frozen predictions, independent offline score reconstruction, paired-error supplement and private durable inference/reproduction CLI are published; original workers, financial authority and site design are unchanged.",
-    "Dedicated spiking inference component reproduced all 1797 examples with a preserved full-history retry, unchanged weights/optimizer and separate caller receipts. Publish source-bound deployment and training-recovery evidence; all nine existing worker identities, release metadata, website bytes and financial authority remain unchanged."
+    "Dedicated spiking inference component reproduced all 1797 examples with a preserved full-history retry, unchanged weights/optimizer and separate caller receipts. Publish source-bound deployment and training-recovery evidence; all nine existing worker identities, release metadata, website bytes and financial authority remain unchanged.",
+    "Opt-in origin-bound spiking search choices, atomic buyer-verified feedback and independently replayable inference; retained failed development controls and bounded external specification parsing. No passed superiority gate, live enrollment, website change or financial authority change."
   ],
   "files": [
     {
       "path": ".gitattributes",
-      "published_sha256": "a8d7f08cb50e80aa02a72faf7cb4020cf629419b0d4c710a19cf525f62e73113"
+      "published_sha256": "bb7df9fe911dcc1f6a76bd7f4057a2300ce1bdcb8dcbdae9b5305ba8303c8334"
     },
     {
       "path": ".github/workflows/quality.yml",
@@ -64,7 +65,7 @@
     },
     {
       "path": ".prettierignore",
-      "published_sha256": "bb9365c8af6098d577e38b8069a7e2b81fc521a7964a1971b988425e2768977c"
+      "published_sha256": "55bd2c8f85f5274d0868a2499064d69c917d0e996859a9d8062f0f0391fd8ccd"
     },
     {
       "path": ".prettierrc.json",
@@ -275,8 +276,20 @@
       "published_sha256": "704f136a172c14fe251aa9afc43d3c5558a7531717094e6d3186251aea0c78da"
     },
     {
+      "path": "cognition/pbe_benchmarks.py",
+      "published_sha256": "cf6294c63d3b9908a538d7b9ac40c3fafa9ca376d634302d868913182c6ea4b8"
+    },
+    {
       "path": "cognition/policy.py",
       "published_sha256": "3d3c930324d41c12e5e6a3a8df7855fda8009e470dc03cefedad10c3b573db9b"
+    },
+    {
+      "path": "cognition/routed_text_search.py",
+      "published_sha256": "2634d293a2409c3725fb48339e0e40556d2f9e83d886713ac7a0ca0d660f945a"
+    },
+    {
+      "path": "cognition/routing_features.py",
+      "published_sha256": "1b7a1f025d81429a40380ce8421c22c5f46302aad1c46d2b6489caa98a709c36"
     },
     {
       "path": "cognition/skill_expressions.py",
@@ -301,6 +314,10 @@
     {
       "path": "cognition/spiking_digits.py",
       "published_sha256": "4cecbde3a49d916123aedb489e847698841fad46ff8e03863602929d8bc3c795"
+    },
+    {
+      "path": "cognition/spiking_policy.py",
+      "published_sha256": "4b296ae8b4fa64116728600b572d1312dfac12f9a65d8de09212a30dd5da0599"
     },
     {
       "path": "cognition/sqlite_lab.py",
@@ -425,6 +442,10 @@
     {
       "path": "commerce/marketplaces.py",
       "published_sha256": "9d5b2d9c6e2f31fec030d59305100a11bf41a46bd89e89fd5f4159acb1a565e1"
+    },
+    {
+      "path": "commerce/neural_routing_runtime.py",
+      "published_sha256": "bda4be53d8aae07ad51fc1adcf79104cc58a43939e8b4e1e90e9d3c06fdac3c1"
     },
     {
       "path": "commerce/observer.py",
@@ -725,6 +746,10 @@
     {
       "path": "docs/marketplace-interface-review.json",
       "published_sha256": "eb93276450ddc9d8f58bd687c476a001720eefeb5c88b326a4d9abd3defa62e8"
+    },
+    {
+      "path": "docs/neural-routing-loop.md",
+      "published_sha256": "1eb7c22b81d297a7c7ffcb86552e446debbd8c84b5939d0b58c04297b8195535"
     },
     {
       "path": "docs/payment-interface-review.json",
@@ -1907,6 +1932,474 @@
       "published_sha256": "58d489facab6c9b02208918a8d1fd9783604c6a6bd5d4e964eeea2507714663c"
     },
     {
+      "path": "research/neural-routing-loop/README.md",
+      "published_sha256": "1a4d3f32570e4324ff9b173538d102d6c056cbefcd336f81a4459e7c10c99292"
+    },
+    {
+      "path": "research/neural-routing-loop/development/archive-manifest-01.json",
+      "published_sha256": "a6e8fe73a712929772207fadec997e59f0009f8343644f1b95ff069a64089083"
+    },
+    {
+      "path": "research/neural-routing-loop/development/archive-manifest-02.json",
+      "published_sha256": "bf556b42fc99754d038aa97fc924f6e58a52192f10d64e15aac097b23b9ef04c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/attempt-02/aggregate.json",
+      "published_sha256": "9d80586bc20f3a2d1d51eaa15bba221764a5461b44d3fa1eaac7d4cda11c07eb"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/attempt-02/measured.json",
+      "published_sha256": "92bc31abb8b531a4b2dc293a70a4c8cdefe41e1171da4a0db6d7884dd95366ae"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/attempt-02/probe.py.txt",
+      "published_sha256": "baa46e074842d393061e696153e89f938387bdfe3af2d3906a565f5960ab60a4"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/attempt-02/result.json",
+      "published_sha256": "baf8de20d0f1d168e87b9ab7ba00a02a76ce9729226e02ec7b6d6f0bfc3d6d5f"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/findings.json",
+      "published_sha256": "428b56e5426fe2ee10f54a0d40828522ab15b5588242312a56093eff23338449"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/measured.json",
+      "published_sha256": "cf0be990879b01704df9b74abef14d767945c613868e865166c899d4caec35a9"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/probe.py.txt",
+      "published_sha256": "fafe7e65083413542d10f3d89608a402bfb8446989bb5ef1a35395bbfd002bb4"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/authored-summary.json",
+      "published_sha256": "9737c7293563b32d3d0324d5a96090d7bcaff14653e3a92f8be8a589de04d561"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/authored-traces.jsonl",
+      "published_sha256": "0b6c6806e84b1036d85dee66dcad61cdfabd38ef4983b9cca25c18df346ffdab"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/duet-summary.json",
+      "published_sha256": "a42e58eed41ceef49f490cbeef7d47c29591e5989cd1721dfaa6bf8101d80e12"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/duet-traces.jsonl",
+      "published_sha256": "2e45a3e57eb9b2f32cba819fa27bb6f88596cd62d717b7ae79649596bda38073"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/handoff.json",
+      "published_sha256": "2386e56507372572f7b2b43ecc22e699e4fa491fe5ae3760d4471d2ae01c0ecb"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/learn.py.txt",
+      "published_sha256": "01f20bc102902fea190a8c2fedcd79a169d53e83bfddf07512e8ab6dd3432a25"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/learning-aggregate.json",
+      "published_sha256": "10ee6844929673c80414b0763edf00c690905734d8876f7dee6a0c58cada0963"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/learning-summary.json",
+      "published_sha256": "25a2cef2ddba2a118752035c0c8f04236a3111461c3f7ffffe904de9c7c12053"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/measure.py.txt",
+      "published_sha256": "c372f1b0dd257a1f1cc6336082af78361935443ef4e3e3457fc099237ea77824"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-0-continuous.json",
+      "published_sha256": "23b4be857c2597abb1eb3f4fdcccac988a42c9175afb8611e7b18c1cc4c9414d"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-0-detached.json",
+      "published_sha256": "2ee6991fc0c2cf1a561c26ebaa5a800af09f5e2857bfc62830b1e30ca6f1bd58"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-0-frozen_input.json",
+      "published_sha256": "a6f1a5cb5387507704349c9b7bceacd06771e62776812808356db56906b8b9d5"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-0-spiking.json",
+      "published_sha256": "28d36f39c9378f51449c7b76dc807990307e7e505be6719d71707332cbf01b7c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-1-continuous.json",
+      "published_sha256": "70e2aa41c59d6d0aeb5079e31ef7230c8c8f31be85ea022945a661e5ac3d84eb"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-1-detached.json",
+      "published_sha256": "74560958464b48636d29d709de360dae3b0ab3fa44d01b81468e4e50a1377939"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-1-frozen_input.json",
+      "published_sha256": "2f70e2b856495f1c13d5926ece233d1ebd0da21decc92014b5e38235faff3f7a"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/model-1-spiking.json",
+      "published_sha256": "57582f811c4bd370cc98749330210718ab58dbc9762044a6c99722de11d35c6b"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/portfolio-summary.json",
+      "published_sha256": "7ea1cf720845f9849b922ee3301815e8b9c40307709d3e39c597951fa3ea24fb"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/portfolio-traces.jsonl",
+      "published_sha256": "865154da671a2dd71416fadbf56cab7541a2098fee93f919a8b06a2e4f2d879c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/portfolio.py.txt",
+      "published_sha256": "0586b8eb5653ee6492bd48dadc1d2262dfbd492b3b39b62907b28a6090f8498c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/routed_text_search.py.txt",
+      "published_sha256": "94dce1be7a95ad1916df2ef383c025c06e64b4042c0f25d2965624de15601497"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/aggregate.json",
+      "published_sha256": "72a2f85cf5c12fc493ae664ceb28ba9e546730e240b7c5874253a1f76772b350"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/learn.py.txt",
+      "published_sha256": "89f507a5f8b6ce9426bf35c12cc532cbd219cfb5cf68d3ebdcd47b68c9e205a8"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/learning-summary.json",
+      "published_sha256": "0ea31cb84b7fc115b3a0bd56179db0971d1da6b4235137ed59f701044058095d"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-0-continuous.json",
+      "published_sha256": "37c1749eafadd8d3cc615e8346fcc27658edb6d1a8c7105f168626debf841a2b"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-0-detached.json",
+      "published_sha256": "e60f58972730ac54524d44d1916cb1076a7970e81cd8c16aaa242bfeb176a129"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-0-frozen_input.json",
+      "published_sha256": "f2e24d1eee999021f62df1b6238ae3d0604c34b876c8f2dfca18494190be4a0c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-0-spiking.json",
+      "published_sha256": "1d249cc91749621607f0f12aa7bf4bd8ca2bfcc4278a3b3294604059b8bc149a"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-1-continuous.json",
+      "published_sha256": "59f380d313f399956cd2336dd73545faf07dbe65418907af6b6bc2e60d504010"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-1-detached.json",
+      "published_sha256": "cdfff06d4eb4c403bb4565340cd250943206fc295d0bd1455bb215a30576bfad"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-1-frozen_input.json",
+      "published_sha256": "5d908e06f6f00209ca1670a96f5c427580e99a7f2e8a5a1daecf586d6f902eb2"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/selector-two-arm-02/model-1-spiking.json",
+      "published_sha256": "33d15a80bc155cfec3d04b43c02c37d6e939d1802d614b117cd0bcb032b605c6"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/strong-rule-02.json",
+      "published_sha256": "205b0e8042a23124058e7c664362cff3959638dd167625698ba4951b29622288"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/profile-matrix-01/test_routed_text_search.py.txt",
+      "published_sha256": "f588550749b70a9162afef826de7e0a1f312397471db7d8de4b18b2392b86d3f"
+    },
+    {
+      "path": "research/neural-routing-loop/development/dev-mechanism-01/result.json",
+      "published_sha256": "adbd7a743dbf084bad5602d113e857cb3ba9d72712177add517fa4f7d1079ebc"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/build_duet_development_jobs.py.txt",
+      "published_sha256": "43d673083c41c0724a90d4a0865b99c1ff50d3fdeaffd16c6a502c637721cf45"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/bustle-semantic-prioritization-research.json",
+      "published_sha256": "ecd082909e64f317cf958ea8f4a090b42ec0fd1de172958e47962e0095e06396"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-LICENSE",
+      "published_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-commit.json",
+      "published_sha256": "70dba7fc337e7d11e9178a025b65d091aeb9207b0b7dc8300d5c509368373673"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development-download.json",
+      "published_sha256": "0e6d5a847767b515c1af0fd4583cf5338f77476a9f999b8a101cefaad5796384"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development-inventory.json",
+      "published_sha256": "1ece4a8a75c9380f6fa9aaf08e80ba70680fa1b3319229397151ff0f847e2d36"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development-jobs.json",
+      "published_sha256": "50ac5c81f1a5aed8525a8cc73852711dd5f9d7ee7e93d8ad09db6f918f36e4e5"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/19274448.sl",
+      "published_sha256": "270f0eed7395ffbd664d3fee0c29387ba623d482fbaf2bf7ccb83fdcb8646b2d"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/2171308.sl",
+      "published_sha256": "53562f1f836fda7afe322f6f2b04e9d2bd1203d4445532963f60d7dffcdd484e"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/25239569.sl",
+      "published_sha256": "e7f45edf599966e6b1655d6e880041bd6df25e5986af0ed1c37a4dba7275f2a2"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/30732554.sl",
+      "published_sha256": "5b597849043e15e1fcda82a508af5278970abad1daf33a9c79e937a1c1a5e677"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/33619752.sl",
+      "published_sha256": "79911c46b4468f96e5d1085b93d0d80b3b8fbf42467e2452476c34a04448f3dc"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/38871714.sl",
+      "published_sha256": "7e370a386745bba69e0ca7b0623a307b354366df9a4964ae8006c42853a66168"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/39060015.sl",
+      "published_sha256": "f1fce9621f592eba7f6ee79e0c2374a2417605c0a27cc35e6177fb0faf33654c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/41503046.sl",
+      "published_sha256": "a74b959a95470afd275e28a0dcd4c53c3de8133a0190411de0774aa5734f0636"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/bikes-long-repeat.sl",
+      "published_sha256": "99483643e5606c20f641af853c72b4f11c3efb4f37bc3e0a339415c42909429e"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/bikes-long.sl",
+      "published_sha256": "9d869c8af2686ab315a336aab0c32e14538e88455b273d186f893f461ecee2fd"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/bikes.sl",
+      "published_sha256": "0504853da786060e48305c0e2adc73ac1fe948b79e8f928f4e212dfade879598"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/bikes_small.sl",
+      "published_sha256": "0504853da786060e48305c0e2adc73ac1fe948b79e8f928f4e212dfade879598"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/count-consecutive-monthly-orders.sl",
+      "published_sha256": "ca30d916554aaffee122e456a731b54dd1696c0fa95a7ce85c97d3a72f9d186e"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/count-line-breaks-in-cell.sl",
+      "published_sha256": "04bd0d5dcad66035f7edb36cb26afdb1d4605a17fcfd2e632fc46c15fc205095"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/count-specific-characters-in-a-cell.sl",
+      "published_sha256": "56c5b341d960c234f117c2271b7cd588f10495c31fb1e4677cc5fb37e70ede98"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/count-specific-words-in-a-cell.sl",
+      "published_sha256": "0a7b6151ae1c5d73abc27771bfa8815a11b848f3a801c753569c4d5b98bd2e0c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/count-total-characters-in-a-cell.sl",
+      "published_sha256": "9e77fc3476f531371458bd2338c34b224452ef1ee040bfbb553ca05a130ae353"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/count-total-words-in-a-cell.sl",
+      "published_sha256": "7da3c817a0762cd884a25405eddb2071449c01c522b489151a16016ba76d7931"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/exceljet1.sl",
+      "published_sha256": "3f99ce04eb8a23490512e1a3e246ee4f862881891140ca683c407a15bdbb8977"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/extract-nth-word-from-text-string.sl",
+      "published_sha256": "68dc2bba7313f6dc539c56cbf772eaaf5f1bd04da62e4fb5bd7ce8ec3f425fbb"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/extract-text-between-parentheses.sl",
+      "published_sha256": "6a97e267dedb5b2a1abbf79b69cc86ba8947920285c545a20297cc196d092024"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/extract-word-containing-specific-text.sl",
+      "published_sha256": "b62f0ae51d5d4f9aea1adb4cafbcd7c1304feb6c4329cb9ea5b58e716b2293c8"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/extract-word-that-begins-with-specific-character.sl",
+      "published_sha256": "f478b4e8b02e0bdb647ab0449214b06f3541b5ebe16d1fdd38664be4830f4873"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-2-long-repeat.sl",
+      "published_sha256": "7d87df7ba31d9206da153f8754478e4f1b868663c87105386f3e263a5cc1d232"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-2-long.sl",
+      "published_sha256": "6e11fbd61382b0fc816e2b04510c4e240cb87f67715de587716fdd6a7532a5ea"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-2.sl",
+      "published_sha256": "9fc39d9e262f838f5b8e507607d136fcdec208bc7e48ae63b6495e74cd5179c1"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-2_short.sl",
+      "published_sha256": "9fc39d9e262f838f5b8e507607d136fcdec208bc7e48ae63b6495e74cd5179c1"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-3-long-repeat.sl",
+      "published_sha256": "fb77ee41de853cb1c49e8cdc41347ca403151d5279961c714855897da226e51f"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-3-long.sl",
+      "published_sha256": "f576ca90ad1393544bd9dd746ad306910d93e0dd3ae6192323328038f41dcf33"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-3.sl",
+      "published_sha256": "3ab681ad830ff6b7420f524bb15bd645cae5e21c94eb1ad3ec75f219f31b8790"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-3_short.sl",
+      "published_sha256": "3ab681ad830ff6b7420f524bb15bd645cae5e21c94eb1ad3ec75f219f31b8790"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-4-long-repeat.sl",
+      "published_sha256": "30d9107e72e0382daa6ee69f97d46dc782dde524c62ae1f8180d1658cb122f9a"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-4-long.sl",
+      "published_sha256": "e7004a48f740e9016f79cd1caccab452b9ff296c3a0667c714d6bfc8308aef68"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-4.sl",
+      "published_sha256": "6e519afc2e87253968fecca3dbbfcdb13618b77daa271cfb8d7b4b9088838d93"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-4_short.sl",
+      "published_sha256": "6e519afc2e87253968fecca3dbbfcdb13618b77daa271cfb8d7b4b9088838d93"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-long-repeat.sl",
+      "published_sha256": "f5aae340732a976d77383771ad66220ba2475f1e2317bdea7800795053d01c36"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine-long.sl",
+      "published_sha256": "240a0ae46d8a856d4cf1d1f45ef6a9245584570d1e27b43c9159a30eafcf8d84"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine.sl",
+      "published_sha256": "78f5ff4cf19ecdc38f0e8ca9932218b91883edfbfe3d960cb813dbb72fb0fc91"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/name-combine_short.sl",
+      "published_sha256": "78f5ff4cf19ecdc38f0e8ca9932218b91883edfbfe3d960cb813dbb72fb0fc91"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/stackoverflow10.sl",
+      "published_sha256": "c35a6758ed6094b57a32176c6986b52f0bc41c8444bde981b6d564144e6a1b08"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/strip-html-from-text-or-numbers.sl",
+      "published_sha256": "fec1b0b0b816027fa0bd6f35670f1c183fb82209e92876356c030a0bafec71cd"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/strip-non-numeric-characters.sl",
+      "published_sha256": "7edbebdec6214066f3a57baeef37bb2859537901bfc40fe8f2607bb6383ba242"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-development/strip-numeric-characters-from-cell.sl",
+      "published_sha256": "6f87178f6318bf54bac8c93d100295cf0ad6b22dea14e1d5ecdecf59a7462555"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-reader-verification-v2.json",
+      "published_sha256": "3f8d528de3bf2e246eca87d5a61d743fdaf3f45a7e3672ef9237f1bb3e21dd23"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-reader-verification.json",
+      "published_sha256": "b837ed1d96e1a017a54a0bb817bf9cc8c66cac9182e23c6ed35914768892f0d5"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-reserved-sealed-manifest.json",
+      "published_sha256": "908152cbbf44a4e800d38457c6a2b5702e1dbe5d6f95d6403d957e6e248db5c6"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-split-before-access.json",
+      "published_sha256": "24d31370b8ff780b9ec77ad1855fd67ebd70a5d84fe83fda44d08fb0012be14c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/duet-tree.json",
+      "published_sha256": "5f6c8797d46e52cb846a3e2f50d548aeaa9e9b1314264fa6d02e068b6b09e533"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/inventory_duet_development.py.txt",
+      "published_sha256": "8035e09aed9117732b94e545d983cddbe233deb5607cc89d18ddb4c6cd9c71aa"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/policy-reference-128-initial-artifact.json",
+      "published_sha256": "dafbc07285dbdf01b2d1a2632db6e0fd210f4386c6abd90c7a2a46babd321362"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/policy-reference-128-initial-verification.json",
+      "published_sha256": "d8b0a8f6d7bfb7ab4f555634f95c1e416f1ba442a6a46e0e47d0e2f826de7b14"
+    },
+    {
+      "path": "research/neural-routing-loop/development/eval-design-01/sqlite-routing-primary-research.json",
+      "published_sha256": "608c7cfeb1cfa9070e4920510e3e282ffd27a375cd50cce08c7ca82536d9864d"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-02/probe.py.txt",
+      "published_sha256": "bdfead7c0057ac5d79ea846a916714ee540c5be3d819aaaf39050b82317c5e57"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-02/queries.json",
+      "published_sha256": "c762c5bec58029aa8cdef6e4884cf638e6f5f8d458dadf9f554fdb749a814eaa"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-02/summary.json",
+      "published_sha256": "9e900833b3564abe908b8c3b9452302938d66af88b08bd333fa035c1913abc4b"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-03/histogram-rule-summary.json",
+      "published_sha256": "32eb520236a55f65bb00f3268eba941352d6e889f788aa6f11799621e061790e"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-03/histogram_rule.py.txt",
+      "published_sha256": "2f26e72a3a69ca752b0fb3c52e73693a1107285078a3b3cd561605b7db68c9af"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-03/probe.py.txt",
+      "published_sha256": "e99b1bbd482010360192f30941aeb16630ae4646a968fdeec58340604bc26967"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-03/queries.json",
+      "published_sha256": "f09f7ea9a75e2390d09a1c0f727b13be0179cddf302985541b0268cf4ea55aac"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/clean-03/summary.json",
+      "published_sha256": "4dc4544903de5a25e50ab8fd07e43cf4fa0d788b3ac47453def9405c79918c64"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/handoff.json",
+      "published_sha256": "0fde9a2a4d3ebd752a790277dde66e4499513e43dc2085455a349363c03d024e"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/probe.py.txt",
+      "published_sha256": "7184c3e8b8aae098301a6fb44415dbb6d4363aa861a2b17f187c271e73d5008f"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/queries.json",
+      "published_sha256": "e73737cce7f9208ff265e5cb985439f5b92ae116d52f18cc9adc5851a153ef3d"
+    },
+    {
+      "path": "research/neural-routing-loop/development/query-routing-dev-01/summary.json",
+      "published_sha256": "00226327328747519d3493178e68606e98a65368edb7ae0c85947515af8c4694"
+    },
+    {
+      "path": "research/neural-routing-loop/development/summary.json",
+      "published_sha256": "f2e8338468513fcef89259546bcb1e59b3cbd0b3f785fc781b5c4eeee9b1b725"
+    },
+    {
       "path": "research/skill-acquisition/README.md",
       "published_sha256": "367f9295a076b86ca91832b678dd6ccdf140d3b0fb7e35c8da4c978439acc21d"
     },
@@ -2811,6 +3304,10 @@
       "published_sha256": "b80584845893a506627676caca61a694f8581facf61455f4540e1abd546700e7"
     },
     {
+      "path": "scripts/verify_spiking_policy.py",
+      "published_sha256": "5c56d3ce49aa4b421da93be39fb6dfeb53ac7010eb260da34b35f3e3c900caa4"
+    },
+    {
       "path": "store.py",
       "published_sha256": "d02d3a720c2e4039cfb2a2a9865c47dd122c04541bb0917ba070747ed99b4516"
     },
@@ -3039,12 +3536,20 @@
       "published_sha256": "0cfa3e8bb1d5afed526f9e931f640ad366dae4a0bc3f6388793829650597b418"
     },
     {
+      "path": "tests/test_neural_routing_runtime.py",
+      "published_sha256": "16eac0b9bba4aec5842dd4a83c31ce1462f03c6276154bc41fa0c3e89b67eb4e"
+    },
+    {
       "path": "tests/test_neural_task_credit.py",
       "published_sha256": "d748280bdff8941ebd20af058c52bb9cbe384e29d1e5d56911848bc54486cfcb"
     },
     {
       "path": "tests/test_payment_recovery.py",
       "published_sha256": "3baec01a8f2701b24213ab9b346d84356a661e9db5b64ea983d93f9f6aa8cc84"
+    },
+    {
+      "path": "tests/test_pbe_benchmarks.py",
+      "published_sha256": "ca8d74de9daa5fb9c90af8efb4a8389e321d278e412aff1348d03894bd8ab363"
     },
     {
       "path": "tests/test_pump_sweep.py",
@@ -3057,6 +3562,14 @@
     {
       "path": "tests/test_recovery_archive.py",
       "published_sha256": "6cb0a61dfbd3e29ac68695a9aafd984ee2c1569cc9338da1c37fce336ea9e921"
+    },
+    {
+      "path": "tests/test_routed_text_search.py",
+      "published_sha256": "7e68342c421d750c83bb3f19a95f3bafab6cd0c39bc90eecb4c87cd571e9b950"
+    },
+    {
+      "path": "tests/test_routing_features.py",
+      "published_sha256": "5d041e263e354a6880363b756ac2362a7e0c80ad6d62c6a6b37662fbc6bd0fe9"
     },
     {
       "path": "tests/test_session_budget.py",
@@ -3093,6 +3606,14 @@
     {
       "path": "tests/test_spiking_digits.py",
       "published_sha256": "23d24cdb59c45879dbef7d7dec5e6402e4f96ad9973bb7c2523a7e29206063db"
+    },
+    {
+      "path": "tests/test_spiking_policy.py",
+      "published_sha256": "ccf5204dc0147537630d263bbf415aa6ddacc5fe5fc6515e1342d7490cc06036"
+    },
+    {
+      "path": "tests/test_spiking_policy_verifier.py",
+      "published_sha256": "c46d842ba52d8278d48b0fb0b32f62dcce1d2cd52a81002a2b77b5234c06cfd1"
     },
     {
       "path": "tests/test_sqlite_backup_snapshot.py",

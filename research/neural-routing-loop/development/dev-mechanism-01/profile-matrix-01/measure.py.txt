@@ -1,0 +1,32 @@
+"""DEV fixed-profile competence matrix; no router or hidden best-action labels."""
+from pathlib import Path
+import hashlib,json,time,sys
+from cognition.routed_text_search import RoutedTextLibrary,PROFILES,implementation_hash
+from cognition.active_skills import probe_cost
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.evaluate_guarded_skills import units
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).parent
+kind=sys.argv[1] if len(sys.argv)>1 else 'authored'
+if kind=='authored':
+ jobs=[{'stream':seed,**job} for seed in (0,1,2,3) for job in generate(seed,96)['tasks']]
+else:
+ body=json.loads(Path(sys.argv[2]).read_text());jobs=body['jobs'] if isinstance(body,dict) and 'jobs' in body else body
+ if not isinstance(jobs,list):raise ValueError('Expected prepared development jobs')
+rows=[];start=time.process_time();identity=implementation_hash()
+with (P/f'{kind}-traces.jsonl').open('x') as stream:
+ for number,job in enumerate(jobs):
+  if len(job.get('diagnostic_inputs',[]))<1 or not job.get('score_inputs'):
+   row={'job_id':job.get('id',str(number)),'family':job.get('family'),'unsupported':job.get('unsupported','insufficient_examples'),'unscorable':True,'profiles':{p:{'accepted':False,'correct_rows':0,'rows':len(job.get('score_inputs',[])),'work':0,'cpu_seconds':0.} for p in PROFILES}};rows.append(row);stream.write(json.dumps(row)+'\n');stream.flush();continue
+  xs=job['diagnostic_inputs'][:4];ys=job['diagnostic_outputs'][:4];audit=sum(probe_cost(x,y) for x,y in zip(xs,ys));methods={}
+  for profile in PROFILES:
+   began=time.process_time();lib=RoutedTextLibrary(f'nuria:profile-{kind}-dev',CONFIG,profile=profile);before=lib.dump();selected=lib.solve(xs,ys,mode='retained_factored',budget=50000);checked=outcome(selected['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+   if selected['proposal_id'] is not None:
+    receipt={'source_id':lib.source_id,'proposal_id':selected['proposal_id'],'program_sha256':selected['program_sha256'],'evaluation_id':hashlib.sha256(f'{kind}:{number}:{profile}'.encode()).hexdigest(),'accepted':checked['passed'],'correct_rows':checked['correct'],'total_rows':checked['rows'],'evidence_sha256':hashlib.sha256(json.dumps(checked,sort_keys=True).encode()).hexdigest(),'work':checked['total_work']};lib.admit_verified(selected['proposal_id'],receipt)
+   bookkeeping=units(before)+units(lib.dump());cost=audit+selected['work']['total']+checked['total_work']+bookkeeping
+   methods[profile]={'accepted':checked['passed'],'correct_rows':checked['correct'],'rows':checked['rows'],'proposal':selected['program'] is not None,'program':selected['program'],'program_sha256':selected['program_sha256'],'search_work':selected['work'],'audit_work':audit,'buyer_work':checked['total_work'],'bookkeeping_work':bookkeeping,'work':cost,'cpu_seconds':time.process_time()-began,'routing_execution_sha256':selected['routing_execution_sha256']}
+  row={'job_id':job.get('id',str(number)),'stream':job.get('stream'),'family':job.get('family'),'unsupported':job.get('unsupported'),'profiles':methods};rows.append(row);stream.write(json.dumps(row)+'\n');stream.flush()
+  if (number+1)%48==0:print(kind,number+1,flush=True)
+summary={p:{'accepted':sum(r['profiles'][p]['accepted'] for r in rows),'wrong_proposals':sum(r['profiles'][p].get('proposal',False) and not r['profiles'][p]['accepted'] for r in rows),'work':sum(r['profiles'][p]['work'] for r in rows),'cpu_seconds':sum(r['profiles'][p]['cpu_seconds'] for r in rows),'wins_vs_default':sum(r['profiles'][p]['accepted'] and not r['profiles']['default']['accepted'] for r in rows),'losses_vs_default':sum(not r['profiles'][p]['accepted'] and r['profiles']['default']['accepted'] for r in rows)} for p in PROFILES}
+report={'scope':'DEVELOPMENT fixed-tool matrix only; eachactualtool gets identicalfirst4audits and50ksearchcap, newemptyknowledgeperjob, allremainingrows independentlyverified. Allprofiles staydenominator. Union is anoracleupperbound, never a trained-routerresult. Profile improvement alone is notneuralcontribution. Nativework+audit+buyer+serializationunits tracked; CPU separate. No sealed Duet162 access.','kind':kind,'jobs':len(rows),'unscorable':sum(r.get('unscorable',False) for r in rows),'profiles':summary,'union_accepted':sum(any(v['accepted'] for v in r['profiles'].values()) for r in rows),'cpu_seconds':time.process_time()-start,'implementation_sha256':identity,'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+(P/f'{kind}-summary.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
