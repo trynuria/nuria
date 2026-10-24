@@ -69,6 +69,12 @@ independent checker verified all **5,184 method-job records**. It reconstructs
 outputs, receipts, library transitions and accounting; it does not replay search
 or independently witness physical CPU consumption.
 
+A separate [full search replication](../research/guarded-skills/reserved/search-replication.json)
+then re-executed all 5,184 records. Every deterministic field matched, including
+diagnostic choices, search work, proposed programs, buyer receipts and complete
+library histories. Only measured CPU fields were excluded. This reproduces the
+published experiment; it is not another qualification or a new dataset.
+
 ## External reanalysis
 
 The previously observed Microsoft PROSE tasks provide a separate, explicitly
@@ -88,7 +94,7 @@ The earlier [negative external qualification](../research/active-skills/README.m
 remains unchanged as historical evidence. It is not retroactively relabelled as
 a success.
 
-## Prepared production route
+## Production route
 
 The separate `local-composed-records-v1` provider is restricted to the
 `nuria:composed-record-repair-v1` source and `composed_fixed4` policy. Its reviewed
@@ -98,16 +104,29 @@ cannot broaden that authority through its own metadata.
 The learner receives diagnostic inputs and the answers to its recorded requests.
 Recipes and final inputs and targets stay with the buyer. One committed program
 is delivered before final checking. Only exact buyer acceptance can admit a new
-program; a correct artifact from a terminal abstention can be checked and
-consumed without being retained or counted as a delivered success.
+program. Abstentions and rejected proposals remain recorded and earn no positive
+outcome credit.
 
-The prepared adapter uses durable reservations, immutable action receipts and
+The deployed adapter uses durable reservations, immutable action receipts and
 source-bound checkpoints. Interrupted physical work retains uncertain liability
 instead of being silently repeated. After buyer evaluation, one outcome is
 returned to its originating neural context and acknowledged only after the
 cognitive checkpoint is committed. This route uses included compute with zero
-wallet payments. Live integration requires its separate completion certificate;
-the offline comparison alone does not establish it.
+wallet payments.
+
+The [completed live course](../research/guarded-skills/live/README.md) checked all
+25 jobs and their committed neural outcome acknowledgments. Twenty deliveries
+passed: sixteen newly synthesized programs and four retained-program reuses.
+Five costed abstentions remain in the denominator, including the declared
+unsupported SHA256 control. All jobs used four diagnostic answers; 480 of 600
+separate final rows were exact. There were no incorrect submitted programs and
+no unresolved operations. The earlier 124 tasks and 36 episodes matched their
+sealed baseline exactly.
+
+This verifies the deployed delivery and feedback path. It does not show that
+neural routing improves decisions, reconstruct synaptic changes or establish
+generalization beyond the declared workload. The offline comparison and live
+integration answer different questions.
 
 ## Reproduce the checks
 

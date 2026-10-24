@@ -122,7 +122,7 @@ random-seed experiment.
 ```sh
 python -m scripts.replay_guarded_skill_search research/guarded-skills/reserved \
   --protocol research/guarded-skills/protocol.json \
-  --output search-replication
+  --output ../nuria-search-replication
 ```
 
 ## Previously seen external tasks
@@ -148,3 +148,19 @@ This demonstrates a bounded program-synthesis improvement, not a neural
 advantage, general intelligence or consciousness. Fresh generated tasks do not
 establish performance on independent external workloads. The observatory design
 is unchanged.
+
+## Completed live integration
+
+The deployed four-answer policy then completed a separately committed local
+25-job course. The [safe certificate](live/certificate.json) verifies all 25
+outcomes and their committed neural acknowledgments with zero gaps. Twenty jobs
+passed, including sixteen newly synthesized programs and four retained-program
+reuses. Five costed abstentions remain in the denominator: four supported jobs
+and the declared unsupported SHA256 control. No incorrect program was submitted.
+All 100 diagnostic answers and all 600 final rows are accounted for; 480 rows were
+exact. Declared provider work was 475,200, plus 18,996 reconstructed buyer work.
+
+The [live report](live/README.md) records exhausted queues, preserved earlier
+history, unchanged presentation and disabled financial execution. It establishes
+a deployed delivery/feedback path, not an external benchmark or a causal neural
+advantage. No wallet funds were spent.
