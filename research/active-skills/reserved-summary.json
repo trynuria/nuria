@@ -1,0 +1,1222 @@
+{
+  "all_methods_identical_initial_state": true,
+  "coverage_denominators": {
+    "external_universe": 354,
+    "metadata_eligible": 183,
+    "novel_input_scoring_rows": 3946,
+    "original_scoring_rows": 4042,
+    "reserved_eligible_and_attempted": 167,
+    "score_rows_repeating_diagnostic_inputs": 47,
+    "typed_scorable_rows": 3993,
+    "unscorable_original_rows": 49,
+    "unsupported_reserved": 14,
+    "whole_family_development": 16
+  },
+  "evaluation_finished_utc": "2026-10-24T13:45:11.485749+00:00",
+  "evaluation_started_utc": "2026-10-24T13:45:06.507149+00:00",
+  "freeze_commit": "2b8503e189f0a9ecca5be6b7d5f47231342df601",
+  "independent_verification": {
+    "jobs": 167,
+    "methods": 5,
+    "passed": true,
+    "records": 835,
+    "scope": "Independent data-only execution and selected-label/admission arithmetic; search and physical CPU are not independently witnessed"
+  },
+  "initial_library_artifact_sha256": "9bc790e1c8d0b5d2f33b7007006a79d12e0ce8e59c4eb3c6d0629b7a53abc1c3",
+  "initial_library_canonical_sha256": "1a24d8371ef86121d37d2414c3f4cd81bab50372553697e6bdf299b3c156afe3",
+  "inventory_sha256": "b78576081eb7cc901dc51d4c894ecb952d71fae9896f0a8509c24a6401369687",
+  "limitations": [
+    "Only 59 of 167 reserved files are exactly correct for the deployed audited policy; 30 proposed programs are wrong and 78 files have no proposal.",
+    "An additional 29 program hashes are genuinely admitted after exact past-file checks, yet the frozen control solves 60 files; added retained membership is not demonstrated competence improvement.",
+    "The audited session uses more counted work and measured CPU than the direct fixed2 baseline.",
+    "The program grammar, two-label cap and source-type bounds leave broad unsupported or unsolved coverage.",
+    "Raw final labels never enter search; aggregate buyer outcomes can affect later files only, as preregistered.",
+    "CPU is recorded on one runtime, counterbalanced by task order, not independently physically witnessed; no population-level confidence interval is claimed.",
+    "Production ledger and neural-worker overhead are outside the measured per-file CPU.",
+    "The source inventory remains the pre-access frozen snapshot; current access is recorded separately."
+  ],
+  "methods": {
+    "audited_retention": {
+      "abstained_or_failed_search": 78,
+      "correct_novel_rows": 2223,
+      "correct_rows": 2264,
+      "cpu_seconds": 1.0529679999999988,
+      "exact_success_rate": 0.3532934131736527,
+      "exact_successes": 59,
+      "jobs": 167,
+      "novel_score_rows": 3946,
+      "original_score_rows": 4042,
+      "probes": 305,
+      "proposal_coverage": 0.5329341317365269,
+      "proposed": 89,
+      "score_rows": 3993,
+      "scoring_rows_overlapping_diagnostics": 47,
+      "total_work": 1393691,
+      "unscorable_original_rows": 49,
+      "unsupported": 14
+    },
+    "disagreement": {
+      "abstained_or_failed_search": 77,
+      "correct_novel_rows": 2227,
+      "correct_rows": 2268,
+      "cpu_seconds": 1.1070740000000014,
+      "exact_success_rate": 0.3592814371257485,
+      "exact_successes": 60,
+      "jobs": 167,
+      "novel_score_rows": 3946,
+      "original_score_rows": 4042,
+      "probes": 305,
+      "proposal_coverage": 0.5389221556886228,
+      "proposed": 90,
+      "score_rows": 3993,
+      "scoring_rows_overlapping_diagnostics": 47,
+      "total_work": 1358828,
+      "unscorable_original_rows": 49,
+      "unsupported": 14
+    },
+    "fixed2": {
+      "abstained_or_failed_search": 77,
+      "correct_novel_rows": 2223,
+      "correct_rows": 2265,
+      "cpu_seconds": 0.7125369999999959,
+      "exact_success_rate": 0.3532934131736527,
+      "exact_successes": 59,
+      "jobs": 167,
+      "novel_score_rows": 3946,
+      "original_score_rows": 4042,
+      "probes": 305,
+      "proposal_coverage": 0.5389221556886228,
+      "proposed": 90,
+      "score_rows": 3993,
+      "scoring_rows_overlapping_diagnostics": 47,
+      "total_work": 1197780,
+      "unscorable_original_rows": 49,
+      "unsupported": 14
+    },
+    "frozen": {
+      "abstained_or_failed_search": 78,
+      "correct_novel_rows": 2223,
+      "correct_rows": 2264,
+      "cpu_seconds": 0.9038649999999955,
+      "exact_success_rate": 0.3592814371257485,
+      "exact_successes": 60,
+      "jobs": 167,
+      "novel_score_rows": 3946,
+      "original_score_rows": 4042,
+      "probes": 305,
+      "proposal_coverage": 0.5329341317365269,
+      "proposed": 89,
+      "score_rows": 3993,
+      "scoring_rows_overlapping_diagnostics": 47,
+      "total_work": 1362027,
+      "unscorable_original_rows": 49,
+      "unsupported": 14
+    },
+    "random": {
+      "abstained_or_failed_search": 77,
+      "correct_novel_rows": 2227,
+      "correct_rows": 2268,
+      "cpu_seconds": 1.1068989999999974,
+      "exact_success_rate": 0.3592814371257485,
+      "exact_successes": 60,
+      "jobs": 167,
+      "novel_score_rows": 3946,
+      "original_score_rows": 4042,
+      "probes": 305,
+      "proposal_coverage": 0.5389221556886228,
+      "proposed": 90,
+      "score_rows": 3993,
+      "scoring_rows_overlapping_diagnostics": 47,
+      "total_work": 1343703,
+      "unscorable_original_rows": 49,
+      "unsupported": 14
+    }
+  },
+  "per_family": {
+    "Abbreviation": {
+      "audited_retention": {
+        "cpu_seconds": 0.006033999999999998,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 9686
+      },
+      "disagreement": {
+        "cpu_seconds": 0.006371000000000002,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 9853
+      },
+      "fixed2": {
+        "cpu_seconds": 0.0055670000000000025,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 9230
+      },
+      "frozen": {
+        "cpu_seconds": 0.006037000000000001,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 9674
+      },
+      "random": {
+        "cpu_seconds": 0.0070230000000000015,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 9820
+      }
+    },
+    "Address": {
+      "audited_retention": {
+        "cpu_seconds": 0.03829899999999997,
+        "exact_successes": 6,
+        "proposed": 8,
+        "tasks": 13,
+        "total_work": 62241
+      },
+      "disagreement": {
+        "cpu_seconds": 0.04412000000000006,
+        "exact_successes": 6,
+        "proposed": 8,
+        "tasks": 13,
+        "total_work": 66945
+      },
+      "fixed2": {
+        "cpu_seconds": 0.026314000000000018,
+        "exact_successes": 6,
+        "proposed": 8,
+        "tasks": 13,
+        "total_work": 55618
+      },
+      "frozen": {
+        "cpu_seconds": 0.03493100000000002,
+        "exact_successes": 6,
+        "proposed": 8,
+        "tasks": 13,
+        "total_work": 60990
+      },
+      "random": {
+        "cpu_seconds": 0.04403899999999991,
+        "exact_successes": 6,
+        "proposed": 8,
+        "tasks": 13,
+        "total_work": 66126
+      }
+    },
+    "BillingCode": {
+      "audited_retention": {
+        "cpu_seconds": 0.037515999999999994,
+        "exact_successes": 5,
+        "proposed": 6,
+        "tasks": 8,
+        "total_work": 44342
+      },
+      "disagreement": {
+        "cpu_seconds": 0.04055499999999995,
+        "exact_successes": 5,
+        "proposed": 6,
+        "tasks": 8,
+        "total_work": 45629
+      },
+      "fixed2": {
+        "cpu_seconds": 0.027370999999999923,
+        "exact_successes": 5,
+        "proposed": 6,
+        "tasks": 8,
+        "total_work": 38831
+      },
+      "frozen": {
+        "cpu_seconds": 0.06306199999999995,
+        "exact_successes": 4,
+        "proposed": 5,
+        "tasks": 8,
+        "total_work": 89822
+      },
+      "random": {
+        "cpu_seconds": 0.04015199999999991,
+        "exact_successes": 5,
+        "proposed": 6,
+        "tasks": 8,
+        "total_work": 45148
+      }
+    },
+    "City": {
+      "audited_retention": {
+        "cpu_seconds": 0.011654999999999749,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 9,
+        "total_work": 13974
+      },
+      "disagreement": {
+        "cpu_seconds": 0.011518999999999946,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 9,
+        "total_work": 12147
+      },
+      "fixed2": {
+        "cpu_seconds": 0.009217000000000142,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 9,
+        "total_work": 12454
+      },
+      "frozen": {
+        "cpu_seconds": 0.009100999999999915,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 9,
+        "total_work": 12243
+      },
+      "random": {
+        "cpu_seconds": 0.01145200000000035,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 9,
+        "total_work": 12007
+      }
+    },
+    "FilePath": {
+      "audited_retention": {
+        "cpu_seconds": 0.03122899999999995,
+        "exact_successes": 1,
+        "proposed": 2,
+        "tasks": 5,
+        "total_work": 43761
+      },
+      "disagreement": {
+        "cpu_seconds": 0.03260300000000016,
+        "exact_successes": 1,
+        "proposed": 2,
+        "tasks": 5,
+        "total_work": 44062
+      },
+      "fixed2": {
+        "cpu_seconds": 0.02365100000000009,
+        "exact_successes": 1,
+        "proposed": 2,
+        "tasks": 5,
+        "total_work": 39861
+      },
+      "frozen": {
+        "cpu_seconds": 0.027861999999999942,
+        "exact_successes": 1,
+        "proposed": 2,
+        "tasks": 5,
+        "total_work": 42373
+      },
+      "random": {
+        "cpu_seconds": 0.03269999999999995,
+        "exact_successes": 1,
+        "proposed": 2,
+        "tasks": 5,
+        "total_work": 43673
+      }
+    },
+    "Gender": {
+      "audited_retention": {
+        "cpu_seconds": 0.008360000000000034,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 3,
+        "total_work": 11947
+      },
+      "disagreement": {
+        "cpu_seconds": 0.008434000000000053,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 3,
+        "total_work": 11238
+      },
+      "fixed2": {
+        "cpu_seconds": 0.006683999999999912,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 3,
+        "total_work": 11157
+      },
+      "frozen": {
+        "cpu_seconds": 0.007150000000000101,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 3,
+        "total_work": 11253
+      },
+      "random": {
+        "cpu_seconds": 0.008545000000000025,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 3,
+        "total_work": 11188
+      }
+    },
+    "Honorific": {
+      "audited_retention": {
+        "cpu_seconds": 0.002350999999999992,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 2048
+      },
+      "disagreement": {
+        "cpu_seconds": 0.002685999999999966,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 2054
+      },
+      "fixed2": {
+        "cpu_seconds": 0.0012349999999999861,
+        "exact_successes": 0,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 1472
+      },
+      "frozen": {
+        "cpu_seconds": 0.0016319999999999668,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 1796
+      },
+      "random": {
+        "cpu_seconds": 0.0026760000000000117,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 2003
+      }
+    },
+    "Language": {
+      "audited_retention": {
+        "cpu_seconds": 0.013402999999999943,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 21921
+      },
+      "disagreement": {
+        "cpu_seconds": 0.014571000000000112,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 21926
+      },
+      "fixed2": {
+        "cpu_seconds": 0.010688999999999949,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 20364
+      },
+      "frozen": {
+        "cpu_seconds": 0.012427999999999995,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 21302
+      },
+      "random": {
+        "cpu_seconds": 0.014651999999999998,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 21826
+      }
+    },
+    "Log": {
+      "audited_retention": {
+        "cpu_seconds": 0.021307999999999883,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 4,
+        "total_work": 48903
+      },
+      "disagreement": {
+        "cpu_seconds": 0.023136000000000045,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 4,
+        "total_work": 51442
+      },
+      "fixed2": {
+        "cpu_seconds": 0.01550000000000007,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 4,
+        "total_work": 45687
+      },
+      "frozen": {
+        "cpu_seconds": 0.018803000000000125,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 4,
+        "total_work": 47787
+      },
+      "random": {
+        "cpu_seconds": 0.023267999999999955,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 4,
+        "total_work": 50946
+      }
+    },
+    "Name": {
+      "audited_retention": {
+        "cpu_seconds": 0.17931700000000006,
+        "exact_successes": 13,
+        "proposed": 22,
+        "tasks": 35,
+        "total_work": 233450
+      },
+      "disagreement": {
+        "cpu_seconds": 0.1870029999999997,
+        "exact_successes": 13,
+        "proposed": 22,
+        "tasks": 35,
+        "total_work": 226899
+      },
+      "fixed2": {
+        "cpu_seconds": 0.12033799999999917,
+        "exact_successes": 13,
+        "proposed": 22,
+        "tasks": 35,
+        "total_work": 200325
+      },
+      "frozen": {
+        "cpu_seconds": 0.15114900000000042,
+        "exact_successes": 14,
+        "proposed": 22,
+        "tasks": 35,
+        "total_work": 218640
+      },
+      "random": {
+        "cpu_seconds": 0.18708600000000075,
+        "exact_successes": 13,
+        "proposed": 22,
+        "tasks": 35,
+        "total_work": 224296
+      }
+    },
+    "Noise": {
+      "audited_retention": {
+        "cpu_seconds": 0.008601999999999999,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 13395
+      },
+      "disagreement": {
+        "cpu_seconds": 0.008990000000000054,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 13187
+      },
+      "fixed2": {
+        "cpu_seconds": 0.0065509999999999735,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 12207
+      },
+      "frozen": {
+        "cpu_seconds": 0.007823000000000135,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 12980
+      },
+      "random": {
+        "cpu_seconds": 0.008997000000000144,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 13112
+      }
+    },
+    "Number": {
+      "audited_retention": {
+        "cpu_seconds": 0.3155840000000003,
+        "exact_successes": 12,
+        "proposed": 20,
+        "tasks": 40,
+        "total_work": 417680
+      },
+      "disagreement": {
+        "cpu_seconds": 0.3283770000000008,
+        "exact_successes": 12,
+        "proposed": 20,
+        "tasks": 40,
+        "total_work": 401912
+      },
+      "fixed2": {
+        "cpu_seconds": 0.22213699999999914,
+        "exact_successes": 12,
+        "proposed": 20,
+        "tasks": 40,
+        "total_work": 363809
+      },
+      "frozen": {
+        "cpu_seconds": 0.26850899999999855,
+        "exact_successes": 12,
+        "proposed": 20,
+        "tasks": 40,
+        "total_work": 403335
+      },
+      "random": {
+        "cpu_seconds": 0.32880700000000007,
+        "exact_successes": 12,
+        "proposed": 20,
+        "tasks": 40,
+        "total_work": 398301
+      }
+    },
+    "Phone": {
+      "audited_retention": {
+        "cpu_seconds": 0.15200599999999875,
+        "exact_successes": 5,
+        "proposed": 8,
+        "tasks": 17,
+        "total_work": 192686
+      },
+      "disagreement": {
+        "cpu_seconds": 0.16207199999999888,
+        "exact_successes": 5,
+        "proposed": 8,
+        "tasks": 17,
+        "total_work": 187629
+      },
+      "fixed2": {
+        "cpu_seconds": 0.1017450000000002,
+        "exact_successes": 5,
+        "proposed": 8,
+        "tasks": 17,
+        "total_work": 163952
+      },
+      "frozen": {
+        "cpu_seconds": 0.12350199999999978,
+        "exact_successes": 5,
+        "proposed": 8,
+        "tasks": 17,
+        "total_work": 177607
+      },
+      "random": {
+        "cpu_seconds": 0.16191799999999867,
+        "exact_successes": 5,
+        "proposed": 8,
+        "tasks": 17,
+        "total_work": 185575
+      }
+    },
+    "Phrase": {
+      "audited_retention": {
+        "cpu_seconds": 0.005672999999999817,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5185
+      },
+      "disagreement": {
+        "cpu_seconds": 0.00603100000000012,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5041
+      },
+      "fixed2": {
+        "cpu_seconds": 0.002615000000000034,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 3398
+      },
+      "frozen": {
+        "cpu_seconds": 0.003809999999999647,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 4442
+      },
+      "random": {
+        "cpu_seconds": 0.006099999999999994,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 4914
+      }
+    },
+    "Product": {
+      "audited_retention": {
+        "cpu_seconds": 0.014807000000000237,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 2,
+        "total_work": 17430
+      },
+      "disagreement": {
+        "cpu_seconds": 0.0157740000000004,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 2,
+        "total_work": 17168
+      },
+      "fixed2": {
+        "cpu_seconds": 0.008593999999999546,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 2,
+        "total_work": 13798
+      },
+      "frozen": {
+        "cpu_seconds": 0.010908999999999835,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 2,
+        "total_work": 15763
+      },
+      "random": {
+        "cpu_seconds": 0.015570000000000306,
+        "exact_successes": 0,
+        "proposed": 2,
+        "tasks": 2,
+        "total_work": 16835
+      }
+    },
+    "Rating": {
+      "audited_retention": {
+        "cpu_seconds": 0.016130000000000422,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 19305
+      },
+      "disagreement": {
+        "cpu_seconds": 0.016841000000000328,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 18279
+      },
+      "fixed2": {
+        "cpu_seconds": 0.009884000000000448,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 15672
+      },
+      "frozen": {
+        "cpu_seconds": 0.012252000000000152,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 17399
+      },
+      "random": {
+        "cpu_seconds": 0.016895999999999134,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 2,
+        "total_work": 18079
+      }
+    },
+    "Separator": {
+      "audited_retention": {
+        "cpu_seconds": 0.005780999999999814,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5384
+      },
+      "disagreement": {
+        "cpu_seconds": 0.006132999999999278,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5077
+      },
+      "fixed2": {
+        "cpu_seconds": 0.0026849999999996044,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 3536
+      },
+      "frozen": {
+        "cpu_seconds": 0.0039439999999997255,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 4640
+      },
+      "random": {
+        "cpu_seconds": 0.006091999999999764,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 4959
+      }
+    },
+    "ShippingCode": {
+      "audited_retention": {
+        "cpu_seconds": 0.0849909999999996,
+        "exact_successes": 7,
+        "proposed": 7,
+        "tasks": 10,
+        "total_work": 101621
+      },
+      "disagreement": {
+        "cpu_seconds": 0.08871900000000199,
+        "exact_successes": 7,
+        "proposed": 7,
+        "tasks": 10,
+        "total_work": 96336
+      },
+      "fixed2": {
+        "cpu_seconds": 0.05292400000000086,
+        "exact_successes": 7,
+        "proposed": 7,
+        "tasks": 10,
+        "total_work": 82257
+      },
+      "frozen": {
+        "cpu_seconds": 0.06533400000000089,
+        "exact_successes": 7,
+        "proposed": 7,
+        "tasks": 10,
+        "total_work": 92475
+      },
+      "random": {
+        "cpu_seconds": 0.08809199999999962,
+        "exact_successes": 7,
+        "proposed": 7,
+        "tasks": 10,
+        "total_work": 94914
+      }
+    },
+    "Song": {
+      "audited_retention": {
+        "cpu_seconds": 0.006202000000000041,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5872
+      },
+      "disagreement": {
+        "cpu_seconds": 0.006375000000000242,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5401
+      },
+      "fixed2": {
+        "cpu_seconds": 0.002895000000000536,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 3875
+      },
+      "frozen": {
+        "cpu_seconds": 0.004245000000000054,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5088
+      },
+      "random": {
+        "cpu_seconds": 0.006299999999999528,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5262
+      }
+    },
+    "State": {
+      "audited_retention": {
+        "cpu_seconds": 0.006512999999999991,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 6795
+      },
+      "disagreement": {
+        "cpu_seconds": 0.006660999999999362,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 6328
+      },
+      "fixed2": {
+        "cpu_seconds": 0.0031679999999996156,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 4772
+      },
+      "frozen": {
+        "cpu_seconds": 0.004632999999999221,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 6148
+      },
+      "random": {
+        "cpu_seconds": 0.0064769999999994,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 6123
+      }
+    },
+    "Url": {
+      "audited_retention": {
+        "cpu_seconds": 0.009354000000000084,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 15879
+      },
+      "disagreement": {
+        "cpu_seconds": 0.009793000000000163,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 16163
+      },
+      "fixed2": {
+        "cpu_seconds": 0.0059709999999997265,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 13860
+      },
+      "frozen": {
+        "cpu_seconds": 0.007363999999999926,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 15045
+      },
+      "random": {
+        "cpu_seconds": 0.009812000000000154,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 15961
+      }
+    },
+    "UserAgent": {
+      "audited_retention": {
+        "cpu_seconds": 0.05820299999999978,
+        "exact_successes": 2,
+        "proposed": 4,
+        "tasks": 7,
+        "total_work": 76553
+      },
+      "disagreement": {
+        "cpu_seconds": 0.059807000000000166,
+        "exact_successes": 2,
+        "proposed": 4,
+        "tasks": 7,
+        "total_work": 72002
+      },
+      "fixed2": {
+        "cpu_seconds": 0.03422399999999737,
+        "exact_successes": 2,
+        "proposed": 4,
+        "tasks": 7,
+        "total_work": 62198
+      },
+      "frozen": {
+        "cpu_seconds": 0.043934999999997615,
+        "exact_successes": 2,
+        "proposed": 4,
+        "tasks": 7,
+        "total_work": 70130
+      },
+      "random": {
+        "cpu_seconds": 0.05986399999999925,
+        "exact_successes": 2,
+        "proposed": 4,
+        "tasks": 7,
+        "total_work": 70843
+      }
+    },
+    "Word": {
+      "audited_retention": {
+        "cpu_seconds": 0.012716000000000172,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 16051
+      },
+      "disagreement": {
+        "cpu_seconds": 0.013182999999999723,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 15122
+      },
+      "fixed2": {
+        "cpu_seconds": 0.009186999999999834,
+        "exact_successes": 0,
+        "proposed": 0,
+        "tasks": 1,
+        "total_work": 13979
+      },
+      "frozen": {
+        "cpu_seconds": 0.010734999999999495,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 15041
+      },
+      "random": {
+        "cpu_seconds": 0.013094999999999857,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 15018
+      }
+    },
+    "ZipCode": {
+      "audited_retention": {
+        "cpu_seconds": 0.006934000000000218,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 7582
+      },
+      "disagreement": {
+        "cpu_seconds": 0.007319999999999993,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 6988
+      },
+      "fixed2": {
+        "cpu_seconds": 0.0033909999999997,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 5468
+      },
+      "frozen": {
+        "cpu_seconds": 0.004715000000000025,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 6054
+      },
+      "random": {
+        "cpu_seconds": 0.00728600000000057,
+        "exact_successes": 1,
+        "proposed": 1,
+        "tasks": 1,
+        "total_work": 6774
+      }
+    }
+  },
+  "private_evidence_commitments": {
+    "execution-status.json": "5bbe2fa9f5c7d83eb30273ee480b268bc41e81268a8d2202b06fcb9c4b1ebee2",
+    "result.json": "1970dba95beaebf89d041a6d8e9280e19b632a6116ea2fa69aba273e58c2988f",
+    "run.json": "8f80016b09f351d0c52a8398c36b1b3aeac64ffa97f0cd0b00132271cd37ba53",
+    "traces.jsonl": "72dbe7fe57523b93d7ada6f8f28c3a7ccd75d89fdd335183fc74865628c295a6"
+  },
+  "protocol_sha256": "6325ffcf2fbc9d0f774e16c809ea1b2e58a7bf2b3347bbc9d72245e246c450f2",
+  "registered_gates": {
+    "counted_work_lower": false,
+    "efficiency_claim_passed": false,
+    "label_count_lower": false,
+    "label_reduction_claim_passed": false,
+    "matched_exact_task_success": true,
+    "matched_proposal_coverage": false,
+    "process_cpu_lower": false,
+    "verdict": "Registered efficiency and label-reduction gates failed. No superiority or broad competence claim follows."
+  },
+  "retained_membership": {
+    "audited_retention": {
+      "final_checkpoint_sha256": "f4cb6313b756946371cca7fc5f0f200890d76332c91045f45eea07565ea00c8f",
+      "final_count": 36,
+      "initial_count": 7,
+      "new_verified_count": 29,
+      "new_verified_program_sha256s": [
+        "0b2a0d312104987903873815458d79b0f868435f5c14f98dc51702b315e02600",
+        "0da3b9ed2f06944876b2a1b0bf59f0892417d732e536c2f66b1099a03533b99e",
+        "154e9d9039685f334ff0accdab21e745d03f82994a1dbf27a2d1186bb5e166b5",
+        "1b82a2509f4e06d3e88132571554ebf0bbd3ce6e3f3cce7c16a23126521b3bd1",
+        "2022df04123407bab46119639d820df26568951ee2c6eb2fe08ea93e67f36a5b",
+        "2667c2f7c189ae73d24d9e80a651d4da76ebca1fe428431b1f438ee24f0a51a8",
+        "2fca55768397bbf6e135b253383b1768ab9d3251112efa9a3c01780aaddc2927",
+        "3eb5ca17e564eeeace38593def2878ccaafe3ca78b59526673b69d538f754a33",
+        "53925c5634bbbbcc64f304716af9788fc1a127d581aa565c20152ce02e15e20e",
+        "5e00dc775b56d28e9f53aba5794b2b71b40a4ded1b9d212ae5219c0cf9b5f963",
+        "64991bf7fb74c50e57266835475b9c316caa708244cfa6e89adc3de082c0027f",
+        "67cea2194ef5446b78693fe864e617bbb84d9002448f418eca2e6fe009892b44",
+        "68729178c85e595f30b6dbe02d737c9a1103f2ef5dc302353da82559bc07eb18",
+        "6ec3cfc6a0bfc699a03910aa34d6531e4fc52ed9b73b0b00e0be94def1c3edce",
+        "79efbd7369efdb23d9b14aaa256d89d63c21c2e8fa65409d07bddff095acfe0e",
+        "7e001ad9cc47ff4cf6458d3b6fd52d6dddafc327c23ec3fc0fdf0a3fbd23ef29",
+        "8472e9c2192e1c4c571b3750c503dbf3d5c813a124891d54d9c3865cf71d238a",
+        "97f8041f8b3cb903c3c3105e4b85f43cce118fccccffb8ca3e32046d44732177",
+        "9849e41f6aa0a6d6a6d236ee1ca54967edf2f165c999480a1634f313d3d0f680",
+        "a92daa0c5226e6c0e42327592f39caf8af9d5bd85d35e80d0abefe9389abe3f0",
+        "b0c870a5374913899c2450a1ca081677ccaf9214c0182bddbc482b7e2c1c6404",
+        "b17639b2361697265e390a4a5897d2662629d04dfc7bb1b57a62fc6c93c928d1",
+        "befa4080394fed599252833086a8dfbabead00a4167d0d58ed44b5e7f61e01f4",
+        "cb5752622c1048dc295be59db7f0f86e62f446a0fa491b4ad761f2aeafb72876",
+        "d94474ee1c98dd8dd28ae1e34b4cb0531905c043f3d9341e940e289487a71f81",
+        "eb658b6408f634b18bf3a64b77b00ae389a306d29c13a8dbafb6f730d78fae07",
+        "fa5427341ac1cbfc3965be3c6f54b0012ec3a90ce5eb2311e6ec0fd7489b0557",
+        "fdefe1d71ae4420f0f59d142c3cb6434bba05980d088129db7e738b4767617ff",
+        "fe3394bf8ccca099657179ccc93bd624e47a16d3ec9f655c310497045223d38c"
+      ],
+      "scope": "Program hashes admitted after exact buyer checks on past files; neither universally correct programs nor a competence improvement is implied."
+    },
+    "disagreement": {
+      "final_checkpoint_sha256": "4f8d16b8b4350b02de170d6c5ed0c18f24e80c5635b1032204897f270ebe78a1",
+      "final_count": 37,
+      "initial_count": 7,
+      "new_verified_count": 30,
+      "new_verified_program_sha256s": [
+        "0b2a0d312104987903873815458d79b0f868435f5c14f98dc51702b315e02600",
+        "0da3b9ed2f06944876b2a1b0bf59f0892417d732e536c2f66b1099a03533b99e",
+        "154e9d9039685f334ff0accdab21e745d03f82994a1dbf27a2d1186bb5e166b5",
+        "1b82a2509f4e06d3e88132571554ebf0bbd3ce6e3f3cce7c16a23126521b3bd1",
+        "2022df04123407bab46119639d820df26568951ee2c6eb2fe08ea93e67f36a5b",
+        "2667c2f7c189ae73d24d9e80a651d4da76ebca1fe428431b1f438ee24f0a51a8",
+        "2fca55768397bbf6e135b253383b1768ab9d3251112efa9a3c01780aaddc2927",
+        "3eb5ca17e564eeeace38593def2878ccaafe3ca78b59526673b69d538f754a33",
+        "53925c5634bbbbcc64f304716af9788fc1a127d581aa565c20152ce02e15e20e",
+        "5e00dc775b56d28e9f53aba5794b2b71b40a4ded1b9d212ae5219c0cf9b5f963",
+        "64991bf7fb74c50e57266835475b9c316caa708244cfa6e89adc3de082c0027f",
+        "67cea2194ef5446b78693fe864e617bbb84d9002448f418eca2e6fe009892b44",
+        "68729178c85e595f30b6dbe02d737c9a1103f2ef5dc302353da82559bc07eb18",
+        "6ec3cfc6a0bfc699a03910aa34d6531e4fc52ed9b73b0b00e0be94def1c3edce",
+        "79efbd7369efdb23d9b14aaa256d89d63c21c2e8fa65409d07bddff095acfe0e",
+        "7e001ad9cc47ff4cf6458d3b6fd52d6dddafc327c23ec3fc0fdf0a3fbd23ef29",
+        "8472e9c2192e1c4c571b3750c503dbf3d5c813a124891d54d9c3865cf71d238a",
+        "97f8041f8b3cb903c3c3105e4b85f43cce118fccccffb8ca3e32046d44732177",
+        "9849e41f6aa0a6d6a6d236ee1ca54967edf2f165c999480a1634f313d3d0f680",
+        "a92daa0c5226e6c0e42327592f39caf8af9d5bd85d35e80d0abefe9389abe3f0",
+        "b0c870a5374913899c2450a1ca081677ccaf9214c0182bddbc482b7e2c1c6404",
+        "b17639b2361697265e390a4a5897d2662629d04dfc7bb1b57a62fc6c93c928d1",
+        "befa4080394fed599252833086a8dfbabead00a4167d0d58ed44b5e7f61e01f4",
+        "cb5752622c1048dc295be59db7f0f86e62f446a0fa491b4ad761f2aeafb72876",
+        "d94474ee1c98dd8dd28ae1e34b4cb0531905c043f3d9341e940e289487a71f81",
+        "e3cd1cbee5a664112a9fcaa6770384263d3e8d62f31451ad732ab81148f48172",
+        "eb658b6408f634b18bf3a64b77b00ae389a306d29c13a8dbafb6f730d78fae07",
+        "fa5427341ac1cbfc3965be3c6f54b0012ec3a90ce5eb2311e6ec0fd7489b0557",
+        "fdefe1d71ae4420f0f59d142c3cb6434bba05980d088129db7e738b4767617ff",
+        "fe3394bf8ccca099657179ccc93bd624e47a16d3ec9f655c310497045223d38c"
+      ],
+      "scope": "Program hashes admitted after exact buyer checks on past files; neither universally correct programs nor a competence improvement is implied."
+    },
+    "fixed2": {
+      "final_checkpoint_sha256": "a4242496600f4b56ef73dbfe6a56e5875046dbbfe64104f0d7cb8a8b1ae6d73e",
+      "final_count": 36,
+      "initial_count": 7,
+      "new_verified_count": 29,
+      "new_verified_program_sha256s": [
+        "0b2a0d312104987903873815458d79b0f868435f5c14f98dc51702b315e02600",
+        "0da3b9ed2f06944876b2a1b0bf59f0892417d732e536c2f66b1099a03533b99e",
+        "154e9d9039685f334ff0accdab21e745d03f82994a1dbf27a2d1186bb5e166b5",
+        "1b82a2509f4e06d3e88132571554ebf0bbd3ce6e3f3cce7c16a23126521b3bd1",
+        "2022df04123407bab46119639d820df26568951ee2c6eb2fe08ea93e67f36a5b",
+        "2667c2f7c189ae73d24d9e80a651d4da76ebca1fe428431b1f438ee24f0a51a8",
+        "2fca55768397bbf6e135b253383b1768ab9d3251112efa9a3c01780aaddc2927",
+        "3eb5ca17e564eeeace38593def2878ccaafe3ca78b59526673b69d538f754a33",
+        "53925c5634bbbbcc64f304716af9788fc1a127d581aa565c20152ce02e15e20e",
+        "5e00dc775b56d28e9f53aba5794b2b71b40a4ded1b9d212ae5219c0cf9b5f963",
+        "64991bf7fb74c50e57266835475b9c316caa708244cfa6e89adc3de082c0027f",
+        "67cea2194ef5446b78693fe864e617bbb84d9002448f418eca2e6fe009892b44",
+        "68729178c85e595f30b6dbe02d737c9a1103f2ef5dc302353da82559bc07eb18",
+        "6ec3cfc6a0bfc699a03910aa34d6531e4fc52ed9b73b0b00e0be94def1c3edce",
+        "79efbd7369efdb23d9b14aaa256d89d63c21c2e8fa65409d07bddff095acfe0e",
+        "7e001ad9cc47ff4cf6458d3b6fd52d6dddafc327c23ec3fc0fdf0a3fbd23ef29",
+        "8472e9c2192e1c4c571b3750c503dbf3d5c813a124891d54d9c3865cf71d238a",
+        "97f8041f8b3cb903c3c3105e4b85f43cce118fccccffb8ca3e32046d44732177",
+        "9849e41f6aa0a6d6a6d236ee1ca54967edf2f165c999480a1634f313d3d0f680",
+        "a92daa0c5226e6c0e42327592f39caf8af9d5bd85d35e80d0abefe9389abe3f0",
+        "b0c870a5374913899c2450a1ca081677ccaf9214c0182bddbc482b7e2c1c6404",
+        "b17639b2361697265e390a4a5897d2662629d04dfc7bb1b57a62fc6c93c928d1",
+        "befa4080394fed599252833086a8dfbabead00a4167d0d58ed44b5e7f61e01f4",
+        "cb5752622c1048dc295be59db7f0f86e62f446a0fa491b4ad761f2aeafb72876",
+        "d94474ee1c98dd8dd28ae1e34b4cb0531905c043f3d9341e940e289487a71f81",
+        "eb658b6408f634b18bf3a64b77b00ae389a306d29c13a8dbafb6f730d78fae07",
+        "fa5427341ac1cbfc3965be3c6f54b0012ec3a90ce5eb2311e6ec0fd7489b0557",
+        "fdefe1d71ae4420f0f59d142c3cb6434bba05980d088129db7e738b4767617ff",
+        "fe3394bf8ccca099657179ccc93bd624e47a16d3ec9f655c310497045223d38c"
+      ],
+      "scope": "Program hashes admitted after exact buyer checks on past files; neither universally correct programs nor a competence improvement is implied."
+    },
+    "frozen": {
+      "final_checkpoint_sha256": "a6c7fef8d32f82a947117b89cc6c41b504cc2f7a800f5279555f8b7184f07f75",
+      "final_count": 7,
+      "initial_count": 7,
+      "new_verified_count": 0,
+      "new_verified_program_sha256s": [],
+      "scope": "Program hashes admitted after exact buyer checks on past files; neither universally correct programs nor a competence improvement is implied."
+    },
+    "random": {
+      "final_checkpoint_sha256": "d9ea299b9d6e2b13bd49e2b9b3f088af9a84ea42f078ead375f08141d2eb258b",
+      "final_count": 37,
+      "initial_count": 7,
+      "new_verified_count": 30,
+      "new_verified_program_sha256s": [
+        "0b2a0d312104987903873815458d79b0f868435f5c14f98dc51702b315e02600",
+        "0da3b9ed2f06944876b2a1b0bf59f0892417d732e536c2f66b1099a03533b99e",
+        "154e9d9039685f334ff0accdab21e745d03f82994a1dbf27a2d1186bb5e166b5",
+        "1b82a2509f4e06d3e88132571554ebf0bbd3ce6e3f3cce7c16a23126521b3bd1",
+        "2022df04123407bab46119639d820df26568951ee2c6eb2fe08ea93e67f36a5b",
+        "2667c2f7c189ae73d24d9e80a651d4da76ebca1fe428431b1f438ee24f0a51a8",
+        "2fca55768397bbf6e135b253383b1768ab9d3251112efa9a3c01780aaddc2927",
+        "3eb5ca17e564eeeace38593def2878ccaafe3ca78b59526673b69d538f754a33",
+        "53925c5634bbbbcc64f304716af9788fc1a127d581aa565c20152ce02e15e20e",
+        "5e00dc775b56d28e9f53aba5794b2b71b40a4ded1b9d212ae5219c0cf9b5f963",
+        "64991bf7fb74c50e57266835475b9c316caa708244cfa6e89adc3de082c0027f",
+        "67cea2194ef5446b78693fe864e617bbb84d9002448f418eca2e6fe009892b44",
+        "68729178c85e595f30b6dbe02d737c9a1103f2ef5dc302353da82559bc07eb18",
+        "6ec3cfc6a0bfc699a03910aa34d6531e4fc52ed9b73b0b00e0be94def1c3edce",
+        "79efbd7369efdb23d9b14aaa256d89d63c21c2e8fa65409d07bddff095acfe0e",
+        "7e001ad9cc47ff4cf6458d3b6fd52d6dddafc327c23ec3fc0fdf0a3fbd23ef29",
+        "8472e9c2192e1c4c571b3750c503dbf3d5c813a124891d54d9c3865cf71d238a",
+        "97f8041f8b3cb903c3c3105e4b85f43cce118fccccffb8ca3e32046d44732177",
+        "9849e41f6aa0a6d6a6d236ee1ca54967edf2f165c999480a1634f313d3d0f680",
+        "a92daa0c5226e6c0e42327592f39caf8af9d5bd85d35e80d0abefe9389abe3f0",
+        "b0c870a5374913899c2450a1ca081677ccaf9214c0182bddbc482b7e2c1c6404",
+        "b17639b2361697265e390a4a5897d2662629d04dfc7bb1b57a62fc6c93c928d1",
+        "befa4080394fed599252833086a8dfbabead00a4167d0d58ed44b5e7f61e01f4",
+        "cb5752622c1048dc295be59db7f0f86e62f446a0fa491b4ad761f2aeafb72876",
+        "d94474ee1c98dd8dd28ae1e34b4cb0531905c043f3d9341e940e289487a71f81",
+        "e3cd1cbee5a664112a9fcaa6770384263d3e8d62f31451ad732ab81148f48172",
+        "eb658b6408f634b18bf3a64b77b00ae389a306d29c13a8dbafb6f730d78fae07",
+        "fa5427341ac1cbfc3965be3c6f54b0012ec3a90ce5eb2311e6ec0fd7489b0557",
+        "fdefe1d71ae4420f0f59d142c3cb6434bba05980d088129db7e738b4767617ff",
+        "fe3394bf8ccca099657179ccc93bd624e47a16d3ec9f655c310497045223d38c"
+      ],
+      "scope": "Program hashes admitted after exact buyer checks on past files; neither universally correct programs nor a competence improvement is implied."
+    }
+  },
+  "schema": "nuria.active-skill-reserved-qualification.v1",
+  "scope": "Externally authored synthetic task qualification of a bounded conventional programming-by-example system. Two original diagnostic rows and the remaining original rows score; no neural superiority, consciousness, novel AI algorithm or customer-data claim.",
+  "source_hashes": {
+    "cognition/active_skills.py": "f97462925c9b0a0004ca4b1b7067254033bc6e8f3e36a0581bdbb0bf62706be4",
+    "cognition/skill_expressions.py": "b597bb35c75349d3182e08b6eecc88adfcfd225a6b45e6e08870a7c275f0a07b",
+    "cognition/skill_factored.py": "4cd3188985c6b51d1414678580641c7364da4d7b7b5edd65dc454e47395b79b7",
+    "cognition/skill_language.py": "e9c3cdc6e7d478ca6e0bc9e6074847c0ef00d1f9bd2ffa9ecadc6fa22b6d77e7",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "scripts/evaluate_active_skills.py": "9fd662dee007665e408e72fb07ce1b603f4cef6890a0f75cc154a09f54245a5f",
+    "scripts/fetch_active_skill_sources.py": "a3de30b2b0a1d1d40ff50beb5385a13e9b3c301d02a0f6af51edbd948a1740e5",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "scripts/verify_skill_expression_results.py": "751d477beaa44e961d57c4a0767335c1989a94edae345665bc1ad16294b8d9d6"
+  },
+  "source_hashes_unchanged": true,
+  "status": "registered_single_reserved_run_complete"
+}

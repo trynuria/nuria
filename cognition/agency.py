@@ -120,6 +120,7 @@ class NeuralTaskPolicy:
             if task["acceptance"]["type"] in (
                 "transform_program",
                 "transform_execution",
+                "transform_active",
             ) and any(
                 receipt["contract_sha256"] == contract and receipt["executed"]
                 for receipt in self.receipts.values()

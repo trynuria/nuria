@@ -68,7 +68,7 @@ def validate_task(task):
         and (
             task["kind"] != "compute"
             or task.get("acceptance", {}).get("type")
-            not in ("transform_program", "transform_execution")
+            not in ("transform_program", "transform_execution", "transform_active")
         )
     ):
         raise ValueError("Task needs a finite total cost ceiling")
@@ -156,6 +156,62 @@ def validate_task(task):
             raise ValueError(
                 "Transform-program training and evaluation split is invalid"
             )
+    elif rule.get("type") == "transform_active":
+        from cognition.skill_language import normalize_config
+
+        if set(rule) != {
+            "type",
+            "config",
+            "diagnostic_inputs",
+            "diagnostic_outputs",
+            "heldout_inputs",
+            "heldout_outputs",
+            "maximum_work",
+            "maximum_probes",
+            "synthesis_work",
+            "minimum_evidence",
+        }:
+            raise ValueError("Active-transform evaluation fields are invalid")
+        config = normalize_config(rule["config"])
+        if (
+            task["kind"] != "compute"
+            or task["maximum_micro_usd"] != 0
+            or task.get("outcome")
+            or config["version"] != "safe-expression-v1"
+        ):
+            raise ValueError("Active transforms require qualified included compute")
+        for name, minimum in (
+            ("diagnostic_inputs", 2),
+            ("diagnostic_outputs", 2),
+            ("heldout_inputs", 8),
+            ("heldout_outputs", 8),
+        ):
+            values = rule[name]
+            if (
+                type(values) is not list
+                or not minimum <= len(values) <= config["max_rows"]
+                or any(
+                    type(value) is not str
+                    or len(value.encode()) > config["max_input_bytes"]
+                    for value in values
+                )
+            ):
+                raise ValueError("Active-transform rows exceed their typed bounds")
+        if (
+            len(rule["diagnostic_inputs"]) != len(rule["diagnostic_outputs"])
+            or len(rule["heldout_inputs"]) != len(rule["heldout_outputs"])
+            or len(set(rule["diagnostic_inputs"])) != len(rule["diagnostic_inputs"])
+            or set(rule["diagnostic_inputs"]) & set(rule["heldout_inputs"])
+            or type(rule["maximum_probes"]) is not int
+            or not 1 <= rule["maximum_probes"] <= len(rule["diagnostic_inputs"])
+            or type(rule["minimum_evidence"]) is not int
+            or not 1 <= rule["minimum_evidence"] <= rule["maximum_probes"]
+            or type(rule["synthesis_work"]) is not int
+            or not 1 <= rule["synthesis_work"] <= 1_000_000
+            or type(rule["maximum_work"]) is not int
+            or not active_verifier_ceiling(config) < rule["maximum_work"] <= 10_000_000
+        ):
+            raise ValueError("Active-transform split, probes or work is invalid")
     elif rule.get("type") == "transform_execution":
         from cognition.skills import SOURCE, normalize_config
 
@@ -265,6 +321,7 @@ def contractor_brief(task, job_id):
             "validation_inputs",
             "validation_outputs",
             "expected_outputs",
+            "diagnostic_outputs",
         )
     }
     return {
@@ -294,6 +351,8 @@ def verify_delivery(task, job_id, raw):
     ):
         raise ValueError("Delivery is not bound to this task")
     rule, result = task["acceptance"], value["result"]
+    if rule["type"] == "transform_active":
+        return verify_active_delivery(task, job_id, raw, result)
     if rule["type"] == "transform_execution":
         if (
             type(result) is not dict
@@ -549,3 +608,251 @@ def transform_work(report):
 
 def execution_verifier_ceiling(config):
     return config["max_rows"] * (1 + 2 * ((config["max_input_bytes"] + 31) // 32))
+
+
+def active_probe_work(value, output):
+    """Charge the disclosed input/label bytes, including a probe operation."""
+    return 1 + (len(value.encode()) + len(output.encode()) + 31) // 32
+
+
+def active_probe_receipt(task, job_id, action):
+    """Buyer interface: reveal exactly one explicitly requested diagnostic label.
+
+    This function never reads the final evaluation partition. Its result is
+    committed by the execution adapter before the routing session consumes it.
+    """
+    rule = task["acceptance"]
+    index = action.get("input_index")
+    if (
+        rule["type"] != "transform_active"
+        or action.get("kind") != "probe"
+        or type(action.get("id")) is not str
+        or not HASH.fullmatch(action["id"])
+        or type(index) is not int
+        or not 0 <= index < len(rule["diagnostic_inputs"])
+        or action.get("input") != rule["diagnostic_inputs"][index]
+        or action.get("input_sha256") != digest(rule["diagnostic_inputs"][index])
+        or action.get("maximum_output_bytes") != rule["config"]["max_input_bytes"]
+        or action.get("maximum_work")
+        != 1
+        + (
+            len(rule["diagnostic_inputs"][index].encode())
+            + rule["config"]["max_input_bytes"]
+            + 31
+        )
+        // 32
+        or action["id"] != digest({k: v for k, v in action.items() if k != "id"})
+    ):
+        raise ValueError("Probe is not bound to one declared diagnostic input")
+    value, output = rule["diagnostic_inputs"][index], rule["diagnostic_outputs"][index]
+    work = active_probe_work(value, output)
+    identity = digest(
+        {
+            "job_id": job_id,
+            "contract_sha256": digest(task),
+            "action_id": action["id"],
+            "input_index": index,
+            "input_sha256": digest(value),
+            "output": output,
+            "work": work,
+            "nonce": task["evaluation_nonce"],
+        }
+    )
+    return {
+        "input_index": index,
+        "input_sha256": digest(value),
+        "output": output,
+        "receipt_id": identity,
+        "work": work,
+    }
+
+
+def verify_active_delivery(task, job_id, raw, result):
+    """Check the committed selection on untouched rows, without repair feedback."""
+    from cognition.skill_language import execute_checked, validate_program
+    from cognition.skills import SOURCE
+
+    rule = task["acceptance"]
+    fields = {
+        "status",
+        "program",
+        "program_sha256",
+        "proposal_id",
+        "selection",
+        "reason",
+        "work",
+        "probes_used",
+        "probe_receipt_sha256s",
+        "source_id",
+        "session_id",
+        "session_sha256",
+        "probe_receipts",
+        "accounting_uncertain",
+        "uncertain_reservation",
+    }
+    if (
+        type(result) is not dict
+        or set(result) != fields
+        or result["status"] not in ("proposed", "abstained")
+        or type(result["reason"]) is not str
+        or len(result["reason"]) > 500
+        or type(result["source_id"]) is not str
+        or not SOURCE.fullmatch(result["source_id"])
+        or type(result["session_sha256"]) is not str
+        or not HASH.fullmatch(result["session_sha256"])
+        or type(result["session_id"]) is not str
+        or not HASH.fullmatch(result["session_id"])
+        or result["accounting_uncertain"] is not False
+        or type(result["uncertain_reservation"]) is not int
+        or result["uncertain_reservation"] != 0
+        or type(result["probe_receipts"]) is not list
+        or type(result["probes_used"]) is not int
+        or not 0 <= result["probes_used"] <= rule["maximum_probes"]
+        or result["probes_used"] != len(result["probe_receipts"])
+        or type(result["probe_receipt_sha256s"]) is not list
+    ):
+        raise ValueError("Active-transform selection artifact is malformed")
+    probe_work, indices, receipts = 0, set(), []
+    for record in result["probe_receipts"]:
+        if (
+            type(record) is not dict
+            or set(record) != {"action", "receipt"}
+            or type(record["action"]) is not dict
+            or type(record["receipt"]) is not dict
+        ):
+            raise ValueError("Active-transform probe evidence is malformed")
+        expected = active_probe_receipt(task, job_id, record["action"])
+        expected["source_id"] = result["source_id"]
+        if (
+            record["receipt"] != expected
+            or expected["input_index"] in indices
+            or record["action"].get("session_id") != result["session_id"]
+        ):
+            raise ValueError("Active-transform probe evidence changed or repeated")
+        indices.add(expected["input_index"])
+        receipts.append(digest(expected))
+        probe_work += expected["work"]
+    if sorted(receipts) != sorted(result["probe_receipt_sha256s"]):
+        raise ValueError("Active-transform probe commitments disagree")
+    program = result["program"]
+    proposed = result["status"] == "proposed"
+    if (
+        proposed
+        and (
+            program is None
+            or result["probes_used"] < rule["minimum_evidence"]
+            or result["selection"] not in ("retained", "synthesized")
+            or result["program_sha256"] != digest(program)
+            or result["proposal_id"] is not None
+            and (
+                type(result["proposal_id"]) is not str
+                or not HASH.fullmatch(result["proposal_id"])
+            )
+            or result["selection"] == "synthesized"
+            and (
+                type(result["proposal_id"]) is not str
+                or not HASH.fullmatch(result["proposal_id"])
+            )
+        )
+        or not proposed
+        and any(
+            result[key] is not None
+            for key in ("program", "program_sha256", "proposal_id", "selection")
+        )
+    ):
+        raise ValueError("Active-transform terminal choice is inconsistent")
+    routing_work = transform_work(result["work"])
+    components = ("portfolio_work", "routing_work", "probe_work", "synthesis_work")
+    if (
+        routing_work < probe_work
+        or any(
+            type(result["work"].get(key)) is not int
+            or not 0 <= result["work"][key] <= 10_000_000
+            for key in components
+        )
+        or sum(result["work"][key] for key in components) != routing_work
+        or result["work"]["probe_work"] != probe_work
+        or result["work"]["synthesis_work"] > rule["synthesis_work"]
+        or result["work"].get("probe_requests") != result["probes_used"]
+        or routing_work > rule["maximum_work"] - active_verifier_ceiling(rule["config"])
+    ):
+        raise ValueError("Active-transform routing exceeded its reserved allowance")
+    predicted, verifier_work = [], 0
+    if proposed:
+        validate_program(program, rule["config"])
+        for row in rule["heldout_inputs"]:
+            checked = execute_checked(program, row, rule["config"])
+            predicted.append(checked["output"])
+            verifier_work += transform_work(checked["work"])
+    verifier_work += sum(
+        active_probe_work(value, expected)
+        for value, expected in zip(
+            rule["heldout_inputs"], rule["heldout_outputs"], strict=True
+        )
+    )
+    verifier_work += sum(
+        active_probe_work(value or "", expected)
+        for value, expected in zip(predicted, rule["heldout_outputs"], strict=False)
+    )
+    if routing_work + verifier_work > rule["maximum_work"]:
+        raise ValueError("Active-transform final execution exceeded its allowance")
+    count = len(rule["heldout_inputs"])
+    correct = sum(
+        actual == expected
+        for actual, expected in zip(predicted, rule["heldout_outputs"], strict=False)
+    )
+    baseline = (
+        sum(
+            value == expected
+            for value, expected in zip(
+                rule["heldout_inputs"], rule["heldout_outputs"], strict=True
+            )
+        )
+        / count
+    )
+    accuracy = correct / count
+    return {
+        "artifact_sha256": hashlib.sha256(raw).hexdigest(),
+        "passed": proposed and correct == count,
+        "utility": max(
+            -1,
+            accuracy
+            - baseline
+            - 0.01 * (routing_work + verifier_work) / rule["maximum_work"],
+        ),
+        "metric": "active_selection_held_out_exact_gain",
+        "baseline": baseline,
+        "candidate": accuracy,
+        "exact_rows": correct,
+        "evaluation_rows": count,
+        "program_sha256": result["program_sha256"],
+        "proposal_id": result["proposal_id"],
+        "selection": result["selection"],
+        "execution_status": result["status"],
+        "source_id": result["source_id"],
+        "session_sha256": result["session_sha256"],
+        "probes_used": result["probes_used"],
+        "probe_work": probe_work,
+        "probe_receipt_sha256s": receipts,
+        "solver_work": routing_work,
+        "verifier_work": verifier_work,
+        "total_work": routing_work + verifier_work,
+        "maximum_work": rule["maximum_work"],
+        "evaluation_sha256": digest(
+            {
+                "inputs": rule["heldout_inputs"],
+                "outputs": rule["heldout_outputs"],
+                "nonce": task["evaluation_nonce"],
+            }
+        ),
+        "scope": "The router selected a program using charged diagnostic labels only. The buyer then executed that fixed selection on withheld rows; final targets provide no routing or repair fallback.",
+    }
+
+
+def active_verifier_ceiling(config):
+    """Reserve interpreter work and both final exact comparison passes."""
+    from cognition.skill_language import execution_work_ceiling
+
+    return execution_work_ceiling(
+        config, config["max_rows"]
+    ) + 2 * execution_verifier_ceiling(config)

@@ -1,0 +1,152 @@
+{
+  "first_divergences": {
+    "negative_exact_outcome": {
+      "direction": "frozen wins",
+      "ordinal": 52,
+      "task_id": "Name.000013"
+    },
+    "retained_membership": {
+      "new_program_sha256": "5e00dc775b56d28e9f53aba5794b2b71b40a4ded1b9d212ae5219c0cf9b5f963",
+      "ordinal": 1,
+      "task_id": "Abbreviation.000001"
+    },
+    "selected_program_and_exact_outcome": {
+      "direction": "adapting wins",
+      "ordinal": 21,
+      "task_id": "BillingCode.000007"
+    }
+  },
+  "freeze_commit": "2b8503e189f0a9ecca5be6b7d5f47231342df601",
+  "limitations": [
+    "This is a post-hoc mechanism diagnosis of one fixed ordered workload, not a fresh reserved study or a general theorem about retention.",
+    "The two paired losses and one gain explain the net one-file deficit; aggregate membership growth alone did not establish benefit.",
+    "Lookup costs were independently recomputed from existing program identities and disclosed diagnostic rows; no solver search or parameter was rerun.",
+    "Potential future remedies such as applicability evidence or search-budget separation are untested here; no remedy was applied to the frozen study."
+  ],
+  "paired_differences": [
+    {
+      "adapting": {
+        "correct_rows": 3,
+        "exact": true,
+        "library_programs": 13,
+        "program_sha256": "64991bf7fb74c50e57266835475b9c316caa708244cfa6e89adc3de082c0027f",
+        "scoring_rows": 3,
+        "selection": "retained",
+        "solver_work": 19
+      },
+      "direction": "adapting wins",
+      "frozen": {
+        "correct_rows": 0,
+        "exact": false,
+        "library_programs": 7,
+        "program_sha256": null,
+        "scoring_rows": 3,
+        "selection": null,
+        "solver_work": 10000
+      },
+      "mechanism": "A previously verified new program passes both audit answers and all three scoring rows. Without that program, the frozen branch exhausts its fixed search cap.",
+      "ordinal": 21,
+      "prior_admission": {
+        "correct_rows": 9,
+        "ordinal": 15,
+        "scoring_rows": 9,
+        "task_id": "BillingCode.000001"
+      },
+      "same_two_audit_inputs_and_answers": true,
+      "task_id": "BillingCode.000007"
+    },
+    {
+      "adapting": {
+        "correct_rows": 3,
+        "exact": false,
+        "library_programs": 15,
+        "program_sha256": "5e00dc775b56d28e9f53aba5794b2b71b40a4ded1b9d212ae5219c0cf9b5f963",
+        "scoring_rows": 18,
+        "selected_scan_position": 8,
+        "selected_uses_before": 1,
+        "selection": "retained",
+        "solver_work": 132
+      },
+      "both_selected_programs_match_both_audit_answers": true,
+      "correct_program_adapting_scan_position": 15,
+      "correct_program_original_development_admission": {
+        "correct_rows": 18,
+        "scoring_rows": 18,
+        "task_id": "Currency.000004"
+      },
+      "correct_program_still_present_in_adapting_library": true,
+      "direction": "frozen wins",
+      "frozen": {
+        "correct_rows": 18,
+        "exact": true,
+        "library_programs": 7,
+        "program_sha256": "f34aff3998daf653b8f2e43fd666f885d2d69c653ad6366ac19ef0f950181ef2",
+        "scoring_rows": 18,
+        "selected_scan_position": 7,
+        "selected_uses_before": 1,
+        "selection": "retained",
+        "solver_work": 113
+      },
+      "interfering_program_prior_admission": {
+        "correct_rows": 50,
+        "ordinal": 1,
+        "scoring_rows": 50,
+        "task_id": "Abbreviation.000001"
+      },
+      "mechanism": "Retained lookup stops at the first program matching both audit answers, ordered by descending verified-use count then program hash. Both candidates have one use; the newly admitted hash is tested earlier. The two audit rows do not distinguish their applicability. The correct old program remains available but is never reached.",
+      "ordinal": 52,
+      "same_two_audit_inputs_and_answers": true,
+      "scoring_rows_where_selected_programs_disagree": 15,
+      "task_id": "Name.000013"
+    },
+    {
+      "adapting": {
+        "correct_rows": 0,
+        "exact": false,
+        "library_programs": 35,
+        "program_sha256": null,
+        "retained_lookup_work": 505,
+        "scoring_rows": 2,
+        "selection": null,
+        "solver_work": 10000
+      },
+      "additional_adapting_retained_scan_work": 393,
+      "direction": "frozen wins",
+      "frozen": {
+        "correct_rows": 2,
+        "exact": true,
+        "library_programs": 7,
+        "program_sha256": "e3cd1cbee5a664112a9fcaa6770384263d3e8d62f31451ad732ab81148f48172",
+        "retained_lookup_work": 112,
+        "scoring_rows": 2,
+        "selection": "synthesized",
+        "solver_work": 9764
+      },
+      "frozen_inference_work_after_retained_scan": 9652,
+      "known_successful_inference_path_plus_adapting_scan_work": 10157,
+      "mechanism": "Both branches reach the same deterministic input-only inference routine after no retained program matches. Retained checks share the same fixed solver-work budget as inference. The larger adapting library consumes 393 extra units before inference, leaving insufficient budget for the already-observed successful frozen inference path. This is budget competition, not a missing primitive.",
+      "ordinal": 166,
+      "retained_programs_matching_both_audit_answers": {
+        "adapting": 0,
+        "frozen": 0
+      },
+      "same_two_audit_inputs_and_answers": true,
+      "shared_solver_work_cap": 10000,
+      "task_id": "Word.000001"
+    }
+  ],
+  "paired_exact_outcomes": {
+    "adapting_exact_total": 59,
+    "adapting_only_exact": 1,
+    "both_exact": 58,
+    "frozen_exact_total": 60,
+    "frozen_only_exact": 2,
+    "neither_exact": 106,
+    "tasks": 167
+  },
+  "post_hoc": true,
+  "private_traces_sha256": "72dbe7fe57523b93d7ada6f8f28c3a7ccd75d89fdd335183fc74865628c295a6",
+  "protocol_sha256": "6325ffcf2fbc9d0f774e16c809ea1b2e58a7bf2b3347bbc9d72245e246c450f2",
+  "schema": "nuria-retention-interference-analysis-v1",
+  "scope": "Single-stream diagnosis of the completed reserved run. No new evaluation, search, parameter change or improvement claim. Existing retained programs were independently interpreted only on the already-disclosed audit rows to check ambiguity and lookup cost."
+}

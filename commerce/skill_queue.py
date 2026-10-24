@@ -100,7 +100,7 @@ def materialize(ledger, configuration, destination):
             or task["provider"] != controls["provider"]
             or task["maximum_micro_usd"] != 0
             or task["acceptance"]["type"]
-            not in ("transform_program", "transform_execution")
+            not in ("transform_program", "transform_execution", "transform_active")
             or "outcome" in task
             or digest(task) in identities
         ):

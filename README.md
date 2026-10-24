@@ -41,6 +41,16 @@ contracts to the existing neural selector. Outcomes update the originating task
 readout and tagged synapses only after buyer verification; feedback is
 acknowledged only after the cognitive checkpoint commits.
 
+The [active-skill route](docs/active-skills.md) removes caller-selected program
+identities. A job supplies diagnostic inputs; the controller requests two distinct
+buyer audit answers, checks retained programs, and invokes bounded synthesis
+when no skill fits. The buyer checks one committed selection
+on separate rows. Probe costs, failed searches, abstentions, retained programs
+and final neural feedback have durable records. Full-portfolio disagreement
+remains experimental because its extra work did not improve the strong direct
+baseline. Neural arbitration chooses the configured episode and receives its
+actual outcome.
+
 Skill acquisition uses conventional program synthesis and verified retention.
 The [comparison record](research/skill-acquisition/README.md) retains the failed
 unary experiment and the stronger factored baseline that beat fragment search.

@@ -1,0 +1,173 @@
+{
+  "domain": "external",
+  "initial_library_sha256s": {
+    "audited_retention": "1a24d8371ef86121d37d2414c3f4cd81bab50372553697e6bdf299b3c156afe3",
+    "disagreement": "1a24d8371ef86121d37d2414c3f4cd81bab50372553697e6bdf299b3c156afe3",
+    "fixed2": "1a24d8371ef86121d37d2414c3f4cd81bab50372553697e6bdf299b3c156afe3",
+    "frozen": "1a24d8371ef86121d37d2414c3f4cd81bab50372553697e6bdf299b3c156afe3",
+    "random": "1a24d8371ef86121d37d2414c3f4cd81bab50372553697e6bdf299b3c156afe3"
+  },
+  "label": "external-final-audited",
+  "limits": {
+    "maximum_probes": 2,
+    "maximum_work": 100000,
+    "minimum_evidence": 2,
+    "synthesis_work": 10000
+  },
+  "methods": ["fixed2", "audited_retention", "disagreement", "random", "frozen"],
+  "phase": "development_only",
+  "privacy": "Complete benchmark examples and program bodies stay private. These are measured development records and source commitments, not independently witnessed physical execution.",
+  "private_evidence_commitments": {
+    "execution-status.json": "81d68405e4131103aff290c5bd6dbc9109c2ee24f846a394494f90f1589449d6",
+    "run.json": "f4d6930871f25436621000e1e40f98d4134ad1e0921a2ae125a6f48d2afff5ab",
+    "traces.jsonl": "1e9c8ff719f3a0bc9e67798b729e58b9e9d658c314afbed5cad2f2a64d5dd750"
+  },
+  "results": {
+    "audited_retention": {
+      "abstained_or_failed_search": 4,
+      "correct_novel_rows": 240,
+      "correct_rows": 240,
+      "cpu_seconds": 0.030647000000000077,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "novel_score_rows": 281,
+      "original_score_rows": 291,
+      "probes": 25,
+      "proposal_coverage": 0.75,
+      "proposed": 12,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 37718,
+      "unscorable_original_rows": 8,
+      "unsupported": 3
+    },
+    "disagreement": {
+      "abstained_or_failed_search": 4,
+      "correct_novel_rows": 240,
+      "correct_rows": 240,
+      "cpu_seconds": 0.03243500000000003,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "novel_score_rows": 281,
+      "original_score_rows": 291,
+      "probes": 25,
+      "proposal_coverage": 0.75,
+      "proposed": 12,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 37716,
+      "unscorable_original_rows": 8,
+      "unsupported": 3
+    },
+    "fixed2": {
+      "abstained_or_failed_search": 3,
+      "correct_novel_rows": 240,
+      "correct_rows": 242,
+      "cpu_seconds": 0.021466,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "novel_score_rows": 281,
+      "original_score_rows": 291,
+      "probes": 25,
+      "proposal_coverage": 0.8125,
+      "proposed": 13,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 31448,
+      "unscorable_original_rows": 8,
+      "unsupported": 3
+    },
+    "frozen": {
+      "abstained_or_failed_search": 4,
+      "correct_novel_rows": 240,
+      "correct_rows": 240,
+      "cpu_seconds": 0.03138400000000002,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "novel_score_rows": 281,
+      "original_score_rows": 291,
+      "probes": 25,
+      "proposal_coverage": 0.75,
+      "proposed": 12,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 37537,
+      "unscorable_original_rows": 8,
+      "unsupported": 3
+    },
+    "random": {
+      "abstained_or_failed_search": 4,
+      "correct_novel_rows": 240,
+      "correct_rows": 240,
+      "cpu_seconds": 0.03277500000000004,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "novel_score_rows": 281,
+      "original_score_rows": 291,
+      "probes": 25,
+      "proposal_coverage": 0.75,
+      "proposed": 12,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 37188,
+      "unscorable_original_rows": 8,
+      "unsupported": 3
+    }
+  },
+  "retained_programs": {
+    "audited_retention": 7,
+    "disagreement": 7,
+    "fixed2": 7,
+    "frozen": 7,
+    "random": 7
+  },
+  "schema": "nuria.active-skill-development-summary.v1",
+  "scope": "Input-only conventional routing, selective buyer labels and prequential verified program reuse. No neural, consciousness or algorithmic novelty claim.",
+  "source_hashes": {
+    "cognition/active_skills.py": "f97462925c9b0a0004ca4b1b7067254033bc6e8f3e36a0581bdbb0bf62706be4",
+    "cognition/skill_expressions.py": "b597bb35c75349d3182e08b6eecc88adfcfd225a6b45e6e08870a7c275f0a07b",
+    "cognition/skill_factored.py": "4cd3188985c6b51d1414678580641c7364da4d7b7b5edd65dc454e47395b79b7",
+    "cognition/skill_language.py": "e9c3cdc6e7d478ca6e0bc9e6074847c0ef00d1f9bd2ffa9ecadc6fa22b6d77e7",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "scripts/evaluate_active_skills.py": "9fd662dee007665e408e72fb07ce1b603f4cef6890a0f75cc154a09f54245a5f",
+    "scripts/fetch_active_skill_sources.py": "a3de30b2b0a1d1d40ff50beb5385a13e9b3c301d02a0f6af51edbd948a1740e5",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "scripts/verify_skill_expression_results.py": "751d477beaa44e961d57c4a0767335c1989a94edae345665bc1ad16294b8d9d6"
+  },
+  "status": {
+    "complete": true,
+    "records": 80,
+    "source_hashes_unchanged": true
+  },
+  "timing_scope": "Per-file library initialization, controller, independent buyer interpreter, admission and state/hash preparation; source parsing and evidence serialization are outside timers. Raw CPU values are measured process evidence, not independent attestation.",
+  "unsupported_tasks": [
+    {
+      "original_examples": 2,
+      "reason": "insufficient_or_excess_original_examples",
+      "task_id": "Column.000003"
+    },
+    {
+      "original_examples": 2,
+      "reason": "insufficient_or_excess_original_examples",
+      "task_id": "Email.000004"
+    },
+    {
+      "original_examples": 10,
+      "reason": "unsupported_source_types",
+      "task_id": "Email.000009"
+    }
+  ],
+  "verification": {
+    "jobs": 16,
+    "methods": 5,
+    "passed": true,
+    "records": 80,
+    "scope": "Independent data-only execution and selected-label/admission arithmetic; search and physical CPU are not independently witnessed"
+  }
+}
