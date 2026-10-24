@@ -110,6 +110,21 @@ The verifier executes programs independently. It does not replay synthesis or
 physically witness CPU/search instrumentation. A public commit and local access
 timestamps are provenance commitments, not an external experiment witness.
 
+A separate [full search replication](reserved/search-replication.json) re-executed
+all **5,184** original method-job records. Every deterministic field matched:
+search actions and work, diagnostic choices, returned programs, buyer checks,
+receipts, abandoned-artifact dispositions and complete library histories. Only
+the two measured CPU fields were excluded. The fifteen frozen source hashes
+matched before and after replay, and the original public protocol was checked.
+This is reproduction of the published run, not another qualification or new
+random-seed experiment.
+
+```sh
+python -m scripts.replay_guarded_skill_search research/guarded-skills/reserved \
+  --protocol research/guarded-skills/protocol.json \
+  --output search-replication
+```
+
 ## Previously seen external tasks
 
 A separate [reanalysis](external-reanalysis/summary.json) uses the exact original
