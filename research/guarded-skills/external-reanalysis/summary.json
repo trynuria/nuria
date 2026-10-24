@@ -1,0 +1,85 @@
+{
+  "completed_utc": "2026-10-24T15:35:31.284721+00:00",
+  "initial_library_sha256": "1a24d8371ef86121d37d2414c3f4cd81bab50372553697e6bdf299b3c156afe3",
+  "initial_programs": 7,
+  "inventory_sha256": "b78576081eb7cc901dc51d4c894ecb952d71fae9896f0a8509c24a6401369687",
+  "original_score_rows": 4042,
+  "original_source_commit": "8e3349ae8575c2615926b76170b287b6dddb5a73",
+  "private_trace_sha256": "479c427caa56dd1f269fe189fd66d76199a06eb95ce83b70ffcabb2c524993a2",
+  "results": {
+    "10000": {
+      "composed_fixed2": {
+        "correct_novel_rows": 2353,
+        "correct_rows": 2357,
+        "cpu_seconds": 0.8449439999999996,
+        "exact_successes": 72,
+        "jobs": 167,
+        "labels": 305,
+        "novel_score_rows": 3946,
+        "proposed": 101,
+        "score_rows": 3993,
+        "total_work": 1272816,
+        "unsupported": 14,
+        "wrong_proposals": 29
+      },
+      "old_fixed2": {
+        "correct_novel_rows": 2223,
+        "correct_rows": 2265,
+        "cpu_seconds": 0.7106480000000002,
+        "exact_successes": 59,
+        "jobs": 167,
+        "labels": 305,
+        "novel_score_rows": 3946,
+        "proposed": 90,
+        "score_rows": 3993,
+        "total_work": 1198045,
+        "unsupported": 14,
+        "wrong_proposals": 31
+      }
+    },
+    "50000": {
+      "composed_fixed2": {
+        "correct_novel_rows": 2431,
+        "correct_rows": 2473,
+        "cpu_seconds": 1.8750389999999975,
+        "exact_successes": 78,
+        "jobs": 167,
+        "labels": 305,
+        "novel_score_rows": 3946,
+        "proposed": 119,
+        "score_rows": 3993,
+        "total_work": 2874480,
+        "unsupported": 14,
+        "wrong_proposals": 41
+      },
+      "old_fixed2": {
+        "correct_novel_rows": 2371,
+        "correct_rows": 2413,
+        "cpu_seconds": 1.1658500000000014,
+        "exact_successes": 73,
+        "jobs": 167,
+        "labels": 305,
+        "novel_score_rows": 3946,
+        "proposed": 111,
+        "score_rows": 3993,
+        "total_work": 1800406,
+        "unsupported": 14,
+        "wrong_proposals": 38
+      }
+    }
+  },
+  "schema": "nuria.composed-external-seen-reanalysis.v1",
+  "scope": "Previously observed Microsoft PROSE synthetic tasks, original first two diagnostics and all remaining original scoring rows, same seven-program warm start. Seen-set reanalysis, not fresh qualification or a neural advantage. The two fixed search budgets are separate sensitivity branches; neither branch was chosen after its outcomes.",
+  "source_hashes": {
+    "cognition/active_skills.py": "f97462925c9b0a0004ca4b1b7067254033bc6e8f3e36a0581bdbb0bf62706be4",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_composition.py": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "scripts/evaluate_active_skills.py": "9fd662dee007665e408e72fb07ce1b603f4cef6890a0f75cc154a09f54245a5f",
+    "scripts/reanalyze_composed_external.py": "c4e722e1a25d0842dc1ade0f67328e3567b6ce2676c7c041b5a29b29f8709c09",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "tests/test_composed_external_reanalysis.py": "fa58220835cfc333ee64e05d129b76474b3139667f4f1f47e4c550b68562e575"
+  },
+  "status": "completed_seen_set_reanalysis",
+  "tasks": 167
+}

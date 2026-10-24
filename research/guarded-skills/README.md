@@ -50,6 +50,86 @@ outcomes, receipts, library transitions and resource arithmetic without importin
 the learner or evaluator. CPU and search instrumentation remain locally recorded
 evidence; they are not independently witnessed physical execution.
 
-The qualification result will be added after the frozen run. Generated-task
-improvement cannot establish external generalization, a consciousness result or
-superiority of Nuria's neural architecture. The observatory design is unchanged.
+## Frozen result
+
+Commit [`ce29327`](https://github.com/trynuria/nuria/commit/ce293276957d41b59e00b85a36bf97da694e4fd9)
+was publicly available and checked by the runner before any reserved corpus was
+generated. One run evaluated all nine methods on twelve fresh 48-job streams.
+All fifteen frozen source identities remained unchanged. The independent checker
+verified all **5,184 method-job records**, including every failed search,
+incorrect proposal, abstention and terminal provisional-artifact disposition.
+
+| Method                         | Exact / 576 | Wrong |    Labels |   Counted work | Full process CPU |
+| ------------------------------ | ----------: | ----: | --------: | -------------: | ---------------: |
+| Original, two examples         |         136 |   100 |     1,152 |     19,399,390 |          7.587 s |
+| Original, four examples        |         129 |     0 |     2,304 |     24,724,219 |          7.909 s |
+| Composed, two examples         |         285 |   225 |     1,152 |      7,493,136 |          4.348 s |
+| Composed, three examples       |         423 |    16 |     1,728 |     11,482,079 |          5.337 s |
+| **Composed, four examples**    |     **438** | **1** | **2,304** | **12,673,045** |      **5.188 s** |
+| Enumerative, three examples    |         352 |     3 |     1,728 |     14,258,611 |          6.077 s |
+| **Enumerative, four examples** |     **337** | **1** | **2,304** | **14,934,915** |      **5.726 s** |
+| Guarded                        |         455 |     5 |     1,848 |     17,238,110 |          9.253 s |
+| Guarded without admission      |         454 |     5 |     1,829 |     16,724,386 |          7.941 s |
+
+The selected learner solved **76.0% versus 58.5%** for its preregistered
+same-language conventional control. It gained 101 exact jobs and lost none of
+the control's exact jobs. Both made one incorrect proposal. The accuracy delta
+was 17.5 percentage points; the whole-seed paired-bootstrap 95% interval was
+15.1–20.0 points. The directional seed-sign permutation result was 1/4,096 under
+its stated exchangeability assumption. This is the primary registered comparison;
+other comparisons are exploratory and unadjusted.
+
+The chosen method used the same four labels and 50,000-unit synthesis cap per
+job, with 15.1% less counted work and 9.4% less measured full-pipeline CPU overall.
+These are distinct correctness and resource observations. The separately
+registered **matched-correctness efficiency gate did not apply successfully**:
+exact count and proposal coverage differed, so its required parity was absent.
+The competence gate passed. There is no weighted score hiding that distinction.
+
+The guarded policy solved seventeen more jobs than the chosen policy, with four
+more incorrect proposals and higher work/CPU but fewer labels. The selected policy
+does not dominate every alternative on every axis. Guarded remains experimental;
+the frozen guarded control is also a different policy and cannot establish the
+causal benefit of retention for the chosen fixed-four learner.
+
+Full [summary](reserved/summary.json), [paired analysis](reserved/comparison.json),
+[independent checks](reserved/verification.json), generated corpora and complete
+traces are published. The two large generated artifacts use lossless gzip; no
+external benchmark specification or production history is included.
+
+```sh
+python -m scripts.verify_guarded_skill_results research/guarded-skills/reserved
+python -m scripts.summarize_guarded_skill_comparison \
+  --summary research/guarded-skills/reserved/summary.json \
+  --verification research/guarded-skills/reserved/verification.json \
+  --protocol research/guarded-skills/protocol.json \
+  --output comparison-reproduced.json
+```
+
+The verifier executes programs independently. It does not replay synthesis or
+physically witness CPU/search instrumentation. A public commit and local access
+timestamps are provenance commitments, not an external experiment witness.
+
+## Previously seen external tasks
+
+A separate [reanalysis](external-reanalysis/summary.json) uses the exact original
+seven-program checkpoint, two diagnostic examples and 167 previously observed
+Microsoft PROSE tasks. All fourteen unsupported files remain in the denominator.
+This is seen-set reanalysis, **not fresh reserved external qualification**; no
+learner change was made from these outcomes.
+
+| Search cap | Original exact / 167 | Composed exact / 167 | New wins | Regressions |
+| ---------- | -------------------: | -------------------: | -------: | ----------: |
+| 10,000     |                   59 |                   72 |       24 |          11 |
+| 50,000     |                   73 |                   78 |        9 |           4 |
+
+At 10,000 units, full counted work rose 6.2% and CPU 18.9%; at 50,000 they rose
+59.7% and 60.8%. Wrong proposals at the larger cap rose from 38 to 41. The coverage
+gain is useful but has costs and regressions. All 668 records and all 421 proposed
+programs' disclosed-example agreement were checked. The original failed external
+qualification remains untouched.
+
+This demonstrates a bounded program-synthesis improvement, not a neural
+advantage, general intelligence or consciousness. Fresh generated tasks do not
+establish performance on independent external workloads. The observatory design
+is unchanged.

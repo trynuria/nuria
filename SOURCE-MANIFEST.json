@@ -72,7 +72,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "f4fab2ed84a2598ab920168231ebf32177316444f29259a4ba59aeeded7f6018"
+      "published_sha256": "68bf39134d24d3485d9de6965cbf208733a7f81bb120cc44c3c2b95321f370bb"
     },
     {
       "path": "api.py",
@@ -367,6 +367,10 @@
       "published_sha256": "a309df79e195aaceb5354be0e5cb720f8ef3eb1315e87a7a631fe22063d18dfc"
     },
     {
+      "path": "commerce/composed_skill_runtime.py",
+      "published_sha256": "c9967446b5479b6806b7e6c4ad5d365d23f7f2f204b032c9fd95b0a17fb1895e"
+    },
+    {
       "path": "commerce/config.py",
       "published_sha256": "75bda616e9f772bb73ff94f96685f6262c0b28e3110b563a390472116cff167c"
     },
@@ -400,7 +404,7 @@
     },
     {
       "path": "commerce/local_skills.py",
-      "published_sha256": "da0789b44ed837f9a7b0c39a6ca24ff2a7f4078e72e353c969620a7c9c90489a"
+      "published_sha256": "1fe7bd375013d85bd352a13a732c9b8d813a3e810f4f2fd4c0911761799b0377"
     },
     {
       "path": "commerce/managed.py",
@@ -520,7 +524,7 @@
     },
     {
       "path": "commerce/tasks.py",
-      "published_sha256": "f704b10105505470f46605e6bcacb618ed73a48bdc6084db3be83950b6a5d5e9"
+      "published_sha256": "113b8cc45384c0b1dd28428bed83548769b6d79e0a039a3a241dd9c0c7657d75"
     },
     {
       "path": "commerce/tests/fixtures-x402-typescript.json",
@@ -604,7 +608,7 @@
     },
     {
       "path": "docs/active-skills.md",
-      "published_sha256": "c0acfd334ddca6332df6573c7f5129271915767736b0309122e4ea1eeb677c03"
+      "published_sha256": "20f57045e9f96079097455349377f7a89eb3263a1af3488782a0281b5311a75a"
     },
     {
       "path": "docs/architecture.md",
@@ -635,6 +639,10 @@
       "published_sha256": "857066350fe371d8b1a153d6fd71f5ea52339a87026169c99c7902a9eb925414"
     },
     {
+      "path": "docs/composed-skills.md",
+      "published_sha256": "fe8f51d3a2a2cb9d05b03c5b33bab904762ceea951e424e5f6958e8056996057"
+    },
+    {
       "path": "docs/discovery-development.json",
       "published_sha256": "2f1c510a1dd53206cadbfc6301c62054d0789e6b39315983c6498e108fb854de"
     },
@@ -656,7 +664,7 @@
     },
     {
       "path": "docs/docs-content.html",
-      "published_sha256": "3c5e158d6e3fbc8ac378b2e7c2dbb79a8eb8488bd0d25d36b14bf64e42379734"
+      "published_sha256": "a35729ef8e341e4f5b0b2cd8f87ef063ce47fa6f7db45fadada5c5cff99afe50"
     },
     {
       "path": "docs/docs.css",
@@ -732,7 +740,7 @@
     },
     {
       "path": "index.html",
-      "published_sha256": "32b778c178c897e47074b5074fbdc5dd8b29fc2fa271f9d2e4535f212de51550"
+      "published_sha256": "bf9349acf60c34d9428befed875d7f3df1e6d06e47fa95135ae27b8c8ea4d728"
     },
     {
       "path": "ingest.py",
@@ -1344,7 +1352,7 @@
     },
     {
       "path": "research/guarded-skills/README.md",
-      "published_sha256": "4c2228a9aafa39ee85e720753e2c5c4b9395d6555a673b31ff01bb071492a403"
+      "published_sha256": "6b13326b7f23c95aa42e06126efab3f59b8cdc4d2024c7e68a3790c20f7b6d24"
     },
     {
       "path": "research/guarded-skills/development/development-02/sources/cognition/active_skills.py",
@@ -1463,8 +1471,48 @@
       "published_sha256": "0c815b5950d6b32d47d40ec95ef6d5e4676ef3bbbc69abb38e8c2ca2fdf352f8"
     },
     {
+      "path": "research/guarded-skills/external-reanalysis/started.json",
+      "published_sha256": "7de525f72a90c83fdfd433190323064b89016595565afec66e50e295dcac2653"
+    },
+    {
+      "path": "research/guarded-skills/external-reanalysis/summary.json",
+      "published_sha256": "eb6f2c6092fe61e371690da58cbe6edd668a5c4af68d4e5456721017698a81c3"
+    },
+    {
+      "path": "research/guarded-skills/external-reanalysis/task-results.json",
+      "published_sha256": "6fd628a5ddc810950361e17adecded524cb85c360020d7484625810550b7e92a"
+    },
+    {
+      "path": "research/guarded-skills/external-reanalysis/verification.json",
+      "published_sha256": "5da366b1efa584cb3d716f2681a9cbae9d25d22a7bbcdf3b83682e5fbef632d2"
+    },
+    {
       "path": "research/guarded-skills/protocol.json",
       "published_sha256": "7469c52a1d5f8e023d865b9df30603f06ca2c1cee16c0296644fc469061560db"
+    },
+    {
+      "path": "research/guarded-skills/reserved/comparison.json",
+      "published_sha256": "dfdca364f3c05b25001132b4daab8c76dbb8c61374dfdc2d5b201a12344ca0fe"
+    },
+    {
+      "path": "research/guarded-skills/reserved/corpora.json.gz",
+      "published_sha256": "fbc09683050ac70eafaf4591d6861eba966dfb2297859ed4048694974b08e8dd"
+    },
+    {
+      "path": "research/guarded-skills/reserved/started.json",
+      "published_sha256": "8179f0390d8df6e48f972d419d52f3b0d6d49384255e702b40ef962fdcae1d35"
+    },
+    {
+      "path": "research/guarded-skills/reserved/summary.json",
+      "published_sha256": "af9fb6205bab02a7b7211b846ffd5c1063463770dc76fe8d3851f938da49ecfd"
+    },
+    {
+      "path": "research/guarded-skills/reserved/traces.json.gz",
+      "published_sha256": "67114421564a00d6402f197eeed7f82010090fd6b726fc007b7d9d8539feabdc"
+    },
+    {
+      "path": "research/guarded-skills/reserved/verification.json",
+      "published_sha256": "a56ec1421804d887445e49a80915d15dc75eac6802b813567080adeab81a0141"
     },
     {
       "path": "research/intervention-memory/README.md",
@@ -2295,6 +2343,10 @@
       "published_sha256": "f8b47fc1aaad36d9533d3b0f4eb1436c9dddaa987f66e37053df5967f059f35f"
     },
     {
+      "path": "scripts/build_composed_skill_queue.py",
+      "published_sha256": "5a48900f73fda8acf49344596998202fc4890382f21b1bd1cb4a3d3b62be930a"
+    },
+    {
       "path": "scripts/build_guarded_skill_tasks.py",
       "published_sha256": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f"
     },
@@ -2395,6 +2447,10 @@
       "published_sha256": "75b75da0801986f85e81c0946261c103565aaadeaedd3848c5b6279fdeda6873"
     },
     {
+      "path": "scripts/reanalyze_composed_external.py",
+      "published_sha256": "c4e722e1a25d0842dc1ade0f67328e3567b6ce2676c7c041b5a29b29f8709c09"
+    },
+    {
       "path": "scripts/render_acquisition.py",
       "published_sha256": "e58c415918117c991824292454d7f12ff33541d2f2d3050762d57ecd762517de"
     },
@@ -2441,6 +2497,10 @@
     {
       "path": "scripts/verify_live_active_skills.py",
       "published_sha256": "455a3a9dc07466da31a8efbc590ced6cfbe7c0e52d45dc9112b198d78de42fb7"
+    },
+    {
+      "path": "scripts/verify_live_composed_skills.py",
+      "published_sha256": "46cb31521b4470e4593f42266d1a56ef0c78d159429d31e6e07bb959325dbcb0"
     },
     {
       "path": "scripts/verify_live_skills.py",
@@ -2567,6 +2627,18 @@
       "published_sha256": "ba340ec82506e98dfa520e8662423c493335c50372387c685446c0e5ab91cd7a"
     },
     {
+      "path": "tests/test_composed_external_reanalysis.py",
+      "published_sha256": "fa58220835cfc333ee64e05d129b76474b3139667f4f1f47e4c550b68562e575"
+    },
+    {
+      "path": "tests/test_composed_skill_queue.py",
+      "published_sha256": "85f098008ffcee2e9a92a995b82bd8b86358a990cc5b67c1bf32beabf729cad3"
+    },
+    {
+      "path": "tests/test_composed_skill_runtime.py",
+      "published_sha256": "a05257470bc9b066add302b981ab1165183255e1e6760ca35640822399052ef7"
+    },
+    {
       "path": "tests/test_composed_skills.py",
       "published_sha256": "416bf2a5538d7a6f49290130ec2c580fbef6d271d92936a9815729ca2c62d2fd"
     },
@@ -2633,6 +2705,10 @@
     {
       "path": "tests/test_live_active_skills.py",
       "published_sha256": "4adda52613697aa8c9ed1d3bfba3945f3ce72355b8c867f8843a5656ef6279e1"
+    },
+    {
+      "path": "tests/test_live_composed_verifier.py",
+      "published_sha256": "6331ef78f1e6c333fd0304d6cb047b8e614dc3141f1d906dd0c4af7e75f80a77"
     },
     {
       "path": "tests/test_live_skills.py",

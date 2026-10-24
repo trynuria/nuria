@@ -55,6 +55,7 @@ class LocalSkills:
                 "retained_factored",
                 "active",
                 "active_audited",
+                "active_composed",
             )
         ):
             raise ValueError("Local skill authority is malformed")
@@ -74,10 +75,34 @@ class LocalSkills:
             raise ValueError("Local skill cooldown is invalid")
         self.config, self.ledger = config, ledger
         self.id, self.account = config["id"], "included:" + config["id"]
-        if config["mode"] in ("active", "active_audited"):
+        if config["mode"] != "active_composed" and (
+            self.id == "local-composed-records-v1"
+            or config["source_id"] == "nuria:composed-record-repair-v1"
+        ):
+            raise ValueError(
+                "The composed source cannot use a different execution policy"
+            )
+        if config["mode"] in ("active", "active_audited", "active_composed"):
             from cognition.skill_language import library_factory, normalize_config
 
             SkillLibrary = library_factory
+        if config["mode"] == "active_composed":
+            from cognition.text_composition import CompositionalTextLibrary
+            from commerce.composed_skill_runtime import (
+                COMPOSED_PROVIDER,
+                COMPOSED_SOURCE,
+            )
+
+            if (
+                config["id"] != COMPOSED_PROVIDER
+                or config["source_id"] != COMPOSED_SOURCE
+                or type(config["config"]) is not dict
+                or config["config"].get("version") != "safe-text-v1"
+            ):
+                raise ValueError(
+                    "Composed compute needs its separate reviewed text source"
+                )
+            SkillLibrary = CompositionalTextLibrary
         self.dsl_config = normalize_config(config["config"])
         if (
             config["mode"] in ("factored", "retained_factored")
@@ -111,13 +136,17 @@ class LocalSkills:
         self.active = None
         self.active_policy = (
             "audited_retention"
-            if config["mode"] == "active_audited"
+            if config["mode"] in ("active_audited", "active_composed")
             else "disagreement"
         )
         if config["mode"] in ("active", "active_audited"):
             from commerce.active_skill_runtime import ActiveSkillRuntime
 
             self.active = ActiveSkillRuntime(self)
+        elif config["mode"] == "active_composed":
+            from commerce.composed_skill_runtime import ComposedSkillRuntime
+
+            self.active = ComposedSkillRuntime(self)
 
     @property
     def enabled(self):
@@ -167,6 +196,8 @@ class LocalSkills:
             or rule["type"]
             not in ("transform_program", "transform_execution", "transform_active")
             or (rule["type"] == "transform_active") != (self.active is not None)
+            or (rule.get("policy") == "composed_fixed4")
+            != (self.config["mode"] == "active_composed")
             or normalize(rule["config"], active=self.active is not None)
             != self.dsl_config
             or rule["maximum_work"] > self.config["maximum_work_per_job"]
@@ -175,6 +206,8 @@ class LocalSkills:
             and rule["source_id"] != self.config["source_id"]
         ):
             raise ValueError("Task exceeds the explicit nonfinancial skill authority")
+        if self.config["mode"] == "active_composed":
+            self.active.validate(row)
         return rule
 
     def _capacity(self, now, budget):

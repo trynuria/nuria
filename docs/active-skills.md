@@ -73,8 +73,10 @@ overwriting a shared library. Pending proposals, diagnostic rows, program nodes,
 work, jobs and library capacity are bounded. An accepted result at full library
 capacity establishes correctness, not successful retention of another program.
 
-The production contract currently qualifies only the existing numeric expression
-language. The separate text language adds reviewed field extraction, casing,
+The original production contract qualifies the existing numeric expression
+language. The separately versioned [composition route](composed-skills.md)
+defines a dedicated four-audit text source, qualified by its own comparison and
+activated independently. The text language adds reviewed field extraction, casing,
 fixed token classes, bounded slicing, concatenation, simple equality conditions
 and numeric formatting. It executes declarative data programs; it has no process,
 filesystem, network, arbitrary regular expression or wallet tool. External text
@@ -105,7 +107,9 @@ the frozen-library control solved 60. It retained 29 additional verified program
 hashes but used 16.4% more counted work and 47.8% more process CPU than the direct
 baseline. Both registered improvement gates failed. This establishes bounded
 execution and admission on part of that suite, not a competence or efficiency
-advantage. Text execution remains outside the qualified live numeric contract.
+advantage. Those historical results remain unchanged. The newer
+[composition study](../research/guarded-skills/README.md) reports a separate,
+bounded search improvement; it does not turn the earlier failure into a success.
 
 The [live input-only course](../research/active-skills/live/README.md) separately
 records numeric integration, including an unsupported control and an operator

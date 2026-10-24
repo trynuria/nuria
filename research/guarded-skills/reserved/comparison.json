@@ -1,0 +1,460 @@
+{
+  "chosen_method": "composed_fixed4",
+  "comparisons": {
+    "composed_fixed2": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 12,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.000244140625,
+        "sign_assignments": 4096
+      },
+      "inference_role": "Exploratory unadjusted secondary; no familywise significance claim",
+      "paired_job_counts": {
+        "both_fail": 107,
+        "both_pass": 254,
+        "chosen_only": 184,
+        "control_only": 31
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [1.1151701900586264, 1.27690518392122],
+        "cpu_ratio": [1.122278097591786, 1.2633321615776094],
+        "exact_job_rate_delta": [0.24305555555555555, 0.2847222222222222],
+        "labels_per_job_delta": [2.0, 2.0],
+        "work_ratio": [1.635683344142741, 1.7523482092429006]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 1.1951696806915788,
+        "cpu_ratio": 1.1932724654041384,
+        "exact_job_rate_delta": 0.265625,
+        "exact_jobs_delta": 153,
+        "jobs": 576,
+        "labels_delta": 1152,
+        "labels_per_job_delta": 2.0,
+        "proposed_delta": -71,
+        "work_ratio": 1.6912871993782044,
+        "wrong_proposals_delta": -224
+      },
+      "primary": false
+    },
+    "composed_fixed3": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 9,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.001953125,
+        "sign_assignments": 512
+      },
+      "inference_role": "Exploratory unadjusted secondary; no familywise significance claim",
+      "paired_job_counts": {
+        "both_fail": 138,
+        "both_pass": 423,
+        "chosen_only": 15,
+        "control_only": 0
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [0.9340230453178965, 0.986768170855836],
+        "cpu_ratio": [0.9458830715429303, 0.9908426275127646],
+        "exact_job_rate_delta": [0.013888888888888888, 0.03819444444444445],
+        "labels_per_job_delta": [1.0, 1.0],
+        "work_ratio": [1.0935828171987905, 1.1140136017992983]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 0.9648619866216558,
+        "cpu_ratio": 0.9720943104493461,
+        "exact_job_rate_delta": 0.026041666666666668,
+        "exact_jobs_delta": 15,
+        "jobs": 576,
+        "labels_delta": 576,
+        "labels_per_job_delta": 1.0,
+        "proposed_delta": 0,
+        "work_ratio": 1.103723898781745,
+        "wrong_proposals_delta": -15
+      },
+      "primary": false
+    },
+    "enumerative_fixed3": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 12,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.000244140625,
+        "sign_assignments": 4096
+      },
+      "inference_role": "Exploratory unadjusted secondary; no familywise significance claim",
+      "paired_job_counts": {
+        "both_fail": 138,
+        "both_pass": 352,
+        "chosen_only": 86,
+        "control_only": 0
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [0.792954313919502, 0.8363754135831584],
+        "cpu_ratio": [0.8358779165427253, 0.8734996187265214],
+        "exact_job_rate_delta": [0.1267361111111111, 0.171875],
+        "labels_per_job_delta": [1.0, 1.0],
+        "work_ratio": [0.8691065289892572, 0.9092027284834242]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 0.8136658910036038,
+        "cpu_ratio": 0.8537638927881027,
+        "exact_job_rate_delta": 0.14930555555555555,
+        "exact_jobs_delta": 86,
+        "jobs": 576,
+        "labels_delta": 576,
+        "labels_per_job_delta": 1.0,
+        "proposed_delta": 84,
+        "work_ratio": 0.8887994068987505,
+        "wrong_proposals_delta": -2
+      },
+      "primary": false
+    },
+    "enumerative_fixed4": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 12,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.000244140625,
+        "sign_assignments": 4096
+      },
+      "inference_role": "Preregistered primary",
+      "paired_job_counts": {
+        "both_fail": 138,
+        "both_pass": 337,
+        "chosen_only": 101,
+        "control_only": 0
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [0.8280767765232607, 0.8964149418363123],
+        "cpu_ratio": [0.8731176928204609, 0.9345165050420026],
+        "exact_job_rate_delta": [0.15104166666666666, 0.1996527777777778],
+        "labels_per_job_delta": [0.0, 0.0],
+        "work_ratio": [0.8322341493900707, 0.8662653902659035]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 0.864162634328962,
+        "cpu_ratio": 0.9060856838720883,
+        "exact_job_rate_delta": 0.1753472222222222,
+        "exact_jobs_delta": 101,
+        "jobs": 576,
+        "labels_delta": 0,
+        "labels_per_job_delta": 0.0,
+        "proposed_delta": 101,
+        "work_ratio": 0.8485515317629863,
+        "wrong_proposals_delta": 0
+      },
+      "primary": true
+    },
+    "frozen_guarded": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 10,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.9990234375,
+        "sign_assignments": 1024
+      },
+      "inference_role": "Exploratory unadjusted secondary; no familywise significance claim",
+      "paired_job_counts": {
+        "both_fail": 106,
+        "both_pass": 422,
+        "chosen_only": 16,
+        "control_only": 32
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [0.6002106232973963, 0.6246087818495911],
+        "cpu_ratio": [0.641553291909945, 0.6652358863588845],
+        "exact_job_rate_delta": [-0.04861111111111111, -0.010416666666666666],
+        "labels_per_job_delta": [0.8072916666666666, 0.8420138888888888],
+        "work_ratio": [0.7427986671857445, 0.7731088569918183]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 0.6124573915967905,
+        "cpu_ratio": 0.6533647014138555,
+        "exact_job_rate_delta": -0.027777777777777776,
+        "exact_jobs_delta": -16,
+        "jobs": 576,
+        "labels_delta": 475,
+        "labels_per_job_delta": 0.8246527777777778,
+        "proposed_delta": -20,
+        "work_ratio": 0.7577584612074847,
+        "wrong_proposals_delta": -4
+      },
+      "primary": false
+    },
+    "guarded": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 10,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.9951171875,
+        "sign_assignments": 1024
+      },
+      "inference_role": "Exploratory unadjusted secondary; no familywise significance claim",
+      "paired_job_counts": {
+        "both_fail": 107,
+        "both_pass": 424,
+        "chosen_only": 14,
+        "control_only": 31
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [0.5267451605968423, 0.5603966325739862],
+        "cpu_ratio": [0.5458416839603251, 0.5765483321925983],
+        "exact_job_rate_delta": [-0.052083333333333336, -0.008680555555555556],
+        "labels_per_job_delta": [0.7760416666666666, 0.8072916666666666],
+        "work_ratio": [0.7129847638120164, 0.761070251678105]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 0.542944626102057,
+        "cpu_ratio": 0.5607081631942886,
+        "exact_job_rate_delta": -0.029513888888888888,
+        "exact_jobs_delta": -17,
+        "jobs": 576,
+        "labels_delta": 456,
+        "labels_per_job_delta": 0.7916666666666666,
+        "proposed_delta": -21,
+        "work_ratio": 0.735176014075789,
+        "wrong_proposals_delta": -4
+      },
+      "primary": false
+    },
+    "old_fixed2": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 12,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.000244140625,
+        "sign_assignments": 4096
+      },
+      "inference_role": "Exploratory unadjusted secondary; no familywise significance claim",
+      "paired_job_counts": {
+        "both_fail": 131,
+        "both_pass": 129,
+        "chosen_only": 309,
+        "control_only": 7
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [0.5866089129360252, 0.6468148559064844],
+        "cpu_ratio": [0.6532539504739338, 0.712843180739618],
+        "exact_job_rate_delta": [0.4965277777777778, 0.5538194444444444],
+        "labels_per_job_delta": [2.0, 2.0],
+        "work_ratio": [0.6218769197654666, 0.6830200417566943]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 0.6174842501124763,
+        "cpu_ratio": 0.6837832619312605,
+        "exact_job_rate_delta": 0.5243055555555556,
+        "exact_jobs_delta": 302,
+        "jobs": 576,
+        "labels_delta": 1152,
+        "labels_per_job_delta": 2.0,
+        "proposed_delta": 203,
+        "work_ratio": 0.6532702832408648,
+        "wrong_proposals_delta": -99
+      },
+      "primary": false
+    },
+    "old_fixed4": {
+      "exact_seed_sign_permutation": {
+        "nonzero_seed_pairs": 12,
+        "null": "Within-seed method labels are exchangeable; directional exact-file advantage is positive",
+        "one_sided_p": 0.000244140625,
+        "sign_assignments": 4096
+      },
+      "inference_role": "Exploratory unadjusted secondary; no familywise significance claim",
+      "paired_job_counts": {
+        "both_fail": 128,
+        "both_pass": 119,
+        "chosen_only": 319,
+        "control_only": 10
+      },
+      "paired_seed_bootstrap_95pct": {
+        "core_cpu_ratio": [0.5619102820645779, 0.6115564251814883],
+        "cpu_ratio": [0.6316851465982595, 0.6799209858111402],
+        "exact_job_rate_delta": [0.4982638888888889, 0.5711805555555556],
+        "labels_per_job_delta": [0.0, 0.0],
+        "work_ratio": [0.4915267698769297, 0.5333953114093967]
+      },
+      "point_estimates": {
+        "core_cpu_ratio": 0.5868302288813415,
+        "cpu_ratio": 0.656007383384692,
+        "exact_job_rate_delta": 0.5364583333333334,
+        "exact_jobs_delta": 309,
+        "jobs": 576,
+        "labels_delta": 0,
+        "labels_per_job_delta": 0.0,
+        "proposed_delta": 310,
+        "work_ratio": 0.5125761505348257,
+        "wrong_proposals_delta": 1
+      },
+      "primary": false
+    }
+  },
+  "gates": {
+    "chosen_beats_every_other_aggregate_exact_count": false,
+    "eligible_reserved_qualification": true,
+    "primary_competence_improvement": true,
+    "primary_efficiency_improvement": false
+  },
+  "limits": [
+    "Conditional on this authored synthetic workload, fixed grammar, solver/search quotas and seed-generation process; not independent external generalization or neural superiority.",
+    "Twelve seed clusters limit interval precision. Paired bootstrap uncertainty describes generated streams, not an independently sampled population of customer tasks.",
+    "Exact sign permutation assumes within-seed exchangeability under its null. Secondary comparisons are unadjusted and exploratory; the primary gate was fixed before outcomes.",
+    "Four-example and three-example methods have different information costs; every comparison reports label, work and CPU axes separately.",
+    "CPU is one counterbalanced process measurement per job, not a hardware-attested speed guarantee; declared work is an instrumented unit, not money or all machine instructions.",
+    "Frozen guarded uses a different controller from composed fixed4; it does not isolate the causal effect of retaining programs in the chosen method.",
+    "Correct terminal abstention artifacts are not delivered successes; all disposition costs remain in total work and CPU."
+  ],
+  "methods": {
+    "composed_fixed2": {
+      "abstentions": 66,
+      "core_cpu_seconds": 3.7819860000000367,
+      "cpu_seconds": 4.347773999999974,
+      "exact_final_rows": 6989,
+      "exact_successes": 285,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 1152,
+      "proposed": 510,
+      "retained_selections": 63,
+      "total_work": 7493136,
+      "wrong_proposals": 225
+    },
+    "composed_fixed3": {
+      "abstentions": 137,
+      "core_cpu_seconds": 4.684726999999954,
+      "cpu_seconds": 5.337012000000098,
+      "exact_final_rows": 10171,
+      "exact_successes": 423,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 1728,
+      "proposed": 439,
+      "retained_selections": 87,
+      "total_work": 11482079,
+      "wrong_proposals": 16
+    },
+    "composed_fixed4": {
+      "abstentions": 137,
+      "core_cpu_seconds": 4.520115000000065,
+      "cpu_seconds": 5.1880789999999815,
+      "exact_final_rows": 10513,
+      "exact_successes": 438,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 2304,
+      "proposed": 439,
+      "retained_selections": 91,
+      "total_work": 12673045,
+      "wrong_proposals": 1
+    },
+    "enumerative_fixed3": {
+      "abstentions": 221,
+      "core_cpu_seconds": 5.555246999999961,
+      "cpu_seconds": 6.076714000000022,
+      "exact_final_rows": 8450,
+      "exact_successes": 352,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 1728,
+      "proposed": 355,
+      "retained_selections": 76,
+      "total_work": 14258611,
+      "wrong_proposals": 3
+    },
+    "enumerative_fixed4": {
+      "abstentions": 238,
+      "core_cpu_seconds": 5.2306299999999615,
+      "cpu_seconds": 5.725814999999912,
+      "exact_final_rows": 8089,
+      "exact_successes": 337,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 2304,
+      "proposed": 338,
+      "retained_selections": 74,
+      "total_work": 14934915,
+      "wrong_proposals": 1
+    },
+    "frozen_guarded": {
+      "abstentions": 117,
+      "core_cpu_seconds": 7.380293000000024,
+      "cpu_seconds": 7.940555999999973,
+      "exact_final_rows": 10904,
+      "exact_successes": 454,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 1829,
+      "proposed": 459,
+      "retained_selections": 0,
+      "total_work": 16724386,
+      "wrong_proposals": 5
+    },
+    "guarded": {
+      "abstentions": 116,
+      "core_cpu_seconds": 8.325185999999974,
+      "cpu_seconds": 9.2527259999999,
+      "exact_final_rows": 10924,
+      "exact_successes": 455,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 1848,
+      "proposed": 460,
+      "retained_selections": 98,
+      "total_work": 17238110,
+      "wrong_proposals": 5
+    },
+    "old_fixed2": {
+      "abstentions": 340,
+      "core_cpu_seconds": 7.320210999999944,
+      "cpu_seconds": 7.587314999999999,
+      "exact_final_rows": 3295,
+      "exact_successes": 136,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 1152,
+      "proposed": 236,
+      "retained_selections": 31,
+      "total_work": 19399390,
+      "wrong_proposals": 100
+    },
+    "old_fixed4": {
+      "abstentions": 447,
+      "core_cpu_seconds": 7.70259400000003,
+      "cpu_seconds": 7.9085680000001135,
+      "exact_final_rows": 3096,
+      "exact_successes": 129,
+      "final_rows": 13824,
+      "jobs": 576,
+      "labels": 2304,
+      "proposed": 129,
+      "retained_selections": 28,
+      "total_work": 24724219,
+      "wrong_proposals": 0
+    }
+  },
+  "phase": "reserved",
+  "primary_control": "enumerative_fixed4",
+  "protocol_sha256": "c9ec7429e9abaa6b412d4730b2a342d47d281a0fbe9c4c9628e322c28794b05d",
+  "resampling": {
+    "interval": "Two-sided percentile 95%; no independent-row assumption",
+    "replicates": 10000,
+    "rng_seed": 20261024,
+    "streams": 12,
+    "unit": "Whole paired seed stream"
+  },
+  "schema": "nuria.guarded-skill-comparison.v1",
+  "source_hashes": {
+    "cognition/active_skills.py": "f97462925c9b0a0004ca4b1b7067254033bc6e8f3e36a0581bdbb0bf62706be4",
+    "cognition/composed_skills.py": "b5be031d1052c175b5b49a264c26934471076d0900371501d39371d89b955d2a",
+    "cognition/guarded_skills.py": "ddad3ec66da53b49cdea7e83463de3e707708e37b419c5e9ef0002d48c2b9b6d",
+    "cognition/skill_expressions.py": "b597bb35c75349d3182e08b6eecc88adfcfd225a6b45e6e08870a7c275f0a07b",
+    "cognition/skill_factored.py": "4cd3188985c6b51d1414678580641c7364da4d7b7b5edd65dc454e47395b79b7",
+    "cognition/skill_language.py": "e9c3cdc6e7d478ca6e0bc9e6074847c0ef00d1f9bd2ffa9ecadc6fa22b6d77e7",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_composition.py": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "scripts/build_guarded_skill_tasks.py": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f",
+    "scripts/evaluate_guarded_skills.py": "c151a75babac35e747aafb168af58a68ba6804539f5c43f6e7a7d33c7c87da80",
+    "scripts/summarize_guarded_skill_comparison.py": "be561ca553245899d2595049708d770773dfc09fe237919e4abf9a5fbd108623",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "scripts/verify_guarded_skill_results.py": "57e50fd1adb7d49d60293ef29a4b323981fc1c07197061c51f23be1d6b29dd5a",
+    "tests/test_guarded_skill_comparison.py": "0f0fbd6d7726879d8421f7ee6f84a2f88fb15a9895a1d3d45786b40277d05664"
+  },
+  "strongest_other_aggregate_exact_count": 455,
+  "strongest_other_aggregate_exact_methods": ["guarded"],
+  "summary_sha256": "68660a9044e0427f8fb09ce257bf5b9b6af6a703ecc411c6c1569c15bbd50766",
+  "verification_sha256": "df1d4fb80909a20a526218e0b155648c3f20318e56e747b67b2746c568552c91"
+}
