@@ -1,0 +1,91 @@
+"""Development diagnostic: actual Brian2 features with matched history readout."""
+from __future__ import annotations
+import csv
+import io
+import json
+import sys
+import time
+import zipfile
+from pathlib import Path
+import numpy as np
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import persistent_advisor_probe as probe
+from cognition.intervention_encoding import InterventionBrain
+
+OUT = HERE / 'persistent-neural-probe-01'
+
+class NeuralForecaster:
+    def __init__(self, kind, directory):
+        self.kind = kind
+        self.brain = InterventionBrain(directory)
+        if kind == 'frozen_weights':
+            self.brain.exc.plastic_gain = 0
+        self.history = []
+        self.inverse = np.eye(81) * 2
+        self.targets = np.zeros((81, 3))
+        self.prior = np.full(3, 1/3)
+        self.before_prior = np.full(3, 1/3)
+        self.count = 0
+        self.pending = None
+        self.spike_hashes = []
+
+    def predict(self):
+        frame = self.brain.advance({'context': [*self.prior, *self.before_prior, self.count / 32]}, duration_ms=20)
+        self.spike_hashes.append(frame['spikes_sha256'])
+        features = np.asarray(frame['features']).reshape(16, 4).mean(axis=1)
+        history = [np.zeros(4)] * max(0, probe.LAGS - len(self.history)) + self.history[-probe.LAGS:]
+        self.pending = np.r_[1., np.concatenate(history), features]
+        p = np.maximum(self.pending @ self.inverse @ self.targets, .001)
+        return p / p.sum()
+
+    def observe(self, row):
+        y = np.asarray(row['histogram'])
+        x = self.pending
+        v = self.inverse @ x
+        self.inverse -= np.outer(v, v) / (1 + x @ v)
+        self.targets += np.outer(x, y)
+        self.before_prior, self.prior = self.prior, y
+        self.count = row['count']
+        self.history.append(np.r_[y, self.count / 32])
+
+
+def run(kind, seed, windows, kernel):
+    started = time.process_time()
+    model = NeuralForecaster(kind, OUT / f'brain-{kind}-{seed}')
+    arm, count, total, build, switches, mse = 0, 0, 0, 0, 0, 0.
+    trace = []
+    for row in windows:
+        p = model.predict()
+        chosen = probe.choose(kind, p, count, arm)
+        build_cost = kernel['build_steps'][chosen] if chosen and chosen != arm else 0
+        cost = build_cost + sum(kernel['predicates'][i]['query_steps'][chosen] for i in row['queries'])
+        trace.append({'step': row['step'], 'arm': chosen, 'prediction': p.tolist(), 'selected_total_steps': cost, 'spikes_sha256': model.spike_hashes[-1]})
+        total += cost; build += build_cost; switches += chosen != arm
+        arm = chosen; count = row['count']
+        mse += float(np.mean((p - np.asarray(row['histogram'])) ** 2))
+        model.observe(row)
+    return {'method': kind, 'seed': seed, 'total_steps': total, 'build_steps': build, 'switches': switches, 'forecast_mse': mse / len(windows), 'cpu_seconds': time.process_time() - started, 'final_neural_state_sha256': model.brain.state_hash(), 'trace': trace}
+
+
+def main():
+    started = time.process_time()
+    OUT.mkdir(exist_ok=False)
+    kernel = json.loads((HERE / 'persistent-probe-01/native-kernel.json').read_text())
+    raw = zipfile.ZipFile(probe.SOURCE / 'research/intervention-memory/data/bike-sharing-original.zip').read('hour.csv')
+    rows = list(csv.DictReader(io.StringIO(raw.decode())))
+    runs = []
+    for seed in (11, 17):
+        windows = probe.schedule('uci_daily_projection', seed, rows, kernel)
+        for baseline in ('last_mix', 'history_linear', 'history_rff'):
+            runs.append({'seed': seed, **probe.run(baseline, windows, kernel)})
+        for kind in ('intrinsic_stdp', 'frozen_weights'):
+            runs.append(run(kind, seed, windows, kernel))
+    summary = {kind: {metric: float(np.mean([r[metric] for r in runs if r['method'] == kind])) for metric in ('total_steps', 'build_steps', 'switches', 'forecast_mse')} for kind in ('last_mix', 'history_linear', 'history_rff', 'intrinsic_stdp', 'frozen_weights')}
+    report = {'schema': 'nuria.persistent-neural-development-diagnostic.v1', 'phase': 'development-only-seen-study', 'seeds': [11, 17], 'windows': probe.WINDOWS, 'summary': summary, 'cpu_seconds': time.process_time() - started, 'scope': 'Actual Brian2 spiking features concatenated to exact same16-lag raw-history ridge head. Intrinsic STDP versus frozen synapses, both with homeostasis and identical readout adaptation. No reward-dependent synaptic credit, no qualification or production claim. Same private probe caveats about kernel accounting and omitted DROPcost.', 'runs': runs}
+    (OUT / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(json.dumps({'output': str(OUT), 'cpu_seconds': report['cpu_seconds'], 'summary': summary}, indent=2))
+
+if __name__ == '__main__':
+    main()

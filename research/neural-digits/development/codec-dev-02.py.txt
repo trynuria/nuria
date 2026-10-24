@@ -1,0 +1,97 @@
+"""Development-only codec choice: real heterogeneous repo file windows."""
+from pathlib import Path
+import bz2, hashlib, json, lzma, time, zlib
+import numpy as np
+ROOT=Path('.'); OUT=Path(__file__).parent
+ACTIONS=('raw','zlib1','bz2','lzma0')
+TEXT={'.py','.md','.html','.js','.json','.css','.txt','.svg','.csv'}
+BINARY={'.png','.jpg','.jpeg','.webp','.woff','.woff2','.zip','.npz','.pdf','.mp4','.ico'}
+rng=np.random.default_rng(715)
+groups={'small_text':[],'large_text':[],'binary':[]}
+for p in sorted(ROOT.rglob('*')):
+    if not p.is_file() or any(x in p.parts for x in ('.git','.venv','node_modules')):continue
+    n=p.stat().st_size
+    if not 64<=n<=50_000_000:continue
+    if p.suffix in BINARY:groups['binary'].append(p)
+    elif p.suffix in TEXT:groups['small_text' if n<8192 else 'large_text'].append(p)
+paths=[]
+for name,items in groups.items():
+    for idx in rng.permutation(len(items))[:90]:paths.append((name,items[idx]))
+records=[]
+for kind,p in paths:
+    raw=p.read_bytes(); length=min(len(raw),65536 if kind!='small_text' else int(rng.choice([256,512,2048,8192])))
+    start=int(rng.integers(0,max(1,len(raw)-length+1)));raw=raw[start:start+length]
+    a=np.frombuffer(raw,dtype=np.uint8);hist=np.bincount(a,minlength=256)/len(a);nz=hist[hist>0]
+    x=[np.log2(len(a)+1)/16,-float(np.sum(nz*np.log2(nz)))/8,float(np.mean(a<128)),float(np.mean(np.isin(a,[9,10,13,32]))),float(np.mean((a>=48)&(a<=57))),float(np.mean((a>=97)&(a<=122))),float(np.mean((a>=65)&(a<=90))),float(np.mean(a==0)),float(np.mean(a[1:]==a[:-1])),len(nz)/256,*sorted(hist,reverse=True)[:4]]
+    sizes=[];cpu=[]
+    for codec in ACTIONS:
+        began=time.process_time()
+        if codec=='raw':packed=raw;unpacked=packed
+        elif codec=='zlib1':packed=zlib.compress(raw,1);unpacked=zlib.decompress(packed)
+        elif codec=='bz2':packed=bz2.compress(raw,compresslevel=9);unpacked=bz2.decompress(packed)
+        else:packed=lzma.compress(raw,preset=0);unpacked=lzma.decompress(packed)
+        cpu.append(time.process_time()-began);assert unpacked==raw;sizes.append(len(packed))
+    records.append({'path':str(p.relative_to(ROOT)),'kind':kind,'window':[start,length],'bytes_sha256':hashlib.sha256(raw).hexdigest(),'x':x,'sizes':sizes,'codec_roundtrip_cpu_seconds':cpu,'input_size':len(raw)})
+X=np.array([r['x'] for r in records]);Y=np.array([np.clip(1-np.array(r['sizes'])/r['input_size'],-1,1) for r in records]);S=np.array([r['sizes'] for r in records]);d=X.shape[1]
+class Ridge:
+    def __init__(self,dim):self.P=np.repeat(np.eye(dim)[None,:,:],4,axis=0);self.W=np.zeros((4,dim))
+    def predict(self,x):return self.W@x
+    def learn(self,x,a,y):
+        px=self.P[a]@x; k=px/(1+x@px);self.P[a]-=np.outer(k,px);self.W[a]+=k*(y-self.W[a]@x)
+class Head:
+    def __init__(self,seed,train_inputs,spiking=True):
+        r=np.random.default_rng(seed);self.M=r.normal(0,.35,(48,d));self.B=r.uniform(-.2,.2,48);self.W=np.zeros((4,48));self.V=np.zeros((4,d+1));self.train_inputs=train_inputs;self.spiking=spiking
+    def hidden(self,x):
+        current=self.M@x/np.sqrt(d)+self.B+.28
+        if not self.spiking:
+            z=np.tanh(current);return z,1-z*z
+        v=np.zeros(48);deriv=np.zeros(48);e=np.zeros(48);count=np.zeros(48)
+        for tick in range(12):
+            v=.8*v+current;e=.8*e+1
+            sp=(v>=1).astype(float);count+=sp
+            deriv+=e/(1+5*np.abs(v-1))**2
+            v-=sp
+        return count/12,deriv/12
+    def predict(self,x):
+        z,_=self.hidden(x);return self.W@z+self.V@np.r_[1.,x]
+    def learn(self,x,a,y):
+        z,deriv=self.hidden(x);base=np.r_[1.,x];error=np.clip(y-self.W[a]@z-self.V[a]@base,-1,1)
+        old=self.W[a].copy();rate=.035/(1+float(base@base)+float(z@z))
+        self.W[a]+=rate*error*z;self.V[a]+=rate*error*base
+        if self.train_inputs:
+            grad=np.clip(error*old*deriv,-1,1)
+            self.M+=rate*.75*np.outer(grad,x)/np.sqrt(d);self.B+=rate*.75*grad
+methods=('raw','quadratic','rff','spiking_trained','spiking_fixed','mlp_trained','frozen','shuffled')
+report=[]
+for seed in (0,1,2):
+    rr=np.random.default_rng(seed);order=rr.permutation(len(records));cut=int(len(order)*.75);train=order[:cut];test=order[cut:]
+    # No path crosses this within-development split. It is not an untouched future test.
+    # Controls see the same 24 passes of selected uniform logging receipts, delay3.
+    R=rr.normal(size=(48,d))*2.5;phase=rr.uniform(-np.pi,np.pi,48)
+    def features(name,x):
+        if name=='raw':return np.r_[1.,x]
+        if name=='rff':return np.r_[1.,x,np.cos(R@x+phase)]
+        if name=='quadratic':return np.r_[1.,x,[x[i]*x[j] for i in range(d) for j in range(i,d)]]
+        return x
+    models={m:Ridge(len(features(m,X[0]))) for m in ('raw','quadratic','rff')}
+    models|={m:Head(seed+717,m in ('spiking_trained','shuffled','mlp_trained'),spiking=m!='mlp_trained') for m in ('spiking_trained','spiking_fixed','mlp_trained','frozen','shuffled')}
+    train_stream=np.concatenate([rr.permutation(train) for _ in range(24)]);actions=rr.integers(0,4,len(train_stream));pending=[];cpu={m:0. for m in methods}
+    for t,(idx,a) in enumerate(zip(train_stream,actions)):
+        for due,oldidx,arm,target in list(pending):
+            if due>t:continue
+            for m,model in models.items():
+                if m=='frozen':continue
+                y=target if m!='shuffled' else Y[train_stream[max(0,t-37)],arm]
+                began=time.process_time();model.learn(features(m,X[oldidx]),arm,y);cpu[m]+=time.process_time()-began
+            pending.remove((due,oldidx,arm,target))
+        pending.append((t+3,int(idx),int(a),float(Y[idx,a])))
+    results={}
+    for m,model in models.items():
+        chosen=np.array([np.argmax(model.predict(features(m,X[i]))) for i in test]);cost=int(S[test,chosen].sum());best=int(S[test].min(1).sum())
+        results[m]={'bytes':cost,'excess_over_best':cost-best,'exact_best':int((S[test,chosen]==S[test].min(1)).sum()),'train_cpu_seconds':cpu[m],'choices':np.bincount(chosen,minlength=4).tolist()}
+    # Simple histogram/file-size heuristic uses only same numerical features.
+    # No file extension or private grouping is exposed to any decision model.
+    chosen=np.array([0 if X[i,1]>.94 else (2 if X[i,0]>.80 else 1) for i in test]);results['heuristic']={'bytes':int(S[test,chosen].sum()),'choices':np.bincount(chosen,minlength=4).tolist()}
+    report.append({'seed':seed,'train_files':len(train),'test_files':len(test),'receipts':len(train_stream)-3,'pending_terminal_not_credited':3,'warmup_rounds':24,'results':results,'constant_codec_bytes':dict(zip(ACTIONS,S[test].sum(0).tolist())),'per_file_best_bytes':int(S[test].min(1).sum()),'best_codec_counts':np.bincount(S[test].argmin(1),minlength=4).tolist()})
+result={'scope':'Known repository DEV files only, no holdout claim. Heterogeneous real windows; all codec roundtrips checked; primary compressed bytes, CPU separate. Models see same14cheapstats and identicaluniformselectedreceiptsdelay3. Trainable48LIFhidden uses explicit bounded surrogate gradient (not Brian2), selected rewardpredictionerror updates input+actionhead synapses. 24passesmodel budget toheadmethods; ridgecontrols use conventionalexactRLS, strongerlearningalgorithm, sharedreceipts. Same48hidden fixedspike andtanhMLPcontrols; allcandidateparametersfixedbeforethisDEVrun.','source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'records':len(records),'kinds':{k:sum(r['kind']==k for r in records) for k in groups},'trials':report}
+(OUT/'records.json').write_text(json.dumps(records)+'\n');(OUT/'result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))

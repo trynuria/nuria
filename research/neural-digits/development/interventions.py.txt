@@ -1,0 +1,22 @@
+"""Mechanistic DEV intervention checks. Opens training file and saved DEV checkpoints only."""
+from pathlib import Path
+import ast,hashlib,json,numpy as np
+P=Path(__file__).parent
+source=(P/'probe.py').read_text();node=next(n for n in ast.parse(source).body if isinstance(n,ast.ClassDef) and n.name=='Net');scope={'np':np};exec(compile(ast.Module(body=[node],type_ignores=[]),'private-probe-Net','exec'),scope);Net=scope['Net']
+data=np.loadtxt(P.parent/'train.csv',delimiter=',');X=data[:,:64]/16;Y=data[:,64].astype(int)
+results=[];logits_by={};label_set=None
+for width in (64,128):
+ for kind,fixed in (('snn',False),('snn',True),('continuous',False)):
+  for seed in (0,1,2):
+   f=np.load(P/f'{kind}-{width}-fixed{int(fixed)}-seed{seed}.npz',allow_pickle=False);ids=f['validation_indices'];x=X[ids];y=Y[ids];label_set=y
+   initial=Net(seed+202611,width,kind=kind,frozen_input=fixed);n=Net(seed+202611,width,kind=kind,frozen_input=fixed);state={k:f[k] for k in ('W','H','V','C')};n.restore(state)
+   logits,h,der,sp=n.forward(x);logits_by[(kind,width,fixed,seed)]=logits
+   interventions={'intact':int(np.sum(logits.argmax(1)==y)),'zero_spikes':int(np.sum(np.repeat(n.C[None,:],len(y),axis=0).argmax(1)==y))}
+   permutation=np.random.default_rng(9001).permutation(width);interventions['permuted_hidden_channels']=int(np.sum((h[:,permutation]@n.V+n.C).argmax(1)==y))
+   n.W=initial.W;n.H=initial.H;interventions['initial_input_synapses_trained_head']=int(np.sum(n.forward(x)[0].argmax(1)==y))
+   n.restore(state);n.V=initial.V;n.C=initial.C;interventions['initial_output_synapses_trained_input']=int(np.sum(n.forward(x)[0].argmax(1)==y))
+   results.append({'method':kind,'width':width,'frozen_input':fixed,'seed':seed,'validation_rows':len(y),'interventions_correct':interventions})
+ensembles=[]
+for kind,width,fixed in (('snn',64,False),('snn',64,True),('continuous',64,False),('snn',128,False),('snn',128,True),('continuous',128,False)):
+ z=np.mean([logits_by[(kind,width,fixed,s)] for s in (0,1,2)],axis=0);ensembles.append({'method':kind,'width':width,'frozen_input':fixed,'seeds':[0,1,2],'correct':int(np.sum(z.argmax(1)==label_set)),'rows':len(label_set)})
+r={'scope':'Training-partition DEV interventions only. Zero/shuffle/revert are counterfactual input or readout disruptions, not evidence spikes outperform a continuous model. Ensemble averages logits across all three existing initializations; exploratory DEV candidate, not qualification.','source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'interventions':results,'ensembles':ensembles};(P/'interventions.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r,indent=2))

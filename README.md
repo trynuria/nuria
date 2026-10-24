@@ -62,6 +62,14 @@ records, complete generated traces and failed development attempts are published
 in the [research record](research/guarded-skills/README.md). This is a bounded
 software capability gain; neural superiority and consciousness remain unproven.
 
+A separate [trainable spiking specialist](research/neural-digits/README.md) tests
+whether learned neural input synapses improve bounded digit-reading decisions.
+Its protocol, eleven checkpoints and independent Brian2 reference are frozen
+before the official writer-held-out benchmark is opened. Strong linear,
+memory-based, continuous and input-frozen controls remain visible. This is a
+separate perception capability; it does not establish improved treasury or
+hiring decisions in the original recurrent circuit.
+
 Skill acquisition uses conventional program synthesis and verified retention.
 The [comparison record](research/skill-acquisition/README.md) retains the failed
 unary experiment and the stronger factored baseline that beat fragment search.

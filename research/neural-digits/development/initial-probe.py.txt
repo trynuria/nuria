@@ -1,0 +1,88 @@
+"""Optdigits official-training-partition development only. Never opens test data."""
+from pathlib import Path
+import hashlib,json,os,time,numpy as np
+P=Path(__file__).resolve().parent;TRAIN=P.parent/'train.csv'
+assert TRAIN.name=='train.csv'
+raw=TRAIN.read_bytes();data=np.loadtxt(TRAIN,delimiter=',');X=data[:,:64]/16;Y=data[:,64].astype(int)
+assert data.shape==(3823,65) and np.min(X)>=0 and np.max(X)<=1 and set(Y)==set(range(10))
+rng=np.random.default_rng(20261024);train=[];valid=[]
+for label in range(10):
+ idx=np.flatnonzero(Y==label);idx=rng.permutation(idx);cut=round(.2*len(idx));valid+=idx[:cut].tolist();train+=idx[cut:].tolist()
+train=np.array(sorted(train));valid=np.array(sorted(valid));A=X[train];B=X[valid];a=Y[train];b=Y[valid]
+class Net:
+ def __init__(self,seed,width,ticks=16,kind='snn',frozen_input=False):
+  r=np.random.default_rng(seed);self.W=r.normal(0,np.sqrt(2/64),(64,width));self.H=np.full(width,.15);self.V=r.normal(0,.1,(width,10));self.C=np.zeros(10);self.ticks=ticks;self.kind=kind;self.frozen_input=frozen_input;self.t=0
+  self.mm={k:np.zeros_like(getattr(self,k)) for k in ('W','H','V','C')};self.vv={k:v.copy() for k,v in self.mm.items()}
+ def encode(self,x):
+  current=x@self.W+self.H
+  if self.kind=='continuous':
+   h=np.clip((current-.1)/.8,0,1);der=((current>.1)&(current<.9))/ .8;return h,der,0
+  v=np.zeros_like(current);z=np.zeros_like(current);der=np.zeros_like(current);e=np.zeros_like(current)
+  for tick in range(self.ticks):
+   v=.8*v+current;e=.8*e+1;sp=(v>=1).astype(float);z+=sp;der+=np.minimum(1.,1/(1+4*np.abs(v-1))**2)*e;v-=sp
+  # Explicit clipped straight-through surrogate of the exact hard-spike path.
+  return z/self.ticks,np.clip(der/self.ticks,0,1.5),int(z.sum())
+ def forward(self,x):
+  h,der,sp=self.encode(x);logits=h@self.V+self.C;return logits,h,der,sp
+ def train(self,x,y,lr,l2):
+  logits,h,der,_=self.forward(x);p=np.exp(logits-logits.max(1,keepdims=True));p/=p.sum(1,keepdims=True);p[np.arange(len(y)),y]-=1;p/=len(y)
+  grads={'V':h.T@p+l2*self.V,'C':p.sum(0)}
+  if not self.frozen_input:
+   dh=(p@self.V.T)*der;grads['W']=x.T@dh+l2*self.W;grads['H']=dh.sum(0)
+  self.t+=1
+  for k,g in grads.items():
+   g=np.clip(g,-1,1);self.mm[k]=.9*self.mm[k]+.1*g;self.vv[k]=.999*self.vv[k]+.001*g*g
+   setattr(self,k,getattr(self,k)-lr*(self.mm[k]/(1-.9**self.t))/(np.sqrt(self.vv[k]/(1-.999**self.t))+1e-8))
+ def state(self):return {k:getattr(self,k).copy() for k in ('W','H','V','C')}
+ def restore(self,state):
+  for k,v in state.items():setattr(self,k,v.copy())
+
+def softmax_fit(l2):
+ # Standard L-BFGS with Armijo backtracking; same visible training labels.
+ x=np.c_[A,np.ones(len(A))];xx=np.c_[B,np.ones(len(B))];reg=np.ones((65,10));reg[-1]=0
+ def fg(w):
+  w=w.reshape(65,10);z=x@w;shift=z.max(1,keepdims=True);e=np.exp(z-shift);p=e/e.sum(1,keepdims=True);loss=float(np.mean(np.log(e.sum(1))+shift[:,0]-z[np.arange(len(a)),a])+.5*l2*np.sum(w*w*reg));p[np.arange(len(a)),a]-=1;g=x.T@p/len(a)+l2*w*reg;return loss,g.ravel()
+ w=np.zeros(650);f,g=fg(w);hist=[]
+ for it in range(600):
+  if np.max(np.abs(g))<1e-7:break
+  q=g.copy();alpha=[]
+  for s,y,rho in hist[::-1]:
+   al=rho*s@q;alpha.append(al);q-=al*y
+  gamma=(hist[-1][0]@hist[-1][1])/(hist[-1][1]@hist[-1][1]) if hist else 1.
+  direction=gamma*q
+  for (s,y,rho),al in zip(hist,alpha[::-1]):direction+=s*(al-rho*y@direction)
+  direction=-direction
+  if g@direction>=0:direction=-g
+  step=1.;slope=g@direction
+  for j in range(30):
+   nw=w+step*direction;nf,ng=fg(nw)
+   if nf<=f+1e-4*step*slope:break
+   step*=.5
+  s=nw-w;y=ng-g
+  if s@y>1e-12:hist.append((s,y,1/(s@y)));hist=hist[-12:]
+  w,f,g=nw,nf,ng
+ pred=np.argmax(xx@w.reshape(65,10),1)
+ return {'method':'softmax','l2':l2,'accuracy':float(np.mean(pred==b)),'correct':int(np.sum(pred==b)),'iterations':it+1,'gradient_max_abs':float(np.max(np.abs(g))),'objective':f}
+results=[];began=time.process_time()
+for l2 in (1e-5,1e-4,1e-3,.01):results.append(softmax_fit(l2))
+# kNN3/5 is a strong memory-based baseline. No labels from validation enter it.
+distance=np.maximum(0,np.sum(B*B,axis=1)[:,None]+np.sum(A*A,axis=1)[None,:]-2*B@A.T);nearest=np.argsort(distance,axis=1)
+for k in (1,3,5):
+ votes=np.stack([np.bincount(a[row[:k]],minlength=10) for row in nearest]);pred=votes.argmax(1);results.append({'method':'knn','k':k,'accuracy':float(np.mean(pred==b)),'correct':int(np.sum(pred==b))})
+experiments=[('snn',False),('snn',True),('continuous',False)]
+for width in (64,128):
+ for kind,fixed in experiments:
+  for seed in (0,1,2):
+   n=Net(seed+202611,width,kind=kind,frozen_input=fixed);initial=n.state();r=np.random.default_rng(seed+707);trace=[];best=-1;beststate=None;bestepoch=0;start=time.process_time()
+   initial_pred=n.forward(B)[0].argmax(1)
+   for epoch in range(140):
+    order=r.permutation(len(A))
+    for begin in range(0,len(order),128):
+     ids=order[begin:begin+128];n.train(A[ids],a[ids],.003,1e-5)
+    logits,h,der,sp=n.forward(B);correct=int(np.sum(logits.argmax(1)==b));trace.append({'epoch':epoch+1,'correct':correct})
+    if correct>best:best=correct;beststate=n.state();bestepoch=epoch+1
+   n.restore(beststate);logits,h,der,sp=n.forward(B);pred=logits.argmax(1)
+   np.savez(P/f'{kind}-{width}-fixed{int(fixed)}-seed{seed}.npz',**n.state(),train_indices=train,validation_indices=valid,predictions=pred)
+   results.append({'method':kind,'frozen_input':fixed,'width':width,'ticks':n.ticks if kind=='snn' else 0,'seed':seed,'accuracy':best/len(b),'correct':best,'best_epoch':bestepoch,'initial_accuracy':float(np.mean(initial_pred==b)),'train_cpu_seconds':time.process_time()-start,'input_weight_change_l2':float(np.linalg.norm(n.W-initial['W'])),'head_weight_change_l2':float(np.linalg.norm(n.V-initial['V'])),'validation_spikes':sp,'trace':trace})
+   print(json.dumps({k:v for k,v in results[-1].items() if k!='trace'}),flush=True)
+report={'scope':'Official training partition only; 20% stratified train-only development split, seed20261024. Official test never read. Conventional supervised output and surrogate-gradient input plasticity. All models share labels. Exact hard I&F spike counts select ten transcription actions via learned synapses. No production Brian2 or new algorithm/consciousness claim. Highest validation epoch retained for every neural candidate, so this is model selection, not reserved proof.','train_sha256':hashlib.sha256(raw).hexdigest(),'train_count':len(A),'validation_count':len(B),'cpu_seconds':time.process_time()-began,'results':results};(P/'result.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k!='results'},indent=2));print(json.dumps([{k:v for k,v in row.items() if k!='trace'} for row in results],indent=2))

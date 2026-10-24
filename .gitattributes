@@ -21,3 +21,11 @@ research/guarded-skills/**/summary.json linguist-generated=true
 research/guarded-skills/**/verification.json linguist-generated=true
 research/guarded-skills/external-reanalysis/*.json linguist-generated=true
 research/guarded-skills/reserved/*.json linguist-generated=true
+
+# Reviewed neural implementations remain ordinary source; learned arrays/data
+# and archived exploratory programs are retained separately for inspection.
+research/neural-digits/models/*.json linguist-generated=true
+research/neural-digits/development/*.json linguist-generated=true
+research/neural-digits/development/*.py.txt linguist-vendored=true
+research/neural-digits/development/*.npz linguist-vendored=true
+research/neural-digits/data/*.zip linguist-vendored=true

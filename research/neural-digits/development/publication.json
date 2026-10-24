@@ -1,0 +1,10 @@
+{
+  "schema": "nuria.neural-digits-development.v1",
+  "scope": "Official training partition only; hyperparameter development, not held-out qualification. Every width, mechanism and initialization remains in the initial-probe result with its full epoch trajectory. kNN ties in the initial probe used default sorting; the frozen training CLI rechecks stable integer ties before qualification. Official test was not opened by these probes.",
+  "files_sha256": {
+    "initial-probe.py.txt": "1bfa9e7de874ed876b7e3f3c563082fce31a328c1eae42db23951fb554be7a10",
+    "initial-probe.json": "8fc817c0595b73705b027ff90a0bf12cff0c64689b89ed451c2a973c763ce0f4",
+    "interventions.py.txt": "50c503a66638c444605e81f3e4a3478faaf469941cd7fe3134abfc2cee54d906",
+    "interventions.json": "d0a22fdc09c354e57222820486ac8e486518d660bfc8776094c2e77719b17ae4"
+  }
+}

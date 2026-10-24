@@ -1,0 +1,64 @@
+"""DEV optimizer correction; retained data, no new holdout."""
+from pathlib import Path
+import hashlib,json,time,numpy as np
+OUT=Path(__file__).parent
+records=json.loads((OUT/'records.json').read_text());X0=np.array([r['x'] for r in records]);Y=np.array([np.clip(1-np.array(r['sizes'])/r['input_size'],-1,1) for r in records]);S=np.array([r['sizes'] for r in records]);d=X0.shape[1]
+class Ridge:
+ def __init__(self,dim):self.P=np.repeat(np.eye(dim)[None,:,:],4,axis=0);self.W=np.zeros((4,dim))
+ def predict(self,x):return self.W@x
+ def learn(self,x,a,y):
+  px=self.P[a]@x;k=px/(1+x@px);self.P[a]-=np.outer(k,px);self.W[a]+=k*(y-self.W[a]@x)
+class Head:
+ def __init__(self,seed,train_inputs,spiking=True):
+  r=np.random.default_rng(seed);self.M=r.normal(0,.35,(48,d));self.B=r.uniform(-.2,.2,48);self.W=np.zeros((4,48));self.V=np.zeros((4,d+1));self.train_inputs=train_inputs;self.spiking=spiking;self.t=0
+  self.mm={key:np.zeros_like(getattr(self,key)) for key in ('M','B','W','V')};self.vv={k:v.copy() for k,v in self.mm.items()}
+ def hidden(self,x):
+  current=self.M@x/np.sqrt(d)+self.B+.28
+  if not self.spiking:
+   z=np.tanh(current);return z,1-z*z
+  v=np.zeros(48);deriv=np.zeros(48);e=np.zeros(48);count=np.zeros(48)
+  for tick in range(12):
+   v=.8*v+current;e=.8*e+1;sp=(v>=1).astype(float);count+=sp;deriv+=e/(1+5*np.abs(v-1))**2;v-=sp
+  return count/12,deriv/12
+ def predict(self,x):
+  z,_=self.hidden(x);return self.W@z+self.V@np.r_[1.,x]
+ def learn(self,x,a,y):
+  z,deriv=self.hidden(x);base=np.r_[1.,x];error=np.clip(y-self.W[a]@z-self.V[a]@base,-1,1);old=self.W[a].copy();self.t+=1
+  grads={'W':np.zeros_like(self.W),'V':np.zeros_like(self.V)};grads['W'][a]=error*z;grads['V'][a]=error*base
+  if self.train_inputs:
+   grad=np.clip(error*old*deriv,-1,1);grads['M']=np.outer(grad,x)/np.sqrt(d);grads['B']=grad
+  for key,g in grads.items():
+   g=np.clip(g,-1,1);self.mm[key]=.9*self.mm[key]+.1*g;self.vv[key]=.999*self.vv[key]+.001*g*g
+   rate=.002 if key in ('M','B') else .005
+   setattr(self,key,getattr(self,key)+rate*(self.mm[key]/(1-.9**self.t))/(np.sqrt(self.vv[key]/(1-.999**self.t))+1e-8))
+methods=('raw','quadratic','rff','spiking_trained','spiking_fixed','mlp_trained','frozen','shuffled');report=[]
+for seed in (0,1,2):
+ rr=np.random.default_rng(seed);order=rr.permutation(len(records));cut=int(len(order)*.75);train=order[:cut];test=order[cut:]
+ # Unlabeled normalization uses only training files, identically for all models.
+ mean=X0[train].mean(0);std=np.maximum(X0[train].std(0),.05);X=np.clip((X0-mean)/std,-3,3)/3
+ R=rr.normal(size=(48,d))*2.5;phase=rr.uniform(-np.pi,np.pi,48)
+ def features(name,x):
+  if name=='raw':return np.r_[1.,x]
+  if name=='rff':return np.r_[1.,x,np.cos(R@x+phase)]
+  if name=='quadratic':return np.r_[1.,x,[x[i]*x[j] for i in range(d) for j in range(i,d)]]
+  return x
+ models={m:Ridge(len(features(m,X[0]))) for m in ('raw','quadratic','rff')};models|={m:Head(seed+717,m in ('spiking_trained','shuffled','mlp_trained'),spiking=m!='mlp_trained') for m in ('spiking_trained','spiking_fixed','mlp_trained','frozen','shuffled')}
+ initial={m:models[m].M.copy() for m in ('spiking_trained','spiking_fixed','mlp_trained')}
+ train_stream=np.concatenate([rr.permutation(train) for _ in range(24)]);actions=rr.integers(0,4,len(train_stream));pending=[];cpu={m:0. for m in methods}
+ for t,(idx,a) in enumerate(zip(train_stream,actions)):
+  for due,oldidx,arm,target in list(pending):
+   if due>t:continue
+   for m,model in models.items():
+    if m=='frozen':continue
+    y=target if m!='shuffled' else Y[train_stream[max(0,t-37)],arm];began=time.process_time();model.learn(features(m,X[oldidx]),arm,y);cpu[m]+=time.process_time()-began
+   pending.remove((due,oldidx,arm,target))
+  pending.append((t+3,int(idx),int(a),float(Y[idx,a])))
+ results={}
+ choices={}
+ for m,model in models.items():
+  chosen=np.array([np.argmax(model.predict(features(m,X[i]))) for i in test]);choices[m]=chosen;cost=int(S[test,chosen].sum());best=int(S[test].min(1).sum())
+  results[m]={'bytes':cost,'excess_over_best':cost-best,'exact_best':int((S[test,chosen]==S[test].min(1)).sum()),'train_cpu_seconds':cpu[m],'choices':np.bincount(chosen,minlength=4).tolist()}
+  if m in initial:results[m]['input_weight_change_l2']=float(np.linalg.norm(model.M-initial[m]))
+ chosen=np.array([0 if X0[i,1]>.94 else (2 if X0[i,0]>.80 else 1) for i in test]);results['heuristic']={'bytes':int(S[test,chosen].sum()),'choices':np.bincount(chosen,minlength=4).tolist()}
+ report.append({'seed':seed,'train_files':len(train),'test_files':len(test),'receipts':len(train_stream)-3,'results':results,'trained_vs_fixed_changed_decisions':int(np.sum(choices['spiking_trained']!=choices['spiking_fixed'])),'constant_codec_bytes':dict(zip(('raw','zlib1','bz2','lzma0'),S[test].sum(0).tolist())),'per_file_best_bytes':int(S[test].min(1).sum())})
+result={'scope':'DEV optimizer correction: same measured records ascodec-dev-02, now identical train-only normalized inputs for all, Adam .005 action readout/.002 hidden input synapses, exact online selected-receipt regression. No new holdout or public Brian2 claim. All settings fixed before run.24passes,delay3,48cells,12microticks. Same conventional ridge controls, fixed-spike control, tanhMLP and shuffled outcomes.','source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'trials':report};(OUT/'result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
