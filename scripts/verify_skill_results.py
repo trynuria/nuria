@@ -260,8 +260,10 @@ def verify(directory, *, check_sources=True):
     )
     if check_sources:
         for filename, expected in protocol["source_hashes"].items():
+            snapshot = directory / "sources" / filename
+            source = snapshot if snapshot.exists() else ROOT / filename
             require(
-                hashlib.sha256((ROOT / filename).read_bytes()).hexdigest() == expected,
+                hashlib.sha256(source.read_bytes()).hexdigest() == expected,
                 "Evaluated source changed: " + filename,
             )
     require(

@@ -8,6 +8,7 @@ import hashlib
 import json
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts import verify_skill_results as verifier
 
@@ -72,6 +73,54 @@ class SkillResultTests(unittest.TestCase):
         self.assertEqual(result["trace_records"], 840)
         self.assertFalse(result["gates"]["practical_benefit"])
         self.assertFalse(result["gates"]["acquisition_transfer"])
+
+    def test_historical_source_snapshots_pass_after_top_level_formatting(self):
+        directory = (
+            Path(__file__).resolve().parents[1]
+            / "research/skill-acquisition/development-01"
+        )
+        filename = "scripts/evaluate_skills.py"
+        expected = self.protocol["source_hashes"][filename]
+        self.assertNotEqual(
+            hashlib.sha256((verifier.ROOT / filename).read_bytes()).hexdigest(),
+            expected,
+        )
+        self.assertEqual(
+            hashlib.sha256((directory / "sources" / filename).read_bytes()).hexdigest(),
+            expected,
+        )
+        self.assertTrue(verifier.verify(directory)["passed"])
+
+    def test_wrong_retained_source_never_falls_back_to_another_file(self):
+        directory = (
+            Path(__file__).resolve().parents[1]
+            / "research/skill-acquisition/development-01"
+        )
+        snapshot = directory / "sources/scripts/evaluate_skills.py"
+        original = Path.read_bytes
+
+        def tampered(path):
+            raw = original(path)
+            return raw + b"\n# changed retained source\n" if path == snapshot else raw
+
+        with patch.object(Path, "read_bytes", tampered):
+            with self.assertRaisesRegex(ValueError, "Evaluated source changed"):
+                verifier.verify(directory)
+
+    def test_missing_snapshot_cannot_accept_changed_current_source(self):
+        directory = (
+            Path(__file__).resolve().parents[1]
+            / "research/skill-acquisition/development-01"
+        )
+        snapshot = directory / "sources/scripts/evaluate_skills.py"
+        original = Path.exists
+
+        def absent(path):
+            return False if path == snapshot else original(path)
+
+        with patch.object(Path, "exists", absent):
+            with self.assertRaisesRegex(ValueError, "Evaluated source changed"):
+                verifier.verify(directory)
 
     def test_output_tamper_is_rejected_even_with_updated_trace_commitment(self):
         def change(protocol, result, records):

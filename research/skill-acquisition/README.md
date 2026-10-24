@@ -9,7 +9,7 @@ The initial development result does **not** establish a useful advantage. Every
 registered method solved every acquisition and transfer task. Contextual reuse
 reduced counted transformation/search work by 2.5% against fresh search, while its
 measured Python CPU time increased. Neither registered benefit gate passed.
-Reserved seeds have not been executed.
+Reserved seeds for that initial unary study were not executed.
 
 A subsequent [multi-field expression experiment](expressions.md) retains a stronger
 negative result: an ordinary constraint-guided solver beats the learned-fragment

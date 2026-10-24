@@ -470,8 +470,8 @@ function renderWorkDetail() {
 function renderWork(evidence) {
   workSnapshot = evidence;
   $("workHealth").textContent = evidence.financial_execution
-    ? "Execution enabled"
-    : "Execution off";
+    ? "Payments enabled"
+    : "Payments off";
   $("workHealth").dataset.state = evidence.financial_execution ? "running" : "guarded";
   const commissions = evidence.commissions || [];
   const requests = [
