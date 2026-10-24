@@ -54,6 +54,14 @@ records 31 acquisitions, four retained reuses and one unsupported-task rejection
 with all 36 outcomes durably acknowledged. The separate external qualification
 failed both improvement gates; execution evidence is not neural superiority.
 
+The versioned [composition learner](docs/composed-skills.md) repairs a concrete
+search limitation. In a publicly frozen generated comparison it solved 438 of 576
+jobs versus 337 for the same-language conventional control, using the same four
+examples and search cap. Both made one incorrect proposal. All 5,184 method-job
+records, complete generated traces and failed development attempts are published
+in the [research record](research/guarded-skills/README.md). This is a bounded
+software capability gain; neural superiority and consciousness remain unproven.
+
 Skill acquisition uses conventional program synthesis and verified retention.
 The [comparison record](research/skill-acquisition/README.md) retains the failed
 unary experiment and the stronger factored baseline that beat fragment search.

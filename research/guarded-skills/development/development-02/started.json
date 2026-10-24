@@ -1,0 +1,35 @@
+{
+  "freeze_commit": null,
+  "jobs": 48,
+  "limits": {
+    "maximum_probes": 4,
+    "maximum_work": 200000,
+    "minimum_evidence": 2,
+    "synthesis_work": 50000
+  },
+  "methods": [
+    "old_fixed2",
+    "old_fixed4",
+    "composed_fixed2",
+    "composed_fixed3",
+    "composed_fixed4",
+    "enumerative_fixed4",
+    "guarded",
+    "frozen_guarded"
+  ],
+  "phase": "development",
+  "seeds": [0, 1, 2, 3],
+  "source_hashes": {
+    "cognition/active_skills.py": "f97462925c9b0a0004ca4b1b7067254033bc6e8f3e36a0581bdbb0bf62706be4",
+    "cognition/guarded_skills.py": "00baa13ab14a1d2afc00f37c04e9156ba95ef3d9d951858c18389c537ced2952",
+    "cognition/skill_language.py": "e9c3cdc6e7d478ca6e0bc9e6074847c0ef00d1f9bd2ffa9ecadc6fa22b6d77e7",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_composition.py": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "scripts/build_guarded_skill_tasks.py": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f",
+    "scripts/evaluate_guarded_skills.py": "72e225b1f7cff31923a02874f9cf58e12125c7ae78f07c8b6f4b4e858ded03dd",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "scripts/verify_guarded_skill_results.py": "d47f007d91a0a18bc0699e97f9dcfd1da9a56b66a90c5648806ec6909fdbb032"
+  },
+  "status": "in_progress"
+}

@@ -159,7 +159,7 @@ def validate_task(task):
     elif rule.get("type") == "transform_active":
         from cognition.skill_language import normalize_config
 
-        if set(rule) != {
+        expected_fields = {
             "type",
             "config",
             "diagnostic_inputs",
@@ -170,7 +170,11 @@ def validate_task(task):
             "maximum_probes",
             "synthesis_work",
             "minimum_evidence",
-        }:
+        }
+        composed = rule.get("policy") == "composed_fixed4"
+        if composed:
+            expected_fields |= {"policy", "source_id"}
+        if set(rule) != expected_fields:
             raise ValueError("Active-transform evaluation fields are invalid")
         config = normalize_config(rule["config"])
         if (
@@ -178,8 +182,13 @@ def validate_task(task):
             or task["maximum_micro_usd"] != 0
             or task.get("outcome")
             or config["version"] != "safe-expression-v1"
+            and not composed
         ):
             raise ValueError("Active transforms require qualified included compute")
+        if composed:
+            from commerce.composed_skill_runtime import validate_composed_authority
+
+            validate_composed_authority(rule, task["provider"], rule["source_id"])
         for name, minimum in (
             ("diagnostic_inputs", 2),
             ("diagnostic_outputs", 2),
@@ -673,6 +682,14 @@ def verify_active_delivery(task, job_id, raw, result):
     from cognition.skills import SOURCE
 
     rule = task["acceptance"]
+    if rule["config"].get("version") == "safe-text-v1":
+        from commerce.composed_skill_runtime import validate_composed_authority
+
+        validate_composed_authority(
+            rule,
+            task["provider"],
+            result.get("source_id") if type(result) is dict else None,
+        )
     fields = {
         "status",
         "program",

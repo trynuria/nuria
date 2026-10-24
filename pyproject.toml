@@ -2,7 +2,7 @@
 line-length = 88
 target-version = "py312"
 exclude = [".venv", ".test-state", "node_modules"]
-extend-exclude = ["research/skill-acquisition/**/sources/**", "research/skill-acquisition/v1/**"]
+extend-exclude = ["research/skill-acquisition/**/sources/**", "research/skill-acquisition/v1/**", "research/guarded-skills/development/**/sources/**"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I"]
