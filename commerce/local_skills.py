@@ -6,6 +6,7 @@ the synthesis request; admission follows the buyer's exact delivery check.
 """
 
 import json
+import time
 from datetime import datetime, timezone
 
 from commerce.ledger import canonical
@@ -52,6 +53,8 @@ class LocalSkills:
                 "contextual",
                 "factored",
                 "retained_factored",
+                "active",
+                "active_audited",
             )
         ):
             raise ValueError("Local skill authority is malformed")
@@ -71,6 +74,10 @@ class LocalSkills:
             raise ValueError("Local skill cooldown is invalid")
         self.config, self.ledger = config, ledger
         self.id, self.account = config["id"], "included:" + config["id"]
+        if config["mode"] in ("active", "active_audited"):
+            from cognition.skill_language import library_factory, normalize_config
+
+            SkillLibrary = library_factory
         self.dsl_config = normalize_config(config["config"])
         if (
             config["mode"] in ("factored", "retained_factored")
@@ -101,6 +108,16 @@ class LocalSkills:
         self.library = SkillLibrary(
             config["source_id"], self.dsl_config, json.loads(row[2]) if row else None
         )
+        self.active = None
+        self.active_policy = (
+            "audited_retention"
+            if config["mode"] == "active_audited"
+            else "disagreement"
+        )
+        if config["mode"] in ("active", "active_audited"):
+            from commerce.active_skill_runtime import ActiveSkillRuntime
+
+            self.active = ActiveSkillRuntime(self)
 
     @property
     def enabled(self):
@@ -147,8 +164,11 @@ class LocalSkills:
             or task["provider"] != self.id
             or task["kind"] != "compute"
             or task["maximum_micro_usd"] != 0
-            or rule["type"] not in ("transform_program", "transform_execution")
-            or normalize(rule["config"]) != self.dsl_config
+            or rule["type"]
+            not in ("transform_program", "transform_execution", "transform_active")
+            or (rule["type"] == "transform_active") != (self.active is not None)
+            or normalize(rule["config"], active=self.active is not None)
+            != self.dsl_config
             or rule["maximum_work"] > self.config["maximum_work_per_job"]
             or task.get("outcome")
             or rule["type"] == "transform_execution"
@@ -177,6 +197,8 @@ class LocalSkills:
     def quote(self, row, now):
         rule = self._terms(row)
         self._capacity(now, rule["maximum_work"])
+        self._active_idle(row["id"])
+
         terms = {
             "provider": self.id,
             "source_id": self.config["source_id"],
@@ -196,6 +218,16 @@ class LocalSkills:
             "evidence_sha256": digest(terms),
             "payment_basis": "included_capacity",
         }
+
+    def _active_idle(self, job_id):
+        if (
+            self.active is not None
+            and self.ledger.db.execute(
+                "SELECT 1 FROM local_skill_jobs WHERE provider=? AND job_id!=? AND state!='evaluated' LIMIT 1",
+                (self.id, job_id),
+            ).fetchone()
+        ):
+            raise ValueError("The active provider already has an unfinished episode")
 
     def balance(self, now):
         return {
@@ -222,6 +254,7 @@ class LocalSkills:
 
         def reserve():
             day = self._capacity(now, rule["maximum_work"])
+            self._active_idle(row["id"])
             self.ledger.db.execute(
                 "INSERT INTO local_skill_jobs(job_id,provider,external_id,request_sha256,day,created,budget,state) VALUES(?,?,?,?,?,?,?,'disclosed')",
                 (
@@ -245,6 +278,9 @@ class LocalSkills:
             )
 
         self._transaction(reserve)
+        if rule["type"] == "transform_active":
+            self.active.start(row, now)
+            return {"job_id": row["id"], "external_id": external}
         # Solve sees training examples only. The bounded library contains no
         # external tools; an interrupted disclosure is never silently rerun.
         try:
@@ -417,13 +453,35 @@ class LocalSkills:
         }
 
     def observe(self, row, now):
+        if self.active is not None and self.enabled:
+            deadline = time.monotonic() + 0.25
+            maximum = 4 if self.active_policy == "audited_retention" else 1
+            for step in range(maximum):
+                # The deadline is checked between independently reserved
+                # operations; it does not interrupt a bounded in-flight search.
+                if step and time.monotonic() >= deadline:
+                    break
+                self.active.advance(row, now)
+                phase = self.ledger.db.execute(
+                    "SELECT state FROM active_skill_episodes WHERE job_id=?",
+                    (row["id"],),
+                ).fetchone()
+                if phase is None or phase[0] != "ready":
+                    break
         found = self.ledger.db.execute(
             "SELECT external_id,state,delivery,proposal FROM local_skill_jobs WHERE job_id=? AND provider=?",
             (row["id"], self.id),
         ).fetchone()
-        if not found or found[1] == "disclosed":
+        if not found or found[1] in (
+            "disclosed",
+            "active",
+            "active_executing",
+            "active_uncertain",
+        ):
             return {}
         external, _, delivery, proposal = found
+        if self.active is not None:
+            self.active.verify_selection(row, json.loads(proposal), delivery)
         evidence = digest(
             {
                 "job_id": row["id"],
@@ -459,6 +517,8 @@ class LocalSkills:
         if found[1]:
             return json.loads(found[1])
         proposal = json.loads(found[0])
+        if row["contract"]["acceptance"]["type"] == "transform_active":
+            return self.active.admit(row, proposal)
         if row["contract"]["acceptance"]["type"] == "transform_execution":
             return self._confirm_execution(row, proposal)
         if proposal["proposal_id"] is None:
@@ -559,6 +619,10 @@ class LocalSkills:
                         "SELECT count(*) FROM local_skill_jobs j JOIN action_tasks a ON a.id=j.job_id WHERE j.provider=? AND a.state='evaluated' AND json_extract(j.admission,'$.kind')='transform_execution' AND json_extract(j.admission,'$.skill_id')=? AND json_extract(j.admission,'$.accepted')=1 AND json_extract(a.outcome,'$.evidence_level')='verified_outcome'",
                         (self.id, ident),
                     ).fetchone()[0],
+                    "verified_active_uses": self.ledger.db.execute(
+                        "SELECT count(*) FROM local_skill_jobs j JOIN action_tasks a ON a.id=j.job_id WHERE j.provider=? AND a.state='evaluated' AND json_extract(j.admission,'$.kind')='transform_active' AND json_extract(j.admission,'$.skill_id')=? AND json_extract(j.admission,'$.accepted')=1 AND json_extract(a.outcome,'$.evidence_level')='verified_outcome'",
+                        (self.id, ident),
+                    ).fetchone()[0],
                     "evidence_sha256": record["evidence_sha256"],
                 }
                 for ident, record in self.library.dump()["programs"].items()
@@ -567,9 +631,11 @@ class LocalSkills:
                 {
                     "job_id": ident,
                     "state": state,
-                    "work": None if state == "disclosed" else work,
+                    "work": None
+                    if state in ("disclosed", "active_executing", "active_uncertain")
+                    else work,
                     "work_accounting": "unknown_after_disclosure"
-                    if state == "disclosed"
+                    if state in ("disclosed", "active_executing", "active_uncertain")
                     else "measured",
                     "proposal_id": json.loads(proposal).get("proposal_id")
                     if proposal
@@ -584,12 +650,16 @@ class LocalSkills:
                     (self.id,),
                 )
             ],
+            "active_episodes": self.active.public() if self.active is not None else [],
             "scope": "Typed programs learned from examples and applied to unlabelled requests. Withheld buyer checks gate retention and verified serving counts. Uses means verified learning admissions; serving counts come only from evaluated jobs. This provider has finite compute authority and no financial or network authority.",
         }
 
 
-def normalize(config):
-    from cognition.skills import normalize_config
+def normalize(config, *, active=False):
+    if active:
+        from cognition.skill_language import normalize_config
+    else:
+        from cognition.skills import normalize_config
 
     return normalize_config(config)
 

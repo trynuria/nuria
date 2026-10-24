@@ -1,0 +1,169 @@
+{
+  "domain": "external",
+  "label": "external-before-distinct-evidence",
+  "limits": {
+    "maximum_probes": 2,
+    "maximum_work": 100000,
+    "minimum_evidence": 1,
+    "synthesis_work": 10000
+  },
+  "methods": ["fixed2", "active", "random", "frozen"],
+  "original_score_rows": 291,
+  "phase": "development_only",
+  "privacy": "Full benchmark inputs, targets, learned-program bodies and traces stay privately staged. Published commitments and code permit bounded reproduction from pinned public sources; these are not independently witnessed physical execution.",
+  "private_evidence_commitments": {
+    "execution-status.json": "0986cf1b613cd3a91bdbfe19ac2ccf33593bca12e28f32e3d186dc68efd20630",
+    "run.json": "26552e08c08b5459f9e5a48e9106007bc7af4125042ff07a834fa7491ee62e7d",
+    "traces.jsonl": "894ee13edd4543fe848c537aec3e63f8199ad3091f10665a2f0e3ee5fa04ccac"
+  },
+  "results": {
+    "active": {
+      "abstained_or_failed_search": 3,
+      "correct_rows": 242,
+      "cpu_seconds": 0.03581599999999997,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "probes": 23,
+      "proposal_coverage": 0.8125,
+      "proposed": 13,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 49813,
+      "unsupported": 3
+    },
+    "fixed2": {
+      "abstained_or_failed_search": 3,
+      "correct_rows": 242,
+      "cpu_seconds": 0.027908999999999975,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "probes": 25,
+      "proposal_coverage": 0.8125,
+      "proposed": 13,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 45432,
+      "unsupported": 3
+    },
+    "frozen": {
+      "abstained_or_failed_search": 3,
+      "correct_rows": 242,
+      "cpu_seconds": 0.036124,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "probes": 23,
+      "proposal_coverage": 0.8125,
+      "proposed": 13,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 49813,
+      "unsupported": 3
+    },
+    "random": {
+      "abstained_or_failed_search": 3,
+      "correct_rows": 242,
+      "cpu_seconds": 0.038947,
+      "exact_success_rate": 0.5625,
+      "exact_successes": 9,
+      "jobs": 16,
+      "probes": 23,
+      "proposal_coverage": 0.8125,
+      "proposed": 13,
+      "score_rows": 283,
+      "scoring_rows_overlapping_diagnostics": 2,
+      "total_work": 49596,
+      "unsupported": 3
+    }
+  },
+  "retained_programs": {
+    "active": 7,
+    "fixed2": 7,
+    "frozen": 7,
+    "random": 7
+  },
+  "schema": "nuria.active-skill-development-summary.v1",
+  "scope": "Input-only conventional routing, selective buyer labels and prequential verified program reuse. No neural, consciousness or algorithmic novelty claim.",
+  "source_hashes": {
+    "cognition/active_skills.py": "aee58062e4944d7afa54467e6bd7df2ef4dc1f4c608eed09e78d9ba3372be67c",
+    "cognition/skill_expressions.py": "b597bb35c75349d3182e08b6eecc88adfcfd225a6b45e6e08870a7c275f0a07b",
+    "cognition/skill_factored.py": "4cd3188985c6b51d1414678580641c7364da4d7b7b5edd65dc454e47395b79b7",
+    "cognition/skill_language.py": "8c55e997648831576d04e68daf49d0ef7f0b64e738115a450e97bad825d44803",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "scripts/evaluate_active_skills.py": "a27e0976e9d5a09d5ec037ce2215881eea86a59a3690c1f00b0adfc22f6aeba1",
+    "scripts/verify_active_skill_results.py": "b24014849195cbdb9b55d78d63e784a4c4131a61fed35630dfcb6c92bc5ad73e",
+    "scripts/verify_skill_expression_results.py": "751d477beaa44e961d57c4a0767335c1989a94edae345665bc1ad16294b8d9d6"
+  },
+  "source_universe": {
+    "all_features": {
+      "Casing": 10,
+      "Concatenation": 64,
+      "Conditional": 40,
+      "DateTime": 126,
+      "DateTimeRange": 40,
+      "DateTimeRounding": 48,
+      "Multicolumn": 19,
+      "Numeric": 83,
+      "NumericRange": 7,
+      "NumericRounding": 42,
+      "Substring": 139
+    },
+    "development_specification_files_fetched": 16,
+    "eligible_development": 16,
+    "eligible_features": {
+      "Casing": 8,
+      "Concatenation": 58,
+      "Conditional": 31,
+      "Multicolumn": 11,
+      "Numeric": 38,
+      "Substring": 126
+    },
+    "eligible_reserved": 167,
+    "expected_target_files_opened": [
+      "Column.000001",
+      "Currency.000003",
+      "Email.000008"
+    ],
+    "license_eligible": 346,
+    "reserved_target_files_opened": 0,
+    "source_derived_tasks": 8,
+    "structurally_eligible": 183,
+    "structurally_ineligible": 171,
+    "synthetic_tasks": 346,
+    "universe_tasks": 354
+  },
+  "status": {
+    "complete": true,
+    "records": 64,
+    "source_hashes_unchanged": true
+  },
+  "timing_scope": "Per-file library initialization, controller, independent buyer interpreter, admission and state/hash preparation; source parsing and evidence serialization are outside timers. Raw CPU values are measured process evidence, not independent attestation.",
+  "unscorable_original_score_rows": 8,
+  "unsupported_tasks": [
+    {
+      "original_examples": 2,
+      "reason": "insufficient_or_excess_original_examples",
+      "task_id": "Column.000003"
+    },
+    {
+      "original_examples": 2,
+      "reason": "insufficient_or_excess_original_examples",
+      "task_id": "Email.000004"
+    },
+    {
+      "original_examples": 10,
+      "reason": "unsupported_source_types",
+      "task_id": "Email.000009"
+    }
+  ],
+  "verification": {
+    "jobs": 16,
+    "methods": 4,
+    "passed": true,
+    "records": 64,
+    "scope": "Independent data-only execution and selected-label/admission arithmetic; search and physical CPU are not independently witnessed"
+  }
+}

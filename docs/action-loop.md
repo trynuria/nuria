@@ -189,6 +189,17 @@ not the expected outputs. A missing skill fails rather than teaching itself from
 the answer. Queue progress, exact checks and verified serving counts appear in
 the existing Work and Results views.
 
+The separate `transform_active` contract removes that caller-supplied skill ID.
+Its diagnostic inputs are visible, their outputs are released only through
+committed probes, and all final rows remain with the buyer. Enroll a new
+source/provider with mode `active_audited` for the measured two-example lookup
+and synthesis policy; mode `active` retains experimental portfolio disagreement.
+The builder `scripts.build_active_skill_queue` creates a finite new private
+course without forwarding generator recipes or format identities. Its default
+requires two distinct audit answers. Old providers, libraries and contracts keep
+their identities and evidence. See [asking before acting](active-skills.md) for
+the protocol, bounds, failure behavior and comparisons.
+
 ## Agent and service purchasing
 
 An enrolled `nuria.task-result.v1` x402 merchant receives a bounded `X-Nuria-Task`
