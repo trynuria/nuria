@@ -1,0 +1,143 @@
+{
+  "observed_utc": "2026-10-24T16:10:36.250102+00:00",
+  "source_commit": "8028c3a14ff0e33ba17f9bf48ca4df438e327446",
+  "course": {
+    "actual_jobs": 25,
+    "unique_contracts": 25,
+    "evaluated": 25,
+    "accepted": 20,
+    "rejected": 5,
+    "open_operations": 0,
+    "episode_states": [["evaluated", 25]],
+    "local_job_states": [["evaluated", 25]],
+    "pending_library_proposals": 0,
+    "retained_programs": 16,
+    "queue_exhausted": true,
+    "catalog_exhausted": true,
+    "queue": {
+      "schema": "nuria.skill-queue.v1",
+      "manifest_sha256": "95c3bf57d8ac89c764e924de7df9673fae614cf9b92680347c021495327a5ffd",
+      "source_sha256": "d889b060f6f7c30f60add7cc69be75d02f99228604aa374a66c204dfd8d03392",
+      "enabled": true,
+      "total": 25,
+      "evaluated": 25,
+      "accepted": 20,
+      "remaining": 0,
+      "cancelled_unexecuted_attempts": 0,
+      "active_goal_lanes": 0,
+      "scope": "Real safe-program execution over a finite declared workload; payment is zero and source formatting may be generated"
+    }
+  },
+  "prior_history": {
+    "snapshot_identity_verified": true,
+    "tasks": {
+      "baseline_count": 124,
+      "current_count": 124,
+      "all_fields_preserved": true,
+      "baseline_records_sha256": "62a5599cd512f8d93691d93a2047f2a5f593c0c19a8c86cf55874bd50667bb9f",
+      "current_records_sha256": "62a5599cd512f8d93691d93a2047f2a5f593c0c19a8c86cf55874bd50667bb9f"
+    },
+    "active_episodes": {
+      "baseline_count": 36,
+      "current_count": 36,
+      "all_fields_preserved": true,
+      "baseline_records_sha256": "63e57ebd9e19bb3f6ee65705e1fcb5825babc7e83ccb490be55d07f3e87a54fe",
+      "current_records_sha256": "63e57ebd9e19bb3f6ee65705e1fcb5825babc7e83ccb490be55d07f3e87a54fe"
+    }
+  },
+  "financial": {
+    "controls_enabled": false,
+    "policy_enabled": false,
+    "financial_execution": false,
+    "execution_enabled": false,
+    "ledger_counts": {
+      "authorizations": 0,
+      "signing_requests": 0,
+      "settled_transactions": 0
+    },
+    "wallet_expenditure_micro_usd_this_pass": 0,
+    "scope": "No payment/signing activity in inspected project commerce ledger; no chain-wide wallet balance audit"
+  },
+  "failures": [
+    {
+      "job_id": "d87f349d7ec177f0f02546fc608e592b40e9c92f7a0277d567969f33d60656f6",
+      "contract_sha256": "1a2909e7e4ec2392cb3ce28ff91564f4d2a42fb4861620af239ab40b5e54882b",
+      "source_position": 7,
+      "kind": "authored-engineering-workload",
+      "status": "abstained",
+      "program_sha256": null,
+      "selection": null,
+      "exact_rows": 0,
+      "evaluation_rows": 24,
+      "provider_work": 50089,
+      "buyer_work": 264,
+      "reward": -0.000479552380952381
+    },
+    {
+      "job_id": "a170d66db2531b19ef3e214202ff0b8fdc62342b0b22860fec6a4618fe45d264",
+      "contract_sha256": "4fe760de9c8c01c073bccee8fb09eb419c1027d6f016f037288a5b5e99060cb0",
+      "source_position": 8,
+      "kind": "authored-engineering-workload",
+      "status": "abstained",
+      "program_sha256": null,
+      "selection": null,
+      "exact_rows": 0,
+      "evaluation_rows": 24,
+      "provider_work": 50090,
+      "buyer_work": 261,
+      "reward": -0.0004795333333333333
+    },
+    {
+      "job_id": "4bd63852a4688a18c045f54d44b6f630f153eaf912fbbe7f575bee8ab62a488a",
+      "contract_sha256": "840863d9308218768243709f59a655fb0cec503c8f4ca63468572704d537054e",
+      "source_position": 12,
+      "kind": "authored-engineering-workload",
+      "status": "abstained",
+      "program_sha256": null,
+      "selection": null,
+      "exact_rows": 0,
+      "evaluation_rows": 24,
+      "provider_work": 50092,
+      "buyer_work": 285,
+      "reward": -0.00047978095238095244
+    },
+    {
+      "job_id": "d9a209d542f5da1d15fbb5a0aa802f24e1b429451a4583f099a5e5677afb56ac",
+      "contract_sha256": "32c329dc7f9087689fb62884f775896606c778f7ea34e972edd27ceb0da43a5b",
+      "source_position": 22,
+      "kind": "authored-engineering-workload",
+      "status": "abstained",
+      "program_sha256": null,
+      "selection": null,
+      "exact_rows": 0,
+      "evaluation_rows": 24,
+      "provider_work": 50092,
+      "buyer_work": 264,
+      "reward": -0.0004795809523809524
+    },
+    {
+      "job_id": "10f51d4679528081e9430c70208c960b9a241d644ab4851162f1ce76122ea239",
+      "contract_sha256": "6ee49a2e5c891f0851ad28a366939545d3017679fce7a700d5122ce3e7fbd72e",
+      "source_position": 24,
+      "kind": "unsupported-sha256-negative-control",
+      "status": "abstained",
+      "program_sha256": null,
+      "selection": null,
+      "exact_rows": 0,
+      "evaluation_rows": 24,
+      "provider_work": 50094,
+      "buyer_work": 309,
+      "reward": -0.00048002857142857147
+    }
+  ],
+  "scope": "Separate read-only transactions plus sealed baseline SQLite comparison. Every current row remains in the denominator. No source, runtime, authority or worker was changed.",
+  "checks_passed": true,
+  "schema": "nuria.composed-terminal-public-checks.v1",
+  "services": {
+    "all_active": true,
+    "unrelated_pids_preserved": true,
+    "new_pids_match_expected": true,
+    "inspected_service_count": 9
+  },
+  "provenance": "Privacy-preserving projection of local read-only terminal checks; the committed live certificate identifies the independent collector. No external witness is claimed."
+}

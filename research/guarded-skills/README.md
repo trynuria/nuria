@@ -110,6 +110,21 @@ The verifier executes programs independently. It does not replay synthesis or
 physically witness CPU/search instrumentation. A public commit and local access
 timestamps are provenance commitments, not an external experiment witness.
 
+A separate [full search replication](reserved/search-replication.json) re-executed
+all **5,184** original method-job records. Every deterministic field matched:
+search actions and work, diagnostic choices, returned programs, buyer checks,
+receipts, abandoned-artifact dispositions and complete library histories. Only
+the two measured CPU fields were excluded. The fifteen frozen source hashes
+matched before and after replay, and the original public protocol was checked.
+This is reproduction of the published run, not another qualification or new
+random-seed experiment.
+
+```sh
+python -m scripts.replay_guarded_skill_search research/guarded-skills/reserved \
+  --protocol research/guarded-skills/protocol.json \
+  --output ../nuria-search-replication
+```
+
 ## Previously seen external tasks
 
 A separate [reanalysis](external-reanalysis/summary.json) uses the exact original
@@ -133,3 +148,19 @@ This demonstrates a bounded program-synthesis improvement, not a neural
 advantage, general intelligence or consciousness. Fresh generated tasks do not
 establish performance on independent external workloads. The observatory design
 is unchanged.
+
+## Completed live integration
+
+The deployed four-answer policy then completed a separately committed local
+25-job course. The [safe certificate](live/certificate.json) verifies all 25
+outcomes and their committed neural acknowledgments with zero gaps. Twenty jobs
+passed, including sixteen newly synthesized programs and four retained-program
+reuses. Five costed abstentions remain in the denominator: four supported jobs
+and the declared unsupported SHA256 control. No incorrect program was submitted.
+All 100 diagnostic answers and all 600 final rows are accounted for; 480 rows were
+exact. Declared provider work was 475,200, plus 18,996 reconstructed buyer work.
+
+The [live report](live/README.md) records exhausted queues, preserved earlier
+history, unchanged presentation and disabled financial execution. It establishes
+a deployed delivery/feedback path, not an external benchmark or a causal neural
+advantage. No wallet funds were spent.
