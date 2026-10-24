@@ -104,7 +104,7 @@ attestation.
 
 All jobs use included server capacity with zero wallet payment. Financial policy
 and external execution remain disabled. Ledger counts establish no recorded
-authorization, signing request or settlement in the inspected ledger; they do
+authorization, signing request or paid settlement transaction in the inspected ledger; they do
 not constitute an independent wallet balance/history audit. The finite queue
 stops proposing work when exhausted. It does not generate unlimited work,
 external customers or paid hiring by itself.
