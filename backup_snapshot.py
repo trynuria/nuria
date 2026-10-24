@@ -78,7 +78,7 @@ def snapshot(
                 str(stage / "database.dump"),
             ],
             check=True,
-            timeout=300,
+            timeout=600,
         )
 
 

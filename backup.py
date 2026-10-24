@@ -61,19 +61,48 @@ def new_backup_paths(
     )
 
 
+def require_capacity(base: Path) -> dict:
+    """Check finite preflight limits; retained snapshots and archives are never pruned."""
+
+    def positive_bytes(name, default):
+        try:
+            value = int(os.environ.get(name, default))
+        except ValueError as exc:
+            raise SystemExit(f"{name} must be a positive byte count") from exc
+        if value <= 0:
+            raise SystemExit(f"{name} must be a positive byte count")
+        return value
+
+    limits = {
+        "max_retained_local_bytes": positive_bytes(
+            "NURIA_BACKUP_MAX_LOCAL_BYTES", 32 * 1024**3
+        ),
+        "minimum_free_bytes": positive_bytes(
+            "NURIA_BACKUP_MIN_FREE_BYTES", 16 * 1024**3
+        ),
+        "retained_local_bytes_at_start": sum(
+            path.stat().st_size for path in base.glob("*") if path.is_file()
+        ),
+        "free_bytes_at_start": shutil.disk_usage(base).free,
+    }
+    if limits["retained_local_bytes_at_start"] > limits["max_retained_local_bytes"]:
+        raise SystemExit(
+            "Backup retained-local capacity approval required; files were not deleted"
+        )
+    if limits["free_bytes_at_start"] < limits["minimum_free_bytes"]:
+        raise SystemExit(
+            "Backup free-space reserve approval required; files were not deleted"
+        )
+    return limits
+
+
 def main() -> None:
     import boto3
 
     paths = new_backup_paths()
     paths.base.mkdir(mode=0o700, exist_ok=True)
     paths.require_unused()
-    if (
-        sum(p.stat().st_size for p in paths.base.glob("*") if p.is_file()) > 2 * 1024**3
-        or shutil.disk_usage(paths.base).free < 8 * 1024**3
-    ):
-        raise SystemExit(
-            "Backup capacity approval required; retained files were not deleted"
-        )
+    capacity = require_capacity(paths.base)
     credentials = json.loads(Path("/etc/nuria/spaces-credentials.json").read_text())
     client = boto3.client(
         "s3",
@@ -100,7 +129,7 @@ def main() -> None:
             str(paths.stage),
         ],
         check=True,
-        timeout=360,
+        timeout=660,
     )
     subprocess.run(
         [
@@ -114,7 +143,7 @@ def main() -> None:
         ],
         cwd=str(Path(__file__).resolve().parent),
         check=True,
-        timeout=60,
+        timeout=300,
     )
     discovery_backup = paths.discovery
     if Path("/var/lib/nuria/discovery/cognition.sqlite3").exists():
@@ -132,7 +161,7 @@ def main() -> None:
             ],
             cwd=str(Path(__file__).resolve().parent),
             check=True,
-            timeout=60,
+            timeout=600,
         )
     recipient = serialization.load_pem_public_key(
         Path("/etc/nuria/backup-recipient.pem").read_bytes()
@@ -151,7 +180,7 @@ def main() -> None:
             ],
             cwd=str(Path(__file__).resolve().parent),
             check=True,
-            timeout=60,
+            timeout=300,
         )
     sealed = paths.sealed
     sealed_metadata = seal_archive(
@@ -201,6 +230,7 @@ def main() -> None:
         "head": json.loads((paths.stage / "manifest.json").read_text())["head"],
         "cognitive_head": cognitive["record_head"],
         "cognitive_tick": cognitive["tick"],
+        "capacity": capacity,
         "restore_test": "Pending",
     }
     with paths.receipt.open("x") as receipt:

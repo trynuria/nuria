@@ -9,6 +9,7 @@ import types
 import unittest
 import uuid
 import zipfile
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import Mock, patch
@@ -48,6 +49,63 @@ class BackupPathsTests(unittest.TestCase):
         with self.assertRaisesRegex(FileExistsError, "already exists"):
             paths.require_unused()
         self.assertEqual(paths.commerce.read_bytes(), b"previous snapshot")
+
+    def test_capacity_limit_stops_before_overwriting_retained_archives(self):
+        directory = self.directory()
+        retained = directory / "prior.nuria.enc"
+        retained.write_bytes(b"retained archive")
+        with (
+            patch.dict(
+                "os.environ",
+                {
+                    "NURIA_BACKUP_MAX_LOCAL_BYTES": "10",
+                    "NURIA_BACKUP_MIN_FREE_BYTES": "10",
+                },
+            ),
+            patch.object(backup.shutil, "disk_usage", return_value=Mock(free=100)),
+        ):
+            with self.assertRaisesRegex(SystemExit, "retained-local capacity"):
+                backup.require_capacity(directory)
+        self.assertEqual(retained.read_bytes(), b"retained archive")
+
+    def test_free_space_reserve_and_invalid_limits_fail_closed(self):
+        directory = self.directory()
+        with (
+            patch.dict(
+                "os.environ",
+                {
+                    "NURIA_BACKUP_MAX_LOCAL_BYTES": "100",
+                    "NURIA_BACKUP_MIN_FREE_BYTES": "10",
+                },
+            ),
+            patch.object(backup.shutil, "disk_usage", return_value=Mock(free=9)),
+        ):
+            with self.assertRaisesRegex(SystemExit, "free-space reserve"):
+                backup.require_capacity(directory)
+        for value in ("0", "-1", "unlimited"):
+            with (
+                self.subTest(value=value),
+                patch.dict("os.environ", {"NURIA_BACKUP_MAX_LOCAL_BYTES": value}),
+            ):
+                with self.assertRaisesRegex(SystemExit, "positive byte count"):
+                    backup.require_capacity(directory)
+
+    def test_default_capacity_records_finite_limits_and_initial_usage(self):
+        directory = self.directory()
+        (directory / "prior.nuria.enc").write_bytes(b"prior archive")
+        with (
+            patch.dict("os.environ", {}, clear=True),
+            patch.object(
+                backup.shutil, "disk_usage", return_value=Mock(free=64 * 1024**3)
+            ),
+        ):
+            observed = backup.require_capacity(directory)
+        self.assertEqual(observed["max_retained_local_bytes"], 32 * 1024**3)
+        self.assertEqual(observed["minimum_free_bytes"], 16 * 1024**3)
+        self.assertEqual(
+            observed["retained_local_bytes_at_start"], len(b"prior archive")
+        )
+        self.assertEqual(observed["free_bytes_at_start"], 64 * 1024**3)
 
     def test_successive_runs_archive_fresh_paths_and_keep_prior_snapshots(self):
         directory = self.directory()
@@ -94,12 +152,13 @@ class BackupPathsTests(unittest.TestCase):
                 )
             else:
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                with sqlite3.connect(destination) as db:
+                with closing(sqlite3.connect(destination)) as db:
                     db.execute("CREATE TABLE checkpoint(id INTEGER, metadata TEXT)")
                     db.execute(
                         "INSERT INTO checkpoint VALUES(1,?)",
                         (json.dumps({"record_head": "cognitive-head", "tick": 7}),),
                     )
+                    db.commit()
 
         read_text = Path.read_text
         read_bytes = Path.read_bytes
