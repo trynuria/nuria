@@ -20,6 +20,11 @@ measures whether keeping verified programs reduces repeated work. Its preregiste
 reserved test confirms lower repeated-task CPU with a 100% correctness tie; all
 earlier failed comparisons remain part of the record.
 
+The [live deployment record](live/README.md) separately checks real task execution,
+retained programs and committed neural feedback. It includes rejected serving
+jobs and the subsequent format-binding correction; it is not another comparative
+benchmark.
+
 ## Task and data
 
 Targets are numeric observations from the retained UCI Bike Sharing hourly data.
