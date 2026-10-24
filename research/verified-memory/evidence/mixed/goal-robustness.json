@@ -1,0 +1,2623 @@
+{
+  "format": "independent-goal-loop-robustness-v1",
+  "network_file_sha256": "ae67b71cdac73a1f2d230c94f932987788cae78b96c607f120ec10b1d35df1dd",
+  "policy_file_sha256": "a224ddb397ee30d5e5a7b459bb5b214b793f4229bb1d632dbf9da811ec86d936",
+  "verifier_source_sha256": "55932c57dec98b78f9113b0b425e8ef24531cd2c48eba3221f91cd49e2dd5994",
+  "python_runtime": "Independent pure-Python exact integer synaptic sums and threshold >=0; no NumPy, training helper, symbolic runtime decoder, teacher, graph search, or latent body variables enter learned network inference.",
+  "model_world_binding": "Evaluator body=(x,y), flip=(1-x,y), swap=(y,x), noop/STOP=(x,y). Initial observation is one-hot x plus one-hot y plus binary nuisance. Six-bit fingerprint concatenates current observation, observation after flip, observation after swap. This is a declared tiny deterministic body, not physical-world validation.",
+  "initial_and_command_world_closure": {
+    "passed": true,
+    "initial_checks": [
+      {
+        "body": [
+          0,
+          0
+        ],
+        "nuisance": 0,
+        "memory_code": 472,
+        "fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          0
+        ],
+        "nuisance": 1,
+        "memory_code": 472,
+        "fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "nuisance": 0,
+        "memory_code": 3371,
+        "fingerprint": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "nuisance": 1,
+        "memory_code": 3371,
+        "fingerprint": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "nuisance": 0,
+        "memory_code": 1653,
+        "fingerprint": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "nuisance": 1,
+        "memory_code": 1653,
+        "fingerprint": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "nuisance": 0,
+        "memory_code": 2694,
+        "fingerprint": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "nuisance": 1,
+        "memory_code": 2694,
+        "fingerprint": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ],
+    "reachable_body_memory_pairs": 4,
+    "all_command_nuisance_edges_checked": 24,
+    "edges": [
+      {
+        "body": [
+          0,
+          0
+        ],
+        "code": 472,
+        "action": "flip",
+        "nuisance": 0,
+        "next_body": [
+          1,
+          0
+        ],
+        "next_code": 1653,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          0
+        ],
+        "code": 472,
+        "action": "flip",
+        "nuisance": 1,
+        "next_body": [
+          1,
+          0
+        ],
+        "next_code": 1653,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          0
+        ],
+        "code": 472,
+        "action": "swap",
+        "nuisance": 0,
+        "next_body": [
+          0,
+          0
+        ],
+        "next_code": 472,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          0
+        ],
+        "code": 472,
+        "action": "swap",
+        "nuisance": 1,
+        "next_body": [
+          0,
+          0
+        ],
+        "next_code": 472,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          0
+        ],
+        "code": 472,
+        "action": "noop",
+        "nuisance": 0,
+        "next_body": [
+          0,
+          0
+        ],
+        "next_code": 472,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          0
+        ],
+        "code": 472,
+        "action": "noop",
+        "nuisance": 1,
+        "next_body": [
+          0,
+          0
+        ],
+        "next_code": 472,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "code": 3371,
+        "action": "flip",
+        "nuisance": 0,
+        "next_body": [
+          1,
+          1
+        ],
+        "next_code": 2694,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "code": 3371,
+        "action": "flip",
+        "nuisance": 1,
+        "next_body": [
+          1,
+          1
+        ],
+        "next_code": 2694,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "code": 3371,
+        "action": "swap",
+        "nuisance": 0,
+        "next_body": [
+          1,
+          0
+        ],
+        "next_code": 1653,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "code": 3371,
+        "action": "swap",
+        "nuisance": 1,
+        "next_body": [
+          1,
+          0
+        ],
+        "next_code": 1653,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "code": 3371,
+        "action": "noop",
+        "nuisance": 0,
+        "next_body": [
+          0,
+          1
+        ],
+        "next_code": 3371,
+        "passed": true
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "code": 3371,
+        "action": "noop",
+        "nuisance": 1,
+        "next_body": [
+          0,
+          1
+        ],
+        "next_code": 3371,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "code": 1653,
+        "action": "flip",
+        "nuisance": 0,
+        "next_body": [
+          0,
+          0
+        ],
+        "next_code": 472,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "code": 1653,
+        "action": "flip",
+        "nuisance": 1,
+        "next_body": [
+          0,
+          0
+        ],
+        "next_code": 472,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "code": 1653,
+        "action": "swap",
+        "nuisance": 0,
+        "next_body": [
+          0,
+          1
+        ],
+        "next_code": 3371,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "code": 1653,
+        "action": "swap",
+        "nuisance": 1,
+        "next_body": [
+          0,
+          1
+        ],
+        "next_code": 3371,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "code": 1653,
+        "action": "noop",
+        "nuisance": 0,
+        "next_body": [
+          1,
+          0
+        ],
+        "next_code": 1653,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "code": 1653,
+        "action": "noop",
+        "nuisance": 1,
+        "next_body": [
+          1,
+          0
+        ],
+        "next_code": 1653,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "code": 2694,
+        "action": "flip",
+        "nuisance": 0,
+        "next_body": [
+          0,
+          1
+        ],
+        "next_code": 3371,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "code": 2694,
+        "action": "flip",
+        "nuisance": 1,
+        "next_body": [
+          0,
+          1
+        ],
+        "next_code": 3371,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "code": 2694,
+        "action": "swap",
+        "nuisance": 0,
+        "next_body": [
+          1,
+          1
+        ],
+        "next_code": 2694,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "code": 2694,
+        "action": "swap",
+        "nuisance": 1,
+        "next_body": [
+          1,
+          1
+        ],
+        "next_code": 2694,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "code": 2694,
+        "action": "noop",
+        "nuisance": 0,
+        "next_body": [
+          1,
+          1
+        ],
+        "next_code": 2694,
+        "passed": true
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "code": 2694,
+        "action": "noop",
+        "nuisance": 1,
+        "next_body": [
+          1,
+          1
+        ],
+        "next_code": 2694,
+        "passed": true
+      }
+    ],
+    "failures": [],
+    "canonical_codes": [
+      {
+        "body": [
+          0,
+          0
+        ],
+        "code": 472
+      },
+      {
+        "body": [
+          0,
+          1
+        ],
+        "code": 3371
+      },
+      {
+        "body": [
+          1,
+          0
+        ],
+        "code": 1653
+      },
+      {
+        "body": [
+          1,
+          1
+        ],
+        "code": 2694
+      }
+    ],
+    "goal_bindings": [
+      {
+        "channel": 0,
+        "body": [
+          0,
+          0
+        ],
+        "observable_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "channel": 1,
+        "body": [
+          0,
+          1
+        ],
+        "observable_fingerprint": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "channel": 2,
+        "body": [
+          1,
+          0
+        ],
+        "observable_fingerprint": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "channel": 3,
+        "body": [
+          1,
+          1
+        ],
+        "observable_fingerprint": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "evaluator_only_goal_rank_table": [
+    {
+      "body": [
+        0,
+        0
+      ],
+      "goal_channel": 0,
+      "goal_body": [
+        0,
+        0
+      ],
+      "shortest_command_distance": 0
+    },
+    {
+      "body": [
+        0,
+        1
+      ],
+      "goal_channel": 0,
+      "goal_body": [
+        0,
+        0
+      ],
+      "shortest_command_distance": 2
+    },
+    {
+      "body": [
+        1,
+        0
+      ],
+      "goal_channel": 0,
+      "goal_body": [
+        0,
+        0
+      ],
+      "shortest_command_distance": 1
+    },
+    {
+      "body": [
+        1,
+        1
+      ],
+      "goal_channel": 0,
+      "goal_body": [
+        0,
+        0
+      ],
+      "shortest_command_distance": 3
+    },
+    {
+      "body": [
+        0,
+        0
+      ],
+      "goal_channel": 1,
+      "goal_body": [
+        0,
+        1
+      ],
+      "shortest_command_distance": 2
+    },
+    {
+      "body": [
+        0,
+        1
+      ],
+      "goal_channel": 1,
+      "goal_body": [
+        0,
+        1
+      ],
+      "shortest_command_distance": 0
+    },
+    {
+      "body": [
+        1,
+        0
+      ],
+      "goal_channel": 1,
+      "goal_body": [
+        0,
+        1
+      ],
+      "shortest_command_distance": 1
+    },
+    {
+      "body": [
+        1,
+        1
+      ],
+      "goal_channel": 1,
+      "goal_body": [
+        0,
+        1
+      ],
+      "shortest_command_distance": 1
+    },
+    {
+      "body": [
+        0,
+        0
+      ],
+      "goal_channel": 2,
+      "goal_body": [
+        1,
+        0
+      ],
+      "shortest_command_distance": 1
+    },
+    {
+      "body": [
+        0,
+        1
+      ],
+      "goal_channel": 2,
+      "goal_body": [
+        1,
+        0
+      ],
+      "shortest_command_distance": 1
+    },
+    {
+      "body": [
+        1,
+        0
+      ],
+      "goal_channel": 2,
+      "goal_body": [
+        1,
+        0
+      ],
+      "shortest_command_distance": 0
+    },
+    {
+      "body": [
+        1,
+        1
+      ],
+      "goal_channel": 2,
+      "goal_body": [
+        1,
+        0
+      ],
+      "shortest_command_distance": 2
+    },
+    {
+      "body": [
+        0,
+        0
+      ],
+      "goal_channel": 3,
+      "goal_body": [
+        1,
+        1
+      ],
+      "shortest_command_distance": 3
+    },
+    {
+      "body": [
+        0,
+        1
+      ],
+      "goal_channel": 3,
+      "goal_body": [
+        1,
+        1
+      ],
+      "shortest_command_distance": 1
+    },
+    {
+      "body": [
+        1,
+        0
+      ],
+      "goal_channel": 3,
+      "goal_body": [
+        1,
+        1
+      ],
+      "shortest_command_distance": 2
+    },
+    {
+      "body": [
+        1,
+        1
+      ],
+      "goal_channel": 3,
+      "goal_body": [
+        1,
+        1
+      ],
+      "shortest_command_distance": 0
+    }
+  ],
+  "direct_corrupted_policy_decisions": {
+    "passed": false,
+    "counts": {
+      "cases": 9568,
+      "passed_cases": 5930,
+      "unique_action_failures": 2512,
+      "stop_iff_goal_failures": 3152,
+      "rank_decrease_failures": 3520,
+      "canonical_successor_failures": 2512,
+      "refresh_failures": 0
+    },
+    "by_exact_corruption_weight": {
+      "0": {
+        "cases": 32,
+        "passed": 32
+      },
+      "1": {
+        "cases": 384,
+        "passed": 354
+      },
+      "2": {
+        "cases": 2112,
+        "passed": 1580
+      },
+      "3": {
+        "cases": 7040,
+        "passed": 3964
+      }
+    },
+    "mask_count_per_canonical_code": 299,
+    "worst_initial_goal_rank": 3,
+    "finite_cases_checked": 9568,
+    "all_body_goal_pairs": 16,
+    "action_distribution_over_cases": {
+      "flip": 4572,
+      "swap": 1476,
+      "noop": 0,
+      "STOP": 1008
+    },
+    "first_actual_counterexample": {
+      "body_before_cycle": [
+        0,
+        0
+      ],
+      "goal_channel": 0,
+      "true_goal_body": [
+        0,
+        0
+      ],
+      "original_memory_code": 472,
+      "flipped_neurons": [
+        6
+      ],
+      "xor_mask": 64,
+      "damaged_memory_code": 408,
+      "refresh_nuisance": null,
+      "post_refresh_or_direct_decision_code": 408,
+      "decision_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "action_spikes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "selected_action": null,
+      "action_nuisance": 0,
+      "body_after_action": null,
+      "next_memory_code": null,
+      "current_goal_rank": 0,
+      "next_goal_rank": null,
+      "checks": {
+        "unique_action": false,
+        "stop_iff_true_goal": false,
+        "strict_rank_decrease_for_nonstop": false,
+        "correct_next_canonical_code": false,
+        "refresh_restores_original_canonical_code": null
+      }
+    },
+    "counterexamples_first_32": [
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          6
+        ],
+        "xor_mask": 64,
+        "damaged_memory_code": 408,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 408,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          6
+        ],
+        "xor_mask": 64,
+        "damaged_memory_code": 408,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 408,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          0,
+          2
+        ],
+        "xor_mask": 5,
+        "damaged_memory_code": 477,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 477,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          0,
+          2
+        ],
+        "xor_mask": 5,
+        "damaged_memory_code": 477,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 477,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          0,
+          6
+        ],
+        "xor_mask": 65,
+        "damaged_memory_code": 409,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 409,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          0,
+          6
+        ],
+        "xor_mask": 65,
+        "damaged_memory_code": 409,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 409,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          2
+        ],
+        "xor_mask": 6,
+        "damaged_memory_code": 478,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 478,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          2
+        ],
+        "xor_mask": 6,
+        "damaged_memory_code": 478,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 478,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          3
+        ],
+        "xor_mask": 10,
+        "damaged_memory_code": 466,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 466,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          1
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          3
+        ],
+        "xor_mask": 10,
+        "damaged_memory_code": 466,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 466,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          1
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          6
+        ],
+        "xor_mask": 66,
+        "damaged_memory_code": 410,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 410,
+        "decision_fingerprint": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          6
+        ],
+        "xor_mask": 66,
+        "damaged_memory_code": 410,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 410,
+        "decision_fingerprint": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          9
+        ],
+        "xor_mask": 514,
+        "damaged_memory_code": 986,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 986,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 0,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          9
+        ],
+        "xor_mask": 514,
+        "damaged_memory_code": 986,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 986,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 1,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          11
+        ],
+        "xor_mask": 2050,
+        "damaged_memory_code": 2522,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 2522,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 0,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          11
+        ],
+        "xor_mask": 2050,
+        "damaged_memory_code": 2522,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 2522,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 1,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          3
+        ],
+        "xor_mask": 12,
+        "damaged_memory_code": 468,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 468,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          3
+        ],
+        "xor_mask": 12,
+        "damaged_memory_code": 468,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 468,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          4
+        ],
+        "xor_mask": 20,
+        "damaged_memory_code": 460,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 460,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          4
+        ],
+        "xor_mask": 20,
+        "damaged_memory_code": 460,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 460,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          5
+        ],
+        "xor_mask": 36,
+        "damaged_memory_code": 508,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 508,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          5
+        ],
+        "xor_mask": 36,
+        "damaged_memory_code": 508,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 508,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          6
+        ],
+        "xor_mask": 68,
+        "damaged_memory_code": 412,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 412,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          6
+        ],
+        "xor_mask": 68,
+        "damaged_memory_code": 412,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 412,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          7
+        ],
+        "xor_mask": 132,
+        "damaged_memory_code": 348,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 348,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 0,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          7
+        ],
+        "xor_mask": 132,
+        "damaged_memory_code": 348,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 348,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 1,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          8
+        ],
+        "xor_mask": 260,
+        "damaged_memory_code": 220,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 220,
+        "decision_fingerprint": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          8
+        ],
+        "xor_mask": 260,
+        "damaged_memory_code": 220,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 220,
+        "decision_fingerprint": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          9
+        ],
+        "xor_mask": 516,
+        "damaged_memory_code": 988,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 988,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          9
+        ],
+        "xor_mask": 516,
+        "damaged_memory_code": 988,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 988,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          10
+        ],
+        "xor_mask": 1028,
+        "damaged_memory_code": 1500,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 1500,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          2,
+          10
+        ],
+        "xor_mask": 1028,
+        "damaged_memory_code": 1500,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 1500,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 1,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      }
+    ],
+    "representative_failure_witnesses": {
+      "nonunique_action": {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          6
+        ],
+        "xor_mask": 64,
+        "damaged_memory_code": 408,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 408,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      "unique_but_wrong_stop_condition": {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          9
+        ],
+        "xor_mask": 514,
+        "damaged_memory_code": 986,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 986,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 0,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      },
+      "unique_nonstop_action_fails_rank_decrease": {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [
+          1,
+          9
+        ],
+        "xor_mask": 514,
+        "damaged_memory_code": 986,
+        "refresh_nuisance": null,
+        "post_refresh_or_direct_decision_code": 986,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "selected_action": "flip",
+        "action_nuisance": 0,
+        "body_after_action": [
+          1,
+          0
+        ],
+        "next_memory_code": 1653,
+        "current_goal_rank": 0,
+        "next_goal_rank": 1,
+        "checks": {
+          "unique_action": true,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": true,
+          "refresh_restores_original_canonical_code": null
+        }
+      }
+    },
+    "unbounded_repeated_decision_boundary_fault_schedule_certified": false,
+    "worst_case_nonstop_body_actions_before_goal": null,
+    "worst_case_cycles_including_terminal_stop": null,
+    "worst_case_memory_ticks_including_refresh_and_terminal_stop_cycle": null,
+    "proof_if_passed": "Initialization establishes the corresponding canonical body/memory code. Each decision cycle tolerates a fresh arbitrary allowed XOR fault, then selects one unique action. STOP holds exactly at the true body goal; otherwise its action strictly decreases the nonnegative body-goal rank and restores the exact canonical code corresponding to the body's new state. Induction closes arbitrarily many cycles, with at most three non-STOP actions per fixed goal.",
+    "fault_schedule": "Before EVERY policy decision, an adversary XORs up to k distinct queued memory spike bits. SAME learned policy acts directly on that damaged state, and its selected non-STOP action then drives body and memory; no fresh fault occurs during the action tick. Nuisance may vary at every tick. Goal one-hot, synaptic weights, transient neurons and body are uncorrupted.",
+    "terminal_stop_semantics": "STOP performs no body action or memory action tick. Direct mode does not demand canonical repair after STOP; refreshed mode demands canonical repair before policy, including the terminal STOP cycle."
+  },
+  "neural_refresh_then_same_learned_policy": {
+    "passed": true,
+    "counts": {
+      "cases": 19136,
+      "passed_cases": 19136,
+      "unique_action_failures": 0,
+      "stop_iff_goal_failures": 0,
+      "rank_decrease_failures": 0,
+      "canonical_successor_failures": 0,
+      "refresh_failures": 0
+    },
+    "by_exact_corruption_weight": {
+      "0": {
+        "cases": 64,
+        "passed": 64
+      },
+      "1": {
+        "cases": 768,
+        "passed": 768
+      },
+      "2": {
+        "cases": 4224,
+        "passed": 4224
+      },
+      "3": {
+        "cases": 14080,
+        "passed": 14080
+      }
+    },
+    "mask_count_per_canonical_code": 299,
+    "worst_initial_goal_rank": 3,
+    "finite_cases_checked": 19136,
+    "all_body_goal_pairs": 16,
+    "action_distribution_over_cases": {
+      "flip": 9568,
+      "swap": 4784,
+      "noop": 0,
+      "STOP": 4784
+    },
+    "first_actual_counterexample": null,
+    "counterexamples_first_32": [],
+    "representative_failure_witnesses": {},
+    "unbounded_repeated_decision_boundary_fault_schedule_certified": true,
+    "worst_case_nonstop_body_actions_before_goal": 3,
+    "worst_case_cycles_including_terminal_stop": 4,
+    "worst_case_memory_ticks_including_refresh_and_terminal_stop_cycle": 7,
+    "proof_if_passed": "Initialization establishes the corresponding canonical body/memory code. Each decision cycle tolerates a fresh arbitrary allowed XOR fault, then selects one unique action. STOP holds exactly at the true body goal; otherwise its action strictly decreases the nonnegative body-goal rank and restores the exact canonical code corresponding to the body's new state. Induction closes arbitrarily many cycles, with at most three non-STOP actions per fixed goal.",
+    "fault_schedule": "Before EVERY cycle, an adversary XORs up to k distinct queued memory spike bits. A neural NOOP memory tick with arbitrary nuisance refreshes the state; SAME exported learned goal policy then runs, and its unique non-STOP action drives body and memory with arbitrary nuisance. No fault occurs between refresh, policy inference, and the action tick. A fresh fault may occur before the next cycle. Goal one-hot, synaptic weights, transient neurons and body are uncorrupted.",
+    "terminal_stop_semantics": "STOP performs no body action or memory action tick. Direct mode does not demand canonical repair after STOP; refreshed mode demands canonical repair before policy, including the terminal STOP cycle."
+  },
+  "scope_limits": [
+    "Exact serialized 12-memory-neuron, 64-transition-neuron clocked threshold model and 64-hidden-neuron goal policy only.",
+    "All 16 canonical body/goal combinations are exhaustively checked; these are not held-out learned-policy generalization cases.",
+    "The offline goal-policy training teacher used model graph planning. No new autonomous planning capability is claimed.",
+    "The fault model affects only queued memory spikes at declared decision-cycle boundaries; continuous faults, faulty goals/synapses/transient neurons, simultaneous body changes and unmodeled sensors are not certified.",
+    "Refreshing before action is an explicit scheduling condition, not robustness of policy decisions taken directly on corrupted memory.",
+    "The world has four body states and three ordinary commands; finite induction is specific to that complete alphabet and binding.",
+    "This does not establish Brian2 LIF equivalence, production Nuria robustness, consciousness, global novelty or a practical advantage over symbolic/error-correcting alternatives."
+  ],
+  "elapsed_seconds": 4.29112616693601
+}

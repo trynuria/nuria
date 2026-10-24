@@ -1,0 +1,406 @@
+"""Bounded causal-memory feasibility test. No Nuria/public-source imports.
+
+The environment exposes an initial two-lamp observation and then command pulses.
+F flips lamp X; S exchanges the two lamps; N does nothing. Lamp readings after
+future probe strings are the only training targets. No environment state enters
+the model after its initial observation. The evaluation simulator is an evaluator,
+not part of the deployed neural forward pass.
+"""
+import argparse
+import copy
+import json
+import os
+import time
+from pathlib import Path
+
+os.environ.setdefault("OMP_NUM_THREADS", "2")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "2")
+import numpy as np
+import torch
+from torch import nn
+from torch.nn import functional as F
+
+torch.set_num_threads(2)
+torch.set_num_interop_threads(1)
+ROOT = Path(__file__).resolve().parent
+PROBES = ((), (0,), (1,))
+
+
+def command(state, action):
+    """Environment transition, never called inside a learner's forward pass."""
+    x, y = state[:, 0].copy(), state[:, 1].copy()
+    flip = action == 0
+    swap = action == 1
+    x[flip] = 1 - x[flip]
+    oldx = x.copy()
+    x[swap], y[swap] = y[swap], oldx[swap]
+    return np.stack([x, y], axis=1)
+
+
+def observe_probes(state):
+    """Observed lamp responses after reset-and-probe; labels are consequences."""
+    observations = []
+    for probe in PROBES:
+        fork = state.copy()
+        for a in probe:
+            fork = command(fork, np.full(len(state), a))
+        observations.append(fork.copy())
+    return np.concatenate(observations, axis=1).astype(np.float32)
+
+
+def make_batch(rng, batch, length, nuisance="train", common_last=False):
+    state = rng.integers(0, 2, (batch, 2))
+    data = np.zeros((length + 1, batch, 9), dtype=np.float32)
+    data[0, np.arange(batch), state[:, 0]] = 1
+    data[0, np.arange(batch), 2 + state[:, 1]] = 1
+    commands = rng.integers(0, 3, (length, batch))
+    if common_last:
+        commands[-1] = rng.integers(0, 3)
+    # A persistent nuisance correlates with INITIAL X in training. At test it
+    # is reversed, or independent. It never reveals subsequent lamp readings.
+    d = state[:, 0].copy()
+    if nuisance == "train":
+        d ^= rng.random(batch) < .1
+    elif nuisance == "reverse":
+        d = 1 - d
+    else:
+        d = rng.integers(0, 2, batch)
+    data[:, np.arange(batch), 7 + d] = 1
+    targets = [observe_probes(state)]
+    for t, actions in enumerate(commands, 1):
+        data[t, np.arange(batch), 4 + actions] = 1
+        state = command(state, actions)
+        targets.append(observe_probes(state))
+    return torch.from_numpy(data), torch.from_numpy(np.stack(targets))
+
+
+class Spike(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, x):
+        ctx.save_for_backward(x)
+        return (x >= 0).to(x.dtype)
+
+    @staticmethod
+    def backward(ctx, grad):
+        x, = ctx.saved_tensors
+        return grad / (1 + 5 * x.abs()).square()
+
+
+class RecurrentLIF(nn.Module):
+    """Actual threshold/reset recurrence. Complete state = (voltage, trace).
+
+    No delay queues, refractory state, random runtime dynamics, auxiliary hidden
+    vector, symbolic state, or cross-example state. Three ticks per input symbol.
+    Readout is a trained linear projection of filtered binary spikes.
+    """
+    def __init__(self, size=64, feature_mode="full"):
+        super().__init__()
+        self.size = size
+        self.feature_mode = feature_mode
+        self.input = nn.Linear(9, size)
+        self.recurrent = nn.Linear(size, size, bias=False)
+        self.readout = nn.Linear(size, 6)
+        nn.init.normal_(self.input.weight, std=.35)
+        nn.init.constant_(self.input.bias, .12)
+        nn.init.orthogonal_(self.recurrent.weight, gain=1.25)
+
+    def initial(self, batch):
+        return (torch.zeros(batch, self.size), torch.zeros(batch, self.size))
+
+    def tick_symbol(self, x, state):
+        v, trace = state
+        emitted = []
+        for _ in range(3):
+            v = .90 * v + self.input(x) + self.recurrent(trace)
+            spikes = Spike.apply(v - 1.)
+            # Detaching reset is a surrogate-gradient training convention only;
+            # the numerical forward operation remains hard threshold/reset.
+            v = v - spikes.detach()
+            trace = .70 * trace + .30 * spikes
+            emitted.append(spikes)
+        return (v, trace), torch.stack(emitted).mean()
+
+    def forward(self, data, state=None):
+        state = self.initial(data.shape[1]) if state is None else state
+        outputs, rates = [], []
+        for x in data:
+            state, rate = self.tick_symbol(x, state)
+            outputs.append(self.readout(state[1]))
+            rates.append(rate)
+        return torch.stack(outputs), state, torch.stack(rates).mean()
+
+    def logits(self, state):
+        return self.readout(state[1])
+
+    def features(self, state):
+        return torch.cat(state, -1) if self.feature_mode == "full" else state[1]
+
+
+class GRUBaseline(nn.Module):
+    def __init__(self, size=36):
+        super().__init__()
+        self.size = size
+        self.cell = nn.GRUCell(9, size)
+        self.readout = nn.Linear(size, 6)
+
+    def initial(self, batch):
+        return (torch.zeros(batch, self.size),)
+
+    def forward(self, data, state=None):
+        state = self.initial(data.shape[1]) if state is None else state
+        h, = state
+        outputs = []
+        for x in data:
+            h = self.cell(x, h)
+            outputs.append(self.readout(h))
+        return torch.stack(outputs), (h,), torch.tensor(0.)
+
+    def logits(self, state):
+        return self.readout(state[0])
+
+    def features(self, state):
+        return state[0]
+
+
+def contrastive(features, observed_futures):
+    # Equivalence is determined solely by observed responses to probe strings.
+    dist = (features[:, None] - features[None]).square().mean(-1)
+    same = (observed_futures[:, None] == observed_futures[None]).all(-1)
+    eye = torch.eye(len(features), dtype=torch.bool)
+    positive = dist[same & ~eye].mean()
+    negative = F.relu(.10 - dist[~same]).square().mean()
+    return positive + negative
+
+
+@torch.no_grad()
+def evaluate(model, seed, lengths=(4, 8, 12, 24), batch=1024):
+    model.eval()
+    rng = np.random.default_rng(seed)
+    result = {}
+    for nuisance in ("train", "reverse", "independent"):
+        for length in lengths:
+            data, target = make_batch(rng, batch, length, nuisance)
+            out, state, rate = model(data)
+            predicted = out[-1, :, :2] > 0
+            expected = target[-1, :, :2] > .5
+            result[f"length_{length}_{nuisance}"] = {
+                "joint_accuracy": float((predicted == expected).all(-1).float().mean()),
+                "bit_accuracy": float((predicted == expected).float().mean()),
+                "probe_bit_accuracy": float(((out[-1] > 0) == (target[-1] > .5)).float().mean()),
+                "mean_spikes_per_neuron_tick": float(rate),
+                "examples": batch,
+            }
+    # Geometric check, computed on independent examples, not a claimed emergence
+    # metric. Distances are directly in the neural state used by the readout.
+    data, target = make_batch(rng, 512, 8, "independent")
+    _, state, _ = model(data)
+    z = model.features(state)
+    d = (z[:, None] - z[None]).square().mean(-1)
+    same = (target[-1, :, None] == target[-1, None]).all(-1)
+    eye = torch.eye(len(z), dtype=torch.bool)
+    result["representation"] = {
+        "same_future_mean_square_distance": float(d[same & ~eye].mean()),
+        "different_future_mean_square_distance": float(d[~same].mean()),
+    }
+    # Last-symbol-only behavior removes every neural memory carrier, with no
+    # change to the input or learned readout. This is a necessity control.
+    last, _, _ = model(data[-1:])
+    result["all_state_reset_before_last_symbol_joint_accuracy"] = float(((last[-1, :, :2] > 0) == (target[-1, :, :2] > .5)).all(-1).float().mean())
+    return result
+
+
+@torch.no_grad()
+def patch_state(recipient, donor, indices):
+    # Every dynamical variable for each intervened unit is replaced. The fresh
+    # LIF model has no pending events or other state that could be omitted.
+    result = []
+    for r, d in zip(recipient, donor):
+        value = r.clone()
+        value[:, indices] = d[:, indices]
+        result.append(value)
+    return tuple(result)
+
+
+@torch.no_grad()
+def transfer_cases(model, seed, batch, length):
+    rng = np.random.default_rng(seed)
+    rd, rt = make_batch(rng, batch, length, "independent")
+    dd, dt = make_batch(rng, batch, length, "independent")
+    _, rs, _ = model(rd)
+    _, ds, _ = model(dd)
+    # These are actual observed query responses, used by the evaluator only.
+    rbits, dbits = rt[-1, :, :2].numpy().astype(int), dt[-1, :, :2].numpy().astype(int)
+    return rng, rs, ds, rbits, dbits
+
+
+@torch.no_grad()
+def transfer_score(model, cases, indices, factor, suffix_length):
+    rng, rs, ds, rbits, dbits = cases
+    state = patch_state(rs, ds, indices)
+    wanted = rbits.copy()
+    wanted[:, factor] = dbits[:, factor]
+    # New continuation randomness fixed across masks and controls.
+    prng = np.random.default_rng(7711 + suffix_length)
+    suffix = np.zeros((suffix_length, len(wanted), 9), np.float32)
+    for t in range(suffix_length):
+        a = prng.integers(0, 3, len(wanted))
+        suffix[t, np.arange(len(wanted)), 4 + a] = 1
+        nuisance = prng.integers(0, 2, len(wanted))
+        suffix[t, np.arange(len(wanted)), 7 + nuisance] = 1
+        wanted = command(wanted, a)
+    if suffix_length:
+        _, state, _ = model(torch.from_numpy(suffix), state)
+    predicted = (model.logits(state)[:, :2] > 0).numpy()
+    # Require the donor/recipient to differ on BOTH factors for the most
+    # diagnostic subset: unpatched or full-swap states cannot pass this subset.
+    diagnostic = (rbits != dbits).all(-1)
+    return {
+        "hybrid_joint_accuracy": float((predicted == wanted).all(-1).mean()),
+        "diagnostic_hybrid_joint_accuracy": float((predicted[diagnostic] == wanted[diagnostic]).all(-1).mean()),
+        "diagnostic_examples": int(diagnostic.sum()),
+        "all_examples": len(wanted),
+    }
+
+
+@torch.no_grad()
+def causal_transfer(model, seed, test_length=12):
+    model.eval()
+    val = transfer_cases(model, seed, 384, 4)
+    test = transfer_cases(model, seed + 1, 2048, test_length)
+    _, rs, ds, rbits, dbits = val
+    base = model.logits(rs)[:, :2].sigmoid().numpy()
+    single = []
+    for j in range(model.size):
+        pp = model.logits(patch_state(rs, ds, [j]))[:, :2].sigmoid().numpy()
+        single.append(pp - base)
+    single = np.stack(single)  # unit, example, factor
+    report = {"selection": "single-unit causal patch effects and K selected on length-4 validation only", "factors": {}}
+    for factor in (0, 1):
+        direction = dbits[:, factor] - rbits[:, factor]
+        # Prefer a donor-directed effect on the selected factor, with low effect
+        # on the other factor. No test labels enter selection.
+        score = (single[:, :, factor] * direction[None]).mean(-1) - np.abs(single[:, :, 1-factor]).mean(-1)
+        rank = np.argsort(-score)
+        ks = tuple(round(model.size * f) for f in (1/16, 1/8, 1/4, 3/8, 1/2, 3/4))
+        ks = sorted(set(k for k in ks if k < model.size))
+        validation = {k: transfer_score(model, val, rank[:k], factor, 2) for k in ks}
+        best = max(ks, key=lambda k: validation[k]["diagnostic_hybrid_joint_accuracy"])
+        mask = rank[:best]
+        random = np.random.default_rng(seed + 99 + factor)
+        controls = [random.choice(model.size, best, replace=False) for _ in range(5)]
+        tests = {}
+        for length in (0, 2, 4, 8):
+            value = transfer_score(model, test, mask, factor, length)
+            random_values = [transfer_score(model, test, idx, factor, length) for idx in controls]
+            value["random_mask_diagnostic_mean"] = float(np.mean([v["diagnostic_hybrid_joint_accuracy"] for v in random_values]))
+            value["random_mask_diagnostic_values"] = [v["diagnostic_hybrid_joint_accuracy"] for v in random_values]
+            value["no_patch"] = transfer_score(model, test, [], factor, length)
+            value["full_swap_against_hybrid_target"] = transfer_score(model, test, np.arange(model.size), factor, length)
+            tests[f"suffix_{length}"] = value
+        report["factors"][str(factor)] = {"selected_neurons": mask.tolist(), "selected_count": best, "validation_by_k": validation, "test": tests}
+    # Whole-state swap is a valid implementation control: outputs must match
+    # the donor exactly before any future input, not merely agree with labels.
+    swapped = patch_state(test[1], test[2], np.arange(model.size))
+    report["full_swap_max_logit_difference_from_donor"] = float((model.logits(swapped) - model.logits(test[2])).abs().max())
+    return report
+
+
+def train(kind, seed, steps, contrast_weight, label, feature_mode="full", frozen=False, closure=False):
+    torch.manual_seed(seed)
+    rng = np.random.default_rng(seed)
+    model = RecurrentLIF(feature_mode=feature_mode) if kind == "snn" else GRUBaseline()
+    if frozen:
+        for name, value in model.named_parameters():
+            value.requires_grad_(name.startswith("readout."))
+    opt = torch.optim.Adam([p for p in model.parameters() if p.requires_grad], lr=.003)
+    trace = []
+    closure_refinements = 0
+    query_histories = 0
+    started = time.monotonic()
+    for step in range(steps):
+        length = int(rng.integers(1, 13 if closure else 5))
+        if closure:
+            # Last correction: a fixed 3x candidate-query budget, own-model
+            # disagreement mining, then successor closure on observed futures.
+            # Exactly the same protocol/budget is used for every learner.
+            data, target = make_batch(rng, 288, length + 1, common_last=True)
+            query_histories += int(len(data) * data.shape[1])
+            with torch.no_grad():
+                candidate_out, _, _ = model(data[:-1])
+                err = F.binary_cross_entropy_with_logits(candidate_out[-1], target[-2], reduction="none").mean(-1)
+                chosen = torch.topk(err, 96).indices
+            data, target = data[:, chosen], target[:, chosen]
+        else:
+            data, target = make_batch(rng, 96, length)
+            query_histories += int(len(data) * data.shape[1])
+        model.train()
+        if closure:
+            prefix_out, prefix_state, prefix_rate = model(data[:-1])
+            final_out, state, final_rate = model(data[-1:], prefix_state)
+            out = torch.cat([prefix_out, final_out])
+            rate = (prefix_rate + final_rate) / 2
+            # Pair histories using ONLY observed current probe fingerprints.
+            # Applying the same last command exposes non-closed classes.
+            _, group = torch.unique(target[-2], dim=0, return_inverse=True)
+            partner = torch.arange(len(group))
+            for g in group.unique():
+                ids = torch.where(group == g)[0]
+                partner[ids] = ids.roll(1)
+            donor_prefix = tuple(s[partner] for s in prefix_state)
+            donor_out, donor_final, _ = model(data[-1:], donor_prefix)
+            closed = (target[-1] == target[-1, partner]).all(-1)
+            closure_refinements += int((~closed).sum())
+            # A class with a counterexample is never forced to merge. In this
+            # fully observable two-lamp toy, initial query fingerprints happen
+            # to suffice; this is measured, not asserted as a general theorem.
+            next_consistency = sum((a[closed] - b[closed]).square().mean() for a, b in zip(state, donor_final))
+            persistent = (target[-1] == target[-2]).all(-1)
+            persist_loss = sum((a[persistent] - b[persistent]).square().mean() for a, b in zip(state, prefix_state)) if persistent.any() else torch.tensor(0.)
+            donor_prediction = F.binary_cross_entropy_with_logits(donor_out[-1, closed], target[-1, closed])
+        else:
+            out, state, rate = model(data)
+            next_consistency = persist_loss = donor_prediction = torch.tensor(0.)
+        prediction = F.binary_cross_entropy_with_logits(out, target)
+        con = contrastive(model.features(state), target[-1])
+        # Complete-state distance has much larger units than trace distance.
+        # The last correction uses .02 for these state penalties, declared
+        # before running the three fixed seeds. No outcome-based hypersearch.
+        scale = .02 if closure else 1.
+        loss = prediction + contrast_weight * scale * (con + next_consistency + persist_loss) + (.1 * donor_prediction if closure else 0.)
+        opt.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.)
+        opt.step()
+        if step % 200 == 0 or step == steps - 1:
+            row = {"step": step, "loss": float(loss.detach()), "prediction_loss": float(prediction.detach()), "contrastive_loss": float(con.detach()), "successor_consistency_loss": float(next_consistency.detach()), "persistence_loss": float(persist_loss.detach()), "rate": float(rate.detach()), "elapsed_seconds": time.monotonic() - started}
+            trace.append(row)
+            print(json.dumps({"model": label, **row}), flush=True)
+    torch.save({"state_dict": model.state_dict(), "kind": kind, "seed": seed, "steps": steps, "contrast_weight": contrast_weight, "feature_mode": feature_mode, "frozen": frozen, "closure": closure}, ROOT / f"{label}.pt")
+    result = {"kind": kind, "seed": seed, "steps": steps, "contrast_weight": contrast_weight, "state_penalty_scale": .02 if closure else 1., "closure": closure, "closure_counterexamples": closure_refinements, "queried_prefix_count": query_histories, "observed_binary_probe_outcomes": query_histories * 6, "feature_mode": feature_mode, "frozen": frozen, "training_max_prefix_commands": 13 if closure else 4, "parameters": sum(p.numel() for p in model.parameters()), "trainable_parameters": sum(p.numel() for p in model.parameters() if p.requires_grad), "training_seconds": time.monotonic() - started, "training_trace": trace, "evaluation": evaluate(model, seed + 1000, lengths=(4,12,24,48) if closure else (4,8,12,24)), "causal_transfer": causal_transfer(model, seed + 2000, test_length=24 if closure else 12)}
+    (ROOT / f"{label}.json").write_text(json.dumps(result, indent=2))
+    print(json.dumps({"model": label, "result_file": str(ROOT / f"{label}.json"), "test12": result["evaluation"]["length_12_independent"]}), flush=True)
+    return result
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--steps", type=int, default=1800)
+    p.add_argument("--seed", type=int, default=711)
+    p.add_argument("--models", default="snn_causal,snn_plain,gru")
+    p.add_argument("--feature-mode", choices=("full", "trace"), default="full")
+    p.add_argument("--closure", action="store_true")
+    args = p.parse_args()
+    settings = {"snn_causal": ("snn", 1.), "snn_plain": ("snn", 0.), "snn_frozen": ("snn", 0.), "gru": ("gru", 0.)}
+    results = {}
+    for name in args.models.split(","):
+        kind, weight = settings[name]
+        label = f"{name}_{args.feature_mode}{'_closure' if args.closure else ''}_seed{args.seed}_steps{args.steps}"
+        results[name] = train(kind, args.seed, args.steps, weight, label, args.feature_mode, name == "snn_frozen", args.closure)
+    summary = {"generated_at_unix": time.time(), "torch_version": torch.__version__, "numpy_version": np.__version__, "training_max_command_length": 13 if args.closure else 4, "microticks_per_symbol_snn": 3, "probe_strings": [list(p) for p in PROBES], "results": results}
+    path = ROOT / f"results_{args.feature_mode}{'_closure' if args.closure else ''}_seed{args.seed}_steps{args.steps}.json"
+    path.write_text(json.dumps(summary, indent=2))
+    print(str(path), flush=True)
+
+
+if __name__ == "__main__":
+    main()

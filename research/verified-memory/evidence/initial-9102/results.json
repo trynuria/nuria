@@ -1,0 +1,1572 @@
+{
+  "seed": 9102,
+  "compression": 0.15,
+  "updates_per_round": 1000,
+  "rounds": [
+    {
+      "round": 0,
+      "elapsed_seconds": 4.215967833995819,
+      "training": {
+        "loss": 0.01340511441230774,
+        "prediction_accuracy": 1.0,
+        "same_state_distance": 0.0
+      },
+      "closure": {
+        "passed": true,
+        "reason": "complete reachable product graph closed",
+        "reachable_product_states": 8,
+        "checked_edges": 48,
+        "claim": "Correct probe outputs for every finite action string at the declared clock boundaries, including arbitrary binary nuisance changes"
+      }
+    }
+  ],
+  "initial_check": null,
+  "parent_network_sha256": null,
+  "counterexample_histories": [],
+  "query_audit": {
+    "observations": 2688000,
+    "pulses": 3456000,
+    "probe_forks": 2688000,
+    "sample_queries": [
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1,
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          1
+        ],
+        "observed_bit": 0
+      },
+      {
+        "suffix": [
+          0
+        ],
+        "observed_bit": 1
+      },
+      {
+        "suffix": [
+          0,
+          1
+        ],
+        "observed_bit": 0
+      }
+    ]
+  },
+  "parameters": 2266,
+  "torch_version": "2.14.1",
+  "runtime": "Integer quantization at scale4096; two synchronous threshold/reset populations; no Brian2 or production imports",
+  "source_sha256": "3902c1ff58195d96e713952bd357bf9cf0aec539d99887e1aae407fba4df6177"
+}

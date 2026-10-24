@@ -1,0 +1,926 @@
+{
+  "initial_inputs": [
+    {
+      "input_spikes": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observable_probe_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "input_spikes": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observable_probe_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "input_spikes": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observable_probe_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "input_spikes": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observable_probe_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "input_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observable_probe_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "input_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observable_probe_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "input_spikes": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observable_probe_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input_spikes": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observable_probe_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "offline_teacher_action": "STOP",
+      "robust_shortest_distance": 0
+    },
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 2
+    },
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 1
+    },
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 3
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 3
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 1
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 2
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "offline_teacher_action": "STOP",
+      "robust_shortest_distance": 0
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 1
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "offline_teacher_action": "swap",
+      "robust_shortest_distance": 1
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "offline_teacher_action": "STOP",
+      "robust_shortest_distance": 0
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observed_probe_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "offline_teacher_action": "swap",
+      "robust_shortest_distance": 2
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "offline_teacher_action": "swap",
+      "robust_shortest_distance": 2
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "offline_teacher_action": "STOP",
+      "robust_shortest_distance": 0
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "offline_teacher_action": "swap",
+      "robust_shortest_distance": 1
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observed_probe_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "offline_teacher_action": "flip",
+      "robust_shortest_distance": 1
+    }
+  ]
+}

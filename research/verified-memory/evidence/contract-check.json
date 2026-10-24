@@ -1,0 +1,223 @@
+{
+  "format": "independent-goal-loop-contract-mutations-v1",
+  "network_sha256": "ae67b71cdac73a1f2d230c94f932987788cae78b96c607f120ec10b1d35df1dd",
+  "policy_sha256": "a224ddb397ee30d5e5a7b459bb5b214b793f4229bb1d632dbf9da811ec86d936",
+  "verifier_source_sha256": "55932c57dec98b78f9113b0b425e8ef24531cd2c48eba3221f91cd49e2dd5994",
+  "audit_source_sha256": "2c6e593f5138cc0f4d684d96251e146566311015af35f438388cc6203f007a07",
+  "passed": true,
+  "case_count": 16,
+  "cases": [
+    {
+      "mutation": "unchanged baseline",
+      "expected": "pass",
+      "actual": "pass",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "mutation": "memory phase order reversed",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Memory phase order mismatch"
+      }
+    },
+    {
+      "mutation": "memory canonical boundary changed",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Memory checkpoint boundary mismatch"
+      }
+    },
+    {
+      "mutation": "memory command meanings reordered",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Memory command binding mismatch"
+      }
+    },
+    {
+      "mutation": "memory input shape changed",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Layer column shape mismatch: transition"
+      }
+    },
+    {
+      "mutation": "memory floating synaptic weight",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Only exact integer weights/biases are accepted"
+      }
+    },
+    {
+      "mutation": "memory accumulator contract exceeded",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Export accumulator exceeds declared 60-bit bound"
+      }
+    },
+    {
+      "mutation": "memory zero scale",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Invalid memory weight scale"
+      }
+    },
+    {
+      "mutation": "policy action meanings reordered",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Policy action binding mismatch"
+      }
+    },
+    {
+      "mutation": "policy threshold equality changed",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Policy phase semantics mismatch"
+      }
+    },
+    {
+      "mutation": "policy duplicate goal channels",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Invalid goal channels"
+      }
+    },
+    {
+      "mutation": "policy floating synaptic weight",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Only exact integer weights/biases are accepted"
+      }
+    },
+    {
+      "mutation": "policy action output shape changed",
+      "expected": "contract_rejected",
+      "actual": "contract_rejected",
+      "passed": true,
+      "detail": {
+        "exception": "ValueError",
+        "message": "Layer row/bias shape mismatch: action"
+      }
+    },
+    {
+      "mutation": "policy all actions suppressed with valid integers",
+      "expected": "semantic_failure",
+      "actual": "semantic_failure",
+      "passed": true,
+      "detail": {
+        "body_before_cycle": [
+          0,
+          0
+        ],
+        "goal_channel": 0,
+        "true_goal_body": [
+          0,
+          0
+        ],
+        "original_memory_code": 472,
+        "flipped_neurons": [],
+        "xor_mask": 0,
+        "damaged_memory_code": 472,
+        "refresh_nuisance": 0,
+        "post_refresh_or_direct_decision_code": 472,
+        "decision_fingerprint": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "action_spikes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected_action": null,
+        "action_nuisance": 0,
+        "body_after_action": null,
+        "next_memory_code": null,
+        "current_goal_rank": 0,
+        "next_goal_rank": null,
+        "checks": {
+          "unique_action": false,
+          "stop_iff_true_goal": false,
+          "strict_rank_decrease_for_nonstop": false,
+          "correct_next_canonical_code": false,
+          "refresh_restores_original_canonical_code": true
+        }
+      }
+    },
+    {
+      "mutation": "memory all queries forced on with valid integers",
+      "expected": "semantic_failure",
+      "actual": "semantic_failure",
+      "passed": true,
+      "detail": {
+        "reason": "initial fingerprint mismatch",
+        "body": [
+          0,
+          0
+        ],
+        "code": 472
+      }
+    },
+    {
+      "mutation": "policy physically impossible goal fingerprint",
+      "expected": "semantic_failure",
+      "actual": "semantic_failure",
+      "passed": true,
+      "detail": {
+        "reason": "policy goal has no unique body binding",
+        "channel": 0
+      }
+    }
+  ],
+  "formal_induction_review": {
+    "initial_case": "Every legal initial observation and nuisance initializes the exact canonical body-bound memory code.",
+    "inductive_invariant": "Before the adversarial fault at a new cycle, neural memory is the exact canonical code for the current evaluator body state.",
+    "local_step": "Every <=k-bit XOR fault followed by either-nuisance NOOP refresh returns that same canonical code; same learned policy selects one action. For either action nuisance, a non-STOP action advances both body and memory to the corresponding canonical state and strictly reduces fixed-goal rank.",
+    "terminal_case": "STOP holds exactly at the true body goal. The refreshed memory is canonical at STOP; no body or memory action tick follows STOP.",
+    "bound": "For a goal held FIXED throughout the route, rank starts <=3 and decreases on every non-STOP cycle: <=3 body actions, <=4 cycles including terminal STOP, <=7 memory ticks including refreshes.",
+    "changing_goal_limit": "Goal input may be externally selected, but if the goal changes adversarially between decisions, the three-action convergence bound does NOT apply. Local action correctness can still be checked for each presented goal.",
+    "fault_schedule_limit": "No extra fault may occur between refresh, policy inference and the action memory tick. Direct damaged-policy failures refute that stronger unrestricted schedule.",
+    "finite_completeness": "The checked model has exactly four reachable canonical body/memory pairs, four unique goal bindings, all three command meanings, both nuisance values, and all distinct XOR masks of weights 0 through k.",
+    "proof_kind": "Exhaustive exact-integer finite verification plus induction over declared cycles; ordinary source/file hashes bind artifacts. This is NOT a cryptographic proof of arbitrary execution or independent verification of the real world."
+  }
+}
