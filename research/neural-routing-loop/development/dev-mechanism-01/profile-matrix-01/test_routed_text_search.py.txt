@@ -1,0 +1,106 @@
+"""Search-profile execution, finite accounting and source authority."""
+
+import copy
+import json
+import unittest
+
+from cognition.routed_text_search import PROFILES, RoutedTextLibrary
+from cognition.skills import fingerprint
+from cognition.text_composition import CompositionalTextLibrary
+from cognition.text_skills import execute_checked
+from scripts.build_guarded_skill_tasks import CONFIG
+
+
+class RoutedTextSearchTests(unittest.TestCase):
+    def setUp(self):
+        self.source = "nuria:routed-text-test"
+        values = ("abcdefghij", "klmnopqrstu", "uvwxyzABCDEF", "GHIJKLMNOPQRS")
+        self.inputs = [json.dumps([value]) for value in values]
+        self.outputs = [value[2:5].upper() for value in values]
+
+    def test_default_executes_frozen_search_with_exact_work_parity(self):
+        old = CompositionalTextLibrary(self.source, CONFIG)
+        routed = RoutedTextLibrary(self.source, CONFIG)
+        expected = old.solve(self.inputs, self.outputs, budget=4000)
+        actual = routed.solve(self.inputs, self.outputs, budget=4000)
+        for key in ("program", "proposal_id", "status", "work"):
+            self.assertEqual(expected[key], actual[key])
+
+    def test_profile_changes_executed_candidates_under_same_cap(self):
+        standard = RoutedTextLibrary(self.source, CONFIG, profile="default")
+        prioritized = RoutedTextLibrary(self.source, CONFIG, profile="slice_first")
+        before = standard.solve(self.inputs, self.outputs, budget=3000)
+        after = prioritized.solve(self.inputs, self.outputs, budget=3000)
+        self.assertIsNone(before["program"])
+        self.assertIsNotNone(after["program"])
+        self.assertLess(after["work"]["total"], 3000)
+        for value, output in zip(self.inputs, self.outputs, strict=True):
+            checked = execute_checked(after["program"], value, CONFIG)
+            self.assertIsNone(checked["error"])
+            self.assertEqual(checked["output"], output)
+
+    def test_every_profile_keeps_actual_work_inside_cap(self):
+        for profile in PROFILES:
+            with self.subTest(profile=profile):
+                result = RoutedTextLibrary(self.source, CONFIG, profile=profile).solve(
+                    self.inputs, self.outputs, budget=100
+                )
+                self.assertLessEqual(result["work"]["total"], 100)
+                self.assertEqual(result["routing_profile"], profile)
+                self.assertEqual(
+                    result["routing_execution_sha256"],
+                    fingerprint(
+                        {
+                            k: v
+                            for k, v in result.items()
+                            if k != "routing_execution_sha256"
+                        }
+                    ),
+                )
+
+    def test_verified_knowledge_can_be_used_by_another_profile(self):
+        original = RoutedTextLibrary(self.source, CONFIG, profile="slice_first")
+        result = original.solve(self.inputs, self.outputs, budget=3000)
+        receipt = {
+            "source_id": self.source,
+            "proposal_id": result["proposal_id"],
+            "program_sha256": result["program_sha256"],
+            "evaluation_id": "a" * 64,
+            "accepted": True,
+            "correct_rows": 4,
+            "total_rows": 4,
+            "evidence_sha256": "b" * 64,
+            "work": 1,
+        }
+        original.admit_verified(result["proposal_id"], receipt)
+        resumed = RoutedTextLibrary(
+            self.source, CONFIG, state=original.dump(), profile="number_first"
+        )
+        reused = resumed.solve(
+            self.inputs, self.outputs, mode="retained_factored", budget=3000
+        )
+        self.assertEqual(reused["program_sha256"], result["program_sha256"])
+        self.assertLess(reused["work"]["total"], result["work"]["total"])
+
+    def test_checkpoint_rejects_source_or_implementation_change(self):
+        state = RoutedTextLibrary(self.source, CONFIG).dump()
+        for key, value in (
+            ("source_id", "nuria:other"),
+            ("implementation_sha256", "0" * 64),
+            ("profiles", ["default"]),
+        ):
+            bad = copy.deepcopy(state)
+            bad[key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                RoutedTextLibrary(self.source, CONFIG, state=bad)
+
+    def test_unregistered_profile_and_legacy_state_are_refused(self):
+        with self.assertRaises(ValueError):
+            RoutedTextLibrary(self.source, CONFIG, profile="unreviewed")
+        legacy = CompositionalTextLibrary(self.source, CONFIG).dump()
+        with self.assertRaises(ValueError):
+            RoutedTextLibrary(self.source, CONFIG, state=legacy)
+
+
+if __name__ == "__main__":
+    unittest.main()

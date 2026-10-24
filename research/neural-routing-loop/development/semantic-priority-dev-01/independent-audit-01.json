@@ -1,0 +1,63 @@
+{
+  "scope": "Read-only independent audit of private semantic-priority DEV attempt01 and public numeric guidance module; no reserved task access or agent-owned edits.",
+  "snapshot_sha256": {
+    "./cognition/semantic_guidance.py": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849",
+    "research/neural-routing-loop/development/semantic-priority-dev-01/search.py": "519c29770ee3a988d5c5be678d052de88d14815ece3fde5b6c3c900e46254772",
+    "research/neural-routing-loop/development/semantic-priority-dev-01/run.py": "db8f9801e074e9cc32b97cce2c25999866cc718b6505ad7b399124702a340b36",
+    "research/neural-routing-loop/development/semantic-priority-dev-01/training-0.json": "d471732d989c47854d16baadb013c7aea04285b576eda41e7174303e40195bd4"
+  },
+  "confirmed_positive_checks": {
+    "old_buyer_acceptance_reexecution": "All295 old accepted default programs reproduce all24 currentDEV score rows, exactprogramSHA256 and recordedcorrect/totalcounts",
+    "exact_diagnostic_overlap_between_folds": 0,
+    "stored_exact_recipeAST_groups_disjoint": true,
+    "model_feature_boundary": "SemanticGuidance.fit uses features+labels only; provenance hashes affect dataset identity but are not numerical inputs",
+    "mechanism_difference": "Spiking and continuous train W/H/V/C; frozen_input trains only V/C with same seededW/H; all trainable methods share balanced minibatch schedule. kNN deliberately uses reference-data inference instead of the optimizer."
+  },
+  "blockers": [
+    {
+      "id": "semantic-dedup",
+      "location": "search.py attempt",
+      "finding": "First-seen output vector always wins, ignoring a later shallower/smaller representative. Ranking can change remaining finite-depth reachability, so mechanisms no longer differ only by exploration order.",
+      "fix": "Keep deterministic Pareto representatives in size/depth (and relevant operational error semantics), retire dominated stale frontier entries, and test a deeper-first equivalent followed by a shallower equivalent."
+    },
+    {
+      "id": "concat-relaxation",
+      "location": "search.py concatenation",
+      "finding": "Visited state marked on enqueue, so an expensive first path can prevent a later cheaper path to identical positions/partcount. Heap alone does not make first enqueue minimal. Current depth4/maxops24 limits may mask some maxops consequences.",
+      "fix": "Use best-cost relaxation and skip stale popped states, or finalize only on pop. Add an expensive atom versus cheaper literal convergence regression."
+    },
+    {
+      "id": "provenance-binding",
+      "location": "run.py collect",
+      "finding": "Buyer acceptance is trusted from a mutable old JSONL and teaching is called with literalTrue; receipt evidence is a digest of selected claims rather than source trace/task/interpreter binding. Actual old claims passed our independent replay, but futurequalification loader does not enforce that.",
+      "fix": "Bind immutable oldfile/record/task/config/interpreter digests; independently recheck finalrow acceptance and programSHA before admitting training. Retain candidate node/value/feature data or an independently replayable frozen trace."
+    }
+  ],
+  "additional_actions": [
+    {
+      "id": "cpu-accounting",
+      "finding": "Summary cpu_seconds sums search only; buyerCPU exists perrow, fitCPU and common collectionCPU separately. No current walltime superiority assertion, but any totalservice claim needs all of them and amortization assumptions."
+    },
+    {
+      "id": "conditional-child-traversal",
+      "finding": "Subtree extraction and depth only traverse arg/parts, omitting if_equal then/else in registered safeDSL. Currentgenerated trainingcourse appears to use no such sourceprogram, but generic reader must handle every declared AST child."
+    },
+    {
+      "id": "maxdepth-description",
+      "finding": "max_depth gates unary expansion only; concatenation adds a parent beyond it. Declare max_unary_depth or enforce actual finalASTdepth uniformly."
+    },
+    {
+      "id": "group-claim",
+      "finding": "Fold split isolates exact private recipeAST hashes, not wholetaskfamilies. This is appropriate groupedDEV probing but does not establish unseenfamily generalization; future externalqualification must cluster aliases/duplicates and freshfamilies."
+    },
+    {
+      "id": "cold-start",
+      "finding": "Fold0 has17of146accepted origins with zero positives; fold1 has15of149. Proper leaves are included and explicitly declared in scope. Report actual nontrivial internalpositive count separately if claiming learnedcomposition."
+    },
+    {
+      "id": "conventional-control",
+      "finding": "Continuous is a matched clipped-linear hidden model, not an exhaustive bestMLP control. Do not generalize to neural superiority beyond tested/tuned controls. Strong newheuristic, oldobservable-rule capability and CPU overhead remain mandatory checks."
+    }
+  ],
+  "private_evidence": "independent-old-acceptance-review.json"
+}

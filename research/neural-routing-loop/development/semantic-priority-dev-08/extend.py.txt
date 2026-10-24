@@ -1,0 +1,54 @@
+"""Continue the SAME finite acquisition session with durable reservations."""
+from pathlib import Path
+import hashlib,json,os,time
+from acquisition import execute,digest,group,MISSES,MAX_EXTRA_WORK,BUYER_RESERVE,CONFIG
+P=Path(__file__).parent
+pilot=json.loads((P/'pilot-summary.json').read_text())
+if pilot['extra_work']!=sum(r['result']['search']['work']['total']+r['result']['buyer']['total_work']for r in map(json.loads,(P/'pilot-traces.jsonl').read_text().splitlines())):
+    raise ValueError('Pilot usage cannot be independently reconciled')
+selected=MISSES[10:128]
+protocol={'scope':'Continuation of SAME250M-work acquisition session, never a renewedbudget. First118remainingpastall-profilebuyerfailures afterpilotfirst10, maximum128pastjobstotal. Samefrozenroutes/caps/models/4audits/DSL. No sourceASTinjection orfamilyselection. Beforeeveryextraactorcall reserve its fullsolvercap+1Mboundedbuyerwork in fsyncedhash-chain journal. Settle onlyafterfullresulttrace is durable. Any unresolvedreservation remainschargedatitsfullceiling; stopratherthanretryambiguousoperation. Originalpilotcompletedall30callsandisfullyreconciled atanchor. Maximumscope is virtualinterpreter/candidate/buyerwork, nottotalFLOPs; measuredCPUincludesfeature/scoringbookkeeping separately. No financialactions.',
+          'maximum_extra_work':MAX_EXTRA_WORK,'pilot_used':pilot['extra_work'],'pilot_summary_sha256':hashlib.sha256((P/'pilot-summary.json').read_bytes()).hexdigest(),
+          'pilot_traces_sha256':hashlib.sha256((P/'pilot-traces.jsonl').read_bytes()).hexdigest(),
+          'selected_job_ids':[j['id']for j in selected],'caps':[500000,2000000],'routes':['default','slice_first','warm_spiking'],
+          'buyer_reserve_per_call':BUYER_RESERVE,'buyer_work_upper_bound_from_current_config':CONFIG['max_rows']*((CONFIG['max_input_bytes']+31)//32+CONFIG['max_ops']*(2+(16*CONFIG['max_input_bytes']+31)//32)+1+(2*CONFIG['max_input_bytes']+31)//32),
+          'sources_sha256':{f.name:hashlib.sha256(f.read_bytes()).hexdigest()for f in(P/'search.py',P/'acquisition.py',Path(__file__),P/'cohort-mapping-addendum.json')}}
+if protocol['buyer_work_upper_bound_from_current_config']>BUYER_RESERVE:raise ValueError('Buyer reservation bound is inadequate')
+with(P/'extension-protocol.json').open('x')as stream:json.dump(protocol,stream,indent=2)
+used=pilot['extra_work'];pending={};sequence=0;previous='0'*64;rows=[];exhausted=False;began=time.process_time()
+journal=(P/'budget-journal.jsonl').open('x');trace=(P/'extension-traces.jsonl').open('x')
+def event(kind,**data):
+    global sequence,previous
+    sequence+=1;row={'seq':sequence,'previous_sha256':previous,'kind':kind,**data};row['sha256']=digest(row)
+    journal.write(json.dumps(row)+'\n');journal.flush();os.fsync(journal.fileno());previous=row['sha256']
+event('anchor',maximum_extra_work=MAX_EXTRA_WORK,actual_spent=used,pending_reserved=0,pilot_traces_sha256=protocol['pilot_traces_sha256'])
+try:
+    for job in selected:
+        attempts=[]
+        for cap in protocol['caps']:
+            current=[]
+            for route in protocol['routes']:
+                reserve=cap+BUYER_RESERVE
+                if used+sum(pending.values())+reserve>MAX_EXTRA_WORK:
+                    exhausted=True;event('budget_stop',actual_spent=used,pending_reserved=sum(pending.values()),next_requested_reserve=reserve,job_id=job['id'],route=route,cap=cap);break
+                call_id=digest({'job_id':job['id'],'route':route,'cap':cap})
+                if call_id in pending:raise ValueError('An unresolved call cannot be repeated')
+                pending[call_id]=reserve
+                event('reserve',call_id=call_id,job_id=job['id'],route=route,cap=cap,reserved_work=reserve,actual_spent=used,pending_reserved=sum(pending.values()),past_source_group=group(job),actor_held_fold=1-group(job),future_serving_training_held_fold=1-group(job))
+                result=execute(job,route,cap);charge=result['search']['work']['total']+result['buyer']['total_work']
+                if charge>reserve:raise ValueError('Actual work exceeded reservation')
+                row={'call_id':call_id,'job_id':job['id'],'route':route,'cap':cap,'past_source_group':group(job),'future_serving_training_held_fold':1-group(job),'result':result,'actual_extra_work':charge,'cumulative_extra_work_after_settlement':used+charge}
+                trace.write(json.dumps(row)+'\n');trace.flush();os.fsync(trace.fileno())
+                used+=charge;del pending[call_id]
+                event('settle',call_id=call_id,result_sha256=digest(row),actual_work=charge,released_work=reserve-charge,actual_spent=used,pending_reserved=sum(pending.values()))
+                attempts.append(result);current.append(result)
+                print(job['id'][:12],route,cap,result['buyer']['passed'],charge,'cumulative',used,flush=True)
+            if exhausted or any(a['buyer']['passed']for a in current):break
+        rows.append({'job_id':job['id'],'accepted':any(r['buyer']['passed']for r in attempts),'attempts':len(attempts),'past_source_group':group(job),'accepted_program_sha256':[r['program_sha256']for r in attempts if r['buyer']['passed']]})
+        if exhausted:break
+    event('complete',actual_spent=used,pending_reserved=sum(pending.values()),budget_exhausted=exhausted,attempted_jobs=len(rows))
+finally:
+    journal.close();trace.close()
+summary={'scope':protocol['scope'],'selected_extension_jobs':len(selected),'attempted_extension_jobs':len(rows),'newly_accepted_extension_jobs':sum(r['accepted']for r in rows),'pilot_jobs':pilot['jobs'],'newly_accepted_pilot_jobs':pilot['newly_accepted_past_jobs'],'total_acquisition_jobs_attempted':pilot['jobs']+len(rows),'extra_work_including_pilot':used,'pending_reserved_work':sum(pending.values()),'global_work_remaining':MAX_EXTRA_WORK-used-sum(pending.values()),'budget_exhausted':exhausted,'extension_cpu_seconds':time.process_time()-began,'rows':rows,'journal_sha256':hashlib.sha256((P/'budget-journal.jsonl').read_bytes()).hexdigest(),'trace_sha256':hashlib.sha256((P/'extension-traces.jsonl').read_bytes()).hexdigest(),'protocol_sha256':hashlib.sha256((P/'extension-protocol.json').read_bytes()).hexdigest()}
+with(P/'extension-summary.json').open('x')as stream:json.dump(summary,stream,indent=2)
+print(json.dumps({k:v for k,v in summary.items()if k!='rows'},indent=2))

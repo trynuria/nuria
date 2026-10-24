@@ -1,0 +1,83 @@
+{
+  "schema": "nuria.conventional-memory-cluster-comparison.v1",
+  "scope": "Post-hoc exploratory source-program-cluster uncertainty on repeatedly inspected authored development data; not a preregistered qualification. All underlying delivered programs have separate independent buyer replay receipts. No new actor, interpreter, buyer, training or reserved-data work.",
+  "comparisons": [
+    {
+      "comparator": "field_templates",
+      "paired_jobs": 384,
+      "source_program_ast_groups": 140,
+      "spiking_only_success": 1,
+      "comparator_only_success": 27,
+      "both_success": 355,
+      "both_fail": 1,
+      "observed_net_jobs": -26,
+      "observed_accuracy_difference": -0.06770833333333333,
+      "group_macro_accuracy_difference": -0.13214285714285715,
+      "groups_positive_net": 1,
+      "groups_negative_net": 20,
+      "groups_zero_net": 119,
+      "fold_disagreement": {
+        "0": {
+          "net_jobs": -4,
+          "jobs": 187,
+          "groups": 66
+        },
+        "1": {
+          "net_jobs": -22,
+          "jobs": 197,
+          "groups": 74
+        }
+      },
+      "exploratory_stratified_cluster_bootstrap95_percentile": [
+        -0.10540540540540541,
+        -0.036951358946063106
+      ],
+      "exploratory_cluster_sign_flip_two_sided_p": 4.999750012499375e-05,
+      "replicates": 20000,
+      "random_seed": 20261029,
+      "scope": "Exploratory post-hoc conditional fixed-model analysis, not a preregistered qualification or evidence spikes outperform continuous networks. Source-AST clusters retain all repeated rows; bootstrap resamples within the two fixed held-fold cohorts. Training overlap across models and shared authored generator limit inference."
+    },
+    {
+      "comparator": "retained_short_circuit",
+      "paired_jobs": 384,
+      "source_program_ast_groups": 140,
+      "spiking_only_success": 34,
+      "comparator_only_success": 11,
+      "both_success": 322,
+      "both_fail": 17,
+      "observed_net_jobs": 23,
+      "observed_accuracy_difference": 0.059895833333333336,
+      "group_macro_accuracy_difference": 0.060714285714285714,
+      "groups_positive_net": 16,
+      "groups_negative_net": 8,
+      "groups_zero_net": 116,
+      "fold_disagreement": {
+        "0": {
+          "net_jobs": 15,
+          "jobs": 187,
+          "groups": 66
+        },
+        "1": {
+          "net_jobs": 8,
+          "jobs": 197,
+          "groups": 74
+        }
+      },
+      "exploratory_stratified_cluster_bootstrap95_percentile": [
+        0.007874015748031496,
+        0.11658143586315062
+      ],
+      "exploratory_cluster_sign_flip_two_sided_p": 0.039248037598120095,
+      "replicates": 20000,
+      "random_seed": 20261029,
+      "scope": "Exploratory post-hoc conditional fixed-model analysis, not a preregistered qualification or evidence spikes outperform continuous networks. Source-AST clusters retain all repeated rows; bootstrap resamples within the two fixed held-fold cohorts. Training overlap across models and shared authored generator limit inference."
+    }
+  ],
+  "input_sources_sha256": {
+    "semantic-priority-dev-08/evaluation-0-old_strong-retained-property-edit-size-spiking-frozen_input-continuous-linear-per_family_linear-rff-knn.jsonl": "889442232f3888f45c6e2b78da3702e5837989e919a23225cd509d6bf8ead8d8",
+    "semantic-priority-dev-08/evaluation-1-old_strong-retained-property-edit-size-spiking-frozen_input-continuous-linear-per_family_linear-rff-knn.jsonl": "f7c0f2d0ce2ce1a90a6ed9ee0b35519ecd72bb92436839675fd5160512159f0f",
+    "strong-memory-controls-01/full-results.jsonl": "790eae8c9069f5d77a93cf1331beb335b511de7f4ff950f57067f36b6f626a5d"
+  },
+  "analysis_function_source_sha256": "cee08a17d25e49c1ae7e6314904d8c0b96dff1b38cb2d820b72273f7a585f306",
+  "analysis_source_sha256": "fc5ba827fe2214a02ff49ebc75e316d40a897e1a40ff63378c3966e7ad8a7d2c"
+}

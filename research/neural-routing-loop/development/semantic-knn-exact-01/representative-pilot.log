@@ -1,0 +1,51 @@
+{"job_id": "7b383234863327cf21e2b074d714c1c51983a81b365312d1fcf6bd66ae2477cd", "family": "trim-delimited-field", "scored_queries": 119, "old_cpu_seconds": 0.490167, "optimized_cpu_seconds": 0.3332600000000001, "speedup": 1.4708245814079093, "all_actual_scores_bitwise_equal": true, "program_and_work_exact": true, "hits": 2, "misses": 117, "evictions": 0}
+{"job_id": "39adc12f26c9030c4f626c682e4cec82a8d4cce596bedf8c4a3164b91bc805b2", "family": "uppercase-token", "scored_queries": 1429, "old_cpu_seconds": 5.698224, "optimized_cpu_seconds": 3.087010000000001, "speedup": 1.8458715715206617, "all_actual_scores_bitwise_equal": true, "program_and_work_exact": true, "hits": 322, "misses": 1107, "evictions": 0}
+{"job_id": "e87ffd35511bd3ba02dc5a3176105328a603144a3add81575864c3e54742c75f", "family": "short-token", "scored_queries": 3191, "old_cpu_seconds": 12.755854000000001, "optimized_cpu_seconds": 6.124164999999998, "speedup": 2.0828723589256666, "all_actual_scores_bitwise_equal": true, "program_and_work_exact": true, "hits": 1040, "misses": 2151, "evictions": 0}
+{
+  "scope": "Three completed actual jobs chosen before replay as lowest, median and highest score counts among currently completed fold0kNNjobs. This is bounded implementation optimization evidence, not a walltime or algorithm superiority claim. Original and optimized predictions bitwise, finalAST/interpreterwork exact. CPU includes all searchscoring and preprocessing, no model-fit or historicalteacher charge is omitted from broader study accounting.",
+  "available_completed_scored_jobs": 68,
+  "jobs": [
+    {
+      "job_id": "7b383234863327cf21e2b074d714c1c51983a81b365312d1fcf6bd66ae2477cd",
+      "family": "trim-delimited-field",
+      "scored_queries": 119,
+      "old_cpu_seconds": 0.490167,
+      "optimized_cpu_seconds": 0.3332600000000001,
+      "speedup": 1.4708245814079093,
+      "all_actual_scores_bitwise_equal": true,
+      "program_and_work_exact": true,
+      "hits": 2,
+      "misses": 117,
+      "evictions": 0
+    },
+    {
+      "job_id": "39adc12f26c9030c4f626c682e4cec82a8d4cce596bedf8c4a3164b91bc805b2",
+      "family": "uppercase-token",
+      "scored_queries": 1429,
+      "old_cpu_seconds": 5.698224,
+      "optimized_cpu_seconds": 3.087010000000001,
+      "speedup": 1.8458715715206617,
+      "all_actual_scores_bitwise_equal": true,
+      "program_and_work_exact": true,
+      "hits": 322,
+      "misses": 1107,
+      "evictions": 0
+    },
+    {
+      "job_id": "e87ffd35511bd3ba02dc5a3176105328a603144a3add81575864c3e54742c75f",
+      "family": "short-token",
+      "scored_queries": 3191,
+      "old_cpu_seconds": 12.755854000000001,
+      "optimized_cpu_seconds": 6.124164999999998,
+      "speedup": 2.0828723589256666,
+      "all_actual_scores_bitwise_equal": true,
+      "program_and_work_exact": true,
+      "hits": 1040,
+      "misses": 2151,
+      "evictions": 0
+    }
+  ],
+  "aggregate_speedup": 1.9848471910595025,
+  "score_calls_sha256": "d5eeeaa55ba8c4fad2d131d1b60b89063ae9fe266abbec234aa6cdb4e15375fe",
+  "source_sha256": "23d92f714ce609a0ec48f820a66dad1108660c3eb81ec5e0f3c47cd5a7a1fd6d"
+}

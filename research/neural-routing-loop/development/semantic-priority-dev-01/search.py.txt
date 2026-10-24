@@ -1,0 +1,317 @@
+"""PRIVATE DEV: property-guided bottom-up construction in Nuria's safe text DSL.
+
+Inspired by BUSTLE (Odena et al., ICLR 2021), independently implemented. No
+external pretrained model, hidden recipe, task ID, or final buyer target enters
+search. Membership teaching is separate and requires an accepted delivered AST.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass
+from decimal import InvalidOperation
+import hashlib
+import heapq
+import json
+import time
+
+import numpy as np
+
+from cognition.skills import WorkLimit, _Meter
+from cognition.text_skills import (
+    VERSION, CASES, PATTERNS, SCALES, evaluate, fields, shape, validate_program,
+)
+from cognition.text_composition import _slices, POSITIONS
+
+OPS = ("field", "constant", "strip", "upper", "lower", "other_case", "token",
+       "split", "slice", "replace", "number", "concat")
+DIMENSION = 100
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def depth(node):
+    return 1 + max([depth(p) for p in node.get("parts", [])] +
+                   ([depth(node["arg"])] if "arg" in node else []) + [0])
+
+
+def signature(node, values, targets):
+    """100 [0,1] observables; no field identity, job ID or undisclosed values."""
+    unary = [
+        lambda v: not v,
+        str.islower, str.isupper, str.isdecimal, str.isalpha, str.isalnum,
+        lambda v: any(c.isspace() for c in v), str.isascii,
+        lambda v: any(not c.isalnum() and not c.isspace() for c in v),
+        lambda v: any(c.isdigit() for c in v),
+        lambda v: any(c.isalpha() for c in v), lambda v: len(v) <= 3,
+    ]
+    relations = [
+        lambda v, y: v == y, lambda v, y: v.casefold() == y.casefold(),
+        lambda v, y: v.strip() == y, lambda v, y: y.startswith(v),
+        lambda v, y: y.endswith(v), lambda v, y: v in y,
+        lambda v, y: y in v, lambda v, y: len(v) == len(y),
+        lambda v, y: len(v) < len(y), lambda v, y: v[:1] == y[:1],
+        lambda v, y: v[-1:] == y[-1:], lambda v, y: set(v) == set(y),
+        lambda v, y: set(y) <= set(v), lambda v, y: set(v) <= set(y),
+        lambda v, y: len(v.split()) == len(y.split()),
+        lambda v, y: abs(len(v) - len(y)) <= 1,
+    ]
+    result = []
+    for flags in ([[f(v) for v in values] for f in unary] +
+                  [[f(v, y) for v, y in zip(values, targets, strict=True)] for f in relations]):
+        result.extend((float(all(flags)), float(not any(flags)), float(any(flags) and not all(flags))))
+    op = node["op"]
+    if op in CASES and op not in OPS:
+        op = "other_case"
+    result.extend(float(op == item) for item in OPS)
+    result.extend((min(1, shape(node, {"max_ops": 24, "max_fields": 8, "max_parts": 4}) / 24),
+                   min(1, depth(node) / 8),
+                   min(1, sum(map(len, values)) / max(1, len(values)) / 128),
+                   min(1, max(map(len, values), default=0) / 256)))
+    assert len(result) == DIMENSION
+    return np.asarray(result, dtype=float)
+
+
+def heuristic(batch):
+    """Strong disclosed-value containment/case/length property priority."""
+    x = np.asarray(batch)
+    relation = x[:, 36:84].reshape((-1, 16, 3))[:, :, 0]
+    # Completed outputs are detected before scoring; prefer viable concat pieces
+    # and source values containing the desired output, then case/length proximity.
+    return (1.0 * relation[:, 5] + .8 * relation[:, 6] +
+            .65 * relation[:, 1] + .45 * relation[:, 2] +
+            .2 * relation[:, 12] + .1 * relation[:, 7]) / 3.2
+
+
+@dataclass
+class Record:
+    node: dict
+    values: tuple
+    size: int
+    features: np.ndarray
+    cursor: int = 0
+    sequence: int = 0
+
+
+def unary_operations(arg, values, targets):
+    """Same finite operation family for every controller; disclosed parameters."""
+    yield from ({"op": case, "arg": arg} for case in sorted(CASES))
+    for position in POSITIONS:
+        for pattern in sorted(PATTERNS):
+            yield {"op": "token", "arg": arg, "pattern": pattern, "index": position}
+    separators = set(" ,-_/.@:;=|\\\t()[]")
+    separators.update(c for value in values for c in value if not c.isalnum())
+    separators = sorted(separators)[:32]
+    separators.sort(key=lambda s: not any(s in v for v in values))
+    for position in POSITIONS:
+        for separator in separators:
+            yield {"op": "split", "arg": arg, "separator": separator, "index": position}
+    yield from _slices(arg, values, targets)
+    yield from ({"op": "replace", "arg": arg, "old": c, "new": ""}
+                for c in sorted(set("".join(values)))[:64])
+    yield from ({"op": "number", "arg": arg, "scale": scale, "places": places}
+                for scale in SCALES for places in (None, 0, 1, 2, 3, 4, 5, 6))
+
+
+def search(inputs, outputs, config, scorer=None, *, budget=50000,
+           max_depth=4, batch=16, collect=False):
+    """Actual best-first expansion of executed intermediates, not preset routes.
+
+    Search cap covers the same interpreter/candidate meter for all controllers.
+    Signature/scorer CPU and counts are separately reported, never called free.
+    """
+    began = time.process_time()
+    rows = [fields(x, config) for x in inputs]
+    targets = tuple(outputs)
+    if not rows or len(rows) != len(targets):
+        raise ValueError("Paired nonempty disclosed examples required")
+    meter = _Meter(budget)
+    records, seen, frontier, evidence = [], {}, [], []
+    found = None
+    sequence = 0
+    feature_cpu = score_cpu = 0.
+    feature_count = score_count = 0
+    scorer = heuristic if scorer is None else scorer
+
+    def attempt(node, inner=None):
+        nonlocal feature_cpu, feature_count, found
+        meter.charge("candidates")
+        meter.data(json.dumps(node, sort_keys=True, separators=(",", ":")))
+        try:
+            size = shape(node, config)
+            if inner is None:
+                values = tuple(evaluate(node, row, meter, config) for row in rows)
+            else:
+                cached = {**node, "arg": {"op": "field", "index": 0}}
+                values = tuple(evaluate(cached, [v], meter, config) for v in inner)
+        except (ValueError, IndexError, KeyError, InvalidOperation) as error:
+            if isinstance(error, WorkLimit):
+                raise
+            meter.values["errors"] += 1
+            return None
+        meter.data(json.dumps(values, separators=(",", ":")))
+        if values == targets:
+            found = node
+            return None
+        if values in seen or not any(values):
+            meter.values["semantic_duplicates"] += 1
+            return None
+        seen[values] = size
+        start = time.process_time()
+        features = signature(node, values, targets)
+        feature_cpu += time.process_time() - start
+        feature_count += 1
+        record = Record(node, values, size, features, sequence=len(records))
+        records.append(record)
+        if collect:
+            evidence.append({"node": node, "values": list(values), "features": features.tolist()})
+        return record
+
+    def enqueue(new):
+        nonlocal score_cpu, score_count, sequence
+        new = [r for r in new if r is not None and depth(r.node) < max_depth]
+        if not new:
+            return
+        start = time.process_time()
+        scores = np.asarray(scorer(np.stack([r.features for r in new])), dtype=float)
+        score_cpu += time.process_time() - start
+        score_count += len(new)
+        if scores.shape != (len(new),) or not np.isfinite(scores).all():
+            raise ValueError("Invalid intermediate scores")
+        for record, score in zip(new, scores, strict=True):
+            sequence += 1
+            priority = float(score) - .10 * (record.size - 1) - .0005 * record.cursor
+            heapq.heappush(frontier, (-priority, sequence, record))
+
+    def concatenation():
+        nonlocal found
+        # Visible output prefixes only. Every transition and delivery is charged.
+        atoms = [r for r in records if all(v in y for v, y in zip(r.values, targets))]
+        queue = [(0, 0, (0,) * len(targets), ())]
+        visited = set()
+        serial = 0
+        while queue:
+            cost, _, positions, parts = heapq.heappop(queue)
+            if positions == tuple(map(len, targets)) and parts:
+                if len(parts) == 1:
+                    found = parts[0]
+                else:
+                    attempt({"op": "concat", "parts": list(parts)})
+                return
+            if len(parts) >= config["max_parts"]:
+                continue
+            literals = set()
+            tail = targets[0][positions[0]:]
+            for length in range(1, min(8, len(tail)) + 1):
+                literal = tail[:length]
+                if all(y.startswith(literal, p) for y, p in zip(targets, positions)):
+                    literals.add(literal)
+            options = [(r.node, r.values, r.size) for r in atoms]
+            options.extend(({"op": "constant", "value": s}, (s,) * len(targets), 1)
+                           for s in sorted(literals))
+            for node, values, size in options:
+                meter.charge("candidates")
+                meter.data(json.dumps(values, separators=(",", ":")))
+                if cost + size + 1 > config["max_ops"]:
+                    continue
+                if not all(y.startswith(v, p) for y, v, p in zip(targets, values, positions)):
+                    continue
+                future = tuple(p + len(v) for p, v in zip(positions, values))
+                key = (future, len(parts) + 1)
+                if future == positions or key in visited:
+                    continue
+                visited.add(key)
+                serial += 1
+                heapq.heappush(queue, (cost + size, serial, future, (*parts, node)))
+
+    try:
+        for x in inputs + outputs:
+            meter.data(x)
+        if len(set(targets)) == 1:
+            attempt({"op": "constant", "value": targets[0]})
+        enqueue([attempt({"op": "field", "index": i}) for i in range(min(map(len, rows)))])
+        iterations = 0
+        iterators = {}
+        while frontier and found is None:
+            _, _, record = heapq.heappop(frontier)
+            if record.sequence not in iterators:
+                iterators[record.sequence] = iter(unary_operations(record.node, record.values, targets))
+            generated, exhausted = [], False
+            for _ in range(batch):
+                try:
+                    node = next(iterators[record.sequence])
+                except StopIteration:
+                    exhausted = True
+                    break
+                record.cursor += 1
+                new = attempt(node, record.values)
+                if new is not None:
+                    generated.append(new)
+                if found is not None:
+                    break
+            enqueue(generated)
+            if not exhausted:
+                enqueue([record])
+            iterations += 1
+            if iterations % 4 == 0 and found is None:
+                concatenation()
+        if found is None:
+            concatenation()
+        status = "solved" if found is not None else "not_found"
+    except WorkLimit:
+        status = "work_limit"
+    program = validate_program({"version": VERSION, "expr": found}, config) if found is not None else None
+    return {"program": program, "status": status, "work": meter.values,
+            "signature_count": feature_count, "signature_cpu_seconds": feature_cpu,
+            "scored_count": score_count, "scorer_cpu_seconds": score_cpu,
+            "cpu_seconds": time.process_time() - began,
+            "candidate_records": evidence if collect else None}
+
+
+def subtree_training(delivered_program, accepted, inputs, outputs, candidates, config):
+    """Labels only proper subtrees of a buyer-accepted delivered expression.
+
+    Nonmembership is not proof that a value cannot belong to another solution.
+    Full output/root candidates are never used as trivial positives.
+    """
+    if not accepted or delivered_program is None:
+        return []
+    expr = validate_program(delivered_program, config)["expr"]
+    rows = [fields(x, config) for x in inputs]
+    positives = set()
+    def visit(node, root=False):
+        if not root:
+            meter = _Meter(1000000)
+            positives.add(tuple(evaluate(node, row, meter, config) for row in rows))
+        for child in node.get("parts", []):
+            visit(child)
+        if "arg" in node:
+            visit(node["arg"])
+    visit(expr, True)
+    result = []
+    for candidate in candidates:
+        values = tuple(candidate["values"])
+        if values == tuple(outputs):
+            continue
+        result.append({"features": candidate["features"],
+                       "label": int(values in positives),
+                       "candidate_sha256": digest(candidate["node"]),
+                       "program_sha256": digest(delivered_program)})
+    # Proper subtrees not visited during a bounded failed search still come from
+    # the delivered accepted solution, with the same disclosed audit values.
+    existing = {tuple(c["values"]) for c in candidates}
+    def add(node, root=False):
+        if not root:
+            meter = _Meter(1000000)
+            values = tuple(evaluate(node, row, meter, config) for row in rows)
+            if values not in existing and values != tuple(outputs):
+                result.append({"features": signature(node, values, tuple(outputs)).tolist(),
+                               "label": 1, "candidate_sha256": digest(node),
+                               "program_sha256": digest(delivered_program)})
+                existing.add(values)
+        for child in node.get("parts", []):
+            add(child)
+        if "arg" in node:
+            add(node["arg"])
+    add(expr, True)
+    return result

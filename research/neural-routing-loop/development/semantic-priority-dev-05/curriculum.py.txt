@@ -1,0 +1,152 @@
+"""PRIVATE authored/synthetic larger-curriculum DEV, not natural-world evidence."""
+from pathlib import Path
+import hashlib
+import json
+import sys
+import time
+
+from search import search, subtree_training, digest
+from cognition.routed_text_search import PROFILES, infer_routed
+from cognition.skills import _Meter, WorkLimit
+from cognition.text_skills import VERSION, validate_program
+from scripts.build_guarded_skill_tasks import generate, CONFIG
+from scripts.verify_active_skill_results import outcome
+
+P = Path(__file__).parent
+JOBS = [j for seed in range(10, 31) for j in generate(seed, 96)['tasks']][:2000]
+
+
+def execute_teacher(job):
+    xs, ys = job['diagnostic_inputs'][:4], job['diagnostic_outputs'][:4]
+    profiles = {}
+    for profile in PROFILES:
+        start = time.process_time()
+        meter = _Meter(50000)
+        node = None
+        try:
+            node = infer_routed(xs, ys, CONFIG, meter, profile=profile)
+        except WorkLimit:
+            pass
+        program = validate_program({'version': VERSION, 'expr': node}, CONFIG) if node is not None else None
+        solve_cpu = time.process_time() - start
+        start = time.process_time()
+        buyer = outcome(program, job['score_inputs'], job['score_outputs'], CONFIG)
+        profiles[profile] = {'program': program,
+                             'program_sha256': digest(program) if program else None,
+                             'search_work': meter.values,
+                             'buyer': buyer,
+                             'accepted': buyer['passed'],
+                             'search_cpu_seconds': solve_cpu,
+                             'buyer_cpu_seconds': time.process_time() - start}
+    return {'job_id': job['id'], 'profiles': profiles,
+            'disclosed_inputs_sha256': digest(xs), 'disclosed_outputs_sha256': digest(ys),
+            'buyer_inputs_sha256': digest(job['score_inputs']),
+            'buyer_outputs_sha256': digest(job['score_outputs'])}
+
+
+def teacher(first, last, filename):
+    start = time.process_time()
+    rows = []
+    with (P / filename).open('x') as out:
+        for i in range(first, last):
+            row = execute_teacher(JOBS[i])
+            out.write(json.dumps(row) + '\n')
+            out.flush()
+            rows.append(row)
+            if (i + 1) % 100 == 0:
+                print('teacher', i + 1, flush=True)
+    report = {'first': first, 'last': last, 'jobs': len(rows),
+              'accepted_default': sum(r['profiles']['default']['accepted'] for r in rows),
+              'accepted_union': sum(any(x['accepted'] for x in r['profiles'].values()) for r in rows),
+              'cpu_seconds': time.process_time() - start,
+              'default_solve_plus_buyer_cpu_seconds': sum(r['profiles']['default']['search_cpu_seconds'] + r['profiles']['default']['buyer_cpu_seconds'] for r in rows),
+              'all_solve_plus_buyer_cpu_seconds': sum(d['search_cpu_seconds'] + d['buyer_cpu_seconds'] for r in rows for d in r['profiles'].values()),
+              'all_search_work': sum(d['search_work']['total'] for r in rows for d in r['profiles'].values()),
+              'all_buyer_work': sum(d['buyer']['total_work'] for r in rows for d in r['profiles'].values())}
+    with (P / (filename + '.summary.json')).open('x') as out:
+        json.dump(report, out, indent=2)
+    print(json.dumps(report, indent=2), flush=True)
+
+
+def collect():
+    traces = {}
+    for name in ('teacher-pilot.jsonl', 'teacher-rest.jsonl'):
+        for row in map(json.loads, (P / name).read_text().splitlines()):
+            traces[row['job_id']] = row
+    records, origins = [], []
+    begin = time.process_time()
+    with (P / 'membership-origins.jsonl').open('x') as stream:
+        for i, job in enumerate(JOBS):
+            trace = traces[job['id']]
+            accepted = [d for d in trace['profiles'].values() if d['accepted']]
+            if not accepted:
+                continue
+            # Independent second buyer pass before any membership teaching.
+            for delivered in accepted:
+                checked = outcome(delivered['program'], job['score_inputs'], job['score_outputs'], CONFIG)
+                if not checked['passed'] or digest(delivered['program']) != delivered['program_sha256']:
+                    raise ValueError('Teacher buyer/program identity mismatch')
+            xs, ys = job['diagnostic_inputs'][:4], job['diagnostic_outputs'][:4]
+            replay = search(xs, ys, CONFIG, collect=True, prefix_budget=0)
+            union = {}
+            for delivered in accepted:
+                for row in subtree_training(delivered['program'], True, xs, ys,
+                                             replay['candidate_records'], CONFIG):
+                    key = row['candidate_sha256']
+                    if key not in union or row['label'] > union[key]['label']:
+                        union[key] = row
+            positives = [r for r in union.values() if r['label']]
+            negatives = sorted((r for r in union.values() if not r['label']),
+                               key=lambda r: digest([job['id'], r['candidate_sha256']]))[:32]
+            evidence_hash = digest(trace)
+            selected = [{**r, 'job_id': digest(job['id']),
+                         'receipt_evidence_sha256': evidence_hash}
+                        for r in positives + negatives]
+            records.extend(selected)
+            origin = {'job_id': job['id'], 'buyer_evidence_sha256': evidence_hash,
+                      'accepted_programs': [d['program'] for d in accepted],
+                      'disclosed_inputs': xs, 'disclosed_outputs': ys,
+                      'records': selected, 'enumerated_candidates': replay['candidate_records'],
+                      'membership_replay_work': replay['work'],
+                      'membership_replay_cpu_seconds': replay['cpu_seconds']}
+            origins.append({'job_id': job['id'], 'selected_labels': len(selected),
+                            'positives': len(positives)})
+            stream.write(json.dumps(origin) + '\n')
+            stream.flush()
+            if (i + 1) % 200 == 0:
+                print('membership', i + 1, len(records), flush=True)
+    before_cap = len(records)
+    if before_cap > 65536:
+        records = sorted(records, key=lambda r: digest([r['job_id'], r['candidate_sha256']]))[:65536]
+    known = [j for seed in (0, 1, 2, 3) for j in generate(seed, 96)['tasks']]
+    training_programs = {j['private_recipe']['program_sha256'] for j in JOBS}
+    overlap = {j['id']: j['private_recipe']['program_sha256'] in training_programs for j in known}
+    sources = {str(path): hashlib.sha256(path.read_bytes()).hexdigest()
+               for path in (Path(__file__), P / 'search.py',
+                            Path('./cognition/routed_text_search.py'),
+                            Path('./cognition/text_skills.py'),
+                            Path('./scripts/build_guarded_skill_tasks.py'),
+                            Path('./scripts/verify_active_skill_results.py'))}
+    result = {'scope': 'PRIVATE DEV larger AUTHORed/SYNTHETIC curriculum. Exactlyfirst2000newgeneratedjobs seeds10..30; four disclosed audits, actualeightfinite50ktool executions, every delivered program checked on24nondiagnostic buyer rows and independently rechecked before teaching. Training uses ONLY proper semantic subtrees of successful delivered ASTs; never hidden authoredrecipe. Nonmembership is not impossibility. Root excluded, proper leaves included like03. All controls share exact records/history/cap. Max65536 deterministic hashselected records ifneeded. No reserved data or naturalworld-learning claim. Historical tool/search/buyer costs separately retained.',
+              'records': records, 'records_before_cap': before_cap,
+              'positives': sum(r['label'] for r in records), 'origins': origins,
+              'collection_cpu_seconds': time.process_time() - begin,
+              'known384_recipe_overlap': overlap,
+              'known384_overlap_count': sum(overlap.values()),
+              'sources_sha256': sources,
+              'teacher_traces_sha256': {name: hashlib.sha256((P / name).read_bytes()).hexdigest()
+                                         for name in ('teacher-pilot.jsonl', 'teacher-rest.jsonl')}}
+    with (P / 'training.json').open('x') as out:
+        json.dump(result, out)
+    print(json.dumps({k: v for k, v in result.items() if k not in ('records', 'origins', 'known384_recipe_overlap')}, indent=2), flush=True)
+
+
+if __name__ == '__main__':
+    if sys.argv[1] == 'pilot':
+        teacher(0, 100, 'teacher-pilot.jsonl')
+    elif sys.argv[1] == 'teacher':
+        teacher(100, 2000, 'teacher-rest.jsonl')
+    elif sys.argv[1] == 'collect':
+        collect()
+    else:
+        raise ValueError('Unknown bounded curriculum action')

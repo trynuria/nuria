@@ -1,0 +1,29 @@
+{
+  "schema": "nuria.exact-feature-neighbors-public-validation.v1",
+  "scope": "Optional conventional comparator adapter only; no SemanticGuidance default changed, no neural capability or universal speed claim. Recorded original model predictions independently matched. No production, reserved-source or financial actions.",
+  "public_source_sha256": "347370c945c8b89095c60ceec624ec028a5ff18cf83b2c89ea548c9104670cec",
+  "test_source_sha256": "258449740ed7dafa325abb5966db505be4cfedc7ac377feaf50b8f4d4f51b32e",
+  "unit_tests_passed": 12,
+  "original_scorer_artifact_sha256": "d5eeeaa55ba8c4fad2d131d1b60b89063ae9fe266abbec234aa6cdb4e15375fe",
+  "model_file_sha256": "7d4f617f2b4d22f3892525afa58307867a2d440cea7ccbaf3893fa62e48c83bc",
+  "recorded_jobs": 3,
+  "recorded_batches": 156,
+  "recorded_query_rows": 4739,
+  "all_scores_bitwise_equal": true,
+  "memory": {
+    "reference_feature_bytes": 30318080,
+    "reference_label_bytes": 233216,
+    "auxiliary_index_bytes": 348786,
+    "total_owned_ndarray_nbytes": 30900082,
+    "cache_capacity": 4096,
+    "cache_maximum_feature_values": 532480,
+    "memory_scope": "Retained NumPy allocations counted once; Python objects, LRU entries, temporary allocations and process RSS excluded"
+  },
+  "bounds": {
+    "reference_rows": 65536,
+    "dimensions": 512,
+    "matrix_values": 16777216,
+    "score_batch": 4096,
+    "cache_entries": 4096
+  }
+}

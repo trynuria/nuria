@@ -1,0 +1,118 @@
+"""DEV only: actual record-repair compute routing with selected-outcome learning."""
+from pathlib import Path
+import copy,hashlib,json,re,time,numpy as np
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.evaluate_guarded_skills import run_job,receipt_for,units
+from cognition.active_skills import probe_cost
+from scripts.verify_active_skill_results import outcome
+from cognition.text_composition import CompositionalTextLibrary
+from cognition.text_skills import execute_checked
+P=Path(__file__).parent
+ARMS=('abstain','retained','small10000','full50000')
+def serial(x):return json.dumps(x,sort_keys=True,separators=(',',':'),allow_nan=False)
+def digest(x):return hashlib.sha256(serial(x).encode()).hexdigest()
+def features(job,library):
+ inputs=[json.loads(x) for x in job['diagnostic_inputs'][:4]];outputs=job['diagnostic_outputs'][:4]
+ relations=[]
+ for mode in range(6):
+  each=[]
+  for field in range(6):
+   hits=[]
+   for row,y in zip(inputs,outputs):
+    v=row[field]
+    choices=(v==y,v.strip()==y,v.upper()==y,v.lower()==y,y in v,y.lower() in v.lower())
+    hits.append(float(choices[mode]))
+   each.append(np.mean(hits))
+  relations += [max(each),float(np.mean(each))]
+ text=''.join(outputs);total=max(1,len(text));allinput=''.join(s for row in inputs for s in row)
+ return relations+[min(1,total/256),min(1,len(allinput)/4096),sum(c.isdigit() for c in text)/total,sum(c.isalpha() for c in text)/total,sum(c.isupper() for c in text)/total,sum(c.isspace() for c in text)/total,sum(not c.isalnum() and not c.isspace() for c in text)/total,len(set(outputs))/4,min(1,len(library['programs'])/64)]
+def result(program,work,job,includes_audits=False):
+ checked=outcome(program,job['score_inputs'],job['score_outputs'],CONFIG)
+ passed=checked['passed'];proposal=program is not None;total=work+checked['total_work']+(0 if includes_audits else common)
+ # Committed DEV objective; all raw correctness/work measures retained.
+ reward=float(passed)-.1*total/200000
+ return {'accepted':passed,'proposal':proposal,'correct_rows':checked['correct'],'rows':checked['rows'],'work':total,'reward':float(np.clip(reward,-1,1))}
+rows=[];feature_cpu=0.;toolcpu=0.;logger=np.random.default_rng(871);start=time.process_time()
+for seed in (0,1,2,3):
+ source=f'nuria:neural-policy-dev-{seed}';library=CompositionalTextLibrary(source,CONFIG).dump()
+ for number,job in enumerate(generate(seed,96)['tasks']):
+  began=time.process_time();x=features(job,library);feature_cpu+=time.process_time()-began;common=sum(probe_cost(v,y) for v,y in zip(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]));before=digest(library);actions=[{'accepted':False,'proposal':False,'correct_rows':0,'rows':24,'work':common,'reward':-.1*common/200000}]
+  # Real retained-program execution. No new inference is allowed in this arm.
+  candidate=None;work=0
+  for known in sorted(library['programs'].values(),key=lambda r:(-r['uses'],digest(r['program']))):
+   observed=[]
+   for inp in job['diagnostic_inputs'][:4]:
+    v=execute_checked(known['program'],inp,CONFIG,budget=10000);work+=v['work']['total'];observed.append(v['output'])
+   if observed==job['diagnostic_outputs'][:4]:candidate=known['program'];break
+  actions.append(result(candidate,work+2*units(library),job));finals={}
+  for arm,budget in ((2,10000),(3,50000)):
+   record,final=run_job(library,job,'composed_fixed4',CONFIG,source,{'maximum_work':200000,'maximum_probes':4,'synthesis_work':budget,'minimum_evidence':4},f'devroute-{seed}')
+   a=result(record['program'],record['total_work']-record['checked']['total_work'],job,includes_audits=True);actions.append(a);finals[arm]=final
+  selected=int(logger.integers(0,4))
+  if selected in finals:library=finals[selected]
+  rows.append({'stream':seed,'ordinal':number,'job_id':job['id'],'features':x,'library_before_sha256':before,'library_after_sha256':digest(library),'logging_arm':selected,'selected_receipt':actions[selected],'actions':actions})
+(P/'measured.json').write_text(serial({'scope':'All4tools measured for DEV analysis; policies receive only predetermined uniform selected receipt. Authored record-repair DEV streams0..3, not fresh external customers. Same four diagnostic labels seen by every policy. Neural/library histories arise from selected logging arm only.','arms':ARMS,'rows':rows,'tool_measurement_cpu_seconds':time.process_time()-start,'feature_cpu_seconds':feature_cpu})+'\n')
+# Conventional selected-action utility prediction; actual spikes drive all values.
+class SNN:
+ def __init__(self,seed,frozen=False,detached=False,continuous=False):
+  r=np.random.default_rng(seed);self.W=r.normal(0,.35,(len(rows[0]['features']),48));self.H=np.full(48,.2);self.V=r.normal(0,.1,(48,4));self.C=np.zeros(4);self.frozen=frozen;self.detached=detached;self.continuous=continuous;self.step=0;self.m={k:np.zeros_like(getattr(self,k)) for k in ('W','H','V','C')};self.v={k:x.copy() for k,x in self.m.items()}
+ def forward(self,x):
+  drive=x@self.W+self.H
+  if self.continuous:h=np.clip((drive-.1)/.8,0,1);d=((drive>.1)&(drive<.9))/.8;return h@self.V+self.C,h,d
+  v=np.zeros_like(drive);counts=np.zeros_like(v);der=np.zeros_like(v);elig=np.zeros_like(v)
+  for tick in range(16):
+   v=.8*v+drive;elig=.8*elig+1;sp=v>=1;counts+=sp;der+=elig/(1+4*np.abs(v-1))**2;v-=sp
+  h=counts/16
+  if self.detached:h=np.zeros_like(h)
+  return h@self.V+self.C,h,np.clip(der/16,0,1.5)
+ def learn(self,x,arm,reward):
+  q,h,d=self.forward(x);error=np.clip(q[arm]-reward,-1,1);out=np.zeros(4);out[arm]=error;grad={'V':np.outer(h,out),'C':out}
+  if not self.frozen:
+   dh=(self.V@out)*d;grad|={'W':np.outer(x,dh),'H':dh}
+  self.step+=1
+  for k,g in grad.items():
+   g=np.clip(g,-1,1);self.m[k]=.9*self.m[k]+.1*g;self.v[k]=.999*self.v[k]+.001*g*g;setattr(self,k,getattr(self,k)-.003*(self.m[k]/(1-.9**self.step))/(np.sqrt(self.v[k]/(1-.999**self.step))+1e-8))
+ def state(self):return {'weights':{k:getattr(self,k).tolist() for k in ('W','H','V','C')},'first':{k:x.tolist() for k,x in self.m.items()},'second':{k:x.tolist() for k,x in self.v.items()},'step':self.step,'frozen':self.frozen,'detached':self.detached,'continuous':self.continuous}
+ def restore(self,s):
+  for k,x in s['weights'].items():setattr(self,k,np.array(x))
+  self.m={k:np.array(x) for k,x in s['first'].items()};self.v={k:np.array(x) for k,x in s['second'].items()};self.step=s['step']
+class Ridge:
+ def __init__(self,d):self.P=np.repeat(np.eye(d)[None,:,:],4,axis=0);self.W=np.zeros((4,d))
+ def forward(self,x):return self.W@x
+ def learn(self,x,a,y):
+  p=self.P[a]@x;k=p/(1+x@p);self.P[a]-=np.outer(k,p);self.W[a]+=k*(y-self.W[a]@x)
+trials=[]
+for held in (0,1,2,3):
+ train=[r for r in rows if r['stream']!=held];test=[r for r in rows if r['stream']==held];X=np.array([r['features'] for r in train]);mean=X.mean(0);scale=np.maximum(X.std(0),.1)
+ def normal(x):return np.clip((np.array(x)-mean)/scale,-3,3)/3
+ r=np.random.default_rng(941+held);R=r.normal(size=(48,X.shape[1]))*2;phase=r.uniform(-np.pi,np.pi,48)
+ def ff(name,x):
+  if name=='raw':return np.r_[1,x]
+  if name=='quadratic':return np.r_[1,x,[x[i]*x[j] for i in range(len(x)) for j in range(i,len(x))]]
+  if name=='rff':return np.r_[1,x,np.cos(x@R.T+phase)]
+  return x
+ policies={name:Ridge(len(ff(name,normal(train[0]['features'])))) for name in ('raw','quadratic','rff')}
+ policies|={'snn':SNN(71+held),'frozen_input':SNN(71+held,frozen=True),'detached':SNN(71+held,detached=True),'continuous':SNN(71+held,continuous=True)}
+ pending=[];cpu={k:0. for k in policies}
+ stream=[train[i] for epoch in range(20) for i in r.permutation(len(train))]
+ for t,row in enumerate(stream):
+  pending.append((t+3,row))
+  for due,prior in list(pending):
+   if due>t:continue
+   for name,p in policies.items():
+    b=time.process_time();p.learn(ff(name,normal(prior['features'])),prior['logging_arm'],prior['selected_receipt']['reward']);cpu[name]+=time.process_time()-b
+   pending.remove((due,prior))
+ results={}
+ for name,p in policies.items():
+  chosen=[]
+  for row in test:
+   q=p.forward(ff(name,normal(row['features'])));q=q[0] if isinstance(p,SNN) else q;chosen.append(int(np.argmax(q)))
+  selected=[row['actions'][a] for row,a in zip(test,chosen)]
+  results[name]={'accepted':sum(x['accepted'] for x in selected),'wrong_proposals':sum(x['proposal'] and not x['accepted'] for x in selected),'abstentions':chosen.count(0),'work':sum(x['work'] for x in selected),'mean_utility':float(np.mean([x['reward'] for x in selected])),'choices':np.bincount(chosen,minlength=4).tolist(),'learning_cpu_seconds':cpu[name]}
+ for name in ('always_full','always_small','rule'):
+  chosen=[3 if name=='always_full' else (2 if name=='always_small' or max(row['features'][:8])>=.75 else 3) for row in test];sel=[row['actions'][a] for row,a in zip(test,chosen)]
+  results[name]={'accepted':sum(x['accepted'] for x in sel),'wrong_proposals':sum(x['proposal'] and not x['accepted'] for x in sel),'work':sum(x['work'] for x in sel),'mean_utility':float(np.mean([x['reward'] for x in sel]))}
+ # Joint model/optimizer persistence must preserve subsequent decision and update.
+ n=policies['snn'];state=json.loads(serial(n.state()));copy_n=SNN(71+held);copy_n.restore(state);example=train[0];x=normal(example['features']);assert np.array_equal(n.forward(x)[0],copy_n.forward(x)[0]);n.learn(x,example['logging_arm'],example['selected_receipt']['reward']);copy_n.learn(x,example['logging_arm'],example['selected_receipt']['reward']);assert serial(n.state())==serial(copy_n.state())
+ trials.append({'held_stream':held,'train_jobs':len(train),'test_jobs':len(test),'feedback_delay':3,'receipts_presentations':len(stream)-3,'results':results,'joint_model_optimizer_recovery_exact':True})
+report={'scope':'DEV only; all generated streams already known development. No claims of useful superiority follow until fresh qualification. Fixed20 selected-receipt replay passes for every model, delay3; test stream excluded from training; all four actual solver outcomes measured but only selected logging receipt trains. Custom LIF+Adam selected-utility regression, not original Brian2 plasticity. Exact model+optimizer recovery checked. Accepted minus0.1*meteredwork/200000 is fixed before this attempt. All routes charged common4audits; retained also libraryserialization. Feature andpolicyCPU separate from nativework, not zero-overhead. Report raw accepted/wrong/work too.','source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'trials':trials};(P/'result.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))

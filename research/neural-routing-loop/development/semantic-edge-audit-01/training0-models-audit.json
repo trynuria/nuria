@@ -1,0 +1,128 @@
+{
+  "schema": "nuria.semantic-edge-model-binding-audit.dev06.v1",
+  "scope": "Independent equality of final training lists to origin rows and identical model-data bindings; exact source-program group split. Prior origin audit separately validates buyer results, operand values and labels. No superiority or unseen qualification claim.",
+  "fold": 0,
+  "training_file_sha256": "5060b8a773e0cfa50527094696873a4ec50b1f14e13176da88c30e434f66feb3",
+  "collection_file_sha256": "504258bb92cbf4596d1847d4e176be6ed922a5b4d144635f28fce6e3938be9fc",
+  "training_records": 29152,
+  "positives": 3266,
+  "training_jobs": 937,
+  "training_source_program_groups": 127,
+  "test_source_program_groups": 66,
+  "train_test_group_overlap": 0,
+  "records_capped": false,
+  "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+  "methods": {
+    "spiking": {
+      "model_file_sha256": "8e52cad618d64e5614503ea602efa703c32c5f33edd435bc5f53209725295135",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.0005138695328556074,
+        0.0003993133005047647,
+        0.0005138695328556074,
+        0.000574780601915383,
+        6.277099806704156e-07,
+        0.00026143987190594857,
+        0.0005222697502102338,
+        0.0003879032736581037
+      ]
+    },
+    "frozen_input": {
+      "model_file_sha256": "54a0e8e47f7b9eeab335499e95a3c85cfb8deb6d1b35c46afbaf83164c5cb16b",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.1340199852565013,
+        0.38989322316759,
+        0.11944609992386526,
+        0.3291403740795283,
+        0.025048910162351695,
+        0.1914304538693196,
+        0.30096524603295616,
+        0.38989322316759
+      ]
+    },
+    "continuous": {
+      "model_file_sha256": "f13ea00798fb930878f54806abe319c50580a5c86f8b1867b034dc5ba8fa50ef",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.00018205250927684336,
+        0.00036473018204964946,
+        0.00018068023077709737,
+        5.5312778108846834e-05,
+        7.265892081653713e-07,
+        7.309641309594781e-05,
+        5.1625294330485915e-05,
+        0.00035956998950836014
+      ]
+    },
+    "linear": {
+      "model_file_sha256": "a9235d2e2b0b71a920896c56c92d3f337f943c5f2d50a31b60fd04926df5814d",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        4.160576147312363e-05,
+        0.00011018511913063552,
+        4.164358220816653e-05,
+        0.00015093316496287692,
+        1.8904643440198716e-06,
+        9.23121048104484e-05,
+        0.00015316507035359773,
+        0.00011046614215904256
+      ]
+    },
+    "per_family_linear": {
+      "model_file_sha256": "e90a44bbaa1cfe746affd7ed30c9cef3b3ba703eeabe93a8b27de0f47394c6c7",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "formal_input_dimensions": 130,
+      "parameters": 1428,
+      "extra_raw_observations": 0,
+      "mechanism": "known operation family gates conventional118feature affine logits"
+    },
+    "rff": {
+      "model_file_sha256": "4b11aea6e5c99a38496b83f6490baf26d76f38b944632036a3c70d54835d31d5",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.00022702583389226048,
+        0.00021819896311833073,
+        0.0002286500603585771,
+        0.0015368177710902667,
+        4.922018879294858e-05,
+        0.0016060211459223244,
+        0.0014918268846987554,
+        0.00021483483753019308
+      ]
+    },
+    "knn": {
+      "model_file_sha256": "7d4f617f2b4d22f3892525afa58307867a2d440cea7ccbaf3893fa62e48c83bc",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "all_checked": true
+}

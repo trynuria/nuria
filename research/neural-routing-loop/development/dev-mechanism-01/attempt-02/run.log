@@ -1,0 +1,510 @@
+{
+  "scope": "DEV only; all generated streams already known development. No claims of useful superiority follow until fresh qualification. Fixed20 selected-receipt replay passes for every model, delay3; test stream excluded from training; all four actual solver outcomes measured but only selected logging receipt trains. Custom LIF+Adam selected-utility regression, not original Brian2 plasticity. Exact model+optimizer recovery checked. Accepted minus0.1*meteredwork/200000 is fixed before this attempt. All routes charged common4audits; retained also libraryserialization. Feature andpolicyCPU separate from nativework, not zero-overhead. Report raw accepted/wrong/work too.",
+  "source_sha256": "baa46e074842d393061e696153e89f938387bdfe3af2d3906a565f5960ab60a4",
+  "trials": [
+    {
+      "held_stream": 0,
+      "train_jobs": 288,
+      "test_jobs": 96,
+      "feedback_delay": 3,
+      "receipts_presentations": 5757,
+      "results": {
+        "raw": {
+          "accepted": 71,
+          "wrong_proposals": 0,
+          "abstentions": 3,
+          "work": 1508158,
+          "mean_utility": 0.7317283437500001,
+          "choices": [
+            3,
+            11,
+            18,
+            64
+          ],
+          "learning_cpu_seconds": 0.07554499999997866
+        },
+        "quadratic": {
+          "accepted": 70,
+          "wrong_proposals": 0,
+          "abstentions": 7,
+          "work": 1533646,
+          "mean_utility": 0.7211789270833333,
+          "choices": [
+            7,
+            7,
+            15,
+            67
+          ],
+          "learning_cpu_seconds": 0.5993599999999715
+        },
+        "rff": {
+          "accepted": 66,
+          "wrong_proposals": 0,
+          "abstentions": 3,
+          "work": 1450169,
+          "mean_utility": 0.6799470364583334,
+          "choices": [
+            3,
+            9,
+            30,
+            54
+          ],
+          "learning_cpu_seconds": 0.10914000000003998
+        },
+        "snn": {
+          "accepted": 68,
+          "wrong_proposals": 0,
+          "abstentions": 7,
+          "work": 1387102,
+          "mean_utility": 0.7011088437499998,
+          "choices": [
+            7,
+            8,
+            34,
+            47
+          ],
+          "learning_cpu_seconds": 0.6953259999999508
+        },
+        "frozen_input": {
+          "accepted": 68,
+          "wrong_proposals": 0,
+          "abstentions": 2,
+          "work": 1416957,
+          "mean_utility": 0.7009533489583334,
+          "choices": [
+            2,
+            13,
+            19,
+            62
+          ],
+          "learning_cpu_seconds": 0.5816180000000344
+        },
+        "detached": {
+          "accepted": 75,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 2105954,
+          "mean_utility": 0.7702814895833333,
+          "choices": [
+            0,
+            0,
+            0,
+            96
+          ],
+          "learning_cpu_seconds": 0.6906120000000158
+        },
+        "continuous": {
+          "accepted": 69,
+          "wrong_proposals": 0,
+          "abstentions": 11,
+          "work": 1366224,
+          "mean_utility": 0.7116342499999999,
+          "choices": [
+            11,
+            7,
+            23,
+            55
+          ],
+          "learning_cpu_seconds": 0.2575009999999578
+        },
+        "always_full": {
+          "accepted": 75,
+          "wrong_proposals": 0,
+          "work": 2105954,
+          "mean_utility": 0.7702814895833333
+        },
+        "always_small": {
+          "accepted": 35,
+          "wrong_proposals": 0,
+          "work": 738267,
+          "mean_utility": 0.3607381927083333
+        },
+        "rule": {
+          "accepted": 75,
+          "wrong_proposals": 0,
+          "work": 2105954,
+          "mean_utility": 0.7702814895833333
+        }
+      },
+      "joint_model_optimizer_recovery_exact": true
+    },
+    {
+      "held_stream": 1,
+      "train_jobs": 288,
+      "test_jobs": 96,
+      "feedback_delay": 3,
+      "receipts_presentations": 5757,
+      "results": {
+        "raw": {
+          "accepted": 69,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 1918660,
+          "mean_utility": 0.7087569791666667,
+          "choices": [
+            0,
+            6,
+            18,
+            72
+          ],
+          "learning_cpu_seconds": 0.07568500000003198
+        },
+        "quadratic": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "abstentions": 6,
+          "work": 1696524,
+          "mean_utility": 0.7411639375,
+          "choices": [
+            6,
+            6,
+            22,
+            62
+          ],
+          "learning_cpu_seconds": 0.5907890000000471
+        },
+        "rff": {
+          "accepted": 68,
+          "wrong_proposals": 0,
+          "abstentions": 2,
+          "work": 1749501,
+          "mean_utility": 0.6992213489583333,
+          "choices": [
+            2,
+            7,
+            24,
+            63
+          ],
+          "learning_cpu_seconds": 0.10921200000002784
+        },
+        "snn": {
+          "accepted": 70,
+          "wrong_proposals": 0,
+          "abstentions": 7,
+          "work": 1742059,
+          "mean_utility": 0.7200934427083333,
+          "choices": [
+            7,
+            6,
+            4,
+            79
+          ],
+          "learning_cpu_seconds": 0.6980799999999654
+        },
+        "frozen_input": {
+          "accepted": 71,
+          "wrong_proposals": 0,
+          "abstentions": 2,
+          "work": 1753067,
+          "mean_utility": 0.7304527760416667,
+          "choices": [
+            2,
+            7,
+            26,
+            61
+          ],
+          "learning_cpu_seconds": 0.5894370000000322
+        },
+        "detached": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 2294140,
+          "mean_utility": 0.7380513541666667,
+          "choices": [
+            0,
+            0,
+            0,
+            96
+          ],
+          "learning_cpu_seconds": 0.6953239999999425
+        },
+        "continuous": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 1978347,
+          "mean_utility": 0.739696109375,
+          "choices": [
+            0,
+            4,
+            32,
+            60
+          ],
+          "learning_cpu_seconds": 0.25557999999991843
+        },
+        "always_full": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "work": 2294140,
+          "mean_utility": 0.7380513541666667
+        },
+        "always_small": {
+          "accepted": 36,
+          "wrong_proposals": 0,
+          "work": 702965,
+          "mean_utility": 0.3713387239583333
+        },
+        "rule": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "work": 2294140,
+          "mean_utility": 0.7380513541666667
+        }
+      },
+      "joint_model_optimizer_recovery_exact": true
+    },
+    {
+      "held_stream": 2,
+      "train_jobs": 288,
+      "test_jobs": 96,
+      "feedback_delay": 3,
+      "receipts_presentations": 5757,
+      "results": {
+        "raw": {
+          "accepted": 74,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 2074397,
+          "mean_utility": 0.7600291822916668,
+          "choices": [
+            0,
+            2,
+            17,
+            77
+          ],
+          "learning_cpu_seconds": 0.0753649999999979
+        },
+        "quadratic": {
+          "accepted": 73,
+          "wrong_proposals": 0,
+          "abstentions": 2,
+          "work": 1690085,
+          "mean_utility": 0.751614140625,
+          "choices": [
+            2,
+            6,
+            24,
+            64
+          ],
+          "learning_cpu_seconds": 0.6059990000000628
+        },
+        "rff": {
+          "accepted": 68,
+          "wrong_proposals": 0,
+          "abstentions": 2,
+          "work": 1423853,
+          "mean_utility": 0.7009174322916666,
+          "choices": [
+            2,
+            10,
+            22,
+            62
+          ],
+          "learning_cpu_seconds": 0.11478300000004538
+        },
+        "snn": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 1570847,
+          "mean_utility": 0.7418185052083333,
+          "choices": [
+            0,
+            12,
+            3,
+            81
+          ],
+          "learning_cpu_seconds": 0.7006340000001163
+        },
+        "frozen_input": {
+          "accepted": 73,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 1958877,
+          "mean_utility": 0.7502141822916668,
+          "choices": [
+            0,
+            5,
+            3,
+            88
+          ],
+          "learning_cpu_seconds": 0.5897419999998146
+        },
+        "detached": {
+          "accepted": 74,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 2171901,
+          "mean_utility": 0.7595213489583333,
+          "choices": [
+            0,
+            0,
+            0,
+            96
+          ],
+          "learning_cpu_seconds": 0.697744000000025
+        },
+        "continuous": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "abstentions": 2,
+          "work": 1467244,
+          "mean_utility": 0.7423581041666667,
+          "choices": [
+            2,
+            12,
+            17,
+            65
+          ],
+          "learning_cpu_seconds": 0.25529500000006244
+        },
+        "always_full": {
+          "accepted": 74,
+          "wrong_proposals": 0,
+          "work": 2171901,
+          "mean_utility": 0.7595213489583333
+        },
+        "always_small": {
+          "accepted": 36,
+          "wrong_proposals": 0,
+          "work": 721361,
+          "mean_utility": 0.3712429114583333
+        },
+        "rule": {
+          "accepted": 74,
+          "wrong_proposals": 0,
+          "work": 2171901,
+          "mean_utility": 0.7595213489583333
+        }
+      },
+      "joint_model_optimizer_recovery_exact": true
+    },
+    {
+      "held_stream": 3,
+      "train_jobs": 288,
+      "test_jobs": 96,
+      "feedback_delay": 3,
+      "receipts_presentations": 5757,
+      "results": {
+        "raw": {
+          "accepted": 71,
+          "wrong_proposals": 0,
+          "abstentions": 6,
+          "work": 1832484,
+          "mean_utility": 0.7300391458333334,
+          "choices": [
+            6,
+            6,
+            19,
+            65
+          ],
+          "learning_cpu_seconds": 0.07608800000008742
+        },
+        "quadratic": {
+          "accepted": 72,
+          "wrong_proposals": 0,
+          "abstentions": 7,
+          "work": 1794298,
+          "mean_utility": 0.7406546979166667,
+          "choices": [
+            7,
+            5,
+            14,
+            70
+          ],
+          "learning_cpu_seconds": 0.6119909999998523
+        },
+        "rff": {
+          "accepted": 66,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 1618138,
+          "mean_utility": 0.6790721979166666,
+          "choices": [
+            0,
+            20,
+            12,
+            64
+          ],
+          "learning_cpu_seconds": 0.11863900000008698
+        },
+        "snn": {
+          "accepted": 68,
+          "wrong_proposals": 0,
+          "abstentions": 4,
+          "work": 1655910,
+          "mean_utility": 0.6997088020833333,
+          "choices": [
+            4,
+            9,
+            8,
+            75
+          ],
+          "learning_cpu_seconds": 0.7035120000000585
+        },
+        "frozen_input": {
+          "accepted": 71,
+          "wrong_proposals": 0,
+          "abstentions": 3,
+          "work": 1900717,
+          "mean_utility": 0.729683765625,
+          "choices": [
+            3,
+            0,
+            23,
+            70
+          ],
+          "learning_cpu_seconds": 0.5921700000000563
+        },
+        "detached": {
+          "accepted": 74,
+          "wrong_proposals": 0,
+          "abstentions": 0,
+          "work": 2354446,
+          "mean_utility": 0.75857059375,
+          "choices": [
+            0,
+            0,
+            0,
+            96
+          ],
+          "learning_cpu_seconds": 0.6977949999999176
+        },
+        "continuous": {
+          "accepted": 68,
+          "wrong_proposals": 0,
+          "abstentions": 8,
+          "work": 1600561,
+          "mean_utility": 0.699997078125,
+          "choices": [
+            8,
+            1,
+            26,
+            61
+          ],
+          "learning_cpu_seconds": 0.2561010000000401
+        },
+        "always_full": {
+          "accepted": 74,
+          "wrong_proposals": 0,
+          "work": 2354446,
+          "mean_utility": 0.75857059375
+        },
+        "always_small": {
+          "accepted": 35,
+          "wrong_proposals": 0,
+          "work": 753551,
+          "mean_utility": 0.36065858854166666
+        },
+        "rule": {
+          "accepted": 74,
+          "wrong_proposals": 0,
+          "work": 2354446,
+          "mean_utility": 0.75857059375
+        }
+      },
+      "joint_model_optimizer_recovery_exact": true
+    }
+  ]
+}

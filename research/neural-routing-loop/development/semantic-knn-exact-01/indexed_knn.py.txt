@@ -1,0 +1,55 @@
+"""Exact binary-signature lower bounds for a conventional kNN challenger.
+
+Every admitted neighbor receives the ORIGINAL full float64 squared-distance
+calculation. Integer Hamming over training coordinates that are entirely0/1
+is a lower bound only; it does not replace, approximate or round any distance.
+A nonbinary query on those coordinates falls back to the complete calculation.
+"""
+from collections import OrderedDict
+import time
+import numpy as np
+from exact_knn import ExactKNN
+
+class IndexedExactKNN(ExactKNN):
+    def __init__(self,model,*,capacity=4096):
+        started=time.process_time()
+        super().__init__(model,capacity=capacity)
+        self.binary_mask=np.all((self.x==0)|(self.x==1),axis=0)
+        packed=np.packbits(self.x[:,self.binary_mask].astype(np.uint8),axis=1)
+        self.group_signatures,inverse=np.unique(packed,axis=0,return_inverse=True)
+        order=np.argsort(inverse,kind='stable')
+        sizes=np.bincount(inverse,minlength=len(self.group_signatures))
+        self.groups=np.split(order,np.cumsum(sizes)[:-1])
+        self.index_bytes=self.binary_mask.nbytes+self.group_signatures.nbytes+sum(g.nbytes for g in self.groups)
+        self.index_cpu_seconds=time.process_time()-started
+        self.reference_rows_evaluated=self.group_levels_evaluated=self.fallback_queries=0
+        self.binary_mask.flags.writeable=False;self.group_signatures.flags.writeable=False
+        for group in self.groups:group.flags.writeable=False
+    def reset(self):
+        super().reset()
+        self.reference_rows_evaluated=self.group_levels_evaluated=self.fallback_queries=0
+    def _one(self,row):
+        query=row[self.binary_mask]
+        if not len(query)or not np.all((query==0)|(query==1)):
+            self.fallback_queries+=1;self.reference_rows_evaluated+=len(self.x)
+            return super()._one(row)
+        signature=np.packbits(query.astype(np.uint8))
+        bounds=np.bitwise_count(self.group_signatures^signature).sum(axis=1)
+        best_indices=np.empty(0,dtype=np.int64);best_distances=np.empty(0,dtype=np.float64)
+        k=min(self.neighbors,len(self.x))
+        for bound in np.unique(bounds):
+            if len(best_indices)>=k and bound>best_distances[-1]:break
+            group_ids=np.flatnonzero(bounds==bound)
+            indices=np.concatenate([self.groups[int(g)]for g in group_ids])
+            # Preserve EXACT original row arithmetic; only provably irrelevant
+            # rows are skipped. Stable global-index tie order is restored below.
+            distances=np.sum((self.x[indices]-row)**2,axis=1)
+            self.reference_rows_evaluated+=len(indices);self.group_levels_evaluated+=1
+            combined_indices=np.concatenate((best_indices,indices))
+            combined_distances=np.concatenate((best_distances,distances))
+            chosen=np.lexsort((combined_indices,combined_distances))[:k]
+            best_indices=combined_indices[chosen];best_distances=combined_distances[chosen]
+        if len(best_indices)!=k:raise ValueError('Incomplete exact neighbor index traversal')
+        weights=1/(best_distances+0.001)
+        weights*=np.where(self.y[best_indices]==1,0.5/self.positive,0.5/(self.records-self.positive))
+        return float(np.dot(weights,self.y[best_indices])/weights.sum()),best_indices

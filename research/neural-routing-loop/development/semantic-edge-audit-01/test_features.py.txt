@@ -1,0 +1,157 @@
+"""Independent mechanical feature checks, not performance qualification."""
+
+import copy
+import hashlib
+import json
+from pathlib import Path
+import unittest
+from unittest.mock import patch
+
+import numpy as np
+
+import features
+
+
+class FeaturesTests(unittest.TestCase):
+    def test_dimensions_and_frozen_base_prefix(self):
+        node = {
+            "op": "token",
+            "arg": {"op": "field", "index": 0},
+            "pattern": "alpha",
+            "index": 0,
+        }
+        values = ["Juniper", "Reed"]
+        targets = ["JUNIPER.indigo", "REED.quartz"]
+        result = features.signature(node, values, targets)
+        self.assertEqual(len(result), 118)
+        self.assertEqual(
+            result[:100],
+            features._base.signature(node, tuple(values), tuple(targets)).tolist(),
+        )
+        self.assertEqual(result[100:103], [1.0, 0.0, 0.0])
+        self.assertEqual(
+            len(features.action_features(node, values, targets, "upper")), 130
+        )
+
+    def test_all_none_and_mixed_flags(self):
+        self.assertEqual(
+            features.relation_extension(["a", "B"], ["XAy", "xbZ"])[:3], [1, 0, 0]
+        )
+        self.assertEqual(
+            features.relation_extension(["q", "Q"], ["XAy", "xbZ"])[:3], [0, 1, 0]
+        )
+        self.assertEqual(
+            features.relation_extension(["a", "q"], ["XAy", "xbZ"])[:3], [0, 0, 1]
+        )
+        for values, targets in [
+            (["a", "B"], ["XAy", "xbZ"]),
+            (["q", "Q"], ["XAy", "xbZ"]),
+            (["a", "q"], ["XAy", "xbZ"]),
+        ]:
+            result = features.relation_extension(values, targets)
+            for i in range(6):
+                self.assertEqual(sum(result[3 * i : 3 * i + 3]), 1)
+
+    def test_directional_prefix_suffix_and_reversal(self):
+        result = features.relation_extension(["a", "B"], ["Axy", "bxy"])
+        self.assertEqual(result[3:6], [1, 0, 0])
+        self.assertEqual(result[6:9], [0, 1, 0])
+        reverse = features.relation_extension(["Axy", "bxy"], ["a", "B"])
+        self.assertEqual(reverse[12:15], [1, 0, 0])
+        self.assertEqual(reverse[15:18], [0, 1, 0])
+        result = features.relation_extension(["a", "B"], ["xyA", "xyb"])
+        self.assertEqual(result[6:9], [1, 0, 0])
+        reverse = features.relation_extension(["xyA", "xyb"], ["a", "B"])
+        self.assertEqual(reverse[15:18], [1, 0, 0])
+
+    def test_unicode_casefold_and_empty_strings_are_exact(self):
+        result = features.relation_extension(["Straße", ""], ["STRASSE.X", "y"])
+        self.assertEqual(result[:3], [1, 0, 0])
+        self.assertEqual(features.relation_extension(["", ""], ["", ""])[:3], [1, 0, 0])
+
+    def test_family_is_known_without_parent_execution(self):
+        node = {"op": "field", "index": 0}
+        values = ["Juniper", "Reed"]
+        targets = ["JUNIPER.indigo", "REED.quartz"]
+        base = features.signature(node, values, targets)
+        for family in features.OPS:
+            row = features.with_action(base, family)
+            self.assertEqual(row[:118], base)
+            self.assertEqual(sum(row[118:]), 1)
+            self.assertEqual(row[118 + features.OPS.index(family)], 1)
+        for family in ["title", "capitalize", "compact"]:
+            row = features.action_features(node, values, targets, family)
+            self.assertEqual(row[118 + features.OPS.index("other_case")], 1)
+        with patch.object(
+            features._base,
+            "evaluate",
+            side_effect=AssertionError("no future execution"),
+        ):
+            self.assertEqual(
+                features.action_features(node, values, targets, "upper")[:118], base
+            )
+
+    def test_no_metadata_or_private_inputs_accepted(self):
+        node = {"op": "field", "index": 0}
+        values = ["a", "b"]
+        targets = ["x", "y"]
+        with self.assertRaises(TypeError):
+            features.signature(node, values, targets, job_id="not permitted")
+        with self.assertRaises(ValueError):
+            features.signature({**node, "private_recipe": "hidden"}, values, targets)
+        for invalid in [
+            ([], []),
+            (["a"], []),
+            ([1], ["a"]),
+            (["a"] * 5, ["a"] * 5),
+            (["a" * 4097], ["a"]),
+        ]:
+            with self.assertRaises(ValueError):
+                features.relation_extension(*invalid)
+        for family in ["unknown", "FIELD", None, [], {}]:
+            with self.assertRaises((ValueError, TypeError)):
+                features.with_action([0.0] * 118, family)
+        for observation in [
+            [0.0] * 117,
+            [True] * 118,
+            ["0"] * 118,
+            [float("nan")] * 118,
+            [2.0] * 118,
+        ]:
+            with self.assertRaises(ValueError):
+                features.with_action(observation, "upper")
+
+    def test_inputs_and_targets_are_unmodified(self):
+        node = {"op": "field", "index": 0}
+        values = ["Juniper", "Reed"]
+        targets = ["JUNIPER.indigo", "REED.quartz"]
+        original = copy.deepcopy((node, values, targets))
+        features.action_features(node, values, targets, "upper")
+        self.assertEqual(original, (node, values, targets))
+
+    def test_heuristic_cannot_use_more_than_shared_observations(self):
+        node = {
+            "op": "token",
+            "arg": {"op": "field", "index": 0},
+            "pattern": "alpha",
+            "index": 0,
+        }
+        xs = [
+            features.action_features(
+                node, ["juniper", "reed"], ["JUNIPER.indigo", "REED.quartz"], family
+            )
+            for family in ["upper", "lower", "token"]
+        ]
+        scores = features.heuristic(xs)
+        self.assertEqual(scores.shape, (3,))
+        self.assertGreater(scores[0], scores[1])
+        self.assertGreater(scores[0], scores[2])
+        self.assertTrue(np.isfinite(scores).all())
+        self.assertTrue(np.all(scores >= 0))
+        self.assertTrue(np.all(scores <= 1))
+        with self.assertRaises(ValueError):
+            features.heuristic([[0.0] * 129])
+
+
+if __name__ == "__main__":
+    unittest.main()

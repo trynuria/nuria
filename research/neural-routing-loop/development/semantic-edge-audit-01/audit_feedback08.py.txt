@@ -1,0 +1,158 @@
+"""Independent shared-budget, acquisition provenance and augmented-learning audit."""
+from pathlib import Path
+from collections import Counter,defaultdict
+import hashlib,json,sys
+import numpy as np
+REPO=Path('.');sys.path.insert(0,str(REPO));sys.path.insert(0,str(Path(__file__).parent))
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.verify_active_skill_results import outcome
+from cognition.text_skills import evaluate,fields,validate_program
+from cognition.skills import _Meter
+from cognition.semantic_guidance import SemanticGuidance
+from features import OPS,normalize_family,signature,action_features
+BASE=Path(__file__).parents[1];P=BASE/'semantic-priority-dev-08';D=BASE/'semantic-priority-dev-06'
+LEGAL=('strip','upper','lower','other_case','token','split','slice','replace','number')
+METHODS=('spiking','frozen_input','continuous','linear','per_family_linear','rff','knn')
+def digest(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def group(j):return int(hashlib.sha256(j['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2
+past=[j for seed in range(10,31)for j in generate(seed,96)['tasks']][:2000];jobs={j['id']:j for j in past};old={}
+for name in ['teacher-pilot.jsonl','teacher-rest.jsonl']:
+ with(BASE/'semantic-priority-dev-05'/name).open()as f:
+  for line in f:r=json.loads(line);old[r['job_id']]=r
+misses=[j for j in past if not any(d['accepted']for d in old[j['id']]['profiles'].values())];expected=[j['id']for j in misses[:128]]
+extprotocol=json.loads((P/'extension-protocol.json').read_text());extsummary=json.loads((P/'extension-summary.json').read_text())
+if extprotocol['selected_job_ids']!=expected[10:]:raise ValueError('Extension selection is not next chronological observed misses')
+acquisition=[json.loads(line)for name in ['pilot-traces.jsonl','extension-traces.jsonl']for line in(P/name).read_text().splitlines()];byjob=defaultdict(list);row_by_call={};verification_work=0;counts=Counter();newedges=Counter()
+# Pilot separately checked before extension; do not conceal duplicate audit costs.
+for jid in expected[10:]:
+ j=jobs[jid]
+ for d in old[jid]['profiles'].values():
+  b=outcome(d['program'],j['score_inputs'],j['score_outputs'],CONFIG);verification_work+=b['total_work'];counts['old_failure_buyer_rechecks']+=1
+  if b['passed']or d['accepted']:raise ValueError('Alleged historical failure actually succeeds')
+used=0
+for row in acquisition:
+ j=jobs[row['job_id']];r=row['result'];w=r['search']['work'];b=r['buyer'];cap=row['cap'];route=row['route']
+ if row['job_id']not in expected or route not in ['default','slice_first','warm_spiking']or cap not in[500000,2000000]:raise ValueError('Unauthorized acquisition route/task')
+ if used+cap+1000000>250000000 or w['total']>cap or w['candidates']>CONFIG['max_candidates']:raise ValueError('Acquisition cap violation')
+ if r['actor_inputs_sha256']!=digest({'inputs':j['diagnostic_inputs'][:4],'outputs':j['diagnostic_outputs'][:4],'config':CONFIG})or r['past_failure_receipt_sha256']!=digest(old[j['id']]):raise ValueError('Actor/provenance substitution')
+ if row.get('call_id'):
+  actual=outcome(r['search']['program'],j['score_inputs'],j['score_outputs'],CONFIG);verification_work+=actual['total_work'];counts['new_acquisition_buyer_rechecks']+=1
+  if actual!=b:raise ValueError('New acquisition result differs')
+  if row['past_source_group']!=group(j)or row['future_serving_training_held_fold']!=1-group(j):raise ValueError('Acquisition cohort mapping differs')
+ if r['program_sha256']!=(digest(r['search']['program'])if r['search']['program']else None):raise ValueError('New program identity differs')
+ if b['passed']:
+  def visit(node):
+   if 'arg'in node:newedges[(node['arg']['op'],node['op'])]+=1;visit(node['arg'])
+   for child in node.get('parts',[]):visit(child)
+  visit(r['search']['program']['expr'])
+ byjob[j['id']].append(row);used+=w['total']+b['total_work']
+ call=digest({'job_id':j['id'],'route':route,'cap':cap})
+ if row.get('call_id')and row['call_id']!=call:raise ValueError('Acquisition call ID differs')
+ row_by_call[call]=row
+for jid in expected:
+ attempts=byjob[jid];offset=0
+ for cap in [500000,2000000]:
+  stage=attempts[offset:offset+3]
+  if len(stage)!=3 or[r['route']for r in stage]!=['default','slice_first','warm_spiking']or any(r['cap']!=cap for r in stage):raise ValueError('Acquisition stage missing/future-selected')
+  offset+=3
+  if any(r['result']['buyer']['passed']for r in stage):break
+ if len(attempts)!=offset:raise ValueError('Escalation or retained failed attempts differ')
+if used!=extsummary['extra_work_including_pilot']:raise ValueError('Shared pilot+extension spend differs')
+# Independently reconstruct every new-origin label and enforce unchanged06prefix.
+origins_by_call={};foldreports={};positive_new_edges=Counter()
+for held in (0,1):
+ base=json.loads((D/f'training-{held}.json').read_text());data=json.loads((P/f'training-{held}.json').read_text());n=len(base['records'])
+ if data['records'][:n]!=base['records']or digest(data['records'][:n])!=digest(base['records'])or data['base_training_sha256']!=sha(D/f'training-{held}.json'):raise ValueError('Frozen06record prefix changed')
+ if data['training_groups']!=base['training_groups']or data['test_groups']!=base['test_groups']or set(data['training_groups'])&set(data['test_groups']):raise ValueError('Source-program cohort mismatch')
+ cursor=n;lib=dict(base['accepted_programs']);uses=Counter(base['program_uses']);seenjobs=set();newwork=0
+ with(P/f'collection-new-{held}.jsonl').open()as stream:
+  for line in stream:
+   origin=json.loads(line);jid=origin['job_id'];j=jobs[jid]
+   if jid in seenjobs or group(j)==held or origin['past_source_group']!=group(j)or origin['future_serving_training_held_fold']!=held:raise ValueError('New lesson leaks future held group')
+   seenjobs.add(jid);attempts=byjob[jid];accepted=[r['result']['search']['program']for r in attempts if r['result']['buyer']['passed']]
+   if origin['accepted_programs']!=accepted or not accepted or origin['acquisition_attempt_receipts_sha256']!=digest(attempts):raise ValueError('Unverified acquisition teacher')
+   checks=[]
+   for program in accepted:
+    b=outcome(program,j['score_inputs'],j['score_outputs'],CONFIG);verification_work+=b['total_work'];counts['derived_teacher_buyer_rechecks']+=1
+    if not b['passed']:raise ValueError('A derived teacher is not buyer accepted')
+    checks.append(b);identity=digest(program);lib[identity]=program;uses[identity]+=1
+   if checks!=origin['buyer_rechecks']or origin['buyer_recheck_work']!=sum(b['total_work']for b in checks):raise ValueError('Derivation buyer receipt/work differs')
+   xs,ys=origin['disclosed_inputs'],origin['disclosed_outputs']
+   if xs!=j['diagnostic_inputs'][:4]or ys!=j['diagnostic_outputs'][:4]:raise ValueError('Extra undisclosed observation in teaching')
+   rows=[fields(x,CONFIG)for x in xs];edges=set();edge_sources={};children={};meter=_Meter(1000000)
+   def walk(node,identity):
+    if node['op']=='if_equal':raise ValueError('Unsupported conditional teacher')
+    if 'arg'in node:
+     child=node['arg'];family=normalize_family(node['op']);values=tuple(evaluate(child,row,meter,CONFIG)for row in rows)
+     if family in LEGAL and values!=tuple(ys):
+      edges.add((values,family));edge_sources.setdefault((values,family),identity);children[digest(child)]={'node':child,'values':list(values),'features':signature(child,values,ys)}
+     walk(child,identity)
+    for child in node.get('parts',[]):walk(child,identity)
+   for program in accepted:valid=validate_program(program,CONFIG);walk(valid['expr'],digest(valid))
+   verification_work+=meter.values['total'];counts['independent_teacher_operand_work']+=meter.values['total']
+   teaching=origin['teacher_edge_replay']
+   if teaching['teacher_operand_replay_work']!=meter.values or {digest(c['node']):c for c in teaching['teacher_candidates']}!=children:raise ValueError('Materialized prior operands differ')
+   pool={digest(c['node']):c for c in origin['enumerated_candidates']};pool.update(children);edge_map={}
+   for candidate in pool.values():
+    vm=_Meter(1000000);values=[evaluate(candidate['node'],row,vm,CONFIG)for row in rows];verification_work+=vm.values['total'];counts['independent_cached_vector_work']+=vm.values['total']
+    if values!=candidate['values']:raise ValueError('Cached current-audit values differ')
+    if values==ys:continue
+    for family in LEGAL:edge_map[digest({'operand':candidate['node'],'family':family})]=(candidate['node'],values,family)
+   selected=origin['selected_records'];seen=set()
+   for r in selected:
+    edgeid=r['candidate_sha256']
+    if edgeid in seen:raise ValueError('Duplicate new teaching edge')
+    seen.add(edgeid);node,values,family=edge_map[edgeid];key=(tuple(values),family);label=int(key in edges)
+    if r['features']!=action_features(node,values,ys,family)or r['label']!=label or r['program_sha256']!=edge_sources.get(key,min(map(digest,accepted)))or r['job_id']!=digest(jid)or r['receipt_evidence_sha256']!=digest(attempts):raise ValueError('Derived label/features/origin mismatch')
+    if label:positive_new_edges[(node['op'],family)]+=1
+   allpositive={k for k,(_,values,family)in edge_map.items()if(tuple(values),family)in edges}
+   expectednegative=sorted((k for k,(_,values,family)in edge_map.items()if(tuple(values),family)not in edges),key=lambda k:digest([jid,k]))[:32]
+   if{r['candidate_sha256']for r in selected if r['label']}!=allpositive or[r['candidate_sha256']for r in selected if not r['label']]!=expectednegative:raise ValueError('Positive coverage or negative selection differs')
+   if data['records'][cursor:cursor+len(selected)]!=selected:raise ValueError('Final augmented model rows differ from verified derivation')
+   cursor+=len(selected)
+   work=origin['buyer_recheck_work']+origin['exploratory_search_work']['total']+teaching['teacher_operand_replay_work']['total']
+   if origin['actual_extra_work']!=work:raise ValueError('Derived resource accounting differs')
+   newwork+=work;call=digest({'phase':'derive_edge_labels','held_fold':held,'job_id':jid});origins_by_call[call]=origin
+ expectedjobs={jid for jid,ats in byjob.items()if group(jobs[jid])!=held and any(r['result']['buyer']['passed']for r in ats)}
+ if seenjobs!=expectedjobs or cursor!=len(data['records'])or data['accepted_programs']!=lib or data['program_uses']!=dict(uses)or data['new_derived_label_work']!=newwork:raise ValueError('Teacher coverage/library/row count differs')
+ canonical=digest(data['records']);models={}
+ for method in METHODS:
+  path=P/f'model-{held}-{method}.json';e=json.loads(path.read_text());old_e=json.loads((D/path.name).read_text())
+  if e['configuration']!=old_e['configuration']or e['training_sha256']!=canonical or e['records_count']!=len(data['records'])or e['positive_count']!=sum(r['label']for r in data['records']):raise ValueError('Method parameter or data fairness differs')
+  if method!='per_family_linear':
+   m=SemanticGuidance.from_evidence(e)
+   if method=='knn'and(e['reference_features']!=[r['features']for r in data['records']]or e['reference_labels']!=[r['label']for r in data['records']]):raise ValueError('Strong reference model uses different data')
+  models[method]=sha(path)
+ foldreports[str(held)]={'new_origins':len(seenjobs),'unchanged_base_records':n,'augmented_records':len(data['records']),'new_records':len(data['records'])-n,'training_sha256':canonical,'models_sha256':models,'future_held_group_excluded':True,'new_derivation_work':newwork}
+# Full append-only journal replay, matching every reservation to an actual result.
+lines=(P/'budget-journal.jsonl').read_bytes().splitlines(keepends=True);ledger=[json.loads(line)for line in lines];prev='0'*64;spent=None;pending={};complete_prefix=None
+for i,event in enumerate(ledger,1):
+ if event['seq']!=i or event['previous_sha256']!=prev or event['sha256']!=digest({k:v for k,v in event.items()if k!='sha256'}):raise ValueError('Budget journal hash/sequence differs')
+ kind=event['kind']
+ if kind=='anchor':
+  if i!=1 or event['actual_spent']!=json.loads((P/'pilot-summary.json').read_text())['extra_work']or event['maximum_extra_work']!=250000000:raise ValueError('Budget allowance reset')
+  spent=event['actual_spent']
+ elif kind=='reserve':
+  call=event['call_id'];amount=event['reserved_work']
+  if call in pending or spent+sum(pending.values())+amount>250000000:raise ValueError('Invalid shared reservation')
+  pending[call]=amount
+ elif kind=='settle':
+  call=event['call_id'];reserved=pending.pop(call)
+  if call in origins_by_call:result=origins_by_call[call];actual=result['actual_extra_work']
+  else:result=row_by_call[call];actual=result['result']['search']['work']['total']+result['result']['buyer']['total_work']
+  if event['result_sha256']!=digest(result)or event['actual_work']!=actual or event['released_work']!=reserved-actual or actual>reserved:raise ValueError('Unverified or excessive settled work')
+  spent+=actual
+ elif kind=='independent_audit_charge':
+  if event['actual_work']!=29916 or event['receipt_sha256']!=sha(Path(__file__).with_name('acquisition08-pilot-independent-audit.json')):raise ValueError('Known independent audit charge differs')
+  spent+=event['actual_work']
+ elif kind not in ['complete','derived_training_complete','budget_stop']:raise ValueError('Unknown budget event')
+ if 'actual_spent'in event and event['actual_spent']!=spent or 'pending_reserved'in event and event['pending_reserved']!=sum(pending.values()):raise ValueError('Journal resource state mismatch')
+ if kind=='complete':complete_prefix=hashlib.sha256(b''.join(lines[:i])).hexdigest()
+ prev=event['sha256']
+if pending or complete_prefix!=extsummary['journal_sha256']:raise ValueError('Unresolved reservations or altered acquisition journal')
+prep=json.loads((P/'training-preparation-summary.json').read_text())
+if spent!=prep['extra_work_including_pilot_acquisition_and_known_audit_and_derivation']or hashlib.sha256(b''.join(lines)).hexdigest()!=prep['journal_sha256']:raise ValueError('Derived journal identity/spend differs')
+report={'schema':'nuria.feedback-acquisition-learning-independent-audit.dev08.v1','scope':'Known development feedback acquisition and cohort-isolated augmentation. All new programs and labels reconstructed from actually delivered/independently checked artifacts. No hidden source AST used as a teacher; no useful-task superiority/qualification/consciousness inference from this audit.','chronological_selected_past_misses':128,'acquisition_calls_including_pilot':len(acquisition),'new_accepted_distinct_past_jobs':sum(any(r['result']['buyer']['passed']for r in ats)for ats in byjob.values()),'actual_acquisition_work':used,'journal_events':len(ledger),'journal_prefix_sha256':hashlib.sha256(b''.join(lines)).hexdigest(),'settled_session_work_before_this_audit':spent,'pending_reservations':0,'remaining_before_this_audit':250000000-spent,'additional_offline_verification_work':verification_work,'conservative_remaining_after_this_audit':250000000-spent-verification_work,'verification_counts':dict(counts),'new_positive_training_edge_occurrences':{f'{a}->{b}':n for(a,b),n in positive_new_edges.items()},'accepted_acquisition_ast_edge_occurrences':{f'{a}->{b}':n for(a,b),n in newedges.items()},'folds':foldreports,'all_rechecked':True,'source_sha256':{name:sha(P/name)for name in['extension-protocol.json','extension-summary.json','extension-traces.jsonl','training-preparation-summary.json','prepare_training.py']},'validator_sha256':sha(Path(__file__))}
+with Path(__file__).with_name('feedback08-independent-audit.json').open('x')as f:json.dump(report,f,indent=2);f.write('\n')
+print(json.dumps({k:report[k]for k in ['acquisition_calls_including_pilot','new_accepted_distinct_past_jobs','actual_acquisition_work','settled_session_work_before_this_audit','additional_offline_verification_work','conservative_remaining_after_this_audit','new_positive_training_edge_occurrences']},indent=2))

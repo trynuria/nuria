@@ -1,0 +1,1767 @@
+{
+  "schema": "nuria.semantic-edge-grammar-teacher-diagnosis.v1",
+  "scope": "Post-hoc known DEV only. Source recipe ASTs are inspected solely to diagnose expressibility AFTER comparisons; none are supplied as learner labels or actor observations. Direct source-program execution is an oracle diagnostic, not evidence a learner found the program. No new benchmark/qualification, reserved data, production or financial actions.",
+  "teacher_family_coverage": {
+    "preserve-field": {
+      "past_jobs": 198,
+      "accepted_jobs": 198,
+      "accepted_profile_executions": 1584
+    },
+    "trim-field": {
+      "past_jobs": 192,
+      "accepted_jobs": 192,
+      "accepted_profile_executions": 1344
+    },
+    "uppercase-field": {
+      "past_jobs": 169,
+      "accepted_jobs": 169,
+      "accepted_profile_executions": 1014
+    },
+    "lowercase-field": {
+      "past_jobs": 171,
+      "accepted_jobs": 171,
+      "accepted_profile_executions": 1026
+    },
+    "uppercase-token": {
+      "past_jobs": 164,
+      "accepted_jobs": 163,
+      "accepted_profile_executions": 812
+    },
+    "lowercase-token": {
+      "past_jobs": 165,
+      "accepted_jobs": 165,
+      "accepted_profile_executions": 821
+    },
+    "trim-delimited-field": {
+      "past_jobs": 161,
+      "accepted_jobs": 161,
+      "accepted_profile_executions": 451
+    },
+    "short-token": {
+      "past_jobs": 157,
+      "accepted_jobs": 79,
+      "accepted_profile_executions": 79
+    },
+    "uppercase-prefix": {
+      "past_jobs": 165,
+      "accepted_jobs": 162,
+      "accepted_profile_executions": 162
+    },
+    "joined-fields": {
+      "past_jobs": 155,
+      "accepted_jobs": 155,
+      "accepted_profile_executions": 709
+    },
+    "joined-normalized-tokens": {
+      "past_jobs": 153,
+      "accepted_jobs": 153,
+      "accepted_profile_executions": 757
+    },
+    "joined-code-and-segment": {
+      "past_jobs": 150,
+      "accepted_jobs": 0,
+      "accepted_profile_executions": 0
+    }
+  },
+  "selected_training_edge_coverage": {
+    "field->lower": {
+      "positive": 0,
+      "total": 999
+    },
+    "field->number": {
+      "positive": 0,
+      "total": 1032
+    },
+    "field->other_case": {
+      "positive": 171,
+      "total": 1172
+    },
+    "field->replace": {
+      "positive": 0,
+      "total": 970
+    },
+    "field->slice": {
+      "positive": 433,
+      "total": 1368
+    },
+    "field->split": {
+      "positive": 1632,
+      "total": 2534
+    },
+    "field->strip": {
+      "positive": 502,
+      "total": 1483
+    },
+    "field->token": {
+      "positive": 712,
+      "total": 1688
+    },
+    "field->upper": {
+      "positive": 169,
+      "total": 1168
+    },
+    "lower->lower": {
+      "positive": 0,
+      "total": 74
+    },
+    "lower->number": {
+      "positive": 0,
+      "total": 90
+    },
+    "lower->other_case": {
+      "positive": 0,
+      "total": 92
+    },
+    "lower->replace": {
+      "positive": 0,
+      "total": 84
+    },
+    "lower->slice": {
+      "positive": 0,
+      "total": 92
+    },
+    "lower->split": {
+      "positive": 0,
+      "total": 83
+    },
+    "lower->strip": {
+      "positive": 0,
+      "total": 91
+    },
+    "lower->token": {
+      "positive": 0,
+      "total": 75
+    },
+    "lower->upper": {
+      "positive": 0,
+      "total": 86
+    },
+    "number->lower": {
+      "positive": 0,
+      "total": 122
+    },
+    "number->number": {
+      "positive": 0,
+      "total": 136
+    },
+    "number->other_case": {
+      "positive": 0,
+      "total": 137
+    },
+    "number->replace": {
+      "positive": 0,
+      "total": 151
+    },
+    "number->slice": {
+      "positive": 0,
+      "total": 122
+    },
+    "number->split": {
+      "positive": 0,
+      "total": 115
+    },
+    "number->strip": {
+      "positive": 0,
+      "total": 127
+    },
+    "number->token": {
+      "positive": 0,
+      "total": 120
+    },
+    "number->upper": {
+      "positive": 0,
+      "total": 128
+    },
+    "other_case->lower": {
+      "positive": 0,
+      "total": 92
+    },
+    "other_case->number": {
+      "positive": 0,
+      "total": 78
+    },
+    "other_case->other_case": {
+      "positive": 0,
+      "total": 74
+    },
+    "other_case->replace": {
+      "positive": 0,
+      "total": 68
+    },
+    "other_case->slice": {
+      "positive": 0,
+      "total": 86
+    },
+    "other_case->split": {
+      "positive": 0,
+      "total": 67
+    },
+    "other_case->strip": {
+      "positive": 0,
+      "total": 73
+    },
+    "other_case->token": {
+      "positive": 0,
+      "total": 75
+    },
+    "other_case->upper": {
+      "positive": 0,
+      "total": 74
+    },
+    "replace->lower": {
+      "positive": 0,
+      "total": 242
+    },
+    "replace->number": {
+      "positive": 0,
+      "total": 203
+    },
+    "replace->other_case": {
+      "positive": 0,
+      "total": 258
+    },
+    "replace->replace": {
+      "positive": 0,
+      "total": 199
+    },
+    "replace->slice": {
+      "positive": 0,
+      "total": 198
+    },
+    "replace->split": {
+      "positive": 0,
+      "total": 194
+    },
+    "replace->strip": {
+      "positive": 0,
+      "total": 207
+    },
+    "replace->token": {
+      "positive": 0,
+      "total": 206
+    },
+    "replace->upper": {
+      "positive": 0,
+      "total": 207
+    },
+    "slice->lower": {
+      "positive": 0,
+      "total": 2652
+    },
+    "slice->number": {
+      "positive": 0,
+      "total": 2808
+    },
+    "slice->other_case": {
+      "positive": 0,
+      "total": 2828
+    },
+    "slice->replace": {
+      "positive": 0,
+      "total": 2839
+    },
+    "slice->slice": {
+      "positive": 0,
+      "total": 2792
+    },
+    "slice->split": {
+      "positive": 0,
+      "total": 2818
+    },
+    "slice->strip": {
+      "positive": 0,
+      "total": 2817
+    },
+    "slice->token": {
+      "positive": 0,
+      "total": 2788
+    },
+    "slice->upper": {
+      "positive": 162,
+      "total": 2931
+    },
+    "split->lower": {
+      "positive": 315,
+      "total": 730
+    },
+    "split->number": {
+      "positive": 0,
+      "total": 436
+    },
+    "split->other_case": {
+      "positive": 171,
+      "total": 625
+    },
+    "split->replace": {
+      "positive": 0,
+      "total": 463
+    },
+    "split->slice": {
+      "positive": 192,
+      "total": 576
+    },
+    "split->split": {
+      "positive": 842,
+      "total": 1266
+    },
+    "split->strip": {
+      "positive": 590,
+      "total": 1003
+    },
+    "split->token": {
+      "positive": 0,
+      "total": 421
+    },
+    "split->upper": {
+      "positive": 483,
+      "total": 900
+    },
+    "strip->lower": {
+      "positive": 0,
+      "total": 43
+    },
+    "strip->number": {
+      "positive": 0,
+      "total": 46
+    },
+    "strip->other_case": {
+      "positive": 0,
+      "total": 48
+    },
+    "strip->replace": {
+      "positive": 0,
+      "total": 54
+    },
+    "strip->slice": {
+      "positive": 0,
+      "total": 52
+    },
+    "strip->split": {
+      "positive": 0,
+      "total": 59
+    },
+    "strip->strip": {
+      "positive": 0,
+      "total": 60
+    },
+    "strip->token": {
+      "positive": 0,
+      "total": 39
+    },
+    "strip->upper": {
+      "positive": 0,
+      "total": 76
+    },
+    "token->lower": {
+      "positive": 319,
+      "total": 1394
+    },
+    "token->number": {
+      "positive": 0,
+      "total": 1073
+    },
+    "token->other_case": {
+      "positive": 0,
+      "total": 1093
+    },
+    "token->replace": {
+      "positive": 0,
+      "total": 1086
+    },
+    "token->slice": {
+      "positive": 0,
+      "total": 1137
+    },
+    "token->split": {
+      "positive": 0,
+      "total": 1087
+    },
+    "token->strip": {
+      "positive": 0,
+      "total": 1065
+    },
+    "token->token": {
+      "positive": 0,
+      "total": 1094
+    },
+    "token->upper": {
+      "positive": 316,
+      "total": 1413
+    },
+    "upper->lower": {
+      "positive": 0,
+      "total": 184
+    },
+    "upper->number": {
+      "positive": 0,
+      "total": 168
+    },
+    "upper->other_case": {
+      "positive": 0,
+      "total": 168
+    },
+    "upper->replace": {
+      "positive": 0,
+      "total": 169
+    },
+    "upper->slice": {
+      "positive": 0,
+      "total": 164
+    },
+    "upper->split": {
+      "positive": 0,
+      "total": 158
+    },
+    "upper->strip": {
+      "positive": 0,
+      "total": 162
+    },
+    "upper->token": {
+      "positive": 0,
+      "total": 172
+    },
+    "upper->upper": {
+      "positive": 0,
+      "total": 185
+    }
+  },
+  "known_old_failures_by_family": {
+    "short-token": 20,
+    "joined-code-and-segment": 30,
+    "uppercase-prefix": 1
+  },
+  "known_old_failed_jobs": [
+    {
+      "job_id": "f8d0a8466c464471c48c084dc61cf1060dfc9ca6a6f78d25429373b55033e329",
+      "family": "short-token",
+      "source_program_sha256": "2bdec83ea1a285797a2030381f39b8cbc1906a7e8c8b700ddd9bfef27144e8b9",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 598,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "e87ffd35511bd3ba02dc5a3176105328a603144a3add81575864c3e54742c75f",
+      "family": "short-token",
+      "source_program_sha256": "2fc1c3dac3f8a10496e87d70a81c0b5467b392939be6758b2c4caae7f10c5a15",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 594,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "3e152c183cc3fcd10f9f0983a1648223c4254acb2b18c13d2b6bf1be9405525c",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "6f5851710189856f58b4849187d8a5564d0e6a7ab1563be2f7b38a854ae1d111",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1077,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "094ef887af53b32b7956b0b2cdd8255f828c75ee7558490f443cada9102df535",
+      "family": "short-token",
+      "source_program_sha256": "2bdec83ea1a285797a2030381f39b8cbc1906a7e8c8b700ddd9bfef27144e8b9",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 591,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "2a120b61170a70bbd028e228d1f6c0a7a4fe36c3120364510f2910e2b1f475a4",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "21b70e17effba49354ea15220b30c5cab41f77b7d92b364e63536573bbbc4b08",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1074,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "9034c1daa69ef2ba1516ab71c0bf2cb345adf629caf55bc05f0aa0c767d2474c",
+      "family": "short-token",
+      "source_program_sha256": "2bdec83ea1a285797a2030381f39b8cbc1906a7e8c8b700ddd9bfef27144e8b9",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 596,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "82d4fdf2bf1ebcc9a0440f13fec31c9e41507f05ff748388ea1b38bfb0671c9f",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "619c13e3f24a6cdbcb3baf981fbf59c9df5345f167542e79c6a75b22aa356ec0",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1073,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "bdb8c201e731e09843011e37de8a557a8d4f1d8dbe27486effb4ba2a0acf042c",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "65f72adcec0532130c9db4f087614e5d732525b87975b304415ed587e0ea16e4",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1073,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "cd3beee4c684a0ab2f33e9dad92ecbcea41f62346c227ba644f24bc16598e7b7",
+      "family": "uppercase-prefix",
+      "source_program_sha256": "34c476cca17dae0c6e4825f8ba383d9006ddbc4b304597e63ccaf3f317eec704",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 600,
+      "old_wrong_proposal": true,
+      "needed_edges": [
+        [
+          "slice",
+          "upper"
+        ],
+        [
+          "field",
+          "slice"
+        ]
+      ]
+    },
+    {
+      "job_id": "ef155bb7394546fb5b2544df4a39f90143414a8f80275d20c62977f90eb16c87",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "8d17d10c414fe8c3f79e1fbbb5f22fe44c6220cdc36d2d5cde31a643b1c4787b",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1076,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "bca62a2d510463a20f35ab1246b0a80cfd17acf042f33375e14ff8e516474ad8",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "65f72adcec0532130c9db4f087614e5d732525b87975b304415ed587e0ea16e4",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1072,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "565cb2dbbd925e2f23025f968591a37d9aafbd24a4f5970690216f71b9b47c85",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "389816746fe1342fba4e51a0063de9dc7be8ffc3a00e64e7e99d5f197c5bd220",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1076,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "1c37ccf34f990ba09c842dc6b0e9aa1e1073a6a1d8c2443d90f692f5f459bc09",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "94fc4ce4d348b16b4e00fa9328a6bec3c9ccecc5ee0f6af53b739053437a93a2",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1079,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "7c346b537a2d5531df21f133959f27a5a8da14dd814bb5668dc3ba31fd08ecd7",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "29a1b7b9daedaca2fa0eee6e6b4935ec908bf950fbbe6cb793d295901088f3e6",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1072,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "c656254b20074982b8aa431d7404507c455f3201941263b07925b3765d858862",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "21b70e17effba49354ea15220b30c5cab41f77b7d92b364e63536573bbbc4b08",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1075,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "6f62a8bb9cf66fbec2ac2099a11ee42fe4456bf641cb799b115eb4a0091d9987",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "21b70e17effba49354ea15220b30c5cab41f77b7d92b364e63536573bbbc4b08",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1073,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "143eff1714e3c8c64b4a1598d752bcc90219d03185726bbd158999529d64f6c3",
+      "family": "short-token",
+      "source_program_sha256": "2bdec83ea1a285797a2030381f39b8cbc1906a7e8c8b700ddd9bfef27144e8b9",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 599,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "b579e2ec1f7d84ff0ef20dd151772446d16147c656c2dc7773a7dfedebd19678",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "cb2932739823808e2869ed58b73a52b3b8e5016599f1ef0230f79c7aaa6c97cd",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1130,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "89c7e99cf54155b76b29fbeb51fe5a4a1ab34f5f5f236380105a0cc79c2cb806",
+      "family": "short-token",
+      "source_program_sha256": "2fc1c3dac3f8a10496e87d70a81c0b5467b392939be6758b2c4caae7f10c5a15",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 599,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "d9dc99d2aba7779c76f3e20737ed3f986c21daa3e9b7d6668d183ff0859933bc",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "87035f2965e69ccaebc98a76f4cc28fb3f2d7213af7841f85be30a0683819f5f",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1075,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "cbb8c00b9d70946d2455a61d7dd7909735d383c86cf81bdbb11dd6b9364685a7",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "65f72adcec0532130c9db4f087614e5d732525b87975b304415ed587e0ea16e4",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1077,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "480b7d89c9147d795f491e13939872d5504a8557657e7a0655ea665f52bd8818",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "7fd5870674423fc0b5842bd74dff8d2398c1f6b680f9992d73aa5b4360666228",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1078,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "250a2a6d94ba78523028025560eeff21f34ea35b437a55d73fae43db358d64af",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "348edb8b3fac0143bc1ee37c3aae5eb8cdbdacacc2edfbf25472175326bff5f8",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1076,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "d7e6685273a86dee6bec213691f7c95fc332d3ab7c7f6d55537eff5453e2d1e1",
+      "family": "short-token",
+      "source_program_sha256": "4b87bd30192e15196b8958d35cfbeec2821301c6674b4777cf0e3a9075ddecf3",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 593,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "5449d6bc3e3e54364eda9f440b6e28b8d1511b8287237339541bda79c3bdbf73",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "d4125d4418802f66e176486f0db37ef41a0a201541c2d6505d85c9b549d840d2",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1128,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "461f02d7a71806990a102ca5132f109b41cbe14eb3eaf828d926503552667889",
+      "family": "short-token",
+      "source_program_sha256": "f5859e543245bbe4b50e2f02bbb020d67694576dcf483297b48cca1d4b5d4495",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 598,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "7dc918757a00910ef083227a0b0bf0016f65bf02ac452055fb4881e548977415",
+      "family": "short-token",
+      "source_program_sha256": "f5859e543245bbe4b50e2f02bbb020d67694576dcf483297b48cca1d4b5d4495",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 596,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "ff2bd373d718362c50dac406d3bf54b90fef1a80e7204bc92d244fde1b34507d",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "f08f41663e8543736393a3c87d74be67cf163bce8082b9526db058e1a2144e9a",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1078,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "d7f1be56d23352ba629028fecb2b4cc462a2ba16af682a19808d7323db234ef0",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "f08f41663e8543736393a3c87d74be67cf163bce8082b9526db058e1a2144e9a",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1077,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "ce42e35a6d30a4538b19cd6a6324bee72bdfc8fd8c1877cd03f7aa081d56f932",
+      "family": "short-token",
+      "source_program_sha256": "18fca3a3be07ceafa1f2286ca0342abeabc9bb5852d9e272682f2577bea62026",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 595,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "8d3042cca00e04d26200f5a166a96774d21279e1c39f217e2b6de85f6fd968a9",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "3d793a39fc7a0209826e02fec7d7047ac51d594cb0144b655e4d2096c4b9713c",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1075,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "abb4de9e40b6322f31446fc56e681834980182f649e990c34820af37a1fe49cd",
+      "family": "short-token",
+      "source_program_sha256": "18fca3a3be07ceafa1f2286ca0342abeabc9bb5852d9e272682f2577bea62026",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 596,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "faf91723d82ea05c9fbe540d1506c83205b1728a96a2d61615a416b77e6c9561",
+      "family": "short-token",
+      "source_program_sha256": "67176dea1e011b3d7fdf19dc11b4eab1125527c989ab7da767499366ed9e179f",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 595,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "0229ed8547f15ceaabcdcc64d726dcf001da72555d906bd3cc895a2e2a3db971",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "fed45ab38c349a1bb2526717c8203af6939c37c99384ac17538fd89bcf126493",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1076,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "a33b58063e47024ad43ea59f0324b85eccc1d04a1be741e7e72a58310236bedc",
+      "family": "short-token",
+      "source_program_sha256": "4b87bd30192e15196b8958d35cfbeec2821301c6674b4777cf0e3a9075ddecf3",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 598,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "ddfd2a9d34a56d0a9f3903ccb864bc432fef191b64fedaf8197116dac89f94b4",
+      "family": "short-token",
+      "source_program_sha256": "67176dea1e011b3d7fdf19dc11b4eab1125527c989ab7da767499366ed9e179f",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 596,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "3361ed550bae685fa788c63e4a8d42cccf8e9d5ed98fbaef6cc0f6a44e30ffad",
+      "family": "short-token",
+      "source_program_sha256": "18fca3a3be07ceafa1f2286ca0342abeabc9bb5852d9e272682f2577bea62026",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 594,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "6eb1d851d39dbb056eff47421f8fa34b6924ecd12b42acd6b8f4bc74e6b46157",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "5d738ccf942e0c2c50d69dc5c92c74a19d68a9c8129bd70dc9e5e2cbdac7394b",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1072,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "cdb63f46a516b8fbcf3b593d3bbefd97dbee65f65f280b481842f8d5607325dc",
+      "family": "short-token",
+      "source_program_sha256": "67176dea1e011b3d7fdf19dc11b4eab1125527c989ab7da767499366ed9e179f",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 597,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "b44900c350051a0fc30b5193b06b842f426d28a8e5484dbc47f62fd68ca3f61c",
+      "family": "short-token",
+      "source_program_sha256": "4b87bd30192e15196b8958d35cfbeec2821301c6674b4777cf0e3a9075ddecf3",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 600,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "eed8053adc348499cb8aecd9b4983712a92d0d7081f217e8f2ebeb5ca30bcd8d",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "57f698f75179eaebe603015d093f230248b6ca97bfd7330098396ea95e0a9da3",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1072,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "c41cfc29c2b1cee93cfd0491ab5b7e0a3e869c2514d1be27b4e0200a1d2795ea",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "772abd8feffe3ee8cc0e313eab5fbbc34ee81a42c93b2c4c7a7d106d5335f53d",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1074,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "5af70ee757e792c1d129bad99096a8b283f7422fbdf4389a0e7c28f753d1fc70",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "ed1a83e195180b51fb87fd98ea57da4278589cd8c9b42b71c75839fe37fd3d80",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1072,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "1059fbde128910fc5f9cb1505f7380160e74d4dcaaca1e38a874adf7c7da4349",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "b26f6fd25eb620a440461349af22dd0c81b90c46fa6db8291592c96dc66fe323",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1074,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "e26bd17e9f93ee2b40dd03fae82151721dd6811a4a6ba857eba5857326c9e872",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "b26f6fd25eb620a440461349af22dd0c81b90c46fa6db8291592c96dc66fe323",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1075,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "121e9faf4f0cbdb3d7a03db150858cef13b12912f1dfe93f8b9d47bfbb081bec",
+      "family": "short-token",
+      "source_program_sha256": "18fca3a3be07ceafa1f2286ca0342abeabc9bb5852d9e272682f2577bea62026",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 594,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "281123496e1e524241918239c6c233a44e453edb06916c9d333bb0f88a61b857",
+      "family": "short-token",
+      "source_program_sha256": "18fca3a3be07ceafa1f2286ca0342abeabc9bb5852d9e272682f2577bea62026",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 594,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "0803268bf7f2a5751d139efa16bc95c189896f5e8ae3d9d4d91975f6158e4667",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "e152d23ae7b961a34c5f0197a2f0b3072bfe75d8f4eaa2ddbcd413222e895f74",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1123,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "82f4553ce9094d703ca46841357567d0ee6615d27fb27e77224c6d9a094fc3b3",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "e152d23ae7b961a34c5f0197a2f0b3072bfe75d8f4eaa2ddbcd413222e895f74",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1137,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    },
+    {
+      "job_id": "53c8815bf350c4832f53edd3cf8d71aca3e4395bf1b4b066ebaddd09f858b8fd",
+      "family": "short-token",
+      "source_program_sha256": "f5859e543245bbe4b50e2f02bbb020d67694576dcf483297b48cca1d4b5d4495",
+      "source_ast_nodes": 3,
+      "source_ast_depth": 3,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 595,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ]
+      ]
+    },
+    {
+      "job_id": "ce1ffcfe0c4475cb38f582058312df9e610fe7242546822b2ffec255542b8c98",
+      "family": "joined-code-and-segment",
+      "source_program_sha256": "e152d23ae7b961a34c5f0197a2f0b3072bfe75d8f4eaa2ddbcd413222e895f74",
+      "source_ast_nodes": 8,
+      "source_ast_depth": 4,
+      "source_program_exactly_in_registered_finite_grammar": true,
+      "source_buyer_passed": true,
+      "source_buyer_work": 1128,
+      "old_wrong_proposal": false,
+      "needed_edges": [
+        [
+          "token",
+          "slice"
+        ],
+        [
+          "field",
+          "token"
+        ],
+        [
+          "split",
+          "upper"
+        ],
+        [
+          "field",
+          "split"
+        ]
+      ]
+    }
+  ],
+  "paired_spiking_vs_old": {
+    "spiking_1_old_1": 316,
+    "spiking_0_old_0": 51,
+    "spiking_0_old_1": 17
+  },
+  "findings": [
+    "All51old failures have source solutions within the registered finite grammar; source solutions pass actual24row buyerchecks. This is a bounded search/selection/generalization gap rather than missing interpreter operations.",
+    "The2000job eight-tool history has150joined-code-and-segment jobs andzeroacceptedprograms in that family. More samples from this history do not supply a successful end-to-end demonstration.",
+    "Across61082selectededge labels,token->slice haszero positives and1137negatives despite being a required compositional edge in canonical short-token/joined-code recipes. Negative means nonmembership in observed solutions, not objective uselessness.",
+    "The tentative upper(split) coverage concern is rejected:split->upper has483positive/900totalselectededges.",
+    "Warm-frontier reuse is a separately testable shared search optimization. It cannot by itself establish learned neural superiority."
+  ],
+  "sources_sha256": {
+    "semantic-priority-dev-05/teacher-pilot.jsonl": "c7a1fb5ecf821d199e37e4b68d5f181012757e1eb49da757a9c884b0059a40b8",
+    "semantic-priority-dev-05/teacher-rest.jsonl": "10e755b6552ff2f58114ab0a56d7738a46868d722c272c13a709686a5b1cb0e4",
+    "semantic-priority-dev-06/collection-0.jsonl": "504258bb92cbf4596d1847d4e176be6ed922a5b4d144635f28fce6e3938be9fc",
+    "semantic-priority-dev-06/collection-1.jsonl": "f45a4919fb255db6525e73eba905500db3bb3ca132dbbcd5f1f092c04a0fa1f6",
+    "semantic-priority-dev-06/evaluation-0-old_strong-retained-property-edit-size-spiking-frozen_input-continuous-linear-per_family_linear-rff.jsonl": "7b14cc483f896934608de7bcdcdd5c1c6b90af1406141a72b8446a0b2dc2c1b0",
+    "semantic-priority-dev-06/evaluation-1-old_strong-retained-property-edit-size-spiking-frozen_input-continuous-linear-per_family_linear-rff.jsonl": "201bcbdebd4b118ed64910fb86d201db301623d5e0d21d38d2b39da6fa584e98"
+  },
+  "diagnosis_source_sha256": "3e33bffa22704111f51ea51317d09b55c1ce7950b334aa7724047fe4501dc74f"
+}

@@ -1,0 +1,163 @@
+{
+  "schema": "nuria.semantic-edge-observations.dev06.v1",
+  "base_coordinates": {
+    "start": 0,
+    "stop": 100,
+    "source_sha256": "126140f99f04ef1b3798e2dd10ac2b19344422e55f510f1c4b9f70b5e80c5bca",
+    "definition": "Exactly DEV03 signature; unary36,target-relations48,operand-op12,bounded-size/depth/meanlength/edit4"
+  },
+  "casefold_coordinates": [
+    {
+      "index": 100,
+      "relation": "target_contains_candidate_casefold",
+      "reduction": "all"
+    },
+    {
+      "index": 101,
+      "relation": "target_contains_candidate_casefold",
+      "reduction": "none"
+    },
+    {
+      "index": 102,
+      "relation": "target_contains_candidate_casefold",
+      "reduction": "mixed"
+    },
+    {
+      "index": 103,
+      "relation": "target_starts_candidate_casefold",
+      "reduction": "all"
+    },
+    {
+      "index": 104,
+      "relation": "target_starts_candidate_casefold",
+      "reduction": "none"
+    },
+    {
+      "index": 105,
+      "relation": "target_starts_candidate_casefold",
+      "reduction": "mixed"
+    },
+    {
+      "index": 106,
+      "relation": "target_ends_candidate_casefold",
+      "reduction": "all"
+    },
+    {
+      "index": 107,
+      "relation": "target_ends_candidate_casefold",
+      "reduction": "none"
+    },
+    {
+      "index": 108,
+      "relation": "target_ends_candidate_casefold",
+      "reduction": "mixed"
+    },
+    {
+      "index": 109,
+      "relation": "candidate_contains_target_casefold",
+      "reduction": "all"
+    },
+    {
+      "index": 110,
+      "relation": "candidate_contains_target_casefold",
+      "reduction": "none"
+    },
+    {
+      "index": 111,
+      "relation": "candidate_contains_target_casefold",
+      "reduction": "mixed"
+    },
+    {
+      "index": 112,
+      "relation": "candidate_starts_target_casefold",
+      "reduction": "all"
+    },
+    {
+      "index": 113,
+      "relation": "candidate_starts_target_casefold",
+      "reduction": "none"
+    },
+    {
+      "index": 114,
+      "relation": "candidate_starts_target_casefold",
+      "reduction": "mixed"
+    },
+    {
+      "index": 115,
+      "relation": "candidate_ends_target_casefold",
+      "reduction": "all"
+    },
+    {
+      "index": 116,
+      "relation": "candidate_ends_target_casefold",
+      "reduction": "none"
+    },
+    {
+      "index": 117,
+      "relation": "candidate_ends_target_casefold",
+      "reduction": "mixed"
+    }
+  ],
+  "action_coordinates": [
+    {
+      "index": 118,
+      "prospective_family": "field"
+    },
+    {
+      "index": 119,
+      "prospective_family": "constant"
+    },
+    {
+      "index": 120,
+      "prospective_family": "strip"
+    },
+    {
+      "index": 121,
+      "prospective_family": "upper"
+    },
+    {
+      "index": 122,
+      "prospective_family": "lower"
+    },
+    {
+      "index": 123,
+      "prospective_family": "other_case"
+    },
+    {
+      "index": 124,
+      "prospective_family": "token"
+    },
+    {
+      "index": 125,
+      "prospective_family": "split"
+    },
+    {
+      "index": 126,
+      "prospective_family": "slice"
+    },
+    {
+      "index": 127,
+      "prospective_family": "replace"
+    },
+    {
+      "index": 128,
+      "prospective_family": "number"
+    },
+    {
+      "index": 129,
+      "prospective_family": "concat"
+    }
+  ],
+  "signature_dimension": 118,
+  "action_dimension": 130,
+  "non_expanding_families": [
+    "field",
+    "constant"
+  ],
+  "other_case_members": [
+    "capitalize",
+    "compact",
+    "title"
+  ],
+  "boundary": "Only disclosed operand vectors and disclosed targets; prospective family is known before execution. Root values and newly generated parent values are excluded."
+}

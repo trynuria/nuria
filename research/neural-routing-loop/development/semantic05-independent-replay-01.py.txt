@@ -1,0 +1,146 @@
+"""Independent outcome replay and retained-library orchestration for DEV05."""
+from pathlib import Path
+from collections import Counter
+from decimal import InvalidOperation
+import hashlib, importlib.util, json, math, sys, time
+
+from scripts.build_guarded_skill_tasks import generate, CONFIG
+from scripts.verify_active_skill_results import outcome, digest
+from cognition.skills import _Meter, WorkLimit
+from cognition.text_skills import fields, evaluate, validate_program
+
+BASE = Path(__file__).parent
+P = BASE / 'semantic-priority-dev-05'
+OUTPUT = BASE / 'semantic05-independent-replay-01.json'
+
+def require(condition, message):
+    if not condition: raise ValueError(message)
+
+def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def audit(job):
+    return sum(1+(len(x.encode())+len(y.encode())+31)//32 for x,y in zip(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],strict=True))
+
+def meter_valid(meter):
+    require(set(meter)=={'total','primitive_attempts','candidates','byte_blocks','errors','semantic_duplicates'},'Search meter fields differ')
+    require(all(type(v)is int and v>=0 for v in meter.values()),'Search meter integer fields differ')
+    require(meter['total']==meter['primitive_attempts']+meter['candidates']+meter['byte_blocks'],'Search charged-counter sum differs')
+    require(meter['total']<=50000,'Search cap exceeded')
+
+def compare_buyer(replay, published):
+    require(replay==published,'Full independent buyer result differs')
+
+start=time.process_time()
+training=[j for seed in range(10,31)for j in generate(seed,96)['tasks']][:2000]
+known=[j for seed in(0,1,2,3)for j in generate(seed,96)['tasks']]
+duet=json.loads((BASE/'eval-design-01/duet-development-jobs.json').read_text())
+by_training={j['id']:j for j in training}
+by_jobs={'authored':{j['id']:j for j in known},'duet':{j['id']:j for j in duet}}
+traces=[];source_hashes={}
+for name in('teacher-pilot.jsonl','teacher-rest.jsonl'):
+ path=P/name;source_hashes[name]=sha(path)
+ traces.extend(json.loads(line)for line in path.read_text().splitlines())
+require(len(traces)==2000 and {r['job_id']for r in traces}==set(by_training),'Teacher coverage differs')
+teacher={'jobs':0,'program_executions':0,'accepted_profiles':0,'accepted_union_jobs':0,'accepted_default_jobs':0,'search_work':0,'buyer_work':0}
+accepted_programs={};counts=Counter();accepted_origin_ids=set()
+for trace in traces:
+ job=by_training[trace['job_id']];xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+ for key,values in [('disclosed_inputs_sha256',xs),('disclosed_outputs_sha256',ys),('buyer_inputs_sha256',job['score_inputs']),('buyer_outputs_sha256',job['score_outputs'])]:
+  require(trace[key]==digest(values),'Teacher input/target commitment differs')
+ require(len(trace['profiles'])==8,'Teacher profile coverage differs')
+ any_accepted=False
+ for profile,row in trace['profiles'].items():
+  replay=outcome(row['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+  compare_buyer(replay,row['buyer'])
+  require(row['accepted']==replay['passed'],'Teacher accepted flag differs')
+  require(row['program_sha256']==(digest(row['program'])if row['program']is not None else None),'Teacher program hash differs')
+  meter_valid(row['search_work'])
+  teacher['program_executions']+=1;teacher['accepted_profiles']+=int(replay['passed']);teacher['search_work']+=row['search_work']['total'];teacher['buyer_work']+=replay['total_work']
+  if replay['passed']:
+   any_accepted=True;node=validate_program(row['program'],CONFIG)
+   accepted_programs[digest(node)]=node;counts[digest(node)]+=1
+ teacher['jobs']+=1;teacher['accepted_union_jobs']+=int(any_accepted);teacher['accepted_default_jobs']+=int(trace['profiles']['default']['accepted'])
+ if any_accepted:accepted_origin_ids.add(trace['job_id'])
+
+all_recipe={j['private_recipe']['program_sha256']for j in training}
+accepted_origin_recipe={by_training[i]['private_recipe']['program_sha256']for i in accepted_origin_ids}
+overlap={j['id']:j['private_recipe']['program_sha256']in all_recipe for j in known}
+accepted_overlap={j['id']:j['private_recipe']['program_sha256']in accepted_origin_recipe for j in known}
+recorded=json.loads((P/'training.json').read_text())
+require(overlap==recorded['known384_recipe_overlap'] and sum(overlap.values())==recorded['known384_overlap_count'],'Published overlap differs')
+
+evaluations={};files=[];checked_programs=0
+for path in sorted(P.glob('evaluation-*.jsonl')):
+ kind='authored'if path.name.startswith('evaluation-authored-')else'duet'
+ rows=[json.loads(line)for line in path.read_text().splitlines()]
+ require(len(rows)==len(by_jobs[kind])and{r['job_id']for r in rows}==set(by_jobs[kind]),'Evaluation coverage differs')
+ methods=set()
+ for row in rows:methods.update(row.get('methods',{}))
+ totals={name:{'accepted':0,'wrong':0,'search_work':0,'audit_work':0,'buyer_work':0,'jobs':len(rows),'unsupported':0,'program_disjoint_jobs':0,'program_disjoint_accepted':0}for name in methods}
+ for row in rows:
+  job=by_jobs[kind][row['job_id']]
+  if job.get('unsupported'):
+   require(row.get('unsupported')==job['unsupported']and not row['methods'],'Unsupported task was evaluated')
+   for total in totals.values():total['unsupported']+=1
+   continue
+  require(set(row['methods'])==methods,'Evaluation method coverage differs')
+  if kind=='authored':require(row['training_program_recipe_overlap']==overlap[job['id']],'Evaluation overlap flag differs')
+  for name,item in row['methods'].items():
+   replay=outcome(item['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+   require(item['accepted']==replay['passed']and item['correct_rows']==replay['correct']and item['rows']==replay['rows']and item['buyer_work']==replay['total_work'],'Evaluation buyer result or work differs')
+   if 'program_sha256' in item: require(item['program_sha256']==(digest(item['program'])if item['program']is not None else None),'Evaluation program hash differs')
+   require(item['audit_work']==audit(job),'Evaluation audit work differs')
+   meter_valid(item['work']);checked_programs+=1
+   total=totals[name];total['accepted']+=int(replay['passed']);total['wrong']+=int(item['program']is not None and not replay['passed']);total['search_work']+=item['work']['total'];total['audit_work']+=audit(job);total['buyer_work']+=replay['total_work']
+   if kind=='authored'and not overlap[job['id']]:total['program_disjoint_jobs']+=1;total['program_disjoint_accepted']+=int(replay['passed'])
+ summary=P/path.name.replace('evaluation-','summary-').replace('.jsonl','.json')
+ published=json.loads(summary.read_text())
+ for name,total in totals.items():
+  for key in('accepted','wrong','search_work','audit_work','buyer_work','program_disjoint_jobs','program_disjoint_accepted'):require(total[key]==published['totals'][name][key],'Evaluation summary aggregation differs')
+ evaluations[path.name]=totals
+ for file in(path,summary):source_hashes[file.name]=sha(file)
+
+# Independent orchestration: replay the documented first-fit retained history,
+# using the actual frozen safe interpreter, then independently score the result.
+spec=importlib.util.spec_from_file_location('semantic05_frozen_search',P/'search.py');module=importlib.util.module_from_spec(spec);sys.modules[spec.name]=module;spec.loader.exec_module(module)
+order=sorted(accepted_programs,key=lambda h:(-counts[h],h))
+published_retained=json.loads((P/'retained-baseline-summary.json').read_text())
+require(order==published_retained['program_order']and dict(counts)==published_retained['program_uses'],'Retained source-history order differs')
+retained_rows={(r['kind'],r['job_id']):r for r in map(json.loads,(P/'retained-baseline-traces.jsonl').read_text().splitlines())}
+retained={kind:{'jobs':0,'unsupported':0,'accepted':0,'wrong':0,'search_work':0,'audit_work':0,'buyer_work':0,'retained_proposals':0}for kind in('authored','duet')}
+retained_first_fit_checks=0;retained_total_candidate_tests=0
+for kind,jobs in by_jobs.items():
+ for job_id,job in jobs.items():
+  row=retained_rows[(kind,job_id)];total=retained[kind];total['jobs']+=1
+  if job.get('unsupported'):
+   require(row['unsupported']==job['unsupported'],'Retained unsupported task differs');total['unsupported']+=1;continue
+  xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+  meter=_Meter(50000);candidate=None;source='none'
+  for identity in order:
+   retained_total_candidate_tests+=1
+   try:
+    meter.charge('candidates')
+    observed=[evaluate(accepted_programs[identity]['expr'],fields(x,CONFIG),meter,CONFIG)for x in xs]
+   except(ValueError,IndexError,KeyError,InvalidOperation)as error:
+    if isinstance(error,WorkLimit):break
+    meter.values['errors']+=1;continue
+   if observed==ys:
+    candidate=accepted_programs[identity];source='retained';retained_first_fit_checks+=1;break
+  fallback=None;remaining=50000-meter.values['total']
+  if candidate is None and remaining>0:
+   fallback=module.search(xs,ys,CONFIG,budget=remaining,prefix_budget=remaining);candidate=fallback['program'];source='strong_fallback'
+  work=dict(meter.values)
+  if fallback is not None:work={k:work[k]+fallback['work'][k]for k in work}
+  require(row['search']['program']==candidate and row['search']['source']==source and row['search']['work']==work,'Retained first-fit search replay differs')
+  replay=outcome(candidate,job['score_inputs'],job['score_outputs'],CONFIG);compare_buyer(replay,row['buyer'])
+  require(row['audit_work']==audit(job),'Retained audit work differs')
+  total['accepted']+=int(replay['passed']);total['wrong']+=int(candidate is not None and not replay['passed']);total['search_work']+=work['total'];total['audit_work']+=audit(job);total['buyer_work']+=replay['total_work'];total['retained_proposals']+=int(source=='retained')
+for kind,total in retained.items():
+ for key,value in total.items():require(value==published_retained['totals'][kind][key],'Retained aggregate differs')
+require(retained['authored']['accepted']==331 and retained['authored']['wrong']==1 and retained['duet']['accepted']==23 and retained['duet']['wrong']==0,'Strong same-history baseline result changed')
+
+for name in('retained-baseline-summary.json','retained-baseline-traces.jsonl','retained_baseline.py','training.json','search.py','curriculum.py','evaluate.py','handoff-05.json'):
+ source_hashes[name]=sha(P/name)
+report={'schema':'nuria.semantic-curriculum-independent-replay.v1','verified':True,'scope':'Independent buyer execution and accounting replay for every teacher and evaluation program, plus complete independent first-fit retained-library orchestration. This is development evidence, not an unseen qualification. Search CPU timings are not independently certified. Main guided search was not rerun: its meters were checked for exact charged-counter sums, finite 50,000-unit bounds and published aggregate coherence. Retained search programs, candidate order, fallback, and every search-meter field were fully replayed.','teacher':teacher,'evaluations':evaluations,'evaluation_programs_replayed':checked_programs,'overlap':{'all_teacher_jobs':2000,'all_generated_recipe_groups':len(all_recipe),'known384_overlaps_all_generated_teacher_recipes':sum(overlap.values()),'accepted_teacher_origin_jobs':len(accepted_origin_ids),'accepted_teacher_origin_recipe_groups':len(accepted_origin_recipe),'known384_overlaps_successful_teacher_origin_recipes':sum(accepted_overlap.values()),'remaining_source_recipe_disjoint_from_all_generated':sum(not v for v in overlap.values()),'interpretation':'The published372overlap uses all2000generatedteacher recipes, including unsuccessful jobs. Only332knownrecipes overlap an origin having at least one accepted teacher program. Recipe metadata is used for analysis, never learner inputs or hidden-solution labels.'},'retained_baseline':{'programs':len(order),'program_library_json_bytes':len(json.dumps(accepted_programs,separators=(',',':')).encode()),'candidate_tests':retained_total_candidate_tests,'first_audit_fit_stops':retained_first_fit_checks,'totals':retained,'no_final_target_retry':'The independently rerun control chooses the first four-audit-fitting program before calling outcome; final buyer outputs never enter selection or trigger a retry.'},'source_sha256':source_hashes,'verifier_script_sha256':sha(Path(__file__)),'cpu_seconds':time.process_time()-start,'external_financial_actions':0}
+with OUTPUT.open('x')as out:json.dump(report,out,indent=2,allow_nan=False);out.write('\n')
+print(json.dumps({'verified':True,'teacher':teacher,'evaluation_programs_replayed':checked_programs,'retained':retained,'overlap':report['overlap'],'cpu_seconds':report['cpu_seconds']},indent=2))

@@ -1,0 +1,140 @@
+{
+  "research_scope": "Official paper, official code metadata and six bounded implementation files only. No benchmark task bodies, pretrained model binaries, or reserved Duet162 specifications opened.",
+  "official_paper": {
+    "title": "BUSTLE: Bottom-Up Program Synthesis Through Learning-Guided Exploration",
+    "venue": "ICLR2021",
+    "url": "https://arxiv.org/html/2007.14381v3",
+    "official_publication": "https://research.google/pubs/bustle-bottom-up-program-synthesis-through-learning-guided-exploration/",
+    "mechanism": "Run candidate subprograms on disclosed inputs, describe intermediate values relative to disclosed targets, predict membership in a solution, and reweight their later bottom-up expansion priority. This is established learned program-search guidance, not a new AI principle."
+  },
+  "official_implementation": {
+    "repository": "https://github.com/google-research/google-research/tree/master/bustle",
+    "last_bustle_change_commit": "5b09c22d73a9d35eb6c5d2a99b95677a45053466",
+    "license": "Apache License2.0; root LICENSE cached in google-research-license.txt",
+    "readme": "bustle-readme.txt",
+    "provenance_receipt": "bustle-code-read-receipt.json",
+    "pinned_blob_integrity": "All six downloaded implementation files exactly match recorded Git blob SHA1 and size.",
+    "runtime": "Mostly Java; Python training pins TensorFlow2.10.0 and NumPy1.21.6. No runtime installed or executed here.",
+    "ready_model": {
+      "format": "TensorFlow SavedModel",
+      "bytes": 484898,
+      "source_training": "Synthetic program-search data per official README/generator; not our buyer-verified outcome history.",
+      "fair_primary_fit": false,
+      "reasons": [
+        "Different DSL/property schema and original max3 inputs",
+        "Additional external training observations would violate matched-data condition",
+        "Legacy Java/TensorFlow integration is more work than the size of weights suggests"
+      ]
+    }
+  },
+  "alternatives": [
+    {
+      "route": "Use official BUSTLE as-is",
+      "advantage": "Ready trained model and complete reference search, Apache2.0",
+      "cost": "Legacy Java/TensorFlow dependency and DSL migration; unfair external data for primary neural-policy claim",
+      "recommendation": "Historical external reference only unless every branch receives an explicitly matched external training course."
+    },
+    {
+      "route": "Use official CrossBeam",
+      "advantage": "Ready learned argument-selection search and public trained models, Apache2.0",
+      "cost": "Two BUSTLE-domain checkpoints are86765105bytes each; old PyTorch1.10.2 CUDA/torch-scatter instructions; external synthetic training and different DSL",
+      "recommendation": "Do not introduce this framework for a bounded Mac proof. No weights fetched."
+    },
+    {
+      "route": "Independent small shared bottom-up engine with learned semantic priority",
+      "advantage": "Reuse existing safe AST/interpreter/work meter; same grammar, candidate evaluation, disclosures, history and resource caps across all controls",
+      "cost": "Need genuine weighted fair enumeration, type-aware semantic dedup, bounded frontier, ranker batching, and buyer-verified label ledger",
+      "recommendation": "A bounded NumPy implementation preserves the existing safe language and matched teaching history. Feasibility depends on measurable headroom over strong property heuristics."
+    }
+  ],
+  "practical_properties": {
+    "source_file": "bustle-ComputeSignature.java",
+    "string_unary_count": 14,
+    "string_unary": [
+      "empty",
+      "single character",
+      "length<=5",
+      "ASCII lowercase",
+      "ASCII uppercase",
+      "space",
+      "comma",
+      "period",
+      "dash",
+      "slash",
+      "contains digits",
+      "only digits",
+      "contains ASCII letters",
+      "only ASCII letters"
+    ],
+    "string_target_comparisons_count": 17,
+    "string_target_comparisons": [
+      "target contains value / starts with value / ends with value",
+      "value contains target / starts with target / ends with target",
+      "same six comparisons after ASCII lowercase",
+      "exact equality",
+      "ASCII-case-insensitive equality",
+      "length equal / smaller / larger"
+    ],
+    "integer_unary_count": 7,
+    "boolean_unary_count": 1,
+    "integer_vs_targetlength_count": 7,
+    "aggregate_states": [
+      "ALL_TRUE",
+      "ALL_FALSE",
+      "MIXED",
+      "TYPE_MISMATCH",
+      "EMPTY"
+    ],
+    "original_full_dimensions": "For max3 inputs:160 example signature categorical positions +46 candidate positions =206; five-way onehot1030 exceeds current512 policy feature cap.",
+    "bounded_string_only_encoding": "Three input fields need107 I/O predicates plus31 candidate predicates. Encode ALL_TRUE/ALL_FALSE as two indicators (MIXED=00) for276 dimensions, then bounded AST cost/op statistics. Type mismatch is not needed only if the DSL is declared string-only. For up to8 fields, use a frozen pooling/schema design or larger declared dimension; never silently truncate fields.",
+    "extra_fair_features": [
+      "AST node count/depth/root operation",
+      "candidate distinctness/length mean,min,max",
+      "candidate-output length difference and normalized edit distance",
+      "substring/prefix/suffix fractions over diagnostic examples"
+    ],
+    "fairness": "Every heuristic and trained control receives identical feature information; no heldout score outputs, source oracle bodies, task-family metadata or accepted future ASTs."
+  },
+  "buyer_verified_training_contract": [
+    "Only after a complete proposal is committed and buyer-accepted, traverse its actual validated AST and evaluate proper subtrees on that past task diagnostic inputs.",
+    "A positive is a semantic vector/type matching a proper internal subtree of that particular verified successful program. It is not proof of unique necessity or globally useful synthesis.",
+    "The full root is excluded because it trivially matches the target; leaf inputs/constants are excluded or handled in a separately declared condition equally for all controls.",
+    "Negatives come from the already metered candidate trace for the same past task, excluding any vector/type matching a positive subtree. They mean not-in-this-solution, not impossible or useless in all other solutions.",
+    "Sample negatives with a fixed per-task/per-family seed and cap; balance or weight each accepted origin so long/repeated tasks cannot dominate.",
+    "Identical immutable label tuples, replay capacities, training order and update budget go to logistic, nonlinear/RFF, kNN, MLP and spiking rankers.",
+    "Current task diagnostics may condition priority, but current buyer score labels/accepted program cannot train the ranker until after its own final search result is committed and scored.",
+    "Never use source define-fun oracle ASTs to create training positives for tasks the agent did not solve. Source oracles remain buyer-side check labelers only.",
+    "Cold start is real: shallow verified programs may have no proper internal subtree positives. Report number of usable accepted origins and labels; do not conceal this with generated ground-truth programs."
+  ],
+  "search_integrity": [
+    "Use identical typed DSL, operation set, source constants, lazy/error semantics, AST/interpreter and budget for all rankers.",
+    "Deduplicate by full output vector and type across every disclosed example; retain a deterministic smallest-cost representative.",
+    "Do not discard intermediate values merely because they are not target substrings; a later case/replacement operation may make them useful. Heuristics prioritize but do not create branch-specific grammar.",
+    "Use positive bounded priority penalties or weighted fair rounds, with unguided coverage reserve; learned rankings must not silently remove search completeness under the declared finite cap.",
+    "Bound candidate banks, AST depth/nodes, strings, primitive work, failed executions, ranker batch size, memory and elapsed CPU.",
+    "Batch ranking; official Java default batch1024 reflects that inference may cost more than interpreting a small program. Small spiking layers over50k candidates are still material overhead.",
+    "Record semantic candidates expanded, actual executed primitive work, total CPU/wall time and per-task buyer correctness, not classifier accuracy alone."
+  ],
+  "controls_and_gates": [
+    "Mandatory: size-ordered semantic-deduplicated search, official-style substring/edit-distance property heuristic, strongest DEV-selected conventional learned ranker on identical labels, trained continuous/frozen-input spiking controls.",
+    "Main causal test: same neural model weights and candidate information with live scores versus shuffled/zeroed scores, plus frozen input and shuffled training-label controls. All use identical candidate engine and resource caps.",
+    "Freeze source course, semantic signatures, dedup, ranker configurations, negative sampling, matched training seeds and qualification gates before opening reserved task bodies.",
+    "Group task families, duplicated specifications and benchmark variants together. Split candidate examples by accepted source task, never random subtree rows from one program across train/test.",
+    "For online qualification, score each task before it updates any learner; provide later tasks only identical past buyer feedback. Report family-clustered and macro-task results; tasks from one family are dependent.",
+    "A neural usefulness claim requires heldout verified-program gains or lower complete service cost against the strongest control, with matched learning budget and meaningful margin across seeds. Better candidate membership AUC alone is insufficient.",
+    "Stop if property heuristics already reach the bounded grammar oracle or if inference/training overhead erases search savings. No guarantee that SNNs outperform MLP/kNN on categorical property signatures."
+  ],
+  "limits": [
+    "The ranking target is a noisy membership proxy, not a causal label for useful programs.",
+    "Properties can alias semantically different programs on four examples; independent buyer score checks remain essential.",
+    "Buyer-success-only training has survivorship bias and cannot improve unexplored operations without an explicit fair bootstrap/coverage route.",
+    "A broader DSL can improve competence independently of learning; compare every branch on that same broader DSL.",
+    "Any success is bounded learned safe-program search, not general intelligence, a novel algorithm or consciousness."
+  ],
+  "public_source_urls": [
+    "https://raw.githubusercontent.com/google-research/google-research/master/bustle/README.md",
+    "https://raw.githubusercontent.com/google-research/google-research/master/LICENSE",
+    "https://github.com/google-research/crossbeam",
+    "https://arxiv.org/html/2007.14381v3"
+  ]
+}

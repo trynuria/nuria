@@ -1,0 +1,49 @@
+"""Independent buyer replay and exploratory source-program-cluster comparisons."""
+from pathlib import Path
+from collections import Counter,defaultdict
+import argparse,hashlib,json,sys
+import numpy as np
+REPO=Path('.');sys.path.insert(0,str(REPO))
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.verify_active_skill_results import outcome
+from cognition.active_skills import probe_cost
+BASE=Path(__file__).parents[1];P=BASE/'semantic-priority-dev-08'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def group(j):return int(hashlib.sha256(j['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2
+
+def compare(rows,jobs,other,replicates=20000):
+ pairs=Counter();groups=defaultdict(list);folds={}
+ for jobid,methods in rows.items():
+  if other not in methods:continue
+  a=int(methods['spiking']['accepted']);b=int(methods[other]['accepted']);pairs[(a,b)]+=1
+  job=jobs[jobid];key=job['private_recipe']['program_sha256'];groups[key].append(a-b);folds[key]=group(job)
+ keys=sorted(groups);delta=np.array([sum(groups[k])for k in keys]);size=np.array([len(groups[k])for k in keys]);rng=np.random.default_rng(20261029)
+ numerator=np.zeros(replicates);denominator=np.zeros(replicates)
+ for fold in (0,1):
+  idx=np.array([i for i,k in enumerate(keys)if folds[k]==fold]);draw=rng.integers(0,len(idx),(replicates,len(idx)));chosen=idx[draw]
+  numerator+=delta[chosen].sum(axis=1);denominator+=size[chosen].sum(axis=1)
+ boot=numerator/denominator
+ signs=rng.integers(0,2,(replicates,len(keys)))*2-1;permutation=(signs*delta).sum(axis=1)
+ return {'comparator':other,'paired_jobs':int(size.sum()),'source_program_ast_groups':len(keys),'spiking_only_success':pairs[(1,0)],'comparator_only_success':pairs[(0,1)],'both_success':pairs[(1,1)],'both_fail':pairs[(0,0)],'observed_net_jobs':int(delta.sum()),'observed_accuracy_difference':float(delta.sum()/size.sum()),'group_macro_accuracy_difference':float(np.mean([np.mean(v)for v in groups.values()])),'groups_positive_net':int(np.sum(delta>0)),'groups_negative_net':int(np.sum(delta<0)),'groups_zero_net':int(np.sum(delta==0)),'fold_disagreement':{str(f):{'net_jobs':int(sum(delta[i]for i,k in enumerate(keys)if folds[k]==f)),'jobs':int(sum(size[i]for i,k in enumerate(keys)if folds[k]==f)),'groups':sum(folds[k]==f for k in keys)}for f in(0,1)},'exploratory_stratified_cluster_bootstrap95_percentile':np.quantile(boot,[.025,.975]).tolist(),'exploratory_cluster_sign_flip_two_sided_p':float((1+np.sum(np.abs(permutation)>=abs(delta.sum())))/(replicates+1)),'replicates':replicates,'random_seed':20261029,'scope':'Exploratory post-hoc conditional fixed-model analysis, not a preregistered qualification or evidence spikes outperform continuous networks. Source-AST clusters retain all repeated rows; bootstrap resamples within the two fixed held-fold cohorts. Training overlap across models and shared authored generator limit inference.'}
+
+jobs={j['id']:j for seed in range(4)for j in generate(seed,96)['tasks']};rows={};totals=defaultdict(Counter);verification_work=0;count=0;sources={}
+paths=sorted(P.glob('evaluation-*-old_strong*.jsonl'))
+for path in paths:
+ sources[path.name]=sha(path);fold=int(path.name.split('-')[1]);summary=json.loads(path.with_name(path.stem+'-summary.json').read_text())
+ if summary['warm_sources_sha256']['search.py']!=sha(BASE/'semantic-priority-dev-07/search.py'):raise ValueError('Serving engine differs from frozen07')
+ for line in path.read_text().splitlines():
+  r=json.loads(line);job=jobs[r['job_id']]
+  if group(job)!=fold or r['job_id']in rows:raise ValueError('Duplicate or wrong-fold serving job')
+  rows[r['job_id']]=r['methods'];audit=sum(probe_cost(x,y)for x,y in zip(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],strict=True))
+  for method,result in r['methods'].items():
+   checked=outcome(result['program'],job['score_inputs'],job['score_outputs'],CONFIG);verification_work+=checked['total_work'];count+=1
+   if checked['passed']!=result['accepted']or checked['correct']!=result['correct_rows']or checked['rows']!=result['rows']or checked['total_work']!=result['buyer_work']or audit!=result['audit_work']:raise ValueError('Published serving outcome does not reproduce')
+   work=result['work']
+   if work['total']>50000 or work['total']!=sum(work[k]for k in ['primitive_attempts','candidates','byte_blocks']):raise ValueError('Serving work cap/accounting differs')
+   t=totals[method];t.update(jobs=1,accepted=int(checked['passed']),wrong=int(result['program']is not None and not checked['passed']),search_work=work['total'],buyer_work=checked['total_work'],audit_work=audit)
+if set(rows)!=set(jobs):raise ValueError('Serving denominator differs from384 declared jobs')
+comparisons=[compare(rows,jobs,m)for m in ['knn','per_family_linear','old_strong','retained','frozen_input','continuous']]
+report={'schema':'nuria.feedback-support-serving-independent-audit.dev08.v1','scope':'Known grouped development after repeated adaptive experimentation. All delivered programs independently buyer-replayed; no reserved bodies opened. Paired uncertainty is explicitly exploratory. No proof of consciousness, novelty, universal superiority or spike-specific advantage.','jobs':len(rows),'buyer_replay_calls':count,'additional_offline_buyer_replay_work':verification_work,'totals':dict(totals),'comparisons':comparisons,'source_sha256':sources,'frozen07_engine_sha256':sha(BASE/'semantic-priority-dev-07/search.py'),'validator_sha256':sha(Path(__file__))}
+output=Path(__file__).with_name('serving08-independent-audit.json')
+with output.open('x')as f:json.dump(report,f,indent=2);f.write('\n')
+print(json.dumps({'jobs':len(rows),'replayed_calls':count,'additional_verification_work':verification_work,'totals':{m:dict(t)for m,t in totals.items()},'knn_comparison':comparisons[0]},indent=2))

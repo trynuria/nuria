@@ -1,0 +1,41 @@
+"""Bounded exact observer parity plus independent complete-vector replay."""
+from pathlib import Path
+import hashlib,json,time
+from captured_routed_text_search import infer_routed as captured
+from cognition.routed_text_search import infer_routed,PROFILES
+from cognition.skills import _Meter,WorkLimit
+from cognition.text_skills import evaluate,fields,shape
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from search import search
+P=Path(__file__).parent
+jobs=generate(0,12)['tasks'][:8];results=[];nodes=0;replaywork=0;started=time.process_time()
+for job in jobs:
+    xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+    for cap in(10000,50000):
+        for profile in PROFILES:
+            original_meter=_Meter(cap);observed_meter=_Meter(cap);original=instrumented=None;rows=[]
+            try:original=infer_routed(xs,ys,CONFIG,original_meter,profile=profile)
+            except WorkLimit:pass
+            try:instrumented=captured(xs,ys,CONFIG,observed_meter,profile=profile,observer=lambda n,v,s:rows.append({'node':n,'values':list(v),'size':s}))
+            except WorkLimit:pass
+            if original!=instrumented or original_meter.values!=observed_meter.values:raise ValueError('Observational prefix changes program or actualwork')
+            independent=_Meter(10000000)
+            for row in rows:
+                values=[evaluate(row['node'],fields(x,CONFIG),independent,CONFIG)for x in xs]
+                if values!=row['values']or shape(row['node'],CONFIG)!=row['size']:raise ValueError('Observed full-node replay differs')
+            nodes+=len(rows);replaywork+=independent.values['total']
+            results.append({'job_id':job['id'],'profile':profile,'cap':cap,'program_and_all_work_fields_exact':True,'captured_nodes':len(rows),'capture_sha256':hashlib.sha256(json.dumps(rows,sort_keys=True,separators=(',',':')).encode()).hexdigest()})
+# Warm source/config/cap/inputs bound independent of chosen controller.
+frontiers=[]
+for job in generate(0,24)['tasks']:
+    xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+    a=search(xs,ys,CONFIG,scorer=lambda batch:__import__('numpy').zeros(len(batch)))
+    b=search(xs,ys,CONFIG)
+    keys=('prefix_capture_binding_sha256','prefix_capture_sha256','prefix_capture_count','warm_frontier_sha256')
+    for key in keys:
+        if a.get(key)!=b.get(key):raise ValueError('Controller-dependent prefix/cachefrontier')
+    frontiers.append({'job_id':job['id'],**{k:a.get(k)for k in keys},'both_work_bounded':a['work']['total']<=50000 and b['work']['total']<=50000})
+    if not frontiers[-1]['both_work_bounded']:raise ValueError('Shared work cap exceeded')
+report={'scope':'Numerical observer/cache mechanics only, not useful-task superiority. Allfull-node vectors wereactuallyexecuted andfullymetered beforeobserverhook; independentoffline replaysareverificationcost, notfree input tocontroller. Fullold50k comparator usesunchanged originalinfer. Noheldoutbuyerlabelsusedbysearch.','prefix_pairs':len(results),'all_original_program_and_work_exact':True,'fullnode_vectors_replayed':nodes,'independent_replay_work':replaywork,'controller_frontiers':frontiers,'cpu_seconds':time.process_time()-started,'results':results,'sources_sha256':{f.name:hashlib.sha256(f.read_bytes()).hexdigest()for f in(P/'search.py',P/'captured_composition.py',P/'captured_routed_text_search.py',Path(__file__))}}
+with(P/'prefix-parity.json').open('x')as f:json.dump(report,f,indent=2)
+print(json.dumps({k:v for k,v in report.items()if k not in('results','controller_frontiers')},indent=2))

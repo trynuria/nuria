@@ -1,0 +1,57 @@
+{"job_id": "7b383234863327cf21e2b074d714c1c51983a81b365312d1fcf6bd66ae2477cd", "family": "trim-delimited-field", "scored_queries": 119, "all_predictions_bitwise_exact": true, "final_program_and_work_exact": true, "old_cpu_seconds": 0.490167, "indexed_cpu_seconds": 0.028996000000000022, "speedup": 16.9046420195889, "cache_hits": 2, "cache_misses": 117, "reference_rows_evaluated": 4317, "possible_reference_rows": 3410784, "fallback_queries": 0}
+{"job_id": "39adc12f26c9030c4f626c682e4cec82a8d4cce596bedf8c4a3164b91bc805b2", "family": "uppercase-token", "scored_queries": 1429, "all_predictions_bitwise_exact": true, "final_program_and_work_exact": true, "old_cpu_seconds": 5.698224, "indexed_cpu_seconds": 0.20921000000000012, "speedup": 27.236862482672894, "cache_hits": 322, "cache_misses": 1107, "reference_rows_evaluated": 31332, "possible_reference_rows": 32271264, "fallback_queries": 0}
+{"job_id": "e87ffd35511bd3ba02dc5a3176105328a603144a3add81575864c3e54742c75f", "family": "short-token", "scored_queries": 3191, "all_predictions_bitwise_exact": true, "final_program_and_work_exact": true, "old_cpu_seconds": 12.755854000000001, "indexed_cpu_seconds": 0.4390010000000002, "speedup": 29.05654884613018, "cache_hits": 1040, "cache_misses": 2151, "reference_rows_evaluated": 83946, "possible_reference_rows": 62705952, "fallback_queries": 0}
+{
+  "scope": "Same three previously selected low/median/high completed actual jobs; exact model, observations and full arithmetic with proof-bound row exclusion; no changed search or useful-task outcome. Index construction counted separately, zero fit during eachsearch, boundedfreshpredictionLRU.",
+  "jobs": [
+    {
+      "job_id": "7b383234863327cf21e2b074d714c1c51983a81b365312d1fcf6bd66ae2477cd",
+      "family": "trim-delimited-field",
+      "scored_queries": 119,
+      "all_predictions_bitwise_exact": true,
+      "final_program_and_work_exact": true,
+      "old_cpu_seconds": 0.490167,
+      "indexed_cpu_seconds": 0.028996000000000022,
+      "speedup": 16.9046420195889,
+      "cache_hits": 2,
+      "cache_misses": 117,
+      "reference_rows_evaluated": 4317,
+      "possible_reference_rows": 3410784,
+      "fallback_queries": 0
+    },
+    {
+      "job_id": "39adc12f26c9030c4f626c682e4cec82a8d4cce596bedf8c4a3164b91bc805b2",
+      "family": "uppercase-token",
+      "scored_queries": 1429,
+      "all_predictions_bitwise_exact": true,
+      "final_program_and_work_exact": true,
+      "old_cpu_seconds": 5.698224,
+      "indexed_cpu_seconds": 0.20921000000000012,
+      "speedup": 27.236862482672894,
+      "cache_hits": 322,
+      "cache_misses": 1107,
+      "reference_rows_evaluated": 31332,
+      "possible_reference_rows": 32271264,
+      "fallback_queries": 0
+    },
+    {
+      "job_id": "e87ffd35511bd3ba02dc5a3176105328a603144a3add81575864c3e54742c75f",
+      "family": "short-token",
+      "scored_queries": 3191,
+      "all_predictions_bitwise_exact": true,
+      "final_program_and_work_exact": true,
+      "old_cpu_seconds": 12.755854000000001,
+      "indexed_cpu_seconds": 0.4390010000000002,
+      "speedup": 29.05654884613018,
+      "cache_hits": 1040,
+      "cache_misses": 2151,
+      "reference_rows_evaluated": 83946,
+      "possible_reference_rows": 62705952,
+      "fallback_queries": 0
+    }
+  ],
+  "aggregate_speedup": 27.9740832566704,
+  "index_bytes": 348786,
+  "index_cpu_seconds": 0.06323299999999998,
+  "source_sha256": "b80106de3ade6109e622d2fee09cd1e28ca634bb08594c22678b339a9ef0f3f1"
+}

@@ -1,0 +1,91 @@
+"""Known-Duet DEV only, not the reserved162-file qualification."""
+from pathlib import Path
+import hashlib
+import json
+import time
+
+import numpy as np
+
+from search import search, heuristic
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.routed_text_search import PROFILES, infer_routed
+from cognition.skills import _Meter, WorkLimit
+from cognition.text_skills import VERSION, validate_program
+from scripts.build_guarded_skill_tasks import CONFIG
+from scripts.verify_active_skill_results import outcome
+
+P = Path(__file__).parent
+DATA = P.parent / 'eval-design-01/duet-development-jobs.json'
+JOBS = json.loads(DATA.read_text())
+TRAINING = json.loads((P / 'training-2.json').read_text())
+METHODS = ('old_strong100k', 'property', 'edit', 'size', 'spiking',
+           'frozen_input', 'continuous', 'linear', 'rff', 'knn')
+fits, learned = {}, {}
+for method in METHODS:
+    if method in ('old_strong100k', 'property', 'edit', 'size'):
+        continue
+    model = SemanticGuidance(method=method, seed=20261026)
+    start = time.process_time()
+    model.fit(TRAINING['records'])
+    fits[method] = {'cpu_seconds': time.process_time() - start, 'evidence': model.evidence()}
+    learned[method] = model
+
+
+def checked(program, job):
+    began = time.process_time()
+    result = outcome(program, job['score_inputs'], job['score_outputs'], CONFIG)
+    return {**result, 'cpu_seconds': time.process_time() - began}
+
+
+totals = {m: {'accepted': 0, 'wrong': 0, 'search_work': 0,
+              'buyer_work': 0, 'search_cpu_seconds': 0., 'buyer_cpu_seconds': 0.}
+          for m in (*METHODS, *('fixed100k:' + p for p in PROFILES))}
+with (P / 'duet-100k-traces.jsonl').open('x') as stream:
+    for i, job in enumerate(JOBS):
+        row = {'job_id': job['id'], 'source_family': job['family'], 'methods': {}}
+        if job.get('unsupported'):
+            row['unsupported'] = job['unsupported']
+            stream.write(json.dumps(row) + '\n')
+            continue
+        xs, ys = job['diagnostic_inputs'][:4], job['diagnostic_outputs'][:4]
+        for method in METHODS:
+            scorer = heuristic if method in ('old_strong100k', 'property') else ((lambda x: x[:, 99]) if method == 'edit' else ((lambda x: np.zeros(len(x))) if method == 'size' else learned[method].score))
+            result = search(xs, ys, CONFIG, scorer=scorer, budget=100000,
+                            prefix_budget=100000 if method == 'old_strong100k' else 50000)
+            buyer = checked(result['program'], job)
+            row['methods'][method] = {'search': result, 'buyer': buyer}
+        for profile in PROFILES:
+            start = time.process_time()
+            meter = _Meter(100000)
+            node = None
+            try:
+                node = infer_routed(xs, ys, CONFIG, meter, profile=profile)
+            except WorkLimit:
+                pass
+            program = validate_program({'version': VERSION, 'expr': node}, CONFIG) if node is not None else None
+            result = {'program': program, 'work': meter.values,
+                      'cpu_seconds': time.process_time() - start}
+            row['methods']['fixed100k:' + profile] = {'search': result, 'buyer': checked(program, job)}
+        for name, item in row['methods'].items():
+            a = totals[name]
+            s, b = item['search'], item['buyer']
+            a['accepted'] += int(b['passed'])
+            a['wrong'] += int(s['program'] is not None and not b['passed'])
+            a['search_work'] += s['work']['total']
+            a['buyer_work'] += b['total_work']
+            a['search_cpu_seconds'] += s['cpu_seconds']
+            a['buyer_cpu_seconds'] += b['cpu_seconds']
+        stream.write(json.dumps(row) + '\n')
+        stream.flush()
+        print('duet', i + 1, flush=True)
+report = {'scope': 'Known43Duet DEV tasks ONLY. Model fit on all384 authored DEV prior actually verified programs, no Duet outcomes train these models. 18unsupported tasks retained in43denominator. Shared fallback runs oldstrong50k first and guidedsearch only after no disclosed-audit-fit proposal, sharing100k total. No buyer-final-outcome retry. All8standalone fixed100k controls retained; their union is only an infeasible oracle ceiling. No reserved162body access. Full teacher-cost,model-fit,search,buyerCPU retained; no neural or runtime superiority claimed automatically.',
+          'jobs': len(JOBS), 'unsupported': sum(bool(j.get('unsupported')) for j in JOBS),
+          'training_records': len(TRAINING['records']),
+          'training_positives': sum(r['label'] for r in TRAINING['records']),
+          'data_sha256': hashlib.sha256(DATA.read_bytes()).hexdigest(),
+          'training_sha256': hashlib.sha256((P / 'training-2.json').read_bytes()).hexdigest(),
+          'search_source_sha256': hashlib.sha256((P / 'search.py').read_bytes()).hexdigest(),
+          'totals': totals, 'fits': fits}
+with (P / 'duet-100k-summary.json').open('x') as stream:
+    json.dump(report, stream, indent=2)
+print(json.dumps({k: v for k, v in report.items() if k != 'fits'}, indent=2))

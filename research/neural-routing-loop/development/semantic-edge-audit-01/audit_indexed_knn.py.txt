@@ -1,0 +1,48 @@
+"""Independent binary-index lower-bound/tie/fallback checks."""
+from pathlib import Path
+from types import SimpleNamespace
+import hashlib,json,sys
+import numpy as np
+BASE=Path(__file__).parents[1];sys.path.insert(0,str(BASE/'semantic-knn-exact-01'));sys.path.insert(0,'.')
+from indexed_knn import IndexedExactKNN
+from cognition.semantic_guidance import SemanticGuidance
+
+def full(model,row):
+ d=np.sum((model.reference_x-row)**2,axis=1);ix=np.argsort(d,kind='stable')[:min(model.configuration['neighbors'],len(d))]
+ w=1/(d[ix]+.001);w*=np.where(model.reference_y[ix]==1,.5/model.positive_count,.5/(model.records_count-model.positive_count))
+ return float(np.dot(w,model.reference_y[ix])/w.sum()),ix
+
+def fixture(x,k):
+ n=len(x);y=(np.arange(n)%2).astype(float)
+ return SimpleNamespace(configuration={'method':'knn','dimension':x.shape[1],'neighbors':k},reference_x=x,reference_y=y,positive_count=int(y.sum()),records_count=n,training_sha256='a'*64)
+
+rng=np.random.default_rng(20261028);tests=0;fallback=0
+for n in [2,5,32,129]:
+ for d in [1,7,16,130]:
+  for k in [1,2,9,128]:
+   x=rng.integers(0,2,(n,d)).astype(float)
+   if d>1:x[:,-1]=rng.random(n)
+   model=fixture(x,k);fast=IndexedExactKNN(model,capacity=0)
+   queries=rng.integers(0,2,(12,d)).astype(float)
+   if d>1:queries[:,-1]=rng.random(12)
+   queries[::3,0]=.25
+   for q in queries:
+    old,ix=full(model,q);new,jx=fast._one(q)
+    if old.hex()!=new.hex()or not np.array_equal(ix,jx):raise ValueError('Indexed exact scores/neighbors differ')
+    tests+=1
+   fallback+=fast.fallback_queries
+# Exact equality at lower-bound stopping threshold must still admit lower index.
+m=fixture(np.array([[1.,0.],[0.,1.],[0.,.5]]),2);f=IndexedExactKNN(m)
+a,ix=f._one(np.array([0.,0.]));b,jx=full(m,np.array([0.,0.]))
+if a.hex()!=b.hex()or not np.array_equal(ix,[2,0])or not np.array_equal(ix,jx):raise ValueError('Equal lower-bound tie was pruned')
+# No binary dimensions is a valid full-distance fallback, not empty evidence.
+m=fixture(np.array([[.1,.3],[.2,.4],[.3,.8]]),2);f=IndexedExactKNN(m);a,ix=f._one(np.array([.2,.3]));b,jx=full(m,np.array([.2,.3]))
+if a.hex()!=b.hex()or not np.array_equal(ix,jx)or f.fallback_queries!=1:raise ValueError('Zero-binary fallback failed')
+# Actualfitted130-dimensionalmodel, independent fullstable distance check.
+path=BASE/'semantic-priority-dev-06/model-0-knn.json';model=SemanticGuidance.from_evidence(json.loads(path.read_text()));f=IndexedExactKNN(model)
+for q in model.reference_x[:24]:
+ a,ix=f._one(q);b,jx=full(model,q)
+ if a.hex()!=b.hex()or not np.array_equal(ix,jx):raise ValueError('Actual model index differs')
+result={'schema':'nuria.binary-neighbor-index-independent-audit.v1','scope':'Exact conventional kNN numerical optimization; no new model/data, approximate neighbors, neural gain, or universal speed claim. Production unchanged.','random_tied_queries':tests,'nonbinary_fallback_queries':fallback,'lower_bound_equality_tie_checked':True,'no_binary_coordinates_fallback_checked':True,'actual_fitted_130d_queries':24,'all_indices_exact':True,'all_scores_bitwise_equal':True,'index_source_sha256':hashlib.sha256((BASE/'semantic-knn-exact-01/indexed_knn.py').read_bytes()).hexdigest(),'reference_source_sha256':hashlib.sha256((BASE/'semantic-knn-exact-01/exact_knn.py').read_bytes()).hexdigest(),'validator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+with Path(__file__).with_name('indexed-knn-independent-audit.json').open('x')as stream:json.dump(result,stream,indent=2);stream.write('\n')
+print(json.dumps(result,indent=2))

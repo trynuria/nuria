@@ -1,0 +1,128 @@
+{
+  "schema": "nuria.semantic-edge-model-binding-audit.dev06.v1",
+  "scope": "Independent equality of final training lists to origin rows and identical model-data bindings; exact source-program group split. Prior origin audit separately validates buyer results, operand values and labels. No superiority or unseen qualification claim.",
+  "fold": 1,
+  "training_file_sha256": "62f4215e604a1850bedeca7326cf063ea2bcf8473f95cdce3f57576137f028c1",
+  "collection_file_sha256": "f45a4919fb255db6525e73eba905500db3bb3ca132dbbcd5f1f092c04a0fa1f6",
+  "training_records": 31930,
+  "positives": 3743,
+  "training_jobs": 1063,
+  "training_source_program_groups": 122,
+  "test_source_program_groups": 74,
+  "train_test_group_overlap": 0,
+  "records_capped": false,
+  "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+  "methods": {
+    "spiking": {
+      "model_file_sha256": "5349a1a4d1ae00c3b809adef36943d3702699186a0c4647f86ecd99dd1aebfbc",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.9921819333997186,
+        0.9991485331323544,
+        0.960879602861602,
+        0.997022022807133,
+        6.82315450818169e-08,
+        0.0006959791968653915,
+        1.4708831659017956e-08,
+        0.00036458086625243186
+      ]
+    },
+    "frozen_input": {
+      "model_file_sha256": "380ad39904392e46cdd670cf657bc9acbe8705e07f1f237f5faef212e9f7d776",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.9980339011394233,
+        0.9994525453577378,
+        0.995063613578529,
+        0.9988984377207651,
+        0.01928777718900328,
+        0.43924508817193036,
+        0.04409456196548058,
+        0.01732586247453368
+      ]
+    },
+    "continuous": {
+      "model_file_sha256": "bb511312289ad0a463a32e441e2e1779e4bae2ac5a5e5970b49ca87510fc45bd",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.9847985379993679,
+        0.9977779020606908,
+        0.9612237697057671,
+        0.9980964383271195,
+        8.034583329296661e-08,
+        0.00015990059775571652,
+        2.4570700736674714e-08,
+        0.00011361937460647691
+      ]
+    },
+    "linear": {
+      "model_file_sha256": "5bde0b6887fbf2613138920f69d03acb8da665dc466bed10d87d4853512daea0",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.9989047659771217,
+        0.9995540572710825,
+        0.993865279500137,
+        0.9974946535052863,
+        0.0005262427856278844,
+        0.42544019648029213,
+        0.00011632638489390943,
+        0.0040922161383268865
+      ]
+    },
+    "per_family_linear": {
+      "model_file_sha256": "808c65f3169d232d73328b359d88bb231af6f7efa9ee048670738a030ea21861",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "formal_input_dimensions": 130,
+      "parameters": 1428,
+      "extra_raw_observations": 0,
+      "mechanism": "known operation family gates conventional118feature affine logits"
+    },
+    "rff": {
+      "model_file_sha256": "859fddce70c37e13eb3c93ac9a35a402f1e8a73455bc60dbfc8f710503715e5e",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        0.992285259298824,
+        0.9979488662376589,
+        0.9906866955740163,
+        0.997196915906682,
+        0.00021637678097995714,
+        0.4259352359437616,
+        0.00011481707590173059,
+        0.02558519268448576
+      ]
+    },
+    "knn": {
+      "model_file_sha256": "980f11f3bb4c82c337b1574983c084f59a55b667392ec270e529711acc1ae6a3",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "formal_input_dimensions": 130,
+      "extra_raw_observations": 0,
+      "checkpoint_structurally_validated": true,
+      "first8_probabilities": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "all_checked": true
+}

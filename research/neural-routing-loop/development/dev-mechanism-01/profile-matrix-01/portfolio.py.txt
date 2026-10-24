@@ -1,0 +1,32 @@
+"""DEV deterministic two-tool references sharing one 50k synthesis cap."""
+from pathlib import Path
+import hashlib,json,time
+from cognition.routed_text_search import RoutedTextLibrary
+from cognition.active_skills import probe_cost
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.evaluate_guarded_skills import units
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).parent
+jobs=[{'kind':'authored',**j} for seed in (0,1,2,3) for j in generate(seed,96)['tasks']]
+jobs += [{'kind':'duet',**j} for j in json.loads(Path('research/neural-routing-loop/development/eval-design-01/duet-development-jobs.json').read_text())]
+rows=[];start=time.process_time()
+with (P/'portfolio-traces.jsonl').open('x') as f:
+ for number,j in enumerate(jobs):
+  methods={}
+  if not j['diagnostic_inputs'] or not j['score_inputs']:
+   methods={name:{'accepted':False,'wrong':False,'work':0,'search_work':0,'unsupported':j['unsupported']} for name in ('default_then_slice','slice_then_default')}
+  else:
+   xs=j['diagnostic_inputs'][:4];ys=j['diagnostic_outputs'][:4];audit=sum(probe_cost(x,y) for x,y in zip(xs,ys))
+   for name,pair in (('default_then_slice',('default','slice_first')),('slice_then_default',('slice_first','default'))):
+    spent=0;program=None;tools=[];book=0
+    for index,profile in enumerate(pair):
+     library=RoutedTextLibrary('nuria:portfolio-dev',CONFIG,profile=profile);before=library.dump();remaining=(25000 if index==0 else 50000-spent)
+     if remaining<=0:break
+     r=library.solve(xs,ys,budget=remaining);spent+=r['work']['total'];tools.append({'profile':profile,'budget':remaining,'actual_work':r['work'],'program':r['program']});book+=units(before)+units(library.dump())
+     if r['program'] is not None:program=r['program'];break
+    assert spent<=50000
+    check=outcome(program,j['score_inputs'],j['score_outputs'],CONFIG)
+    methods[name]={'accepted':check['passed'],'wrong':program is not None and not check['passed'],'work':audit+spent+check['total_work']+book,'search_work':spent,'tools':tools,'correct_rows':check['correct'],'score_rows':check['rows']}
+  row={'job_id':j['id'],'kind':j['kind'],'methods':methods};rows.append(row);f.write(json.dumps(row)+'\n');f.flush()
+summary={name:{kind:{'jobs':sum(r['kind']==kind for r in rows),'accepted':sum(r['methods'][name]['accepted'] for r in rows if r['kind']==kind),'wrong':sum(r['methods'][name]['wrong'] for r in rows if r['kind']==kind),'work':sum(r['methods'][name]['work'] for r in rows if r['kind']==kind)} for kind in ('authored','duet')} for name in ('default_then_slice','slice_then_default')}
+r={'scope':'DEV deterministic complementary toolportfolio, common4audits once, firsttool25k then optional secondtoolremaining50kcap. First diagnostic-fitting proposal is delivered before any final buyer targets are read; no oraclechoice/retryafterbuyerrejection. Actualmeter+audit+buyer+bookkeeping tracked. UnscorableDuetentries staydenominator.','summary':summary,'cpu_seconds':time.process_time()-start,'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()};(P/'portfolio-summary.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r,indent=2))

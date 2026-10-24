@@ -1,0 +1,125 @@
+"""Private fixed larger-curriculum feasibility; no reserved qualification."""
+from pathlib import Path
+import hashlib
+import inspect
+import json
+import sys
+import time
+
+import numpy as np
+from search import search, heuristic, digest
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.active_skills import probe_cost
+from scripts.build_guarded_skill_tasks import generate, CONFIG
+from scripts.verify_active_skill_results import outcome
+
+P = Path(__file__).parent
+METHODS = ('old_strong', 'property', 'edit', 'size', 'spiking', 'frozen_input', 'continuous', 'linear', 'rff', 'knn')
+STATIC = ('old_strong', 'property', 'edit', 'size')
+
+
+def fits():
+    dataset = json.loads((P / 'training.json').read_text())
+    records = dataset['records']
+    totals = {}
+    for method in METHODS:
+        if method in STATIC:
+            continue
+        model = SemanticGuidance(method=method, seed=20261026)
+        start = time.process_time()
+        model.fit(records)
+        elapsed = time.process_time() - start
+        xs = [r['features'] for r in records[:64]]
+        start = time.process_time()
+        prediction = model.score(xs).tolist()
+        score_cpu = time.process_time() - start
+        evidence = model.evidence()
+        with (P / ('model-' + method + '.json')).open('x') as stream:
+            json.dump(evidence, stream)
+        totals[method] = {'fit_cpu_seconds': elapsed, '64observation_score_cpu_seconds': score_cpu,
+                          'training_sha256': model.training_sha256, 'records': model.records_count,
+                          'positive': model.positive_count,
+                          'scoring_prediction_sha256': digest(prediction),
+                          'evidence_sha256': hashlib.sha256((P / ('model-' + method + '.json')).read_bytes()).hexdigest()}
+        print('fit', method, elapsed, 'score64', score_cpu, flush=True)
+    with (P / 'fits.json').open('x') as stream:
+        json.dump(totals, stream, indent=2)
+
+
+def evaluate(kind, methods):
+    dataset = json.loads((P / 'training.json').read_text())
+    if kind == 'authored':
+        jobs = [j for seed in (0, 1, 2, 3) for j in generate(seed, 96)['tasks']]
+    elif kind == 'duet':
+        jobs = json.loads((P.parent / 'eval-design-01/duet-development-jobs.json').read_text())
+    else:
+        raise ValueError('unknown known DEV collection')
+    models = {}
+    for method in methods:
+        if method in STATIC:
+            continue
+        models[method] = SemanticGuidance.from_evidence(json.loads((P / ('model-' + method + '.json')).read_text()))
+    totals = {m: {'accepted': 0, 'wrong': 0, 'search_work': 0, 'audit_work': 0,
+                  'buyer_work': 0, 'search_cpu_seconds': 0., 'buyer_cpu_seconds': 0.,
+                  'signature_cpu_seconds': 0., 'scorer_cpu_seconds': 0., 'signature_count': 0,
+                  'program_disjoint_jobs': 0, 'program_disjoint_accepted': 0} for m in methods}
+    with (P / ('evaluation-' + kind + '-' + '-'.join(methods) + '.jsonl')).open('x') as stream:
+        for index, j in enumerate(jobs):
+            row = {'job_id': j['id'], 'family': j['family'], 'methods': {}}
+            if j.get('unsupported'):
+                row['unsupported'] = j['unsupported']
+                stream.write(json.dumps(row) + '\n')
+                continue
+            xs, ys = j['diagnostic_inputs'][:4], j['diagnostic_outputs'][:4]
+            audit = sum(probe_cost(x, y) for x, y in zip(xs, ys, strict=True))
+            disjoint = kind == 'authored' and not dataset['known384_recipe_overlap'][j['id']]
+            row['training_program_recipe_overlap'] = not disjoint if kind == 'authored' else None
+            for method in methods:
+                scorer = heuristic if method in ('old_strong', 'property') else ((lambda x: np.zeros(len(x))) if method == 'size' else ((lambda x: x[:, 99]) if method == 'edit' else models[method].score))
+                result = search(xs, ys, CONFIG, scorer=scorer, budget=50000,
+                                prefix_budget=50000 if method == 'old_strong' else 10000)
+                began = time.process_time()
+                checked = outcome(result['program'], j['score_inputs'], j['score_outputs'], CONFIG)
+                buyer_cpu = time.process_time() - began
+                value = {k: v for k, v in result.items() if k != 'candidate_records'}
+                value.update({'accepted': checked['passed'], 'correct_rows': checked['correct'], 'rows': checked['rows'],
+                              'buyer_work': checked['total_work'], 'buyer_cpu_seconds': buyer_cpu, 'audit_work': audit})
+                row['methods'][method] = value
+                total = totals[method]
+                total['accepted'] += int(checked['passed'])
+                total['wrong'] += int(result['program'] is not None and not checked['passed'])
+                total['search_work'] += result['work']['total']
+                total['audit_work'] += audit
+                total['buyer_work'] += checked['total_work']
+                total['search_cpu_seconds'] += result['cpu_seconds']
+                total['buyer_cpu_seconds'] += buyer_cpu
+                total['signature_cpu_seconds'] += result['signature_cpu_seconds']
+                total['scorer_cpu_seconds'] += result['scorer_cpu_seconds']
+                total['signature_count'] += result['signature_count']
+                if disjoint:
+                    total['program_disjoint_jobs'] += 1
+                    total['program_disjoint_accepted'] += int(checked['passed'])
+            stream.write(json.dumps(row) + '\n'); stream.flush()
+            if (index + 1) % 24 == 0:
+                print('tested', kind, index + 1, flush=True)
+    report = {'scope': 'PRIVATE larger authored/synthetic training curriculum DEV. No reserved corpus opened or new real-world capability claim. Training is actual prior accepted eight-tool programs with independently rechecked24buyer rows; every model identical receipts and labels, expensive historical teacher accounting explicit. Evaluated known384 authored tasks and known43Duet development only, unsupported retained. Exact authored recipe overlap reported, no unseen-program claim for overlapped subset. Same50k interpreter cap and shared10k strongprefix except fullold50k control; no retry after buyer rejection. Signature, inference, training, historical collection and buyer costs distinct. No main1024 brain input or consciousness claim.',
+              'jobs': len(jobs), 'unsupported': sum(bool(j.get('unsupported')) for j in jobs),
+              'known384_recipe_overlap_count': dataset['known384_overlap_count'],
+              'training_records': len(dataset['records']), 'training_positives': dataset['positives'],
+              'training_file_sha256': hashlib.sha256((P / 'training.json').read_bytes()).hexdigest(),
+              'search_source_sha256': hashlib.sha256((P / 'search.py').read_bytes()).hexdigest(),
+              'evaluate_source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              'guidance_source_sha256': hashlib.sha256(Path(inspect.getfile(SemanticGuidance)).read_bytes()).hexdigest(),
+              'totals': totals}
+    with (P / ('summary-' + kind + '-' + '-'.join(methods) + '.json')).open('x') as stream:
+        json.dump(report, stream, indent=2)
+    print(json.dumps(report, indent=2), flush=True)
+
+
+if __name__ == '__main__':
+    if sys.argv[1] == 'fit':
+        fits()
+    elif sys.argv[1] == 'evaluate':
+        evaluate(sys.argv[2], tuple(sys.argv[3:]) or METHODS)
+    else:
+        raise ValueError('unknown action')

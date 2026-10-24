@@ -1,0 +1,52 @@
+{
+  "version": "strong-memory-full-evaluation-v1",
+  "created_utc": "2026-10-24T20:06:17.782528+00:00",
+  "scope": "Conventional-control validation on an existing private synthetic development set. No qualification, consciousness, natural-world capability, or learning-superiority claim. Prior acquisition records remain unchanged.",
+  "jobs": 384,
+  "actors": [
+    "retained_short_circuit",
+    "field_templates"
+  ],
+  "actor_work_cap": 50000,
+  "maximum_extra_work_including_preparation_pilot_and_checks": 50000000,
+  "configuration": {
+    "version": "safe-text-v1",
+    "max_ops": 24,
+    "max_candidates": 30000,
+    "max_rows": 32,
+    "max_input_bytes": 2048,
+    "max_programs": 128,
+    "max_macros": 0,
+    "max_fields": 8,
+    "max_parts": 4
+  },
+  "configuration_sha256": "dafac95792448f3549ff85e06bf972eb4b0e31367bdc081fd39bc3c678c14a9f",
+  "dataset_order": "seeds 0,1,2,3; original generate(seed,96) task order",
+  "source_sha256": {
+    "controls.py": "2c4352cca3ad7d97122472901d0e22c49765e12793476d1e844493c05f7fbfe9",
+    "run_validation.py": "96ef5537f8bcb03c1168465a5102e37b3abea4c65fbcbd60c124450787c70557",
+    "engine/search.py": "5948b7d3cc7202b4b9ff2349cf8dc26bd07ef64d8162a86003db2bcf7f9179d5",
+    "engine/captured_composition.py": "f1037a60f825e01fbae1b9d48e823d9523fc98d07eb373ce2edb51add34f638d",
+    "engine/captured_routed_text_search.py": "68cc1488effc0fb1dbdfacc5d2e04385c3397bbd9de8c591cfe9eadcb7f3358c",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "cognition/text_composition.py": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52",
+    "cognition/routed_text_search.py": "2634d293a2409c3725fb48339e0e40556d2f9e83d886713ac7a0ca0d660f945a",
+    "scripts/build_guarded_skill_tasks.py": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "full_evaluation.py": "d5ca7fd5c0f3926440b303fdb11990a81d0479ad1dd19d53185a29a389acb53b"
+  },
+  "pilot_summary_sha256": "2ce6c36a896c95c951c3feee6cfa3496e2f450a20878fce1338c9c1be9eda8a2",
+  "prepared_cache_sha256": {
+    "0": "ac2d5d3694e02613d48196be35c98ecbd86f1cac5a56cd5acb907648b65cb127",
+    "1": "4522747ced963928b1c1c39ebd54e6d17495fd6fce6388bf2423fdace3ca42d7"
+  },
+  "training_sha256": {
+    "0": "ab5a631e7b278a723616579ecd60cc1bd04d43d83da552ad8a7173b0769558ed",
+    "1": "444dfb244777107967470ad47ce999b1d0d8791c94942a586875045c4d9a06b7"
+  },
+  "no_post_pilot_control_changes": true,
+  "buyer_rule": "Commit one selected AST before one final buyer call; no retry after rejection.",
+  "source_program_metadata": "Used only for existing matching-fold evaluation routing; never actor input.",
+  "field_templates": "Derived only from the same previously accepted ASTs and fixed CONFIG.max_fields. No task-family-specific logic."
+}

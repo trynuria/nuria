@@ -1,0 +1,24 @@
+from pathlib import Path
+import hashlib,json,sys,time
+from indexed_knn import IndexedExactKNN
+from cognition.semantic_guidance import SemanticGuidance
+P=Path(__file__).parent;D=P.parent/'semantic-priority-dev-06';sys.path.insert(0,str(D))
+from search import search
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+old=json.loads((P/'representative-pilot.json').read_text());calls=json.loads((P/'representative-score-calls.json').read_text())
+model=SemanticGuidance.from_evidence(json.loads((D/'model-0-knn.json').read_text()));indexed=IndexedExactKNN(model)
+jobs={j['id']:j for seed in(0,1,2,3)for j in generate(seed,96)['tasks']}
+original={r['job_id']:r['methods']['knn']for r in map(json.loads,(D/'evaluation-0-knn.jsonl').read_text().splitlines())}
+results=[]
+for row,scores in zip(old['jobs'],calls,strict=True):
+    job=jobs[row['job_id']];indexed.reset()
+    for call in scores['calls']:
+        if indexed.score(call['features']).tolist()!=call['scores']:raise ValueError('Recorded actual prediction differs')
+    indexed.reset();started=time.process_time();result=search(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],CONFIG,scorer=indexed.score);cpu=time.process_time()-started
+    expected=original[job['id']]
+    if result['program']!=expected['program']or result['work']!=expected['work']:raise ValueError('Indexed fullsearch differs')
+    report={'job_id':job['id'],'family':job['family'],'scored_queries':result['scored_count'],'all_predictions_bitwise_exact':True,'final_program_and_work_exact':True,'old_cpu_seconds':row['old_cpu_seconds'],'indexed_cpu_seconds':cpu,'speedup':row['old_cpu_seconds']/cpu,'cache_hits':indexed.hits,'cache_misses':indexed.misses,'reference_rows_evaluated':indexed.reference_rows_evaluated,'possible_reference_rows':indexed.misses*len(indexed.x),'fallback_queries':indexed.fallback_queries}
+    results.append(report);print(json.dumps(report),flush=True)
+report={'scope':'Same three previously selected low/median/high completed actual jobs; exact model, observations and full arithmetic with proof-bound row exclusion; no changed search or useful-task outcome. Index construction counted separately, zero fit during eachsearch, boundedfreshpredictionLRU.', 'jobs':results,'aggregate_speedup':sum(r['old_cpu_seconds']for r in results)/sum(r['indexed_cpu_seconds']for r in results),'index_bytes':indexed.index_bytes,'index_cpu_seconds':indexed.index_cpu_seconds,'source_sha256':hashlib.sha256((P/'indexed_knn.py').read_bytes()).hexdigest()}
+with(P/'index-search-pilot.json').open('x')as stream:json.dump(report,stream,indent=2)
+print(json.dumps(report,indent=2))

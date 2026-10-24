@@ -1,0 +1,68 @@
+{
+  "recommendation": "Use Bao-style fixed-plan SQLite service routing as a bounded useful-task experiment; this is established methodology, not a new-AI claim. First measure broad development headroom against a maintained native SQLite planner before training any neural selector.",
+  "source_options": [
+    {
+      "name": "BIRD Mini-Dev",
+      "queries": 500,
+      "databases": 11,
+      "dialect": "SQLite native",
+      "license": "CC-BY-SA-4.0 per official dataset card",
+      "source": "https://github.com/bird-bench/mini_dev",
+      "canonical_questions": "https://huggingface.co/datasets/birdsql/bird_mini_dev",
+      "download_evidence": "HF metadata/question files882kB. Original full-dev archive HEAD346207293bytes, supportsRanges, contains a345997266-byte nested dev_databases.zip; final perDB expansion sizes remain unverified. No SQL or database bodies opened.",
+      "fit": "Most credible readily available real SQLite query/data course; original human-authored SQL serves as exact result oracle, not NL-to-SQL task solved by policy."
+    },
+    {
+      "name": "Spider1.0",
+      "queries": 5693,
+      "questions": 10181,
+      "databases": 200,
+      "dialect": "SQLite",
+      "license": "CC-BY-SA-4.0 per official project site; repo code Apache2 is distinct",
+      "source": "https://yale-lily.github.io/spider",
+      "fit": "Useful independent schema-holdout replication; many tinyDBs can leave no planner/inference-overhead headroom. Official GDrive HEAD returnsHTML, archive size/access unresolved."
+    },
+    {
+      "name": "JOB",
+      "source": "https://github.com/gregrahn/join-order-benchmark",
+      "fit": "Not quickSQLite drop-in: canonical2013IMDb relational data/import and PostgreSQL-oriented scripts. Repositoryexplicitlywarns differentdataset canchangequeryresults; currentIMDbexport mustnotbe calledexactJOB."
+    }
+  ],
+  "protocol": [
+    "Native modernSQLite after ANALYZE/PRAGMAoptimize with sameindices is mandatoryprimaryoperationalbaseline. Recordversion/compileoptions/STAT4 availability.",
+    "Freeze fixedplanvariants beforequalification; include nativeplan amongarms. INDEXED BY is mandatory accesspath, not a hint; CROSSJOIN looporders only where semantics provablypreserved. Avoid unaryplus dueaffinitychanges.",
+    "Everyplanmustreturn exacttypedrows under declaredorder/bagsemantics. Preserve NULL, duplicates, collation, stableorderedLIMIT; wronganswer/timeouts arefailures notremoved.",
+    "Use selected-only actualfeedback; samefeatures, SQLcontext, pastobservationhistory, actionbudgets, calibrationbudget and forcedexploration acrossbranches. Counterfactual completeplanmatrix is buyer-onlydiagnostic, nevershown topolicy.",
+    "Primarymetric endtoend CPU/wallcost includes featuresampling,planning,inference,learning,abort/retry overhead. SQLiteVMsteps are secondaryworkproxy, not runtimeproof.",
+    "Strongconventionalcontrolwinner is selected onDEV only amongnativeoptimizer, bestfixedplan, exactAST/templatehistoryEWMA, rawlinear/RFF, boosted/onlineMLP and sampling/cardinalityrule ifsameobservationcost. Do not only compare toweakgreedy.",
+    "Holdout SQLAST/templatefamilies and databasegroups before readingquery bodies. All variants ofonequeryfamilystaytogether. Fixedsourcehashes, no retuning afterqualifiedrun. Report macroperDB and workloadtotal, tailregressions, matchedtrainingseeds andcircuitablation.",
+    "Abortclaimofusefulimprovement ifnativeorstrongcontrolalreadynearlyoracle, overheadwipesgains, frozen/continuouscontrolsdoaswell, or gainsappearonly underhandselectedstale/absentstatistics."
+  ],
+  "primary_sources": [
+    {
+      "url": "https://arxiv.org/abs/2004.03814",
+      "supports": "Bao banditoptimizer uses neuralplanfeatures+Thompsonsampling atop existingoptimizer."
+    },
+    {
+      "url": "https://rmarcus.info/blog/2021/06/17/bao-distributed.html",
+      "supports": "Author describes selectedplanexecutionfeedback and planningoverhead concern."
+    },
+    {
+      "url": "https://www.sqlite.org/lang_analyze.html",
+      "supports": "ANALYZE/PRAGMAoptimize recommendations and STAT4 distinction."
+    },
+    {
+      "url": "https://www.sqlite.org/lang_indexedby.html",
+      "supports": "INDEXEDBY requirement, preparationfailure and lastresortstatus."
+    },
+    {
+      "url": "https://www.sqlite.org/c3ref/c_stmtstatus_counter.html",
+      "supports": "VM_STEP proxy and2147483647limit."
+    },
+    {
+      "url": "https://www.sqlite.org/optoverview.html",
+      "supports": "Joinplanningsemantics, CROSSJOINorder, unaryplusaffinitycaveat."
+    }
+  ],
+  "scope": "Primarywebpages/papers, HEAD andouterZIPcentralmetadata only; no database/SQLbody downloads and no sealedDuet162access. No app/server mutations."
+}

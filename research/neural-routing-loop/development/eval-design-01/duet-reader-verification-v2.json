@@ -1,0 +1,23 @@
+{
+  "scope": "43 development sources only; 162 reserved bodies remain unfetched and unopened",
+  "jobs": 43,
+  "evaluable": 25,
+  "unsupported": {
+    "Current finite text learner supports only String fields and String outputs": 9,
+    "No disjoint original score example and no usable verified oracle extension": 9
+  },
+  "original_constraints_retained": 1241,
+  "derived_specification_score_checks": 552,
+  "original_labels_and_oracle_verified": 29,
+  "full_source_rebuild_payload_matches": true,
+  "jobs_sha256": "50ac5c81f1a5aed8525a8cc73852711dd5f9d7ee7e93d8ad09db6f918f36e4e5",
+  "reader_sha256": "cf6294c63d3b9908a538d7b9ac40c3fafa9ca376d634302d868913182c6ea4b8",
+  "tests": "9 new reader tests +6 routed-search tests passed; Ruff check+format passed",
+  "reserved_dedup": "Unknown until freeze",
+  "remaining_caveats": [
+    "Original repeat constraints retained; score by tasks/families, not inflated row sample sizes",
+    "Derived checks follow total source specification; they are not independently collected real-world examples",
+    "18 unscorable/unsupported records remain in full course denominator"
+  ],
+  "supersedes": "duet-reader-verification.json: final reader adds strict return-sort token and rejects invalid configuration independently of task source"
+}

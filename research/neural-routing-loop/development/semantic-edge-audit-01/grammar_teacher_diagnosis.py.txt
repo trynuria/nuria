@@ -1,0 +1,61 @@
+"""Post-hoc DEV diagnosis only: source recipes NEVER become learner labels here."""
+from pathlib import Path
+from collections import Counter
+import importlib.util,hashlib,json,sys
+BASE=Path(__file__).parents[1];REPO=Path('.');sys.path.insert(0,str(REPO));sys.path.insert(0,str(Path(__file__).parent))
+from cognition.text_skills import fields,evaluate,validate_program,shape
+from cognition.skills import _Meter
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.verify_active_skill_results import outcome
+from features import OPS,normalize_family
+spec=importlib.util.spec_from_file_location('semantic06_grammar_diagnosis',BASE/'semantic-priority-dev-06/search.py');s=importlib.util.module_from_spec(spec);sys.modules[spec.name]=s;spec.loader.exec_module(s)
+def digest(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+past=[j for seed in range(10,31)for j in generate(seed,96)['tasks']][:2000];families={j['id']:j['family']for j in past}
+byfamily=Counter();accepted=Counter();execs=Counter();inputpaths=[]
+for name in ['teacher-pilot.jsonl','teacher-rest.jsonl']:
+ path=BASE/'semantic-priority-dev-05'/name;inputpaths.append(path)
+ with path.open()as f:
+  for line in f:
+   r=json.loads(line);family=families[r['job_id']];byfamily[family]+=1;accepted[family]+=int(any(d['accepted']for d in r['profiles'].values()));execs[family]+=sum(d['accepted']for d in r['profiles'].values())
+positive=Counter();edges=Counter()
+for fold in [0,1]:
+ path=BASE/'semantic-priority-dev-06'/f'collection-{fold}.jsonl';inputpaths.append(path)
+ with path.open()as f:
+  for line in f:
+   for r in json.loads(line)['selected_records']:
+    x=r['features'];key=(OPS[x[84:96].index(1.)],OPS[x[118:130].index(1.)]);edges[key]+=1;positive[key]+=r['label']
+known={j['id']:j for seed in range(4)for j in generate(seed,96)['tasks']};failed=[];missed=Counter();actorpairs=Counter()
+for path in(BASE/'semantic-priority-dev-06').glob('evaluation-*-old_strong*.jsonl'):
+ inputpaths.append(path)
+ with path.open()as f:
+  for line in f:
+   r=json.loads(line);actorpairs[(r['methods']['spiking']['accepted'],r['methods']['old_strong']['accepted'])]+=1
+   if r['methods']['old_strong']['accepted']:continue
+   j=known[r['job_id']];missed[j['family']]+=1;program=validate_program(j['private_recipe']['program'],CONFIG);rows=[fields(x,CONFIG)for x in j['diagnostic_inputs'][:4]];targets=j['diagnostic_outputs'][:4];checked=outcome(program,j['score_inputs'],j['score_outputs'],CONFIG)
+   if not checked['passed']:raise ValueError('Source recipe unexpectedly fails buyer rows')
+   foundedges=[];literalchecks=0
+   def visit(node):
+    nonlocal_placeholder=None
+    global_dummy=None
+    if node['op']=='if_equal':raise ValueError('Source recipe outside tested finite grammar')
+    if 'arg'in node:
+     child=node['arg'];family=normalize_family(node['op']);meter=_Meter(1000000);values=[evaluate(child,row,meter,CONFIG)for row in rows]
+     if family not in s.ACTION_FAMILIES or not any(digest(candidate)==digest(node)for candidate in s.family_operations(child,values,tuple(targets),family)):
+      raise ValueError('Source recipe parent operation is absent from actual finite generator')
+     foundedges.append((child['op'],family));visit(child)
+    if node['op']=='concat':
+     if len(node['parts'])>CONFIG['max_parts']:raise ValueError('Concat outsidepartcap')
+     positions=[0]*len(rows)
+     for part in node['parts']:
+      meter=_Meter(1000000);values=[evaluate(part,row,meter,CONFIG)for row in rows]
+      if part['op']=='constant':
+       if len(part['value'])>8 or not all(y.startswith(part['value'],pos)for y,pos in zip(targets,positions,strict=True)):raise ValueError('Source recipe literal outside shared concat grammar')
+      positions=[pos+len(v)for pos,v in zip(positions,values,strict=True)]
+      visit(part)
+   visit(program['expr'])
+   failed.append({'job_id':j['id'],'family':j['family'],'source_program_sha256':digest(program),'source_ast_nodes':shape(program['expr'],CONFIG),'source_ast_depth':s.depth(program['expr']),'source_program_exactly_in_registered_finite_grammar':True,'source_buyer_passed':True,'source_buyer_work':checked['total_work'],'old_wrong_proposal':r['methods']['old_strong']['program']is not None,'needed_edges':[list(x)for x in foundedges]})
+report={'schema':'nuria.semantic-edge-grammar-teacher-diagnosis.v1','scope':'Post-hoc known DEV only. Source recipe ASTs are inspected solely to diagnose expressibility AFTER comparisons; none are supplied as learner labels or actor observations. Direct source-program execution is an oracle diagnostic, not evidence a learner found the program. No new benchmark/qualification, reserved data, production or financial actions.','teacher_family_coverage':{family:{'past_jobs':byfamily[family],'accepted_jobs':accepted[family],'accepted_profile_executions':execs[family]}for family in byfamily},'selected_training_edge_coverage':{f'{a}->{b}':{'positive':positive[(a,b)],'total':n}for(a,b),n in sorted(edges.items())},'known_old_failures_by_family':dict(missed),'known_old_failed_jobs':failed,'paired_spiking_vs_old':{f'spiking_{int(a)}_old_{int(b)}':n for(a,b),n in actorpairs.items()},'findings':['All51old failures have source solutions within the registered finite grammar; source solutions pass actual24row buyerchecks. This is a bounded search/selection/generalization gap rather than missing interpreter operations.','The2000job eight-tool history has150joined-code-and-segment jobs andzeroacceptedprograms in that family. More samples from this history do not supply a successful end-to-end demonstration.','Across61082selectededge labels,token->slice haszero positives and1137negatives despite being a required compositional edge in canonical short-token/joined-code recipes. Negative means nonmembership in observed solutions, not objective uselessness.','The tentative upper(split) coverage concern is rejected:split->upper has483positive/900totalselectededges.','Warm-frontier reuse is a separately testable shared search optimization. It cannot by itself establish learned neural superiority.'],'sources_sha256':{str(p.relative_to(BASE)):sha(p)for p in inputpaths},'diagnosis_source_sha256':sha(Path(__file__))}
+output=Path(__file__).with_name('grammar-teacher-diagnosis.json')
+with output.open('x')as f:json.dump(report,f,indent=2);f.write('\n')
+print(json.dumps({'known_old_failures':len(failed),'families':dict(missed),'all_in_grammar':all(x['source_program_exactly_in_registered_finite_grammar']for x in failed),'needed_token_slice':sum(('token','slice')in map(tuple,x['needed_edges'])for x in failed),'zero_positive_token_slice':report['selected_training_edge_coverage']['token->slice']},indent=2))

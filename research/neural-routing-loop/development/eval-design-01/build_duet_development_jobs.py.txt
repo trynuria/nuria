@@ -1,0 +1,65 @@
+"""Reproduce the previously declared 43-file development payload only.
+
+No network access, reserved-file access, solver execution, or overwrite. Supply
+the public source directory on PYTHONPATH and an unused output filename.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+from pathlib import Path
+
+from cognition.pbe_benchmarks import make_source_job
+
+ROOT = Path(__file__).resolve().parent
+
+
+def build():
+    manifest = json.loads((ROOT / "duet-split-before-access.json").read_text())
+    commit = json.loads((ROOT / "duet-commit.json").read_text())
+    entries = manifest["development_tasks"]
+    if len(entries) != 43 or len(manifest["sealed_unfetched_tasks"]) != 162:
+        raise ValueError("Declared development/reserved inventory changed")
+    jobs = []
+    for entry in entries:
+        path = ROOT / "duet-development" / Path(entry["path"]).name
+        raw = path.read_bytes()
+        blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+        if len(raw) != entry["size"] or blob != entry["sha"]:
+            raise ValueError("Pinned development source size/blob mismatch")
+        stem = Path(entry["path"]).stem
+        numeric = re.match(r"([0-9]+)", stem)
+        family = numeric.group(1) if numeric else re.split("[-_]", stem)[0]
+        jobs.append(
+            make_source_job(
+                raw,
+                identity="duet:" + entry["path"],
+                family=family,
+                source={
+                    "repository": manifest["repository"],
+                    "commit": manifest["commit"],
+                    "tree": commit["commit"]["tree"]["sha"],
+                    "path": entry["path"],
+                    "git_blob_sha1": entry["sha"],
+                    "byte_count": len(raw),
+                    "license": "GPL-3.0; preserve upstream LICENSE",
+                },
+            )
+        )
+    return jobs
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("output", type=Path, help="New, previously absent output file")
+    args = parser.parse_args()
+    with args.output.open("x") as stream:
+        json.dump(build(), stream, indent=2)
+        stream.write("\n")
+
+
+if __name__ == "__main__":
+    main()

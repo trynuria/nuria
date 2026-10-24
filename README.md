@@ -72,6 +72,15 @@ All eleven checkpoints, predictions, paired errors and independent checks are
 published. This is a separate supervised perception capability; it does not
 establish improved treasury or hiring decisions in the original recurrent circuit.
 
+The later [outcome-trained search study](research/neural-routing-loop/README.md)
+recovered verified programs for **124/128** previously failed training jobs.
+The unchanged normal-budget spiking controller improved from **316 to 356/384**
+accepted development jobs. A stronger conventional control transferred field
+bindings in the same accepted program history and reached **382/384**, with two
+wrong proposals versus one for the spiking controller. The neural-superiority
+interpretation therefore failed. All attempts and independent replays are
+retained; the new policy is not enrolled in the original running circuit.
+
 Skill acquisition uses conventional program synthesis and verified retention.
 The [comparison record](research/skill-acquisition/README.md) retains the failed
 unary experiment and the stronger factored baseline that beat fragment search.

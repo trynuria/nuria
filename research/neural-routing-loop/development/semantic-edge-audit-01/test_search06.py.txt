@@ -1,0 +1,97 @@
+"""Independent mechanical guards for DEV06; not comparative qualification."""
+from pathlib import Path
+import copy
+import importlib.util
+import json
+import sys
+import unittest
+from unittest.mock import patch
+import numpy as np
+
+BASE=Path(__file__).parents[1]
+REPO=Path('.')
+sys.path.insert(0,str(REPO))
+from scripts.build_guarded_skill_tasks import CONFIG
+from scripts.verify_active_skill_results import outcome
+
+def load(name,path):
+    spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module);return module
+
+current=load('semantic_search06_independent',BASE/'semantic-priority-dev-06/search.py')
+previous=load('semantic_search03_independent',BASE/'semantic-priority-dev-03/search.py')
+
+class Search06Tests(unittest.TestCase):
+    def test_identical_finite_operation_grammar_union(self):
+        node={'op':'field','index':0};values=['Abc.def12','GHI.jkl34'];targets=['abc','ghi']
+        old={previous.digest(x)for x in previous.unary_operations(node,values,targets)}
+        new={current.digest(x)for family in current.ACTION_FAMILIES for x in current.family_operations(node,values,targets,family)}
+        self.assertEqual(old,new)
+        self.assertEqual(set(current.ACTION_FAMILIES),{'strip','upper','lower','other_case','token','split','slice','replace','number'})
+
+    def test_operation_is_selected_before_parent_execution(self):
+        xs=[json.dumps(['alpha']),json.dumps(['beta'])];ys=['ALPHA','BETA']
+        observed=[];calls=[];evaluate=current.evaluate
+        def counted(node,*args,**kwargs):
+            calls.append(node['op']);return evaluate(node,*args,**kwargs)
+        def scorer(batch):
+            if not observed:self.assertEqual(set(calls),{'field'})
+            self.assertEqual(batch.shape[1],130)
+            self.assertTrue(np.all(batch[:,84]==1) if not observed else True)
+            self.assertTrue(np.all(batch[:,118:].sum(axis=1)==1))
+            observed.extend(batch.tolist())
+            return batch[:,118+current.OPS.index('upper')]
+        with patch.object(current,'evaluate',side_effect=counted):
+            result=current.search(xs,ys,CONFIG,scorer=scorer,budget=1000,prefix_budget=0,collect=True)
+        self.assertEqual(result['program']['expr']['op'],'upper')
+        self.assertEqual(next(op for op in calls if op!='field'),'upper')
+        self.assertTrue(result['work']['total']<=1000)
+        self.assertTrue(outcome(result['program'],[json.dumps(['gamma'])],['GAMMA'],CONFIG)['passed'])
+        self.assertTrue(observed)
+
+    def test_teacher_root_parent_does_not_supply_parent_values(self):
+        xs=[json.dumps(['alpha']),json.dumps(['beta'])];ys=['ALPHA','BETA']
+        program={'version':'safe-text-v1','expr':{'op':'upper','arg':{'op':'field','index':0}}}
+        self.assertTrue(outcome(program,[json.dumps(['gamma'])],['GAMMA'],CONFIG)['passed'])
+        evaluate=current.evaluate;seen=[]
+        def operand_only(node,*args,**kwargs):
+            seen.append(node['op'])
+            if node['op']=='upper':raise AssertionError('Parent output cannot enter feature extraction')
+            return evaluate(node,*args,**kwargs)
+        with patch.object(current,'evaluate',side_effect=operand_only):
+            teaching=current.edge_training([program],xs,ys,[],CONFIG)
+        self.assertEqual(set(seen),{'field'})
+        self.assertEqual(teaching['teacher_operand_nodes_not_in_exploration'],1)
+        self.assertEqual(teaching['positive_semantic_edges'],1)
+        positive=[r for r in teaching['records']if r['label']]
+        self.assertEqual(len(positive),1)
+        self.assertEqual(positive[0]['features'][118+current.OPS.index('upper')],1)
+        self.assertEqual(len(positive[0]['features']),130)
+        self.assertNotIn('parent_values',positive[0])
+        self.assertEqual(teaching['teacher_candidates'][0]['values'],['alpha','beta'])
+        self.assertGreater(teaching['teacher_operand_replay_work']['total'],0)
+
+    def test_conditional_teacher_is_explicitly_outside_scope(self):
+        program={'version':'safe-text-v1','expr':{'op':'if_equal','field':0,'value':'a','then':{'op':'constant','value':'A'},'else':{'op':'constant','value':'B'}}}
+        with self.assertRaisesRegex(ValueError,'Conditional'):
+            current.edge_training([program],[json.dumps(['a']),json.dumps(['b'])],['A','B'],[],CONFIG)
+
+    def test_initial_fitting_program_is_not_overwritten_by_later_fields(self):
+        xs=[json.dumps(['A','A']),json.dumps(['B','B'])];ys=['A','B']
+        result=current.search(xs,ys,CONFIG,budget=1000,prefix_budget=0,collect=True)
+        self.assertEqual(result['program']['expr'],{'op':'field','index':0})
+        self.assertEqual(result['candidate_records'],[])
+
+    def test_all_controls_receive_same_formal_observations(self):
+        xs=[json.dumps(['a b']),json.dumps(['c d'])];ys=['a','c']
+        first=[]
+        def capture(batch):
+            if not first:first.append(copy.deepcopy(batch.tolist()))
+            return np.zeros(len(batch))
+        current.search(xs,ys,CONFIG,scorer=capture,budget=250,prefix_budget=0)
+        self.assertEqual(len(first[0]),9)
+        for row in first[0]:self.assertEqual(len(row),130)
+        expected={current.OPS.index(f)for f in current.ACTION_FAMILIES}
+        actual={int(np.argmax(row[118:]))for row in first[0]}
+        self.assertEqual(expected,actual)
+
+if __name__=='__main__':unittest.main()

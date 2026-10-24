@@ -1,0 +1,14 @@
+"""One fixed refit per control after real past acquisition outcomes."""
+from pathlib import Path
+import hashlib,json,sys,time
+P=Path(__file__).parent;sys.path.insert(0,str(P.parent/'semantic-edge-audit-01'))
+from audit_control import ContextualLinearGuidance
+from cognition.semantic_guidance import SemanticGuidance
+held=int(sys.argv[1]);data=json.loads((P/f'training-{held}.json').read_text());records=data['records'];report={}
+for method in('spiking','frozen_input','continuous','linear','per_family_linear','rff','knn'):
+    model=ContextualLinearGuidance(seed=20261026+held)if method=='per_family_linear'else SemanticGuidance(method=method,dimension=130,seed=20261026+held)
+    began=time.process_time();model.fit(records);cpu=time.process_time()-began
+    with(P/f'model-{held}-{method}.json').open('x')as stream:json.dump(model.evidence(),stream)
+    report[method]={'fit_cpu_seconds':cpu,'training_sha256':model.training_sha256,'records':len(records),'positives':sum(r['label']for r in records),'model_sha256':hashlib.sha256((P/f'model-{held}-{method}.json').read_bytes()).hexdigest()}
+    print(held,method,cpu,flush=True)
+with(P/f'fits-{held}.json').open('x')as stream:json.dump(report,stream,indent=2)

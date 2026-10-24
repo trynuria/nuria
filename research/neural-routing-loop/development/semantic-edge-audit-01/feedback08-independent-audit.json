@@ -1,0 +1,91 @@
+{
+  "schema": "nuria.feedback-acquisition-learning-independent-audit.dev08.v1",
+  "scope": "Known development feedback acquisition and cohort-isolated augmentation. All new programs and labels reconstructed from actually delivered/independently checked artifacts. No hidden source AST used as a teacher; no useful-task superiority/qualification/consciousness inference from this audit.",
+  "chronological_selected_past_misses": 128,
+  "acquisition_calls_including_pilot": 396,
+  "new_accepted_distinct_past_jobs": 124,
+  "actual_acquisition_work": 129660079,
+  "journal_events": 984,
+  "journal_prefix_sha256": "aaed4e6be017c8fb7ab79fc1bc9342b4cf13c3ef27a8105ee277e99c92bd512e",
+  "settled_session_work_before_this_audit": 134507518,
+  "pending_reservations": 0,
+  "remaining_before_this_audit": 115492482,
+  "additional_offline_verification_work": 3393599,
+  "conservative_remaining_after_this_audit": 112098883,
+  "verification_counts": {
+    "old_failure_buyer_rechecks": 944,
+    "new_acquisition_buyer_rechecks": 366,
+    "derived_teacher_buyer_rechecks": 255,
+    "independent_teacher_operand_work": 17364,
+    "independent_cached_vector_work": 2836170
+  },
+  "new_positive_training_edge_occurrences": {
+    "field->split": 124,
+    "split->slice": 41,
+    "field->slice": 104,
+    "split->upper": 94,
+    "field->token": 21,
+    "token->upper": 21,
+    "field->upper": 32,
+    "upper->split": 30,
+    "upper->token": 2
+  },
+  "accepted_acquisition_ast_edge_occurrences": {
+    "split->slice": 40,
+    "field->split": 193,
+    "field->slice": 247,
+    "split->upper": 153,
+    "upper->split": 30,
+    "field->upper": 32,
+    "token->upper": 30,
+    "field->token": 30,
+    "upper->token": 2
+  },
+  "folds": {
+    "0": {
+      "new_origins": 57,
+      "unchanged_base_records": 29152,
+      "augmented_records": 31160,
+      "new_records": 2008,
+      "training_sha256": "aea424e293afbf83e60e4c67d09d8bf5da2e4e55728826667f528a22a3445c72",
+      "models_sha256": {
+        "spiking": "543d298ccf49b1da450a6bbde2da248ab474e8ccd2a9aba91c57ca380f53c011",
+        "frozen_input": "00f4d91aaf438888aeb54d94e90da119b737958fa4b6f0fdf0ba265b8b9c87f2",
+        "continuous": "59fe3f997740c2db26b2bf03ed00971bb5a42a9ad5d9ebc7240513c9d40b8e21",
+        "linear": "6c9dcb44b5e2957a202a933aa3ba109acd3dbc08cf16cccc67cacf3970995a22",
+        "per_family_linear": "1f185604d589faeec1cdba1fb156e7244e0b1954dd3b41be311b6d42f240c0c4",
+        "rff": "3e43df1828afca215845bb6826bc4aa8ef1dade8062d02f1fa31081fd8909450",
+        "knn": "12b7327be20e4ef70f493259495f6772b992bbc759a4f4b0960e48e44b3a3a2e"
+      },
+      "future_held_group_excluded": true,
+      "new_derivation_work": 1902110
+    },
+    "1": {
+      "new_origins": 67,
+      "unchanged_base_records": 31930,
+      "augmented_records": 34359,
+      "new_records": 2429,
+      "training_sha256": "78c338eee9daff9e9163b24ed5e98fd4baaace20f867352395c564d14dddcb7b",
+      "models_sha256": {
+        "spiking": "9f3818fc1d7670d2a9e8467d13debbd706f755b28a4234d4ed049d0334e76930",
+        "frozen_input": "59e4eaa0561ab52a29010ad20068d3cca65e5bd1d858c5089004d832c84f548a",
+        "continuous": "ad3b287ab896d0ffaaa99bc2a43a6a5c64c85e395d0a154a6e3628aad08c4d58",
+        "linear": "11308b67341b25efff6ed9e6548d1c087abaadab466e6e5c4e04853dd2dcd7e3",
+        "per_family_linear": "3b3d59ee9edd44335c0a373a2c4972c11754d63f4f0ab0a92aed7abe582f44bf",
+        "rff": "f1999322dc9b13d996dc4391a6b39de30470136681168934239377a44044992a",
+        "knn": "944d88ba7d06047508ebf34502e630f55955eab3de236259bfc9df698cb440f8"
+      },
+      "future_held_group_excluded": true,
+      "new_derivation_work": 2915413
+    }
+  },
+  "all_rechecked": true,
+  "source_sha256": {
+    "extension-protocol.json": "4704c74a34a68ff018a4dc0f4286de5789609ad513a2064ee2c7cd5dc61e50e0",
+    "extension-summary.json": "85cafc7aa28f119f82147cf21044b0bdf71e1912cccee06fed229b817b4713f1",
+    "extension-traces.jsonl": "2da25dd7b88c89c5bf628034d256e9781f131c4ac05923753269079c05621f6d",
+    "training-preparation-summary.json": "6fefe458c08fcfe5c4256e38949ad580ebe8db3d1056f522e84ae94d4ff05d9b",
+    "prepare_training.py": "6fe49b7081b0d09262d03597ac3935ce41d64889f7adc582f16a3126d57db241"
+  },
+  "validator_sha256": "4e95bbc20704afa2128061ed5734aa1c5e5b754b332cc695c36d1735ef224068"
+}

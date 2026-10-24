@@ -1,0 +1,84 @@
+"""Append verified acquisition lessons to the matching historical cohort only."""
+from pathlib import Path
+from collections import Counter
+import hashlib,importlib.util,json,os,sys,time
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).parent;D=P.parent/'semantic-priority-dev-06';A=P.parent/'semantic-edge-audit-01'
+spec=importlib.util.spec_from_file_location('nuria_frozen_edge_search06',D/'search.py');previous=importlib.util.module_from_spec(spec);sys.modules[spec.name]=previous;spec.loader.exec_module(previous)
+search,edge_training,digest=previous.search,previous.edge_training,previous.digest
+JOBS={j['id']:j for seed in range(10,31)for j in generate(seed,96)['tasks']}
+def group(job):return int(hashlib.sha256(job['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2
+# Every actual accepted route receipt, without using hidden source ASTs.
+traces=[json.loads(line)for name in('pilot-traces.jsonl','extension-traces.jsonl')for line in(P/name).read_text().splitlines()]
+by_job={}
+for row in traces:
+    by_job.setdefault(row['job_id'],[]).append(row)
+ledger=[json.loads(line)for line in(P/'budget-journal.jsonl').read_text().splitlines()]
+previous_hash='0'*64;spent=None;pending={}
+for event in ledger:
+    if event['previous_sha256']!=previous_hash or event['sha256']!=digest({k:v for k,v in event.items()if k!='sha256'}):raise ValueError('Budget journal identity mismatch')
+    if event['kind']=='anchor':spent=event['actual_spent']
+    elif event['kind']=='reserve':pending[event['call_id']]=event['reserved_work']
+    elif event['kind']=='settle':
+        reserved=pending.pop(event['call_id']);spent+=event['actual_work']
+        if reserved-event['actual_work']!=event['released_work']:raise ValueError('Budget release mismatch')
+    previous_hash=event['sha256']
+if pending:raise ValueError('Unresolved acquisition reservation blocks derived-label work')
+if spent!=json.loads((P/'extension-summary.json').read_text())['extra_work_including_pilot']:raise ValueError('Acquisition budget state differs')
+seq=len(ledger);MAX=250000000;journal=(P/'budget-journal.jsonl').open('a')
+def record(kind,**fields):
+    global seq,previous_hash
+    seq+=1;event={'seq':seq,'previous_sha256':previous_hash,'kind':kind,**fields};event['sha256']=digest(event)
+    journal.write(json.dumps(event)+'\n');journal.flush();os.fsync(journal.fileno());previous_hash=event['sha256']
+# Known independent pilot-audit work was performed after the pilot anchor; make
+# that conservative actual charge explicit rather than renew the allowance.
+audit_charge=29916
+if spent+audit_charge>MAX:raise ValueError('Budget cannot cover known independent audit')
+spent+=audit_charge
+record('independent_audit_charge',actual_work=audit_charge,actual_spent=spent,pending_reserved=0,receipt_sha256=hashlib.sha256((A/'acquisition08-pilot-independent-audit.json').read_bytes()).hexdigest())
+reports={};started=time.process_time()
+try:
+    for held in(0,1):
+        base=json.loads((D/f'training-{held}.json').read_text());records=list(base['records']);library=dict(base['accepted_programs']);uses=Counter(base['program_uses']);new_origins=[];additional_work=0
+        with(P/f'collection-new-{held}.jsonl').open('x')as stream:
+            for job_id,attempts in by_job.items():
+                job=JOBS[job_id]
+                if group(job)==held:continue
+                accepted=[row['result']['search']['program']for row in attempts if row['result']['buyer']['passed']]
+                if not accepted:continue
+                reserve=50000+1000000+1000000*len(accepted)
+                if spent+reserve>MAX:raise ValueError('Finite remaining acquisition budget cannot derive next lesson')
+                call_id=digest({'phase':'derive_edge_labels','held_fold':held,'job_id':job_id})
+                record('reserve',call_id=call_id,job_id=job_id,route='derive_edge_labels',cap=reserve-1000000,reserved_work=reserve,actual_spent=spent,pending_reserved=reserve,past_source_group=group(job),future_serving_training_held_fold=held)
+                check_work=0;checks=[];before=time.process_time()
+                for program in accepted:
+                    checked=outcome(program,job['score_inputs'],job['score_outputs'],CONFIG)
+                    if not checked['passed']:raise ValueError('Acquired program fails independent buyer recheck')
+                    checks.append(checked);check_work+=checked['total_work'];identity=digest(program);library[identity]=program;uses[identity]+=1
+                xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+                observed=search(xs,ys,CONFIG,collect=True,prefix_budget=0)
+                taught=edge_training(accepted,xs,ys,observed['candidate_records'],CONFIG)
+                positives=[r for r in taught['records']if r['label']]
+                negatives=sorted((r for r in taught['records']if not r['label']),key=lambda r:digest([job_id,r['candidate_sha256']]))[:32]
+                evidence=digest(attempts)
+                selected=[{**r,'job_id':digest(job_id),'receipt_evidence_sha256':evidence}for r in positives+negatives]
+                records.extend(selected)
+                work=check_work+observed['work']['total']+taught['teacher_operand_replay_work']['total']
+                if work>reserve:raise ValueError('Derived lesson exceeds its reserved ceiling')
+                origin={'job_id':job_id,'past_source_group':group(job),'future_serving_training_held_fold':held,'accepted_programs':accepted,'acquisition_attempt_receipts_sha256':evidence,'buyer_rechecks':checks,'disclosed_inputs':xs,'disclosed_outputs':ys,'selected_records':selected,'enumerated_candidates':observed['candidate_records'],'teacher_edge_replay':{k:v for k,v in taught.items()if k!='records'},'exploratory_search_work':observed['work'],'buyer_recheck_work':check_work,'actual_extra_work':work,'cpu_seconds':time.process_time()-before}
+                stream.write(json.dumps(origin)+'\n');stream.flush();os.fsync(stream.fileno())
+                spent+=work;additional_work+=work
+                record('settle',call_id=call_id,result_sha256=digest(origin),actual_work=work,released_work=reserve-work,actual_spent=spent,pending_reserved=0)
+                new_origins.append({'job_id':job_id,'records':len(selected),'positives':len(positives),'programs':len(accepted)})
+        if len(records)>65536:raise ValueError('Existing configured training bound exceeded; no silent data selection')
+        result={**base,'scope':'PRIVATE feedback-support correction, not a held-out qualification. Preserve exact06labels/history then append ONLY newactualbuyeracceptedpastacquisitionjobs fromoppositesourcegroup. Same130encoder/objective/selection rules and alllearner hyperparameters. Newprograms discovered byboundedgenericsearch from4audits, never sourceASTinjection. Allcontrols including wholeprogramretention receive SAMEnewhistory. Currentserving engine remains exact07 at50k. Acquisitionactor trainedonlysamepastcohort, excludingfutureheldcohort. Failureartifactsremainretained; no usefulgain/consciousness claim until controlledfuturedecisions verified.',
+                'records':records,'records_before_cap':len(records),'accepted_origins':base['accepted_origins']+len(new_origins),'origins':base['origins']+new_origins,'positives':sum(r['label']for r in records),'new_acquisition_search_buyer_work_for_cohort':sum(a['result']['search']['work']['total']+a['result']['buyer']['total_work']for jid,ats in by_job.items()if group(JOBS[jid])!=held for a in ats),'accepted_programs':library,'program_uses':dict(uses),'new_acquisition_origins':new_origins,'new_derived_label_work':additional_work,'base_training_sha256':hashlib.sha256((D/f'training-{held}.json').read_bytes()).hexdigest(),'new_collection_sha256':hashlib.sha256((P/f'collection-new-{held}.jsonl').read_bytes()).hexdigest(),'acquisition_traces_sha256':{name:hashlib.sha256((P/name).read_bytes()).hexdigest()for name in('pilot-traces.jsonl','extension-traces.jsonl')},'derived_sources_sha256':{str(f):hashlib.sha256(f.read_bytes()).hexdigest()for f in(Path(__file__),D/'search.py',P.parent/'semantic-edge-audit-01/features.py')}}
+        with(P/f'training-{held}.json').open('x')as output:json.dump(result,output)
+        reports[str(held)]={'new_past_origins':len(new_origins),'records_before':len(base['records']),'records_after':len(records),'positive_before':base['positives'],'positive_after':result['positives'],'accepted_programs_before':len(base['accepted_programs']),'accepted_programs_after':len(library),'new_derived_work':additional_work,'training_sha256':hashlib.sha256((P/f'training-{held}.json').read_bytes()).hexdigest()}
+        print('prepared',held,reports[str(held)],flush=True)
+    record('derived_training_complete',actual_spent=spent,pending_reserved=0)
+finally:journal.close()
+report={'scope':'Single shared250Mwork acquisition+derived-label session. Historical05teacherwork/06training remain separatelyretained; allnew08solver/buyer/recheck/labelmaterialization paidactualvirtualwork counted. CPUofflinematrixfit andsoftwareverifierwalltime areseparate, not hiddenfinancialspending.','folds':reports,'extra_work_including_pilot_acquisition_and_known_audit_and_derivation':spent,'remaining_global_work':MAX-spent,'pending_reserved_work':0,'cpu_seconds':time.process_time()-started,'journal_sha256':hashlib.sha256((P/'budget-journal.jsonl').read_bytes()).hexdigest()}
+with(P/'training-preparation-summary.json').open('x')as output:json.dump(report,output,indent=2)
+print(json.dumps(report,indent=2))

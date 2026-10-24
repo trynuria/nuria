@@ -1,0 +1,88 @@
+import copy
+import unittest
+import numpy as np
+from audit_control import ContextualLinearGuidance, digest
+
+
+def records():
+    result = []
+    for i in range(64):
+        operand = [float(i % 2)] + [0.0] * 117
+        family = (i // 2) % 2
+        features = operand + [float(j == family) for j in range(12)]
+        result.append(
+            dict(
+                features=features,
+                label=int((i % 2) != family),
+                job_id=digest(["job", i]),
+                candidate_sha256=digest(["candidate", i]),
+                program_sha256=digest("program"),
+                receipt_evidence_sha256=digest(["receipt", i]),
+            )
+        )
+    return result
+
+
+class ControlTests(unittest.TestCase):
+    def test_actual_family_operand_interaction_is_learned(self):
+        data = records()
+        model = ContextualLinearGuidance(epochs=64, learning_rate=0.03).fit(data)
+        np.testing.assert_array_equal(
+            model.score([r["features"] for r in data[:4]]) > 0.5,
+            [False, True, True, False],
+        )
+        self.assertNotEqual(model.W[0, 0], model.W[1, 0])
+
+    def test_retraining_and_scoring_are_deterministic(self):
+        data = records()
+        model = ContextualLinearGuidance(epochs=2).fit(data)
+        before = copy.deepcopy(model.evidence())
+        prediction = model.score([r["features"] for r in data[:4]])
+        self.assertEqual(before, model.evidence())
+        model.fit(data)
+        self.assertEqual(before, model.evidence())
+        np.testing.assert_array_equal(
+            prediction, model.score([r["features"] for r in data[:4]])
+        )
+
+    def test_invalid_family_labels_or_metadata_do_not_change_model(self):
+        model = ContextualLinearGuidance(epochs=2).fit(records())
+        before = copy.deepcopy(model.evidence())
+        for mutation in [
+            lambda r: r[0]["features"].__setitem__(118, 0.5),
+            lambda r: r[0]["features"].__setitem__(0, True),
+            lambda r: r[0].update(label=True),
+            lambda r: r[0].update(secret="x"),
+            lambda r: r.__setitem__(1, copy.deepcopy(r[0])),
+        ]:
+            data = records()
+            mutation(data)
+            with self.assertRaises(ValueError):
+                model.fit(data)
+            self.assertEqual(before, model.evidence())
+
+    def test_checkpoint_logits_replay_independently(self):
+        model = ContextualLinearGuidance(epochs=2).fit(records())
+        e = model.evidence()
+        x = np.asarray([r["features"] for r in records()[:4]])
+        W = np.asarray(e["weights"]["W"])
+        C = np.asarray(e["weights"]["C"])
+        expected = []
+        for row in x:
+            family = int(np.argmax(row[118:]))
+            z = (
+                sum(float(a * b) for a, b in zip(row[:118], W[family], strict=True))
+                + C[family]
+            )
+            expected.append(1 / (1 + np.exp(-max(-40, min(40, z)))))
+        np.testing.assert_allclose(
+            expected, model.score(x.tolist()), rtol=1e-15, atol=1e-15
+        )
+
+    def test_unfitted_score_refused(self):
+        with self.assertRaises(ValueError):
+            ContextualLinearGuidance().score([records()[0]["features"]])
+
+
+if __name__ == "__main__":
+    unittest.main()

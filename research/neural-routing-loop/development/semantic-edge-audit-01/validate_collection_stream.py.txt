@@ -1,0 +1,111 @@
+"""Independently reconstruct DEV06 teaching labels from accepted past AST edges."""
+from __future__ import annotations
+from pathlib import Path
+from collections import Counter
+import argparse
+import hashlib
+import json
+import sys
+
+ROOT=Path(__file__).parents[1]
+REPO=Path('.')
+sys.path.insert(0,str(REPO));sys.path.insert(0,str(Path(__file__).parent))
+from cognition.text_skills import fields,evaluate,validate_program
+from cognition.skills import _Meter
+from scripts.build_guarded_skill_tasks import CONFIG,generate
+from scripts.verify_active_skill_results import outcome
+from features import action_features,signature,OPS,normalize_family
+
+LEGAL=('strip','upper','lower','other_case','token','split','slice','replace','number')
+def digest(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def origin_stream(source,limit):
+    with source.open()as stream:
+        for index,line in enumerate(stream):
+            if limit is not None and index>=limit:break
+            if not line.endswith('\n'):break
+            yield json.loads(line)
+
+def check(args):
+    source=ROOT/'semantic-priority-dev-06'/f'collection-{args.fold}.jsonl'
+    origin_count=0;wanted=set();prefix=hashlib.sha256()
+    with source.open()as f:
+        for index,line in enumerate(f):
+            if args.limit is not None and index>=args.limit:break
+            if not line.endswith('\n'):break
+            prefix.update(line.encode());wanted.add(json.loads(line)['job_id']);origin_count+=1
+    jobs={j['id']:j for seed in range(10,31)for j in generate(seed,96)['tasks']if j['id']in wanted}
+    traces={};teacher_paths=[ROOT/'semantic-priority-dev-05'/name for name in('teacher-pilot.jsonl','teacher-rest.jsonl')]
+    for p in teacher_paths:
+        with p.open()as f:
+            for line in f:
+                r=json.loads(line)
+                if r['job_id']in wanted:traces[r['job_id']]=r
+    if set(jobs)!=wanted or set(traces)!=wanted:raise ValueError('Unknown origin ID')
+    total=Counter();result=[]
+    for origin in origin_stream(source,args.limit):
+        job=jobs[origin['job_id']];trace=traces[job['id']]
+        if int(hashlib.sha256(job['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2==args.fold:raise ValueError('Train/test recipe-group overlap')
+        if origin['disclosed_inputs']!=job['diagnostic_inputs'][:4]or origin['disclosed_outputs']!=job['diagnostic_outputs'][:4]:raise ValueError('Disclosed audit substitution')
+        if origin['buyer_evidence_sha256']!=digest(trace):raise ValueError('Historical buyer trace substitution')
+        expected_programs=[];checked_buyer_work=0
+        for d in trace['profiles'].values():
+            if not d['accepted']:continue
+            checked=outcome(d['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+            if not checked['passed']or digest(d['program'])!=d['program_sha256']:raise ValueError('Historical acceptance is not reproducible')
+            expected_programs.append(d['program']);checked_buyer_work+=checked['total_work']
+        if origin['accepted_programs']!=expected_programs:raise ValueError('Teacher program set changed')
+        xs=origin['disclosed_inputs'];ys=origin['disclosed_outputs'];rows=[fields(x,CONFIG)for x in xs]
+        edges=set();edge_sources={};child_nodes={};meter=_Meter(1000000)
+        def visit(node,identity):
+            if node['op']=='if_equal':raise ValueError('Undeclared conditional teacher')
+            if 'arg'in node:
+                child=node['arg'];family=normalize_family(node['op'])
+                values=tuple(evaluate(child,row,meter,CONFIG)for row in rows)
+                if family in LEGAL and values!=tuple(ys):
+                    edges.add((values,family));edge_sources.setdefault((values,family),identity)
+                    child_nodes[digest(child)]={'node':child,'values':list(values),'features':signature(child,values,ys)}
+                visit(child,identity)
+            for child in node.get('parts',[]):visit(child,identity)
+        for program in expected_programs:
+            valid=validate_program(program,CONFIG);visit(valid['expr'],digest(valid))
+        replay=origin['teacher_edge_replay']
+        if replay['positive_semantic_edges']!=len(edges)or replay['teacher_operand_nodes']!=len(child_nodes)or replay['teacher_operand_replay_work']!=meter.values:raise ValueError('Teacher replay counts/work differ')
+        observed={digest(c['node']):c for c in origin['enumerated_candidates']}
+        if replay['teacher_operand_nodes_not_in_exploration']!=len(set(child_nodes)-set(observed)):raise ValueError('Missing-child count differs')
+        if {digest(c['node']):c for c in replay['teacher_candidates']}!=child_nodes:raise ValueError('Teacher materialized operands differ')
+        pool={**observed,**child_nodes};by_edge={}
+        for nodehash,candidate in pool.items():
+            verifier=_Meter(1000000)
+            values=[evaluate(candidate['node'],row,verifier,CONFIG)for row in rows]
+            if candidate['values']!=values:raise ValueError('Candidate cached values disagree with interpreter')
+            if values==ys:continue
+            for family in LEGAL:
+                edgeid=digest({'operand':candidate['node'],'family':family})
+                by_edge[edgeid]=(candidate['node'],values,family)
+        seen=set();positive=negative=0
+        for r in origin['selected_records']:
+            if r['candidate_sha256']in seen:raise ValueError('Duplicate edge candidate')
+            seen.add(r['candidate_sha256'])
+            node,values,family=by_edge[r['candidate_sha256']]
+            if r['features']!=action_features(node,values,ys,family):raise ValueError('Actor observation differs from disclosed operand/action')
+            key=(tuple(values),family);label=int(key in edges)
+            if r['label']!=label:raise ValueError('Prospective edge label differs from accepted prior ASTs')
+            if r['program_sha256']!=edge_sources.get(key,min(map(digest,expected_programs))):raise ValueError('Accepted program origin differs')
+            if r['job_id']!=digest(job['id'])or r['receipt_evidence_sha256']!=digest(trace):raise ValueError('Training row provenance differs')
+            positive+=label;negative+=1-label
+        allpositives={edgeid for edgeid,(_,values,family)in by_edge.items()if(tuple(values),family)in edges}
+        if {r['candidate_sha256']for r in origin['selected_records']if r['label']}!=allpositives:raise ValueError('A discovered positive teaching edge was dropped')
+        expected_negatives=sorted((edgeid for edgeid,(_,values,family)in by_edge.items()if(tuple(values),family)not in edges),key=lambda edgeid:digest([job['id'],edgeid]))[:32]
+        if [r['candidate_sha256']for r in origin['selected_records']if not r['label']]!=expected_negatives:raise ValueError('Negative selection changed')
+        total.update(origins=1,accepted_program_executions=len(expected_programs),buyer_recheck_work=checked_buyer_work,teaching_records=len(origin['selected_records']),positive_records=positive,negative_records=negative,teacher_operand_replay_work=meter.values['total'])
+        result.append(dict(job_id=job['id'],family=job['family'],positive_records=positive,negative_records=negative,actual_edges=len(edges),materialized_operands=len(child_nodes)))
+    return dict(schema='nuria.semantic-edge-collection-audit.v1',scope='Independent retrospective DEV06 teaching-record reconstruction; no held-out qualification or performance claim. Current root-parent values excluded from actor features; past verified AST edges supply labels. No reserved source accessed.',fold=args.fold,collection_prefix_lines=origin_count,collection_prefix_sha256=prefix.hexdigest(),totals=dict(total),origins=result,sources_sha256={'validator':sha(Path(__file__)),'features':sha(Path(__file__).with_name('features.py')),'search06':sha(ROOT/'semantic-priority-dev-06/search.py'),'run06':sha(ROOT/'semantic-priority-dev-06/run.py')},all_checked=True)
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('new_output',type=Path);parser.add_argument('--fold',type=int,default=0);parser.add_argument('--limit',type=int)
+    args=parser.parse_args();report=check(args)
+    with args.new_output.open('x')as f:json.dump(report,f,indent=2);f.write('\n')
+    print(json.dumps({k:report[k]for k in('fold','collection_prefix_lines','totals','all_checked')},indent=2))

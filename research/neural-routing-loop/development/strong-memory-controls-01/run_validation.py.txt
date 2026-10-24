@@ -1,0 +1,221 @@
+"""Bounded, journaled preparation and preregistered 16-job validation."""
+from __future__ import annotations
+
+from collections import Counter
+from datetime import datetime, timezone
+import hashlib
+import json
+from pathlib import Path
+import sys
+import time
+
+from controls import (HERE, SOURCE, PreparedMemory, digest, field_templates,
+                      legacy_first_fit, prepare_history, retained_short_circuit,
+                      search, serial)
+from cognition.active_skills import probe_cost
+from scripts.build_guarded_skill_tasks import CONFIG, generate
+from scripts.verify_active_skill_results import outcome
+
+OLD = HERE.parent / "semantic-priority-dev-08"
+JOURNAL = HERE / "validation-work-journal.jsonl"
+MAXIMUM = 50000000
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def write_new(path, value):
+    with path.open("x") as stream:
+        json.dump(value, stream, indent=2)
+
+
+def event(record):
+    record = {"time_utc": datetime.now(timezone.utc).isoformat(), **record}
+    with JOURNAL.open("a") as stream:
+        stream.write(serial(record) + "\n")
+
+
+def journal_state():
+    completed, active = 0, {}
+    if JOURNAL.exists():
+        for line in JOURNAL.read_text().splitlines():
+            row = json.loads(line)
+            if row["event"] == "reserve":
+                active[row["operation"]] = row["reserved_work"]
+            elif row["event"] == "complete":
+                completed += row["work"]
+                active.pop(row["operation"], None)
+    return {"completed_work": completed, "unresolved_reserved_work": sum(active.values()), "active": active}
+
+
+def reserve(operation, amount):
+    state = journal_state()
+    if operation in state["active"]:
+        raise ValueError("Operation is already reserved")
+    if state["completed_work"] + state["unresolved_reserved_work"] + amount > MAXIMUM:
+        raise ValueError("Validation ceiling would be exceeded")
+    event({"event": "reserve", "operation": operation, "reserved_work": amount})
+
+
+def complete(operation, amount, **evidence):
+    state = journal_state()
+    if operation not in state["active"] or amount > state["active"][operation]:
+        raise ValueError("Unreserved or excessive validation work")
+    event({"event": "complete", "operation": operation, "work": amount, **evidence})
+
+
+def history_for(held):
+    full = json.loads((OLD / f"training-{held}.json").read_text())
+    # No training folds, source IDs, acquisition records, or other metadata enter
+    # either actor. Both conventional controls get this exact whitelisted view.
+    return {key: full[key] for key in ("accepted_programs", "program_uses")}
+
+
+def sources():
+    paths = {
+        "controls.py": HERE / "controls.py",
+        "run_validation.py": Path(__file__),
+        "engine/search.py": HERE.parent / "semantic-priority-dev-07" / "search.py",
+        "engine/captured_composition.py": HERE.parent / "semantic-priority-dev-07" / "captured_composition.py",
+        "engine/captured_routed_text_search.py": HERE.parent / "semantic-priority-dev-07" / "captured_routed_text_search.py",
+        "cognition/skills.py": SOURCE / "cognition/skills.py",
+        "cognition/text_skills.py": SOURCE / "cognition/text_skills.py",
+        "cognition/text_composition.py": SOURCE / "cognition/text_composition.py",
+        "cognition/routed_text_search.py": SOURCE / "cognition/routed_text_search.py",
+        "scripts/build_guarded_skill_tasks.py": SOURCE / "scripts/build_guarded_skill_tasks.py",
+        "scripts/verify_active_skill_results.py": SOURCE / "scripts/verify_active_skill_results.py",
+    }
+    return {name: sha(path) for name, path in paths.items()}
+
+
+def prepare():
+    for held in range(2):
+        operation = f"prepare-fold-{held}"
+        reserve(operation, 7500000)
+        try:
+            prepared = prepare_history(history_for(held), CONFIG, budget=7500000)
+        except RuntimeError as error:
+            path = HERE / f"preparation-{held}-failed.json"
+            write_new(path, error.report)
+            complete(operation, error.report["work"]["total"], artifact=path.name, artifact_sha256=sha(path))
+            raise
+        cache = {"programs": prepared.programs, "template_candidates": prepared.template_candidates,
+                 "report": prepared.report, "held_fold": held,
+                 "training_file_sha256": sha(OLD / f"training-{held}.json"), "source_sha256": sources()}
+        path = HERE / f"prepared-{held}.json"
+        write_new(path, cache)
+        complete(operation, prepared.report["work"]["total"], artifact=path.name, artifact_sha256=sha(path))
+        print(serial({"held_fold": held, **{k: v for k, v in prepared.report.items() if k != "templates_manifest"}}), flush=True)
+
+
+def load_prepared(held):
+    path = HERE / f"prepared-{held}.json"
+    value = json.loads(path.read_text())
+    if value["training_file_sha256"] != sha(OLD / f"training-{held}.json"):
+        raise ValueError("Frozen history file changed")
+    payload = {"programs": value["programs"], "template_candidates": value["template_candidates"]}
+    if digest(payload) != value["report"]["preparation_sha256"]:
+        raise ValueError("Prepared AST cache changed")
+    return PreparedMemory(tuple(value["programs"]), tuple(value["template_candidates"]), value["report"])
+
+
+def fold(job):
+    # Evaluation routing only; the job or its recipe is never passed to an actor.
+    return int(hashlib.sha256(job["private_recipe"]["program_sha256"].encode()).hexdigest()[:8], 16) % 2
+
+
+def pilot():
+    protocol = json.loads((HERE / "validation-addendum.json").read_text())
+    jobs = {job["id"]: job for seed in (0, 1, 2, 3) for job in generate(seed, 96)["tasks"]}
+    prepared = {held: load_prepared(held) for held in range(2)}
+    histories = {held: history_for(held) for held in range(2)}
+    old_rows = {row["job_id"]: row for held in range(2)
+                for row in map(json.loads, next(OLD.glob(f"evaluation-{held}-*.jsonl")).read_text().splitlines())}
+    methods = {"retained_short_circuit": retained_short_circuit, "field_templates": field_templates,
+               "old_strong": lambda _, xs, ys, config, budget: search(xs, ys, config, budget=budget, prefix_budget=budget)}
+    rows = []
+    output = HERE / "pilot-results.jsonl"
+    began = time.process_time()
+    with output.open("x") as stream:
+        for selection in protocol["pilot_jobs"]:
+            job_id, held = selection["job_id"], selection["held_fold"]
+            job = jobs[job_id]
+            if fold(job) != held:
+                raise ValueError("Preregistered evaluation fold mismatch")
+            xs, ys = job["diagnostic_inputs"][:4], job["diagnostic_outputs"][:4]
+            row = {"job_id": job_id, "held_fold": held, "prior_complexity_rank": selection["prior_complexity_rank"], "methods": {}, "first_fit_checks": {}}
+            for method, actor in methods.items():
+                operation = f"pilot-{job_id}-{method}"
+                audit_work = sum(probe_cost(x, y) for x, y in zip(xs, ys, strict=True))
+                reserve(operation, 50000 + 1000000 + audit_work)
+                # Actors get only prepared historical memory, four examples,
+                # safe configuration, and the same 50k current-job allowance.
+                result = actor(prepared[held], xs, ys, CONFIG, budget=50000)
+                committed = digest(result["program"])
+                buyer_started = time.process_time()
+                checked = outcome(result["program"], job["score_inputs"], job["score_outputs"], CONFIG)
+                buyer_cpu = time.process_time() - buyer_started
+                record = {key: value for key, value in result.items() if key != "candidate_records"}
+                record.update({"committed_program_sha256": committed, "accepted": checked["passed"],
+                               "correct_rows": checked["correct"], "rows": checked["rows"],
+                               "buyer_work": checked["total_work"], "buyer_cpu_seconds": buyer_cpu,
+                               "audit_work": audit_work, "buyer_calls": 1})
+                if result["work"]["total"] > 50000:
+                    raise ValueError("Per-job actor work exceeded its cap")
+                row["methods"][method] = record
+                complete(operation, result["work"]["total"] + checked["total_work"] + audit_work,
+                         committed_program_sha256=committed, buyer_calls=1, accepted=checked["passed"])
+            # Compare actual original full-row scan with its only semantic change
+            # (first-mismatch rejection), both protected by a finite 1M ceiling.
+            for short in (False, True):
+                label = "original_full_rows" if not short else "same_charge_short_circuit"
+                operation = f"paired-{job_id}-{label}"
+                reserve(operation, 1000000)
+                checked = legacy_first_fit(histories[held], xs, ys, CONFIG, short_circuit=short, budget=1000000)
+                row["first_fit_checks"][label] = checked
+                complete(operation, checked["work"]["total"], status=checked["status"], history_identity=checked["history_identity"])
+            left, right = row["first_fit_checks"].values()
+            parity = (left["status"] != "protective_work_limit" and right["status"] != "protective_work_limit"
+                      and left["history_identity"] == right["history_identity"] and left["program"] == right["program"])
+            row["first_fit_parity"] = parity
+            row["short_circuit_work_no_greater"] = right["work"]["total"] <= left["work"]["total"]
+            row["frozen_comparators"] = {method: {key: old_rows[job_id]["methods"][method][key] for key in ("accepted", "work", "buyer_work", "audit_work")}
+                                         for method in ("spiking", "old_strong", "retained")}
+            stream.write(serial(row) + "\n")
+            stream.flush()
+            rows.append(row)
+            print(serial({"job": len(rows), "job_id": job_id, "accepted": {m: r["accepted"] for m, r in row["methods"].items()}, "first_fit_parity": parity}), flush=True)
+    totals = {}
+    for method in methods:
+        values = [row["methods"][method] for row in rows]
+        totals[method] = {"accepted": sum(int(r["accepted"]) for r in values),
+                          "wrong_selected": sum(int(r["program"] is not None and not r["accepted"]) for r in values),
+                          "search_work": sum(r["work"]["total"] for r in values),
+                          "buyer_work": sum(r["buyer_work"] for r in values),
+                          "audit_work": sum(r["audit_work"] for r in values),
+                          "cpu_seconds": sum(r["cpu_seconds"] for r in values),
+                          "sources": dict(Counter(r.get("selection_source", r["status"]) for r in values))}
+    proof_work = sum(result["work"]["total"] for row in rows for result in row["first_fit_checks"].values())
+    summary = {"scope": protocol["scope"], "jobs": len(rows), "totals": totals,
+               "paired_first_fit": {"matches": sum(r["first_fit_parity"] for r in rows),
+                                    "short_circuit_work_no_greater": sum(r["short_circuit_work_no_greater"] for r in rows),
+                                    "total_extra_work": proof_work},
+               "frozen_comparators": {m: {"accepted": sum(r["frozen_comparators"][m]["accepted"] for r in rows)} for m in ("spiking", "old_strong", "retained")},
+               "static_preparation": {str(held): {k: v for k, v in p.report.items() if k != "templates_manifest"} for held, p in prepared.items()},
+               "validation_journal": journal_state(), "maximum_extra_work": MAXIMUM,
+               "conservative_prior_study_work": 230150796,
+               "full_384_estimate": {"new_actors_search_work_upper_bound": 384 * 2 * 50000,
+                                     "pilot_scaled_search_work": {m: total["search_work"] * 24 for m, total in totals.items() if m != "old_strong"},
+                                     "pilot_scaled_actor_cpu_seconds": {m: total["cpu_seconds"] * 24 for m, total in totals.items() if m != "old_strong"},
+                                     "estimates_are_exploratory_not_speed_guarantees": True},
+               "pilot_process_cpu_seconds": time.process_time() - began,
+               "protocol_sha256": sha(HERE / "validation-addendum.json"),
+               "preparation_amendment_sha256": sha(HERE / "validation-preparation-amendment.json"),
+               "results_sha256": sha(output), "source_sha256": sources()}
+    write_new(HERE / "pilot-summary.json", summary)
+    print(json.dumps(summary, indent=2), flush=True)
+
+
+if __name__ == "__main__":
+    {"prepare": prepare, "pilot": pilot}[sys.argv[1]]()
