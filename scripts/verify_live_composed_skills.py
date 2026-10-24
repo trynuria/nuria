@@ -826,8 +826,10 @@ def collect(args):
         expected_contracts = [item["contract_sha256"] for item in course["tasks"]]
         actual_contracts = [digest(parsed(task["contract"])) for task in tasks]
         require(
-            actual_contracts == expected_contracts[: len(actual_contracts)],
-            "Actual provider episodes differ from the ordered course commitments",
+            len(actual_contracts) <= len(expected_contracts)
+            and len(set(actual_contracts)) == len(actual_contracts)
+            and set(actual_contracts) <= set(expected_contracts),
+            "Actual provider episodes repeat or fall outside the committed course",
         )
         # Include every reserved provider job, including unresolved execution.
         for day in cdb.execute(
@@ -1038,6 +1040,7 @@ def collect(args):
             and acquired >= args.minimum_acquired
             and reused >= args.minimum_reused
             and len(tasks) == course["expected_count"]
+            and set(actual_contracts) == set(expected_contracts)
         )
         certificate = {
             "schema": "nuria.live-composed-skill-certificate.v1",
@@ -1060,8 +1063,9 @@ def collect(args):
             "course": {
                 "manifest_sha256": course_hash,
                 "expected_episodes": course["expected_count"],
-                "ordered_contracts_sha256": digest(expected_contracts),
-                "scope": "Finite local generated engineering service; included compute, not customer requests, paid hiring or fresh generalization evidence",
+                "committed_contract_order_sha256": digest(expected_contracts),
+                "actual_episode_order_sha256": digest(actual_contracts),
+                "scope": "Finite local generated engineering service. Manifest order is a source commitment; execution can interleave goal lanes. Library continuity follows actual chronological episodes. Included compute, not customer requests, paid hiring or fresh generalization evidence",
             },
             "authority_scope": "Every retained reservation fits the inspected current authority. Historical authority-file identity is not attested.",
             "counts": {

@@ -337,12 +337,32 @@ class LiveComposedVerifierTests(unittest.TestCase):
         self.assertEqual(public["counts"]["actual_episodes"], 3)
         self.assertEqual(len(public["gaps"]), 1)
 
-    def test_course_commitments_order_configuration_and_denominator_are_required(self):
+    def test_manifest_order_does_not_override_actual_neural_lane_arbitration(self):
         original = json.loads(self.args.course_manifest.read_text())
-        for mutation in ("order", "source", "config", "denominator"):
+        _, before = self.collect()
+        changed = copy.deepcopy(original)
+        changed["tasks"].reverse()
+        self.args.course_manifest.write_text(json.dumps(changed))
+        _, after = self.collect()
+        self.assertTrue(after["complete"])
+        self.assertEqual(after["jobs"], before["jobs"])
+        self.assertEqual(
+            after["course"]["actual_episode_order_sha256"],
+            before["course"]["actual_episode_order_sha256"],
+        )
+        self.assertNotEqual(
+            after["course"]["committed_contract_order_sha256"],
+            before["course"]["committed_contract_order_sha256"],
+        )
+
+    def test_course_membership_configuration_and_denominator_are_required(self):
+        original = json.loads(self.args.course_manifest.read_text())
+        for mutation in ("membership", "duplicate", "source", "config", "denominator"):
             changed = copy.deepcopy(original)
-            if mutation == "order":
-                changed["tasks"].reverse()
+            if mutation == "membership":
+                changed["tasks"][0]["contract_sha256"] = "f" * 64
+            elif mutation == "duplicate":
+                changed["tasks"][1] = copy.deepcopy(changed["tasks"][0])
             elif mutation == "source":
                 changed["source_id"] = "nuria:other-source"
             elif mutation == "config":
@@ -357,6 +377,17 @@ class LiveComposedVerifierTests(unittest.TestCase):
         self.args.expected_episodes = 4
         with self.assertRaises(ValueError):
             self.collect()
+
+    def test_unproposed_committed_contract_remains_in_complete_denominator(self):
+        course = json.loads(self.args.course_manifest.read_text())
+        course["tasks"].append({"contract_sha256": "f" * 64})
+        course["expected_count"] = 4
+        self.args.course_manifest.write_text(json.dumps(course))
+        self.args.expected_episodes = 4
+        _, public = self.collect()
+        self.assertFalse(public["complete"])
+        self.assertEqual(public["course"]["expected_episodes"], 4)
+        self.assertEqual(public["counts"]["actual_episodes"], 3)
 
     def test_runtime_identity_and_four_audit_authority_cannot_be_silently_swapped(self):
         self.mutate(
