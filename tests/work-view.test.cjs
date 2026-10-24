@@ -337,3 +337,106 @@ test("incomplete neural-task payouts and unearned outcomes clear the view", asyn
     assert.equal(get("workHealth").textContent, "Evidence unavailable");
   }
 });
+
+function activeTask() {
+  return {
+    ...actionTask(),
+    kind: "compute",
+    state: "evaluated",
+    acceptance: {
+      passed: true,
+      artifact_sha256: "5".repeat(64),
+      metric: "active_selection_held_out_exact_gain",
+      exact_rows: 20,
+      evaluation_rows: 20,
+      probes_used: 2,
+      probe_receipt_sha256s: ["6".repeat(64), "7".repeat(64)],
+      session_sha256: "8".repeat(64),
+      execution_status: "proposed",
+      program_sha256: "9".repeat(64),
+      selection: "synthesized",
+      probe_work: 4,
+      solver_work: 100,
+      verifier_work: 200,
+      total_work: 300,
+      maximum_work: 500000,
+    },
+    settlement: {
+      verified: true,
+      basis: "included_capacity",
+      total_micro_usd: 0,
+      evidence_sha256: "a".repeat(64),
+    },
+    outcome: {
+      evidence_level: "verified_outcome",
+      reward: 0.99,
+      intent_id: "2".repeat(64),
+      result_sha256: "5".repeat(64),
+    },
+  };
+}
+
+test("active results explain actual buyer checks within the existing three facts", async () => {
+  const { context, get, fresh, poll } = await harness();
+  const task = activeTask();
+  for (const selection of ["synthesized", "retained"]) {
+    task.acceptance.selection = selection;
+    context.evidence = { ...fresh(), action_tasks: [task] };
+    await poll();
+    const facts = get("workResults").children[0].children[2].children;
+    assert.equal(facts.length, 3);
+    assert.equal(facts[2].children[0].textContent, "Buyer check");
+    assert.equal(
+      facts[2].children[1].textContent,
+      `Passed · 20/20 buyer-held rows exact · 2 audit answers · ${selection} program`,
+    );
+  }
+  task.acceptance.passed = false;
+  task.outcome.reward = -0.01;
+  context.evidence = { ...fresh(), action_tasks: [task] };
+  await poll();
+  assert.match(
+    get("workResults").children[0].children[2].children[2].children[1].textContent,
+    /^Rejected · 20\/20/,
+  );
+  Object.assign(task.acceptance, { probes_used: 0, probe_receipt_sha256s: [] });
+  context.evidence = { ...fresh(), action_tasks: [task] };
+  await poll();
+  assert.equal(get("workHealth").textContent, "Evidence unavailable");
+});
+
+test("abstention is distinct from a proposed program and contradictory counts clear evidence", async () => {
+  const { context, get, fresh, poll } = await harness();
+  const task = activeTask();
+  Object.assign(task.acceptance, {
+    passed: false,
+    exact_rows: 0,
+    execution_status: "abstained",
+    program_sha256: null,
+    selection: null,
+  });
+  task.outcome.reward = -0.01;
+  context.evidence = { ...fresh(), action_tasks: [task] };
+  await poll();
+  assert.equal(
+    get("workResults").children[0].children[2].children[2].children[1].textContent,
+    "Abstained · no program proposed · 2 audit answers",
+  );
+  for (const mutation of [
+    { passed: true },
+    { exact_rows: 21 },
+    { probes_used: 0 },
+    { program_sha256: "9".repeat(64) },
+    { probe_receipt_sha256s: ["6".repeat(64), "6".repeat(64)] },
+    { total_work: 299 },
+    { probe_work: 1 },
+    { maximum_work: 10 },
+  ]) {
+    context.evidence = {
+      ...fresh(),
+      action_tasks: [{ ...task, acceptance: { ...task.acceptance, ...mutation } }],
+    };
+    await poll();
+    assert.equal(get("workHealth").textContent, "Evidence unavailable");
+  }
+});

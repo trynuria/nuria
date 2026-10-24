@@ -69,11 +69,72 @@ On the 281 novel-input rows, the direct and audited paths both return 240 exact
 answers. Nine exact files do not mean sixteen solved tasks, nor nine distinct
 retained programs. The final library contains seven program hashes.
 
-These development data do not establish an efficiency benefit, broad external
-coverage or a new discovery. The reserved qualification is governed by the
+These development data did not establish an efficiency benefit, broad external
+coverage or a new discovery. The reserved qualification below follows the
 [frozen protocol](protocol.json). An efficiency statement requires matched exact
 correctness and proposal coverage plus lower counted work and measured CPU;
 there is no weighted score to tune after seeing outcomes.
+
+## Reserved result: useful execution, no comparative improvement
+
+The implementation and protocol were published at commit
+[`2b8503e`](https://github.com/trynuria/nuria/commit/2b8503e189f0a9ecca5be6b7d5f47231342df601)
+before reserved specifications were accessed. Exactly one registered evaluation
+then ran all five methods on all 167 reserved files. All ten evaluated source
+hashes remained unchanged. Each method started with the identical seven-program
+development checkpoint; no reserved final label entered program search.
+
+| Method                    | Exact files / 167 | Proposed files | Labels | Counted work | Process CPU |
+| ------------------------- | ----------------: | -------------: | -----: | -----------: | ----------: |
+| Direct fixed-two baseline |                59 |             90 |    305 |    1,197,780 |    0.7125 s |
+| Audited-retention session |                59 |             89 |    305 |    1,393,691 |    1.0530 s |
+| Experimental disagreement |                60 |             90 |    305 |    1,358,828 |    1.1071 s |
+| Random-probe control      |                60 |             90 |    305 |    1,343,703 |    1.1069 s |
+| Frozen audited session    |                60 |             89 |    305 |    1,362,027 |    0.9039 s |
+
+The audited session solved **59 of 167 files exactly (35.3%)**. It proposed
+programs for 89 files: 59 passed every scorable original row, and 30 failed at
+least one. The remaining 78 produced no proposal, including 14 unsupported files.
+All unsupported files remain in the denominator; eligibility by metadata did not
+guarantee support by this language or solver.
+
+There are 4,042 original scoring rows: 3,993 are typed and scorable, and 49 are
+unscorable. Of the scorable rows, 47 repeat diagnostic inputs. On the remaining
+3,946 novel-input rows, both the direct and audited paths return 2,223 exact
+answers. These row counts describe accuracy separately from exact-file success;
+a program that gets some rows right does not solve that file.
+
+The session admitted 29 additional program hashes after exact buyer checks,
+ending with 36. Those programs are executable retained artifacts verified on
+past examples. They are not proof of general correctness: the frozen library
+control solved 60 files, one more than the adapting session. This run therefore
+does **not** demonstrate a competence benefit from retaining these new programs.
+
+A [post-hoc paired diagnosis](retention-interference.json) explains the net
+one-file deficit. Retention helps on `BillingCode.000007`, but an earlier program
+shadows a correct program on `Name.000013`: both match the same two audit answers,
+so the first matching hash wins and fails 15 of 18 scoring rows. On
+`Word.000001`, checking 35 retained programs instead of seven consumes 393 extra
+units from the shared search cap; the frozen branch finds a correct program
+within that cap while the adapting branch stops. These are two concrete
+applicability and resource-allocation failures in this one ordered stream, not a
+general theorem or a tested remedy.
+
+The registered efficiency gate failed. Audited retention used 16.4% more counted
+work and 47.8% more process CPU than the direct baseline, with the same 305 labels
+and one fewer proposal. Experimental selection did not beat the random control.
+The result supports a bounded, inspectable execution and admission pipeline; it
+does not support a smarter neural agent, a new learning algorithm, an efficiency
+improvement or broad external task coverage.
+
+The [qualification summary](reserved-summary.json),
+[all 167 per-task results](reserved-task-results.json),
+[access commitments](reserved-access.json) and
+[independent verification](reserved-verification.json) preserve the complete
+result. The independent checker passed all 835 method-file records. The
+[inventory](source-inventory.json) intentionally remains the pre-access frozen
+snapshot; the access report records subsequent retrieval. No raw specification,
+label or program body is redistributed in these reports.
 
 ## Evidence boundaries
 

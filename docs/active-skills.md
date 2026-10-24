@@ -85,7 +85,7 @@ activate payments, claim creator fees or change financial policy.
 
 ## Evidence and comparisons
 
-The [active-skill research record](../research/active-skills/design-notes.md)
+The [active-skill research record](../research/active-skills/README.md)
 identifies the development data, external source, exact split and accounting.
 The external source is Microsoft's pinned PROSE transformation suite. Its
 selected tasks are independently authored synthetic examples, not customer jobs.
@@ -98,6 +98,14 @@ receive the same grammar and bounded tools. Comparisons report exact task
 success, usable coverage, diagnostic labels, total work and measured process CPU
 separately. A method asking fewer questions while making more mistakes has not
 established an efficiency gain.
+
+One publicly frozen external qualification checked 167 reserved tasks across five
+methods. The audited route solved 59 files exactly, matching the direct baseline;
+the frozen-library control solved 60. It retained 29 additional verified program
+hashes but used 16.4% more counted work and 47.8% more process CPU than the direct
+baseline. Both registered improvement gates failed. This establishes bounded
+execution and admission on part of that suite, not a competence or efficiency
+advantage. Text execution remains outside the qualified live numeric contract.
 
 The earlier [live verification](../research/skill-acquisition/live/README.md)
 retains an operator dispatch error and its correction. The new route removes the

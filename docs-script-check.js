@@ -2288,6 +2288,57 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
   let workRequest = false;
   let workSignature = "";
 
+  function workSkillSummary(acceptance) {
+    if (acceptance?.metric !== "active_selection_held_out_exact_gain") return null;
+    const integer = (value) => Number.isSafeInteger(value) && value >= 0;
+    const hash = (value) => /^[a-f0-9]{64}$/.test(value);
+    if (
+      typeof acceptance.passed !== "boolean" ||
+      !integer(acceptance.exact_rows) ||
+      !integer(acceptance.evaluation_rows) ||
+      acceptance.evaluation_rows < 1 ||
+      acceptance.evaluation_rows > 2048 ||
+      acceptance.exact_rows > acceptance.evaluation_rows ||
+      !integer(acceptance.probes_used) ||
+      acceptance.probes_used > 64 ||
+      !Array.isArray(acceptance.probe_receipt_sha256s) ||
+      acceptance.probe_receipt_sha256s.length !== acceptance.probes_used ||
+      new Set(acceptance.probe_receipt_sha256s).size !== acceptance.probes_used ||
+      !acceptance.probe_receipt_sha256s.every(hash) ||
+      !hash(acceptance.session_sha256) ||
+      !["proposed", "abstained"].includes(acceptance.execution_status) ||
+      (acceptance.execution_status === "proposed" &&
+        (acceptance.probes_used < 1 ||
+          !hash(acceptance.program_sha256) ||
+          !["retained", "synthesized"].includes(acceptance.selection))) ||
+      (acceptance.execution_status === "abstained" &&
+        (acceptance.program_sha256 !== null ||
+          acceptance.selection !== null ||
+          acceptance.passed !== false ||
+          acceptance.exact_rows !== 0)) ||
+      (acceptance.passed &&
+        (acceptance.execution_status !== "proposed" ||
+          acceptance.exact_rows !== acceptance.evaluation_rows)) ||
+      ![
+        "probe_work",
+        "solver_work",
+        "verifier_work",
+        "total_work",
+        "maximum_work",
+      ].every((key) => integer(acceptance[key])) ||
+      acceptance.probe_work > acceptance.solver_work ||
+      acceptance.probe_work < acceptance.probes_used ||
+      acceptance.solver_work + acceptance.verifier_work !== acceptance.total_work ||
+      acceptance.total_work > acceptance.maximum_work ||
+      acceptance.maximum_work < 1 ||
+      acceptance.maximum_work > 10000000
+    )
+      throw Error("Incomplete active-skill outcome evidence");
+    if (acceptance.execution_status === "abstained")
+      return `Abstained · no program proposed · ${acceptance.probes_used} audit answers`;
+    return `${acceptance.passed ? "Passed" : "Rejected"} · ${acceptance.exact_rows}/${acceptance.evaluation_rows} buyer-held rows exact · ${acceptance.probes_used} audit answers · ${acceptance.selection} program`;
+  }
+
   function workSurface(view, updateURL = false) {
     const active = workViews.includes(view);
     document.body.classList.toggle("work-mode", active);
@@ -2541,6 +2592,7 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       )
     )
       throw Error("Incomplete task-loop evidence");
+    for (const task of tasks) workSkillSummary(task.acceptance);
     const hash = (value) => /^[a-f0-9]{64}$/.test(value);
     if (
       !Array.isArray(commissions) ||
@@ -2879,16 +2931,19 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
       ...(measured.length
         ? measured.map((job) => {
             const card = workNode("article", undefined, "work-result");
+            const skill = workSkillSummary(job.acceptance);
             card.append(
               workNode("h3", job.title),
               workNode("p", job.purpose),
               workFacts([
                 ["Measured reward", job.reward.toFixed(6)],
                 ["Artifact", job.artifact_sha256],
-                [
-                  "Attribution",
-                  "Task-specific evaluated outcome; no claim of whole-system superiority.",
-                ],
+                skill
+                  ? ["Buyer check", skill]
+                  : [
+                      "Attribution",
+                      "Task-specific evaluated outcome; no claim of whole-system superiority.",
+                    ],
               ]),
             );
             return card;

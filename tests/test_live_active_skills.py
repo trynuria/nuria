@@ -1,5 +1,6 @@
 """Actual local diagnostic episodes checked without production attestation."""
 
+import hashlib
 import json
 import shutil
 import sqlite3
@@ -22,7 +23,7 @@ from commerce.task_runtime import run_actions
 from scripts import verify_live_active_skills as verifier
 
 
-def fixture(directory):
+def fixture(directory, *, include_unsupported=False):
     data, public = directory / "data", directory / "public"
     (data / "commerce").mkdir(parents=True)
     for component in ("commerce", "cognition"):
@@ -57,6 +58,14 @@ def fixture(directory):
         task(ident="rejected", offset=70),
     ]
     contracts[-1]["acceptance"]["heldout_outputs"] = ["private-final-target"] * 8
+    if include_unsupported:
+        control = task(ident="unsupported-sha256", offset=110)
+        for partition in ("diagnostic", "heldout"):
+            control["acceptance"][partition + "_outputs"] = [
+                hashlib.sha256(value.encode()).hexdigest()
+                for value in control["acceptance"][partition + "_inputs"]
+            ]
+        contracts.append(control)
     try:
         for contract in contracts:
             organism.agency_tasks = [contract]
@@ -261,6 +270,76 @@ class LiveActiveProofTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "financial ledger table"):
             self.collect()
+
+
+class LiveActiveAbstentionTests(unittest.TestCase):
+    def test_unsupported_sha256_keeps_rejected_costed_and_acknowledged_abstention(self):
+        directory = Path(".test-state") / ("live-active-abstention-" + uuid.uuid4().hex)
+        directory.mkdir(parents=True)
+        contracts = fixture(directory, include_unsupported=True)
+        args = verifier.configure_paths(
+            SimpleNamespace(
+                data_root=directory / "data",
+                public_root=directory / "public",
+                release_file=directory / "release.json",
+                controls_file=directory / "controls.json",
+                baseline_json=directory / "baseline.json",
+                source_root=Path(__file__).resolve().parents[1],
+                source_commit="a" * 40,
+                provider=provider()["id"],
+                skill_source=provider()["source_id"],
+                cognition_service="fixture",
+                commerce_service="fixture",
+                minimum_acquired=1,
+                minimum_reused=1,
+                expected_episodes=4,
+            )
+        )
+        with patch.object(
+            verifier,
+            "source_identity",
+            return_value={"fixture_only": True, "commit": "a" * 40},
+        ):
+            _, certificate = verifier.collect(args)
+        self.assertTrue(certificate["complete"])
+        self.assertEqual(certificate["counts"]["checked_and_neurally_acknowledged"], 4)
+        control_hash = verifier.digest(contracts[-1])
+        public = next(
+            value
+            for value in certificate["jobs"]
+            if value["contract_sha256"] == control_hash
+        )
+        self.assertFalse(public["passed"])
+        self.assertIsNone(public["program_sha256"])
+        self.assertIsNone(public["selection"])
+        self.assertEqual(public["probes_used"], 2)
+        self.assertLess(public["reward"], 0)
+        self.assertEqual(public["exact_rows"], 0)
+        self.assertGreater(public["provider_work"], 0)
+        self.assertGreater(public["buyer_final_work"], 0)
+        with closing(sqlite3.connect(args.commerce_db)) as db:
+            delivery = json.loads(
+                db.execute(
+                    "SELECT delivery FROM local_skill_jobs WHERE job_id=?",
+                    (public["job_id"],),
+                ).fetchone()[0]
+            )["result"]
+            self.assertEqual(delivery["status"], "abstained")
+            self.assertIsNone(delivery["program"])
+            self.assertGreater(delivery["work"]["probe_work"], 0)
+            self.assertGreater(delivery["work"]["synthesis_work"], 0)
+            library = json.loads(
+                db.execute("SELECT state FROM local_skill_state").fetchone()[0]
+            )
+            self.assertEqual(len(library["programs"]), 1)
+        with closing(sqlite3.connect(args.cognition_db)) as db:
+            self.assertEqual(
+                db.execute(
+                    "SELECT count(*) FROM records WHERE kind='task_outcome' AND json_extract(payload,'$.intent_id')=?",
+                    (public["intent_id"],),
+                ).fetchone()[0],
+                1,
+            )
 
 
 if __name__ == "__main__":
