@@ -1,0 +1,18 @@
+{
+  "schema": "nuria.skill-expression-acquisition.verification.v1",
+  "passed": true,
+  "trace_records": 960,
+  "trials": 24,
+  "unique_tasks": 120,
+  "unique_source_rows": 2880,
+  "source_hashes_checked": true,
+  "gates": {
+    "practical_benefit": false,
+    "acquisition_transfer": true,
+    "cpu_nonregression": false,
+    "contextual_specificity": false,
+    "neural_specificity": "not_tested"
+  },
+  "source_sha256": "6b5a4c34f8718c1547ee1cb8bd05c031cbb6cfe11528dea8b42273f8fe7eeaf3",
+  "scope": "Independent retained-outcome/coverage/accounting rescore; not independent physical execution witnessing, full search replay, or measured CPU attestation."
+}

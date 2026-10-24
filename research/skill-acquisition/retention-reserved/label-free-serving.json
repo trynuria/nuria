@@ -1,0 +1,95 @@
+{
+  "schema": "nuria.label-free-skill-serving.v1",
+  "scope": "Separate post-study acceptance fixture. Caller selects a previously buyer-verified program by exact skill hash and supplies only new inputs; no target examples, synthesis or autonomous skill-selection claim. Not included in comparative costs.",
+  "origin_job_id": "2bb4679dcf8ea4554ea0b2882783072dedb3771d644e48ceb5494d55d9bbe85f",
+  "skill_id": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+  "source_hashes": {
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/skill_expressions.py": "b597bb35c75349d3182e08b6eecc88adfcfd225a6b45e6e08870a7c275f0a07b",
+    "cognition/skill_factored.py": "4cd3188985c6b51d1414678580641c7364da4d7b7b5edd65dc454e47395b79b7",
+    "scripts/evaluate_skill_expressions.py": "8a3ea57b56353428478da61c2c6ebe9cc026b1cfdbc98a2a4b9822c208e77872",
+    "scripts/verify_skill_expression_results.py": "751d477beaa44e961d57c4a0767335c1989a94edae345665bc1ad16294b8d9d6",
+    "scripts/evaluate_skill_retention.py": "b71d6c8d03cf87dc09d52c4bd78bcf2c43a355c8431f113255c5422d1312580f",
+    "scripts/verify_skill_retention.py": "b80584845893a506627676caca61a694f8581facf61455f4540e1abd546700e7"
+  },
+  "source_row_ids": [
+    10386,
+    10398,
+    10410,
+    10422,
+    10446,
+    10470,
+    10482,
+    10494
+  ],
+  "not_previously_used_for_this_format": true,
+  "serve_arguments": {
+    "skill_id": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+    "inputs": [
+      "[\"45\",\"306\",\"600 units\",\"49%\"]",
+      "[\"34\",\"628\",\"440 units\",\"82%\"]",
+      "[\"44\",\"286\",\"620 units\",\"35%\"]",
+      "[\"21\",\"602\",\"440 units\",\"77%\"]",
+      "[\"28\",\"534\",\"400 units\",\"87%\"]",
+      "[\"63\",\"155\",\"420 units\",\"94%\"]",
+      "[\"89\",\"182\",\"560 units\",\"64%\"]",
+      "[\"25\",\"71\",\"420 units\",\"88%\"]"
+    ],
+    "budget": 10000
+  },
+  "target_labels_passed_to_serve": false,
+  "result": {
+    "status": "served",
+    "outputs": [
+      "1.09",
+      "1.26",
+      "0.97",
+      "1.21",
+      "1.27",
+      "1.36",
+      "1.2",
+      "1.3"
+    ],
+    "skill_id": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+    "program_sha256": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+    "source_id": "retention:9201:retained_factored",
+    "inputs_sha256": "6c4c22f4a031fc2a58e4541dfaeef80fdac4a98dcf34d6ea32f7652a0aa88ae0",
+    "work": {
+      "total": 180,
+      "primitive_attempts": 80,
+      "candidates": 1,
+      "byte_blocks": 99,
+      "errors": 0,
+      "semantic_duplicates": 0
+    }
+  },
+  "expected_after_execution": [
+    "1.09",
+    "1.26",
+    "0.97",
+    "1.21",
+    "1.27",
+    "1.36",
+    "1.2",
+    "1.3"
+  ],
+  "independent_buyer_check": {
+    "passed": true,
+    "correct": 8,
+    "rows": 8,
+    "outputs": [
+      "1.09",
+      "1.26",
+      "0.97",
+      "1.21",
+      "1.27",
+      "1.36",
+      "1.2",
+      "1.3"
+    ],
+    "tool_units": 168,
+    "first_counterexample_index": null,
+    "actual_sha256": "0f66bb51a067366479523c3d423d2c89e6ac4649ae0bb2f9871961bba636f740"
+  },
+  "verified_success_counts_unchanged": true
+}

@@ -32,6 +32,8 @@ from commerce.ledger import Ledger, canonical
 from commerce.managed import ManagedSigner, invoke
 from commerce.marketplaces import readiness as marketplace_readiness
 from commerce.recovery import history_anchor, inspect_history
+from commerce.skill_queue import disable as disable_skill_queue
+from commerce.skill_queue import materialize as materialize_skill_queue
 from commerce.solana import settlement, usdc_balance
 from commerce.swaps import Converter
 from commerce.sweep import Sweeper
@@ -736,8 +738,17 @@ def main():
             "scope": "Payment scheduling and signing are bounded independently of trade ingestion. Reaching a ceiling pauses purchases, not the neural stream.",
         }
         result["feedback"] = executor.feedback()
+        skill_queue_path = os.environ.get("NURIA_SKILL_QUEUE")
+        skill_catalog_path = os.environ.get("NURIA_AGENCY_CATALOG")
         try:
             catalog, controls = load_action_files()
+            queue_status = None
+            if skill_queue_path:
+                if not skill_catalog_path:
+                    raise ValueError("A private skill catalogue path is required")
+                catalog, queue_status = materialize_skill_queue(
+                    ledger, skill_queue_path, skill_catalog_path
+                )
             if result["phase"] == "unknown":
                 controls = {**controls, "enabled": False}
             cognition_path = Path(os.environ["NURIA_COMMERCE_COGNITION"])
@@ -775,8 +786,15 @@ def main():
                 decisions,
             )
             result["task_feedback"] = actions.pop("feedback")
+            if queue_status is not None:
+                actions["skill_queue"] = queue_status
             result["actions"] = actions
         except (OSError, ValueError, KeyError, TypeError, UnboundLocalError):
+            if skill_queue_path and skill_catalog_path:
+                try:
+                    disable_skill_queue(skill_catalog_path)
+                except (OSError, ValueError):
+                    pass
             result["actions"] = {
                 "schema": "nuria.action-loop.v1",
                 "execution_enabled": False,

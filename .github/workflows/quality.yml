@@ -29,6 +29,9 @@ jobs:
           python -m scripts.check_action_loop .test-state/action-integration .test-state/action-integration.json
           python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
           python -m scripts.verify_intervention_memory research/intervention-memory/validation
+          python -m scripts.verify_skill_results research/skill-acquisition/development-01
+          python -m scripts.verify_skill_expression_results research/skill-acquisition/expression-development-02
+          python -m scripts.verify_skill_retention research/skill-acquisition/retention-reserved
           python research/verified-memory/verify_release.py
           python research/verified-memory/verify_attempts.py
       - name: Check frontend
