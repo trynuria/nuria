@@ -48,7 +48,7 @@
   "files": [
     {
       "path": ".gitattributes",
-      "published_sha256": "9af877641f65e410b60b5bf295d234481e1133d4ee2341d260c3b3ccb67d6af1"
+      "published_sha256": "364960793cd10d4f4dbb204e3d0247eb87a2bd418489e654219b4295378c2a22"
     },
     {
       "path": ".github/workflows/quality.yml",
@@ -203,6 +203,10 @@
       "published_sha256": "f79cba0b06a2c5c861b17a48507bb7a93f05f5cbc73f0d1effc78a6649f18349"
     },
     {
+      "path": "cognition/composed_skills.py",
+      "published_sha256": "b5be031d1052c175b5b49a264c26934471076d0900371501d39371d89b955d2a"
+    },
+    {
       "path": "cognition/discovery.py",
       "published_sha256": "8ed72e2885fb6fa05f8f70d86127bef99b6cec4b42d0cff2b6707a34615eedd1"
     },
@@ -213,6 +217,10 @@
     {
       "path": "cognition/forecast.py",
       "published_sha256": "5f8273e77f1bb0ac27998ac4414d865e5a80f725f5e03271b3d8d177ebec074c"
+    },
+    {
+      "path": "cognition/guarded_skills.py",
+      "published_sha256": "ddad3ec66da53b49cdea7e83463de3e707708e37b419c5e9ef0002d48c2b9b6d"
     },
     {
       "path": "cognition/intervention_encoding.py",
@@ -289,6 +297,10 @@
     {
       "path": "cognition/task_brain.py",
       "published_sha256": "3b53467394c55dfa809cb41d45c2b6b58514d814e6dd3828ee607ceff3634a0f"
+    },
+    {
+      "path": "cognition/text_composition.py",
+      "published_sha256": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52"
     },
     {
       "path": "cognition/text_skills.py",
@@ -784,7 +796,7 @@
     },
     {
       "path": "pyproject.toml",
-      "published_sha256": "a456bae0282882fd07c1b706feace167ff2b02f011dc3777e5418a5f5849de33"
+      "published_sha256": "edba04acc83fea21809ac6ceab262525d7149fa82c9df9e9cd5a4da6931474da"
     },
     {
       "path": "receipt_verifier.py",
@@ -1329,6 +1341,130 @@
     {
       "path": "research/adaptive-memory/validation/verification.json",
       "published_sha256": "de2c09e9b1cf3d83b4898a6fe8fb220c7ac4d286cf7791cbc3ff3a4cc36e46db"
+    },
+    {
+      "path": "research/guarded-skills/README.md",
+      "published_sha256": "4c2228a9aafa39ee85e720753e2c5c4b9395d6555a673b31ff01bb071492a403"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/cognition/active_skills.py",
+      "published_sha256": "f97462925c9b0a0004ca4b1b7067254033bc6e8f3e36a0581bdbb0bf62706be4"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/cognition/guarded_skills.py",
+      "published_sha256": "00baa13ab14a1d2afc00f37c04e9156ba95ef3d9d951858c18389c537ced2952"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/cognition/skill_language.py",
+      "published_sha256": "e9c3cdc6e7d478ca6e0bc9e6074847c0ef00d1f9bd2ffa9ecadc6fa22b6d77e7"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/cognition/skills.py",
+      "published_sha256": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/cognition/text_composition.py",
+      "published_sha256": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/cognition/text_skills.py",
+      "published_sha256": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/scripts/build_guarded_skill_tasks.py",
+      "published_sha256": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/scripts/evaluate_guarded_skills.py",
+      "published_sha256": "72e225b1f7cff31923a02874f9cf58e12125c7ae78f07c8b6f4b4e858ded03dd"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/scripts/verify_active_skill_results.py",
+      "published_sha256": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/sources/scripts/verify_guarded_skill_results.py",
+      "published_sha256": "d47f007d91a0a18bc0699e97f9dcfd1da9a56b66a90c5648806ec6909fdbb032"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/started.json",
+      "published_sha256": "7b1e442e39c6c442374021c0d9c3363326772ce6891a309bdcc0909897b64939"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/summary.json",
+      "published_sha256": "8af55acfe5a5b99f3798bb43ff0333a49852f60c19b2bac1fc9a980a68b8f09c"
+    },
+    {
+      "path": "research/guarded-skills/development/development-02/verification.json",
+      "published_sha256": "a2941af1ecf292a9931c527c552b0a2fbb5b817a2285c64d89dc626b1800fbed"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/cognition/active_skills.py",
+      "published_sha256": "f97462925c9b0a0004ca4b1b7067254033bc6e8f3e36a0581bdbb0bf62706be4"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/cognition/guarded_skills.py",
+      "published_sha256": "ddad3ec66da53b49cdea7e83463de3e707708e37b419c5e9ef0002d48c2b9b6d"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/cognition/skill_language.py",
+      "published_sha256": "e9c3cdc6e7d478ca6e0bc9e6074847c0ef00d1f9bd2ffa9ecadc6fa22b6d77e7"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/cognition/skills.py",
+      "published_sha256": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/cognition/text_composition.py",
+      "published_sha256": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/cognition/text_skills.py",
+      "published_sha256": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/scripts/build_guarded_skill_tasks.py",
+      "published_sha256": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/scripts/evaluate_guarded_skills.py",
+      "published_sha256": "af0b7e934d11c47247d7441568fad31c51adf571f474de3aaa2adda1576a0322"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/scripts/verify_active_skill_results.py",
+      "published_sha256": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/sources/scripts/verify_guarded_skill_results.py",
+      "published_sha256": "da38afda27c8fc8642424adaae7478add36895d47bbc3d9131b5cdf9a576a0f4"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/started.json",
+      "published_sha256": "2a4f4b1f9400b1cde77f5fe4b465e7e053a595bbec8b92649f52c8f84f3e6ca5"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/summary.json",
+      "published_sha256": "70a4fdb91169edd2b7a1c65474d3d0c62b9053c6f828fcc944363ef1c6161d38"
+    },
+    {
+      "path": "research/guarded-skills/development/development-03/verification.json",
+      "published_sha256": "2aeafc20b3025e0f960aaa7da45d8f3d83891525b6088f642ec75b8b308a2499"
+    },
+    {
+      "path": "research/guarded-skills/development/index.json",
+      "published_sha256": "4ab24b05fff9bcd52ceeed8877927185c16fc8efb505c7166b9452f4e7088b06"
+    },
+    {
+      "path": "research/guarded-skills/development/pilot-composition-schedule-02.json.gz",
+      "published_sha256": "a3e4b06d7b76e496c2c45d216d6d49dd0508d3768540ba4fe77e1fd4da466515"
+    },
+    {
+      "path": "research/guarded-skills/development/pilot-direct-01.json.gz",
+      "published_sha256": "0c815b5950d6b32d47d40ec95ef6d5e4676ef3bbbc69abb38e8c2ca2fdf352f8"
+    },
+    {
+      "path": "research/guarded-skills/protocol.json",
+      "published_sha256": "7469c52a1d5f8e023d865b9df30603f06ca2c1cee16c0296644fc469061560db"
     },
     {
       "path": "research/intervention-memory/README.md",
@@ -2159,6 +2295,10 @@
       "published_sha256": "f8b47fc1aaad36d9533d3b0f4eb1436c9dddaa987f66e37053df5967f059f35f"
     },
     {
+      "path": "scripts/build_guarded_skill_tasks.py",
+      "published_sha256": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f"
+    },
+    {
       "path": "scripts/build_skill_queue.py",
       "published_sha256": "811d7c37b0f120b8899a6f4d3be46f21baf22ef1864ddb627f6ad0c2eb265115"
     },
@@ -2209,6 +2349,10 @@
     {
       "path": "scripts/evaluate_forecasts.py",
       "published_sha256": "617a3e2d9c2d11cc0b088c0a98b29b2c3dae582446066627c9d16287ce7844c8"
+    },
+    {
+      "path": "scripts/evaluate_guarded_skills.py",
+      "published_sha256": "c151a75babac35e747aafb168af58a68ba6804539f5c43f6e7a7d33c7c87da80"
     },
     {
       "path": "scripts/evaluate_intervention_memory.py",
@@ -2267,6 +2411,10 @@
       "published_sha256": "090a39c008b56e0ef6dabcda0a5c886cf8f416a2c54cb3c2a0252004a66b2bda"
     },
     {
+      "path": "scripts/summarize_guarded_skill_comparison.py",
+      "published_sha256": "be561ca553245899d2595049708d770773dfc09fe237919e4abf9a5fbd108623"
+    },
+    {
       "path": "scripts/summarize_skill_retention.py",
       "published_sha256": "bd145c3a5dcbaf1e794996293066e5f73bd9f00bc64a878aef083cd9ab453e3d"
     },
@@ -2281,6 +2429,10 @@
     {
       "path": "scripts/verify_commerce.py",
       "published_sha256": "717f7a271490a5e9b96e3a36a39f1f49594172dafe527beba62a64ed7c754939"
+    },
+    {
+      "path": "scripts/verify_guarded_skill_results.py",
+      "published_sha256": "57e50fd1adb7d49d60293ef29a4b323981fc1c07197061c51f23be1d6b29dd5a"
     },
     {
       "path": "scripts/verify_intervention_memory.py",
@@ -2387,6 +2539,10 @@
       "published_sha256": "c0b8785e4a1b53490b54b6fac4c3ac1e7d0b9442964a1a32d13ccbda59d284ba"
     },
     {
+      "path": "tests/test_build_guarded_skill_tasks.py",
+      "published_sha256": "a1234e5023db09af65263179db4f1bc9b31620b5e8c635d66ce21ee1f72ac835"
+    },
+    {
       "path": "tests/test_build_skill_queue.py",
       "published_sha256": "e34be75ebaf87711e65d71a7eaeed487ccfd9eca04aee78e1e58f185f4133569"
     },
@@ -2409,6 +2565,10 @@
     {
       "path": "tests/test_commissioning.py",
       "published_sha256": "ba340ec82506e98dfa520e8662423c493335c50372387c685446c0e5ab91cd7a"
+    },
+    {
+      "path": "tests/test_composed_skills.py",
+      "published_sha256": "416bf2a5538d7a6f49290130ec2c580fbef6d271d92936a9815729ca2c62d2fd"
     },
     {
       "path": "tests/test_conversion_economics.py",
@@ -2437,6 +2597,22 @@
     {
       "path": "tests/test_forecast_upgrade.py",
       "published_sha256": "ed2f9968d879d301acc5bf129e9051f7b36203199912f283aff6a75c80b55d13"
+    },
+    {
+      "path": "tests/test_guarded_evaluation.py",
+      "published_sha256": "f29dd634dfd7a3465f4e7039fb2bb303f1ed180e2f20ab4a9188e47623a2b959"
+    },
+    {
+      "path": "tests/test_guarded_skill_comparison.py",
+      "published_sha256": "0f0fbd6d7726879d8421f7ee6f84a2f88fb15a9895a1d3d45786b40277d05664"
+    },
+    {
+      "path": "tests/test_guarded_skill_results.py",
+      "published_sha256": "08dd3f3f57085258dca0c9391efb87cb481b93a7ab972f97284cea9b05b14e0a"
+    },
+    {
+      "path": "tests/test_guarded_skills.py",
+      "published_sha256": "64aaabfb650084f2e4c28116bd781a7cc696027330ce3297668737ea5585b416"
     },
     {
       "path": "tests/test_information_choice.py",
@@ -2533,6 +2709,10 @@
     {
       "path": "tests/test_task_feedback_recovery.py",
       "published_sha256": "c1e7274e54bd14a1b2582a28d4f5e2589e42fa8ec78f3f1696ec9df88a392cbf"
+    },
+    {
+      "path": "tests/test_text_composition.py",
+      "published_sha256": "c5c5c83cafe1b8d446b51ad4049dcc492d0b3d0ec5ea921291e24a7e1224dd32"
     },
     {
       "path": "tests/test_text_skills.py",

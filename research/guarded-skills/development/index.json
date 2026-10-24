@@ -1,0 +1,72 @@
+{
+  "candidate": "composed_fixed4",
+  "runs": [
+    {
+      "name": "pilot-direct-01.json",
+      "sha256": "7feb711d0e471ac07079f6b9de2a2322299ebf6d0dc0117c4779df8d43d8bb07",
+      "source_sha256": "4d65a3a381a317293fe4c8ee253b46962997c2076d066e310079e80ca25e71e0",
+      "totals": {
+        "composed_fixed2": {
+          "exact": 0,
+          "jobs": 12,
+          "proposed": 4,
+          "work": 406790
+        },
+        "composed_fixed4": {
+          "exact": 1,
+          "jobs": 12,
+          "proposed": 1,
+          "work": 552600
+        },
+        "old_fixed2": {
+          "exact": 3,
+          "jobs": 12,
+          "proposed": 8,
+          "work": 259918
+        }
+      }
+    },
+    {
+      "name": "pilot-composition-schedule-02.json",
+      "sha256": "9270dc78b6324bc05e4c4508f328aba3d95e3ed9ddfd89dd294ffa2925ef83fc",
+      "source_sha256": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52",
+      "totals": {
+        "composed_fixed2": {
+          "exact": 5,
+          "jobs": 12,
+          "proposed": 11,
+          "work": 95172
+        },
+        "composed_fixed4": {
+          "exact": 10,
+          "jobs": 12,
+          "proposed": 10,
+          "work": 230946
+        },
+        "enumerative_fixed4": {
+          "exact": 8,
+          "jobs": 12,
+          "proposed": 8,
+          "work": 265701
+        },
+        "old_fixed2": {
+          "exact": 3,
+          "jobs": 12,
+          "proposed": 8,
+          "work": 259864
+        }
+      }
+    },
+    {
+      "independently_verified_records": 1536,
+      "name": "development-02",
+      "summary": "development/development-02/summary.json"
+    },
+    {
+      "independently_verified_records": 1728,
+      "name": "development-03",
+      "summary": "development/development-03/summary.json"
+    }
+  ],
+  "scope": "Development only; these data selected the candidate and cannot qualify it. Negative trials are preserved."
+}
