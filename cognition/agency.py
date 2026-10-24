@@ -5,10 +5,12 @@ import math
 
 import numpy as np
 
+from commerce.ledger import canonical
 from commerce.tasks import HASH, digest, finite, validate_task
 
 VERSION = "neural-task-policy-v1"
 DIM = 17
+RECEIPT_WINDOW = 512
 
 
 class NeuralTaskPolicy:
@@ -20,15 +22,47 @@ class NeuralTaskPolicy:
         self.pending = state.get("pending", {})
         self.feedback_cursor = state.get("feedback_cursor", 0)
         self.completed = state.get("completed", 0)
+        # Old checkpoints preserve their learned models and cursor. They cannot
+        # authenticate receipts preceding the introduction of this bounded log.
+        self.receipt_floor = state.get("receipt_floor", self.feedback_cursor)
+        self.receipts = state.get("feedback_receipts", {})
+        self.legacy_feedback_floor = state.get(
+            "legacy_feedback_floor",
+            self.feedback_cursor if "feedback_receipts" not in state else 0,
+        )
         if (
             type(self.feedback_cursor) is not int
             or self.feedback_cursor < 0
             or type(self.completed) is not int
             or self.completed < 0
+            or type(self.receipt_floor) is not int
+            or not 0 <= self.receipt_floor <= self.feedback_cursor
+            or type(self.legacy_feedback_floor) is not int
+            or not 0 <= self.legacy_feedback_floor <= self.receipt_floor
         ):
             raise ValueError("Task policy counters are invalid")
         if len(self.models) > 32 or len(self.pending) > 32:
             raise ValueError("Task policy state exceeds its bounds")
+        if not isinstance(self.receipts, dict) or len(self.receipts) > RECEIPT_WINDOW:
+            raise ValueError("Task feedback receipt history exceeds its bounds")
+        for seq, receipt in self.receipts.items():
+            if (
+                not isinstance(seq, str)
+                or not seq.isascii()
+                or not seq.isdecimal()
+                or str(int(seq)) != seq
+                or not self.receipt_floor < int(seq) <= self.feedback_cursor
+                or not isinstance(receipt, dict)
+                or set(receipt)
+                != {"intent_id", "contract_sha256", "sha256", "executed"}
+                or any(
+                    not isinstance(value, str) or not HASH.fullmatch(value)
+                    for key, value in receipt.items()
+                    if key != "executed"
+                )
+                or type(receipt["executed"]) is not bool
+            ):
+                raise ValueError("Retained task feedback identity is malformed")
         for model in self.models.values():
             a, b = np.asarray(model["a"]), np.asarray(model["b"])
             if (
@@ -83,6 +117,14 @@ class NeuralTaskPolicy:
         for task in tasks:
             validate_task(task)
             contract = digest(task)
+            if task["acceptance"]["type"] in (
+                "transform_program",
+                "transform_execution",
+            ) and any(
+                receipt["contract_sha256"] == contract and receipt["executed"]
+                for receipt in self.receipts.values()
+            ):
+                continue
             key = digest(
                 {
                     "goal_id": task["id"],
@@ -153,8 +195,18 @@ class NeuralTaskPolicy:
         return intent
 
     def learn(self, record):
+        if not isinstance(record, dict) or len(canonical(record).encode()) > 65536:
+            raise ValueError("Task feedback is malformed or oversized")
         seq = record.get("seq")
-        if type(seq) is not int or seq <= self.feedback_cursor:
+        if type(seq) is not int or not 1 <= seq <= 2**53 - 1:
+            raise ValueError("Task feedback sequence is invalid")
+        fingerprint = digest(record)
+        if seq <= self.feedback_cursor:
+            retained = self.receipts.get(str(seq))
+            if retained is None:
+                raise ValueError("Task feedback is outside the retained receipt window")
+            if retained["sha256"] != fingerprint:
+                raise ValueError("An already credited task receipt changed")
             return False
         ident = record.get("intent_id")
         pending = self.pending.get(ident)
@@ -176,6 +228,7 @@ class NeuralTaskPolicy:
             ):
                 self.pending.pop(ident)
                 self.feedback_cursor = seq
+                self._remember(record, fingerprint)
                 return True
             raise ValueError("Unverified or malformed task outcome")
         if not isinstance(record.get("result_sha256"), str) or not HASH.fullmatch(
@@ -194,7 +247,20 @@ class NeuralTaskPolicy:
         self.pending.pop(ident)
         self.feedback_cursor = seq
         self.completed += 1
+        self._remember(record, fingerprint)
         return True
+
+    def _remember(self, record, fingerprint):
+        self.receipts[str(record["seq"])] = {
+            "intent_id": record["intent_id"],
+            "contract_sha256": record["contract_sha256"],
+            "sha256": fingerprint,
+            "executed": record.get("evidence_level") == "verified_outcome",
+        }
+        if len(self.receipts) > RECEIPT_WINDOW:
+            oldest = min(self.receipts, key=int)
+            self.receipt_floor = max(self.receipt_floor, int(oldest))
+            self.receipts.pop(oldest)
 
     def state(self):
         return copy.deepcopy(
@@ -204,6 +270,9 @@ class NeuralTaskPolicy:
                 "pending": self.pending,
                 "feedback_cursor": self.feedback_cursor,
                 "completed": self.completed,
+                "receipt_floor": self.receipt_floor,
+                "feedback_receipts": self.receipts,
+                "legacy_feedback_floor": self.legacy_feedback_floor,
             }
         )
 
@@ -213,5 +282,8 @@ class NeuralTaskPolicy:
             "pending": len(self.pending),
             "completed": self.completed,
             "feedback_cursor": self.feedback_cursor,
+            "receipt_floor": self.receipt_floor,
+            "retained_feedback_receipts": len(self.receipts),
+            "legacy_feedback_floor": self.legacy_feedback_floor,
             "scope": "Neural-context ridge/UCB task selection. Exact originating context receives verified delayed utility; this is distinct from a proven synaptic or consciousness advantage.",
         }

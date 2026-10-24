@@ -1,0 +1,97 @@
+{
+  "enabled": false,
+  "adapters": [
+    {
+      "type": "local_skills",
+      "id": "local-record-skills-v2",
+      "source_id": "nuria:public-record-repair-v2",
+      "enabled": false,
+      "config": {
+        "version": "safe-expression-v1",
+        "operations": [
+          {
+            "op": "field",
+            "index": 0
+          },
+          {
+            "op": "field",
+            "index": 1
+          },
+          {
+            "op": "field",
+            "index": 2
+          },
+          {
+            "op": "field",
+            "index": 3
+          },
+          {
+            "op": "strip"
+          },
+          {
+            "op": "prefix",
+            "value": "value="
+          },
+          {
+            "op": "prefix",
+            "value": "n="
+          },
+          {
+            "op": "suffix",
+            "value": " units"
+          },
+          {
+            "op": "suffix",
+            "value": "%"
+          },
+          {
+            "op": "decimal"
+          },
+          {
+            "op": "scale",
+            "numerator": 1,
+            "denominator": 100
+          },
+          {
+            "op": "scale",
+            "numerator": 100,
+            "denominator": 1
+          },
+          {
+            "op": "scale",
+            "numerator": 1,
+            "denominator": 1000
+          },
+          {
+            "op": "scale",
+            "numerator": 1000,
+            "denominator": 1
+          },
+          {
+            "op": "format"
+          },
+          {
+            "op": "add"
+          },
+          {
+            "op": "subtract"
+          },
+          {
+            "op": "multiply"
+          }
+        ],
+        "max_ops": 15,
+        "max_candidates": 20000,
+        "max_rows": 32,
+        "max_input_bytes": 512,
+        "max_programs": 64,
+        "max_macros": 0
+      },
+      "mode": "retained_factored",
+      "maximum_work_per_job": 150000,
+      "maximum_work_per_day": 25000000,
+      "maximum_jobs_per_day": 160,
+      "cooldown_seconds": 0
+    }
+  ]
+}

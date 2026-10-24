@@ -4,13 +4,15 @@ import base64
 import json
 import os
 import time
+from datetime import datetime
 from pathlib import Path
 
 from commerce.action_loop import ActionLoop
 from commerce.ledger import canonical
+from commerce.local_skills import LocalSkills
 from commerce.rentahuman import RentAHuman, field
 from commerce.solana import usdc_balance
-from commerce.tasks import contractor_brief, digest
+from commerce.tasks import contractor_brief, digest, finite
 from commerce.x402 import delivery as parse_delivery
 from commerce.x402 import quote
 
@@ -318,26 +320,58 @@ def run_actions(
                     config.get("api_key_env", "NURIA_RENTAHUMAN_API_KEY")
                 )
                 providers[config["id"]] = HumanTasks(config["enrollment"], key)
+            elif config["type"] == "local_skills":
+                providers[config["id"]] = LocalSkills(ledger, config)
             else:
                 raise ValueError("Provider capability is not implemented")
             readiness.append(
                 {
                     "id": config["id"],
-                    "phase": "configured_unverified",
+                    "phase": "included_compute_enabled"
+                    if isinstance(providers[config["id"]], LocalSkills)
+                    and providers[config["id"]].enabled
+                    else "configured_unverified",
                     "funded_delivery_test": config.get("funded_delivery_test") is True,
                 }
             )
         except (KeyError, ValueError, StopIteration):
             readiness.append({"id": config.get("id"), "phase": "activation_required"})
-    if catalog.get("planning_enabled") is True and cognition.get("phase") == "running":
-        for decision in decisions[:1]:
-            if decision.get("tick", 1) > cognition.get("committed_tick", 0):
-                continue
-            intent = decision.get("intent") or {}
-            for task in tasks:
-                if task["id"] == intent.get("goal_id"):
-                    loop.propose(task, decision, now)
     errors = []
+    if catalog.get("planning_enabled") is True and cognition.get("phase") == "running":
+        # Cached decisions include speculative newest ticks. Search a bounded
+        # history rather than starving older, still-fresh committed intents.
+        candidates = []
+        for decision in decisions[:30]:
+            if not isinstance(decision, dict) or not decision.get("intent"):
+                continue
+            intent = decision["intent"]
+            try:
+                if (
+                    not isinstance(intent, dict)
+                    or type(decision.get("tick")) is not int
+                ):
+                    raise ValueError("Claimed neural origin is malformed")
+                stamp = datetime.fromisoformat(decision["utc"]).timestamp()
+                if not finite(stamp) or stamp > now:
+                    raise ValueError("Claimed neural origin clock is invalid")
+                if now - stamp > 30 or decision["tick"] > cognition.get(
+                    "committed_tick", 0
+                ):
+                    continue
+                candidates.append(decision)
+            except (KeyError, TypeError, ValueError):
+                errors.append({"phase": "invalid_neural_origin"})
+        for decision in sorted(candidates, key=lambda value: value["tick"]):
+            intent = decision["intent"]
+            for task in tasks:
+                if task["id"] != intent.get("goal_id") or digest(task) != intent.get(
+                    "contract_sha256"
+                ):
+                    continue
+                try:
+                    loop.propose(task, decision, now)
+                except (KeyError, TypeError, ValueError):
+                    errors.append({"phase": "invalid_neural_origin"})
     for (ident,) in ledger.db.execute(
         "SELECT id FROM action_tasks WHERE state NOT IN ('evaluated','cancelled') ORDER BY created LIMIT 64"
     ).fetchall():
@@ -354,7 +388,12 @@ def run_actions(
             adapter = providers.get(row["provider"])
             if not adapter:
                 continue
-            if row["state"] == "proposed" and controls.get("enabled") is True:
+            local = isinstance(adapter, LocalSkills)
+            nonfinancial = local and adapter.enabled
+            # Included compute is independently enrolled and cannot authorize
+            # a paid quote, signer, human job or external request.
+            execute = nonfinancial or controls.get("enabled") is True
+            if row["state"] == "proposed" and execute:
                 if row["contract"].get("outcome"):
                     loop.probe(ident, "baseline", now)
                 loop.reserve(
@@ -362,14 +401,16 @@ def run_actions(
                     adapter.quote(row, now),
                     adapter.balance(now),
                     policy,
-                    controls,
+                    {"enabled": True, "providers": [adapter.id]}
+                    if nonfinancial
+                    else controls,
                     now,
                 )
                 row = loop.row(ident)
             if (
                 row["state"] == "reserved"
-                and controls.get("enabled") is True
-                and policy.enabled
+                and execute
+                and (nonfinancial or policy.enabled)
             ):
                 loop.operate(
                     ident,
@@ -395,6 +436,8 @@ def run_actions(
             if observed.get("delivery") and row["acceptance"] is None:
                 loop.receive(ident, observed["delivery"], now)
                 row = loop.row(ident)
+            if local and row["acceptance"]:
+                adapter.admit(row)
             if observed.get("settlement"):
                 loop.settle(ident, observed["settlement"], now)
             if row["acceptance"] and row["contract"].get("outcome"):
@@ -438,11 +481,23 @@ def run_actions(
     return {
         "schema": "nuria.action-loop.v1",
         "execution_enabled": controls.get("enabled") is True and policy.enabled,
+        "included_compute_enabled": any(
+            isinstance(adapter, LocalSkills) and adapter.enabled
+            for adapter in providers.values()
+        ),
         "providers": readiness,
         "tasks": loop.public(),
         "errors": errors,
+        "local_skills": [
+            adapter.public()
+            for adapter in providers.values()
+            if isinstance(adapter, LocalSkills)
+        ],
         "feedback": loop.feedback(
-            cognition.get("agency", {}).get("feedback_cursor", 0)
+            cognition.get("agency", {}).get(
+                "committed_feedback_cursor",
+                cognition.get("agency", {}).get("feedback_cursor", 0),
+            )
         ),
         "scope": "Task delivery, payout and measured usefulness are distinct; no account or quote is inferred from fixtures",
     }

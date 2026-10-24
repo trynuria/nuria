@@ -13,6 +13,14 @@ checked delivery, payout and measured utility return through a cursor-based outb
 The exact originating readout and tagged synapses receive delayed credit once.
 No marketplace or signing credential enters the cognitive worker.
 
+The included-capacity skill provider synthesizes bounded declarative data
+transformations, executes them, and retains only buyer-verified programs. A later
+task can name a retained skill and supply fresh inputs without training examples;
+the provider executes that program without searching for a replacement. Private
+buyer checks determine success, and the resulting receipt returns to the
+originating neural decision. Program retention is conventional software learning;
+its measured efficiency is separate from any claim about the neural selector.
+
 The separate [software-intervention runner](../research/intervention-memory/README.md)
 uses the existing circuit and journal machinery to execute allowlisted SQLite
 actions. Its own history binds source code, dataset and runtime. Origin contexts,
@@ -67,26 +75,53 @@ predictive improvement claim; structural complexity alone does not.
 
 SQLite uses WAL and full synchronous commits. Inputs, effects, memory, learning metadata, journal head and serialized network commit every five cycles. A graceful shutdown commits the pending state. A crash rolls back the uncommitted transaction; the prior network and cursor restore together. Status exposes latest and committed ticks separately. An exclusive file lock prevents competing workers.
 
+Commerce acknowledges task feedback only through the cursor in a committed
+cognitive checkpoint. A bounded receipt window rejects changed replayed outcomes;
+older receipts require retained journal evidence or fail closed. A finite skill
+queue also checks durable completed contracts, so evicting a feedback receipt
+cannot silently schedule the same executed task again.
+
 Checkpoint hash, model version and topology are checked before trusted deserialization. Missing or mismatched checkpoints refuse a reset. The neural projection hash covers membrane, conductance, adaptation, bias, drives, time constants, weights, traces, eligibility, model time and offset; delayed queues and RNG are covered by the full checkpoint, rather than that projection.
 
 Startup audits the complete cognitive chain. Periodic checks extend the previous verified head. They do not silently claim that every historical row was rescanned. Input source payload and raw spike hashes are bound to records, and record kind is inside the hashed payload.
 
 ## Service boundaries
 
-| Service           | Authority                                                                                   |
-| ----------------- | ------------------------------------------------------------------------------------------- |
-| Original engine   | Original neural history and receipt writes                                                  |
-| Ingestor          | Protocol RPC, transaction queue and source cursors                                          |
-| Cognitive worker  | SELECT on input queue; writes only its state and public cache                               |
-| Verifier          | Read original evidence and publish bounded verification exports                             |
-| Treasury observer | Read-only finalized wallet RPC; no database or signer                                       |
-| Commerce worker   | Fixed paid-job catalog, isolated hot-wallet adapter, durable limits and exact USDC evidence |
-| API               | Read bounded cached files; no RPC, database or signing credential                           |
-| Backup            | Consistent snapshots and private encrypted upload                                           |
+| Service           | Authority                                                                                       |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| Original engine   | Original neural history and receipt writes                                                      |
+| Ingestor          | Protocol RPC, transaction queue and source cursors                                              |
+| Cognitive worker  | SELECT on input queue; writes only its state and public cache                                   |
+| Verifier          | Read original evidence and publish bounded verification exports                                 |
+| Treasury observer | Read-only finalized wallet RPC; no database or signer                                           |
+| Commerce worker   | Bounded local skill execution, guarded paid-job catalog, durable limits and exact USDC evidence |
+| API               | Read bounded cached files; no RPC, database or signing credential                               |
+| Backup            | Consistent snapshots and private encrypted upload                                               |
 
 The public interface cannot enqueue inputs, run jobs or prepare payments. Missing or stale evidence returns unavailable. The original and cognitive status require a running phase and fresh cache for aggregate health. Immutable topology and benchmark artifacts are not treated as rolling live status.
 
-The commerce worker reads fresh public cognitive decisions and can execute only configured exact Solana USDC jobs. Its private ledger records authorization before disclosure and distinguishes payment, delivery and evaluation. Verified paid outcomes enter cognitive action values with a checkpointed sequence cursor; delayed payment results do not modify unrelated synaptic eligibility traces. The public API reads `commerce/status.json` with a 60-second freshness gate. Financial execution remains disabled. The selected architecture uses one managed creator-beneficiary/operating wallet, restricted runtime custody, pinned native collection and constrained Jupiter conversion. A separate managed creator wallet can forward only to the fixed operating address when explicitly configured. No reserve vault or multisig is required; older reserve adapters remain unconfigured. Exact accounts, beneficiary authority, program pins and live end-to-end verification remain prerequisites. A separate wallet observer publishes finalized movements and visible coverage gaps. The API serves complete bounded financial pages from public cache. See [spending](spending.md) for the concrete activation requirements and custody limits.
+The commerce worker reads fresh public cognitive decisions. Explicitly enrolled
+local skill jobs use included server capacity with separate finite work and job
+limits. Their zero-payment authority cannot activate merchant payments. A private
+shared catalogue supplies buyer-owned checks to cognition and commerce; the API
+account cannot read it. The public projection contains commitments, bounded
+programs, execution costs and checked outcomes, rather than hidden target arrays.
+
+Financial execution remains disabled. Configured paid jobs require the separate
+exact Solana USDC authority. The private ledger records authorization before
+disclosure and distinguishes payment, delivery and evaluation. Verified outcomes
+enter cognitive action values with a checkpointed sequence cursor; delayed
+results modify only retained originating eligibility. The public API reads
+`commerce/status.json` with a 60-second freshness gate. The selected financial
+architecture uses one managed creator-beneficiary/operating wallet, restricted
+runtime custody, pinned native collection and constrained Jupiter conversion. A
+separate managed creator wallet can forward only to the fixed operating address
+when explicitly configured. No reserve vault or multisig is required; older
+reserve adapters remain unconfigured. Exact accounts, beneficiary authority,
+program pins and live end-to-end verification remain prerequisites. A separate
+wallet observer publishes finalized movements and visible coverage gaps. The API
+serves complete bounded financial pages from public cache. See
+[spending](spending.md) for activation requirements and custody limits.
 
 ## Capacity and retention
 

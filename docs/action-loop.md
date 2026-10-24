@@ -46,7 +46,11 @@ synapses into the selected action population. Delayed credit changes those tagge
 weights by `0.002 × reward × stored eligibility`, within existing weight bounds.
 It does not reward unrelated activity at the time a contractor finishes. The
 readout, tagged weights, outcome record and feedback cursor commit atomically.
-Duplicate feedback has no effect.
+Commerce paginates after the committed feedback cursor, not the newest in-memory
+cursor. A crash therefore cannot acknowledge an outcome whose learning was rolled
+back. Exact retained duplicates have no effect; a changed receipt is refused.
+The receipt window is finite. Older migrated feedback is rechecked semantically
+against the audited cognitive journal; its original raw bytes are not invented.
 
 Tests establish neural-context influence and exact delayed weight changes. They
 do not establish biological fidelity, a general neural advantage or consciousness.
@@ -65,6 +69,14 @@ credentials and human submissions.
   the buyer recomputes held-out Brier gain and retains negative results.
 - **Documents:** bounded JSON text with required sections and length. Structure
   and delivery do not earn positive usefulness credit by themselves.
+- **Transform programs:** a reviewed, typed expression tree must reproduce exact
+  buyer-held outputs. Four visible examples, a separate counterexample partition
+  and untouched final rows have distinct roles. At most two search rounds share
+  one allowance. A failed candidate contributes observed work and failure evidence.
+- **Retained-skill execution:** a source-bound skill ID processes new unlabelled
+  inputs without receiving expected outputs, training examples or an executable
+  source file. The buyer checks the actual returned values. Missing skills cannot
+  trigger an undisclosed synthesis fallback.
 
 An additional HTTP availability objective measures actual service delivery. The
 endpoint, response-body hash, latency bound and observation window are committed
@@ -84,6 +96,98 @@ Payment, delivery, acceptance and utility remain separate. A paid report can
 remain unscored. The availability comparison is operational evidence, not a
 randomized attribution of improvement. Creative quality, advertising impact,
 arbitrary code and physical work require additional evaluators.
+
+## Executable skills
+
+A local included-capacity provider closes a concrete software-learning loop:
+
+1. The neural task policy chooses a queued contract from actual spike context.
+2. A bounded solver proposes a declarative data-transformation program.
+3. Buyer checks can release one counterexample from a separate validation set.
+   Final evaluation rows never enter search.
+4. Only an exactly verified outcome can retain the program as a usable skill.
+5. A later contract executes that retained skill on fresh inputs without labels.
+6. The result, observed work, program identity and originating neural intent are
+   journalled. Verified utility returns to the original context and eligibility.
+
+For example, separate input fields may require unit normalization before their
+sum recovers a public record's total. The typed language supports field selection,
+bounded string cleanup, exact Decimal conversion and registered arithmetic. It
+cannot run Python source, shell commands, filesystem operations or network calls.
+Input bytes, tree depth, node count, search states and work are bounded.
+
+This is conventional program synthesis and retention. A stronger factored solver
+outperformed the initial learned-fragment search, so additional machinery does
+not automatically become the production method. The
+[full development evidence](../research/skill-acquisition/expressions.md) preserves
+that failed comparison. A useful-skill benefit must survive the same strong
+solver with and without retention; neither changed synapses nor cached answers
+alone establishes a neural advantage.
+
+The [preregistered retention comparison](../research/skill-acquisition/retention.md)
+then holds the strong solver fixed. Across twelve reserved streams and 4,896
+actual executions, all three methods achieve 100% exact file correctness.
+Retaining verified programs reduces measured CPU per correct file by 51.9% and
+counted work by 54.9%, including acquisition, admission and buyer checks. This is
+an amortized efficiency improvement on recurring generated formats over public
+observations, not a demonstrated increase in general competence or neural
+superiority. The independent verifier reconstructs outputs and accounting;
+recorded CPU durations are not independently attested.
+
+The finite queue commits its source manifest and every concrete task. Completed
+contracts remain consumed in the commerce ledger even after the neural receipt
+cache evicts older entries. Executed failures remain terminal evidence;
+unexecuted cancellations can retry within the provider's unchanged limits. Queue
+exhaustion disables planning rather than generating replacement activity.
+
+Included-capacity authority is explicit and independent of monetary authority.
+Only a configured local provider can dispatch a zero-payment skill contract while
+financial execution is off. Separate job, work, daily and cooldown limits apply.
+An interrupted computation retains its full reservation and reports unknown work;
+it is never described as free to repeat. Failed persistence restores the last
+durable library before another request can use that adapter instance.
+
+Buyer catalogues live in a private shared directory outside both public caches
+and the static website root. Published records contain program ASTs, commitments,
+work counts and exact-row measurements, excluding private validation values.
+The research uses real public observations with explicitly generated formatting
+and source-derived arithmetic. It does not establish performance on arbitrary
+customer data, consciousness or whole-organism superiority.
+
+### Running a bounded skill queue
+
+`commerce/local-skills.example.json` declares the reviewed expression language,
+retention method and finite compute ceilings. Both its local provider and the
+separate financial switch start disabled. To enable only included computation,
+set that provider's `enabled` field; leave the top-level financial switch false.
+Keep its provider ID, source ID and language configuration stable after the first
+accepted program. A changed source or language needs a new provider namespace.
+
+`scripts.build_skill_queue` converts a declared corpus into new private contracts:
+
+```sh
+python -m scripts.build_skill_queue research/skill-acquisition/retention-tasks.json /private/task-input/manifest.json --provider local-record-skills-v2 --solver-work 100000
+```
+
+The builder uses only input/output rows and the declared language. Generator
+recipes, original field IDs and row metadata never enter a solver request. A
+manifest's language must exactly match the enrolled provider. Source manifests
+and contracts are immutable; create a new file for a new workload.
+
+Configure `NURIA_SKILL_QUEUE` with a private JSON file containing `schema:
+nuria.skill-queue.v1`, the absolute `manifest` path, its raw-file
+`manifest_sha256`, the enrolled `provider` ID and explicit `enabled` boolean.
+`NURIA_AGENCY_CATALOG` names the generated private catalogue read by both
+workers. `NURIA_ACTION_CONTROLS` names the commerce-only provider controls.
+The catalogue directory needs commerce write permission and cognition read
+permission, with no API or other-user access. It must be outside all public roots.
+
+A serving contract uses `transform_execution`, the same language and source,
+an already verified `skill_id`, fresh `inputs`, buyer-private `expected_outputs`
+and a finite `maximum_work`. The provider receives the inputs and skill identity,
+not the expected outputs. A missing skill fails rather than teaching itself from
+the answer. Queue progress, exact checks and verified serving counts appear in
+the existing Work and Results views.
 
 ## Agent and service purchasing
 

@@ -1,0 +1,691 @@
+{
+  "schema": "nuria.verified-skill-retention.v1",
+  "status": "development-not-preregistered",
+  "development_seeds": [
+    9101,
+    9102,
+    9103
+  ],
+  "reserved_seeds": [
+    9201,
+    9202,
+    9203,
+    9204,
+    9205,
+    9206,
+    9207,
+    9208,
+    9209,
+    9210,
+    9211,
+    9212
+  ],
+  "acquisition_jobs": 24,
+  "unseen_jobs": 16,
+  "serve_repeats_per_format": 6,
+  "serve_jobs": 96,
+  "examples": 4,
+  "validation_rows": 8,
+  "scored_rows": 12,
+  "max_cegis_rounds": 2,
+  "shared_search_budget": 100000,
+  "expression_config": {
+    "version": "safe-expression-v1",
+    "operations": [
+      {
+        "op": "field",
+        "index": 0
+      },
+      {
+        "op": "field",
+        "index": 1
+      },
+      {
+        "op": "field",
+        "index": 2
+      },
+      {
+        "op": "field",
+        "index": 3
+      },
+      {
+        "op": "strip"
+      },
+      {
+        "op": "prefix",
+        "value": "value="
+      },
+      {
+        "op": "prefix",
+        "value": "n="
+      },
+      {
+        "op": "suffix",
+        "value": " units"
+      },
+      {
+        "op": "suffix",
+        "value": "%"
+      },
+      {
+        "op": "decimal"
+      },
+      {
+        "op": "scale",
+        "numerator": 1,
+        "denominator": 100
+      },
+      {
+        "op": "scale",
+        "numerator": 100,
+        "denominator": 1
+      },
+      {
+        "op": "scale",
+        "numerator": 1,
+        "denominator": 1000
+      },
+      {
+        "op": "scale",
+        "numerator": 1000,
+        "denominator": 1
+      },
+      {
+        "op": "format"
+      },
+      {
+        "op": "add"
+      },
+      {
+        "op": "subtract"
+      },
+      {
+        "op": "multiply"
+      }
+    ],
+    "max_ops": 15,
+    "max_candidates": 20000,
+    "max_rows": 32,
+    "max_input_bytes": 512,
+    "max_programs": 64,
+    "max_macros": 0
+  },
+  "branches": [
+    "factored",
+    "retained_factored",
+    "frozen_before_unseen"
+  ],
+  "modes": {
+    "factored": "factored",
+    "retained_factored": "retained_factored",
+    "frozen_before_unseen": "retained_factored"
+  },
+  "acquisition_recipes": [
+    {
+      "operation": "field",
+      "indices": [
+        0
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        1
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        2
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        0
+      ],
+      "encodings": [
+        "prefix100",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        1
+      ],
+      "encodings": [
+        "raw",
+        "prefix100",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        2
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "prefix100",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "prefix100"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        0
+      ],
+      "encodings": [
+        "suffix1000",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        1
+      ],
+      "encodings": [
+        "raw",
+        "suffix1000",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        2
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "suffix1000",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "suffix1000"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        0
+      ],
+      "encodings": [
+        "percent100",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        1
+      ],
+      "encodings": [
+        "raw",
+        "percent100",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        2
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "percent100",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "percent100"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        0
+      ],
+      "encodings": [
+        "n1000",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        1
+      ],
+      "encodings": [
+        "raw",
+        "n1000",
+        "raw",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        2
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "n1000",
+        "raw"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "field",
+      "indices": [
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "n1000"
+      ],
+      "claim": "single-source-field normalization"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        0,
+        1
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "observed-cnt identity"
+    },
+    {
+      "operation": "subtract",
+      "indices": [
+        1,
+        0
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "multiply",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "raw",
+        "raw"
+      ],
+      "claim": "source-derived arithmetic"
+    }
+  ],
+  "transfer_recipes": [
+    {
+      "operation": "add",
+      "indices": [
+        0,
+        1
+      ],
+      "encodings": [
+        "prefix100",
+        "suffix1000",
+        "raw",
+        "raw"
+      ],
+      "claim": "observed-cnt identity"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        0,
+        1
+      ],
+      "encodings": [
+        "suffix1000",
+        "percent100",
+        "raw",
+        "raw"
+      ],
+      "claim": "observed-cnt identity"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        0,
+        1
+      ],
+      "encodings": [
+        "percent100",
+        "prefix100",
+        "raw",
+        "raw"
+      ],
+      "claim": "observed-cnt identity"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        0,
+        1
+      ],
+      "encodings": [
+        "n1000",
+        "suffix1000",
+        "raw",
+        "raw"
+      ],
+      "claim": "observed-cnt identity"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        0,
+        1
+      ],
+      "encodings": [
+        "prefix100",
+        "n1000",
+        "raw",
+        "raw"
+      ],
+      "claim": "observed-cnt identity"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        0,
+        1
+      ],
+      "encodings": [
+        "percent100",
+        "n1000",
+        "raw",
+        "raw"
+      ],
+      "claim": "observed-cnt identity"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "prefix100",
+        "suffix1000"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "suffix1000",
+        "percent100"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "add",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "n1000",
+        "prefix100"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "multiply",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "prefix100",
+        "suffix1000"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "multiply",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "percent100",
+        "n1000"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "multiply",
+      "indices": [
+        2,
+        3
+      ],
+      "encodings": [
+        "raw",
+        "raw",
+        "n1000",
+        "prefix100"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "subtract",
+      "indices": [
+        1,
+        0
+      ],
+      "encodings": [
+        "suffix1000",
+        "prefix100",
+        "raw",
+        "raw"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "subtract",
+      "indices": [
+        1,
+        0
+      ],
+      "encodings": [
+        "percent100",
+        "suffix1000",
+        "raw",
+        "raw"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "subtract",
+      "indices": [
+        1,
+        0
+      ],
+      "encodings": [
+        "n1000",
+        "percent100",
+        "raw",
+        "raw"
+      ],
+      "claim": "source-derived arithmetic"
+    },
+    {
+      "operation": "multiply",
+      "indices": [
+        0,
+        2
+      ],
+      "encodings": [
+        "suffix1000",
+        "raw",
+        "prefix100",
+        "raw"
+      ],
+      "claim": "source-derived arithmetic"
+    }
+  ],
+  "source_archive_sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+  "source_csv_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+  "source_hashes": {
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/skill_expressions.py": "b597bb35c75349d3182e08b6eecc88adfcfd225a6b45e6e08870a7c275f0a07b",
+    "cognition/skill_factored.py": "4cd3188985c6b51d1414678580641c7364da4d7b7b5edd65dc454e47395b79b7",
+    "scripts/evaluate_skill_expressions.py": "b737aec0ce5ea47df9d735f0e6dc80899a906f58b7fb171c3849531446e29c3a",
+    "scripts/verify_skill_expression_results.py": "6b5a4c34f8718c1547ee1cb8bd05c031cbb6cfe11528dea8b42273f8fe7eeaf3",
+    "scripts/evaluate_skill_retention.py": "f45bedd2a45bbd23c1ca71968b44e3f7aea493b07d799e862defc8ec44819531",
+    "scripts/verify_skill_retention.py": "2c9b37deb2da80bbaf93961db02d40ba4ba3c0b8483c536b288c0ba80e5043f0"
+  },
+  "split": "2011 acquisition/2012 unseen+serve. First1728 rows/year form3 disjoint development buckets; remaining rows/year form12 disjoint reserved buckets.",
+  "correlation": "Within a seed, a format samples7*24 distinct2012 rows for first file and6servefiles. Rows may repeat across DIFFERENT formats. Seeds have disjoint source-row buckets. Paired intervals cluster entire seeds, never rows.",
+  "information": "All branches receive same4 visibleIO examples perfile. Validation/scored rows and recipe/format/row metadata never reach solve. Serve phase is frozen input distribution with new rows, not an external customer workload.",
+  "execution_order": "Latin-square rotation of branch order across seed triples; every branch appears once in each position per3seeds.",
+  "baseline": "Both branches use the identical strong factored solver. Retention first tries previously buyer-verified wholeASTs. All receipts consumed; stateless branch retains no program. No fragment macros in any branch.",
+  "frozen_control": "Learns acquisition24files, then consumes genuine outcomes without retaining any new AST during unseen/serve.",
+  "gates": {
+    "minimum_cpu_per_correct_reduction": 0.1,
+    "minimum_work_per_correct_reduction": 0.1,
+    "correctness": "Retained exact task success must be no worse than factored in every seed and in each phase.",
+    "practical": "Across all136jobs including acquisition, paired seed-level95% Student-t upperCI of retained/factored CPU-per-correct ratio <0.90; chargedwork-per-correct meanratio<=0.90.",
+    "scope": "Conventional program retention on recurring generated formats over observed data; no neural, consciousness or algorithmic-novelty claim."
+  }
+}

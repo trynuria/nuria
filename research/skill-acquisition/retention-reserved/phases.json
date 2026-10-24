@@ -1,0 +1,324 @@
+{
+  "schema": "nuria.skill-retention.descriptive-phases.v1",
+  "result_sha256": "8c2cc8add1e340c56d8f9fe63038a7c76264db95510b088feaa8b3d8664bae42",
+  "trace_sha256": "14480ef322d93d7beacb7e7257688db5bcfada221db1892a6355153314bb8484",
+  "phase_costs": [
+    {
+      "phase": "acquisition",
+      "branches": {
+        "factored": {
+          "jobs": 288,
+          "success": 1,
+          "mean_cpu_per_job": 0.011281555555555843,
+          "mean_total_work_per_job": 1308.142361111111
+        },
+        "retained_factored": {
+          "jobs": 288,
+          "success": 1,
+          "mean_cpu_per_job": 0.013026038194444438,
+          "mean_total_work_per_job": 1440.9097222222222
+        },
+        "frozen_before_unseen": {
+          "jobs": 288,
+          "success": 1,
+          "mean_cpu_per_job": 0.013092305555555468,
+          "mean_total_work_per_job": 1440.9097222222222
+        }
+      }
+    },
+    {
+      "phase": "unseen",
+      "branches": {
+        "factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.018779546875000018,
+          "mean_total_work_per_job": 2608.1458333333335
+        },
+        "retained_factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.023951067708333374,
+          "mean_total_work_per_job": 3028.3802083333335
+        },
+        "frozen_before_unseen": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.022557677083333158,
+          "mean_total_work_per_job": 2970.6666666666665
+        }
+      }
+    },
+    {
+      "phase": "serve-1",
+      "branches": {
+        "factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.01877752083333343,
+          "mean_total_work_per_job": 2606.578125
+        },
+        "retained_factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.00597306770833361,
+          "mean_total_work_per_job": 813.7447916666666
+        },
+        "frozen_before_unseen": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.022570718750000104,
+          "mean_total_work_per_job": 2969.03125
+        }
+      }
+    },
+    {
+      "phase": "serve-2",
+      "branches": {
+        "factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.018969265625000273,
+          "mean_total_work_per_job": 2609.4791666666665
+        },
+        "retained_factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.004442635416666736,
+          "mean_total_work_per_job": 624.6614583333334
+        },
+        "frozen_before_unseen": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.022706312500000006,
+          "mean_total_work_per_job": 2972.0833333333335
+        }
+      }
+    },
+    {
+      "phase": "serve-3",
+      "branches": {
+        "factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.019081473958332984,
+          "mean_total_work_per_job": 2608.859375
+        },
+        "retained_factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.004460057291667041,
+          "mean_total_work_per_job": 621.7447916666666
+        },
+        "frozen_before_unseen": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.022631682291666632,
+          "mean_total_work_per_job": 2971.2708333333335
+        }
+      }
+    },
+    {
+      "phase": "serve-4",
+      "branches": {
+        "factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.019029906249999732,
+          "mean_total_work_per_job": 2602.2760416666665
+        },
+        "retained_factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.0044973125000002155,
+          "mean_total_work_per_job": 624.71875
+        },
+        "frozen_before_unseen": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.022816536458332908,
+          "mean_total_work_per_job": 2964.234375
+        }
+      }
+    },
+    {
+      "phase": "serve-5",
+      "branches": {
+        "factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.019039635416666464,
+          "mean_total_work_per_job": 2609.9739583333335
+        },
+        "retained_factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.004567083333333439,
+          "mean_total_work_per_job": 625.8958333333334
+        },
+        "frozen_before_unseen": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.022877234375000274,
+          "mean_total_work_per_job": 2972.4375
+        }
+      }
+    },
+    {
+      "phase": "serve-6",
+      "branches": {
+        "factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.019166130208333753,
+          "mean_total_work_per_job": 2608.2708333333335
+        },
+        "retained_factored": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.004617218750000186,
+          "mean_total_work_per_job": 626.6979166666666
+        },
+        "frozen_before_unseen": {
+          "jobs": 192,
+          "success": 1,
+          "mean_cpu_per_job": 0.02291212499999999,
+          "mean_total_work_per_job": 2971.0208333333335
+        }
+      }
+    }
+  ],
+  "known_verified_program_selections": [
+    {
+      "branch": "factored",
+      "phase": "acquisition",
+      "attempts": 288,
+      "previously_verified_program_selections": 0
+    },
+    {
+      "branch": "factored",
+      "phase": "serve",
+      "attempts": 1152,
+      "previously_verified_program_selections": 0
+    },
+    {
+      "branch": "factored",
+      "phase": "unseen",
+      "attempts": 192,
+      "previously_verified_program_selections": 0
+    },
+    {
+      "branch": "frozen_before_unseen",
+      "phase": "acquisition",
+      "attempts": 288,
+      "previously_verified_program_selections": 0
+    },
+    {
+      "branch": "frozen_before_unseen",
+      "phase": "serve",
+      "attempts": 1152,
+      "previously_verified_program_selections": 0
+    },
+    {
+      "branch": "frozen_before_unseen",
+      "phase": "unseen",
+      "attempts": 192,
+      "previously_verified_program_selections": 0
+    },
+    {
+      "branch": "retained_factored",
+      "phase": "acquisition",
+      "attempts": 288,
+      "previously_verified_program_selections": 0
+    },
+    {
+      "branch": "retained_factored",
+      "phase": "serve",
+      "attempts": 1152,
+      "previously_verified_program_selections": 1152
+    },
+    {
+      "branch": "retained_factored",
+      "phase": "unseen",
+      "attempts": 192,
+      "previously_verified_program_selections": 0
+    }
+  ],
+  "cumulative_cpu_break_even": [
+    {
+      "seed": 9201,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 49,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9202,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 50,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9203,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 50,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9204,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 49,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9205,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 51,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9206,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 49,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9207,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 51,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9208,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 50,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9209,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 50,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9210,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 50,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9211,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 50,
+      "phase": "serve",
+      "repeat": 1
+    },
+    {
+      "seed": 9212,
+      "first_job_after_which_cumulative_retained_cpu_stays_below_stateless": 50,
+      "phase": "serve",
+      "repeat": 1
+    }
+  ],
+  "failed_scored_files": 0,
+  "repeated_cegis_files": 0,
+  "scope": "Descriptive postprocessing only. Phase CPU excludes one-time initialization, which primary totals and cumulative break-even include. Rows within seed correlated across formats; no row-level inferential test is performed."
+}

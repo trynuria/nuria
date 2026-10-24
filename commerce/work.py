@@ -136,6 +136,11 @@ def snapshot(ledger, commerce, limit=80):
         catalog[0]["detail"] = (
             "Configured exact Solana USDC provider catalog; each payment and delivery is verified separately."
         )
+    if commerce.get("actions", {}).get("included_compute_enabled") is True:
+        catalog[3]["status"] = "connected"
+        catalog[3]["detail"] = (
+            "Bounded zero-payment transform jobs use included server capacity. Verified programs and measured outcomes are recorded. External cloud provisioning is not connected."
+        )
     return {
         "schema": "nuria.work.v1",
         "updated_utc": commerce["updated_utc"],

@@ -1,0 +1,235 @@
+{
+  "schema": "nuria.skill-acquisition.v1",
+  "status": "frozen-before-reserved-execution",
+  "dataset": {
+    "archive_sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+    "csv_sha256": "e03de4ee4ef4dc376ac6e04bf829673c6269e8eba5c60fa121640fa2f829504f",
+    "rows": 17379,
+    "source": "UCI Bike Sharing DOI:10.24432/C5W894",
+    "license": "CC BY4.0"
+  },
+  "data_scope": "Real observed numeric values; all wrapper/unit corruptions and task structures are generated.",
+  "development_seeds": [
+    8101,
+    8102,
+    8103
+  ],
+  "reserved_seeds": [
+    8201,
+    8202,
+    8203,
+    8204,
+    8205,
+    8206,
+    8207,
+    8208,
+    8209,
+    8210,
+    8211,
+    8212
+  ],
+  "acquisition_tasks": 24,
+  "transfer_tasks": 16,
+  "visible_examples": 4,
+  "cegis_validation_rows": 8,
+  "scored_rows": 12,
+  "max_cegis_rounds": 2,
+  "solve_budget": 2400,
+  "config": {
+    "version": "safe-transform-v1",
+    "operations": [
+      {
+        "op": "strip"
+      },
+      {
+        "op": "prefix",
+        "value": "value="
+      },
+      {
+        "op": "prefix",
+        "value": "n="
+      },
+      {
+        "op": "suffix",
+        "value": " units"
+      },
+      {
+        "op": "suffix",
+        "value": "%"
+      },
+      {
+        "op": "split",
+        "separator": "|",
+        "index": 1
+      },
+      {
+        "op": "split",
+        "separator": ":",
+        "index": 1
+      },
+      {
+        "op": "json"
+      },
+      {
+        "op": "decimal"
+      },
+      {
+        "op": "scale",
+        "numerator": 1,
+        "denominator": 100
+      },
+      {
+        "op": "scale",
+        "numerator": 100,
+        "denominator": 1
+      },
+      {
+        "op": "scale",
+        "numerator": 1,
+        "denominator": 10
+      },
+      {
+        "op": "scale",
+        "numerator": 10,
+        "denominator": 1
+      },
+      {
+        "op": "scale",
+        "numerator": 1,
+        "denominator": 1000
+      },
+      {
+        "op": "scale",
+        "numerator": 1000,
+        "denominator": 1
+      },
+      {
+        "op": "format"
+      }
+    ],
+    "max_ops": 8,
+    "max_candidates": 20000,
+    "max_rows": 32,
+    "max_input_bytes": 256,
+    "max_programs": 64,
+    "max_macros": 32
+  },
+  "acquisition_structures": [
+    [],
+    [
+      "space"
+    ],
+    [
+      "prefix"
+    ],
+    [
+      "suffix"
+    ],
+    [
+      "token"
+    ],
+    [
+      "json"
+    ],
+    [
+      "percent"
+    ],
+    [
+      "milli"
+    ],
+    [
+      "prefix",
+      "space"
+    ],
+    [
+      "suffix",
+      "json"
+    ],
+    [
+      "token",
+      "space"
+    ],
+    [
+      "prefix",
+      "token"
+    ]
+  ],
+  "unseen_transfer_structures": [
+    [
+      "prefix",
+      "token",
+      "json"
+    ],
+    [
+      "suffix",
+      "json",
+      "space"
+    ],
+    [
+      "percent",
+      "prefix",
+      "token"
+    ],
+    [
+      "milli",
+      "suffix",
+      "json"
+    ],
+    [
+      "prefix",
+      "json",
+      "token"
+    ],
+    [
+      "suffix",
+      "token",
+      "json"
+    ],
+    [
+      "percent",
+      "json",
+      "space"
+    ],
+    [
+      "milli",
+      "prefix",
+      "token",
+      "json"
+    ]
+  ],
+  "split": "Acquisition uses2011, transfer2012. First1728rows/year are split into3 disjointdevelopmentbuckets; remainingrows split modulo12 into disjointreservedseedbuckets. Rows never repeat within a seed. Transfer wrapper structures are unseen. Fourvisibleexamples have distincttargetvalues for identification.",
+  "branches": [
+    "fresh",
+    "retrieval",
+    "frequency",
+    "contextual",
+    "frozen",
+    "no_acquisition",
+    "shuffled_context"
+  ],
+  "modes": {
+    "fresh": "fresh",
+    "retrieval": "retrieval",
+    "frequency": "macro",
+    "contextual": "contextual",
+    "frozen": "contextual",
+    "no_acquisition": "contextual",
+    "shuffled_context": "contextual"
+  },
+  "source_hashes": {
+    "scripts/evaluate_skills.py": "9a9240c66a21d2881c3ab303d703fdab3b94af84cb71ee31fce52b5972200d20",
+    "cognition/skills.py": "a6b196821ce5df776857c629457a5255f76d6245f3d3640fd6e30810c5f8f465",
+    "scripts/verify_skill_results.py": "e6d82e804cfc3d624e53de57c12fa33d01c553529a1b41b34d5a60232dc131ce"
+  },
+  "primary": "Fraction of transfer tasks with all 12 independent scored outputs exactly correct within shared per-task solver budget; all acquisition and verification work reported.",
+  "gates": {
+    "minimum_transfer_success_gain": 0.05,
+    "confidence": "paired seed-level 95% t interval, df=11",
+    "practical": "Contextual branch beats strongest registered simpler branch by >=5 percentage points with paired lower95%>0; total work must not exceed simpler branch by >10%.",
+    "reliability": "No malformed admitted program or missing task/attempt may pass verification.",
+    "learning": "Contextual transfer beats no-acquisition; online acquisition late gain vs early and frozen reported separately, not substituted for transfer.",
+    "neural": "No neural features or neural superiority claim in this study."
+  },
+  "selection_limit": "Strongest simpler branch selected by reserved performance for a conservative comparator; no method retuning from reserved results.",
+  "retention": "Every acquisition and reserved task, failed attempt, CEGIS counterexample, program, output and cost is retained. No failed seed is replaced."
+}

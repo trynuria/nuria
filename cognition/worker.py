@@ -108,6 +108,7 @@ class Organism:
         self.commerce_cursor = int(metadata.get("commerce_cursor", 0))
         self.commerce_outcomes = int(metadata.get("commerce_outcomes", 0))
         self.agency = NeuralTaskPolicy(metadata.get("agency"))
+        self.committed_agency_cursor = self.agency.feedback_cursor
         self.agency_genesis = metadata.get("agency_genesis_utc", utc())
         self.agency_tasks = []
         self.last_effects = []
@@ -310,8 +311,14 @@ class Organism:
     def task_feedback(self, records: list[dict]) -> None:
         """Keep neural-context credit and the corresponding receipt atomic."""
         for record in sorted(records, key=lambda item: item.get("seq", 0)):
+            # A legacy checkpoint has no raw receipt fingerprints. Recheck only
+            # its immutable semantic fields against the already audited journal;
+            # never invent an exact raw hash from worker-added timestamps.
+            if self._known_legacy_feedback(record):
+                continue
             pending = self.agency.pending.get(record.get("intent_id"))
             trace = pending.get("synaptic_trace") if pending else None
+            action = record.get("action", pending.get("action") if pending else None)
             if self.agency.learn(record):
                 if record.get("evidence_level") == "not_executed":
                     self.journal.append(
@@ -321,16 +328,42 @@ class Organism:
                 credit = (
                     self.brain.task_reward(trace, record["reward"]) if trace else None
                 )
-                self.resources.outcome(record["action"], record["reward"], 0)
+                self.resources.outcome(action, record["reward"], 0)
                 self.journal.append(
                     "task_outcome",
                     {
                         **record,
+                        "action": action,
                         "utc": utc(),
                         "tick": self.tick,
                         "neural_credit": credit,
                     },
                 )
+
+    def _known_legacy_feedback(self, record: dict) -> bool:
+        sequence = record.get("seq")
+        if (
+            type(sequence) is not int
+            or not 0 < sequence <= self.agency.legacy_feedback_floor
+        ):
+            return False
+        required = {"seq", "intent_id", "contract_sha256", "goal_id", "evidence_level"}
+        if record.get("evidence_level") == "verified_outcome":
+            required |= {"reward", "result_sha256"}
+        elif record.get("evidence_level") == "not_executed":
+            required |= {"task_state"}
+        else:
+            return False
+        if not required <= record.keys():
+            return False
+        keys = required | ({"action"} if "action" in record else set())
+        for kind in ("task_outcome", "task_closed"):
+            for saved in self.journal.recent(kind, 512):
+                if saved.get("seq") == sequence and all(key in saved for key in keys):
+                    return sha(canonical({key: saved[key] for key in keys})) == sha(
+                        canonical({key: record[key] for key in keys})
+                    )
+        return False
 
     def cycle(
         self,
@@ -490,6 +523,7 @@ class Organism:
         self.journal.save(metadata, raw)
         self.committed_tick = self.tick
         self.committed_cursor = self.cursor
+        self.committed_agency_cursor = self.agency.feedback_cursor
 
     def snapshot(
         self,
@@ -553,7 +587,11 @@ class Organism:
             "integrity": self.ledger_check,
             "treasury": treasury or public_treasury(),
             "paid_outcomes": self.commerce_outcomes,
-            "agency": {**self.agency.public(), "genesis_utc": self.agency_genesis},
+            "agency": {
+                **self.agency.public(),
+                "genesis_utc": self.agency_genesis,
+                "committed_feedback_cursor": self.committed_agency_cursor,
+            },
             "upstream": {
                 "tick": (upstream or {}).get("tick"),
                 "genesis_utc": (upstream or {}).get("genesis_utc"),

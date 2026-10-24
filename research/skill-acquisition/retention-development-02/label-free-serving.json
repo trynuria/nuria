@@ -1,0 +1,96 @@
+{
+  "schema": "nuria.label-free-skill-serving.v1",
+  "scope": "Separate acceptance fixture; not included in comparative study costs. Caller selects a previously buyer-verified skill by its retained hash, supplies only new inputs, and buyer checks outputs afterward. No claim of autonomous skill selection or new correctness without checks.",
+  "source_hashes": {
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/skill_expressions.py": "b597bb35c75349d3182e08b6eecc88adfcfd225a6b45e6e08870a7c275f0a07b",
+    "cognition/skill_factored.py": "4cd3188985c6b51d1414678580641c7364da4d7b7b5edd65dc454e47395b79b7",
+    "scripts/evaluate_skill_expressions.py": "b737aec0ce5ea47df9d735f0e6dc80899a906f58b7fb171c3849531446e29c3a",
+    "scripts/verify_skill_expression_results.py": "6b5a4c34f8718c1547ee1cb8bd05c031cbb6cfe11528dea8b42273f8fe7eeaf3",
+    "scripts/evaluate_skill_retention.py": "f45bedd2a45bbd23c1ca71968b44e3f7aea493b07d799e862defc8ec44819531",
+    "scripts/verify_skill_retention.py": "2c9b37deb2da80bbaf93961db02d40ba4ba3c0b8483c536b288c0ba80e5043f0"
+  },
+  "origin_job_id": "7b3f97ff81443b41e6cc10084fe4b3c8957f6eb91acc0667a4f0676b855ebf68",
+  "origin_skill_id": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+  "previously_verified": true,
+  "source_row_ids": [
+    8646,
+    8649,
+    8652,
+    8655,
+    8664,
+    8667,
+    8676,
+    8679
+  ],
+  "not_previously_used_for_this_format": true,
+  "serve_arguments": {
+    "skill_id": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+    "inputs": [
+      "[\"5\",\"43\",\"360 units\",\"66%\"]",
+      "[\"11\",\"41\",\"300 units\",\"81%\"]",
+      "[\"1\",\"1\",\"260 units\",\"93%\"]",
+      "[\"13\",\"27\",\"260 units\",\"93%\"]",
+      "[\"25\",\"81\",\"460 units\",\"59%\"]",
+      "[\"10\",\"61\",\"440 units\",\"67%\"]",
+      "[\"0\",\"16\",\"240 units\",\"32%\"]",
+      "[\"20\",\"89\",\"260 units\",\"35%\"]"
+    ],
+    "budget": 10000
+  },
+  "target_labels_passed_to_serve": false,
+  "result": {
+    "status": "served",
+    "outputs": [
+      "1.02",
+      "1.11",
+      "1.19",
+      "1.19",
+      "1.05",
+      "1.11",
+      "0.56",
+      "0.61"
+    ],
+    "skill_id": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+    "program_sha256": "af747d002056b88cf8bf75e4c0c025e50c89e7f7fecd0494c56efbeb0de4dd22",
+    "source_id": "retention:9101:retained_factored",
+    "inputs_sha256": "a221bb3c9ec1368dfc200068b8f0f5d82a888887502a7317d9b5e3829a84aec7",
+    "work": {
+      "total": 179,
+      "primitive_attempts": 80,
+      "candidates": 1,
+      "byte_blocks": 98,
+      "errors": 0,
+      "semantic_duplicates": 0
+    }
+  },
+  "expected_after_execution": [
+    "1.02",
+    "1.11",
+    "1.19",
+    "1.19",
+    "1.05",
+    "1.11",
+    "0.56",
+    "0.61"
+  ],
+  "independent_buyer_check": {
+    "passed": true,
+    "correct": 8,
+    "rows": 8,
+    "outputs": [
+      "1.02",
+      "1.11",
+      "1.19",
+      "1.19",
+      "1.05",
+      "1.11",
+      "0.56",
+      "0.61"
+    ],
+    "tool_units": 168,
+    "first_counterexample_index": null,
+    "actual_sha256": "2ba51cd89db5acfd3ea73560b0ae83fd0865bada256e57c374600165b772d8b9"
+  },
+  "verified_success_counts_unchanged": true
+}

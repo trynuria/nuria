@@ -1,0 +1,15 @@
+{
+  "schema": "nuria.skill-retention.verification.v1",
+  "passed": true,
+  "jobs": 1224,
+  "unique_files": 408,
+  "unique_source_rows": 3445,
+  "seeds": 3,
+  "gates": {
+    "correctness_noninferiority": true,
+    "practical_retention_benefit": true,
+    "neural_specificity": "not_tested"
+  },
+  "source_sha256": "2c9b37deb2da80bbaf93961db02d40ba4ba3c0b8483c536b288c0ba80e5043f0",
+  "scope": "Independent exact-output/receipt/split/accounting/gate rescore. No full synthesis replay or CPU attestation. Rows correlated within seed across different formats are disclosed and never treated as independent samples."
+}

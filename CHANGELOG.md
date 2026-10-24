@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — executable skills
+
+- Connect neural task selection to actual bounded data-program synthesis, buyer-owned checks, verified program retention and later execution on unlabelled inputs.
+- Use the same strong constraint-guided solver with and without retention; preserve earlier failed efficiency and learned-fragment comparisons.
+- Keep zero-payment local compute authority separate from financial execution, with finite daily and per-job work reservations, private evaluation catalogues and durable completed-contract tracking.
+- Acknowledge feedback only after the cognitive checkpoint commits; reject changed receipts and preserve neural history across migration and recovery.
+- Publish fixed protocols, full task traces, independent output/accounting reconstruction and explicit limits. Preserve the website design.
+
 ## 0.11.0 — 2026-10-24
 
 - Add bounded native SQLite interventions on licensed public observations, exact answer checks, construction-inclusive VM accounting and selected-only delayed learning.

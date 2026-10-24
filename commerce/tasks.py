@@ -61,7 +61,16 @@ def validate_task(task):
         text(task[key], maximum)
     if task["kind"] not in KINDS or task["action"] not in ACTIONS:
         raise ValueError("Task capability is unsupported")
-    if type(task["maximum_micro_usd"]) is not int or task["maximum_micro_usd"] <= 0:
+    if (
+        type(task["maximum_micro_usd"]) is not int
+        or task["maximum_micro_usd"] < 0
+        or task["maximum_micro_usd"] == 0
+        and (
+            task["kind"] != "compute"
+            or task.get("acceptance", {}).get("type")
+            not in ("transform_program", "transform_execution")
+        )
+    ):
         raise ValueError("Task needs a finite total cost ceiling")
     if (
         type(task["delivery_seconds"]) is not int
@@ -98,6 +107,93 @@ def validate_task(task):
             raise ValueError("Held-out evaluation values are invalid")
         if not finite(rule["minimum_gain"]) or not 0 <= rule["minimum_gain"] <= 1:
             raise ValueError("Acceptance gain is invalid")
+    elif rule.get("type") == "transform_program":
+        from cognition.skills import normalize_config
+
+        if set(rule) != {
+            "type",
+            "config",
+            "training_inputs",
+            "training_outputs",
+            "validation_inputs",
+            "validation_outputs",
+            "heldout_inputs",
+            "heldout_outputs",
+            "maximum_work",
+        }:
+            raise ValueError("Transform-program evaluation fields are invalid")
+        config = normalize_config(rule["config"])
+        for name, minimum, maximum in (
+            ("training_inputs", 2, config["max_rows"]),
+            ("training_outputs", 2, config["max_rows"]),
+            ("validation_inputs", 1, config["max_rows"]),
+            ("validation_outputs", 1, config["max_rows"]),
+            ("heldout_inputs", 8, config["max_rows"]),
+            ("heldout_outputs", 8, config["max_rows"]),
+        ):
+            values = rule[name]
+            if (
+                type(values) is not list
+                or not minimum <= len(values) <= maximum
+                or any(
+                    type(value) is not str
+                    or len(value.encode()) > config["max_input_bytes"]
+                    for value in values
+                )
+            ):
+                raise ValueError("Transform-program rows exceed their typed bounds")
+        if (
+            len(rule["training_inputs"]) != len(rule["training_outputs"])
+            or len(rule["validation_inputs"]) != len(rule["validation_outputs"])
+            or len(rule["heldout_inputs"]) != len(rule["heldout_outputs"])
+            or type(rule["maximum_work"]) is not int
+            or not 1 <= rule["maximum_work"] <= 10_000_000
+            or set(rule["training_inputs"]) & set(rule["heldout_inputs"])
+            or set(rule["training_inputs"]) & set(rule["validation_inputs"])
+            or set(rule["validation_inputs"]) & set(rule["heldout_inputs"])
+            or rule["maximum_work"] <= 3 * transform_verifier_ceiling(config)
+        ):
+            raise ValueError(
+                "Transform-program training and evaluation split is invalid"
+            )
+    elif rule.get("type") == "transform_execution":
+        from cognition.skills import SOURCE, normalize_config
+
+        if set(rule) != {
+            "type",
+            "config",
+            "source_id",
+            "skill_id",
+            "inputs",
+            "expected_outputs",
+            "maximum_work",
+        }:
+            raise ValueError("Retained-skill execution fields are invalid")
+        config = normalize_config(rule["config"])
+        if (
+            task["kind"] != "compute"
+            or task["maximum_micro_usd"] != 0
+            or type(rule["source_id"]) is not str
+            or not SOURCE.fullmatch(rule["source_id"])
+            or type(rule["skill_id"]) is not str
+            or not HASH.fullmatch(rule["skill_id"])
+            or type(rule["inputs"]) is not list
+            or type(rule["expected_outputs"]) is not list
+            or not 1 <= len(rule["inputs"]) <= config["max_rows"]
+            or len(rule["inputs"]) != len(rule["expected_outputs"])
+            or any(
+                type(value) is not str
+                or len(value.encode()) > config["max_input_bytes"]
+                for value in rule["inputs"] + rule["expected_outputs"]
+            )
+            or type(rule["maximum_work"]) is not int
+            or not execution_verifier_ceiling(config)
+            < rule["maximum_work"]
+            <= 10_000_000
+        ):
+            raise ValueError(
+                "Retained-skill execution source, rows or work allowance is invalid"
+            )
     elif rule.get("type") == "document":
         if set(rule) != {"type", "required_sections", "minimum_characters"}:
             raise ValueError("Document evaluation fields are invalid")
@@ -157,7 +253,20 @@ def validate_task(task):
 def contractor_brief(task, job_id):
     """Public contract only: held-out targets and baseline stay with the buyer."""
     rule = task["acceptance"]
-    acceptance = {k: v for k, v in rule.items() if k not in ("targets", "baseline")}
+    acceptance = {
+        k: v
+        for k, v in rule.items()
+        if k
+        not in (
+            "targets",
+            "baseline",
+            "heldout_inputs",
+            "heldout_outputs",
+            "validation_inputs",
+            "validation_outputs",
+            "expected_outputs",
+        )
+    }
     return {
         "schema": "nuria.task.v1",
         "job_id": job_id,
@@ -185,6 +294,197 @@ def verify_delivery(task, job_id, raw):
     ):
         raise ValueError("Delivery is not bound to this task")
     rule, result = task["acceptance"], value["result"]
+    if rule["type"] == "transform_execution":
+        if (
+            type(result) is not dict
+            or set(result)
+            != {
+                "status",
+                "outputs",
+                "skill_id",
+                "program_sha256",
+                "source_id",
+                "inputs_sha256",
+                "work",
+            }
+            or result["source_id"] != rule["source_id"]
+            or result["skill_id"] != rule["skill_id"]
+            or result["inputs_sha256"] != digest(rule["inputs"])
+            or result["status"]
+            not in ("served", "skill_missing", "failed", "work_limit")
+            or type(result["outputs"]) is not list
+            or len(result["outputs"]) != len(rule["inputs"])
+            or any(
+                output is not None
+                and (
+                    type(output) is not str
+                    or len(output.encode()) > rule["config"]["max_input_bytes"]
+                )
+                for output in result["outputs"]
+            )
+            or result["status"] == "served"
+            and result["program_sha256"] != rule["skill_id"]
+            or result["program_sha256"] is not None
+            and (
+                type(result["program_sha256"]) is not str
+                or not HASH.fullmatch(result["program_sha256"])
+            )
+        ):
+            raise ValueError(
+                "Retained-skill execution artifact is malformed or unbound"
+            )
+        observed_work = transform_work(result["work"])
+        verifier_work = sum(
+            1
+            + (
+                (len(actual.encode()) if actual is not None else 0)
+                + len(expected.encode())
+                + 31
+            )
+            // 32
+            for actual, expected in zip(
+                result["outputs"], rule["expected_outputs"], strict=True
+            )
+        )
+        if (
+            observed_work
+            > rule["maximum_work"] - execution_verifier_ceiling(rule["config"])
+            or observed_work + verifier_work > rule["maximum_work"]
+        ):
+            raise ValueError(
+                "Retained-skill execution exceeded its committed compute allowance"
+            )
+        correct = sum(
+            actual == expected
+            for actual, expected in zip(
+                result["outputs"], rule["expected_outputs"], strict=True
+            )
+        )
+        rows = len(rule["inputs"])
+        baseline = (
+            sum(
+                value == expected
+                for value, expected in zip(
+                    rule["inputs"], rule["expected_outputs"], strict=True
+                )
+            )
+            / rows
+        )
+        candidate = correct / rows
+        passed = result["status"] == "served" and correct == rows
+        utility = candidate - baseline if result["status"] == "served" else -1
+        return {
+            "artifact_sha256": hashlib.sha256(raw).hexdigest(),
+            "passed": passed,
+            "utility": max(
+                -1,
+                utility - 0.01 * (observed_work + verifier_work) / rule["maximum_work"],
+            ),
+            "metric": "verified_retained_skill_execution",
+            "baseline": baseline,
+            "candidate": candidate,
+            "exact_rows": correct,
+            "evaluation_rows": rows,
+            "skill_id": rule["skill_id"],
+            "program_sha256": result["program_sha256"],
+            "source_id": rule["source_id"],
+            "inputs_sha256": result["inputs_sha256"],
+            "execution_status": result["status"],
+            "execution_work": observed_work,
+            "solver_work": 0,
+            "verifier_work": verifier_work,
+            "total_work": observed_work + verifier_work,
+            "maximum_work": rule["maximum_work"],
+            "evaluation_sha256": digest(
+                {
+                    "inputs": rule["inputs"],
+                    "outputs": rule["expected_outputs"],
+                    "nonce": task["evaluation_nonce"],
+                }
+            ),
+            "scope": "Buyer checked actual outputs from a previously verified retained program on an unlabelled request. No synthesis, target access, financial payment or fallback repair is authorized.",
+        }
+    if rule["type"] == "transform_program":
+        from cognition.skills import execute_checked, validate_program
+
+        if (
+            type(result) is not dict
+            or set(result) != {"program", "proposal_id", "work"}
+            or result["program"] is not None
+            and (
+                type(result["proposal_id"]) is not str
+                or not HASH.fullmatch(result["proposal_id"])
+            )
+            or result["program"] is None
+            and result["proposal_id"] is not None
+            or type(result["work"]) is not dict
+        ):
+            raise ValueError("Transform-program artifact is malformed")
+        program = result["program"]
+        solver_work = transform_work(result["work"])
+        if solver_work > rule["maximum_work"] - transform_verifier_ceiling(
+            rule["config"]
+        ):
+            raise ValueError(
+                "Transform-program solver exceeded its committed work ceiling"
+            )
+        predicted, verifier_work = [], 0
+        if program is not None:
+            validate_program(program, rule["config"])
+            for row in rule["heldout_inputs"]:
+                observed = execute_checked(program, row, rule["config"])
+                predicted.append(observed["output"])
+                verifier_work += transform_work(observed["work"])
+        if solver_work + verifier_work > rule["maximum_work"]:
+            raise ValueError(
+                "Transform-program verification exceeded its committed work ceiling"
+            )
+        correct = sum(
+            actual == expected
+            for actual, expected in zip(
+                predicted, rule["heldout_outputs"], strict=False
+            )
+        )
+        count = len(rule["heldout_inputs"])
+        baseline = (
+            sum(
+                original == expected
+                for original, expected in zip(
+                    rule["heldout_inputs"], rule["heldout_outputs"], strict=True
+                )
+            )
+            / count
+        )
+        accuracy = correct / count
+        return {
+            "artifact_sha256": hashlib.sha256(raw).hexdigest(),
+            "passed": program is not None and correct == count,
+            "utility": max(
+                -1,
+                accuracy
+                - baseline
+                - 0.01 * (solver_work + verifier_work) / rule["maximum_work"],
+            ),
+            "metric": "held_out_exact_transform_gain",
+            "baseline": baseline,
+            "candidate": accuracy,
+            "exact_rows": correct,
+            "evaluation_rows": count,
+            "program_sha256": digest(program) if program is not None else None,
+            "proposal_id": result["proposal_id"],
+            "verifier_work": verifier_work,
+            "solver_work": solver_work,
+            "total_work": solver_work + verifier_work,
+            "maximum_work": rule["maximum_work"],
+            "evaluation_sha256": digest(
+                {
+                    "inputs": rule["heldout_inputs"],
+                    "outputs": rule["heldout_outputs"],
+                    "nonce": task["evaluation_nonce"],
+                }
+            ),
+            "scope": "Buyer executed the bounded declarative program on withheld rows. Utility is exact accuracy gain over unchanged input minus 0.01 times the used fraction of committed compute. Work units are not money or neural superiority.",
+        }
     if rule["type"] == "predictions":
         if (
             not isinstance(result, list)
@@ -227,3 +527,25 @@ def verify_delivery(task, job_id, raw):
         "metric": "document_structure",
         "scope": "Format and delivery only; usefulness requires a separate measured outcome. No automatic positive learning credit.",
     }
+
+
+def transform_verifier_ceiling(config):
+    """Worst-case fixed-registry buyer work, reserved before synthesis."""
+    blocks = (config["max_input_bytes"] + 31) // 32
+    if config["version"] == "safe-expression-v1":
+        blocks = 2 * ((max(config["max_input_bytes"], 97) + 31) // 32)
+    return config["max_rows"] * config["max_ops"] * (1 + blocks)
+
+
+def transform_work(report):
+    if (
+        type(report) is not dict
+        or type(report.get("total")) is not int
+        or not 0 <= report["total"] <= 10_000_000
+    ):
+        raise ValueError("Transform-program work report is malformed")
+    return report["total"]
+
+
+def execution_verifier_ceiling(config):
+    return config["max_rows"] * (1 + 2 * ((config["max_input_bytes"] + 31) // 32))

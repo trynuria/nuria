@@ -106,7 +106,7 @@ test("missing balance remains unknown while a verified empty journal is explicit
   const { get } = await harness();
   assert.equal(get("workBalance").textContent, "—");
   assert.equal(get("workSpent").textContent, "0 USDC");
-  assert.equal(get("workHealth").textContent, "Execution off");
+  assert.equal(get("workHealth").textContent, "Payments off");
   assert.equal(get("workExport").attributes.href, "/api/work");
 });
 
@@ -146,7 +146,7 @@ test("network failure clears financial evidence and refresh recovers without cha
   await poll();
   assert.equal(get("work-tab-treasury").attributes["aria-selected"], "true");
   assert.equal(get("work-panel-treasury").hidden, false);
-  assert.equal(get("workHealth").textContent, "Execution off");
+  assert.equal(get("workHealth").textContent, "Payments off");
 });
 
 test("provider text is rendered as text, with no HTML interpretation", async () => {
@@ -213,7 +213,7 @@ test("a local commission is visible without implying an order, payment or outcom
   const facts = get("workDetail").children[3].children;
   assert.equal(facts[2].children[1].textContent, "No verified payment");
   assert.equal(facts[6].children[1].textContent, "Not measured");
-  assert.equal(get("workHealth").textContent, "Execution off");
+  assert.equal(get("workHealth").textContent, "Payments off");
 });
 
 test("contradictory commission evidence clears the work view instead of implying success", async () => {
@@ -270,7 +270,7 @@ test("verified paid outcomes include failures and remain distinct from accepted 
     };
     context.evidence = { ...fresh(), commissions: [item] };
     await poll();
-    assert.equal(get("workHealth").textContent, "Execution off");
+    assert.equal(get("workHealth").textContent, "Payments off");
     get("workJobs").children[0].listeners.click();
     const facts = get("workDetail").children[3].children;
     assert.equal(

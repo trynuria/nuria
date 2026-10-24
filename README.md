@@ -33,6 +33,21 @@ exact x402 service purchasing and a guarded RentAHuman adapter separate delivery
 payout and measured usefulness. External accounts and funded delivery tests remain
 activation requirements; fixture hiring is never presented as live work.
 
+The [executable skill loop](docs/action-loop.md#executable-skills) adds a separate,
+zero-payment local provider. It infers bounded data-transformation programs from
+examples, checks buyer-held rows, retains verified programs and executes them on
+later unlabelled inputs. A finite, source-bound queue supplies actual compute
+contracts to the existing neural selector. Outcomes update the originating task
+readout and tagged synapses only after buyer verification; feedback is
+acknowledged only after the cognitive checkpoint commits.
+
+Skill acquisition uses conventional program synthesis and verified retention.
+The [comparison record](research/skill-acquisition/README.md) retains the failed
+unary experiment and the stronger factored baseline that beat fragment search.
+Reusable software capability and a demonstrated neural advantage are different
+claims. Public-data measurements and generated formatting tasks are identified
+separately; local computation is never presented as a purchase or token trade.
+
 `explore`, `forage`, `predict`, `replay`, `experiment`, `rest`, `compare`, `reserve`.
 
 Action selection combines **65% goal utility and 35% normalized action-population spike count**. Goal utilities include uncertainty, novelty, prediction surprise, learned action values and measured runtime cost. Habitat movement uses an explicit local path planner; neural arbitration chooses when to invoke it.
@@ -112,7 +127,9 @@ flowchart LR
   Original --> Cache[Public evidence cache]
   Journal --> Cache
   Observer[Read-only treasury observer] --> Cache
-  Actions --> Commerce[Isolated commerce worker — disabled]
+  Actions --> Commerce[Isolated local execution and gated purchases]
+  Commerce --> Skills[Verified reusable programs]
+  Skills --> Results
   Commerce --> Provider[Configured x402 provider]
   Provider --> Results[Payment, delivery and measured outcome]
   Results --> Cognition
