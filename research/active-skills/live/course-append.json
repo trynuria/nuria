@@ -1,0 +1,48 @@
+{
+  "added_tasks": 4,
+  "expected_new_financial_debit_micro_usd": 0,
+  "maximum_course_work": 18000000,
+  "new_manifest_sha256": "e0a0af919d6f0e7499b50cb3f504726d83b5af5e11051201b99273d16fa8d2d3",
+  "new_source_positions": [44, 46, 50, 58],
+  "old_manifest_sha256": "bdad787e268deb4570aa135e1e0aab3699f3b95b692e1e85c564823bee17d687",
+  "original_task_contracts_unchanged": true,
+  "original_tasks": 32,
+  "recurrence_checks": [
+    {
+      "acquisition_position": 36,
+      "recipe_sha256": "51355012fbba85ab1e44e8ef08879d388ae4065c7b89be290d02084c7b0e8a4d",
+      "recurrence_position": 44,
+      "same_recipe": true,
+      "source_rows_disjoint": true,
+      "visible_inputs_disjoint": true
+    },
+    {
+      "acquisition_position": 24,
+      "recipe_sha256": "49300c8d6790cd6a83122ad268e3b092d04c37e9db773553ab4e316ed8768133",
+      "recurrence_position": 46,
+      "same_recipe": true,
+      "source_rows_disjoint": true,
+      "visible_inputs_disjoint": true
+    },
+    {
+      "acquisition_position": 26,
+      "recipe_sha256": "7a4110b15ec9c4bafadb6c3050cfe4a2db222948fc33d962d352f43c863ff446",
+      "recurrence_position": 50,
+      "same_recipe": true,
+      "source_rows_disjoint": true,
+      "visible_inputs_disjoint": true
+    },
+    {
+      "acquisition_position": 26,
+      "recipe_sha256": "7a4110b15ec9c4bafadb6c3050cfe4a2db222948fc33d962d352f43c863ff446",
+      "recurrence_position": 58,
+      "same_recipe": true,
+      "source_rows_disjoint": true,
+      "visible_inputs_disjoint": true
+    }
+  ],
+  "row_scope": "Each recurrence has source-row and input disjointness from its matched acquisition. Two different recurrence formats share one underlying source observation; their visible inputs differ. This is integration over prior development observations, not new independent data.",
+  "schema": "nuria.live-active-reuse-course-append.v1",
+  "scope": "Operator construction correction; original course and results are preserved. No neural or synthesis source change; this is development integration, not a new frozen comparison.",
+  "total_tasks": 36
+}

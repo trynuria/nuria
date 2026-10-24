@@ -49,7 +49,10 @@ on separate rows. Probe costs, failed searches, abstentions, retained programs
 and final neural feedback have durable records. Full-portfolio disagreement
 remains experimental because its extra work did not improve the strong direct
 baseline. Neural arbitration chooses the configured episode and receives its
-actual outcome.
+actual outcome. The [live input-only course](research/active-skills/live/README.md)
+records 31 acquisitions, four retained reuses and one unsupported-task rejection,
+with all 36 outcomes durably acknowledged. The separate external qualification
+failed both improvement gates; execution evidence is not neural superiority.
 
 Skill acquisition uses conventional program synthesis and verified retention.
 The [comparison record](research/skill-acquisition/README.md) retains the failed

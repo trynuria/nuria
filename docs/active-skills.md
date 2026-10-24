@@ -107,6 +107,11 @@ baseline. Both registered improvement gates failed. This establishes bounded
 execution and admission on part of that suite, not a competence or efficiency
 advantage. Text execution remains outside the qualified live numeric contract.
 
+The [live input-only course](../research/active-skills/live/README.md) separately
+records numeric integration, including an unsupported control and an operator
+course-selection error. Its generated workloads reuse prior development
+observations; they are not the reserved external text qualification.
+
 The earlier [live verification](../research/skill-acquisition/live/README.md)
 retains an operator dispatch error and its correction. The new route removes the
 caller-supplied skill identity; it does not retrospectively relabel that earlier

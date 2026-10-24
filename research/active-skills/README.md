@@ -120,6 +120,9 @@ within that cap while the adapting branch stops. These are two concrete
 applicability and resource-allocation failures in this one ordered stream, not a
 general theorem or a tested remedy.
 
+The frozen control keeps its initial library fixed while retaining the same
+per-job synthesis fallback; it is not a no-search baseline.
+
 The registered efficiency gate failed. Audited retention used 16.4% more counted
 work and 47.8% more process CPU than the direct baseline, with the same 305 labels
 and one fewer proposal. Experimental selection did not beat the random control.
@@ -135,6 +138,15 @@ result. The independent checker passed all 835 method-file records. The
 [inventory](source-inventory.json) intentionally remains the pre-access frozen
 snapshot; the access report records subsequent retrieval. No raw specification,
 label or program body is redistributed in these reports.
+
+## Live numeric integration
+
+The [live course](live/README.md) records actual input-only acquisition and
+buyer-checked outcomes in the running numeric route. It preserves the original
+course's failed reuse gate, the explicit unsupported control and a separately
+matched recurrence append. This is development integration over previously used
+observations, not a repeat of this external text qualification or a neural-policy
+comparison.
 
 ## Evidence boundaries
 
