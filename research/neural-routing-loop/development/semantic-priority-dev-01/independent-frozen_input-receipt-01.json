@@ -1,0 +1,26 @@
+{
+  "schema": "nuria.semantic-guidance-verification.v1",
+  "method": "frozen_input",
+  "verified": true,
+  "observations": 8,
+  "total_hidden_spikes": 2153,
+  "maximum_probability_error": 1.1102230246251565e-16,
+  "brian2": {
+    "schema": "nuria.spiking-decision-brian-parity.v1",
+    "verified": true,
+    "rows": 8,
+    "ticks": 16,
+    "brian2_version": "2.10.1",
+    "model_sha256": "4293931eb5d05b89b6f9b16a8ae99efb6337adb915190f29aaba493b7f7d4ccc",
+    "dt_milliseconds": 1,
+    "matched_spike_counts": true,
+    "matched_tanh_values": true,
+    "spike_counts_sha256": "923dcb689645c3856b0626a7fce754294b9a36473c13e0879fa606ba8d320add",
+    "actual_spikes_sha256": "eb36c93facc1c3fef5fcbfb01cf7a6dcb305b9286ef5883604de9d3b4873b256",
+    "total_hidden_spikes": 2153,
+    "maximum_membrane_error": 3.552713678800501e-15,
+    "scope": "Actual Brian2 parity on supplied samples only; not a training or useful-task comparison"
+  },
+  "training_sha256": "53949dc37941fce415d0f3e87a69ac74ba65554bf39ef9826bf614bc7d64c5d8",
+  "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+}

@@ -19,6 +19,17 @@ In the two-profile comparison a conventional rule accepted 355/427 tasks, versus
 - [Benchmark archive](development/archive-manifest-02.json): parser checks,
   development specifications, source identities and the still-sealed reserved
   benchmark inventory.
+- [Semantic search archive](development/archive-manifest-03.json): four
+  completed priority-learning variants, full checkpoints and losslessly
+  compressed training and delivery traces. The [summary](development/semantic-summary.json)
+  retains every negative comparison; the [technical notes](../../docs/semantic-guidance.md)
+  explain the mechanism and its limits.
+
+The [independent delivery replay](development/semantic-independent-deliveries-01.json)
+reconstructs 14,592 authored deliveries, acceptance, buyer work and aggregate
+arithmetic. It also checks archive identities and private-material screening
+inside compressed content. It does not reconstruct search visitation, timing,
+gradient updates or external receipt authenticity.
 
 Each manifest distinguishes original byte hashes from published byte hashes.
 Absolute local paths and one implementation-ownership annotation are normalized

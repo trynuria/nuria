@@ -1,0 +1,26 @@
+{
+  "schema": "nuria.semantic-guidance-verification.v1",
+  "method": "spiking",
+  "verified": true,
+  "observations": 8,
+  "total_hidden_spikes": 3084,
+  "maximum_probability_error": 2.7755575615628914e-17,
+  "brian2": {
+    "schema": "nuria.spiking-decision-brian-parity.v1",
+    "verified": true,
+    "rows": 8,
+    "ticks": 16,
+    "brian2_version": "2.10.1",
+    "model_sha256": "e81a59a041f7780e5510cf6c4e925c9203ce1c7249d31f2469e14354e139bf55",
+    "dt_milliseconds": 1,
+    "matched_spike_counts": true,
+    "matched_tanh_values": true,
+    "spike_counts_sha256": "93839d76f752bad48fc50387606a421c8f88b06bd930c7cc6116b89b52a85a31",
+    "actual_spikes_sha256": "c32ce5dfa21c0b0f2c31abb0a11caa509bc329d247ad148b60b2602252d38671",
+    "total_hidden_spikes": 3084,
+    "maximum_membrane_error": 3.552713678800501e-15,
+    "scope": "Actual Brian2 parity on supplied samples only; not a training or useful-task comparison"
+  },
+  "training_sha256": "53949dc37941fce415d0f3e87a69ac74ba65554bf39ef9826bf614bc7d64c5d8",
+  "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+}

@@ -1,0 +1,151 @@
+"""Bounded DEV-only common-history semantic guidance feasibility run."""
+from pathlib import Path
+import hashlib
+import json
+import sys
+import time
+
+import numpy as np
+
+from search import search, subtree_training, digest, heuristic
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.active_skills import probe_cost
+from scripts.build_guarded_skill_tasks import generate, CONFIG
+from scripts.verify_active_skill_results import outcome
+
+P = Path(__file__).parent
+OLD = P.parent / 'dev-mechanism-01/profile-matrix-01/authored-traces.jsonl'
+JOBS = [j for seed in (0, 1, 2, 3) for j in generate(seed, 96)['tasks']]
+TRACES = {r['job_id']: r for r in map(json.loads, OLD.read_text().splitlines())}
+
+
+def fold(job):
+    # Buyer-only recipe identity is used solely to isolate duplicates, never as
+    # a learner feature, target or source program.
+    return int(hashlib.sha256(job['private_recipe']['program_sha256'].encode()).hexdigest()[:8], 16) % 2
+
+
+def collect(held_fold):
+    training = [j for j in JOBS if fold(j) != held_fold]
+    records, origins = [], []
+    start = time.process_time()
+    with (P / f'collection-{held_fold}.jsonl').open('x') as stream:
+        for j in training:
+            delivered = TRACES[j['id']]['profiles']['default']
+            if not delivered['accepted']:
+                continue
+            checked = outcome(delivered['program'], j['score_inputs'], j['score_outputs'], CONFIG)
+            if not checked['passed'] or digest(delivered['program']) != delivered['program_sha256']:
+                raise ValueError('Prior selected delivery fails independent buyer/hash recheck')
+            xs, ys = j['diagnostic_inputs'][:4], j['diagnostic_outputs'][:4]
+            # Replay actual unguided construction to gather candidate negatives;
+            # common teacher is the independently rechecked prior chosen tool.
+            r = search(xs, ys, CONFIG, collect=True, prefix_budget=0)
+            teaching = subtree_training(delivered['program'], True, xs, ys,
+                                        r['candidate_records'], CONFIG)
+            positives = [x for x in teaching if x['label']]
+            negatives = sorted((x for x in teaching if not x['label']),
+                               key=lambda x: digest([j['id'], x['candidate_sha256']]))[:32]
+            provenance = digest({'job': j['id'], 'delivered': delivered['program_sha256'],
+                                 'independent_buyer_result': checked,
+                                 'buyer_inputs_sha256': digest(j['score_inputs']),
+                                 'buyer_outputs_sha256': digest(j['score_outputs'])})
+            selected = [{**row, 'job_id': digest(j['id']),
+                         'receipt_evidence_sha256': provenance} for row in positives + negatives]
+            records.extend(selected)
+            origin = {'job_id': j['id'], 'accepted_delivered_program': delivered['program'],
+                      'receipt_evidence_sha256': provenance, 'positives': len(positives),
+                      'buyer_recheck': checked,
+                      'buyer_inputs_sha256': digest(j['score_inputs']),
+                      'buyer_outputs_sha256': digest(j['score_outputs']),
+                      'disclosed_inputs': xs, 'disclosed_outputs': ys,
+                      'selected_teaching_rows': selected,
+                      'enumerated_candidates': r['candidate_records'],
+                      'negatives_selected': len(negatives), 'all_membership_candidates': len(teaching),
+                      'collection_search_work': r['work'], 'collection_cpu_seconds': r['cpu_seconds']}
+            origins.append(origin)
+            stream.write(json.dumps(origin) + '\n')
+    result = {'scope': 'DEV only; first four disclosed audits; prior actual default-tool buyer-accepted programs. Root/full expression excluded, proper leaves included because they are ranked expansion operands. Negative means nonmembership in that one successful solution, never impossibility. Up to32 deterministic uniform-by-hash enumerated negatives plus every observed proper-subtree positive per accepted origin; every method identical labels. Recipe hash used only to separate DEV groups, never fed to learner.',
+              'held_fold': held_fold, 'records': records,
+              'origins': origins, 'cpu_seconds': time.process_time() - start,
+              'training_job_groups': sorted({j['private_recipe']['program_sha256'] for j in training}),
+              'test_job_groups': sorted({j['private_recipe']['program_sha256'] for j in JOBS if fold(j) == held_fold}),
+              'search_source_sha256': hashlib.sha256((P / 'search.py').read_bytes()).hexdigest()}
+    result['provenance_sources_sha256'] = {str(path): hashlib.sha256(path.read_bytes()).hexdigest()
+                                          for path in (OLD, Path(__file__), P / 'search.py',
+                                                       Path('./cognition/text_skills.py'),
+                                                       Path('./cognition/text_composition.py'),
+                                                       Path('./cognition/routed_text_search.py'),
+                                                       Path('./scripts/build_guarded_skill_tasks.py'),
+                                                       Path('./scripts/verify_active_skill_results.py'))}
+    with (P / f'training-{held_fold}.json').open('x') as file:
+        json.dump(result, file)
+    print(json.dumps({'held_fold': held_fold, 'records': len(records),
+                      'positives': sum(r['label'] for r in records),
+                      'accepted_origins': len(origins), 'cpu_seconds': result['cpu_seconds']}), flush=True)
+
+
+def evaluate(held_fold, methods):
+    dataset = json.loads((P / f'training-{held_fold}.json').read_text())
+    records = dataset['records']
+    learned = {}
+    fits = {}
+    for method in methods:
+        if method in ('property', 'size', 'edit', 'old_strong'):
+            continue
+        model = SemanticGuidance(method=method, seed=20261026 + held_fold)
+        start = time.process_time()
+        model.fit(records)
+        fits[method] = {'cpu_seconds': time.process_time() - start, 'evidence': model.evidence()}
+        learned[method] = model
+        print('fit', held_fold, method, flush=True)
+    totals = {m: {'accepted': 0, 'wrong': 0, 'search_work': 0, 'audit_work': 0,
+                  'buyer_work': 0, 'cpu_seconds': 0., 'signature_cpu_seconds': 0.,
+                  'scorer_cpu_seconds': 0., 'signature_count': 0} for m in methods}
+    with (P / f'evaluation-{held_fold}.jsonl').open('x') as stream:
+        for number, j in enumerate(j for j in JOBS if fold(j) == held_fold):
+            row = {'job_id': j['id'], 'family': j['family'], 'methods': {}}
+            xs, ys = j['diagnostic_inputs'][:4], j['diagnostic_outputs'][:4]
+            audit = sum(probe_cost(x, y) for x, y in zip(xs, ys, strict=True))
+            for method in methods:
+                scorer = heuristic if method in ('property', 'old_strong') else ((lambda x: np.zeros(len(x))) if method == 'size' else ((lambda x: x[:, 99]) if method == 'edit' else learned[method].score))
+                r = search(xs, ys, CONFIG, scorer=scorer,
+                           prefix_budget=50000 if method == 'old_strong' else 10000)
+                buyer_start = time.process_time()
+                checked = outcome(r['program'], j['score_inputs'], j['score_outputs'], CONFIG)
+                buyer_cpu = time.process_time() - buyer_start
+                result = {k: v for k, v in r.items() if k != 'candidate_records'}
+                result.update({'accepted': checked['passed'], 'correct_rows': checked['correct'],
+                               'rows': checked['rows'], 'buyer_work': checked['total_work'],
+                               'buyer_cpu_seconds': buyer_cpu, 'audit_work': audit})
+                row['methods'][method] = result
+                a = totals[method]
+                a['accepted'] += int(checked['passed'])
+                a['wrong'] += int(r['program'] is not None and not checked['passed'])
+                a['search_work'] += r['work']['total']
+                a['audit_work'] += audit
+                a['buyer_work'] += checked['total_work']
+                for key in ('signature_count', 'cpu_seconds', 'signature_cpu_seconds', 'scorer_cpu_seconds'):
+                    a[key] += r[key]
+            stream.write(json.dumps(row) + '\n')
+            stream.flush()
+            if (number + 1) % 24 == 0:
+                print('tested', held_fold, number + 1, flush=True)
+    report = {'held_fold': held_fold, 'jobs': sum(fold(j) == held_fold for j in JOBS),
+              'training_records': len(records), 'training_positive': sum(r['label'] for r in records),
+              'methods': totals, 'fits': fits,
+              'scope': 'PRIVATE grouped DEV feasibility; all actual constructed programs independently scored on nondiagnostic buyer rows. Same DSL,50k interpreter search cap,4audit ceiling, no recipe/oracle AST training. Signature/scorer/training CPU recorded separately; signature effort not included in search cap and no walltime superiority claim. No main1024-cell brain state; this tests task-trained spiking semantic priority, not recurrent system consciousness.'}
+    with (P / f'summary-{held_fold}.json').open('x') as file:
+        json.dump(report, file, indent=2)
+    print(json.dumps({k: v for k, v in report.items() if k != 'fits'}, indent=2), flush=True)
+
+
+if __name__ == '__main__':
+    mode = sys.argv[1]
+    held_fold = int(sys.argv[2])
+    if mode == 'collect':
+        collect(held_fold)
+    elif mode == 'evaluate':
+        evaluate(held_fold, sys.argv[3:] or ['old_strong', 'property', 'edit', 'size', 'spiking', 'frozen_input', 'continuous', 'linear', 'rff', 'knn'])
+    else:
+        raise ValueError('Unknown DEV action')

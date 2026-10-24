@@ -48,7 +48,8 @@
     "Task-specific supervised spiking digit decisions with strict learned-state identity, atomic verified-label feedback, independent hard-spike and Brian2 reference checks, complete frozen checkpoints and prospective writer-held-out qualification. Original neural workers, financial authority and website design are unchanged.",
     "Completed writer-held-out spiking digit qualification with learned-input gains over linear and input-frozen controls, stronger kNN and similar continuous controls retained. Full frozen predictions, independent offline score reconstruction, paired-error supplement and private durable inference/reproduction CLI are published; original workers, financial authority and site design are unchanged.",
     "Dedicated spiking inference component reproduced all 1797 examples with a preserved full-history retry, unchanged weights/optimizer and separate caller receipts. Publish source-bound deployment and training-recovery evidence; all nine existing worker identities, release metadata, website bytes and financial authority remain unchanged.",
-    "Opt-in origin-bound spiking search choices, atomic buyer-verified feedback and independently replayable inference; retained failed development controls and bounded external specification parsing. No passed superiority gate, live enrollment, website change or financial authority change."
+    "Opt-in origin-bound spiking search choices, atomic buyer-verified feedback and independently replayable inference; retained failed development controls and bounded external specification parsing. No passed superiority gate, live enrollment, website change or financial authority change.",
+    "Shared-observation semantic-priority models with trained LIF, frozen/continuous and conventional controls; all four negative development variants retain full checkpoints, labels and delivery traces. Independent replay reconstructs 14,592 deliveries and deterministic retraining reproduces all 48 checkpoints. No passed superiority gate or live enrollment."
   ],
   "files": [
     {
@@ -290,6 +291,10 @@
     {
       "path": "cognition/routing_features.py",
       "published_sha256": "1b7a1f025d81429a40380ce8421c22c5f46302aad1c46d2b6489caa98a709c36"
+    },
+    {
+      "path": "cognition/semantic_guidance.py",
+      "published_sha256": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849"
     },
     {
       "path": "cognition/skill_expressions.py",
@@ -758,6 +763,10 @@
     {
       "path": "docs/pump-interface-review.json",
       "published_sha256": "e23d2e3ca780b22143cc2dbfa9d1991aa3523cac5f6fdd68a4dd3cd20f4fe1d7"
+    },
+    {
+      "path": "docs/semantic-guidance.md",
+      "published_sha256": "d066410d25cd56f2599c71acc91824c517b7d8371fb2fe0e6b03bc572e166cc0"
     },
     {
       "path": "docs/spending.md",
@@ -1933,7 +1942,7 @@
     },
     {
       "path": "research/neural-routing-loop/README.md",
-      "published_sha256": "1a4d3f32570e4324ff9b173538d102d6c056cbefcd336f81a4459e7c10c99292"
+      "published_sha256": "40709886a19241c4e635cedeb8ed97b00548e989fad6236606e56c97c8a82b73"
     },
     {
       "path": "research/neural-routing-loop/development/archive-manifest-01.json",
@@ -1942,6 +1951,10 @@
     {
       "path": "research/neural-routing-loop/development/archive-manifest-02.json",
       "published_sha256": "bf556b42fc99754d038aa97fc924f6e58a52192f10d64e15aac097b23b9ef04c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/archive-manifest-03.json",
+      "published_sha256": "b3acb74409a62d9a178de6e080ff8509e451cd302cb5a3ef82fdf120f31b7f7d"
     },
     {
       "path": "research/neural-routing-loop/development/dev-mechanism-01/attempt-02/aggregate.json",
@@ -2394,6 +2407,242 @@
     {
       "path": "research/neural-routing-loop/development/query-routing-dev-01/summary.json",
       "published_sha256": "00226327328747519d3493178e68606e98a65368edb7ae0c85947515af8c4694"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-independent-deliveries-01.json",
+      "published_sha256": "2b70e0463676fa36151fb1e514ae758825efd3e665acfc3c01f94f51bf831ee4"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/collection-0.jsonl",
+      "published_sha256": "762a8a7df7de70641ae219a4e2eed4c02684d2aaf69a2b041372354292f4f1ee"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/collection-1.jsonl",
+      "published_sha256": "cb11be67c792b0c9d84588f493271228ef482e95fca9cddb81133bfbec46baa0"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/evaluation-0.jsonl.gz",
+      "published_sha256": "d9d8d5e1ad7d7e8cc0b0060181dbb911b0ac8bcf9177f574945b148fe5f4bbce"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/evaluation-1.jsonl.gz",
+      "published_sha256": "5f7f4a5bfd2b1fb71de17b5467b044f66a24d31d1dfa0c0cab887a33154b74fc"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-audit-01.json",
+      "published_sha256": "381773215474f1771859bb6595aa79d583a340bdeaba4a825f40df257e41a5a5"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-continuous-artifact-01.json.gz",
+      "published_sha256": "4a9094d7e62086ccc1990ed040bc67eff8130fdf7bc2873d2571d5cb03218543"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-continuous-receipt-01.json",
+      "published_sha256": "fffab47c3eb19b2bcdbff0f0531ba4193381ec2dab6dd37694e5aa3ef6388d2c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-continuous-receipt-02.json",
+      "published_sha256": "45026f8efd2524b6c0ddbf8bcf0bf82943ae181990001d0c0e78ee5ab6373cc3"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-frozen_input-artifact-01.json.gz",
+      "published_sha256": "8e1b6548eb1a7156f2caa9f8d5ebcfc2c6f29ae27c03e0a680673b0e0891d5bc"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-frozen_input-receipt-01.json",
+      "published_sha256": "7ed58d5e3912eaced54414a7cf877a1d9260cbf8a8e258d93f7d7606c73fe3b0"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-frozen_input-receipt-02.json",
+      "published_sha256": "6dfc020b00e0d297c4511a71c3f480e02c47e8898e496f118cf2e21aceccdd67"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-old-acceptance-review.json",
+      "published_sha256": "a1e073b482d8f9c1533dd4689f5b63a5361e9a38ab75563ff74e85b3bcfc3643"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-spiking-artifact-01.json.gz",
+      "published_sha256": "1548e678713d0841fecd2abd47fb447f63f8c63ebfc733258e1d0dfc170eae29"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-spiking-receipt-01.json",
+      "published_sha256": "d371928e6d202cb3247ae843f0d18112f4feb599f77035bfab16f2028454d1b5"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/independent-spiking-receipt-02.json",
+      "published_sha256": "c8c3f71aefa27f035bde4b5af2fae8d96b20515ab4a1f08d7633fa3993a632f3"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/run.py.txt",
+      "published_sha256": "db8f9801e074e9cc32b97cce2c25999866cc718b6505ad7b399124702a340b36"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/search.py.txt",
+      "published_sha256": "519c29770ee3a988d5c5be678d052de88d14815ece3fde5b6c3c900e46254772"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/summary-0.json.gz",
+      "published_sha256": "147e7c7f01e7a6b4ef559b48877e2471ec157505cb06fe8729ce0ed9b18560bf"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/summary-1.json.gz",
+      "published_sha256": "db73589db17933a7d84470e739d8b9354856941515ad6f9a9dd2ca8253880228"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/training-0.json.gz",
+      "published_sha256": "0778ac01fb2e8698316dd09f77506a8e956ad32940be0968c79c325a4b75892a"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-01/training-1.json.gz",
+      "published_sha256": "c77c65048f1e40affc4cdc0701d0f2eba338155decdb9a18474f461fc105ad24"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/collection-0.jsonl.gz",
+      "published_sha256": "4a29cd39250495e942d6f255376bde8ff6edcbc90e795347126bbad9723b6b08"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/collection-1.jsonl.gz",
+      "published_sha256": "9276fd5d693dc14fba02e5b73a4cd953a2b0a531d9ff913a461ed78734ed4533"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/evaluation-0.jsonl.gz",
+      "published_sha256": "ab91a2ac8132f1f933f31b5b7ed1be0cc61de1d175b68c53372ecc07818b5bf3"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/evaluation-1.jsonl.gz",
+      "published_sha256": "5d64c19dc622b00fb817160780d30b1952e144dbfbe7c980227d70a6f31a1b3f"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/run.py.txt",
+      "published_sha256": "ac2dc547faee88e63cb8ac46e9184b90cef90d122b92bc9cda08b259060f4bd5"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/search.py.txt",
+      "published_sha256": "126140f99f04ef1b3798e2dd10ac2b19344422e55f510f1c4b9f70b5e80c5bca"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/summary-0.json.gz",
+      "published_sha256": "b6b034ae75d21de7945d7b5c8cce2890df40e24729bad43046d6a2a86b2c5200"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/summary-1.json.gz",
+      "published_sha256": "98cff32970aa2b280cdabdcd9e40beab8a98a5b222c40bca10cc4a3925274836"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/training-0.json.gz",
+      "published_sha256": "dfce5e56a939e3d3c3ba31063de4160c35fda504949dd08ef6adfb37a9aa25b3"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-02/training-1.json.gz",
+      "published_sha256": "cff85630621370ee6e8397245235b6bbd9bc61249497b1d607155fc2645b04d9"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/collection-0.jsonl.gz",
+      "published_sha256": "3fdb1758fb001672938f0b1f11620797e6c51ae82fef700ad148df8ab4a97188"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/collection-1.jsonl.gz",
+      "published_sha256": "66e1b91e257a11d1cf193240b7a6510c908d119d39000f2bd5a8e0ee2739efb1"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/collection-2.jsonl.gz",
+      "published_sha256": "2c3e81dede251ef3e58f1d92d447df4e4c83f4bafa714b54766df18c863f043c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/duet-100k-summary.json.gz",
+      "published_sha256": "552342b3ccaec8e3996860ca3d3d1f9db1d9b9d5727fef96a21489fb798f13e3"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/duet-100k-traces.jsonl.gz",
+      "published_sha256": "3cfedf4767341b0d324a98ba4fdf2a5ada8a74c9590919bcf645a466c433bc85"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/duet.py.txt",
+      "published_sha256": "7107c5dabd73b1f2cf817fb078f93aae79640a68cfdaab19d9776d8e8081c8c2"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/evaluation-0.jsonl.gz",
+      "published_sha256": "5ab1c6d4795bda863ea53803e9196262cba50d16d434148e5d7df03e86870cc1"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/evaluation-1.jsonl.gz",
+      "published_sha256": "0c5a89c22eb524967283e6dd6efa87e00c7c1c06cab083a1fd2e9aa4420f8fd7"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/run.py.txt",
+      "published_sha256": "3b0f8a29f54136b03492027e92f820a586978f370af9b55d203537fee1f272a7"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/search.py.txt",
+      "published_sha256": "126140f99f04ef1b3798e2dd10ac2b19344422e55f510f1c4b9f70b5e80c5bca"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/summary-0.json.gz",
+      "published_sha256": "cbb33a54e10c3303bd8b7b4af542a1713b006f2ada5fdab238471b923b2db57f"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/summary-1.json.gz",
+      "published_sha256": "45bfbb3a60cd16d840a185ddd43385782224bb35624bbb2da5a9a86819024673"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/training-0.json.gz",
+      "published_sha256": "08bc5ca8882adb0950ad835bedb2587e17d4076e374a669fcdb3ff5206dc0314"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/training-1.json.gz",
+      "published_sha256": "0ce945218920add688778955a69e063cad51b3d9314abfb3c0bc5ca6496f54f7"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-03/training-2.json.gz",
+      "published_sha256": "e25b7577aae06248aa22b4ace070ab2a062d607df2a83336d77146e3d6f2765e"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/collection-0.jsonl.gz",
+      "published_sha256": "ee6baca47325e04a43b5d0aae3c6c48bd02b4737e4d28f93163780a889243c75"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/collection-1.jsonl.gz",
+      "published_sha256": "0dd922ac7ea80c6c8801fac8b2db9128ba03d8a0772c8da7782af85514993a7f"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/evaluation-0.jsonl.gz",
+      "published_sha256": "dd71771f531a1253a39a775889bc3a1138b171b66e585ba30a847e05533aa488"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/evaluation-1.jsonl.gz",
+      "published_sha256": "767301b2215cf93513ecf251b2032d147ec1a57a643072e5956317dc90c334c7"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/run.py.txt",
+      "published_sha256": "019a37403edcb65ce732badf5e5d30f5618e0e6d3a82737aca40071e13e9e809"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/search.py.txt",
+      "published_sha256": "ca18268e8de94abac356d75e907d6881e79f7363e44bffc91228f043f84e66a8"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/summary-0.json.gz",
+      "published_sha256": "68a41212e75a4d74718077b3c049b2e87556c83a7381278f34b8bc7ed17ae5d0"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/summary-1.json.gz",
+      "published_sha256": "0931f2943e5f21a678d103e8be6efbc28ea9459386621cf5bd2accd0095fc45c"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/training-0.json.gz",
+      "published_sha256": "c7c9798df3f928c7c4cbc44592ab59e4eb8f46adfc028953f6bbcb2fed8eb4f9"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-priority-dev-04/training-1.json.gz",
+      "published_sha256": "1a63e3e971f2ab1d7c35834c94a68f8cd80d4d928ce600d15f94378a8ffd4e4a"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-summary.json",
+      "published_sha256": "25f05a468a2a17fcb05c61d3460eb353bfc24b72cc24ac96a3c7487506f04790"
+    },
+    {
+      "path": "research/neural-routing-loop/development/semantic-training-reproduction-02.json",
+      "published_sha256": "92c646f71c6919f054959b33d04a25e3d1821cffc8ff5577920aa9bfe76b5c66"
     },
     {
       "path": "research/neural-routing-loop/development/summary.json",
@@ -3128,6 +3377,10 @@
       "published_sha256": "02f4ce101e6f6a72599523816db3c51f64a5276034768b81be1d0d792b52b0ea"
     },
     {
+      "path": "scripts/check_neural_routing_results.py",
+      "published_sha256": "7f906ba7f048c1d3ff91ddcbbe29a7322205a064abb00f700dbef703fb5d68ef"
+    },
+    {
       "path": "scripts/check_publication.py",
       "published_sha256": "a4de769977a315c5c60a5c32c9265f820dbe57a9f426f31aa4ac241560a83759"
     },
@@ -3232,6 +3485,10 @@
       "published_sha256": "5a7b9d088a4e943788d32874bff16a5f1bb2be085b41e8eb5c44d48450110bb1"
     },
     {
+      "path": "scripts/reproduce_semantic_guidance.py",
+      "published_sha256": "f103a661c4df5f796ac356e57288d7270db55c26c684afd7f52dc18d9e7481d9"
+    },
+    {
       "path": "scripts/run_neural_digit_service.py",
       "published_sha256": "90d5856acc607efe43cab92a88a97edb3627d6cb669f3aef15d2d25fb7eb3ae0"
     },
@@ -3290,6 +3547,10 @@
     {
       "path": "scripts/verify_neural_digits.py",
       "published_sha256": "a7f4fd113aee204fb7a0d9e923897e64fedea3a963be8e2e02e8833a903bac8f"
+    },
+    {
+      "path": "scripts/verify_semantic_guidance.py",
+      "published_sha256": "d338b437741a47a3a2643cba1c0e6c74fcec779f7c13f630690feabd9ff3c6dd"
     },
     {
       "path": "scripts/verify_skill_expression_results.py",
@@ -3536,6 +3797,10 @@
       "published_sha256": "0cfa3e8bb1d5afed526f9e931f640ad366dae4a0bc3f6388793829650597b418"
     },
     {
+      "path": "tests/test_neural_routing_results.py",
+      "published_sha256": "2e069401f4527c7b63b3945d1dadd12da06b985cad46e22e7e779d55350505ab"
+    },
+    {
       "path": "tests/test_neural_routing_runtime.py",
       "published_sha256": "16eac0b9bba4aec5842dd4a83c31ce1462f03c6276154bc41fa0c3e89b67eb4e"
     },
@@ -3570,6 +3835,14 @@
     {
       "path": "tests/test_routing_features.py",
       "published_sha256": "5d041e263e354a6880363b756ac2362a7e0c80ad6d62c6a6b37662fbc6bd0fe9"
+    },
+    {
+      "path": "tests/test_semantic_guidance.py",
+      "published_sha256": "6add947e83dfd592df286737aefc352c088872eb51becb1692ca7155254eb884"
+    },
+    {
+      "path": "tests/test_semantic_guidance_verifier.py",
+      "published_sha256": "0df452d1706700ed5d9191b8bda6afd58b8db66fd6b58e6faaa526944a853d5e"
     },
     {
       "path": "tests/test_session_budget.py",
