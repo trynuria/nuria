@@ -1,0 +1,81 @@
+"""Private DEV strong baseline retaining the same actually accepted history."""
+from pathlib import Path
+from collections import Counter
+from decimal import InvalidOperation
+import json
+import time
+import hashlib
+
+from search import search, digest
+from cognition.skills import _Meter, WorkLimit
+from cognition.text_skills import evaluate, fields, validate_program
+from cognition.active_skills import probe_cost
+from scripts.build_guarded_skill_tasks import generate, CONFIG
+from scripts.verify_active_skill_results import outcome
+
+P=Path(__file__).parent
+accepted, counts={}, Counter()
+start=time.process_time()
+for name in ['teacher-pilot.jsonl','teacher-rest.jsonl']:
+    for trace in map(json.loads,(P/name).read_text().splitlines()):
+        for item in trace['profiles'].values():
+            if item['accepted']:
+                node=validate_program(item['program'],CONFIG)
+                if digest(node)!=item['program_sha256']:
+                    raise ValueError('Program identity mismatch')
+                accepted[item['program_sha256']]=node
+                counts[item['program_sha256']]+=1
+ORDER=sorted(accepted,key=lambda h:(-counts[h],h))
+BUILD_CPU=time.process_time()-start
+
+def solve(xs,ys,budget=50000):
+    begin=time.process_time()
+    meter=_Meter(budget)
+    candidate=None
+    for identity in ORDER:
+        try:
+            meter.charge('candidates')
+            values=[evaluate(accepted[identity]['expr'],fields(x,CONFIG),meter,CONFIG)for x in xs]
+        except (ValueError,IndexError,KeyError,InvalidOperation)as error:
+            if isinstance(error,WorkLimit):break
+            meter.values['errors']+=1
+            continue
+        if values==ys:
+            candidate=accepted[identity]
+            break
+    source='retained'if candidate is not None else 'none'
+    remaining=budget-meter.values['total']
+    fallback=None
+    if candidate is None and remaining>0:
+        fallback=search(xs,ys,CONFIG,budget=remaining,prefix_budget=remaining)
+        candidate=fallback['program'];source='strong_fallback'
+    work=dict(meter.values)
+    if fallback is not None:
+        work={k:work[k]+fallback['work'][k]for k in work}
+    return {'program':candidate,'program_sha256':digest(candidate)if candidate else None,'source':source,
+            'work':work,'cpu_seconds':time.process_time()-begin}
+
+alljobs=[('authored',j)for seed in(0,1,2,3)for j in generate(seed,96)['tasks']]
+alljobs += [('duet',j)for j in json.loads((P.parent/'eval-design-01/duet-development-jobs.json').read_text())]
+totals={kind:{'jobs':0,'unsupported':0,'accepted':0,'wrong':0,'search_work':0,'audit_work':0,'buyer_work':0,'search_cpu_seconds':0.,'buyer_cpu_seconds':0.,'retained_proposals':0}for kind in('authored','duet')}
+with(P/'retained-baseline-traces.jsonl').open('x')as stream:
+    for kind,job in alljobs:
+        total=totals[kind];total['jobs']+=1
+        if job.get('unsupported'):
+            total['unsupported']+=1;stream.write(json.dumps({'kind':kind,'job_id':job['id'],'unsupported':job['unsupported']})+'\n');continue
+        xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+        result=solve(xs,ys)
+        began=time.process_time();buyer=outcome(result['program'],job['score_inputs'],job['score_outputs'],CONFIG);buyer_cpu=time.process_time()-began
+        audit=sum(probe_cost(x,y)for x,y in zip(xs,ys,strict=True))
+        total['accepted']+=int(buyer['passed']);total['wrong']+=int(result['program']is not None and not buyer['passed'])
+        total['search_work']+=result['work']['total'];total['audit_work']+=audit;total['buyer_work']+=buyer['total_work']
+        total['search_cpu_seconds']+=result['cpu_seconds'];total['buyer_cpu_seconds']+=buyer_cpu
+        total['retained_proposals']+=int(result['source']=='retained')
+        stream.write(json.dumps({'kind':kind,'job_id':job['id'],'search':result,'buyer':buyer,'buyer_cpu_seconds':buyer_cpu,'audit_work':audit})+'\n')
+report={'scope':'PRIVATE DEV same-history strong control. All290unique wholeprograms actually accepted during the same2000past8tooljobs retained; every priorprogramhash validated and prior24-rowbuyer recheck performed in curriculum collector. Deterministic historical acceptance-count descending/hash ascending order, fixed before evaluation. Stop at FIRST4-audit-fitting candidate; no buyer rejection retries. Shared50k total work with existing strongprofilefallback only if no retainedcandidate. Original library max128 is not imposed: this challenger gets all290programs, less memory than the neural teaching dataset. This is deliberately stronger than the old128-program product limit, with no new teaching/hiddenrecipe. No unseen-generalization claim for372/384overlapped recipes.',
+        'program_count':len(ORDER),'program_order':ORDER,'program_uses':dict(counts),'library_build_cpu_seconds':BUILD_CPU,
+        'program_library_json_bytes':len(json.dumps(accepted,separators=(',',':')).encode()),'totals':totals,
+        'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'teacher_trace_sha256':{name:hashlib.sha256((P/name).read_bytes()).hexdigest()for name in['teacher-pilot.jsonl','teacher-rest.jsonl']}}
+with(P/'retained-baseline-summary.json').open('x')as stream:json.dump(report,stream,indent=2)
+print(json.dumps({k:v for k,v in report.items()if k not in ['program_order','program_uses']},indent=2))

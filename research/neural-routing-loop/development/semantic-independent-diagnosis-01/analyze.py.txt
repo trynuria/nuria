@@ -1,0 +1,86 @@
+from __future__ import annotations
+from pathlib import Path
+from collections import Counter,defaultdict
+import hashlib,importlib.util,json,sys
+import numpy as np
+
+BASE=Path('research/neural-routing-loop/development')
+REPO=Path('.')
+sys.path.insert(0,str(REPO))
+from cognition.text_skills import fields,evaluate
+from cognition.skills import _Meter
+from scripts.build_guarded_skill_tasks import CONFIG,generate
+
+P=BASE/'semantic-priority-dev-03'
+OPS=('field','constant','strip','upper','lower','other_case','token','split','slice','replace','number','concat')
+def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def visit(node):
+ yield node
+ for p in node.get('parts',[]):yield from visit(p)
+ if 'arg'in node:yield from visit(node['arg'])
+ if node['op']=='if_equal':
+  yield from visit(node['then']);yield from visit(node['else'])
+def summarize_collisions(records,feature_key):
+ groups=defaultdict(list)
+ for r in records:groups[feature_key(r['features'])].append(r['label'])
+ conflicting=[v for v in groups.values()if len(set(v))>1]
+ return dict(unique_feature_vectors=len(groups),conflicting_vectors=len(conflicting),records_in_conflicting_vectors=sum(map(len,conflicting)),unweighted_minimum_training_errors=sum(min(sum(v),len(v)-sum(v))for v in groups.values()),scope='Empirical training membership classification only, not a bound on actual search usefulness or unseen generalization')
+
+report={'scope':'Independent retrospective DEV diagnosis. No source/production mutation, no new reserved benchmark reads. Membership negatives are not proof of uselessness; exact feature-collision absence does not establish sufficient generalization features.','sources_sha256':{str(p.relative_to(BASE)):sha(p)for p in [P/'search.py',P/'run.py',P/'training-0.json',P/'training-1.json',P/'collection-0.jsonl',P/'collection-1.jsonl',P/'evaluation-0.jsonl',P/'evaluation-1.jsonl']},'folds':[]}
+allpairs=Counter();losses=[];examples=[]
+for fold in [0,1]:
+ train=json.loads((P/f'training-{fold}.json').read_text())
+ rows=train['records'];positives=sum(r['label']for r in rows)
+ stats=dict(fold=fold,training_records=len(rows),training_positives=positives,collisions={
+  'exact100':summarize_collisions(rows,lambda x:tuple(x)),
+  'discrete96':summarize_collisions(rows,lambda x:tuple(x[:96])),
+  'coarse100':summarize_collisions(rows,lambda x:tuple(x[:96])+tuple(round(v*8)/8 for v in x[96:])),
+ })
+ known=Counter();relations=defaultdict(Counter);matched=0
+ for line in(P/f'collection-{fold}.jsonl').read_text().splitlines():
+  origin=json.loads(line);targets=origin['disclosed_outputs'];ins=[fields(x,CONFIG)for x in origin['disclosed_inputs']]
+  by_hash={digest(c['node']):c for c in origin['enumerated_candidates']}
+  for program in origin['accepted_delivered_programs']:
+   for node in visit(program['expr']):
+    h=digest(node)
+    if h not in by_hash:
+     meter=_Meter(1000000);values=[evaluate(node,row,meter,CONFIG)for row in ins]
+     by_hash[h]={'node':node,'values':values}
+  for r in origin['selected_teaching_rows']:
+   c=by_hash[r['candidate_sha256']];node=c['node'];vs=c['values'];matched+=1
+   known[(node['op'],r['label'])]+=1
+   flags={
+    'exact_substring_all':all(v in y for v,y in zip(vs,targets,strict=True)),
+    'casefold_substring_all':all(v.casefold()in y.casefold()for v,y in zip(vs,targets,strict=True)),
+    'casefold_prefix_all':all(y.casefold().startswith(v.casefold())for v,y in zip(vs,targets,strict=True)),
+    'casefold_suffix_all':all(y.casefold().endswith(v.casefold())for v,y in zip(vs,targets,strict=True)),
+   }
+   for k,v in flags.items():relations[r['label']][k]+=int(v)
+   if r['label']and node['op']not in('field','constant')and flags['casefold_substring_all']and not flags['exact_substring_all']:
+    if len(examples)<8:examples.append({'job_id':origin['job_id'],'candidate':node,'candidate_values':vs,'disclosed_targets':targets,'label':1,'reason':'case-insensitive partial output constituent; current features have no casefold containment relation'})
+ stats['provenance_mapped_rows']=matched
+ stats['labels_by_operation']={op:{str(label):known[(op,label)]for label in[0,1]}for op in sorted({k[0]for k in known})}
+ stats['current_vs_missing_relations']={str(k):dict(v)for k,v in relations.items()}
+ pairs=Counter()
+ for line in(P/f'evaluation-{fold}.jsonl').read_text().splitlines():
+  row=json.loads(line);s=row['methods']['spiking'];old=row['methods']['old_strong'];a,b=bool(s['accepted']),bool(old['accepted'])
+  pairs[(a,b)]+=1;allpairs[(a,b)]+=1
+  if b and not a:
+   losses.append({'fold':fold,'job_id':row['job_id'],'family':row['family'],'spiking_errors':s['work']['errors'],'old_errors':old['work']['errors'],'spiking_work':s['work']['total'],'old_work':old['work']['total'],'spiking_candidates':s['work']['candidates'],'old_candidates':old['work']['candidates']})
+ stats['paired_acceptance']={f'spiking_{int(a)}_old_{int(b)}':n for(a,b),n in pairs.items()}
+ report['folds'].append(stats)
+report['paired_acceptance_all']={f'spiking_{int(a)}_old_{int(b)}':n for(a,b),n in allpairs.items()}
+report['losses']=losses
+report['lost_families']=dict(Counter(r['family']for r in losses))
+report['loss_work_and_errors']={'jobs':len(losses),'spiking_errors':sum(r['spiking_errors']for r in losses),'old_errors':sum(r['old_errors']for r in losses),'spiking_work':sum(r['spiking_work']for r in losses),'old_work':sum(r['old_work']for r in losses)}
+report['missing_relation_examples']=examples
+report['recommendations']=[
+ {'mechanism':'Restore case-insensitive constituent relations and input/task context to shared signatures','reason':'Current candidate representation has casefold equality but lacks case-insensitive contains/starts/ends relations, despite upper/lower normalization of proper output constituents being central to 15/16 lost jobs. Official BUSTLE compares these relations and adds task/input signatures. This is an actionable missing observable, not evidence of an irreducible exact collision.','test':'Add six case-insensitive containment directions plus bounded task-input relations for every controller. Rebuild labels from past verified programs, freeze prospective source and compare against explicit heuristic using the same observables. Keep exact source03 result unchanged.'},
+ {'mechanism':'Learn priorities of operand-plus-operation-family actions rather than operand membership alone','reason':'Current neural score chooses an operand but cannot choose its transformation; generator spends token, split, slice, replace and number batches in a fixed order. Positive subtree membership is a weak proxy for useful next expansion, and current losses use thousands of invalid interpreter attempts.','test':'Rank (operand observations, prospective operation family) using only parent-child edges in past buyer-accepted ASTs. Do not expose newly generated parent values or target-equality result before its metered execution. Controls receive identical edge labels, action sets and budgets; independent buyer checks remain unchanged. Root edges may teach operators, but final output/root itself must never be a feature. Keep parameter enumeration and multi-child concat accounting explicit.'},
+]
+report['prior_art']={'official_source':'https://github.com/google-research/google-research/blob/5b09c22d73a9d35eb6c5d2a99b95677a45053466/bustle/java/src/main/java/com/googleresearch/bustle/propertysignatures/ComputeSignature.java','retained_source_sha256':sha(BASE/'eval-design-01/bustle-ComputeSignature.java'),'details':'Official source comments at lines187-192 specify six case-insensitive substring/prefix/suffix relations; lines27-57 compute input/output task signatures. No pretrained model or extra labels were imported.'}
+output=Path(__file__).with_name('diagnosis.json')
+with output.open('x')as f:json.dump(report,f,indent=2);f.write('\n')
+print(json.dumps({k:report[k]for k in ['paired_acceptance_all','lost_families','loss_work_and_errors']},indent=2))
+for f in report['folds']:print(json.dumps({k:f[k]for k in ['fold','collisions','current_vs_missing_relations','labels_by_operation']},indent=2))

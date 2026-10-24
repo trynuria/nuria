@@ -1,0 +1,209 @@
+"""PRIVATE conventional contextual-linear control for130-dimensional edges.
+
+The known prospective operation family selects an independent118-feature linear
+logit. This permits explicit family/operand interactions without extra data or
+neural hidden units. Global class-balanced minibatches, epoch count, learning
+rate, regularization and Adam schedule match SemanticGuidance defaults.
+"""
+
+from __future__ import annotations
+import copy
+import hashlib
+import json
+import math
+import re
+import numpy as np
+
+VERSION = "nuria.semantic-edge-per-family-linear.dev06.v1"
+FIELDS = {
+    "features",
+    "label",
+    "job_id",
+    "candidate_sha256",
+    "program_sha256",
+    "receipt_evidence_sha256",
+}
+HASH = re.compile(r"[a-f0-9]{64}\Z")
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
+
+
+def digest(value):
+    return hashlib.sha256(canonical(value).encode()).hexdigest()
+
+
+def observations(values, maximum=4096):
+    raw = np.asarray(values, dtype=object)
+    if (
+        raw.ndim != 2
+        or raw.shape[1] != 130
+        or not 1 <= len(raw) <= maximum
+        or any(type(v) not in (int, float) for v in raw.flat)
+    ):
+        raise ValueError("Contextual linear model requires normalized Nx130 features")
+    x = raw.astype(float)
+    if not np.isfinite(x).all() or np.any(x < 0) or np.any(x > 1):
+        raise ValueError("Invalid edge observations")
+    onehot = x[:, 118:]
+    if not np.all((onehot == 0) | (onehot == 1)) or not np.all(onehot.sum(axis=1) == 1):
+        raise ValueError("Prospective family must be exactly one known choice")
+    return x[:, :118], np.argmax(onehot, axis=1)
+
+
+class ContextualLinearGuidance:
+    def __init__(
+        self,
+        *,
+        seed=20261026,
+        epochs=12,
+        batch_size=128,
+        learning_rate=0.003,
+        regularization=0.0001,
+    ):
+        if (
+            type(seed) is not int
+            or not 0 <= seed < 2**32
+            or type(epochs) is not int
+            or not 1 <= epochs <= 64
+            or type(batch_size) is not int
+            or not 2 <= batch_size <= 512
+            or type(learning_rate) not in (int, float)
+            or not 0 < learning_rate <= 0.1
+            or type(regularization) not in (int, float)
+            or not 0 <= regularization <= 1
+        ):
+            raise ValueError("Invalid bounded contextual linear configuration")
+        self.configuration = dict(
+            method="per_family_linear",
+            feature_dimension=130,
+            operand_dimension=118,
+            families=12,
+            seed=seed,
+            epochs=epochs,
+            batch_size=batch_size,
+            learning_rate=float(learning_rate),
+            regularization=float(regularization),
+            balance="global_equal_positive_negative",
+            objective="binary_membership_cross_entropy",
+            initialization="zero",
+        )
+        self.W = np.zeros((12, 118))
+        self.C = np.zeros(12)
+        self.steps = 0
+        self.training_sha256 = None
+        self.records_count = 0
+        self.positive_count = 0
+
+    def fit(self, records):
+        if type(records) is not list or not 2 <= len(records) <= 65536:
+            raise ValueError("A bounded training set is required")
+        for r in records:
+            if (
+                type(r) is not dict
+                or set(r) != FIELDS
+                or type(r["label"]) is not int
+                or r["label"] not in (0, 1)
+                or any(
+                    type(r[k]) is not str or not HASH.fullmatch(r[k])
+                    for k in FIELDS - {"features", "label"}
+                )
+            ):
+                raise ValueError("Exact labels and full record provenance are required")
+        origins = [(r["job_id"], r["candidate_sha256"]) for r in records]
+        if len(set(origins)) != len(origins):
+            raise ValueError("Repeated job/candidate pair")
+        x, families = observations([r["features"] for r in records], 65536)
+        y = np.array([r["label"] for r in records], dtype=float)
+        positive, negative = np.flatnonzero(y == 1), np.flatnonzero(y == 0)
+        if not len(positive) or not len(negative):
+            raise ValueError("Both label classes are required")
+        old = copy.deepcopy(self.__dict__)
+        try:
+            self.W = np.zeros((12, 118))
+            self.C = np.zeros(12)
+            self.steps = 0
+            self.training_sha256 = digest(records)
+            self.records_count = len(records)
+            self.positive_count = len(positive)
+            firstW = np.zeros_like(self.W)
+            secondW = np.zeros_like(self.W)
+            firstC = np.zeros_like(self.C)
+            secondC = np.zeros_like(self.C)
+            rng = np.random.default_rng(self.configuration["seed"] + 1009)
+            size = self.configuration["batch_size"]
+            for _ in range(self.configuration["epochs"]):
+                for _ in range(math.ceil(len(records) / size)):
+                    indices = np.concatenate(
+                        (
+                            rng.choice(positive, size // 2),
+                            rng.choice(negative, size - size // 2),
+                        )
+                    )
+                    batch, actions, targets = x[indices], families[indices], y[indices]
+                    logits = np.sum(batch * self.W[actions], axis=1) + self.C[actions]
+                    residual = (
+                        1 / (1 + np.exp(-np.clip(logits, -40, 40))) - targets
+                    ) / size
+                    gradW = np.zeros_like(self.W)
+                    gradC = np.zeros_like(self.C)
+                    for family in range(12):
+                        mask = actions == family
+                        gradW[family] = batch[mask].T @ residual[mask]
+                        gradC[family] = residual[mask].sum()
+                    gradW += self.configuration["regularization"] * self.W
+                    norm = math.sqrt(float(np.sum(gradW**2) + np.sum(gradC**2)))
+                    gradW /= max(1, norm)
+                    gradC /= max(1, norm)
+                    self.steps += 1
+                    firstW = 0.9 * firstW + 0.1 * gradW
+                    secondW = 0.999 * secondW + 0.001 * gradW**2
+                    firstC = 0.9 * firstC + 0.1 * gradC
+                    secondC = 0.999 * secondC + 0.001 * gradC**2
+                    step = self.steps
+                    lr = self.configuration["learning_rate"]
+                    self.W = np.clip(
+                        self.W
+                        - lr
+                        * (firstW / (1 - 0.9**step))
+                        / (np.sqrt(secondW / (1 - 0.999**step)) + 1e-8),
+                        -20,
+                        20,
+                    )
+                    self.C = np.clip(
+                        self.C
+                        - lr
+                        * (firstC / (1 - 0.9**step))
+                        / (np.sqrt(secondC / (1 - 0.999**step)) + 1e-8),
+                        -20,
+                        20,
+                    )
+                    if not np.isfinite(self.W).all() or not np.isfinite(self.C).all():
+                        raise ValueError("Nonfinite contextual linear update")
+            return self
+        except BaseException:
+            self.__dict__.clear()
+            self.__dict__.update(old)
+            raise
+
+    def score(self, features):
+        x, families = observations(features)
+        if self.training_sha256 is None:
+            raise ValueError("Fit contextual linear control before scoring")
+        logits = np.sum(x * self.W[families], axis=1) + self.C[families]
+        return 1 / (1 + np.exp(-np.clip(logits, -40, 40)))
+
+    __call__ = score
+
+    def evidence(self):
+        return dict(
+            schema=VERSION,
+            configuration=copy.deepcopy(self.configuration),
+            training_sha256=self.training_sha256,
+            records_count=self.records_count,
+            positive_count=self.positive_count,
+            optimizer_steps=self.steps,
+            weights={"W": self.W.tolist(), "C": self.C.tolist()},
+            scope="Conventional operation-gated linear logits; same130observations and verified edge records, no hidden neural layer. Full retraining fromseed, no mid-minibatch recovery claim.",
+        )

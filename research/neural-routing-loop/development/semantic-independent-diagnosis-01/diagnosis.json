@@ -1,0 +1,624 @@
+{
+  "scope": "Independent retrospective DEV diagnosis. No source/production mutation, no new reserved benchmark reads. Membership negatives are not proof of uselessness; exact feature-collision absence does not establish sufficient generalization features.",
+  "sources_sha256": {
+    "semantic-priority-dev-03/search.py": "126140f99f04ef1b3798e2dd10ac2b19344422e55f510f1c4b9f70b5e80c5bca",
+    "semantic-priority-dev-03/run.py": "69b110bca6d89a3d506f0b25d07364f6c477b9912ac6efebe40cfb994b5eef08",
+    "semantic-priority-dev-03/training-0.json": "da1b4a136ecc15c50e5b626268fe219885f22d42035e473e565d71b4cfbc4a4b",
+    "semantic-priority-dev-03/training-1.json": "bc3f11d407882dad157fff697a6252823f9205ab1e4aedb9cc9708f43437368a",
+    "semantic-priority-dev-03/collection-0.jsonl": "b5843abeca22a9423aad7d74e879389f3cc19bd8995a98640f6fd45c4c7bf76e",
+    "semantic-priority-dev-03/collection-1.jsonl": "49f0993eb52c37f9764709cb05d8390fa5d845e59c1397aea2f6fd45b9c514f7",
+    "semantic-priority-dev-03/evaluation-0.jsonl": "7543703dde2d67e796bcdaebb64c47fb35e15db661bb5192c665a2b9bd9cf869",
+    "semantic-priority-dev-03/evaluation-1.jsonl": "1f8aecb4bc3cc05eacaacdfe33487310b097af2ed307cb74f432153b1527c75d"
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "training_records": 3949,
+      "training_positives": 430,
+      "collisions": {
+        "exact100": {
+          "unique_feature_vectors": 3571,
+          "conflicting_vectors": 0,
+          "records_in_conflicting_vectors": 0,
+          "unweighted_minimum_training_errors": 0,
+          "scope": "Empirical training membership classification only, not a bound on actual search usefulness or unseen generalization"
+        },
+        "discrete96": {
+          "unique_feature_vectors": 726,
+          "conflicting_vectors": 11,
+          "records_in_conflicting_vectors": 432,
+          "unweighted_minimum_training_errors": 97,
+          "scope": "Empirical training membership classification only, not a bound on actual search usefulness or unseen generalization"
+        },
+        "coarse100": {
+          "unique_feature_vectors": 1106,
+          "conflicting_vectors": 10,
+          "records_in_conflicting_vectors": 350,
+          "unweighted_minimum_training_errors": 90,
+          "scope": "Empirical training membership classification only, not a bound on actual search usefulness or unseen generalization"
+        }
+      },
+      "provenance_mapped_rows": 3949,
+      "labels_by_operation": {
+        "capitalize": {
+          "0": 321,
+          "1": 0
+        },
+        "compact": {
+          "0": 245,
+          "1": 0
+        },
+        "constant": {
+          "0": 0,
+          "1": 37
+        },
+        "field": {
+          "0": 614,
+          "1": 183
+        },
+        "lower": {
+          "0": 123,
+          "1": 25
+        },
+        "slice": {
+          "0": 266,
+          "1": 14
+        },
+        "split": {
+          "0": 223,
+          "1": 15
+        },
+        "strip": {
+          "0": 183,
+          "1": 48
+        },
+        "title": {
+          "0": 238,
+          "1": 0
+        },
+        "token": {
+          "0": 1109,
+          "1": 80
+        },
+        "upper": {
+          "0": 197,
+          "1": 28
+        }
+      },
+      "current_vs_missing_relations": {
+        "0": {
+          "exact_substring_all": 505,
+          "casefold_substring_all": 937,
+          "casefold_prefix_all": 115,
+          "casefold_suffix_all": 194
+        },
+        "1": {
+          "exact_substring_all": 146,
+          "casefold_substring_all": 256,
+          "casefold_prefix_all": 155,
+          "casefold_suffix_all": 137
+        }
+      },
+      "paired_acceptance": {
+        "spiking_1_old_1": 158,
+        "spiking_0_old_0": 21,
+        "spiking_0_old_1": 8
+      }
+    },
+    {
+      "fold": 1,
+      "training_records": 3300,
+      "training_positives": 392,
+      "collisions": {
+        "exact100": {
+          "unique_feature_vectors": 3016,
+          "conflicting_vectors": 0,
+          "records_in_conflicting_vectors": 0,
+          "unweighted_minimum_training_errors": 0,
+          "scope": "Empirical training membership classification only, not a bound on actual search usefulness or unseen generalization"
+        },
+        "discrete96": {
+          "unique_feature_vectors": 634,
+          "conflicting_vectors": 9,
+          "records_in_conflicting_vectors": 319,
+          "unweighted_minimum_training_errors": 81,
+          "scope": "Empirical training membership classification only, not a bound on actual search usefulness or unseen generalization"
+        },
+        "coarse100": {
+          "unique_feature_vectors": 962,
+          "conflicting_vectors": 12,
+          "records_in_conflicting_vectors": 302,
+          "unweighted_minimum_training_errors": 73,
+          "scope": "Empirical training membership classification only, not a bound on actual search usefulness or unseen generalization"
+        }
+      },
+      "provenance_mapped_rows": 3300,
+      "labels_by_operation": {
+        "capitalize": {
+          "0": 290,
+          "1": 0
+        },
+        "compact": {
+          "0": 218,
+          "1": 0
+        },
+        "constant": {
+          "0": 0,
+          "1": 31
+        },
+        "field": {
+          "0": 645,
+          "1": 180
+        },
+        "lower": {
+          "0": 106,
+          "1": 25
+        },
+        "slice": {
+          "0": 234,
+          "1": 13
+        },
+        "split": {
+          "0": 150,
+          "1": 13
+        },
+        "strip": {
+          "0": 151,
+          "1": 45
+        },
+        "title": {
+          "0": 177,
+          "1": 0
+        },
+        "token": {
+          "0": 747,
+          "1": 61
+        },
+        "upper": {
+          "0": 190,
+          "1": 24
+        }
+      },
+      "current_vs_missing_relations": {
+        "1": {
+          "exact_substring_all": 129,
+          "casefold_substring_all": 250,
+          "casefold_prefix_all": 162,
+          "casefold_suffix_all": 146
+        },
+        "0": {
+          "exact_substring_all": 374,
+          "casefold_substring_all": 786,
+          "casefold_prefix_all": 92,
+          "casefold_suffix_all": 165
+        }
+      },
+      "paired_acceptance": {
+        "spiking_1_old_1": 159,
+        "spiking_0_old_0": 30,
+        "spiking_0_old_1": 8
+      }
+    }
+  ],
+  "paired_acceptance_all": {
+    "spiking_1_old_1": 317,
+    "spiking_0_old_0": 51,
+    "spiking_0_old_1": 16
+  },
+  "losses": [
+    {
+      "fold": 0,
+      "job_id": "3dc538377c6d482e6017064facc3f70c6e74a2f41a664c27e94d146f01f9bdc2",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 736,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35888,
+      "spiking_candidates": 3036,
+      "old_candidates": 880
+    },
+    {
+      "fold": 0,
+      "job_id": "30a93d1c16b0c7aed7aadc0c89b1b460a8e0158e85f1cbb652261242cab3d00f",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 556,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35710,
+      "spiking_candidates": 4107,
+      "old_candidates": 878
+    },
+    {
+      "fold": 0,
+      "job_id": "bc69a76e34323a5a1b4f3347360ab8a914f135bed05bd0895a761005c00e895c",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 786,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35381,
+      "spiking_candidates": 2166,
+      "old_candidates": 878
+    },
+    {
+      "fold": 0,
+      "job_id": "573d4ffc3b0641e8a8478e2203d5bbe11c03540f850fe414d4aea61b47e3e201",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 740,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35582,
+      "spiking_candidates": 2412,
+      "old_candidates": 871
+    },
+    {
+      "fold": 0,
+      "job_id": "afa0fb29cfe625fc84eef4a1273f24534af4fd517babee8b36a4511fd171431e",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 598,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35629,
+      "spiking_candidates": 2134,
+      "old_candidates": 877
+    },
+    {
+      "fold": 0,
+      "job_id": "34c660e7cab757008c58f1ff4f425227e0b4b3d089fe228beeeccfd4b7411e17",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 426,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35393,
+      "spiking_candidates": 9019,
+      "old_candidates": 868
+    },
+    {
+      "fold": 0,
+      "job_id": "5b2a450fafe0947661861bab680714cd7c3f8666007dc7d15e69bb5cc0bbfe13",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 801,
+      "old_errors": 0,
+      "spiking_work": 49998,
+      "old_work": 35537,
+      "spiking_candidates": 1920,
+      "old_candidates": 868
+    },
+    {
+      "fold": 0,
+      "job_id": "fa437d5cfdced0193b1d4b6606183ba13764e50051932e2de9964d5aa08369fb",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 306,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35726,
+      "spiking_candidates": 9532,
+      "old_candidates": 871
+    },
+    {
+      "fold": 1,
+      "job_id": "f7317c204c2d5de244de8aa211b5859b857dd07e3e0017e91d5a84515545eccf",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 346,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35720,
+      "spiking_candidates": 8397,
+      "old_candidates": 880
+    },
+    {
+      "fold": 1,
+      "job_id": "26c8f963f339babc6f5253642fac6f3bf3c35a8d0c1cff9788c50dfb0a609044",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 676,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35670,
+      "spiking_candidates": 3079,
+      "old_candidates": 880
+    },
+    {
+      "fold": 1,
+      "job_id": "0248bc247381b33f70c853b3de3422a4b6dbb6f64bb518c4719033c9bf1988e3",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 998,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35786,
+      "spiking_candidates": 3006,
+      "old_candidates": 919
+    },
+    {
+      "fold": 1,
+      "job_id": "464c58d1479ee18502040825aee75f02a6488f4f0bfc2a7bfa9b2b6a76c647ca",
+      "family": "lowercase-token",
+      "spiking_errors": 470,
+      "old_errors": 1,
+      "spiking_work": 49998,
+      "old_work": 14430,
+      "spiking_candidates": 1438,
+      "old_candidates": 312
+    },
+    {
+      "fold": 1,
+      "job_id": "42788f57dcbaef2d0c2286a6884eac78b563d57a6f0a9171992a06ce38878c99",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 766,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35614,
+      "spiking_candidates": 1984,
+      "old_candidates": 892
+    },
+    {
+      "fold": 1,
+      "job_id": "614b170f7db37189cf3cf3ca65a7ff672a6588ff8f282c649a14ab6669002dce",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 298,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35519,
+      "spiking_candidates": 9222,
+      "old_candidates": 871
+    },
+    {
+      "fold": 1,
+      "job_id": "2d8752685d23b19d9a2273e695795ec415faf0a1033941ee9c7fb789a01516dd",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 509,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35645,
+      "spiking_candidates": 2596,
+      "old_candidates": 925
+    },
+    {
+      "fold": 1,
+      "job_id": "1a730deffa9507f743e4190d771e2870a4969fc3ac38d41b342d3e69aef1660c",
+      "family": "joined-normalized-tokens",
+      "spiking_errors": 938,
+      "old_errors": 0,
+      "spiking_work": 50000,
+      "old_work": 35421,
+      "spiking_candidates": 2563,
+      "old_candidates": 878
+    }
+  ],
+  "lost_families": {
+    "joined-normalized-tokens": 15,
+    "lowercase-token": 1
+  },
+  "loss_work_and_errors": {
+    "jobs": 16,
+    "spiking_errors": 9950,
+    "old_errors": 1,
+    "spiking_work": 799996,
+    "old_work": 548651
+  },
+  "missing_relation_examples": [
+    {
+      "job_id": "f8cd5be60227c1626a74d5a9f9ff06985504b58813e5b7e0865362d16ed56e89",
+      "candidate": {
+        "op": "token",
+        "arg": {
+          "op": "field",
+          "index": 0
+        },
+        "pattern": "alnum",
+        "index": 0
+      },
+      "candidate_values": [
+        "Fjord",
+        "nectar",
+        "TIDAL",
+        "PINE"
+      ],
+      "disclosed_targets": [
+        "FJORD",
+        "NECTAR",
+        "TIDAL",
+        "PINE"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    },
+    {
+      "job_id": "73c3ed513a7434d5ecd3b1554447db446135f6d5cf222ae885933b14559f8590",
+      "candidate": {
+        "op": "token",
+        "arg": {
+          "op": "field",
+          "index": 0
+        },
+        "pattern": "alnum",
+        "index": 0
+      },
+      "candidate_values": [
+        "ember",
+        "birch",
+        "Kestrel",
+        "Cobalt"
+      ],
+      "disclosed_targets": [
+        "ember",
+        "birch",
+        "kestrel",
+        "cobalt"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    },
+    {
+      "job_id": "6a677a85ad9b7f594679b306957a7c55289362bdf138f5ccb4910c0b02e0db62",
+      "candidate": {
+        "op": "slice",
+        "arg": {
+          "op": "field",
+          "index": 4
+        },
+        "start": 2,
+        "end": 5
+      },
+      "candidate_values": [
+        "emb",
+        "emb",
+        "jun",
+        "DEL"
+      ],
+      "disclosed_targets": [
+        "EMB",
+        "EMB",
+        "JUN",
+        "DEL"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    },
+    {
+      "job_id": "46f1bcdb6b1fe2f97d942b7e55d18de74c97be91a6c11e855e8183b44ae95e3a",
+      "candidate": {
+        "op": "token",
+        "arg": {
+          "op": "field",
+          "index": 0
+        },
+        "pattern": "alnum",
+        "index": 0
+      },
+      "candidate_values": [
+        "Acacia",
+        "ember",
+        "Cobalt",
+        "PINE"
+      ],
+      "disclosed_targets": [
+        "ACACIA",
+        "EMBER",
+        "COBALT",
+        "PINE"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    },
+    {
+      "job_id": "7214e190be690d032586b54b0b8082bb4279701dee7f58038b17ff27763001d3",
+      "candidate": {
+        "op": "token",
+        "arg": {
+          "op": "field",
+          "index": 5
+        },
+        "pattern": "alnum",
+        "index": 0
+      },
+      "candidate_values": [
+        "birch",
+        "ember",
+        "Maple",
+        "Garnet"
+      ],
+      "disclosed_targets": [
+        "birch",
+        "ember",
+        "maple",
+        "garnet"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    },
+    {
+      "job_id": "a23113bfe1f6cd36179e2320fdc11610e8ffa65eb0d64aa2e80e0bd01b697d07",
+      "candidate": {
+        "op": "slice",
+        "arg": {
+          "op": "field",
+          "index": 1
+        },
+        "start": 2,
+        "end": 5
+      },
+      "candidate_values": [
+        "bir",
+        "DEL",
+        "ree",
+        "jun"
+      ],
+      "disclosed_targets": [
+        "BIR",
+        "DEL",
+        "REE",
+        "JUN"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    },
+    {
+      "job_id": "7a732e1f1d27f563d41b99277a2f05d404b8aaf3acd1cd7f6552ae6ea9b6d8ce",
+      "candidate": {
+        "op": "token",
+        "arg": {
+          "op": "field",
+          "index": 0
+        },
+        "pattern": "alnum",
+        "index": 0
+      },
+      "candidate_values": [
+        "HARBOR",
+        "DELTA",
+        "Indigo",
+        "Maple"
+      ],
+      "disclosed_targets": [
+        "harbor",
+        "delta",
+        "indigo",
+        "maple"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    },
+    {
+      "job_id": "0032e6ab7c02da1508caf523d9b28ac36f5530b5bcf5b8532182c1805456e009",
+      "candidate": {
+        "op": "token",
+        "arg": {
+          "op": "field",
+          "index": 2
+        },
+        "pattern": "alnum",
+        "index": 0
+      },
+      "candidate_values": [
+        "nectar",
+        "juniper",
+        "juniper",
+        "Acacia"
+      ],
+      "disclosed_targets": [
+        "nectar",
+        "juniper",
+        "juniper",
+        "acacia"
+      ],
+      "label": 1,
+      "reason": "case-insensitive partial output constituent; current features have no casefold containment relation"
+    }
+  ],
+  "recommendations": [
+    {
+      "mechanism": "Restore case-insensitive constituent relations and input/task context to shared signatures",
+      "reason": "Current candidate representation has casefold equality but lacks case-insensitive contains/starts/ends relations, despite upper/lower normalization of proper output constituents being central to 15/16 lost jobs. Official BUSTLE compares these relations and adds task/input signatures. This is an actionable missing observable, not evidence of an irreducible exact collision.",
+      "test": "Add six case-insensitive containment directions plus bounded task-input relations for every controller. Rebuild labels from past verified programs, freeze prospective source and compare against explicit heuristic using the same observables. Keep exact source03 result unchanged."
+    },
+    {
+      "mechanism": "Learn priorities of operand-plus-operation-family actions rather than operand membership alone",
+      "reason": "Current neural score chooses an operand but cannot choose its transformation; generator spends token, split, slice, replace and number batches in a fixed order. Positive subtree membership is a weak proxy for useful next expansion, and current losses use thousands of invalid interpreter attempts.",
+      "test": "Rank (operand observations, prospective operation family) using only parent-child edges in past buyer-accepted ASTs. Do not expose newly generated parent values or target-equality result before its metered execution. Controls receive identical edge labels, action sets and budgets; independent buyer checks remain unchanged. Root edges may teach operators, but final output/root itself must never be a feature. Keep parameter enumeration and multi-child concat accounting explicit."
+    }
+  ],
+  "prior_art": {
+    "official_source": "https://github.com/google-research/google-research/blob/5b09c22d73a9d35eb6c5d2a99b95677a45053466/bustle/java/src/main/java/com/googleresearch/bustle/propertysignatures/ComputeSignature.java",
+    "retained_source_sha256": "9c0a2fc12964dacd2772a1964b83fa99c1b7b2dab44c55278c0ccd3765642366",
+    "details": "Official source comments at lines187-192 specify six case-insensitive substring/prefix/suffix relations; lines27-57 compute input/output task signatures. No pretrained model or extra labels were imported."
+  }
+}

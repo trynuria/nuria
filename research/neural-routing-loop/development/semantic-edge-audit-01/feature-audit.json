@@ -1,0 +1,39 @@
+{
+  "schema": "nuria.semantic-edge-feature-audit.v1",
+  "scope": "Mechanical feature extraction and strong non-neural control only; no qualification or useful-task performance claim. No reserved source, site, production or financial changes.",
+  "files_sha256": {
+    "features.py": "2c963361fb8ed3b0ed3594a53ab5238c6dc941293f535a912fa977d1d5d6570f",
+    "audit_control.py": "61ad37ae28f766e1236c6cfbe63443a311259023ce995be861fcafbb5c0db8aa",
+    "test_features.py": "34ab604404677bc8f12caa03d18dd9e25cb9b91c2b18bead19bab83ef01d87d6",
+    "test_control.py": "026577a9755f9726e54f28f26c71351b416a9c0a4258ab815e4a8e55d9cf23f9",
+    "feature-schema.json": "822e6be5d1ea2e5c1891f2a8f84e80deb63ac59b841db91cd60b7839b91fa752",
+    "tests-final-01.log": "5b5981ddf3a68826701a701f45b24bc219e90514ff73368c606a9cdf4306c33e"
+  },
+  "tests": {
+    "passed": 13,
+    "failed": 0,
+    "coverage": [
+      "Frozen100coordinateprefix retained exactly",
+      "Directional casefold all/none/mixed reductions",
+      "130-dimensional prospective family observations without parent execution",
+      "Metadata, IDs, extra keys and invalid numeric vectors refused",
+      "Action heuristic uses only shared130observations",
+      "Per-family conventional model learns genuine family/operand interactions",
+      "Deterministic fit/read-onlyscore and independent scalar-logit replay"
+    ]
+  },
+  "numerical_control": {
+    "method": "per_family_linear",
+    "input_dimension": 130,
+    "operand_dimension": 118,
+    "families": 12,
+    "parameters": 1428,
+    "hidden_layers": 0,
+    "class_balancing": "global positive/negative balanced same minibatch draws as numericalneuralcontrol",
+    "epochs": 12,
+    "batch_size": 128,
+    "learning_rate": 0.003,
+    "regularization": 0.0001,
+    "reason": "A shared linear130model has additive familybias only and cannot learn family\u00d7operand interactions. This conventional action-gated linear control permits those interactions without extra observations."
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "nuria.neural-routing-development-verification.v1",
+  "verified": true,
+  "archive_files": 228,
+  "independently_replayed_deliveries": 14592,
+  "attempts": [
+    {
+      "attempt": 1,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 302,
+        "frozen_input": 261,
+        "continuous": 300,
+        "linear": 299,
+        "rff": 300,
+        "knn": 280,
+        "property": 265,
+        "size": 226
+      }
+    },
+    {
+      "attempt": 2,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 313,
+        "frozen_input": 282,
+        "continuous": 312,
+        "linear": 319,
+        "rff": 312,
+        "knn": 291,
+        "old_strong": 333,
+        "property": 289,
+        "edit": 323,
+        "size": 230
+      }
+    },
+    {
+      "attempt": 3,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 317,
+        "frozen_input": 286,
+        "continuous": 313,
+        "linear": 301,
+        "rff": 308,
+        "knn": 290,
+        "old_strong": 333,
+        "property": 289,
+        "edit": 323,
+        "size": 230
+      }
+    },
+    {
+      "attempt": 4,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 266,
+        "frozen_input": 240,
+        "continuous": 266,
+        "linear": 245,
+        "rff": 245,
+        "knn": 254,
+        "old_strong": 333,
+        "property": 289,
+        "edit": 276,
+        "size": 222
+      }
+    }
+  ],
+  "summary_sha256": "25f05a468a2a17fcb05c61d3460eb353bfc24b72cc24ac96a3c7487506f04790",
+  "verification_sources_sha256": {
+    "scripts/check_neural_routing_results.py": "49f6daa05826e87049f04f318b9549e309be3e7f9b23dbc2f541a0c088d0ebd5",
+    "scripts/build_guarded_skill_tasks.py": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  },
+  "scope": "Published and expanded byte identities, privacy screening, program-group separation, shared training-set identities, independent final output/acceptance/work replay and aggregate arithmetic. Search visitation, membership teaching, gradient training, CPU timing, external receipts and statistical superiority are not independently reconstructed.",
+  "superiority_established": false
+}

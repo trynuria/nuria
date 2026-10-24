@@ -20,7 +20,9 @@ from scripts.build_guarded_skill_tasks import CONFIG, generate
 from scripts.check_publication import RULES
 from scripts.verify_active_skill_results import outcome
 
-MAX_ARTIFACT = 64 * 1024 * 1024
+# The 2,000-job membership trace expands to 118,440,934 bytes. Keep a finite
+# admission bound that covers that complete trace; never read an unbounded zip.
+MAX_ARTIFACT = 128 * 1024 * 1024
 
 
 def require(condition, message):
@@ -67,8 +69,17 @@ def safe_path(root, name):
 
 def check_archives(root):
     artifacts, original = {}, {}
-    for number in (1, 2, 3):
-        manifest_path = root / f"archive-manifest-{number:02}.json"
+    manifests = sorted(root.glob("archive-manifest-*.json"))
+    require(len(manifests) >= 3, "A required development archive is missing")
+    require(
+        [path.name for path in manifests]
+        == [
+            f"archive-manifest-{number:02}.json"
+            for number in range(1, len(manifests) + 1)
+        ],
+        "Development archive sequence is incomplete",
+    )
+    for manifest_path in manifests:
         manifest = json.loads(manifest_path.read_bytes())
         require(
             manifest["schema"] == "nuria.neural-routing-development-archive.v1",
@@ -115,6 +126,12 @@ def verify(root):
     root = Path(root)
     artifacts, originals = check_archives(root)
     summary = json.loads((root / "semantic-summary.json").read_bytes())
+    require(
+        summary.get("schema") == "nuria.semantic-guidance-development.v1"
+        and [a.get("attempt") for a in summary.get("attempts", [])] == [1, 2, 3, 4]
+        and all(type(a["attempt"]) is int for a in summary["attempts"]),
+        "Semantic development variants are absent, duplicated or reordered",
+    )
     jobs = {
         job["id"]: job for seed in (0, 1, 2, 3) for job in generate(seed, 96)["tasks"]
     }
@@ -239,6 +256,10 @@ def verify(root):
                         "A fold summary differs from its traces",
                     )
         require(set(jobs) == observed, "Development coverage is incomplete")
+        require(
+            set(attempt["methods"]) == set(totals),
+            "An aggregate summary omits a comparator",
+        )
         for method, published in attempt["methods"].items():
             totals[method]["search_fit_buyer_cpu_seconds"] = sum(
                 totals[method][k]
@@ -268,6 +289,16 @@ def verify(root):
         "summary_sha256": hashlib.sha256(
             (root / "semantic-summary.json").read_bytes()
         ).hexdigest(),
+        "verification_sources_sha256": {
+            name: hashlib.sha256(
+                (Path(__file__).resolve().parents[1] / name).read_bytes()
+            ).hexdigest()
+            for name in (
+                "scripts/check_neural_routing_results.py",
+                "scripts/build_guarded_skill_tasks.py",
+                "scripts/verify_active_skill_results.py",
+            )
+        },
         "scope": "Published and expanded byte identities, privacy screening, program-group separation, shared training-set identities, independent final output/acceptance/work replay and aggregate arithmetic. Search visitation, membership teaching, gradient training, CPU timing, external receipts and statistical superiority are not independently reconstructed.",
         "superiority_established": False,
     }

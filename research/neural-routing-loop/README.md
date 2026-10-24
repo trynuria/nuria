@@ -24,6 +24,15 @@ In the two-profile comparison a conventional rule accepted 355/427 tasks, versus
   compressed training and delivery traces. The [summary](development/semantic-summary.json)
   retains every negative comparison; the [technical notes](../../docs/semantic-guidance.md)
   explain the mechanism and its limits.
+- [Larger curriculum archive](development/archive-manifest-04.json): the
+  completed 2,000-task synthetic teacher course, common training records,
+  checkpoints, deliveries and strong same-history program-memory control.
+  The [curriculum notes](../../docs/semantic-curriculum.md) report the negative
+  neural comparison: 319/384 accepted versus 333/384 for the existing solver.
+  Retaining whole accepted programs reaches 23/43 external development tasks
+  with zero wrong proposals, versus 22/43 with one wrong proposal for every
+  main fitted/static controller. This is conventional memory evidence, not a
+  neural-specific gain or an unseen qualification.
 
 The [independent delivery replay](development/semantic-independent-deliveries-01.json)
 reconstructs 14,592 authored deliveries, acceptance, buyer work and aggregate

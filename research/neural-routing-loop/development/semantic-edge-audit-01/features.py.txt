@@ -1,0 +1,193 @@
+"""PRIVATE prospectively specified operand/action observations for DEV06.
+
+The first100 coordinates are exactly the retained DEV03 signature. Six
+case-insensitive directional relations append18 coordinates; a prospective
+operation-family onehot appends12. No generated-parent values, success flag,
+program recipe, job/family ID or undisclosed final values enter this API.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+from pathlib import Path
+import sys
+
+import numpy as np
+
+VERSION = "nuria.semantic-edge-observations.dev06.v1"
+BASE_SHA256 = "126140f99f04ef1b3798e2dd10ac2b19344422e55f510f1c4b9f70b5e80c5bca"
+BASE_PATH = Path(__file__).parents[1] / "semantic-priority-dev-03/search.py"
+if hashlib.sha256(BASE_PATH.read_bytes()).hexdigest() != BASE_SHA256:
+    raise ValueError("Retained base feature implementation changed")
+_base_spec = importlib.util.spec_from_file_location("semantic_edge_base03", BASE_PATH)
+_base = importlib.util.module_from_spec(_base_spec)
+sys.modules[_base_spec.name] = _base
+_base_spec.loader.exec_module(_base)
+
+OPS = tuple(_base.OPS)
+SIGNATURE_DIMENSION = 118
+ACTION_DIMENSION = 130
+RELATIONS = (
+    "target_contains_candidate_casefold",
+    "target_starts_candidate_casefold",
+    "target_ends_candidate_casefold",
+    "candidate_contains_target_casefold",
+    "candidate_starts_target_casefold",
+    "candidate_ends_target_casefold",
+)
+FLAGS = ("all", "none", "mixed")
+SCHEMA = {
+    "schema": VERSION,
+    "base_coordinates": {
+        "start": 0,
+        "stop": 100,
+        "source_sha256": BASE_SHA256,
+        "definition": "Exactly DEV03 signature; unary36,target-relations48,operand-op12,bounded-size/depth/meanlength/edit4",
+    },
+    "casefold_coordinates": [
+        {"index": 100 + 3 * r + f, "relation": name, "reduction": flag}
+        for r, name in enumerate(RELATIONS)
+        for f, flag in enumerate(FLAGS)
+    ],
+    "action_coordinates": [
+        {"index": 118 + i, "prospective_family": op} for i, op in enumerate(OPS)
+    ],
+    "signature_dimension": SIGNATURE_DIMENSION,
+    "action_dimension": ACTION_DIMENSION,
+    "non_expanding_families": ["field", "constant"],
+    "other_case_members": ["capitalize", "compact", "title"],
+    "boundary": "Only disclosed operand vectors and disclosed targets; prospective family is known before execution. Root values and newly generated parent values are excluded.",
+}
+
+
+def _values(values, targets):
+    if (
+        not isinstance(values, (list, tuple))
+        or not isinstance(targets, (list, tuple))
+        or not 1 <= len(values) <= 4
+        or len(values) != len(targets)
+    ):
+        raise ValueError("One to four paired disclosed string vectors are required")
+    if any(
+        type(v) is not str or len(v.encode()) > 4096
+        for v in list(values) + list(targets)
+    ):
+        raise ValueError("Observations require bounded disclosed strings")
+    return tuple(values), tuple(targets)
+
+
+def relation_extension(values, targets):
+    values, targets = _values(values, targets)
+    result = []
+    vectors = [
+        (v.casefold(), y.casefold()) for v, y in zip(values, targets, strict=True)
+    ]
+    checks = (
+        lambda v, y: v in y,
+        lambda v, y: y.startswith(v),
+        lambda v, y: y.endswith(v),
+        lambda v, y: y in v,
+        lambda v, y: v.startswith(y),
+        lambda v, y: v.endswith(y),
+    )
+    for check in checks:
+        flags = [check(v, y) for v, y in vectors]
+        result.extend(
+            (
+                float(all(flags)),
+                float(not any(flags)),
+                float(any(flags) and not all(flags)),
+            )
+        )
+    return result
+
+
+def signature(node, values, targets):
+    values, targets = _values(values, targets)
+    base = np.asarray(_base.signature(node, values, targets), dtype=float)
+    if (
+        base.shape != (100,)
+        or not np.isfinite(base).all()
+        or np.any(base < 0)
+        or np.any(base > 1)
+    ):
+        raise ValueError("Invalid retained operand signature")
+    return base.tolist() + relation_extension(values, targets)
+
+
+def normalize_family(family):
+    if family in ("capitalize", "compact", "title"):
+        return "other_case"
+    if family not in OPS:
+        raise ValueError("Unknown prospective operation family")
+    return family
+
+
+def with_action(observations, family):
+    raw = np.asarray(observations, dtype=object)
+    if raw.shape != (118,) or any(type(v) not in (int, float) for v in raw.flat):
+        raise ValueError("Expected exact118-coordinate operand observation")
+    vector = raw.astype(float)
+    if not np.isfinite(vector).all() or np.any(vector < 0) or np.any(vector > 1):
+        raise ValueError("Operand observation is not normalized")
+    family = normalize_family(family)
+    return vector.tolist() + [float(family == op) for op in OPS]
+
+
+def action_features(node, values, targets, family):
+    return with_action(signature(node, values, targets), family)
+
+
+def heuristic(batch):
+    """A declared strong property-based operand/family control.
+
+    Operates on precisely the130 features supplied to learned controls. Case
+    transformations are preferred for case-insensitive output constituents;
+    extraction families are preferred when an operand contains a whole target.
+    This is an explicit comparator, not a claimed optimal expansion policy.
+    """
+    x = np.asarray(batch, dtype=float)
+    if (
+        x.ndim != 2
+        or x.shape[1] != 130
+        or not np.isfinite(x).all()
+        or np.any(x < 0)
+        or np.any(x > 1)
+    ):
+        raise ValueError("Heuristic needs normalized Nx130 observations")
+    rel = x[:, 36:84].reshape((-1, 16, 3))[:, :, 0]
+    cf = x[:, 100:118].reshape((-1, 6, 3))[:, :, 0]
+    operand_op = x[:, 84:96]
+    family = x[:, 118:130]
+    # Existing exact and new case-insensitive constituent evidence.
+    exact_piece = rel[:, 5]
+    folded_piece = cf[:, 0]
+    contains_target = cf[:, 3]
+    needs_case = np.maximum(0, folded_piece - exact_piece)
+    # Candidate lower/upper unary properties. Future parent output is not run.
+    islower = x[:, 3]
+    isupper = x[:, 6]
+    scores = np.repeat(
+        (0.35 * folded_piece + 0.2 * contains_target + 0.15 * x[:, 99])[:, None],
+        12,
+        axis=1,
+    )
+    idx = {op: i for i, op in enumerate(OPS)}
+    scores[:, idx["strip"]] += 0.15 * rel[:, 2] + 0.1 * x[:, 18]
+    scores[:, idx["upper"]] += 0.7 * needs_case * islower + 0.25 * needs_case * (
+        1 - isupper
+    )
+    scores[:, idx["lower"]] += 0.7 * needs_case * isupper + 0.25 * needs_case * (
+        1 - islower
+    )
+    scores[:, idx["other_case"]] += 0.25 * needs_case
+    for op in ("token", "split", "slice"):
+        scores[:, idx[op]] += 0.45 * contains_target + 0.1 * (1 - folded_piece)
+    # Avoid useless repeated case transforms as a stated observable heuristic.
+    scores[:, idx["upper"]] -= 0.25 * operand_op[:, idx["upper"]]
+    scores[:, idx["lower"]] -= 0.25 * operand_op[:, idx["lower"]]
+    scores[:, idx["replace"]] += 0.15 * rel[:, 12]
+    scores[:, idx["number"]] += 0.15 * x[:, 9]
+    scores[:, idx["concat"]] += 0.5 * exact_piece
+    return np.clip(np.sum(scores * family, axis=1), 0, 1)
