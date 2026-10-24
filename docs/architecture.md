@@ -103,3 +103,7 @@ The commerce ledger also uses a consistent SQLite snapshot and local hash-chain 
 ## Commission requests
 
 The isolated commerce writer also owns the [commissioning controller](commissioning.md). It stores task commitments and private evaluation vectors in its existing SQLite database, records public hash events and exports a bounded read-only projection. A fresh eligible decision may create a local proposal, without wallet or network authority. The current worker cannot dispatch marketplace orders or sign Base payments. Commission memory is task-specific and is not credited to the neural worker. Its guarded lifecycle and external activation requirements are separate from the Solana x402 executor.
+
+## Evidence maintenance
+
+The receipt verifier scans bounded batches and reports catch-up separately from complete verification. Recovery archives preserve each run and check database read privileges before taking a checkpoint. See [evidence verification and recovery](evidence-operations.md) for the guarantees and limits.

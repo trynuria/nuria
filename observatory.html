@@ -3539,15 +3539,51 @@
           "Checking saved receipts, inputs and spike windows…";
         try {
           const result = await fetchJSON("/api/verify");
-          $("verifyResult").textContent = result.valid
-            ? "Verified " +
+          const count = (value) => Number.isSafeInteger(value) && value >= 0;
+          const progress =
+            result &&
+            count(result.checked) &&
+            count(result.target_seq) &&
+            count(result.observed_head_seq) &&
+            result.checked <= result.target_seq &&
+            result.target_seq <= result.observed_head_seq;
+          if (
+            progress &&
+            result.phase === "verified" &&
+            result.valid === true &&
+            result.checked === result.observed_head_seq &&
+            typeof result.verified_utc === "string" &&
+            Number.isFinite(Date.parse(result.verified_utc))
+          ) {
+            $("verifyResult").textContent =
+              "Verified " +
               fmt(result.checked) +
               " durable receipts as of " +
               new Date(result.verified_utc).toLocaleTimeString() +
-              ". Input, spike and receipt integrity confirmed."
-            : "Verification failed at receipt #" + result.first_failure;
-        } catch (error) {
-          $("verifyResult").textContent = error.message;
+              ". Input, spike and receipt integrity confirmed.";
+          } else if (
+            progress &&
+            result.phase === "catching_up" &&
+            result.valid === false
+          ) {
+            $("verifyResult").textContent =
+              "Verification in progress: " +
+              fmt(result.checked) +
+              " of " +
+              fmt(result.observed_head_seq) +
+              " receipts checked. Full history is not yet verified.";
+          } else if (result?.phase === "error" && result.valid === false) {
+            $("verifyResult").textContent =
+              count(result.first_failure) && result.first_failure > 0
+                ? "Verification failed at receipt #" + fmt(result.first_failure) + "."
+                : "Verification failed. Receipt integrity could not be confirmed.";
+          } else {
+            $("verifyResult").textContent =
+              "Verification unavailable. Receipt integrity is unknown.";
+          }
+        } catch {
+          $("verifyResult").textContent =
+            "Verification unavailable. Try again shortly.";
         } finally {
           $("verify").disabled = false;
         }

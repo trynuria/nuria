@@ -1,147 +1,83 @@
-"""Incremental receipt checks and bounded evidence exports, outside web requests."""
+"""Bounded receipt checks and evidence exports, outside neural/web workers."""
 
 import json
 import os
 import signal
 import threading
 import time
-import zlib
 from pathlib import Path
 
-from life import canonical, digest, utc
 from publish import publish
-from store import connect
+from receipt_verifier import ChainChanged, ReceiptVerifier
 
-PUBLIC = Path(os.environ["NURIA_PUBLIC"])
-stop = threading.Event()
-signal.signal(signal.SIGTERM, lambda *_: stop.set())
-signal.signal(signal.SIGINT, lambda *_: stop.set())
-seq = 0
-previous = "0" * 64
-last_full = time.monotonic()
-last_export = 0
-while not stop.is_set():
-    try:
-        if time.monotonic() - last_full > 86400:
-            seq = 0
-            previous = "0" * 64
-            last_full = time.monotonic()
-        with connect(None) as db:
-            head = db.execute(
-                "SELECT seq,hash FROM receipts ORDER BY seq DESC LIMIT 1"
-            ).fetchone()
-            end = head[0] if head else 0
-            rows = db.execute(
-                "SELECT seq,previous_hash,hash,payload FROM receipts WHERE seq>? AND seq<=? ORDER BY seq",
-                (seq, end),
-            ).fetchall()
-            for number, parent, current, payload in rows:
-                if (
-                    number != seq + 1
-                    or parent != previous
-                    or digest(parent.encode() + payload.encode()) != current
-                ):
-                    raise RuntimeError("Receipt chain mismatch")
-                value = json.loads(payload)
-                raw = db.execute(
-                    "SELECT data FROM spike_windows WHERE seq=?", (number,)
-                ).fetchone()
-                if not raw or digest(zlib.decompress(raw[0])) != value["spikes_sha256"]:
-                    raise RuntimeError("Spike evidence mismatch")
-                if len(value["input_ids"]) != len(value["input_evidence_sha256"]):
-                    raise RuntimeError("Input evidence length mismatch")
-                for ident, expected in zip(
-                    value["input_ids"], value["input_evidence_sha256"]
-                ):
-                    event = db.execute(
-                        "SELECT payload,receipt FROM inputs WHERE id=?", (ident,)
-                    ).fetchone()
-                    if (
-                        not event
-                        or event[1] != number
-                        or digest(canonical(json.loads(event[0]))) != expected
-                    ):
-                        raise RuntimeError("Input evidence mismatch")
-                seq = number
-                previous = current
-            result = {
-                "valid": True,
-                "checked": seq,
-                "head": previous,
-                "verified_utc": utc(),
-                "scope": "Local input, spike and receipt hash integrity. No independent witness or Solana anchoring.",
-            }
-            publish(PUBLIC, "verify.json", result)
-            if time.monotonic() - last_export > 30:
-                receipts = list(
-                    reversed(
-                        db.execute(
-                            "SELECT seq,previous_hash,hash,payload FROM receipts WHERE seq<=? ORDER BY seq DESC LIMIT 300",
-                            (end,),
-                        ).fetchall()
-                    )
-                )
-                start = receipts[0][0] if receipts else 0
-                inputs = db.execute(
-                    "SELECT payload,receipt FROM inputs WHERE receipt>=? AND receipt<=? ORDER BY rowid",
-                    (start, end),
-                ).fetchall()
-                spikes = {
-                    r[0]: json.loads(zlib.decompress(r[1]))
-                    for r in db.execute(
-                        "SELECT seq,data FROM spike_windows WHERE seq>=? AND seq<=?",
-                        (start, end),
-                    )
-                }
-                publish(
-                    PUBLIC,
-                    "ledger.json",
-                    {
-                        "receipts": [
-                            dict(
-                                json.loads(r[3]),
-                                seq=r[0],
-                                previous_hash=r[1],
-                                hash=r[2],
-                            )
-                            for r in receipts
-                        ],
-                        "inputs": [
-                            dict(json.loads(r[0]), receipt=r[1]) for r in inputs
-                        ],
-                        "spike_windows": spikes,
-                        "scope": "Latest 300 durable ticks; complete history retained privately",
-                        "integrity": result,
-                    },
-                )
-                try:
-                    publish(
-                        PUBLIC,
-                        "network-state.json",
-                        {
-                            "state": json.loads(
-                                (PUBLIC.parent / "engine/status.json").read_text()
+
+def read_bounded_json(path, maximum=4 * 1024 * 1024):
+    with path.open("rb") as stream:
+        raw = stream.read(maximum + 1)
+    if len(raw) > maximum:
+        raise ValueError("Network-state export exceeds size limit")
+    return json.loads(raw)
+
+
+def run(public, connect, stop, *, batch_size=256):
+    """Drain a fixed scan target in bounded batches; never load Brian2."""
+    verifier = ReceiptVerifier(batch_size=batch_size)
+    last_full = time.monotonic()
+    last_export = 0.0
+    while not stop.is_set():
+        result = None
+        try:
+            if time.monotonic() - last_full >= 86400:
+                verifier.reset()
+                last_full = time.monotonic()
+            with connect() as db:
+                result = verifier.advance(db)
+                publish(public, "verify.json", result)
+                if verifier.seq and time.monotonic() - last_export >= 30:
+                    publish(public, "ledger.json", verifier.export(db, result))
+                    last_export = time.monotonic()
+                    try:
+                        network = {
+                            "state": read_bounded_json(
+                                public.parent / "engine/status.json"
                             ),
-                            "topology": json.loads(
-                                (PUBLIC.parent / "engine/topology.json").read_text()
+                            "topology": read_bounded_json(
+                                public.parent / "engine/topology.json"
                             ),
-                        },
-                    )
-                except (OSError, ValueError):
-                    pass
-                last_export = time.monotonic()
-    except Exception as exc:
-        publish(
-            PUBLIC,
-            "verify.json",
-            {
-                "valid": False,
-                "checked": seq,
-                "first_failure": seq + 1,
-                "reason": str(exc)
-                if isinstance(exc, RuntimeError)
-                else "Verification unavailable",
-                "verified_utc": utc(),
-            },
-        )
-    stop.wait(10)
+                        }
+                        if len(json.dumps(network).encode()) > 8 * 1024 * 1024:
+                            raise ValueError("Network-state export exceeds size limit")
+                        publish(
+                            public,
+                            "network-state.json",
+                            network,
+                        )
+                    except (OSError, ValueError):
+                        pass
+        except Exception as exc:
+            result = verifier.failure(exc)
+            publish(public, "verify.json", result)
+            if isinstance(exc, ChainChanged):
+                # A restored/replaced database must earn a fresh full scan. No
+                # public status file or unchecked persisted cursor is trusted.
+                verifier.reset()
+                last_full = time.monotonic()
+        # Backlog work yields cooperatively instead of sleeping ten seconds per
+        # batch. Errors back off; a current, checked head uses the ordinary poll.
+        delay = 0.05 if result and result["phase"] == "catching_up" else 10
+        stop.wait(delay)
+
+
+def main():
+    # The PostgreSQL adapter is imported only by the service entry point.
+    from store import connect
+
+    public = Path(os.environ["NURIA_PUBLIC"])
+    stop = threading.Event()
+    signal.signal(signal.SIGTERM, lambda *_: stop.set())
+    signal.signal(signal.SIGINT, lambda *_: stop.set())
+    run(public, lambda: connect(None), stop)
+
+
+if __name__ == "__main__":
+    main()
