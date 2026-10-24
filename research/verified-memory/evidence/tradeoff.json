@@ -1,0 +1,2275 @@
+{
+  "format": "exact-coordinate-transplant-distance-check-v1",
+  "source_sha256": "f3a7e79ad020ea8776b35e87511bcf3008ba5cc91b8899eb764f3dc109e489d4",
+  "scope": "Canonical binary code equality and Hamming-ball uniqueness; not runtime learning, new biological science, global novelty, or behavioral off-manifold transplants.",
+  "column_lemma_enumerations": [
+    {
+      "k": 1,
+      "boolean_functions": 4,
+      "function_membership_cases": 8,
+      "mismatch_count": 0,
+      "mismatches": []
+    },
+    {
+      "k": 2,
+      "boolean_functions": 16,
+      "function_membership_cases": 64,
+      "mismatch_count": 0,
+      "mismatches": []
+    },
+    {
+      "k": 3,
+      "boolean_functions": 256,
+      "function_membership_cases": 2048,
+      "mismatch_count": 0,
+      "mismatches": []
+    }
+  ],
+  "four_word_plotkin_column_totals": [
+    0,
+    3,
+    3,
+    4,
+    3,
+    4,
+    4,
+    3,
+    3,
+    4,
+    4,
+    3,
+    4,
+    3,
+    3,
+    0
+  ],
+  "factorized_length_12_allocations": [
+    {
+      "n_X": 0,
+      "n_Y": 12,
+      "d_min": 0
+    },
+    {
+      "n_X": 1,
+      "n_Y": 11,
+      "d_min": 1
+    },
+    {
+      "n_X": 2,
+      "n_Y": 10,
+      "d_min": 2
+    },
+    {
+      "n_X": 3,
+      "n_Y": 9,
+      "d_min": 3
+    },
+    {
+      "n_X": 4,
+      "n_Y": 8,
+      "d_min": 4
+    },
+    {
+      "n_X": 5,
+      "n_Y": 7,
+      "d_min": 5
+    },
+    {
+      "n_X": 6,
+      "n_Y": 6,
+      "d_min": 6
+    },
+    {
+      "n_X": 7,
+      "n_Y": 5,
+      "d_min": 5
+    },
+    {
+      "n_X": 8,
+      "n_Y": 4,
+      "d_min": 4
+    },
+    {
+      "n_X": 9,
+      "n_Y": 3,
+      "d_min": 3
+    },
+    {
+      "n_X": 10,
+      "n_Y": 2,
+      "d_min": 2
+    },
+    {
+      "n_X": 11,
+      "n_Y": 1,
+      "d_min": 1
+    },
+    {
+      "n_X": 12,
+      "n_Y": 0,
+      "d_min": 0
+    }
+  ],
+  "reference_constructions": {
+    "factorized_12_balanced": {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 0
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 4032
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 63
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 4095
+        }
+      ],
+      "n": 12,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 6,
+        "Y": 6,
+        "XOR": 0,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 6
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 6
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 6
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 6
+        }
+      ],
+      "minimum_distance": 6,
+      "canonical_masks_by_factor": {
+        "0": [
+          63
+        ],
+        "1": [
+          4032
+        ]
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 52
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 316
+        },
+        "3": {
+          "disjoint": false,
+          "first_overlap": {
+            "received_code": 3584,
+            "states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "distances": [
+              3,
+              3
+            ]
+          }
+        }
+      }
+    },
+    "factorized_14_balanced": {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 0
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 16256
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 127
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 16383
+        }
+      ],
+      "n": 14,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 12,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 13,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 7,
+        "Y": 7,
+        "XOR": 0,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 14
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 14
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 7
+        }
+      ],
+      "minimum_distance": 7,
+      "canonical_masks_by_factor": {
+        "0": [
+          127
+        ],
+        "1": [
+          16256
+        ]
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 60
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 424
+        },
+        "3": {
+          "disjoint": true,
+          "distinct_received_codes": 1880
+        }
+      }
+    },
+    "unrestricted_12_parity_repetition": {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 0
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 3510
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 2925
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 1755
+        }
+      ],
+      "n": 12,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "factor": "XOR"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "factor": "XOR"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "factor": "XOR"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "factor": "XOR"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 4,
+        "Y": 4,
+        "XOR": 4,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 8
+        }
+      ],
+      "minimum_distance": 8,
+      "canonical_masks_by_factor": {
+        "0": [],
+        "1": []
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 52
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 316
+        },
+        "3": {
+          "disjoint": true,
+          "distinct_received_codes": 1196
+        }
+      }
+    }
+  },
+  "learned_codebooks": [
+    {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 1831
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 3158
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 937
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 2264
+        }
+      ],
+      "n": 12,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 5,
+        "Y": 7,
+        "XOR": 0,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 5
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 5
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 7
+        }
+      ],
+      "minimum_distance": 5,
+      "canonical_masks_by_factor": {
+        "0": [
+          1166
+        ],
+        "1": [
+          2929
+        ]
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 52
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 316
+        },
+        "3": {
+          "disjoint": false,
+          "first_overlap": {
+            "received_code": 943,
+            "states": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "distances": [
+              3,
+              2
+            ]
+          }
+        }
+      },
+      "evidence_path": "evidence/factorized/robust-check.json",
+      "evidence_sha256": "a8a6d5baa013232a7302ebfe9848ecbdd51d9594fcdfe73ff0dafa5155782110"
+    },
+    {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 1831
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 3158
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 937
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 2264
+        }
+      ],
+      "n": 12,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 5,
+        "Y": 7,
+        "XOR": 0,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 5
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 5
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 7
+        }
+      ],
+      "minimum_distance": 5,
+      "canonical_masks_by_factor": {
+        "0": [
+          1166
+        ],
+        "1": [
+          2929
+        ]
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 52
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 316
+        },
+        "3": {
+          "disjoint": false,
+          "first_overlap": {
+            "received_code": 943,
+            "states": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "distances": [
+              3,
+              2
+            ]
+          }
+        }
+      },
+      "evidence_path": "evidence/initial-9102/transplant-check.json",
+      "evidence_sha256": "a5b2dda41275bce32011d91d583706995d58915344ce28c81055d2ea7f1137da"
+    },
+    {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 1566
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 3629
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 466
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 2529
+        }
+      ],
+      "n": 12,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 7,
+        "Y": 5,
+        "XOR": 0,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 5
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 5
+        }
+      ],
+      "minimum_distance": 5,
+      "canonical_masks_by_factor": {
+        "0": [
+          1996
+        ],
+        "1": [
+          2099
+        ]
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 52
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 316
+        },
+        "3": {
+          "disjoint": false,
+          "first_overlap": {
+            "received_code": 3630,
+            "states": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "distances": [
+              3,
+              2
+            ]
+          }
+        }
+      },
+      "evidence_path": "evidence/initial-9103/transplant-check.json",
+      "evidence_sha256": "c26cdb06a516bf3bac18feb9d52e6f03847e01641745d8449402652465b541af"
+    },
+    {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 205
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 3198
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 897
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 3890
+        }
+      ],
+      "n": 12,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 5,
+        "Y": 7,
+        "XOR": 0,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 7
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 5
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 12
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 5
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 7
+        }
+      ],
+      "minimum_distance": 5,
+      "canonical_masks_by_factor": {
+        "0": [
+          844
+        ],
+        "1": [
+          3251
+        ]
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 52
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 316
+        },
+        "3": {
+          "disjoint": false,
+          "first_overlap": {
+            "received_code": 909,
+            "states": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "distances": [
+              3,
+              2
+            ]
+          }
+        }
+      },
+      "evidence_path": "evidence/initial-9104/transplant-check.json",
+      "evidence_sha256": "0883ac4b3ec9ed59576bb8f81e37d170147c4f0752497a45557ad90212944cd1"
+    },
+    {
+      "codes": [
+        {
+          "state": [
+            0,
+            0
+          ],
+          "integer_code": 472
+        },
+        {
+          "state": [
+            0,
+            1
+          ],
+          "integer_code": 3371
+        },
+        {
+          "state": [
+            1,
+            0
+          ],
+          "integer_code": 1653
+        },
+        {
+          "state": [
+            1,
+            1
+          ],
+          "integer_code": 2694
+        }
+      ],
+      "n": 12,
+      "columns": [
+        {
+          "neuron": 0,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "factor": "XOR"
+        },
+        {
+          "neuron": 1,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 2,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 3,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 4,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 5,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "factor": "XOR"
+        },
+        {
+          "neuron": 6,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "factor": "Y"
+        },
+        {
+          "neuron": 7,
+          "truth_table_00_01_10_11": [
+            1,
+            0,
+            0,
+            1
+          ],
+          "factor": "XOR"
+        },
+        {
+          "neuron": 8,
+          "truth_table_00_01_10_11": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 9,
+          "truth_table_00_01_10_11": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "factor": "X"
+        },
+        {
+          "neuron": 10,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "factor": "XOR"
+        },
+        {
+          "neuron": 11,
+          "truth_table_00_01_10_11": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "factor": "Y"
+        }
+      ],
+      "column_counts": {
+        "constant": 0,
+        "X": 4,
+        "Y": 4,
+        "XOR": 4,
+        "mixed": 0
+      },
+      "pairwise_distances": [
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            0,
+            1
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            0
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            0,
+            1
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 8
+        },
+        {
+          "a": [
+            1,
+            0
+          ],
+          "b": [
+            1,
+            1
+          ],
+          "distance": 8
+        }
+      ],
+      "minimum_distance": 8,
+      "canonical_masks_by_factor": {
+        "0": [],
+        "1": []
+      },
+      "unique_correction_balls": {
+        "0": {
+          "disjoint": true,
+          "distinct_received_codes": 4
+        },
+        "1": {
+          "disjoint": true,
+          "distinct_received_codes": 52
+        },
+        "2": {
+          "disjoint": true,
+          "distinct_received_codes": 316
+        },
+        "3": {
+          "disjoint": true,
+          "distinct_received_codes": 1196
+        }
+      },
+      "evidence_path": "evidence/mixed/robust-check.json",
+      "evidence_sha256": "e1e745c45291b72c680ea2488d07a0a1a0c5b0ee19abf79c21d5832b43597b27"
+    }
+  ]
+}

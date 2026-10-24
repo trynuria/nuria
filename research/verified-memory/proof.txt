@@ -1,0 +1,238 @@
+Exact coordinate replacement and error-correcting memory
+
+Scope
+
+This note describes a finite coding constraint and audits learned binary memory
+codes. It does not establish a new general coding theorem, a biological result,
+consciousness, or an advantage over conventional finite-state implementations.
+The mathematical ingredients are elementary direct-product coding and classical
+minimum-distance bounds. The useful experimental distinction is between exact
+canonical replacement and behaviorally correct replacement through other states.
+
+Definitions and assumptions
+
+Let S = {0,1}^k contain every combination of k independently replaceable binary
+factors. Let E:S -> {0,1}^n be a deterministic, injective canonical encoding.
+There is one complete n-bit retained state at each declared boundary: no hidden
+side channel, additional retained state, error-location oracle, or uncounted
+parity information participates in the correction claim.
+
+For each factor i, choose a fixed set M_i of coordinates. It may not depend on
+the values of the donor or recipient. P_i takes a canonical donor E(u) and a
+canonical recipient E(v), copies donor coordinates in M_i, and preserves the
+recipient coordinates outside M_i. Require, for ALL u,v in S,
+
+  P_i(E(u), E(v)) = E(v_1,...,v_{i-1},u_i,v_{i+1},...,v_k).       (1)
+
+The equality is exact and immediate at the canonical boundary. It is stronger
+than correct readout, correct future behavior, or eventual return to a canonical
+state after a refresh/action. Masks need not initially be disjoint.
+
+The correction requirement is unique recovery of the encoded state following
+ANY set of at most t bit flips in the complete n-bit code. Probabilistic average
+recovery, erasures with known locations, restricted faults, list decoding,
+additional observations, and task operations that erase distinctions are other
+problems and are not covered by this requirement.
+
+Coordinate lemma
+
+Every nonconstant coordinate of E depends on exactly one factor, and equals that
+factor or its complement. Any coordinate included in two factor masks is constant.
+
+Proof. Write f_j(s) = E(s)_j. If j is in M_i, (1) says that for arbitrary u,v,
+  f_j(u) = f_j(u_i,v_{-i}).
+Thus f_j depends only on factor i. If j is outside M_i, (1) says
+  f_j(v) = f_j(u_i,v_{-i}),
+so f_j is independent of factor i. A coordinate in two masks depends only on each
+of two distinct factors, which forces it to be constant over the complete product
+S. A coordinate in no masks is independent of every factor and is also constant.
+Every remaining nonconstant coordinate is a nonconstant function of one binary
+variable, hence that variable or its complement. This argument does not assume a
+linear encoding. For two factors, the exact X-mask property alone already forces
+coordinates inside the mask to depend only on X and coordinates outside to depend
+only on Y. QED.
+
+Tight distance and length consequence
+
+Let m_i be the number of nonconstant coordinates assigned to factor i; constants
+contribute no distance. For any u,v,
+
+  d_H(E(u),E(v)) = sum_{i: u_i != v_i} m_i,
+  d_min = min_i m_i.                                             (2)
+
+The second equality uses both the full product state space and injectivity, so
+pairs differing in just one factor exist and every m_i is positive. Unique
+correction of any t bit flips is possible if and only if d_min >= 2t+1: Hamming
+balls of radius t must be disjoint, and if two codewords have distance <=2t one
+can split their differing positions to construct a received word within t of
+both. Combining this fact with (2) yields the exact lower bound
+
+  n >= sum_i m_i >= k(2t+1).                                    (3)
+
+This bound is achievable: repeat each factor 2t+1 times in its own disjoint block;
+use that block as its replacement mask and majority-decode each block. Constants
+may fill any additional coordinates. Therefore existence of BOTH requirements
+at fixed k,t is equivalent to n >= k(2t+1). For k=2,n=12, exact canonical coordinate
+replacement has d_min <=6 and cannot uniquely correct three arbitrary bit flips.
+With n=14, seven copies of each factor achieve d_min=7 and can correct three.
+The 5+7 signed repetition code learned in the audited 12-bit example has d_min=5,
+which permits two, but not three, arbitrary-bit corrections in principle. The
+separate neural-runtime checker must still establish that the actual transition
+weights implement that recovery; distance alone does not establish it.
+
+Unrestricted four-word comparison
+
+Four binary codewords have six unordered pairwise distances. At a coordinate with
+a ones, that coordinate contributes a(4-a) <=4 to their total. Hence
+
+  6 d_min <= sum_{unordered pairs} d_H <=4n,
+  d_min <= floor(2n/3).                                          (4)
+
+This is the four-word specialization of the classical Plotkin argument. For
+n=12 the unrestricted maximum is 8. Four repetitions of the 3-bit code
+  (X, Y, X XOR Y)
+achieve all six distances equal to 8 and therefore uniquely correct up to three
+arbitrary bit flips. The XOR coordinates mix the factors and prevent a fixed
+coordinate-only transplant from immediately yielding the exact hybrid canonical
+code for all donor/recipient combinations. This is a construction proving the
+coding comparison, not evidence that a trained network learned or dynamically
+repairs that construction. In particular, it does not prove a novel parity code.
+
+Why behavioral transplants do not imply (3)
+
+A coordinate patch may produce a noncanonical neural state that nevertheless has
+the intended current output and remains behaviorally correct under every future
+legal command. The transition network may then reconstruct the appropriate
+canonical code on its next action. Such a patch implements semantics through
+redundant states; it is not equation (1), so the direct-product constraint above
+does not apply to that weaker operation. It is possible for a code to lack any
+exact canonical patch yet permit a useful behavioral patch. Failure to distinguish
+these tests would manufacture a contradiction where none exists.
+
+The existing behavioral verifier searches the greatest safe subset of the full
+binary state space, which is stronger than a readout-only probe but weaker than
+immediate canonical equality. Its field named future_safe_coordinate_patch_exists
+must be interpreted according to that verifier's explicit future criterion, not
+as proof of equation (1).
+
+Independent finite verification
+
+check_tradeoff.py imports only the Python standard library. It exhausts all Boolean
+coordinate functions and all mask-membership patterns for k=1,2,3: respectively
+8,64,2048 function-membership cases, with zero disagreement with the lemma. This
+checks the algebra's local building block, not all possible long codebooks.
+It also exhausts all 2^n coordinate masks for both factors of each reported
+canonical codebook, checking all 16 donor/recipient combinations per mask; checks
+Hamming-ball disjointness for radii 0 through 3; and constructs the 12-bit balanced
+factor code, 14-bit balanced factor code, and 12-bit mixed parity reference.
+All three reference constructions have the asserted minimum distances 6,7,8.
+The radius-3 balls overlap for the 12-bit factor code and are disjoint for both
+the 14-bit factor code and the 12-bit mixed reference.
+
+Learned codebooks audited from retained evidence
+
+State order is 00,01,10,11; neuron i is bit i of the integer encoding.
+
+- factorized and initial-9102: code integers 1831,3158,937,2264.
+  Five X literals, seven Y literals, no constant or mixed coordinates.
+  Exact canonical X mask=1166; exact canonical Y mask=2929; minimum distance=5.
+  X neurons are {1,2,3,7,10}; Y neurons are {0,4,5,6,8,9,11}.
+  These are the only canonical masks, although several smaller masks pass the
+  separately defined behavioral/future-closure test.
+- initial-9103: seven X literals, five Y literals; masks 1996 and 2099; d_min=5.
+- initial-9104: five X literals, seven Y literals; masks 844 and 3251; d_min=5.
+
+These four codebooks are signed repetition codes, not mixed error-correcting
+representations. The additional deliberately code-designed model below has a
+different geometry. The robust
+factorized model's separate 1896-case dynamic check certifies exact canonical
+repair after every ordinary command under fresh corruption of up to two bits,
+including repeated faults by induction. That runtime result and this codebook
+classification are distinct pieces of evidence. Neither establishes that a
+particular training procedure reliably discovers an optimal code across seeds.
+The JSON artifact contains exact evidence hashes, code columns, pair distances,
+canonical masks, constructive references, and Hamming-ball overlap witnesses.
+
+Closest primary literature and relation
+
+1. Morris Plotkin (1960), Binary codes with specified minimum distance.
+   IRE Transactions on Information Theory 6(4):445-450.
+   https://doi.org/10.1109/TIT.1960.1057584
+   This is the classical source for the unrestricted distance bound. Equation (4)
+   is its elementary four-word counting specialization, not a new Nuria result.
+
+2. Alan Jule and Iryna Andriyanova (2011), Some Results on Update Complexity of a
+   Linear Code Ensemble.
+   https://perso.etis-lab.fr/andriyanova/documents/papers/JA-Netcod11.pdf
+   This analyzes codeword updates when an information bit changes and relates
+   update complexity to minimum distance. It is close precedent for the general
+   tension between economical updates and adversarial error protection.
+
+3. Arya Mazumdar, Venkat Chandar and Gregory W. Wornell (2013), Update-Efficiency
+   and Local Repairability Limits for Capacity Approaching Codes.
+   https://arxiv.org/abs/1305.3224
+   The paper explicitly discusses the adversarial update-distance tradeoff, then
+   studies capacity and locality in random failure settings. Our fixed-mask donor
+   copy condition is more restrictive than ordinary updating: mixed parity bits
+   may be recomputed during a normal update but cannot generally be supplied by
+   directly copying one factor's donor coordinates. Thus this note is a restricted
+   specialization/application and must not be advertised as discovering that
+   update efficiency trades off against error correction.
+
+4. Atticus Geiger, Hanson Lu, Thomas Icard and Christopher Potts (2021), Causal
+   Abstractions of Neural Networks. NeurIPS 2021.
+   https://proceedings.neurips.cc/paper_files/paper/2021/file/4f5c422f4d49a5a807eda27434231040-Paper.pdf
+   This establishes interchange interventions as a way to test model-internal
+   causal structure. Behavioral interchange of representations is established
+   methodology. Our immediate code-equality condition is deliberately stronger
+   and must not be substituted for their broader causal-abstraction criterion.
+
+Novelty limit and next falsifiable experiment
+
+This is a useful explanation for a failure mode and a precise experimental
+separation, not evidence of global novelty or groundbreaking intelligence. The retained
+mixed counterpart supplies a finite demonstration of that separation,
+with the exact scope and deliberate supervision stated below. It does not establish
+that these tradeoffs are new to coding theory or that the system has a broadly
+improved cognitive capability.
+
+Additional code-designed learned network: mixed
+
+Independent classification from the retained robust-check evidence gives canonical
+code integers 472,3371,1653,2694 in state order 00,01,10,11. Every unordered pair is
+at Hamming distance 8. The 12 columns are exactly four X literals, four Y literals,
+and four XOR literals, allowing complement signs. The code is thus equivalent,
+under coordinate permutation and sign changes, to four repetitions of the
+classical (X,Y,X XOR Y) code. It attains the unrestricted four-word length-12
+Plotkin bound; no search over trained networks is needed to establish optimality
+of the geometric distance. Exhausting all 4096 donor masks for each factor and
+all 16 donor/recipient pairs per mask finds no exact canonical X mask and no exact
+canonical Y mask. Its radius-3 Hamming balls are independently verified disjoint.
+
+The retained separate integer-runtime checker reports 7176/7176 exact
+canonical-repair and output cases passing for arbitrary corruption of up to
+three spike bits before every ordinary command, with either nuisance value:
+4 canonical states x [1+12+66+220] corruption masks x 6 action/nuisance events.
+Exact restoration at the next boundary permits the same fresh fault budget to
+be applied before every subsequent action by induction. This is recovery by the
+learned threshold network's synaptic sums, not a nearest-neighbor decoder inserted
+into its recurrence. This note independently checks code geometry; the separate
+runtime checker is the evidence for dynamical repair. The present check does not
+certify the goal policy, pre-refresh reads under corrupted state, other neuron
+fault models, production Brian2, or other training seeds.
+
+Training was deliberately engineered in two stages: discrete optimization first
+searched four codewords grouped by observable query fingerprints, then the
+recurrent neural model was trained with explicit codeword and behavioral targets
+under noisy memory. The parity-equivalent code was not prescribed coordinate by
+coordinate, but the high-distance objective and canonical targets were supplied.
+This is not spontaneous discovery of coding theory, unsupervised discovery of
+causal variables, online neural plasticity, or evidence of consciousness.
+
+The demonstrated result is therefore a memory-design comparison between two trained instances:
+the previous learned 5+7 factor code supports exact canonical factor replacement
+and repeated two-bit fault recovery; the code-designed mixed network supports
+repeated three-bit fault recovery at the same 12-bit capacity and necessarily
+loses exact immediate canonical factor replacement. A behavioral off-manifold
+patch could still exist and is a separate test. This demonstrates the predicted
+engineering tradeoff, rather than a new universal intelligence result.

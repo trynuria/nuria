@@ -1,0 +1,254 @@
+{
+  "figure_source_sha256": "0c4eba13c6ed6f8f28e93cab028794763439c5e51177ca42ecd96026a018362d",
+  "criterion": "Exact canonical replacement, not current output or future-safe-region replacement.",
+  "models": [
+    {
+      "name": "factorized",
+      "label": "Factorized code",
+      "state_neurons": 12,
+      "transition_neurons": 64,
+      "network_file_sha256": "498a48c12f51cf0a6a292f2b8a2462718209df4eac00dd98c4ba740060fd9919",
+      "robust_check_file_sha256": "a8a6d5baa013232a7302ebfe9848ecbdd51d9594fcdfe73ff0dafa5155782110",
+      "codebook": [
+        {
+          "pair": [
+            0,
+            0
+          ],
+          "integer_code": 1831,
+          "spikes": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "integer_code": 3158,
+          "spikes": [
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "pair": [
+            1,
+            0
+          ],
+          "integer_code": 937,
+          "spikes": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "pair": [
+            1,
+            1
+          ],
+          "integer_code": 2264,
+          "spikes": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "minimum_pairwise_hamming_distance": 5,
+      "maximum_certified_exact_canonical_radius": 2,
+      "canonical_repair_certificate": {
+        "max_corrupted_spike_bits_before_each_action": 2,
+        "passed": true,
+        "finite_cases_checked": 1896,
+        "exact_repair_cases": 1896,
+        "correct_readout_only_cases": 1896,
+        "arbitrarily_repeated_corruptions_certified": true,
+        "proof_if_passed": "The initial code is canonical. Every <=k corruption followed by every legal action/nuisance maps exactly to the updated canonical code, so induction permits a new adversarial <=k corruption before every subsequent action."
+      },
+      "exact_coordinate_factor_editability": [
+        {
+          "factor": 0,
+          "passing_masks": [
+            1166
+          ],
+          "passing_mask_count": 1,
+          "minimum_passing_mask_size": 5
+        },
+        {
+          "factor": 1,
+          "passing_masks": [
+            2929
+          ],
+          "passing_mask_count": 1,
+          "minimum_passing_mask_size": 7
+        }
+      ],
+      "universally_editable_factors": 2
+    },
+    {
+      "name": "mixed",
+      "label": "Mixed code",
+      "state_neurons": 12,
+      "transition_neurons": 64,
+      "network_file_sha256": "ae67b71cdac73a1f2d230c94f932987788cae78b96c607f120ec10b1d35df1dd",
+      "robust_check_file_sha256": "e1e745c45291b72c680ea2488d07a0a1a0c5b0ee19abf79c21d5832b43597b27",
+      "codebook": [
+        {
+          "pair": [
+            0,
+            0
+          ],
+          "integer_code": 472,
+          "spikes": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "pair": [
+            0,
+            1
+          ],
+          "integer_code": 3371,
+          "spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "pair": [
+            1,
+            0
+          ],
+          "integer_code": 1653,
+          "spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "pair": [
+            1,
+            1
+          ],
+          "integer_code": 2694,
+          "spikes": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1
+          ]
+        }
+      ],
+      "minimum_pairwise_hamming_distance": 8,
+      "maximum_certified_exact_canonical_radius": 3,
+      "canonical_repair_certificate": {
+        "max_corrupted_spike_bits_before_each_action": 3,
+        "passed": true,
+        "finite_cases_checked": 7176,
+        "exact_repair_cases": 7176,
+        "correct_readout_only_cases": 7176,
+        "arbitrarily_repeated_corruptions_certified": true,
+        "proof_if_passed": "The initial code is canonical. Every <=k corruption followed by every legal action/nuisance maps exactly to the updated canonical code, so induction permits a new adversarial <=k corruption before every subsequent action."
+      },
+      "exact_coordinate_factor_editability": [
+        {
+          "factor": 0,
+          "passing_masks": [],
+          "passing_mask_count": 0,
+          "minimum_passing_mask_size": null
+        },
+        {
+          "factor": 1,
+          "passing_masks": [],
+          "passing_mask_count": 0,
+          "minimum_passing_mask_size": null
+        }
+      ],
+      "universally_editable_factors": 0
+    }
+  ],
+  "outputs": {
+    "svg": "89b660a4cea829913188907bd283b9c5068fe4eb7bfaece057aaffc76d5a241b",
+    "png": "42c48930eff960b29cbfe5dc82742513bb65224fa80daecf2afbaea5aa661d4b"
+  }
+}

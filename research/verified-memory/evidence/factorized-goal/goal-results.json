@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "network_path": "research/verified-memory/evidence/factorized/network-00.json",
+  "network_sha256": "498a48c12f51cf0a6a292f2b8a2462718209df4eac00dd98c4ba740060fd9919",
+  "source_sha256": "e58bf6debe48ca6cd4aa5042f02ad3839a4ad6d00f20668e82c69e44b5cedd89",
+  "seed": 711,
+  "hidden_neurons": 64,
+  "reachable_memory_codes": 4,
+  "observable_goals": 4,
+  "memory_goal_pairs_checked": 16,
+  "nuisance_successor_edges_checked": 24,
+  "worst_case_actions_to_goal": 3,
+  "policy_parameters": 1348,
+  "elapsed_seconds": 0.015713665983639657,
+  "attempts": [
+    {
+      "restart": 0,
+      "seed": 711,
+      "training_progress": [
+        {
+          "update": 100,
+          "margin_loss": 7.997455990519776e-08,
+          "all_examples_unique_correct_action": true,
+          "minimum_integer_output_margin": 4089
+        }
+      ],
+      "verification_passed": true
+    }
+  ],
+  "baseline": "The offline graph planner uses the same observed transitions and supplies exact shortest routes directly. It is simpler and avoids the learned policy's training/inference overhead; no efficiency advantage is claimed.",
+  "autonomy_limit": "Policy learns offline planning-teacher labels; no autonomous goal discovery or reward-only learning claim",
+  "optimizer": "Full-batch NumPy Adam with binary hidden spikes and surrogate derivative; squared output margin loss",
+  "silenced_memory_neurons": [],
+  "runtime_state": "No policy state beyond input queued memory spikes and observable goal onehot; hidden/action neurons reset on each synchronous phase",
+  "runtime_no_graph_lookup": true,
+  "numpy_version": "2.5.4"
+}

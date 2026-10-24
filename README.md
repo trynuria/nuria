@@ -54,6 +54,16 @@ cursor together. This is an isolated executable research tool; its comparison
 against raw-context learning and a workload heuristic determines what can be
 claimed, rather than assuming that additional neural machinery is useful.
 
+The isolated [verified-memory experiment](research/verified-memory/README.md)
+checks what a learned memory update preserves. Clocked binary spike circuits
+repair bounded corruption while processing commands, support checked memory
+interventions and feed a separately learned goal policy. At fixed twelve-bit
+capacity, the retained instances demonstrate a classical coding tradeoff between
+exact independent memory edits and stronger fault protection. Exhaustive checks
+and negative controls bind the frozen exported weights; this finite prototype is
+separate from the running Brian2 circuit and establishes no consciousness or
+neural-superiority claim.
+
 The first actual-spike tasks do **not** establish a neural advantage: a one-parameter repeat predictor matches accuracy and has lower Brier error. A fresh-seed component comparison tests memory, forecast attention and continual learning against contextual tables and logistic regression. Its gains are bounded synthetic forecast results, not evidence of useful STDP, whole-organism superiority, consciousness or market forecasting. Read the [evaluation report](docs/evaluation.md) and [all validation trials](docs/forecast-evaluation.json).
 
 The optional [TVB–Brian2 circuit](research/multiscale/README.md) connects 76

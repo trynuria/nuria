@@ -35,7 +35,8 @@
     "Optional bidirectional 76-region TVB / 1024-neuron Brian2 circuit, joint recovery and isolated replay; fixed five-branch comparison, complete traces, independent score reconstruction and a retained failed predictive gate. Production model, financial authority and website design are unchanged; documentation records the experiment.",
     "Source-specific ordered outcome memory with slow/fast counts around the retained neural/statistical council; precommitted reserved-seed comparison, complete traces and independent score/environment reconstruction pass capability, regression and virtual-choice gates. Versioned checkpoint migration, outstanding-v1 settlement and forward fallback preserve neural history and old parameters; site design and financial authority unchanged.",
     "Neural-context task selection and retained action-region eligibility credit; durable asynchronous agent/service purchases, guarded human bounty execution, independent outcome measurement and bounded public work evidence. External accounts and funded activation checks remain required; presentation, history and custody authority preserved.",
-    "Isolated native SQLite interventions, original-context delayed credit, exact checked outcomes and joint Brian2/controller recovery; precommitted corrected comparison with complete retained evidence, independent reconstruction and failed neural-specificity gate. Live histories, financial authority and website design preserved."
+    "Isolated native SQLite interventions, original-context delayed credit, exact checked outcomes and joint Brian2/controller recovery; precommitted corrected comparison with complete retained evidence, independent reconstruction and failed neural-specificity gate. Live histories, financial authority and website design preserved.",
+    "Isolated learned binary spike-memory study with exact finite world conformance, repeated corruption repair, independently checked neural goal control, causal state interventions, behavioral transport and a classical editability/correction capacity bound. Failed recurrent-LIF trials and strong conventional comparators are retained; live Brian2/TVB workers, website design, neural history and financial authority are unchanged."
   ],
   "files": [
     {
@@ -44,15 +45,15 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "ee212611132a856efd5618221eb93f3acf15111ddc3cdadaff415ddccc20b63f"
+      "published_sha256": "e90dee7ecc7d86a5e0cb3d7a8c87acced4d64f58f25bc0a3ff83158b1db3e73d"
     },
     {
       "path": ".gitignore",
-      "published_sha256": "61c471ba72799e3f620cfd761cfc123ee6e78ba9767980b0a229ea473fdb0545"
+      "published_sha256": "3d9a0aec88453f728428b95eb070c9bf1704c6ef5dbfcddb76d935ed75fe50ff"
     },
     {
       "path": ".prettierignore",
-      "published_sha256": "ec076ba892e7b66534b611a8d11e1010b43e807642f25802c311399791d96929"
+      "published_sha256": "5f04810af8f9c393b723f6324162eff56733567c430e41d23e3aef7e1621c91d"
     },
     {
       "path": ".prettierrc.json",
@@ -64,7 +65,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "79432e3efb12598e42ec74e9c7c2df546995b2c5528d0c7cba938d8de8572f55"
+      "published_sha256": "baf856ddb647786355bb28dcea226f322329d3900acd4c3eabc004bb183e57f4"
     },
     {
       "path": "api.py",
@@ -977,6 +978,358 @@
     {
       "path": "research/multiscale/results/verification.json",
       "published_sha256": "2c7838c2f90d8d468a76e09457fcb03a3aacff0b0e9474a7d1b4ff8451d68029"
+    },
+    {
+      "path": "research/verified-memory/README.md",
+      "published_sha256": "7cdb51ed4cb8b8abba3bac54bff67d5554a7cc7fd365d640df6999bef2c6faf1"
+    },
+    {
+      "path": "research/verified-memory/attempts/README.md",
+      "published_sha256": "7c042349bc285df00ded3a1c49939af3b59ccb932d4bc9fe9643c5fe9591db46"
+    },
+    {
+      "path": "research/verified-memory/attempts/manifest.json",
+      "published_sha256": "54af08b01724e0def2389e034451c09e53e3d3e9063799b1f747780f42b4cf02"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/gru_full_closure_seed711_steps2000.json",
+      "published_sha256": "9baec64f4c0e55e40b988dc7e4457b2713ad51d801faeac998ee368035654144"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/gru_full_closure_seed711_steps2000_raw.npz",
+      "published_sha256": "44d9ad810406783050801ca8a7b039dee285ea710e5c338541998cf66518fc7d"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/gru_full_closure_seed712_steps2000.json",
+      "published_sha256": "b92bd117d5573d7b23ebcdb8d80bf1ed1e6e5893fc074e0d4a6a84f35fbfdb22"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/gru_full_closure_seed712_steps2000_raw.npz",
+      "published_sha256": "0d4ad83749194dde4f71c1ed68eeab2ddb9bcf0d9095df9547549867f3d30cbe"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/gru_full_closure_seed713_steps2000.json",
+      "published_sha256": "3c83b56c5c0ca88a4a09e62338eb05f46d81c27bc700a827404f605266511661"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/gru_full_closure_seed713_steps2000_raw.npz",
+      "published_sha256": "c726ac1f925b1736ae0e7b834f20a13d2213e497f53b42dd48de2205ba847fa4"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_causal_full_closure_seed711_steps2000.json",
+      "published_sha256": "14737619e0615111c1ebc8b619c3f796c3bcf98909a35ef39d005c5b2f4bb456"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_causal_full_closure_seed711_steps2000_raw.npz",
+      "published_sha256": "ec1112d3f6273e969b8df917d787038c6dc50d5f1882f23e108c5777cca02593"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_causal_full_closure_seed712_steps2000.json",
+      "published_sha256": "fa41aedd6c01995f8a047b0fdbf66b8b2943ff570fe2bf46cbc1d301a69049af"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_causal_full_closure_seed712_steps2000_raw.npz",
+      "published_sha256": "5a107ae93c667c90e85f2ec212612cb1b3b9fdc6a6412dfe2a2989297dbb1d8e"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_causal_full_closure_seed713_steps2000.json",
+      "published_sha256": "189f581aa431521f0271f62cd0889f98d6989d4de3d4aefc1e799d7150835ef2"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_causal_full_closure_seed713_steps2000_raw.npz",
+      "published_sha256": "eda86089b540652353eb2c72e42043751275c18c45d18b665c2713a24f721a65"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_plain_full_closure_seed711_steps2000.json",
+      "published_sha256": "2ab9942aa68ff64f4f85d24750cf0d3435ceb818319347848ef81da5395f393d"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_plain_full_closure_seed711_steps2000_raw.npz",
+      "published_sha256": "5fbd02a6e96cf8c244e5b0e00550a6a63d3efdd8422c7018dc12061e2e13c812"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_plain_full_closure_seed712_steps2000.json",
+      "published_sha256": "d2c0611d29c659364cac6ebc5690e91f831c0d6f6fe4c119267dd64c6b435bfe"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_plain_full_closure_seed712_steps2000_raw.npz",
+      "published_sha256": "37cd88d18714c2f801cd6afb77050b04f71dcb7000642a9dd561bd0e617ee436"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_plain_full_closure_seed713_steps2000.json",
+      "published_sha256": "5f211246bb432c018e9d339438bac50f0c8f9d244c3b7131378d0926a05f6154"
+    },
+    {
+      "path": "research/verified-memory/attempts/raw/snn_plain_full_closure_seed713_steps2000_raw.npz",
+      "published_sha256": "63d15e8e6d612a2636577cd3043b5dee8c920ba6916d7bcbd452f9ef5289ae1d"
+    },
+    {
+      "path": "research/verified-memory/attempts/recurrent-lif-findings.json",
+      "published_sha256": "0304bd659054ccb73b8707f248314b9c04875ca30ef01ffef5a824df55c2c091"
+    },
+    {
+      "path": "research/verified-memory/attempts/recurrent-lif-source.py.txt",
+      "published_sha256": "1d7d170fe9f14463e1671b4cb444a156f7c9f118b77ad9d8d4354ff612780160"
+    },
+    {
+      "path": "research/verified-memory/attempts/recurrent-lif-v1-source.py.txt",
+      "published_sha256": "330d03548fbaa7562f1c60f20e9c84a94a4fb594a9796a56d187d72a3744ba82"
+    },
+    {
+      "path": "research/verified-memory/check_contract.py",
+      "published_sha256": "2c6e593f5138cc0f4d684d96251e146566311015af35f438388cc6203f007a07"
+    },
+    {
+      "path": "research/verified-memory/check_tradeoff.py",
+      "published_sha256": "f3a7e79ad020ea8776b35e87511bcf3008ba5cc91b8899eb764f3dc109e489d4"
+    },
+    {
+      "path": "research/verified-memory/evidence/contract-check.json",
+      "published_sha256": "19cf8cab3aff79982ec1dfcca4db3e13167feb77deadd51989674146e2d76b10"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized-goal/goal-policy-attempt-00.json",
+      "published_sha256": "92b8be423fc7a942bf5313a85fa8042008008f080f9020b1c6f2815ce366742b"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized-goal/goal-policy-source.py",
+      "published_sha256": "e58bf6debe48ca6cd4aa5042f02ad3839a4ad6d00f20668e82c69e44b5cedd89"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized-goal/goal-policy.json",
+      "published_sha256": "92b8be423fc7a942bf5313a85fa8042008008f080f9020b1c6f2815ce366742b"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized-goal/goal-results.json",
+      "published_sha256": "8b23e6885b019d72db489fbd3ebff9026a5b4e62c556df4f211d31e64bfe65d6"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized-goal/goal-training-evidence.json",
+      "published_sha256": "0771b9a3ad5a03ae123a277f22f05a8ad018039e1a4d910a650840b5d04d88c3"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized-goal/goal-verification.json",
+      "published_sha256": "1705c7f3cd863cf1a8c0276cc11d96f80a886d0a50a426f85f605423449a8a27"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized/goal-robustness.json",
+      "published_sha256": "139db3c7f0e7957c029e827e5d6334de51dfef970fcddf3cb324aff864a33a08"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized/network-00.json",
+      "published_sha256": "498a48c12f51cf0a6a292f2b8a2462718209df4eac00dd98c4ba740060fd9919"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized/progress.json",
+      "published_sha256": "16a3ede85d3308cdbd2157cec42df071cfecf454b7d20e86228f238dd8d7fda2"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized/results.json",
+      "published_sha256": "eb067d31725efb513cc21a75befe93ed27e0d437d4ea35a78331776d211acebc"
+    },
+    {
+      "path": "research/verified-memory/evidence/factorized/robust-check.json",
+      "published_sha256": "a8a6d5baa013232a7302ebfe9848ecbdd51d9594fcdfe73ff0dafa5155782110"
+    },
+    {
+      "path": "research/verified-memory/evidence/index.json",
+      "published_sha256": "6ca5267656e8854629a1d58b0ad06b707c0e354b4d1d3bfbab07339ff5c0d2b0"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9102/network-00.json",
+      "published_sha256": "98290b5a24281763cf84b9273f3734cda3407ef3bb3f2dad2ba523ffc5342dae"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9102/progress.json",
+      "published_sha256": "4678c6b7ad6518b793b6e11309a5a5ce64a95b4dff8a6548147370dcc40393b2"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9102/results.json",
+      "published_sha256": "86c68583502deff462fd4d1264111044f5c132cbcaea67a522e1065d63a57246"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9102/transplant-check.json",
+      "published_sha256": "a5b2dda41275bce32011d91d583706995d58915344ce28c81055d2ea7f1137da"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9103/network-00.json",
+      "published_sha256": "d4662e0c9494d66f78dfe183aa8323774533599c84f6ad8310f44b04e269f4ac"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9103/progress.json",
+      "published_sha256": "e335d5b1838ddeb29119a0bd015149f9e92b7e590de1f46c36c3b442cdfb5f16"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9103/results.json",
+      "published_sha256": "011f2b84f1311eb0f0536120ccf0ab8373241203eda4240cf4e22550fc432898"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9103/transplant-check.json",
+      "published_sha256": "c26cdb06a516bf3bac18feb9d52e6f03847e01641745d8449402652465b541af"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9104/network-00.json",
+      "published_sha256": "b5fb1461edab8d0da8656cf9bf3c7d993584c80e3811cadb81622a55cca355db"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9104/progress.json",
+      "published_sha256": "cfa1d7399a6547841630c55e4320fbb571ea2896cc86c081e3ad4eac070eb16b"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9104/results.json",
+      "published_sha256": "9eef7c8010f993da9c88f52a5ca97f956936042be9ea99ace3830b9c6ecbe38e"
+    },
+    {
+      "path": "research/verified-memory/evidence/initial-9104/transplant-check.json",
+      "published_sha256": "0883ac4b3ec9ed59576bb8f81e37d170147c4f0752497a45557ad90212944cd1"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed-goal/goal-policy-attempt-00.json",
+      "published_sha256": "a224ddb397ee30d5e5a7b459bb5b214b793f4229bb1d632dbf9da811ec86d936"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed-goal/goal-policy-source.py",
+      "published_sha256": "e58bf6debe48ca6cd4aa5042f02ad3839a4ad6d00f20668e82c69e44b5cedd89"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed-goal/goal-policy.json",
+      "published_sha256": "a224ddb397ee30d5e5a7b459bb5b214b793f4229bb1d632dbf9da811ec86d936"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed-goal/goal-results.json",
+      "published_sha256": "8d89e98afbf601bd0e695a66f131208f0eb23cabcaf43d85b23a21fe85174c37"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed-goal/goal-training-evidence.json",
+      "published_sha256": "d759169cf022ea5358a1ac7fef32c53a8764cdeadc58f8f0cda03f3163e1b067"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed-goal/goal-verification.json",
+      "published_sha256": "a86e7162ab01f3ca424c31aadf3c713338da7f018f53293549a44d08fe8394cb"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed/goal-robustness.json",
+      "published_sha256": "14fed8c09dec9776dde88f66cd23be68b98e28b276b37500d7f8ad95770db52a"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed/learned-codebook.json",
+      "published_sha256": "5f8a3fc4ee72bd050a9e7ad917b60845ac60337f77e1abce7ee06b1fd52903d4"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed/network-00.json",
+      "published_sha256": "ae67b71cdac73a1f2d230c94f932987788cae78b96c607f120ec10b1d35df1dd"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed/progress.json",
+      "published_sha256": "0756fdffd32169b0f75e19a55ab4d80a5ffddde8097e5db2c5968c557526a0ea"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed/results.json",
+      "published_sha256": "07a171bcca104fd147c1c4be53fe4c6109801085166d5df1f19cd00c1b122259"
+    },
+    {
+      "path": "research/verified-memory/evidence/mixed/robust-check.json",
+      "published_sha256": "e1e745c45291b72c680ea2488d07a0a1a0c5b0ee19abf79c21d5832b43597b27"
+    },
+    {
+      "path": "research/verified-memory/evidence/repair/network-00.json",
+      "published_sha256": "0ef0c48d5e309eba7606774e0c66ed759106885509f6992329ee147b51050847"
+    },
+    {
+      "path": "research/verified-memory/evidence/repair/progress.json",
+      "published_sha256": "91647b502d274de2bd1086987a797d507a496c43cbe2592c9883e368fb53ce39"
+    },
+    {
+      "path": "research/verified-memory/evidence/repair/results.json",
+      "published_sha256": "4f365ee172bd1c7bf1ff89edb320f0b1bca9ea457603be351a59c46188b7b37d"
+    },
+    {
+      "path": "research/verified-memory/evidence/tradeoff-recheck.json",
+      "published_sha256": "ce4dbd3c4efc5f99e9b88ee6f95c82deb86a79c1ea762decaadfb4cb8a69ad5b"
+    },
+    {
+      "path": "research/verified-memory/evidence/tradeoff.json",
+      "published_sha256": "ce4dbd3c4efc5f99e9b88ee6f95c82deb86a79c1ea762decaadfb4cb8a69ad5b"
+    },
+    {
+      "path": "research/verified-memory/evidence/transport.json",
+      "published_sha256": "d707d6e986853bb4ec215c79403b56482b0cc39ce6e5b9c1663f83343a6075f1"
+    },
+    {
+      "path": "research/verified-memory/goal_policy.py",
+      "published_sha256": "e58bf6debe48ca6cd4aa5042f02ad3839a4ad6d00f20668e82c69e44b5cedd89"
+    },
+    {
+      "path": "research/verified-memory/goal_robust_check.py",
+      "published_sha256": "55932c57dec98b78f9113b0b425e8ef24531cd2c48eba3221f91cd49e2dd5994"
+    },
+    {
+      "path": "research/verified-memory/memory-geometry-data.json",
+      "published_sha256": "6a6305ae3a8ac671f7a00fafec1ac74b811752d0af7edb17f445a35ef3120cc6"
+    },
+    {
+      "path": "research/verified-memory/memory-geometry.png",
+      "published_sha256": "42c48930eff960b29cbfe5dc82742513bb65224fa80daecf2afbaea5aa661d4b"
+    },
+    {
+      "path": "research/verified-memory/memory-geometry.svg",
+      "published_sha256": "89b660a4cea829913188907bd283b9c5068fe4eb7bfaece057aaffc76d5a241b"
+    },
+    {
+      "path": "research/verified-memory/plot.py",
+      "published_sha256": "0c4eba13c6ed6f8f28e93cab028794763439c5e51177ca42ecd96026a018362d"
+    },
+    {
+      "path": "research/verified-memory/proof.txt",
+      "published_sha256": "141054b3105f26244b93fbe46ca25d4a92ccdbe605d2523485b37e8a21cc0d1b"
+    },
+    {
+      "path": "research/verified-memory/reproduce.py",
+      "published_sha256": "a8f5166ffeade4e78b72c121a62d89c45d4a58090342ff6365acbd42df23fbc2"
+    },
+    {
+      "path": "research/verified-memory/requirements.txt",
+      "published_sha256": "6d237423a2a87a5f383d279e8e4ce16f3e28863f71f7d2c2b437c11492e4e137"
+    },
+    {
+      "path": "research/verified-memory/robust_check.py",
+      "published_sha256": "6a704fbd38b99678f7e7bd54f63dd0801fab553dd59da3171539ac3d9ac23d12"
+    },
+    {
+      "path": "research/verified-memory/robust_region_check.py",
+      "published_sha256": "03fa00b22575bff9406d4bee9e7ab1f7e76a6c2a1bd86fcf4e4bf618c88ce789"
+    },
+    {
+      "path": "research/verified-memory/train_distance.py",
+      "published_sha256": "a415dfb1c6867a6a8ee7c37941d088a7ccadf62a3ae43c222d63ba896c4cd3bb"
+    },
+    {
+      "path": "research/verified-memory/train_initial.py",
+      "published_sha256": "3902c1ff58195d96e713952bd357bf9cf0aec539d99887e1aae407fba4df6177"
+    },
+    {
+      "path": "research/verified-memory/train_memory.py",
+      "published_sha256": "f7c37920562565b7c8c0fb6190a976c85ee8fc053238bb4ee955e39fd4132e46"
+    },
+    {
+      "path": "research/verified-memory/train_separated.py",
+      "published_sha256": "56f7804c76b9c1295a7f82e3e6207f5468fb87b01aeeb589ac2c470b4df54b21"
+    },
+    {
+      "path": "research/verified-memory/transplant_check.py",
+      "published_sha256": "957270abd4d9ff0ae30c5146533048b67eb5962e64f7267455531a07bbd73b2f"
+    },
+    {
+      "path": "research/verified-memory/transport_check.py",
+      "published_sha256": "2a9c4315937a9316787fa05995a72e05fac5d342bca0ee4990540ec083a2cd33"
+    },
+    {
+      "path": "research/verified-memory/verify_attempts.py",
+      "published_sha256": "6804a9f828b142a46806a29cee9593b6a72df4358deffd103f6b5727248e8205"
+    },
+    {
+      "path": "research/verified-memory/verify_release.py",
+      "published_sha256": "81145481081be205e256e7e13f1e7ac1a30cdbf464ad287ef9a9e9513c9d59a0"
     },
     {
       "path": "schema.sql",

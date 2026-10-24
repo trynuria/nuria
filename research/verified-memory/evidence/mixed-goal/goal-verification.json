@@ -1,0 +1,1457 @@
+{
+  "passed": true,
+  "reachable_memory_codes": 4,
+  "observable_goals": 4,
+  "memory_goal_pairs_checked": 16,
+  "nuisance_successor_edges_checked": 24,
+  "worst_case_actions_to_goal": 3,
+  "claim": "For every reachable memory code and observable goal, exactly one learned action spike; STOP iff goal; every action/nuisance successor strictly decreases robust shortest distance. Finite closed-loop goal reaching follows for exported learned memory dynamics.",
+  "scope": "Clocked binary threshold model with offline graph-derived teacher; conditional on exported probe outputs, not an independently verified physical plant",
+  "failures": [],
+  "checked_pairs": [
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observable_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "action_spikes": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "distance": 0,
+      "unique_action_spike": true,
+      "successors": [],
+      "action_name": "STOP",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observable_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 2,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observable_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 1,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "observable_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 3,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 2,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 2,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observable_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 3,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 2,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 2,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observable_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 1,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observable_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 2,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "observable_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "action_spikes": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "distance": 0,
+      "unique_action_spike": true,
+      "successors": [],
+      "action_name": "STOP",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observable_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 1,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "next_observed_fingerprint": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "next_observed_fingerprint": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observable_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "action_spikes": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "distance": 1,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "swap",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observable_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "action_spikes": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "distance": 0,
+      "unique_action_spike": true,
+      "successors": [],
+      "action_name": "STOP",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "observable_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "action_spikes": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "distance": 2,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ],
+          "next_observed_fingerprint": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "swap",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observable_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "action_spikes": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "distance": 2,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 1,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "swap",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observable_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "goal_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "action_spikes": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "distance": 0,
+      "unique_action_spike": true,
+      "successors": [],
+      "action_name": "STOP",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observable_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "goal_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "action_spikes": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "distance": 1,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            1,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "next_observed_fingerprint": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "swap",
+      "passed": true
+    },
+    {
+      "memory_spikes": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "observable_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "goal_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "goal_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "action_spikes": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "distance": 1,
+      "unique_action_spike": true,
+      "successors": [
+        {
+          "nuisance_spike": 0,
+          "next_memory_spikes": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1
+          ],
+          "next_observed_fingerprint": [
+            1,
+            1,
+            0,
+            1,
+            1,
+            1
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        },
+        {
+          "nuisance_spike": 1,
+          "next_memory_spikes": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1
+          ],
+          "next_observed_fingerprint": [
+            1,
+            1,
+            0,
+            1,
+            1,
+            1
+          ],
+          "next_distance": 0,
+          "distance_strictly_decreases": true
+        }
+      ],
+      "action_name": "flip",
+      "passed": true
+    }
+  ]
+}

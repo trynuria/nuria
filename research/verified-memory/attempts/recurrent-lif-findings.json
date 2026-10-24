@@ -1,0 +1,489 @@
+{
+  "verdict": "NEGATIVE: attempted spiking causal memory and selective transfer were not demonstrated; GRU solved composition.",
+  "final_seeds": [
+    711,
+    712,
+    713
+  ],
+  "per_seed": [
+    {
+      "model": "snn_causal",
+      "seed": 711,
+      "parameters": 5126,
+      "queried_prefixes": 4917888,
+      "observed_binary_probe_outcomes": 29507328,
+      "training_seconds": 19.250608832924627,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 0.78125,
+      "joint_length12_independent": 0.2841796875,
+      "joint_length24_independent": 0.25,
+      "joint_length48_independent": 0.2607421875,
+      "fresh_raw_joint_length48": 0.26318359375,
+      "all_state_reset_joint": 0.255859375,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.21218074656188604,
+      "factor0_transfer_examples": 509,
+      "factor0_random_transfer_mean": 0.2546168958742633,
+      "factor1_transfer_accuracy": 0.2593320235756385,
+      "factor1_transfer_examples": 509,
+      "factor1_random_transfer_mean": 0.2817288801571709
+    },
+    {
+      "model": "snn_plain",
+      "seed": 711,
+      "parameters": 5126,
+      "queried_prefixes": 4917888,
+      "observed_binary_probe_outcomes": 29507328,
+      "training_seconds": 20.45209070900455,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 0.8505859375,
+      "joint_length12_independent": 0.2958984375,
+      "joint_length24_independent": 0.21875,
+      "joint_length48_independent": 0.21875,
+      "fresh_raw_joint_length48": 0.2265625,
+      "all_state_reset_joint": 0.2734375,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.23772102161100198,
+      "factor0_transfer_examples": 509,
+      "factor0_random_transfer_mean": 0.23222003929273086,
+      "factor1_transfer_accuracy": 0.2455795677799607,
+      "factor1_transfer_examples": 509,
+      "factor1_random_transfer_mean": 0.23222003929273086
+    },
+    {
+      "model": "gru",
+      "seed": 711,
+      "parameters": 5298,
+      "queried_prefixes": 4917888,
+      "observed_binary_probe_outcomes": 29507328,
+      "training_seconds": 11.565450291964225,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 1.0,
+      "joint_length12_independent": 1.0,
+      "joint_length24_independent": 1.0,
+      "joint_length48_independent": 1.0,
+      "fresh_raw_joint_length48": 1.0,
+      "all_state_reset_joint": 0.236328125,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.9410609037328095,
+      "factor0_transfer_examples": 509,
+      "factor0_random_transfer_mean": 0.20196463654223967,
+      "factor1_transfer_accuracy": 0.9508840864440079,
+      "factor1_transfer_examples": 509,
+      "factor1_random_transfer_mean": 0.2506876227897839
+    },
+    {
+      "model": "snn_causal",
+      "seed": 712,
+      "parameters": 5126,
+      "queried_prefixes": 4844160,
+      "observed_binary_probe_outcomes": 29064960,
+      "training_seconds": 20.459852374973707,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 0.7021484375,
+      "joint_length12_independent": 0.2333984375,
+      "joint_length24_independent": 0.248046875,
+      "joint_length48_independent": 0.2392578125,
+      "fresh_raw_joint_length48": 0.24169921875,
+      "all_state_reset_joint": 0.265625,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.27514231499051234,
+      "factor0_transfer_examples": 527,
+      "factor0_random_transfer_mean": 0.25882352941176473,
+      "factor1_transfer_accuracy": 0.23529411764705882,
+      "factor1_transfer_examples": 527,
+      "factor1_random_transfer_mean": 0.2573055028462998
+    },
+    {
+      "model": "snn_plain",
+      "seed": 712,
+      "parameters": 5126,
+      "queried_prefixes": 4844160,
+      "observed_binary_probe_outcomes": 29064960,
+      "training_seconds": 19.17535191704519,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 0.9228515625,
+      "joint_length12_independent": 0.2880859375,
+      "joint_length24_independent": 0.259765625,
+      "joint_length48_independent": 0.26953125,
+      "fresh_raw_joint_length48": 0.24853515625,
+      "all_state_reset_joint": 0.2578125,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.2428842504743833,
+      "factor0_transfer_examples": 527,
+      "factor0_random_transfer_mean": 0.24022770398481974,
+      "factor1_transfer_accuracy": 0.2428842504743833,
+      "factor1_transfer_examples": 527,
+      "factor1_random_transfer_mean": 0.24895635673624286
+    },
+    {
+      "model": "gru",
+      "seed": 712,
+      "parameters": 5298,
+      "queried_prefixes": 4844160,
+      "observed_binary_probe_outcomes": 29064960,
+      "training_seconds": 10.365713624982163,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 1.0,
+      "joint_length12_independent": 1.0,
+      "joint_length24_independent": 1.0,
+      "joint_length48_independent": 1.0,
+      "fresh_raw_joint_length48": 1.0,
+      "all_state_reset_joint": 0.2578125,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.9184060721062619,
+      "factor0_transfer_examples": 527,
+      "factor0_random_transfer_mean": 0.09905123339658443,
+      "factor1_transfer_accuracy": 0.872865275142315,
+      "factor1_transfer_examples": 527,
+      "factor1_random_transfer_mean": 0.32447817836812143
+    },
+    {
+      "model": "snn_causal",
+      "seed": 713,
+      "parameters": 5126,
+      "queried_prefixes": 4980960,
+      "observed_binary_probe_outcomes": 29885760,
+      "training_seconds": 20.227006291039288,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 0.8857421875,
+      "joint_length12_independent": 0.259765625,
+      "joint_length24_independent": 0.2548828125,
+      "joint_length48_independent": 0.248046875,
+      "fresh_raw_joint_length48": 0.2294921875,
+      "all_state_reset_joint": 0.220703125,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.23574144486692014,
+      "factor0_transfer_examples": 526,
+      "factor0_random_transfer_mean": 0.22737642585551326,
+      "factor1_transfer_accuracy": 0.24524714828897337,
+      "factor1_transfer_examples": 526,
+      "factor1_random_transfer_mean": 0.23802281368821293
+    },
+    {
+      "model": "snn_plain",
+      "seed": 713,
+      "parameters": 5126,
+      "queried_prefixes": 4980960,
+      "observed_binary_probe_outcomes": 29885760,
+      "training_seconds": 19.70978562498931,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 0.845703125,
+      "joint_length12_independent": 0.2685546875,
+      "joint_length24_independent": 0.2607421875,
+      "joint_length48_independent": 0.234375,
+      "fresh_raw_joint_length48": 0.25732421875,
+      "all_state_reset_joint": 0.24609375,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.25475285171102663,
+      "factor0_transfer_examples": 526,
+      "factor0_random_transfer_mean": 0.25323193916349807,
+      "factor1_transfer_accuracy": 0.2338403041825095,
+      "factor1_transfer_examples": 526,
+      "factor1_random_transfer_mean": 0.25627376425855514
+    },
+    {
+      "model": "gru",
+      "seed": 713,
+      "parameters": 5298,
+      "queried_prefixes": 4980960,
+      "observed_binary_probe_outcomes": 29885760,
+      "training_seconds": 10.98777687503025,
+      "closure_counterexamples": 0,
+      "joint_length4_independent": 1.0,
+      "joint_length12_independent": 1.0,
+      "joint_length24_independent": 1.0,
+      "joint_length48_independent": 1.0,
+      "fresh_raw_joint_length48": 1.0,
+      "all_state_reset_joint": 0.26171875,
+      "full_swap_max_logit_difference": 0.0,
+      "factor0_transfer_accuracy": 0.9068441064638784,
+      "factor0_transfer_examples": 526,
+      "factor0_random_transfer_mean": 0.2140684410646388,
+      "factor1_transfer_accuracy": 0.9809885931558935,
+      "factor1_transfer_examples": 526,
+      "factor1_random_transfer_mean": 0.24410646387832696
+    }
+  ],
+  "aggregates": {
+    "snn_causal": {
+      "joint_length4_independent": {
+        "mean": 0.7897135416666666,
+        "min": 0.7021484375,
+        "max": 0.8857421875,
+        "per_seed": [
+          0.78125,
+          0.7021484375,
+          0.8857421875
+        ]
+      },
+      "joint_length12_independent": {
+        "mean": 0.2591145833333333,
+        "min": 0.2333984375,
+        "max": 0.2841796875,
+        "per_seed": [
+          0.2841796875,
+          0.2333984375,
+          0.259765625
+        ]
+      },
+      "joint_length24_independent": {
+        "mean": 0.2509765625,
+        "min": 0.248046875,
+        "max": 0.2548828125,
+        "per_seed": [
+          0.25,
+          0.248046875,
+          0.2548828125
+        ]
+      },
+      "joint_length48_independent": {
+        "mean": 0.24934895833333334,
+        "min": 0.2392578125,
+        "max": 0.2607421875,
+        "per_seed": [
+          0.2607421875,
+          0.2392578125,
+          0.248046875
+        ]
+      },
+      "fresh_raw_joint_length48": {
+        "mean": 0.24479166666666666,
+        "min": 0.2294921875,
+        "max": 0.26318359375,
+        "per_seed": [
+          0.26318359375,
+          0.24169921875,
+          0.2294921875
+        ]
+      },
+      "all_state_reset_joint": {
+        "mean": 0.24739583333333334,
+        "min": 0.220703125,
+        "max": 0.265625,
+        "per_seed": [
+          0.255859375,
+          0.265625,
+          0.220703125
+        ]
+      },
+      "factor0_suffix8_transfer": {
+        "pooled_accuracy": 0.2413572343149808,
+        "correct": 377,
+        "total": 1562,
+        "sample_wilson95": [
+          0.22078740509187073,
+          0.2631961600401324
+        ],
+        "random_mask_mean_across_seeds": 0.2469389503805138
+      },
+      "factor1_suffix8_transfer": {
+        "pooled_accuracy": 0.24647887323943662,
+        "correct": 385,
+        "total": 1562,
+        "sample_wilson95": [
+          0.22574563821169077,
+          0.2684560741454213
+        ],
+        "random_mask_mean_across_seeds": 0.2590190655638946
+      }
+    },
+    "snn_plain": {
+      "joint_length4_independent": {
+        "mean": 0.873046875,
+        "min": 0.845703125,
+        "max": 0.9228515625,
+        "per_seed": [
+          0.8505859375,
+          0.9228515625,
+          0.845703125
+        ]
+      },
+      "joint_length12_independent": {
+        "mean": 0.2841796875,
+        "min": 0.2685546875,
+        "max": 0.2958984375,
+        "per_seed": [
+          0.2958984375,
+          0.2880859375,
+          0.2685546875
+        ]
+      },
+      "joint_length24_independent": {
+        "mean": 0.24641927083333334,
+        "min": 0.21875,
+        "max": 0.2607421875,
+        "per_seed": [
+          0.21875,
+          0.259765625,
+          0.2607421875
+        ]
+      },
+      "joint_length48_independent": {
+        "mean": 0.24088541666666666,
+        "min": 0.21875,
+        "max": 0.26953125,
+        "per_seed": [
+          0.21875,
+          0.26953125,
+          0.234375
+        ]
+      },
+      "fresh_raw_joint_length48": {
+        "mean": 0.244140625,
+        "min": 0.2265625,
+        "max": 0.25732421875,
+        "per_seed": [
+          0.2265625,
+          0.24853515625,
+          0.25732421875
+        ]
+      },
+      "all_state_reset_joint": {
+        "mean": 0.2591145833333333,
+        "min": 0.24609375,
+        "max": 0.2734375,
+        "per_seed": [
+          0.2734375,
+          0.2578125,
+          0.24609375
+        ]
+      },
+      "factor0_suffix8_transfer": {
+        "pooled_accuracy": 0.24519846350832267,
+        "correct": 383,
+        "total": 1562,
+        "sample_wilson95": [
+          0.2245056975471959,
+          0.26714147800363885
+        ],
+        "random_mask_mean_across_seeds": 0.24189322748034955
+      },
+      "factor1_suffix8_transfer": {
+        "pooled_accuracy": 0.2407170294494238,
+        "correct": 376,
+        "total": 1562,
+        "sample_wilson95": [
+          0.22016791453153842,
+          0.2625383821973261
+        ],
+        "random_mask_mean_across_seeds": 0.24581672009584296
+      }
+    },
+    "gru": {
+      "joint_length4_independent": {
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0,
+        "per_seed": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "joint_length12_independent": {
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0,
+        "per_seed": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "joint_length24_independent": {
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0,
+        "per_seed": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "joint_length48_independent": {
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0,
+        "per_seed": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "fresh_raw_joint_length48": {
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0,
+        "per_seed": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "all_state_reset_joint": {
+        "mean": 0.251953125,
+        "min": 0.236328125,
+        "max": 0.26171875,
+        "per_seed": [
+          0.236328125,
+          0.2578125,
+          0.26171875
+        ]
+      },
+      "factor0_suffix8_transfer": {
+        "pooled_accuracy": 0.9218950064020487,
+        "correct": 1440,
+        "total": 1562,
+        "sample_wilson95": [
+          0.9075285542893902,
+          0.9341913233789513
+        ],
+        "random_mask_mean_across_seeds": 0.17169477033448763
+      },
+      "factor1_suffix8_transfer": {
+        "pooled_accuracy": 0.9346991037131882,
+        "correct": 1460,
+        "total": 1562,
+        "sample_wilson95": [
+          0.9213491624413582,
+          0.9459160832897552
+        ],
+        "random_mask_mean_across_seeds": 0.2730907550120774
+      }
+    }
+  },
+  "metadata_corrections": [
+    {
+      "file": "results_full_closure_seed711_steps2000.json",
+      "field": "training_max_command_length",
+      "original": 4,
+      "corrected": 13,
+      "reason": "A static summary header retained the pilot's value. Per-model training_max_prefix_commands was already 13; execution sampled 1..12 commands plus a final common command.",
+      "original_preserved": "results_full_closure_seed711_steps2000_metadata_original.json"
+    },
+    {
+      "file": "results_full_closure_seed712_steps2000.json",
+      "field": "training_max_command_length",
+      "original": 4,
+      "corrected": 13,
+      "reason": "A static summary header retained the pilot's value. Per-model training_max_prefix_commands was already 13; execution sampled 1..12 commands plus a final common command.",
+      "original_preserved": "results_full_closure_seed712_steps2000_metadata_original.json"
+    }
+  ],
+  "scope": "Fresh 64-cell recurrent LIF trained by surrogate-gradient BPTT, not production Nuria/Brian2/STDP; dense observed reset/probe training supervision; no symbolic solver or latent state in neural inference.",
+  "execution_environment": {
+    "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]",
+    "torch": "2.14.1",
+    "numpy": "2.5.4",
+    "machine": "arm64"
+  },
+  "limitations": [
+    "Three seeds, tiny synthetic environment; no globally novel algorithm or theory established.",
+    "Last correction bundles active sampling, longer prefixes, successor/persistence loss, and state-loss scale correction; not a factorial attribution study.",
+    "GRU uses 36 units versus SNN64 but parameter counts nearly match; SNN executes three microticks per symbol, GRU one update.",
+    "Both models use exhaustive single-unit patch scoring and six proportional mask sizes on validation. Absolute single-unit patch counts differ with hidden dimension.",
+    "A finite probe set does not guarantee successor closure in arbitrary environments; this specific toy had zero observed closure violations.",
+    "95% intervals describe held-out example sampling, not uncertainty across arbitrary model initializations."
+  ]
+}

@@ -1,0 +1,448 @@
+{
+  "source_network_sha256": "98290b5a24281763cf84b9273f3734cda3407ef3bb3f2dad2ba523ffc5342dae",
+  "target_network_sha256": "d4662e0c9494d66f78dfe183aa8323774533599c84f6ad8310f44b04e269f4ac",
+  "verifier_source_sha256": "2a9c4315937a9316787fa05995a72e05fac5d342bca0ee4990540ec083a2cd33",
+  "source_conformance": {
+    "passed": true,
+    "initial_checks": [
+      {
+        "initial_observation": [
+          0,
+          0
+        ],
+        "nuisance": 0,
+        "neural_code": 1831,
+        "output": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          0,
+          0
+        ],
+        "nuisance": 1,
+        "neural_code": 1831,
+        "output": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          0,
+          1
+        ],
+        "nuisance": 0,
+        "neural_code": 3158,
+        "output": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          0,
+          1
+        ],
+        "nuisance": 1,
+        "neural_code": 3158,
+        "output": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          0
+        ],
+        "nuisance": 0,
+        "neural_code": 937,
+        "output": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          0
+        ],
+        "nuisance": 1,
+        "neural_code": 937,
+        "output": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          1
+        ],
+        "nuisance": 0,
+        "neural_code": 2264,
+        "output": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          1
+        ],
+        "nuisance": 1,
+        "neural_code": 2264,
+        "output": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ],
+    "reachable_product_states": 8,
+    "checked_edges": 48,
+    "distinct_neural_codes": 4,
+    "ambiguous_behavior_codes": []
+  },
+  "target_conformance": {
+    "passed": true,
+    "initial_checks": [
+      {
+        "initial_observation": [
+          0,
+          0
+        ],
+        "nuisance": 0,
+        "neural_code": 1566,
+        "output": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          0,
+          0
+        ],
+        "nuisance": 1,
+        "neural_code": 1566,
+        "output": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          0,
+          1
+        ],
+        "nuisance": 0,
+        "neural_code": 3629,
+        "output": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          0,
+          1
+        ],
+        "nuisance": 1,
+        "neural_code": 3629,
+        "output": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          0
+        ],
+        "nuisance": 0,
+        "neural_code": 466,
+        "output": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          0
+        ],
+        "nuisance": 1,
+        "neural_code": 466,
+        "output": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          1
+        ],
+        "nuisance": 0,
+        "neural_code": 2529,
+        "output": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "initial_observation": [
+          1,
+          1
+        ],
+        "nuisance": 1,
+        "neural_code": 2529,
+        "output": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ],
+    "reachable_product_states": 8,
+    "checked_edges": 48,
+    "distinct_neural_codes": 4,
+    "ambiguous_behavior_codes": []
+  },
+  "all_reachable_source_states_transportable": true,
+  "raw_copy_failing_states": 4,
+  "transport_map": [
+    {
+      "source_spike_code": 937,
+      "target_spike_code": 466,
+      "observable_fingerprint": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "transport_certificate": {
+        "passed": true,
+        "checked_product_states": 4,
+        "checked_edges": 24
+      },
+      "raw_spike_copy_control": {
+        "passed": false,
+        "counterexample": [],
+        "source_output": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "target_output": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "source_spike_code": 1831,
+      "target_spike_code": 1566,
+      "observable_fingerprint": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "transport_certificate": {
+        "passed": true,
+        "checked_product_states": 4,
+        "checked_edges": 24
+      },
+      "raw_spike_copy_control": {
+        "passed": false,
+        "counterexample": [],
+        "source_output": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "target_output": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "source_spike_code": 2264,
+      "target_spike_code": 2529,
+      "observable_fingerprint": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "transport_certificate": {
+        "passed": true,
+        "checked_product_states": 4,
+        "checked_edges": 24
+      },
+      "raw_spike_copy_control": {
+        "passed": false,
+        "counterexample": [],
+        "source_output": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "target_output": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "source_spike_code": 3158,
+      "target_spike_code": 3629,
+      "observable_fingerprint": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "transport_certificate": {
+        "passed": true,
+        "checked_product_states": 4,
+        "checked_edges": 24
+      },
+      "raw_spike_copy_control": {
+        "passed": false,
+        "counterexample": [],
+        "source_output": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "target_output": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "scope": "Exact frozen finite-task spike modules at synchronous command boundaries. Mapping is a one-time checkpoint migration, not evidence of substrate-independent consciousness or arbitrary neural transfer."
+}
