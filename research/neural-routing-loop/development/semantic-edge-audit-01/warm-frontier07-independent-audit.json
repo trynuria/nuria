@@ -1,0 +1,71 @@
+{
+  "schema": "nuria.warm-frontier-independent-audit.dev07.v1",
+  "scope": "Mechanical reuse of fully executed current-audit observations; no learning/improvement qualification. Independent validation replay is offline verification and does not grant the actor extra free observations. No reserved data, production or financial actions.",
+  "observer_on_off_prefix_pairs": 96,
+  "independently_replayed_captured_nodes": 25686,
+  "partial_cap1_cases_with_no_capture": 32,
+  "controller_independent_warm_cases": [
+    {
+      "job_id": "dca30999e2e81aa6f76f87a68ab2a727a420e8fd5c8c0b8f97503141fd963ede",
+      "family": "trim-delimited-field",
+      "captured": 201,
+      "prefix_work": 10000,
+      "property_total_work": 13623,
+      "zero_total_work": 36399,
+      "frontier_sha256": "116976ea79c650aaa410f71f529f87dbf283fbf1ed84ae87f37a6ea3fd31d8db"
+    },
+    {
+      "job_id": "3dc538377c6d482e6017064facc3f70c6e74a2f41a664c27e94d146f01f9bdc2",
+      "family": "joined-normalized-tokens",
+      "captured": 200,
+      "prefix_work": 10000,
+      "property_total_work": 50000,
+      "zero_total_work": 49999,
+      "frontier_sha256": "64813bc789d5aecda065d86eca425dbd4df489436406eb77b4825b7dcc71d182"
+    },
+    {
+      "job_id": "480b7d89c9147d795f491e13939872d5504a8557657e7a0655ea665f52bd8818",
+      "family": "joined-code-and-segment",
+      "captured": 201,
+      "prefix_work": 10000,
+      "property_total_work": 50000,
+      "zero_total_work": 49999,
+      "frontier_sha256": "4d9d38befca5f4fab4311ac2cd59788d3fdca14501a66da26e6711142e1237d0"
+    },
+    {
+      "job_id": "04a8cd9d849b7bed6588210b39bf7bd7e0bd8668f676eb698dd911ffe4e99491",
+      "family": "trim-delimited-field",
+      "captured": 201,
+      "prefix_work": 10000,
+      "property_total_work": 12985,
+      "zero_total_work": 15534,
+      "frontier_sha256": "7f8fd0390cfa689079bc84e2295917c94dc4421213758af8dddbf3be51b580ca"
+    },
+    {
+      "job_id": "30a93d1c16b0c7aed7aadc0c89b1b460a8e0158e85f1cbb652261242cab3d00f",
+      "family": "joined-normalized-tokens",
+      "captured": 200,
+      "prefix_work": 10000,
+      "property_total_work": 50000,
+      "zero_total_work": 50000,
+      "frontier_sha256": "1118e0c575f37701bf649f48610bb3535d40be85a177d40b485e9135ea0d9fc1"
+    },
+    {
+      "job_id": "250a2a6d94ba78523028025560eeff21f34ea35b437a55d73fae43db358d64af",
+      "family": "joined-code-and-segment",
+      "captured": 200,
+      "prefix_work": 10000,
+      "property_total_work": 50000,
+      "zero_total_work": 50000,
+      "frontier_sha256": "d2cfcbaa84adc20425855b0e0ed644cb2e88031a09d5b3c524bf27a48071b83b"
+    }
+  ],
+  "standalone_old_exact_cases": 4,
+  "meter_conservation_and_pareto_checks": true,
+  "sources_sha256": {
+    "search.py": "5948b7d3cc7202b4b9ff2349cf8dc26bd07ef64d8162a86003db2bcf7f9179d5",
+    "captured_composition.py": "f1037a60f825e01fbae1b9d48e823d9523fc98d07eb373ce2edb51add34f638d",
+    "captured_routed_text_search.py": "68cc1488effc0fb1dbdfacc5d2e04385c3397bbd9de8c591cfe9eadcb7f3358c"
+  },
+  "audit_source_sha256": "054e544552570fb0bcb84bfa275f3414eec2a0a415548a4bdb7e1d0521392e02"
+}

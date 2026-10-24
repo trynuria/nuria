@@ -200,7 +200,7 @@ unchanged, and this work supplies no spending or signing authority.
 The retained original artifact hashes identify each attempt. The
 [archive manifest](../research/neural-routing-loop/development/archive-manifest-03.json)
 binds compressed and path-normalized copies separately. The
-[independent delivery replay](../research/neural-routing-loop/development/semantic-independent-deliveries-01.json)
+[independent delivery replay](../research/neural-routing-loop/development/semantic-independent-deliveries-03.json)
 reconstructs all 14,592 authored deliveries, final acceptance, buyer work and
 summary arithmetic. It checks archived bytes and compressed content privacy,
 but does not reconstruct search visitation, gradient updates, timing or external

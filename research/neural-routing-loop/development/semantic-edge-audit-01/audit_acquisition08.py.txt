@@ -1,0 +1,68 @@
+"""Independent acquisition selection, results and shared-resource accounting."""
+from pathlib import Path
+from collections import Counter,defaultdict
+import hashlib,json,sys
+REPO=Path('.');sys.path.insert(0,str(REPO))
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.verify_active_skill_results import outcome
+from cognition.text_skills import validate_program
+BASE=Path(__file__).parents[1];P=BASE/'semantic-priority-dev-08'
+def digest(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def group(j):return int(hashlib.sha256(j['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2
+protocol=json.loads((P/'pilot-protocol.json').read_text());summary=json.loads((P/'pilot-summary.json').read_text())
+past=[j for seed in range(10,31)for j in generate(seed,96)['tasks']][:2000];byid={j['id']:j for j in past}
+traces={}
+for name in ['teacher-pilot.jsonl','teacher-rest.jsonl']:
+ with(BASE/'semantic-priority-dev-05'/name).open()as f:
+  for line in f:r=json.loads(line);traces[r['job_id']]=r
+misses=[j for j in past if not any(d['accepted']for d in traces[j['id']]['profiles'].values())]
+selected=misses[:10]
+if protocol['selected_job_ids']!=[j['id']for j in selected]or protocol['candidate_past_failure_count']!=len(misses):raise ValueError('Acquisition selection is not chronological observed failure')
+if protocol['config']!=CONFIG or protocol['routes']!=['default','slice_first','warm_spiking']or protocol['caps']!=[500000,2000000]or protocol['maximum_extra_work']!=250000000 or protocol['buyer_reserve']!=1000000:raise ValueError('Acquisition language or resource authority differs')
+validation_work=0;oldcalls=0
+for job in selected:
+ for d in traces[job['id']]['profiles'].values():
+  checked=outcome(d['program'],job['score_inputs'],job['score_outputs'],CONFIG);validation_work+=checked['total_work'];oldcalls+=1
+  if checked['passed']or d['accepted']or checked['correct']!=d['buyer']['correct']or checked['rows']!=d['buyer']['rows']:raise ValueError('An allegedly failed old program actually succeeds')
+rows=[json.loads(line)for line in(P/'pilot-traces.jsonl').read_text().splitlines()];byjob=defaultdict(list);used=0;accepted=[];newcalls=0;diagnosticcalls=0;edges=Counter()
+for r in rows:
+ if r['job_id']not in{j['id']for j in selected}:raise ValueError('Unselected current-task teacher')
+ job=byid[r['job_id']];result=r['result'];search=result['search'];work=search['work'];cap=r['cap']
+ if r['route']!=result['route']or cap!=result['cap']or cap not in protocol['caps']:raise ValueError('Actual execution terms changed')
+ if used+cap+protocol['buyer_reserve']>protocol['maximum_extra_work']:raise ValueError('A reservation exceeded shared acquisition ceiling')
+ if work['total']>cap or work['candidates']>CONFIG['max_candidates']or work['total']!=sum(work[k]for k in ['primitive_attempts','candidates','byte_blocks']):raise ValueError('Actual acquisition resource violation')
+ expectedactor=digest({'inputs':job['diagnostic_inputs'][:4],'outputs':job['diagnostic_outputs'][:4],'config':CONFIG})
+ if result['actor_inputs_sha256']!=expectedactor or result['past_failure_receipt_sha256']!=digest(traces[job['id']]):raise ValueError('Disclosed actor evidence substituted')
+ program=search['program'];checked=outcome(program,job['score_inputs'],job['score_outputs'],CONFIG);validation_work+=checked['total_work'];newcalls+=1
+ if checked!=result['buyer']or checked['total_work']>protocol['buyer_reserve']:raise ValueError('New buyer result does not reproduce')
+ if result['program_sha256']!=(digest(program)if program else None):raise ValueError('Discovered program hash differs')
+ if program is not None:
+  validate_program(program,CONFIG)
+  audit=outcome(program,job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],CONFIG);validation_work+=audit['total_work'];diagnosticcalls+=1
+  if not audit['passed']:raise ValueError('Returned program does not fit disclosed acquisition audits')
+ if checked['passed']:
+  got=[]
+  def visit(node):
+   if 'arg'in node:
+    edge=(node['arg']['op'],node['op']);edges[edge]+=1;got.append(edge);visit(node['arg'])
+   for child in node.get('parts',[]):visit(child)
+   if node['op']=='if_equal':raise ValueError('Undeclared conditional discovered teacher')
+  visit(program['expr'])
+  accepted.append({'job_id':job['id'],'route':r['route'],'cap':cap,'program_sha256':digest(program),'unary_edges':[list(v)for v in got],'future_held_test_group':1-group(job),'past_acquisition_group':group(job),'prior_model_held_fold':1-group(job)})
+ used+=work['total']+checked['total_work']
+ if r['cumulative_extra_work']!=used:raise ValueError('Recorded cumulative acquisition work differs')
+ byjob[job['id']].append(r)
+for job in selected:
+ attempts=byjob[job['id']];offset=0
+ for cap in protocol['caps']:
+  current=attempts[offset:offset+3]
+  if len(current)!=3 or[r['route']for r in current]!=protocol['routes']or any(r['cap']!=cap for r in current):raise ValueError('Fixed route sequence changed')
+  offset+=3
+  if any(r['result']['buyer']['passed']for r in current):break
+ if offset!=len(attempts):raise ValueError('A successful acquisition was unnecessarily escalated or failed attempts omitted')
+if summary['extra_work']!=used or summary['global_work_remaining']!=250000000-used or summary['newly_accepted_past_jobs']!=len({a['job_id']for a in accepted})or summary['jobs']!=10:raise ValueError('Acquisition summary differs')
+if summary['protocol_sha256']!=sha(P/'pilot-protocol.json')or summary['traces_sha256']!=sha(P/'pilot-traces.jsonl'):raise ValueError('Summary byte commitments differ')
+report={'schema':'nuria.verified-exploration-independent-audit.dev08.v1','scope':'Post-hoc private development acquisition from actual past failures. Higher historical teacher budgets are not serving budgets or evidence neural decisions beat conventional controls. All future controls must receive the same verified history/cost. No source recipe AST is supplied to a search actor or teacher labels; source hash is used only for chronological-course cohort isolation. No reserved data, production or financial actions.','selected_chronological_past_misses':[j['id']for j in selected],'past_failure_candidates':len(misses),'old_profile_buyer_rechecks':oldcalls,'new_acquisition_attempts':len(rows),'new_buyer_rechecks':newcalls,'diagnostic_fit_rechecks':diagnosticcalls,'new_accepted_distinct_past_jobs':len({a['job_id']for a in accepted}),'accepted_route_executions':len(accepted),'unique_accepted_programs':len({a['program_sha256']for a in accepted}),'new_accepted_job_program_pairs':len({(a['job_id'],a['program_sha256'])for a in accepted}),'actual_acquisition_extra_work':used,'maximum_shared_extra_work':250000000,'acquisition_only_remaining':250000000-used,'additional_offline_verification_work':validation_work,'conservative_remaining_if_verification_counts':250000000-used-validation_work,'accepted_unary_edge_occurrences':{f'{a}->{b}':n for(a,b),n in edges.items()},'accepted_records':accepted,'cohort_mapping':'Acquisition uses past groupg and prior model held-fold1-g (trained onpastg). Newly acquired history enters only future classifier held-fold1-g. This does not claim the acquisition job itself was source-heldout. Final serving testgroup1-g remains excluded from acquisition policy and its history.','global_extension_gate':'Every extension must begin with this completed usage plus any unresolved reservations, sharing the SAME250M across stages/folds. Pilot completed all30calls; no pending pilot reservation.','all_rechecked':True,'source_sha256':{name:sha(P/name)for name in ['pilot.py','search.py','pilot-protocol.json','pilot-traces.jsonl','pilot-summary.json']},'validator_sha256':sha(Path(__file__))}
+with Path(__file__).with_name('acquisition08-pilot-independent-audit.json').open('x')as f:json.dump(report,f,indent=2);f.write('\n')
+print(json.dumps({k:report[k]for k in ['new_accepted_distinct_past_jobs','accepted_route_executions','unique_accepted_programs','actual_acquisition_extra_work','additional_offline_verification_work','conservative_remaining_if_verification_counts','accepted_unary_edge_occurrences']},indent=2))

@@ -1,0 +1,74 @@
+"""Bounded exact-neighbor, score, cache and actual-search replay check."""
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import sys
+import time
+from types import SimpleNamespace
+import numpy as np
+from exact_knn import ExactKNN
+from cognition.semantic_guidance import SemanticGuidance
+
+P=Path(__file__).parent;D=P.parent/'semantic-priority-dev-06'
+sys.path.insert(0,str(D));from search import search
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+rng=np.random.default_rng(20261027)
+# Many duplicate vectors and ties; no approximate BLAS distance rewrite.
+reference=rng.integers(0,2,(127,130)).astype(float);reference[64:]=reference[:63]
+y=rng.integers(0,2,127).astype(float)
+model=SimpleNamespace(configuration={'method':'knn','dimension':130,'neighbors':9},training_sha256='a'*64,reference_x=reference,reference_y=y,positive_count=int(y.sum()),records_count=len(y))
+exact=ExactKNN(model,capacity=32);all_indices=all_scores=True
+for i in range(4096):
+    q=reference[i%127]if i%2 else rng.integers(0,2,130).astype(float)
+    distance=np.sum((reference-q)**2,axis=1);indices=np.argsort(distance,kind='stable')[:9]
+    weights=1/(distance[indices]+.001);weights*=np.where(y[indices]==1,.5/model.positive_count,.5/(127-model.positive_count))
+    expected=float(np.dot(weights,y[indices])/weights.sum());observed,found=exact._one(q)
+    all_indices &= bool(np.array_equal(indices,found));all_scores &= expected==observed
+if not all_indices or not all_scores:raise ValueError('Random/tie neighbor parity failed')
+real=SemanticGuidance.from_evidence(json.loads((D/'model-0-knn.json').read_text()));fast=ExactKNN(real)
+features=[]
+with(D/'collection-0.jsonl').open()as stream:
+    for line in stream:
+        origin=json.loads(line)
+        features.extend(r['features']for r in origin['selected_records'])
+        if len(features)>=100:break
+features=features[:100]
+began=time.process_time();slow=real.score(features);slow_cpu=time.process_time()-began
+began=time.process_time();fresh=fast.score(features);first_cpu=time.process_time()-began
+began=time.process_time();cached=fast.score(features);cached_cpu=time.process_time()-began
+if not np.array_equal(slow,fresh)or not np.array_equal(slow,cached):raise ValueError('Actual-curriculum scores differ')
+# Replay one already completed old nearest-neighbor job, capture every actual
+# scoring observation and output, then check both optimized call modes exactly.
+traces=[json.loads(x)for x in(D/'evaluation-0-knn.jsonl').read_text().splitlines()]
+possible=[r for r in traces if r['methods']['knn']['scored_count']>0]
+chosen=min(possible,key=lambda r:r['methods']['knn']['scored_count'])
+jobs={j['id']:j for seed in(0,1,2,3)for j in generate(seed,96)['tasks']};job=jobs[chosen['job_id']]
+logged=[]
+def record(batch):
+    result=real.score(batch);logged.append({'features':np.asarray(batch).tolist(),'scores':result.tolist()});return result
+began=time.process_time();replayed=search(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],CONFIG,scorer=record);replay_cpu=time.process_time()-began
+old=chosen['methods']['knn']
+if replayed['program']!=old['program']or replayed['work']!=old['work']:raise ValueError('Actual old search replay differs')
+fast.reset();began=time.process_time()
+for batch in logged:
+    if fast.score(batch['features']).tolist()!=batch['scores']:raise ValueError('Actual old score-call replay differs')
+actual_fast_cpu=time.process_time()-began
+optimized=ExactKNN(real);began=time.process_time();new=search(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],CONFIG,scorer=optimized.score);optimized_cpu=time.process_time()-began
+if new['program']!=old['program']or new['work']!=old['work']:raise ValueError('Optimized actual search differs')
+with(P/'actual-score-calls.json').open('x')as stream:json.dump({'job_id':job['id'],'calls':logged},stream)
+result={'scope':'Exact computational optimization only. Same reference observations, Euclidean difference/sum arithmetic, stable distance/index neighbor order, class balancing and dot-product summation. No fitting during a search. Fresh bounded4096predictionLRU per job, no cross-job hidden feedback. No neural capability or CPU equality inference from this pilot.',
+        'random_tie_queries':4096,'all_neighbor_indices_exact':all_indices,'all_random_tie_scores_bitwise_equal':all_scores,
+        'actual_curriculum_queries':100,'actual_curriculum_scores_bitwise_equal':True,
+        'slow_cpu_seconds':slow_cpu,'partition_first_cpu_seconds':first_cpu,'cached_second_cpu_seconds':cached_cpu,
+        'first_pass_speedup':slow_cpu/first_cpu,'repeat_pass_speedup':slow_cpu/cached_cpu,
+        'actual_job_id':job['id'],'actual_replayed_score_queries':sum(len(r['scores'])for r in logged),
+        'actual_score_call_batches':len(logged),'actual_old_search_replay_cpu_seconds':replay_cpu,
+        'actual_old_scoring_optimized_cpu_seconds':actual_fast_cpu,'actual_optimized_search_cpu_seconds':optimized_cpu,
+        'actual_full_search_speedup':replay_cpu/optimized_cpu,'actual_program_and_work_exact':True,
+        'cache_hits':optimized.hits,'cache_misses':optimized.misses,'cache_evictions':optimized.evictions,
+        'model_sha256':hashlib.sha256((D/'model-0-knn.json').read_bytes()).hexdigest(),
+        'source_sha256':hashlib.sha256((P/'exact_knn.py').read_bytes()).hexdigest(),
+        'score_calls_sha256':hashlib.sha256((P/'actual-score-calls.json').read_bytes()).hexdigest()}
+with(P/'pilot.json').open('x')as stream:json.dump(result,stream,indent=2)
+print(json.dumps(result,indent=2))

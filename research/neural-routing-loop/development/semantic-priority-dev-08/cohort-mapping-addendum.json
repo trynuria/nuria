@@ -1,0 +1,25 @@
+{
+  "scope": "Clarification of acquisition versus serving separation; originalpilotprotocol/results remain unchanged. Past failed acquisition tasks are training-cohort work, not unseen acquisition-generalization tests. Actor for sourcecohortg was trained only on pastcohortg, excluding future serving heldcohort1-g. Newly discovered receipts fromcohortg may enter ONLY the future serving model whose heldfold is1-g. Choosing an actortrainedonthefutureheldcohort would violate this prospective separation. Wholefuturetestdenominator and sourcegroups remain fixed. This doesnotestablish acquisition-policy superiority over untestedconventionalactors.",
+  "mapping": {
+    "1": {
+      "past_acquisition_source_group": 1,
+      "actor_checkpoint_held_fold": 0,
+      "actor_training_source_group": 1,
+      "future_serving_training_for_held_fold": 0,
+      "actor_training_groups_disjoint_future_serving_test_groups": true,
+      "actor_model_sha256": "8e52cad618d64e5614503ea602efa703c32c5f33edd435bc5f53209725295135",
+      "actor_training_file_sha256": "5060b8a773e0cfa50527094696873a4ec50b1f14e13176da88c30e434f66feb3"
+    },
+    "0": {
+      "past_acquisition_source_group": 0,
+      "actor_checkpoint_held_fold": 1,
+      "actor_training_source_group": 0,
+      "future_serving_training_for_held_fold": 1,
+      "actor_training_groups_disjoint_future_serving_test_groups": true,
+      "actor_model_sha256": "5349a1a4d1ae00c3b809adef36943d3702699186a0c4647f86ecd99dd1aebfbc",
+      "actor_training_file_sha256": "62f4215e604a1850bedeca7326cf063ea2bcf8473f95cdce3f57576137f028c1"
+    }
+  },
+  "pilot_protocol_sha256": "7e3a315157c42e9bd580f93626b16b322e214aa1530f3dee6058869c054ca02c",
+  "pilot_summary_sha256": "600f55d4c8f06937907d6c71cea6cdad1e9f21f7736614f392a58b53147616ff"
+}

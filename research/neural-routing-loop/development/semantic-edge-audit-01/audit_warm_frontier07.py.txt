@@ -1,0 +1,95 @@
+"""Independent fully-metered warm-frontier checks on known DEV examples."""
+from pathlib import Path
+import copy,hashlib,importlib.util,json,sys
+from unittest.mock import patch
+import numpy as np
+BASE=Path(__file__).parents[1];REPO=Path('.');sys.path.insert(0,str(REPO));sys.path.insert(0,str(BASE/'semantic-priority-dev-07'))
+from cognition.skills import _Meter,WorkLimit
+from cognition.text_skills import fields,evaluate,shape
+from cognition.routed_text_search import infer_routed,PROFILES
+from scripts.build_guarded_skill_tasks import CONFIG,generate
+from captured_routed_text_search import infer_routed as capture_infer
+spec=importlib.util.spec_from_file_location('semantic_warm07_independent',BASE/'semantic-priority-dev-07/search.py');s=importlib.util.module_from_spec(spec);sys.modules[spec.name]=s;spec.loader.exec_module(s)
+def digest(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def run_prefix(xs,ys,profile,cap,captured):
+ meter=_Meter(cap);records=[]
+ def observer(node,values,size):records.append({'node':copy.deepcopy(node),'values':list(values),'size':size,'meter':copy.deepcopy(meter.values)})
+ try:
+  p=capture_infer(xs,ys,CONFIG,meter,profile=profile,observer=observer)if captured else infer_routed(xs,ys,CONFIG,meter,profile=profile)
+  status='returned'
+ except WorkLimit:p=None;status='work_limit'
+ return p,meter.values,records,status
+jobs=[j for seed in range(4)for j in generate(seed,96)['tasks']]
+selected=[next(j for j in jobs if j['family']==family)for family in ['preserve-field','uppercase-token','joined-normalized-tokens','joined-code-and-segment']]
+parity=0;captured=0;partial_zero=0;cpu_agnostic=0;warmcases=[]
+for job in selected:
+ xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+ for profile in PROFILES:
+  for cap in [1,10000,50000]:
+   old,ow,_,os=run_prefix(xs,ys,profile,cap,False);new,nw,nodes,ns=run_prefix(xs,ys,profile,cap,True)
+   if old!=new or ow!=nw or os!=ns:raise ValueError('Observation changed prefix program, work or stop status')
+   prior=0
+   for item in nodes:
+    if shape(item['node'],CONFIG)!=item['size']or not prior<=item['meter']['total']<=cap:raise ValueError('Captured structure/meter binding failed')
+    meter=_Meter(1000000);actual=[evaluate(item['node'],fields(x,CONFIG),meter,CONFIG)for x in xs]
+    if actual!=item['values']:raise ValueError('Captured original AST value differs from independent replay')
+    prior=item['meter']['total'];captured+=1
+   if cap==1:
+    if nodes:raise ValueError('A partial unmetered attempt entered cache')
+    partial_zero+=1
+   parity+=1
+# Warm initialization must be independent of the controller, not just equalcounts.
+for job in jobs:
+ if job['family']not in ['joined-normalized-tokens','joined-code-and-segment','trim-delimited-field']:continue
+ xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+ runs=[]
+ for mode in ['property','zero']:
+  allnodes=[];first=[];original=s.captured_infer
+  def spy(*args,**kwargs):
+   oldobserver=kwargs['observer']
+   def observe(node,values,size):
+    allnodes.append({'node':copy.deepcopy(node),'values':list(values),'size':size});oldobserver(node,values,size)
+   kwargs['observer']=observe;return original(*args,**kwargs)
+  def scorer(batch):
+   if not first:first.append(batch.tolist())
+   return s.heuristic(batch)if mode=='property'else np.zeros(len(batch))
+  with patch.object(s,'captured_infer',side_effect=spy):r=s.search(xs,ys,CONFIG,scorer=scorer,budget=50000,prefix_budget=10000)
+  if r['work']['total']>50000 or any(r['work'][k]<r['prefix_work'][k]for k in r['work']):raise ValueError('Prefix/continuation budget is not conserved')
+  if r['work']['total']!=sum(r['work'][k]for k in ['primitive_attempts','candidates','byte_blocks']):raise ValueError('Work charge sum differs')
+  if r['prefix_capture_sha256']!=digest(allnodes)or r['prefix_capture_count']!=len(allnodes):raise ValueError('Capture artifact identity differs')
+  runs.append((r,allnodes,first))
+ a,b=runs
+ if a[0]['prefix_capture_binding_sha256']!=b[0]['prefix_capture_binding_sha256']or a[1:]!=b[1:]:raise ValueError('Controller changed its supplied warm observations')
+ if a[0].get('warm_frontier_sha256')!=b[0].get('warm_frontier_sha256'):raise ValueError('Controller changed initial Pareto frontier')
+ if a[2]:
+  # Independently reconstruct prefix-only Pareto filtering; all original field
+  # seeds are captured in these selected full10k prefixes.
+  records=[];seen={}
+  for item in a[1]:
+   vals=tuple(item['values']);size=item['size'];depth=s.depth(item['node'])
+   if vals==tuple(ys):raise ValueError('A found prefix solution was retried')
+   prior=seen.get(vals,[])
+   if not any(vals)or any(r['active']and r['size']<=size and r['depth']<=depth for r in prior):continue
+   for old in prior:
+    if old['size']>=size and old['depth']>=depth:old['active']=False
+   record={**item,'depth':depth,'active':True};records.append(record);seen.setdefault(vals,[]).append(record)
+  fieldhashes={digest({'op':'field','index':i})for i in range(min(map(len,map(lambda x:fields(x,CONFIG),xs))))}
+  if fieldhashes<={digest(c['node'])for c in a[1]}:
+   frontier=[{k:r[k]for k in ['node','values','size']}for r in records if r['active']]
+   if digest(frontier)!=a[0]['warm_frontier_sha256']:raise ValueError('Warm Pareto frontier reconstruction differs')
+  warmcases.append({'job_id':job['id'],'family':job['family'],'captured':len(a[1]),'prefix_work':a[0]['prefix_work']['total'],'property_total_work':a[0]['work']['total'],'zero_total_work':b[0]['work']['total'],'frontier_sha256':a[0]['warm_frontier_sha256']})
+  if len(warmcases)>=6:break
+# Standalone current-product comparator must bypass observational implementation.
+for job in selected:
+ xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+ with patch.object(s,'captured_infer',side_effect=AssertionError('Standaloneold must use original')):
+  r=s.search(xs,ys,CONFIG,budget=50000,prefix_budget=50000)
+ if r['prefix_capture_count']!=0:raise ValueError('Standaloneold acquired a new cache')
+ old,work,_,_=run_prefix(xs,ys,r['prefix_profile'],50000,False)
+ expected=None if old is None else {'version':'safe-text-v1','expr':old}
+ if r['program']!=expected or r['work']!=work:raise ValueError('Current-product comparator changed')
+ cpu_agnostic+=1
+result={'schema':'nuria.warm-frontier-independent-audit.dev07.v1','scope':'Mechanical reuse of fully executed current-audit observations; no learning/improvement qualification. Independent validation replay is offline verification and does not grant the actor extra free observations. No reserved data, production or financial actions.','observer_on_off_prefix_pairs':parity,'independently_replayed_captured_nodes':captured,'partial_cap1_cases_with_no_capture':partial_zero,'controller_independent_warm_cases':warmcases,'standalone_old_exact_cases':cpu_agnostic,'meter_conservation_and_pareto_checks':True,'sources_sha256':{name:sha(BASE/'semantic-priority-dev-07'/name)for name in ['search.py','captured_composition.py','captured_routed_text_search.py']},'audit_source_sha256':sha(Path(__file__))}
+with Path(__file__).with_name('warm-frontier07-independent-audit.json').open('x')as f:json.dump(result,f,indent=2);f.write('\n')
+print(json.dumps({k:result[k]for k in ['observer_on_off_prefix_pairs','independently_replayed_captured_nodes','partial_cap1_cases_with_no_capture','standalone_old_exact_cases','meter_conservation_and_pareto_checks']},indent=2))

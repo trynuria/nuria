@@ -1,0 +1,46 @@
+"""Private bounded acquisition from actually observed past failures only."""
+from pathlib import Path
+import hashlib,json,sys,time
+from search import search
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.routed_text_search import infer_routed
+from cognition.skills import _Meter,WorkLimit
+from cognition.text_skills import VERSION,validate_program
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).parent;H=P.parent/'semantic-priority-dev-05';D=P.parent/'semantic-priority-dev-06'
+MAX_EXTRA_WORK=250000000;BUYER_RESERVE=1000000
+PAST=[j for seed in range(10,31)for j in generate(seed,96)['tasks']][:2000]
+TRACES={r['job_id']:r for name in('teacher-pilot.jsonl','teacher-rest.jsonl')for r in map(json.loads,(H/name).read_text().splitlines())}
+# The only acquisition-selection signal is the actual past independent buyer
+# failure of every previously executed profile. No family/recipe target sample.
+MISSES=[j for j in PAST if not any(d['accepted']for d in TRACES[j['id']]['profiles'].values())]
+SELECTED=MISSES[:10]
+MODELS={i:SemanticGuidance.from_evidence(json.loads((D/f'model-{i}-spiking.json').read_text()))for i in(0,1)}
+
+def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def group(job):return int(hashlib.sha256(job['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2
+
+def execute(job,route,cap):
+    # Sole current-task actor interface: exactly four disclosed audit pairs and
+    # the unchanged registered language/configuration. Final buyer targets and
+    # private source recipes never enter an actor call.
+    xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+    start=time.process_time();reason=None
+    if route=='warm_spiking':
+        model=MODELS[1-group(job)]
+        result=search(xs,ys,CONFIG,scorer=model.score,budget=cap,prefix_budget=10000)
+        program=result['program'];work=result['work'];reason=result.get('stopped_because')
+    else:
+        meter=_Meter(cap);node=None
+        try:node=infer_routed(xs,ys,CONFIG,meter,profile=route)
+        except WorkLimit as error:reason=str(error)
+        program=validate_program({'version':VERSION,'expr':node},CONFIG)if node is not None else None
+        work=meter.values;result={'program':program,'work':work,'stopped_because':reason}
+    solve_cpu=time.process_time()-start
+    start=time.process_time();buyer=outcome(program,job['score_inputs'],job['score_outputs'],CONFIG);buyer_cpu=time.process_time()-start
+    if work['total']>cap or work['candidates']>CONFIG['max_candidates']:raise ValueError('Actual acquisition resource cap violated')
+    if buyer['total_work']>BUYER_RESERVE:raise ValueError('Configured independent buyer reserve exceeded')
+    return {'route':route,'cap':cap,'search':result,'program_sha256':digest(program)if program else None,'search_cpu_seconds':solve_cpu,
+            'buyer':buyer,'buyer_cpu_seconds':buyer_cpu,'actor_inputs_sha256':digest({'inputs':xs,'outputs':ys,'config':CONFIG}),
+            'past_failure_receipt_sha256':digest(TRACES[job['id']]),'solver_saw_final_targets':False,'hidden_recipe_used_for_teaching':False}

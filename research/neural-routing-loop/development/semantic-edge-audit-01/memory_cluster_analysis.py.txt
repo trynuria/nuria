@@ -1,0 +1,22 @@
+"""Exploratory group-aware comparison after independent memory-control replay."""
+from pathlib import Path
+from collections import Counter,defaultdict
+import ast,hashlib,json,sys
+import numpy as np
+BASE=Path(__file__).parents[1];REPO=Path('.');sys.path.insert(0,str(REPO))
+from scripts.build_guarded_skill_tasks import generate
+# Reuse only the reviewed analysis function, not the earlier script's evaluation
+# entry point. This performs no new actor, interpreter or buyer execution.
+source=Path(__file__).with_name('audit_serving08.py');tree=ast.parse(source.read_text());function=next(node for node in tree.body if isinstance(node,ast.FunctionDef)and node.name=='compare')
+namespace={'Counter':Counter,'defaultdict':defaultdict,'np':np,'group':lambda job:int(hashlib.sha256(job['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2};exec(compile(ast.Module(body=[function],type_ignores=[]),str(source),'exec'),namespace)
+compare=namespace['compare'];jobs={j['id']:j for seed in range(4)for j in generate(seed,96)['tasks']};rows={};sources={}
+for path in(BASE/'semantic-priority-dev-08').glob('evaluation-*-old_strong*.jsonl'):
+ sources[str(path.relative_to(BASE))]=hashlib.sha256(path.read_bytes()).hexdigest()
+ for line in path.read_text().splitlines():r=json.loads(line);rows[r['job_id']]=r['methods']
+p=BASE/'strong-memory-controls-01/full-results.jsonl';sources[str(p.relative_to(BASE))]=hashlib.sha256(p.read_bytes()).hexdigest()
+for line in p.read_text().splitlines():
+ r=json.loads(line);rows[r['job_id']].update(r['methods'])
+if len(rows)!=384:raise ValueError('Comparison denominator changed')
+report={'schema':'nuria.conventional-memory-cluster-comparison.v1','scope':'Post-hoc exploratory source-program-cluster uncertainty on repeatedly inspected authored development data; not a preregistered qualification. All underlying delivered programs have separate independent buyer replay receipts. No new actor, interpreter, buyer, training or reserved-data work.','comparisons':[compare(rows,jobs,m)for m in ['field_templates','retained_short_circuit']],'input_sources_sha256':sources,'analysis_function_source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'analysis_source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+with Path(__file__).with_name('memory-cluster-analysis.json').open('x')as f:json.dump(report,f,indent=2);f.write('\n')
+print(json.dumps(report['comparisons'],indent=2))

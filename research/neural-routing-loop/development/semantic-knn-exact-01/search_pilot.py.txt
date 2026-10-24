@@ -1,0 +1,33 @@
+"""Representative completed-search exactness and cost pilot, no model change."""
+from pathlib import Path
+import hashlib,json,sys,time
+import numpy as np
+from exact_knn import ExactKNN
+from cognition.semantic_guidance import SemanticGuidance
+P=Path(__file__).parent;D=P.parent/'semantic-priority-dev-06';sys.path.insert(0,str(D))
+from search import search
+from scripts.build_guarded_skill_tasks import generate,CONFIG
+traces=[json.loads(r)for r in(D/'evaluation-0-knn.jsonl').read_text().splitlines()]
+traces=sorted((r for r in traces if r['methods']['knn']['scored_count']>0),key=lambda r:r['methods']['knn']['scored_count'])
+chosen=[traces[0],traces[len(traces)//2],traces[-1]]
+jobmap={j['id']:j for seed in(0,1,2,3)for j in generate(seed,96)['tasks']}
+model=SemanticGuidance.from_evidence(json.loads((D/'model-0-knn.json').read_text()));fast=ExactKNN(model)
+results=[];allcalls=[]
+for trace in chosen:
+    job=jobmap[trace['job_id']];logged=[]
+    def scorer(batch):
+        value=model.score(batch);logged.append({'features':np.asarray(batch).tolist(),'scores':value.tolist()});return value
+    started=time.process_time();old=search(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],CONFIG,scorer=scorer);oldcpu=time.process_time()-started
+    expected=trace['methods']['knn']
+    if old['program']!=expected['program']or old['work']!=expected['work']:raise ValueError('Original replay changed')
+    fast.reset()
+    for call in logged:
+        if fast.score(call['features']).tolist()!=call['scores']:raise ValueError('Actual executed prediction differs')
+    fast.reset();started=time.process_time();new=search(job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4],CONFIG,scorer=fast.score);newcpu=time.process_time()-started
+    if new['program']!=old['program']or new['work']!=old['work']:raise ValueError('Optimized program/work differs')
+    row={'job_id':job['id'],'family':job['family'],'scored_queries':old['scored_count'],'old_cpu_seconds':oldcpu,'optimized_cpu_seconds':newcpu,'speedup':oldcpu/newcpu,'all_actual_scores_bitwise_equal':True,'program_and_work_exact':True,'hits':fast.hits,'misses':fast.misses,'evictions':fast.evictions}
+    results.append(row);allcalls.append({'job_id':job['id'],'calls':logged});print(json.dumps(row),flush=True)
+with(P/'representative-score-calls.json').open('x')as stream:json.dump(allcalls,stream)
+report={'scope':'Three completed actual jobs chosen before replay as lowest, median and highest score counts among currently completed fold0kNNjobs. This is bounded implementation optimization evidence, not a walltime or algorithm superiority claim. Original and optimized predictions bitwise, finalAST/interpreterwork exact. CPU includes all searchscoring and preprocessing, no model-fit or historicalteacher charge is omitted from broader study accounting.', 'available_completed_scored_jobs':len(traces),'jobs':results,'aggregate_speedup':sum(r['old_cpu_seconds']for r in results)/sum(r['optimized_cpu_seconds']for r in results),'score_calls_sha256':hashlib.sha256((P/'representative-score-calls.json').read_bytes()).hexdigest(),'source_sha256':hashlib.sha256((P/'exact_knn.py').read_bytes()).hexdigest()}
+with(P/'representative-pilot.json').open('x')as stream:json.dump(report,stream,indent=2)
+print(json.dumps(report,indent=2))

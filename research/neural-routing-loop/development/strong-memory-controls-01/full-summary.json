@@ -1,0 +1,321 @@
+{
+  "scope": "Conventional-control validation on an existing private synthetic development set. No qualification, consciousness, natural-world capability, or learning-superiority claim. Prior acquisition records remain unchanged.",
+  "jobs": 384,
+  "totals": {
+    "retained_short_circuit": {
+      "accepted": 333,
+      "wrong_selected": 1,
+      "search_work": 8849078,
+      "buyer_work": 221512,
+      "audit_work": 17782,
+      "cpu_seconds": 3.3485999999999883,
+      "buyer_cpu_seconds": 0.057233000000003365,
+      "selection_sources": {
+        "old_strong_fallback": 333,
+        "null": 50,
+        "retained_short_circuit": 1
+      },
+      "fold_accepted": {
+        "0": 166,
+        "1": 167
+      }
+    },
+    "field_templates": {
+      "accepted": 382,
+      "wrong_selected": 2,
+      "search_work": 1450789,
+      "buyer_work": 262999,
+      "audit_work": 17782,
+      "cpu_seconds": 0.3754829999999969,
+      "buyer_cpu_seconds": 0.07099100000000597,
+      "selection_sources": {
+        "field_templates": 384
+      },
+      "fold_accepted": {
+        "0": 185,
+        "1": 197
+      }
+    }
+  },
+  "frozen_comparators": {
+    "old_strong": {
+      "accepted": 333,
+      "search_work": 6740256
+    },
+    "retained": {
+      "accepted": 261,
+      "search_work": 12636083
+    },
+    "property": {
+      "accepted": 308,
+      "search_work": 6073304
+    },
+    "edit": {
+      "accepted": 297,
+      "search_work": 6341921
+    },
+    "size": {
+      "accepted": 222,
+      "search_work": 9190892
+    },
+    "spiking": {
+      "accepted": 356,
+      "search_work": 6384588
+    },
+    "frozen_input": {
+      "accepted": 300,
+      "search_work": 6754743
+    },
+    "continuous": {
+      "accepted": 355,
+      "search_work": 6206999
+    },
+    "linear": {
+      "accepted": 317,
+      "search_work": 6611940
+    },
+    "per_family_linear": {
+      "accepted": 344,
+      "search_work": 6634648
+    },
+    "rff": {
+      "accepted": 318,
+      "search_work": 7334869
+    },
+    "knn": {
+      "accepted": 350,
+      "search_work": 6141654
+    }
+  },
+  "paired_comparison": {
+    "retained_short_circuit": {
+      "old_strong": {
+        "both_accepted": 333,
+        "both_rejected": 51
+      },
+      "retained": {
+        "both_accepted": 261,
+        "memory_only": 72,
+        "both_rejected": 51
+      },
+      "property": {
+        "both_accepted": 288,
+        "baseline_only": 20,
+        "memory_only": 45,
+        "both_rejected": 31
+      },
+      "edit": {
+        "both_accepted": 283,
+        "baseline_only": 14,
+        "memory_only": 50,
+        "both_rejected": 37
+      },
+      "size": {
+        "both_accepted": 222,
+        "memory_only": 111,
+        "both_rejected": 51
+      },
+      "spiking": {
+        "both_accepted": 322,
+        "baseline_only": 34,
+        "both_rejected": 17,
+        "memory_only": 11
+      },
+      "frozen_input": {
+        "both_accepted": 299,
+        "baseline_only": 1,
+        "memory_only": 34,
+        "both_rejected": 50
+      },
+      "continuous": {
+        "both_accepted": 321,
+        "baseline_only": 34,
+        "both_rejected": 17,
+        "memory_only": 12
+      },
+      "linear": {
+        "both_accepted": 309,
+        "both_rejected": 43,
+        "memory_only": 24,
+        "baseline_only": 8
+      },
+      "per_family_linear": {
+        "both_accepted": 324,
+        "baseline_only": 20,
+        "both_rejected": 31,
+        "memory_only": 9
+      },
+      "rff": {
+        "both_accepted": 304,
+        "baseline_only": 14,
+        "memory_only": 29,
+        "both_rejected": 37
+      },
+      "knn": {
+        "both_accepted": 330,
+        "baseline_only": 20,
+        "both_rejected": 31,
+        "memory_only": 3
+      }
+    },
+    "field_templates": {
+      "old_strong": {
+        "both_accepted": 333,
+        "memory_only": 49,
+        "both_rejected": 2
+      },
+      "retained": {
+        "both_accepted": 261,
+        "memory_only": 121,
+        "both_rejected": 2
+      },
+      "property": {
+        "both_accepted": 308,
+        "memory_only": 74,
+        "both_rejected": 2
+      },
+      "edit": {
+        "both_accepted": 297,
+        "memory_only": 85,
+        "both_rejected": 2
+      },
+      "size": {
+        "both_accepted": 222,
+        "memory_only": 160,
+        "both_rejected": 2
+      },
+      "spiking": {
+        "both_accepted": 355,
+        "memory_only": 27,
+        "both_rejected": 1,
+        "baseline_only": 1
+      },
+      "frozen_input": {
+        "both_accepted": 300,
+        "memory_only": 82,
+        "both_rejected": 2
+      },
+      "continuous": {
+        "both_accepted": 354,
+        "memory_only": 28,
+        "both_rejected": 1,
+        "baseline_only": 1
+      },
+      "linear": {
+        "both_accepted": 317,
+        "memory_only": 65,
+        "both_rejected": 2
+      },
+      "per_family_linear": {
+        "both_accepted": 344,
+        "memory_only": 38,
+        "both_rejected": 2
+      },
+      "rff": {
+        "both_accepted": 318,
+        "memory_only": 64,
+        "both_rejected": 2
+      },
+      "knn": {
+        "both_accepted": 350,
+        "memory_only": 32,
+        "both_rejected": 2
+      }
+    }
+  },
+  "per_family": {
+    "joined-code-and-segment": {
+      "jobs": 30,
+      "retained_short_circuit": 0,
+      "field_templates": 29
+    },
+    "joined-fields": {
+      "jobs": 31,
+      "retained_short_circuit": 31,
+      "field_templates": 31
+    },
+    "joined-normalized-tokens": {
+      "jobs": 31,
+      "retained_short_circuit": 31,
+      "field_templates": 31
+    },
+    "lowercase-field": {
+      "jobs": 35,
+      "retained_short_circuit": 35,
+      "field_templates": 35
+    },
+    "lowercase-token": {
+      "jobs": 34,
+      "retained_short_circuit": 34,
+      "field_templates": 34
+    },
+    "preserve-field": {
+      "jobs": 32,
+      "retained_short_circuit": 32,
+      "field_templates": 32
+    },
+    "short-token": {
+      "jobs": 31,
+      "retained_short_circuit": 11,
+      "field_templates": 31
+    },
+    "trim-delimited-field": {
+      "jobs": 30,
+      "retained_short_circuit": 30,
+      "field_templates": 30
+    },
+    "trim-field": {
+      "jobs": 38,
+      "retained_short_circuit": 38,
+      "field_templates": 38
+    },
+    "uppercase-field": {
+      "jobs": 31,
+      "retained_short_circuit": 31,
+      "field_templates": 31
+    },
+    "uppercase-prefix": {
+      "jobs": 28,
+      "retained_short_circuit": 27,
+      "field_templates": 27
+    },
+    "uppercase-token": {
+      "jobs": 33,
+      "retained_short_circuit": 33,
+      "field_templates": 33
+    }
+  },
+  "static_preparation_work": 85377,
+  "static_preparation_bytes": 2549012,
+  "full_search_buyer_audit_work": 10819942,
+  "validation_journal": {
+    "completed_work": 12049126,
+    "unresolved_reserved_work": 0,
+    "active": {}
+  },
+  "maximum_extra_work": 50000000,
+  "conservative_prior_study_work": 230150796,
+  "observed_process_cpu_seconds": 7.00279,
+  "source_sha256": {
+    "controls.py": "2c4352cca3ad7d97122472901d0e22c49765e12793476d1e844493c05f7fbfe9",
+    "run_validation.py": "96ef5537f8bcb03c1168465a5102e37b3abea4c65fbcbd60c124450787c70557",
+    "engine/search.py": "5948b7d3cc7202b4b9ff2349cf8dc26bd07ef64d8162a86003db2bcf7f9179d5",
+    "engine/captured_composition.py": "f1037a60f825e01fbae1b9d48e823d9523fc98d07eb373ce2edb51add34f638d",
+    "engine/captured_routed_text_search.py": "68cc1488effc0fb1dbdfacc5d2e04385c3397bbd9de8c591cfe9eadcb7f3358c",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "cognition/text_composition.py": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52",
+    "cognition/routed_text_search.py": "2634d293a2409c3725fb48339e0e40556d2f9e83d886713ac7a0ca0d660f945a",
+    "scripts/build_guarded_skill_tasks.py": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "full_evaluation.py": "d5ca7fd5c0f3926440b303fdb11990a81d0479ad1dd19d53185a29a389acb53b"
+  },
+  "protocol_sha256": "8f24629edee1ef2923b58bdfbbb83b09335890254d5190c8dd872b425353335f",
+  "results_sha256": "790eae8c9069f5d77a93cf1331beb335b511de7f4ff950f57067f36b6f626a5d",
+  "work_journal_sha256_at_completion": "66c6f33707c53545855f9d454574fa63b335a05f820dc2436656464b55f12734",
+  "limitations": [
+    "Existing synthetic development set; not an untouched qualification.",
+    "Frozen learned and conventional baselines were reused from prior records; only the two new memory controls were newly executed in the full run.",
+    "Process CPU is observational evidence rather than an independently witnessed benchmark."
+  ]
+}

@@ -1,0 +1,274 @@
+"""Measured conventional memory controls for the bounded safe text DSL."""
+from __future__ import annotations
+
+from dataclasses import dataclass
+from decimal import InvalidOperation
+from itertools import product
+import hashlib
+import json
+from pathlib import Path
+import sys
+import time
+
+HERE = Path(__file__).resolve().parent
+SOURCE = HERE.parents[3] / "public-source"
+sys.path.insert(0, str(SOURCE))
+sys.path.insert(0, str(HERE.parent / "semantic-priority-dev-07"))
+
+from cognition.skills import _Meter, WorkLimit
+from cognition.text_skills import evaluate, fields, validate_program
+from search import search
+
+
+def serial(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
+
+
+def digest(value):
+    return hashlib.sha256(serial(value).encode()).hexdigest()
+
+
+def order_history(history):
+    if set(history) != {"accepted_programs", "program_uses"}:
+        raise ValueError("Only accepted ASTs and their historical use counts are actor inputs")
+    programs, uses = history["accepted_programs"], history["program_uses"]
+    if set(programs) != set(uses) or any(type(n) is not int or n < 0 for n in uses.values()):
+        raise ValueError("Malformed accepted history")
+    return sorted(programs, key=lambda identity: (-uses[identity], identity))
+
+
+def node_count(node):
+    return 1 + sum(node_count(x) for x in node.get("parts", [])) + sum(
+        node_count(node[key]) for key in ("arg", "then", "else") if key in node
+    )
+
+
+def paid_validate(program, config, meter):
+    # Validation is a static preparation operation, paid once for each stored AST.
+    # Precharging serialization covers inspection of malformed envelopes as well.
+    meter.data(serial(program))
+    meter.charge("primitive_attempts", node_count(program["expr"]))
+    return validate_program(program, config)
+
+
+def canonicalize(node, meter, slots=None):
+    """Canonical field slots in preorder, preserving repeated-field aliases."""
+    if slots is None:
+        slots = {}
+    meter.charge("primitive_attempts")
+    result = dict(node)
+    key = "index" if node["op"] == "field" else "field" if node["op"] == "if_equal" else None
+    if key is not None:
+        index = node[key]
+        if index not in slots:
+            slots[index] = len(slots)
+        result[key] = slots[index]
+    for child in ("arg", "then", "else"):
+        if child in node:
+            result[child], _ = canonicalize(node[child], meter, slots)
+    if "parts" in node:
+        result["parts"] = [canonicalize(child, meter, slots)[0] for child in node["parts"]]
+    return result, slots
+
+
+def instantiate(node, binding, meter):
+    meter.charge("primitive_attempts")
+    result = dict(node)
+    key = "index" if node["op"] == "field" else "field" if node["op"] == "if_equal" else None
+    if key is not None:
+        result[key] = binding[node[key]]
+    for child in ("arg", "then", "else"):
+        if child in node:
+            result[child] = instantiate(node[child], binding, meter)
+    if "parts" in node:
+        result["parts"] = [instantiate(child, binding, meter) for child in node["parts"]]
+    return result
+
+
+def referenced_fields(node):
+    found = set()
+    if node["op"] == "field":
+        found.add(node["index"])
+    elif node["op"] == "if_equal":
+        found.add(node["field"])
+    for child in ("arg", "then", "else"):
+        if child in node:
+            found.update(referenced_fields(node[child]))
+    for child in node.get("parts", []):
+        found.update(referenced_fields(child))
+    return found
+
+
+@dataclass(frozen=True)
+class PreparedMemory:
+    programs: tuple
+    template_candidates: tuple
+    report: dict
+
+
+def prepare_history(history, config, budget=7500000):
+    """Static preprocessing uses past accepted ASTs and declared CONFIG only."""
+    started = time.process_time()
+    meter = _Meter(budget)
+    prepared, templates, template_seen, complete_seen, candidates = [], [], set(), set(), []
+    counts = {"raw_bindings": 0, "templates": 0, "template_duplicates": 0, "complete_duplicates": 0}
+    try:
+        for identity in order_history(history):
+            meter.charge("candidates")
+            program = paid_validate(history["accepted_programs"][identity], config, meter)
+            prepared.append({"history_identity": identity, "program": program, "ast_serial": serial(program["expr"])})
+            template, slots = canonicalize(program["expr"], meter)
+            encoded = serial(template)
+            meter.data(encoded)
+            if encoded in template_seen:
+                counts["template_duplicates"] += 1
+                meter.values["semantic_duplicates"] += 1
+                continue
+            template_seen.add(encoded)
+            templates.append({"expr": template, "slots": len(slots), "source_history_identity": identity, "sha256": digest(template)})
+        counts["templates"] = len(templates)
+        preflight_bindings = sum(config["max_fields"] ** item["slots"] for item in templates)
+        # At least candidate + one construction-node charge per binding; abort
+        # before attempting a combinatorial expansion that cannot fit the cap.
+        if 2 * preflight_bindings > budget - meter.values["total"]:
+            raise WorkLimit("Declared binding expansion exceeds remaining preparation reserve")
+        for template in templates:
+            for binding in product(range(config["max_fields"]), repeat=template["slots"]):
+                meter.charge("candidates")
+                counts["raw_bindings"] += 1
+                expr = instantiate(template["expr"], binding, meter)
+                program = {"version": config["version"], "expr": expr}
+                # Validation and serialization of every constructed candidate are
+                # paid even when a complete-AST duplicate will be discarded.
+                program = paid_validate(program, config, meter)
+                encoded = serial(expr)
+                if encoded in complete_seen:
+                    counts["complete_duplicates"] += 1
+                    meter.values["semantic_duplicates"] += 1
+                    continue
+                complete_seen.add(encoded)
+                candidates.append({"program": program, "ast_serial": encoded,
+                                   "required_fields": max(binding, default=-1) + 1,
+                                   "template_sha256": template["sha256"],
+                                   "source_history_identity": template["source_history_identity"],
+                                   "binding": list(binding)})
+    except (ValueError, IndexError, KeyError, InvalidOperation) as error:
+        # Failed preparations remain measurable artifacts rather than disappearing.
+        report = {"status": "failed", "error_type": type(error).__name__, "work": dict(meter.values),
+                  "cpu_seconds": time.process_time() - started, **counts}
+        failure = RuntimeError("Static memory preparation failed")
+        failure.report = report
+        raise failure from error
+    payload = {"programs": prepared, "template_candidates": candidates}
+    report = {"status": "prepared", "work": dict(meter.values), "cpu_seconds": time.process_time() - started,
+              "stored_bytes": len(serial(payload).encode()), "history_programs": len(prepared),
+              "complete_candidates": len(candidates), "declared_max_fields": config["max_fields"],
+              "preparation_sha256": digest(payload), "templates_manifest": templates, **counts}
+    return PreparedMemory(tuple(prepared), tuple(candidates), report)
+
+
+def _finish(program, source, meter, xs, ys, config, started, attempts, rows_checked, extra):
+    scan_work = dict(meter.values)
+    fallback = None
+    if program is None and meter.values["total"] < meter.limit:
+        remaining = meter.limit - meter.values["total"]
+        # Identical untouched current-product comparator and prefix allowance.
+        fallback = search(xs, ys, config, budget=remaining, prefix_budget=remaining)
+        program = fallback["program"]
+        if program is not None:
+            source = "old_strong_fallback"
+    work = dict(scan_work)
+    if fallback is not None:
+        work = {key: value + fallback["work"][key] for key, value in work.items()}
+    return {"program": program, "selection_source": source, "status": "selected" if program else "no_program",
+            "work": work, "memory_scan_work": scan_work,
+            "fallback_work": None if fallback is None else fallback["work"],
+            "fallback_status": None if fallback is None else fallback["status"],
+            "candidate_attempts": attempts, "disclosed_rows_checked": rows_checked,
+            "cpu_seconds": time.process_time() - started, **extra}
+
+
+def _scan(prepared, xs, ys, config, budget, method):
+    started = time.process_time()
+    if not xs or len(xs) != len(ys):
+        raise ValueError("Paired nonempty disclosed examples required")
+    rows = [fields(x, config) for x in xs]
+    common_fields = min(map(len, rows))
+    meter = _Meter(budget)
+    stream = prepared.programs if method == "retained_short_circuit" else prepared.template_candidates
+    attempts = rows_checked = 0
+    selected, source, metadata = None, None, {}
+    try:
+        for item in stream:
+            if method == "field_templates" and item["required_fields"] > common_fields:
+                continue
+            meter.charge("candidates")
+            attempts += 1
+            meter.data(item["ast_serial"])
+            try:
+                fits = True
+                for row, target in zip(rows, ys, strict=True):
+                    rows_checked += 1
+                    observed = evaluate(item["program"]["expr"], row, meter, config)
+                    meter.data(serial(observed))
+                    if observed != target:
+                        fits = False
+                        break
+            except (ValueError, IndexError, KeyError, InvalidOperation) as error:
+                if isinstance(error, WorkLimit):
+                    raise
+                meter.values["errors"] += 1
+                continue
+            if fits:
+                selected, source = item["program"], method
+                metadata = {key: item[key] for key in ("history_identity", "template_sha256", "source_history_identity", "binding") if key in item}
+                break
+    except WorkLimit:
+        pass
+    return _finish(selected, source, meter, xs, ys, config, started, attempts, rows_checked,
+                   {"selection_metadata": metadata, "common_disclosed_field_count": common_fields,
+                    "prepared_history_sha256": prepared.report["preparation_sha256"]})
+
+
+def retained_short_circuit(prepared, xs, ys, config, budget=50000):
+    return _scan(prepared, xs, ys, config, budget, "retained_short_circuit")
+
+
+def field_templates(prepared, xs, ys, config, budget=50000):
+    return _scan(prepared, xs, ys, config, budget, "field_templates")
+
+
+def legacy_first_fit(history, xs, ys, config, *, short_circuit, budget=10000000):
+    """Paired semantic check with exact original retained-scan meter charges.
+
+    No fallback and no final buyer call; finite accepted library is exhausted or
+    first complete fitting program selected. The cap is a protective ceiling.
+    """
+    meter = _Meter(budget)
+    program = identity = None
+    attempts = rows_checked = 0
+    try:
+        for candidate in order_history(history):
+            meter.charge("candidates")
+            attempts += 1
+            try:
+                values = []
+                for x, target in zip(xs, ys, strict=True):
+                    rows_checked += 1
+                    observed = evaluate(history["accepted_programs"][candidate]["expr"], fields(x, config), meter, config)
+                    values.append(observed)
+                    if short_circuit and observed != target:
+                        break
+            except (ValueError, IndexError, KeyError, InvalidOperation) as error:
+                if isinstance(error, WorkLimit):
+                    raise
+                meter.values["errors"] += 1
+                continue
+            if values == ys:
+                program, identity = history["accepted_programs"][candidate], candidate
+                break
+    except WorkLimit:
+        return {"status": "protective_work_limit", "work": dict(meter.values), "program": None,
+                "history_identity": None, "candidate_attempts": attempts, "disclosed_rows_checked": rows_checked}
+    return {"status": "selected" if program else "exhausted", "work": dict(meter.values), "program": program,
+            "history_identity": identity, "candidate_attempts": attempts, "disclosed_rows_checked": rows_checked}

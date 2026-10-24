@@ -101,6 +101,19 @@ class NeuralRoutingEvidenceTests(unittest.TestCase):
             [a["accepted"]["spiking"] for a in receipt["attempts"]],
             [302, 313, 317, 266],
         )
+        operation = receipt["operation_selection"]
+        self.assertTrue(operation["verified"])
+        self.assertEqual(operation["independently_replayed_deliveries"], 4608)
+        self.assertEqual(operation["accepted"]["spiking"], 316)
+        self.assertEqual(operation["accepted"]["knn"], 333)
+        self.assertEqual(operation["wrong"]["spiking"], 2)
+        feedback = receipt["feedback_acquisition"]
+        self.assertEqual(feedback["independently_replayed_deliveries"], 4608)
+        self.assertEqual(feedback["accepted"]["spiking"], 356)
+        memory = receipt["stronger_memory"]
+        self.assertEqual(memory["independently_replayed_deliveries"], 768)
+        self.assertEqual(memory["accepted"]["field_templates"], 382)
+        self.assertEqual(memory["wrong"]["field_templates"], 2)
 
     def test_every_published_archive_item_is_actually_in_git(self):
         repository = Path(__file__).resolve().parents[1]

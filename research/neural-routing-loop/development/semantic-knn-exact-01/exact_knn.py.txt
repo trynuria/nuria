@@ -1,0 +1,45 @@
+"""Private exact inference optimization, not a changed nearest-neighbor model."""
+from collections import OrderedDict
+import numpy as np
+from cognition.semantic_guidance import _features
+
+class ExactKNN:
+    def __init__(self,model,*,capacity=4096):
+        if model.configuration['method']!='knn'or model.training_sha256 is None:
+            raise ValueError('An already fitted immutable nearest-neighbor model is required')
+        if type(capacity)is not int or not 0<=capacity<=4096:
+            raise ValueError('Cache must be finite')
+        self.x=model.reference_x.copy();self.y=model.reference_y.copy()
+        self.x.flags.writeable=False;self.y.flags.writeable=False
+        self.dimension=model.configuration['dimension'];self.neighbors=model.configuration['neighbors']
+        self.positive=model.positive_count;self.records=model.records_count
+        self.training_sha256=model.training_sha256
+        self.capacity=capacity;self.cache=OrderedDict();self.hits=self.misses=self.evictions=0
+    def reset(self):
+        self.cache.clear();self.hits=self.misses=self.evictions=0
+    def _one(self,row):
+        distance=np.sum((self.x-row)**2,axis=1)
+        k=min(self.neighbors,len(self.x))
+        cutoff=np.partition(distance,k-1)[k-1]
+        lower=np.flatnonzero(distance<cutoff)
+        tied=np.flatnonzero(distance==cutoff)[:k-len(lower)]
+        selected=np.concatenate((lower,tied))
+        indices=selected[np.lexsort((selected,distance[selected]))]
+        weights=1/(distance[indices]+0.001)
+        weights*=np.where(self.y[indices]==1,0.5/self.positive,0.5/(self.records-self.positive))
+        return float(np.dot(weights,self.y[indices])/weights.sum()),indices
+    def score(self,features):
+        x=_features(features,self.dimension)
+        values=[]
+        for row in x:
+            key=tuple(row.tolist())
+            if key in self.cache:
+                value=self.cache.pop(key);self.cache[key]=value;self.hits+=1
+            else:
+                value,_=self._one(row);self.misses+=1
+                if self.capacity:
+                    self.cache[key]=value
+                    if len(self.cache)>self.capacity:self.cache.popitem(last=False);self.evictions+=1
+            values.append(value)
+        return np.asarray(values)
+    __call__=score

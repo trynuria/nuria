@@ -1,0 +1,163 @@
+{
+  "schema": "nuria.neural-routing-development-verification.v1",
+  "verified": true,
+  "archive_files": 416,
+  "independently_replayed_deliveries": 14592,
+  "attempts": [
+    {
+      "attempt": 1,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 302,
+        "frozen_input": 261,
+        "continuous": 300,
+        "linear": 299,
+        "rff": 300,
+        "knn": 280,
+        "property": 265,
+        "size": 226
+      }
+    },
+    {
+      "attempt": 2,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 313,
+        "frozen_input": 282,
+        "continuous": 312,
+        "linear": 319,
+        "rff": 312,
+        "knn": 291,
+        "old_strong": 333,
+        "property": 289,
+        "edit": 323,
+        "size": 230
+      }
+    },
+    {
+      "attempt": 3,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 317,
+        "frozen_input": 286,
+        "continuous": 313,
+        "linear": 301,
+        "rff": 308,
+        "knn": 290,
+        "old_strong": 333,
+        "property": 289,
+        "edit": 323,
+        "size": 230
+      }
+    },
+    {
+      "attempt": 4,
+      "jobs": 384,
+      "accepted": {
+        "spiking": 266,
+        "frozen_input": 240,
+        "continuous": 266,
+        "linear": 245,
+        "rff": 245,
+        "knn": 254,
+        "old_strong": 333,
+        "property": 289,
+        "edit": 276,
+        "size": 222
+      }
+    }
+  ],
+  "operation_selection": {
+    "verified": true,
+    "jobs": 384,
+    "independently_replayed_deliveries": 4608,
+    "accepted": {
+      "old_strong": 333,
+      "retained": 327,
+      "property": 277,
+      "edit": 301,
+      "size": 222,
+      "spiking": 316,
+      "frozen_input": 290,
+      "continuous": 321,
+      "linear": 312,
+      "per_family_linear": 322,
+      "rff": 316,
+      "knn": 333
+    },
+    "wrong": {
+      "old_strong": 1,
+      "retained": 1,
+      "property": 15,
+      "edit": 1,
+      "size": 1,
+      "spiking": 2,
+      "frozen_input": 3,
+      "continuous": 1,
+      "linear": 1,
+      "per_family_linear": 1,
+      "rff": 1,
+      "knn": 1
+    },
+    "summary_sha256": "81f31ca03d69cf65d59bda74fc9326d7b9180447384bd0065ff83cde677c71d6",
+    "scope": "Complete final output, acceptance and buyer-work replay; source-group separation, shared training identity and aggregate arithmetic. Not a reconstruction of gradient updates, teaching edge semantics, search visitation or recorded CPU timing."
+  },
+  "feedback_acquisition": {
+    "verified": true,
+    "jobs": 384,
+    "independently_replayed_deliveries": 4608,
+    "accepted": {
+      "old_strong": 333,
+      "retained": 261,
+      "property": 308,
+      "edit": 297,
+      "size": 222,
+      "spiking": 356,
+      "frozen_input": 300,
+      "continuous": 355,
+      "linear": 317,
+      "per_family_linear": 344,
+      "rff": 318,
+      "knn": 350
+    },
+    "wrong": {
+      "old_strong": 1,
+      "retained": 1,
+      "property": 15,
+      "edit": 1,
+      "size": 1,
+      "spiking": 1,
+      "frozen_input": 2,
+      "continuous": 1,
+      "linear": 1,
+      "per_family_linear": 1,
+      "rff": 1,
+      "knn": 1
+    },
+    "summary_sha256": "efd795ac128334843c6a613596a14204baa5d6c5362c672253d68af6b39f89c0",
+    "scope": "Complete final output, acceptance and buyer-work replay; source-group separation, shared training identity and aggregate arithmetic. Not a reconstruction of gradient updates, teaching edge semantics, search visitation or recorded CPU timing."
+  },
+  "stronger_memory": {
+    "verified": true,
+    "jobs": 384,
+    "independently_replayed_deliveries": 768,
+    "accepted": {
+      "field_templates": 382,
+      "retained_short_circuit": 333
+    },
+    "wrong": {
+      "field_templates": 2,
+      "retained_short_circuit": 1
+    },
+    "scope": "Complete disclosed-fit, final-output, commitment, acceptance, buyer-work and aggregate replay. Not a re-execution of candidate preparation/search or CPU timing; separately retained audits cover those boundaries."
+  },
+  "summary_sha256": "25f05a468a2a17fcb05c61d3460eb353bfc24b72cc24ac96a3c7487506f04790",
+  "verification_sources_sha256": {
+    "scripts/check_neural_routing_results.py": "8efa2f6e38bbe88240db71f4263fc749b41ed3d61c5d1814fb2ae0b3146fe08b",
+    "scripts/build_guarded_skill_tasks.py": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+    "scripts/verify_transfer_memory_results.py": "1333a5ed92c9d313cc8496efb972d770a94d39416fbae58aca6ef5a252ab724f"
+  },
+  "scope": "Published and expanded byte identities, privacy screening, program-group separation, shared training-set identities, independent final output/acceptance/work replay and aggregate arithmetic. Search visitation, membership teaching, gradient training, CPU timing, external receipts and statistical superiority are not independently reconstructed.",
+  "superiority_established": false
+}

@@ -1,0 +1,63 @@
+"""Bind actual DEV06 model evidence to the independently reconstructed teaching set."""
+from pathlib import Path
+import argparse
+import hashlib
+import json
+import math
+import sys
+import numpy as np
+
+BASE=Path(__file__).parents[1]
+REPO=Path('.');sys.path.insert(0,str(REPO))
+from cognition.semantic_guidance import SemanticGuidance
+from scripts.build_guarded_skill_tasks import generate
+
+METHODS=('spiking','frozen_input','continuous','linear','per_family_linear','rff','knn')
+def digest(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def group(job):return int(hashlib.sha256(job['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2
+
+def check(fold):
+ p=BASE/'semantic-priority-dev-06';trainfile=p/f'training-{fold}.json';data=json.loads(trainfile.read_text());records=data['records']
+ current=0;uncapped=data['records_before_cap'];cap=uncapped>65536
+ if cap:raise ValueError('This audit path requires explicit capped-order handling before verification')
+ with(p/f'collection-{fold}.jsonl').open()as stream:
+  for line in stream:
+   origin=json.loads(line)
+   for record in origin['selected_records']:
+    if current>=len(records)or record!=records[current]:raise ValueError('Final training rows differ from verified origin rows')
+    current+=1
+ if current!=len(records)or current!=uncapped:raise ValueError('Final training count differs')
+ positives=sum(r['label']for r in records)
+ if positives!=data['positives']:raise ValueError('Training positive count differs')
+ past=[j for seed in range(10,31)for j in generate(seed,96)['tasks']][:2000]
+ tests=[j for seed in range(4)for j in generate(seed,96)['tasks']]
+ traininggroups=sorted({j['private_recipe']['program_sha256']for j in past if group(j)!=fold})
+ testgroups=sorted({j['private_recipe']['program_sha256']for j in tests if group(j)==fold})
+ if traininggroups!=data['training_groups']or testgroups!=data['test_groups']or set(traininggroups)&set(testgroups):raise ValueError('Recipe/source-program holdout differs')
+ if data['training_jobs']!=sum(group(j)!=fold for j in past):raise ValueError('Training universe differs')
+ history=digest(records);fits=json.loads((p/f'fits-{fold}.json').read_text());checks={}
+ for method in METHODS:
+  path=p/f'model-{fold}-{method}.json';e=json.loads(path.read_text())
+  if e['training_sha256']!=history or e['records_count']!=len(records)or e['positive_count']!=positives:raise ValueError('Method received different data')
+  if fits[method]['training_sha256']!=history or fits[method]['records']!=len(records)or fits[method]['positives']!=positives:raise ValueError('Fit report differs')
+  if method=='per_family_linear':
+   c=e['configuration'];W=np.asarray(e['weights']['W']);C=np.asarray(e['weights']['C'])
+   if c['feature_dimension']!=130 or c['operand_dimension']!=118 or c['families']!=12 or c['seed']!=20261026+fold or W.shape!=(12,118)or C.shape!=(12,)or not np.isfinite(W).all()or not np.isfinite(C).all():raise ValueError('Conventional contextual control has wrong input/parameters')
+   modelcheck={'formal_input_dimensions':130,'parameters':W.size+C.size,'extra_raw_observations':0,'mechanism':'known operation family gates conventional118feature affine logits'}
+  else:
+   c=e['configuration'];model=SemanticGuidance.from_evidence(e)
+   if c['dimension']!=130 or c['method']!=method or c['seed']!=20261026+fold:raise ValueError('Numerical method identity differs')
+   if method=='knn':
+    if e['reference_features']!=[r['features']for r in records]or e['reference_labels']!=[r['label']for r in records]:raise ValueError('Nearest neighbor data differ')
+   modelcheck={'formal_input_dimensions':130,'extra_raw_observations':0,'checkpoint_structurally_validated':True}
+   values=model.score([r['features']for r in records[:8]])
+   if not np.isfinite(values).all():raise ValueError('Nonfinite representative inference')
+   modelcheck['first8_probabilities']=values.tolist()
+  checks[method]={'model_file_sha256':sha(path),'training_sha256':history,**modelcheck}
+ return {'schema':'nuria.semantic-edge-model-binding-audit.dev06.v1','scope':'Independent equality of final training lists to origin rows and identical model-data bindings; exact source-program group split. Prior origin audit separately validates buyer results, operand values and labels. No superiority or unseen qualification claim.','fold':fold,'training_file_sha256':sha(trainfile),'collection_file_sha256':sha(p/f'collection-{fold}.jsonl'),'training_records':len(records),'positives':positives,'training_jobs':data['training_jobs'],'training_source_program_groups':len(traininggroups),'test_source_program_groups':len(testgroups),'train_test_group_overlap':0,'records_capped':False,'training_sha256':history,'methods':checks,'all_checked':True}
+
+if __name__=='__main__':
+ parser=argparse.ArgumentParser();parser.add_argument('new_output',type=Path);parser.add_argument('--fold',type=int,required=True);args=parser.parse_args();r=check(args.fold)
+ with args.new_output.open('x')as f:json.dump(r,f,indent=2);f.write('\n')
+ print(json.dumps({k:r[k]for k in('fold','training_records','positives','training_jobs','training_source_program_groups','test_source_program_groups','train_test_group_overlap','all_checked')},indent=2))

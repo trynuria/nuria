@@ -1,0 +1,217 @@
+{
+  "schema": "nuria.semantic-edge-collection-audit.v1",
+  "scope": "Independent retrospective DEV06 teaching-record reconstruction; no held-out qualification or performance claim. Current root-parent values excluded from actor features; past verified AST edges supply labels. No reserved source accessed.",
+  "fold": 0,
+  "collection_prefix_lines": 24,
+  "collection_prefix_sha256": "21f5f29139c9fc4e7aabf5d9df9f6a20acb0065a1aeba9bd8dad8a8dc61cdb94",
+  "totals": {
+    "origins": 24,
+    "accepted_program_executions": 126,
+    "buyer_recheck_work": 83970,
+    "teaching_records": 866,
+    "positive_records": 103,
+    "negative_records": 763,
+    "teacher_operand_replay_work": 4244
+  },
+  "origins": [
+    {
+      "job_id": "ccf6e0433a61d4bc7b549a5394998f714ca11d5d7999e0787d2272d48d52d674",
+      "family": "preserve-field",
+      "positive_records": 0,
+      "negative_records": 32,
+      "actual_edges": 0,
+      "materialized_operands": 0
+    },
+    {
+      "job_id": "21a52d25c84e4f57f69baa43ee5f8e781c703249fbb61eed2f6f20136d5b9385",
+      "family": "trim-field",
+      "positive_records": 6,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "c32b8a87c7a641a39dc358138b978d6c1498e7d2c00cd70a0c79026648a80055",
+      "family": "lowercase-token",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 3
+    },
+    {
+      "job_id": "5fd41d297beeed3bab294d85a6bfeb1a7bc2245a56b22fb08d754c355440e296",
+      "family": "trim-delimited-field",
+      "positive_records": 1,
+      "negative_records": 32,
+      "actual_edges": 1,
+      "materialized_operands": 1
+    },
+    {
+      "job_id": "27b66f5cdb893872ee78dee3713eb3c79b5643b881c894c7f057570b9172a8e8",
+      "family": "uppercase-prefix",
+      "positive_records": 2,
+      "negative_records": 32,
+      "actual_edges": 2,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "c36a71cef59777b1634804f657da88b693f80e23a3b2ff61e6c99c6c4ec9680e",
+      "family": "joined-fields",
+      "positive_records": 8,
+      "negative_records": 32,
+      "actual_edges": 4,
+      "materialized_operands": 4
+    },
+    {
+      "job_id": "4f7149c390934449043f18e4984e8b941ddc956e901d35fd117eddade6da6ace",
+      "family": "lowercase-token",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 3
+    },
+    {
+      "job_id": "abb330288dd2f4d3d34da4df399fb5b88dd5a2cd6ec4a337f74ed10676052bd2",
+      "family": "trim-field",
+      "positive_records": 6,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "defb2b52c61783605fcae9a2ba8b3c30f33ad37ec2516ef0f16120da8d5cab5c",
+      "family": "uppercase-field",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 2,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "5897b0d9a46708f27f4c9a47619064806e359112e898a609f3155b8da175fb20",
+      "family": "lowercase-token",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 3
+    },
+    {
+      "job_id": "bc425af50faf02b4a3058fc3f95f6e437693097db8b9453aaa84af6ad4305263",
+      "family": "trim-delimited-field",
+      "positive_records": 3,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "ec0d8df7e72af145a33b36af71d220d6fe185d7a3a865c84de9c4fdac20723f2",
+      "family": "trim-field",
+      "positive_records": 6,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "5830b10448715ffe5c0f7f050cc8590cc198f0bc3f47f3906fce7afca579c4cd",
+      "family": "uppercase-field",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 2,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "9384d9d229cb2188a43a2b04ea8220d55c6baec04990111e06156e2d1fa0ed7e",
+      "family": "uppercase-token",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 3
+    },
+    {
+      "job_id": "6cd89cef4037fec475578ab7e826d5dcec26a000b9bd2c00d28488d5a269fbeb",
+      "family": "lowercase-token",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 3
+    },
+    {
+      "job_id": "28a8316123c6971484afd1b4a98f1b4d570a0690a80d4c6d5f0f2f1571f5b6f7",
+      "family": "trim-delimited-field",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 4,
+      "materialized_operands": 3
+    },
+    {
+      "job_id": "c686fa753e1130d3f5cd4b1b49bce73d83ffe08c32e1bac6189f66d2f7e3c591",
+      "family": "trim-field",
+      "positive_records": 6,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "58ca0823ae01b0ac4a2e5dab0fb1081f934cb9e4dc348b41972f8e527ce88af1",
+      "family": "joined-fields",
+      "positive_records": 8,
+      "negative_records": 32,
+      "actual_edges": 4,
+      "materialized_operands": 4
+    },
+    {
+      "job_id": "6c16f139937bc726250d704bd2ff6af82f0b46f45ff48cc224683485b6154c96",
+      "family": "joined-normalized-tokens",
+      "positive_records": 8,
+      "negative_records": 32,
+      "actual_edges": 6,
+      "materialized_operands": 6
+    },
+    {
+      "job_id": "759b86229bb7b55e1523a3baca46f1458f777cdafa76274747b576c85348abfd",
+      "family": "preserve-field",
+      "positive_records": 0,
+      "negative_records": 27,
+      "actual_edges": 0,
+      "materialized_operands": 0
+    },
+    {
+      "job_id": "b27d3d47c6ad49c5596beea6da710691e9d30ab4b0a4455ee2f0eac667f1ee01",
+      "family": "uppercase-field",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 2,
+      "materialized_operands": 2
+    },
+    {
+      "job_id": "931ba06e7b4887597bae0d7f972c3407a5ac8e5be9df123ff0f22ed3df783f32",
+      "family": "lowercase-token",
+      "positive_records": 4,
+      "negative_records": 32,
+      "actual_edges": 3,
+      "materialized_operands": 3
+    },
+    {
+      "job_id": "7e7e11c4c65f7ff5c647a180c570c43bc18dad3bd44954e4e109a91415bfd1f2",
+      "family": "trim-delimited-field",
+      "positive_records": 1,
+      "negative_records": 32,
+      "actual_edges": 1,
+      "materialized_operands": 1
+    },
+    {
+      "job_id": "4354c0c5e13b1956c1407235b83d1d19ee2b0a2d60a6a92c5be2616d32fd8d36",
+      "family": "joined-fields",
+      "positive_records": 8,
+      "negative_records": 32,
+      "actual_edges": 4,
+      "materialized_operands": 4
+    }
+  ],
+  "sources_sha256": {
+    "validator": "f7059e18b3f24b07624f66bc3afbdf1c38322023366a2eb3b4c41a8307d4b8dc",
+    "features": "2c963361fb8ed3b0ed3594a53ab5238c6dc941293f535a912fa977d1d5d6570f",
+    "search06": "9bf42069d81a54c878834aa06e8a6bd9ff01dba53bd6d1536612fe37eb48e595",
+    "run06": "a959eff97715c28986d52da94b5f5d241fea2f1c7d6624b9127636bccc4ec7c4"
+  },
+  "all_checked": true
+}

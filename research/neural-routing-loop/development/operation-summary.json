@@ -1,0 +1,537 @@
+{
+  "schema": "nuria.semantic-operation-selection-development.v1",
+  "scope": "Completed prospective operand/operation-family selection development study. No useful neural-superiority result, unseen qualification, original recurrent-circuit contribution, live enrollment or financial action is established. Original slow conventional runs completed and remain alongside separately retained exact indexed reruns.",
+  "jobs": 384,
+  "feature_schema": {
+    "dimension": 130,
+    "base_operand_signature": {
+      "start": 0,
+      "stop": 100,
+      "definition": "Unchanged retained DEV03 unary, disclosed-target relation, operand-operation and structural/edit signature"
+    },
+    "casefold_directional_relations": {
+      "start": 100,
+      "stop": 118,
+      "relations": [
+        "target_contains_candidate",
+        "target_starts_candidate",
+        "target_ends_candidate",
+        "candidate_contains_target",
+        "candidate_starts_target",
+        "candidate_ends_target"
+      ],
+      "reductions": [
+        "all",
+        "none",
+        "mixed"
+      ]
+    },
+    "prospective_family_onehot": {
+      "start": 118,
+      "stop": 130,
+      "families": [
+        "field",
+        "constant",
+        "strip",
+        "upper",
+        "lower",
+        "other_case",
+        "token",
+        "split",
+        "slice",
+        "replace",
+        "number",
+        "concat"
+      ]
+    },
+    "legal_expansion_families": [
+      "strip",
+      "upper",
+      "lower",
+      "other_case",
+      "token",
+      "split",
+      "slice",
+      "replace",
+      "number"
+    ],
+    "excluded_information": [
+      "task identity",
+      "generator recipe",
+      "undisclosed final target",
+      "new parent output before its execution",
+      "original recurrent circuit state"
+    ],
+    "concat": "Unchanged shared fixed shortest-path composition, not a learned action label"
+  },
+  "totals": {
+    "knn": {
+      "accepted": 333,
+      "wrong": 1,
+      "search_work": 6674588,
+      "audit_work": 17782,
+      "buyer_work": 223096,
+      "search_cpu_seconds": 1064.652717,
+      "buyer_cpu_seconds": 0.06019599999987557,
+      "signature_cpu_seconds": 2.683517000000941,
+      "scorer_cpu_seconds": 1057.3425469999986,
+      "signature_count": 29752
+    },
+    "old_strong": {
+      "accepted": 333,
+      "wrong": 1,
+      "search_work": 6740256,
+      "audit_work": 17782,
+      "buyer_work": 221512,
+      "search_cpu_seconds": 2.993201000000017,
+      "buyer_cpu_seconds": 0.05989699999993192,
+      "signature_cpu_seconds": 0.0,
+      "scorer_cpu_seconds": 0.0,
+      "signature_count": 0
+    },
+    "retained": {
+      "accepted": 327,
+      "wrong": 1,
+      "search_work": 10927563,
+      "audit_work": 17782,
+      "buyer_work": 216537,
+      "search_cpu_seconds": 4.506994000000006,
+      "buyer_cpu_seconds": 0.05815299999998835,
+      "signature_cpu_seconds": 0.0,
+      "scorer_cpu_seconds": 0.0,
+      "signature_count": 0
+    },
+    "property": {
+      "accepted": 277,
+      "wrong": 15,
+      "search_work": 7323160,
+      "audit_work": 17782,
+      "buyer_work": 180709,
+      "search_cpu_seconds": 10.488813000000007,
+      "buyer_cpu_seconds": 0.0496700000000283,
+      "signature_cpu_seconds": 4.736103999999264,
+      "scorer_cpu_seconds": 0.42091899999983284,
+      "signature_count": 39516
+    },
+    "edit": {
+      "accepted": 301,
+      "wrong": 1,
+      "search_work": 6613783,
+      "audit_work": 17782,
+      "buyer_work": 192428,
+      "search_cpu_seconds": 8.169341000000019,
+      "buyer_cpu_seconds": 0.04939200000003785,
+      "signature_cpu_seconds": 3.6871499999990416,
+      "scorer_cpu_seconds": 0.011107000000134093,
+      "signature_count": 33013
+    },
+    "size": {
+      "accepted": 222,
+      "wrong": 1,
+      "search_work": 9608592,
+      "audit_work": 17782,
+      "buyer_work": 147670,
+      "search_cpu_seconds": 16.421695999999983,
+      "buyer_cpu_seconds": 0.034947000000016715,
+      "signature_cpu_seconds": 9.381659999998035,
+      "scorer_cpu_seconds": 0.027230000000063814,
+      "signature_count": 94757
+    },
+    "spiking": {
+      "accepted": 316,
+      "wrong": 2,
+      "search_work": 7503096,
+      "audit_work": 17782,
+      "buyer_work": 212938,
+      "search_cpu_seconds": 13.06560500000001,
+      "buyer_cpu_seconds": 0.05724599999994817,
+      "signature_cpu_seconds": 3.086496000000581,
+      "scorer_cpu_seconds": 5.224122999999933,
+      "signature_count": 37906
+    },
+    "frozen_input": {
+      "accepted": 290,
+      "wrong": 3,
+      "search_work": 7324453,
+      "audit_work": 17782,
+      "buyer_work": 188334,
+      "search_cpu_seconds": 11.198295999999942,
+      "buyer_cpu_seconds": 0.04711899999997704,
+      "signature_cpu_seconds": 2.9280590000000695,
+      "scorer_cpu_seconds": 3.9154330000004953,
+      "signature_count": 26663
+    },
+    "continuous": {
+      "accepted": 321,
+      "wrong": 1,
+      "search_work": 7439898,
+      "audit_work": 17782,
+      "buyer_work": 216187,
+      "search_cpu_seconds": 11.473497000000041,
+      "buyer_cpu_seconds": 0.05847799999995207,
+      "signature_cpu_seconds": 3.0006470000003675,
+      "scorer_cpu_seconds": 3.8196850000004985,
+      "signature_count": 36335
+    },
+    "linear": {
+      "accepted": 312,
+      "wrong": 1,
+      "search_work": 6767757,
+      "audit_work": 17782,
+      "buyer_work": 205090,
+      "search_cpu_seconds": 9.435626000000038,
+      "buyer_cpu_seconds": 0.05377099999992252,
+      "signature_cpu_seconds": 2.5238100000005947,
+      "scorer_cpu_seconds": 2.760019000000111,
+      "signature_count": 27318
+    },
+    "per_family_linear": {
+      "accepted": 322,
+      "wrong": 1,
+      "search_work": 7053235,
+      "audit_work": 17782,
+      "buyer_work": 216739,
+      "search_cpu_seconds": 9.83662200000008,
+      "buyer_cpu_seconds": 0.05961700000004333,
+      "signature_cpu_seconds": 2.4367959999996383,
+      "scorer_cpu_seconds": 3.155542000000062,
+      "signature_count": 29689
+    },
+    "rff": {
+      "accepted": 316,
+      "wrong": 1,
+      "search_work": 7378637,
+      "audit_work": 17782,
+      "buyer_work": 208592,
+      "search_cpu_seconds": 11.088919999999986,
+      "buyer_cpu_seconds": 0.057777999999991,
+      "signature_cpu_seconds": 2.8381409999999927,
+      "scorer_cpu_seconds": 3.610556000000438,
+      "signature_count": 32635
+    }
+  },
+  "completed_model_fits": 14,
+  "folds": [
+    {
+      "held_fold": 0,
+      "test_jobs": 187,
+      "prior_teacher_jobs": 937,
+      "accepted_teacher_origins": 825,
+      "records": 29152,
+      "positives": 3266,
+      "accepted_program_replays": 3845,
+      "training_source_program_groups": 127,
+      "test_source_program_groups": 66,
+      "train_test_group_overlap": 0,
+      "records_capped": false,
+      "training_file_sha256": "5060b8a773e0cfa50527094696873a4ec50b1f14e13176da88c30e434f66feb3",
+      "training_sha256": "7ed13d89b243739158c509d597c49f878c2d7d47ffc684c36db590c41e464712",
+      "fit_cpu_seconds": {
+        "spiking": 2.736701,
+        "frozen_input": 2.5874689999999996,
+        "continuous": 1.1195659999999998,
+        "linear": 0.7971879999999985,
+        "per_family_linear": 0.9574870000000004,
+        "rff": 1.0069480000000013,
+        "knn": 0.5886169999999993
+      }
+    },
+    {
+      "held_fold": 1,
+      "test_jobs": 197,
+      "prior_teacher_jobs": 1063,
+      "accepted_teacher_origins": 943,
+      "records": 31930,
+      "positives": 3743,
+      "accepted_program_replays": 4914,
+      "training_source_program_groups": 122,
+      "test_source_program_groups": 74,
+      "train_test_group_overlap": 0,
+      "records_capped": false,
+      "training_file_sha256": "62f4215e604a1850bedeca7326cf063ea2bcf8473f95cdce3f57576137f028c1",
+      "training_sha256": "e843b0b7df7fc6472a4e8d860897ada8753a77d5f0d633edc2e6aa3db9a0b398",
+      "fit_cpu_seconds": {
+        "spiking": 3.1616419999999996,
+        "frozen_input": 2.92014,
+        "continuous": 1.2995020000000004,
+        "linear": 0.866105000000001,
+        "per_family_linear": 1.0789930000000005,
+        "rff": 1.140167,
+        "knn": 0.6495350000000002
+      }
+    }
+  ],
+  "work_accounting": {
+    "scope": "Post-collection accounting and transitive-source supplement; original06records/engines/results unchanged. Historicalteacher8toolwork+buyerwork, commonmembershipexploration, properoperandreplay and independentpre-teachingbuyerrecheck must all count for acquisition-inclusive efficiency; no efficiency superiority claim. Originalprivatecollector performedbuyerrecheck without separately timing/aggregatingitswork; independentfullaudits retainfullworkreconstruction. CollectionCPUalreadyincludesalltheseactualoperations+serialization; do notaddindependentauditCPU as ifitwereoriginallearningcost. Perjobsearch/inference/buyerCPU, modelfitCPU andindexstartup remainseparate evidence.",
+    "folds": {
+      "0": {
+        "origins": 825,
+        "historical_teacher_search_work": 232810023,
+        "historical_teacher_buyer_work": 2814891,
+        "historical_teacher_cpu_seconds": 95.9436660000001,
+        "common_exploratory_search_work": 15197267,
+        "proper_operand_edge_replay_work": 142666,
+        "collection_cpu_seconds_includes_exploration_edge_replay_buyer_recheck_serialization": 56.152677000000004,
+        "independent_audit_receipt": "collection0-full-audit.json",
+        "independent_audit_receipt_sha256": "c19abb069f3e8170c6ddfc8047b708c8538a24238ef64247c71665a6c24581f2",
+        "training_file_sha256": "5060b8a773e0cfa50527094696873a4ec50b1f14e13176da88c30e434f66feb3",
+        "model_binding_audit_sha256": "0bb516d4573e589f8eb2b79b62f268164af148735005911fadfb685957577642",
+        "independent_preteaching_buyer_recheck_work": 2603881
+      },
+      "1": {
+        "origins": 943,
+        "historical_teacher_search_work": 234193200,
+        "historical_teacher_buyer_work": 3326660,
+        "historical_teacher_cpu_seconds": 96.73792099999967,
+        "common_exploratory_search_work": 14821369,
+        "proper_operand_edge_replay_work": 157210,
+        "collection_cpu_seconds_includes_exploration_edge_replay_buyer_recheck_serialization": 57.358107999999994,
+        "independent_audit_receipt": "collection1-full-audit.json",
+        "independent_audit_receipt_sha256": "8ad9ccfcb9d48d6aa12a0b49b21baa636054c64088080ecfe8ab0a6d575c8371",
+        "training_file_sha256": "62f4215e604a1850bedeca7326cf063ea2bcf8473f95cdce3f57576137f028c1",
+        "model_binding_audit_sha256": "6f895618262766d16451c62c60355f76067e332ae1e1b49af0191a81e81b3dcc",
+        "independent_preteaching_buyer_recheck_work": 3116486
+      }
+    },
+    "totals": {
+      "historical_teacher_search_work": 467003223,
+      "historical_teacher_buyer_work": 6141551,
+      "historical_teacher_cpu_seconds": 192.68158699999978,
+      "common_exploratory_search_work": 30018636,
+      "proper_operand_edge_replay_work": 299876,
+      "collection_cpu_seconds_includes_exploration_edge_replay_buyer_recheck_serialization": 113.510785,
+      "independent_preteaching_buyer_recheck_work": 5720367
+    },
+    "interpretation": "Historical eight-profile search and its original buyer checks are distinct from current common exploration, proper-operand materialization and repeated pre-teaching buyer verification. Collection CPU already includes current operations and serialization; do not add independent audit CPU to original learning cost. Model fitting, per-task search/inference/buyer work and exact-neighbor index startup remain additional separate measurements."
+  },
+  "parity_receipts": [
+    {
+      "fold": 0,
+      "method": "spiking",
+      "path": "semantic-edge-audit-01/parity06-fold0-spiking-receipt.json",
+      "original_sha256": "781a18bb7a7c1cf498b29d9113b1ba72e16ebd3c6f7854f4cc0e0e6065bce776",
+      "verified": true,
+      "observations": 8,
+      "total_hidden_spikes": 2911,
+      "maximum_probability_error": 3.5236570605778894e-17,
+      "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+    },
+    {
+      "fold": 0,
+      "method": "frozen_input",
+      "path": "semantic-edge-audit-01/parity06-fold0-frozen_input-receipt.json",
+      "original_sha256": "db20d4d87d55494dd9b7001f2d2a539a334527b414374d28a79f6c73add39e72",
+      "verified": true,
+      "observations": 8,
+      "total_hidden_spikes": 2027,
+      "maximum_probability_error": 1.1102230246251565e-16,
+      "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+    },
+    {
+      "fold": 0,
+      "method": "continuous",
+      "path": "semantic-edge-audit-01/parity06-fold0-continuous-receipt.json",
+      "original_sha256": "c3ab59aa92846589647f367a60df0fd69fa6ece1bc12c8df1229820731932768",
+      "verified": true,
+      "observations": 8,
+      "total_hidden_spikes": 0,
+      "maximum_probability_error": 3.8977068100853884e-17,
+      "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+    },
+    {
+      "fold": 1,
+      "method": "spiking",
+      "path": "semantic-edge-audit-01/parity06-fold1-spiking-receipt.json",
+      "original_sha256": "0d10b2130b64585ce83a91bd7bd9243145ec6e30a85f28d4aa73d5f64bed0f50",
+      "verified": true,
+      "observations": 8,
+      "total_hidden_spikes": 3585,
+      "maximum_probability_error": 1.1102230246251565e-16,
+      "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+    },
+    {
+      "fold": 1,
+      "method": "frozen_input",
+      "path": "semantic-edge-audit-01/parity06-fold1-frozen_input-receipt.json",
+      "original_sha256": "f9915134a97cdff680bf08e9fa978d26380d643d1754819eecd0797fd1d32453",
+      "verified": true,
+      "observations": 8,
+      "total_hidden_spikes": 2340,
+      "maximum_probability_error": 1.1102230246251565e-16,
+      "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+    },
+    {
+      "fold": 1,
+      "method": "continuous",
+      "path": "semantic-edge-audit-01/parity06-fold1-continuous-receipt.json",
+      "original_sha256": "a05cfd2a58cd0bd72e96ba0327037264e002ce9cbebb96b4c5771cdfcafe15ab",
+      "verified": true,
+      "observations": 8,
+      "total_hidden_spikes": 0,
+      "maximum_probability_error": 1.1102230246251565e-16,
+      "scope": "Numerical execution only; no certification of buyer receipts, learning history, useful-task gains or consciousness"
+    }
+  ],
+  "exact_knn": {
+    "scope": "Retrospective local search-CPU optimization of the identical conventional model and complete search tasks. All shared non-CPU program/status/work/count/outcome fields match original completed slow traces. Indexed traces additionally expose exact_index instrumentation not present in originals. Not a learning improvement, approximate-neighbor substitution, broad throughput benchmark or acquisition-inclusive efficiency claim.",
+    "folds": [
+      {
+        "fold": 0,
+        "jobs": 187,
+        "all_shared_non_cpu_fields_equal": true,
+        "additional_index_instrumentation": "Indexed traces add exact_index hit/miss/rows/fallback counters absent from original traces; those new fields are not claimed equal.",
+        "original_trace_sha256": "2020c1395ef9825d70311ebab046835f3d4038f11bc5f7c52ecfafbbfe7f47af",
+        "indexed_trace_sha256": "5afaaabc8933a85ebefffc685a8feed6f1b39e10bb037ee4c7d3710fe7da1f80",
+        "original_search_cpu_seconds": 435.07519499999984,
+        "indexed_search_cpu_seconds": 19.293483999999996,
+        "observed_search_cpu_ratio": 22.55036959628442,
+        "index_startup": {
+          "cpu_seconds": 0.05988799999999994,
+          "bytes": 348786,
+          "groups": 7215,
+          "binary_coordinates": 126
+        },
+        "accepted": 166,
+        "wrong": 1,
+        "retained_numpy_memory": {
+          "reference_feature_bytes": 30318080,
+          "reference_label_bytes": 233216,
+          "auxiliary_index_bytes": 348786,
+          "total_owned_ndarray_nbytes": 30900082,
+          "scope": "Retained NumPy arrays counted once; excludes Python objects, prediction-cache entries, temporaries and process RSS. Auxiliary index alone is not complete model memory."
+        }
+      },
+      {
+        "fold": 1,
+        "jobs": 197,
+        "all_shared_non_cpu_fields_equal": true,
+        "additional_index_instrumentation": "Indexed traces add exact_index hit/miss/rows/fallback counters absent from original traces; those new fields are not claimed equal.",
+        "original_trace_sha256": "e6694d5ec3d3927544577bf643fd39172427f9eaf8565d0c56e93044fdb0f385",
+        "indexed_trace_sha256": "4963ee32dd19b77d1879578d9d4d041c9df40d9246aad3bd5233437b72e4ef04",
+        "original_search_cpu_seconds": 629.5775220000002,
+        "indexed_search_cpu_seconds": 23.52753800000002,
+        "observed_search_cpu_ratio": 26.759175651953026,
+        "index_startup": {
+          "cpu_seconds": 0.062428999999999846,
+          "bytes": 366786,
+          "groups": 6951,
+          "binary_coordinates": 126
+        },
+        "accepted": 167,
+        "wrong": 0,
+        "retained_numpy_memory": {
+          "reference_feature_bytes": 33207200,
+          "reference_label_bytes": 255440,
+          "auxiliary_index_bytes": 366786,
+          "total_owned_ndarray_nbytes": 33829426,
+          "scope": "Retained NumPy arrays counted once; excludes Python objects, prediction-cache entries, temporaries and process RSS. Auxiliary index alone is not complete model memory."
+        }
+      }
+    ],
+    "whole_study_receipt": {
+      "path": "semantic-knn-exact-01/full-both-folds-exact-replay.json",
+      "original_sha256": "ca728868d2db4a89dd3dc92db04945bf5fe75106f303f541e95cf56d87d232e0",
+      "scope": "BothwholecompletedDEVfolds exactreproduction. Conventionalmodeloptimization only; noNNsuperiorityorhistoricallynovelalgorithmclaim. All384originalslowjobs finishednaturally; indexedrunsretainidenticalnonCPUoutputs. SearchCPUobservations onthislocalmachine, notuniversalwalltimeoracquisitioninclusiveresourcegain.",
+      "jobs": 384,
+      "accepted": 333,
+      "wrong": 1,
+      "all_program_work_outcome_fields_exact": true,
+      "original_search_cpu_seconds": 1064.652717,
+      "indexed_search_cpu_seconds": 42.82102200000001,
+      "observed_search_cpu_speedup": 24.86285163861805,
+      "fold_receipts_sha256": {
+        "full-fold0-exact-replay.json": "1465a4236b237bd5f7bd7ed9c4051a8fdf13b2dc6353b175fe8f261c677d3634",
+        "full-fold1-exact-replay.json": "e286113a9f61fb50c34fc2d6827234dbac2b3bf1615d84956f37dad86086cebd"
+      },
+      "index_source_sha256": "b80106de3ade6109e622d2fee09cd1e28ca634bb08594c22678b339a9ef0f3f1"
+    }
+  },
+  "source_artifacts": [
+    {
+      "path": "semantic-priority-dev-06/training-0.json",
+      "original_sha256": "5060b8a773e0cfa50527094696873a4ec50b1f14e13176da88c30e434f66feb3"
+    },
+    {
+      "path": "semantic-priority-dev-06/fits-0.json",
+      "original_sha256": "fd67e1b23bf3cc49d5c6a8712f5ac986d7daf19b17882d30bd3c96e093ba3592"
+    },
+    {
+      "path": "semantic-edge-audit-01/collection0-full-audit.json",
+      "original_sha256": "c19abb069f3e8170c6ddfc8047b708c8538a24238ef64247c71665a6c24581f2"
+    },
+    {
+      "path": "semantic-edge-audit-01/training0-models-audit.json",
+      "original_sha256": "0bb516d4573e589f8eb2b79b62f268164af148735005911fadfb685957577642"
+    },
+    {
+      "path": "semantic-priority-dev-06/evaluation-0-knn.jsonl",
+      "original_sha256": "2020c1395ef9825d70311ebab046835f3d4038f11bc5f7c52ecfafbbfe7f47af"
+    },
+    {
+      "path": "semantic-knn-exact-01/evaluation-0-knn-indexed.jsonl",
+      "original_sha256": "5afaaabc8933a85ebefffc685a8feed6f1b39e10bb037ee4c7d3710fe7da1f80"
+    },
+    {
+      "path": "semantic-priority-dev-06/training-1.json",
+      "original_sha256": "62f4215e604a1850bedeca7326cf063ea2bcf8473f95cdce3f57576137f028c1"
+    },
+    {
+      "path": "semantic-priority-dev-06/fits-1.json",
+      "original_sha256": "9cd33ba17c928c10efa2bbb90dbbc9f81bc3919c505ad15bee888f3264f81f2d"
+    },
+    {
+      "path": "semantic-edge-audit-01/collection1-full-audit.json",
+      "original_sha256": "8ad9ccfcb9d48d6aa12a0b49b21baa636054c64088080ecfe8ab0a6d575c8371"
+    },
+    {
+      "path": "semantic-edge-audit-01/training1-models-audit.json",
+      "original_sha256": "6f895618262766d16451c62c60355f76067e332ae1e1b49af0191a81e81b3dcc"
+    },
+    {
+      "path": "semantic-priority-dev-06/evaluation-1-knn.jsonl",
+      "original_sha256": "e6694d5ec3d3927544577bf643fd39172427f9eaf8565d0c56e93044fdb0f385"
+    },
+    {
+      "path": "semantic-knn-exact-01/evaluation-1-knn-indexed.jsonl",
+      "original_sha256": "4963ee32dd19b77d1879578d9d4d041c9df40d9246aad3bd5233437b72e4ef04"
+    },
+    {
+      "path": "semantic-priority-dev-06/handoff-06.json",
+      "original_sha256": "9f137251173711a916aec73ebfd5fded1570737ad2436f5354cb43e2f143fea3"
+    },
+    {
+      "path": "semantic-priority-dev-06/work-accounting-supplement-01.json",
+      "original_sha256": "78e088dbe5f1efd3c21809d02eb5c23bbd7af4d617acf4830c391bd1f14c7ff1"
+    },
+    {
+      "path": "semantic-priority-dev-06/search.py",
+      "original_sha256": "9bf42069d81a54c878834aa06e8a6bd9ff01dba53bd6d1536612fe37eb48e595"
+    },
+    {
+      "path": "semantic-priority-dev-06/run.py",
+      "original_sha256": "a959eff97715c28986d52da94b5f5d241fea2f1c7d6624b9127636bccc4ec7c4"
+    },
+    {
+      "path": "semantic-edge-audit-01/features.py",
+      "original_sha256": "2c963361fb8ed3b0ed3594a53ab5238c6dc941293f535a912fa977d1d5d6570f"
+    },
+    {
+      "path": "semantic-edge-audit-01/audit_control.py",
+      "original_sha256": "61ad37ae28f766e1236c6cfbe63443a311259023ce995be861fcafbb5c0db8aa"
+    }
+  ],
+  "training_totals": {
+    "prior_teacher_jobs": 2000,
+    "accepted_teacher_origins": 1768,
+    "records": 61082,
+    "positives": 7009,
+    "accepted_program_replays": 8759
+  },
+  "conclusions": [
+    "Spiking316/384 with two wrong proposals does not beat existing333/384 or exact nearest-neighbor333/384, each with one wrong proposal.",
+    "A family-conditioned linear comparator with identical130 raw features accepts322/384 with one wrong proposal; ordinary linear312/384 is not the strongest conventional comparison.",
+    "All61082edge records and8759prior accepted-program checks were independently reconstructed in retained source audits; provenance and numerical parity do not establish utility.",
+    "The group split excludes identical source-program recipe hashes across each testfold and its prior teacher subset. Task families and this development course remain known; this is not a fresh generalization qualification.",
+    "Indexed exact-neighbor runs preserve all non-CPU records. Their measured speedup is a conventional implementation optimization rather than neural learning evidence."
+  ]
+}

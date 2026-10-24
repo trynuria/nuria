@@ -1,0 +1,123 @@
+"""Fixed-source full evaluation after the preregistered feasibility pilot."""
+from __future__ import annotations
+
+from collections import Counter
+from datetime import datetime, timezone
+import json
+from pathlib import Path
+import time
+
+from controls import digest, field_templates, retained_short_circuit, serial
+from run_validation import (CONFIG, HERE, OLD, MAXIMUM, complete, event, fold,
+                            generate, journal_state, load_prepared, outcome,
+                            probe_cost, reserve, sha, sources, write_new)
+
+
+def run():
+    pilot = json.loads((HERE / "pilot-summary.json").read_text())
+    for name, expected in pilot["source_sha256"].items():
+        if sources()[name] != expected:
+            raise ValueError("Pilot source bytes changed")
+    prepared = {held: load_prepared(held) for held in range(2)}
+    frozen = {row["job_id"]: row for held in range(2)
+              for row in map(json.loads, next(OLD.glob(f"evaluation-{held}-*.jsonl")).read_text().splitlines())}
+    jobs = [job for seed in (0, 1, 2, 3) for job in generate(seed, 96)["tasks"]]
+    protocol = {"version": "strong-memory-full-evaluation-v1",
+                "created_utc": datetime.now(timezone.utc).isoformat(),
+                "scope": pilot["scope"], "jobs": len(jobs), "actors": ["retained_short_circuit", "field_templates"],
+                "actor_work_cap": 50000, "maximum_extra_work_including_preparation_pilot_and_checks": MAXIMUM,
+                "configuration": CONFIG, "configuration_sha256": digest(CONFIG),
+                "dataset_order": "seeds 0,1,2,3; original generate(seed,96) task order",
+                "source_sha256": {**sources(), "full_evaluation.py": sha(Path(__file__))},
+                "pilot_summary_sha256": sha(HERE / "pilot-summary.json"),
+                "prepared_cache_sha256": {str(held): sha(HERE / f"prepared-{held}.json") for held in range(2)},
+                "training_sha256": {str(held): sha(OLD / f"training-{held}.json") for held in range(2)},
+                "no_post_pilot_control_changes": True,
+                "buyer_rule": "Commit one selected AST before one final buyer call; no retry after rejection.",
+                "source_program_metadata": "Used only for existing matching-fold evaluation routing; never actor input.",
+                "field_templates": "Derived only from the same previously accepted ASTs and fixed CONFIG.max_fields. No task-family-specific logic."}
+    write_new(HERE / "full-evaluation-protocol.json", protocol)
+    methods = {"retained_short_circuit": retained_short_circuit, "field_templates": field_templates}
+    rows, start = [], time.process_time()
+    output = HERE / "full-results.jsonl"
+    with output.open("x") as stream:
+        for index, job in enumerate(jobs):
+            held = fold(job)
+            xs, ys = job["diagnostic_inputs"][:4], job["diagnostic_outputs"][:4]
+            audit_work = sum(probe_cost(x, y) for x, y in zip(xs, ys, strict=True))
+            row = {"job_id": job["id"], "held_fold": held, "methods": {}}
+            for method, actor in methods.items():
+                operation = f"full-{job['id']}-{method}"
+                reserve(operation, 50000 + 1000000 + audit_work)
+                result = actor(prepared[held], xs, ys, CONFIG, budget=50000)
+                committed = digest(result["program"])
+                event({"event": "proposal", "operation": operation,
+                       "committed_program_sha256": committed,
+                       "actor_work": result["work"]["total"],
+                       "selection_source": result["selection_source"]})
+                buyer_start = time.process_time()
+                checked = outcome(result["program"], job["score_inputs"], job["score_outputs"], CONFIG)
+                buyer_cpu = time.process_time() - buyer_start
+                if result["work"]["total"] > 50000:
+                    raise ValueError("Actor exceeded fixed work allowance")
+                record = {**result, "committed_program_sha256": committed,
+                          "accepted": checked["passed"], "correct_rows": checked["correct"],
+                          "rows": checked["rows"], "buyer_work": checked["total_work"],
+                          "buyer_cpu_seconds": buyer_cpu, "audit_work": audit_work, "buyer_calls": 1}
+                row["methods"][method] = record
+                complete(operation, result["work"]["total"] + checked["total_work"] + audit_work,
+                         committed_program_sha256=committed, buyer_calls=1, accepted=checked["passed"])
+            # Post-selection reporting metadata is never supplied to an actor.
+            row["family"] = job["family"]
+            row["frozen_comparators"] = {method: {key: record[key] for key in ("accepted", "work", "buyer_work", "audit_work")}
+                                         for method, record in frozen[job["id"]]["methods"].items()}
+            stream.write(serial(row) + "\n")
+            stream.flush()
+            rows.append(row)
+            if (index + 1) % 48 == 0:
+                print(serial({"completed": index + 1, "accepted": {m: sum(r["methods"][m]["accepted"] for r in rows) for m in methods}, "work_journal": journal_state()}), flush=True)
+    totals = {}
+    for method in methods:
+        records = [r["methods"][method] for r in rows]
+        totals[method] = {"accepted": sum(r["accepted"] for r in records),
+                          "wrong_selected": sum(r["program"] is not None and not r["accepted"] for r in records),
+                          "search_work": sum(r["work"]["total"] for r in records),
+                          "buyer_work": sum(r["buyer_work"] for r in records),
+                          "audit_work": sum(r["audit_work"] for r in records),
+                          "cpu_seconds": sum(r["cpu_seconds"] for r in records),
+                          "buyer_cpu_seconds": sum(r["buyer_cpu_seconds"] for r in records),
+                          "selection_sources": dict(Counter(r["selection_source"] for r in records)),
+                          "fold_accepted": {str(held): sum(r["methods"][method]["accepted"] for r in rows if r["held_fold"] == held) for held in range(2)}}
+    comparison = {}
+    for method in methods:
+        comparison[method] = {}
+        for baseline in frozen[rows[0]["job_id"]]["methods"]:
+            comparison[method][baseline] = dict(Counter(
+                "both_accepted" if r["methods"][method]["accepted"] and r["frozen_comparators"][baseline]["accepted"] else
+                "memory_only" if r["methods"][method]["accepted"] else
+                "baseline_only" if r["frozen_comparators"][baseline]["accepted"] else "both_rejected" for r in rows))
+    summary = {"scope": pilot["scope"], "jobs": len(rows), "totals": totals,
+               "frozen_comparators": {method: {"accepted": sum(r["frozen_comparators"][method]["accepted"] for r in rows),
+                                               "search_work": sum(r["frozen_comparators"][method]["work"]["total"] for r in rows)}
+                                      for method in frozen[rows[0]["job_id"]]["methods"]},
+               "paired_comparison": comparison,
+               "per_family": {family: {"jobs": sum(r["family"] == family for r in rows),
+                                       **{method: sum(r["methods"][method]["accepted"] for r in rows if r["family"] == family) for method in methods}}
+                              for family in sorted(set(r["family"] for r in rows))},
+               "static_preparation_work": sum(p.report["work"]["total"] for p in prepared.values()),
+               "static_preparation_bytes": sum(p.report["stored_bytes"] for p in prepared.values()),
+               "full_search_buyer_audit_work": sum(sum(total[key] for key in ("search_work", "buyer_work", "audit_work")) for total in totals.values()),
+               "validation_journal": journal_state(), "maximum_extra_work": MAXIMUM,
+               "conservative_prior_study_work": 230150796,
+               "observed_process_cpu_seconds": time.process_time() - start,
+               "source_sha256": protocol["source_sha256"], "protocol_sha256": sha(HERE / "full-evaluation-protocol.json"),
+               "results_sha256": sha(output), "work_journal_sha256_at_completion": sha(HERE / "validation-work-journal.jsonl"),
+               "limitations": ["Existing synthetic development set; not an untouched qualification.",
+                               "Frozen learned and conventional baselines were reused from prior records; only the two new memory controls were newly executed in the full run.",
+                               "Process CPU is observational evidence rather than an independently witnessed benchmark."]}
+    write_new(HERE / "full-summary.json", summary)
+    print(json.dumps(summary, indent=2), flush=True)
+
+
+if __name__ == "__main__":
+    run()

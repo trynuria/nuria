@@ -19,6 +19,7 @@ from pathlib import Path
 from scripts.build_guarded_skill_tasks import CONFIG, generate
 from scripts.check_publication import RULES
 from scripts.verify_active_skill_results import outcome
+from scripts.verify_transfer_memory_results import verify as verify_transfer_memory
 
 # The 2,000-job membership trace expands to 118,440,934 bytes. Keep a finite
 # admission bound that covers that complete trace; never read an unbounded zip.
@@ -120,6 +121,159 @@ def _rows(root, name):
     direct = root / name
     path = direct if direct.exists() else root / (name + ".gz")
     return [json.loads(line) for line in unpack(path).splitlines() if line]
+
+
+def verify_operation_deliveries(root, jobs, *, study=6):
+    """Reconstruct the later action-family study without importing its search."""
+    require(study in (6, 8), "Unexpected operation study")
+    summary_path = root / (
+        "operation-summary.json" if study == 6 else "acquisition-summary.json"
+    )
+    if not summary_path.exists():
+        return None
+    published = json.loads(summary_path.read_bytes())
+    require(
+        published.get("schema")
+        == (
+            "nuria.semantic-operation-selection-development.v1"
+            if study == 6
+            else "nuria.semantic-feedback-acquisition-development.v1"
+        ),
+        "Operation study schema differs",
+    )
+    published_totals = (
+        published["totals"] if study == 6 else published["serving"]["totals"]
+    )
+    totals = defaultdict(lambda: defaultdict(float))
+    seen = set()
+    deliveries = 0
+    for fold in (0, 1):
+        prefix = f"semantic-priority-dev-{study:02}"
+        dataset = _data(root, f"{prefix}/training-{fold}.json")
+        if study == 8:
+            base = _data(root, f"semantic-priority-dev-06/training-{fold}.json")
+            require(
+                dataset["records"][: len(base["records"])] == base["records"],
+                "The previous teaching history was rewritten",
+            )
+        require(
+            not set(dataset["training_groups"]) & set(dataset["test_groups"]),
+            "Operation teaching and testing program groups overlap",
+        )
+        records_hash = digest(dataset["records"])
+        stems = (
+            (
+                "old_strong-retained-property-edit-size-spiking-frozen_input-continuous-linear-per_family_linear-rff",
+                "knn",
+            )
+            if study == 6
+            else (
+                "old_strong-retained-property-edit-size-spiking-frozen_input-continuous-linear-per_family_linear-rff-knn",
+            )
+        )
+        for stem in stems:
+            for row in _rows(root, f"{prefix}/evaluation-{fold}-{stem}.jsonl"):
+                require(
+                    row["job_id"] in jobs, "Operation result references another course"
+                )
+                job = jobs[row["job_id"]]
+                expected_fold = (
+                    int(
+                        hashlib.sha256(
+                            job["private_recipe"]["program_sha256"].encode()
+                        ).hexdigest()[:8],
+                        16,
+                    )
+                    % 2
+                )
+                require(
+                    expected_fold == fold, "An operation task changed source groups"
+                )
+                for method, result in row["methods"].items():
+                    key = (row["job_id"], method)
+                    require(key not in seen, "Duplicate operation result")
+                    seen.add(key)
+                    checked = outcome(
+                        result["program"],
+                        job["score_inputs"],
+                        job["score_outputs"],
+                        CONFIG,
+                    )
+                    require(
+                        type(result["accepted"]) is bool
+                        and result["accepted"] == checked["passed"]
+                        and result["correct_rows"] == checked["correct"]
+                        and result["rows"] == checked["rows"]
+                        and result["buyer_work"] == checked["total_work"],
+                        "An operation delivery differs from independent buyer replay",
+                    )
+                    require(
+                        0 <= result["work"]["total"] <= 50000,
+                        "Operation search allowance exceeded",
+                    )
+                    values = {
+                        "jobs": 1,
+                        "accepted": int(checked["passed"]),
+                        "wrong": int(
+                            result["program"] is not None and not checked["passed"]
+                        ),
+                        "search_work": result["work"]["total"],
+                        "audit_work": result["audit_work"],
+                        "buyer_work": checked["total_work"],
+                        "search_cpu_seconds": result["cpu_seconds"],
+                        **{
+                            name: result[name]
+                            for name in (
+                                "buyer_cpu_seconds",
+                                "signature_cpu_seconds",
+                                "scorer_cpu_seconds",
+                                "signature_count",
+                            )
+                        },
+                    }
+                    for name, value in values.items():
+                        require(
+                            type(value) in (int, float)
+                            and math.isfinite(value)
+                            and value >= 0,
+                            "An operation measurement is malformed",
+                        )
+                        totals[method][name] += value
+                    deliveries += 1
+        for method in (
+            "spiking",
+            "frozen_input",
+            "continuous",
+            "linear",
+            "per_family_linear",
+            "rff",
+            "knn",
+        ):
+            evidence = _data(root, f"{prefix}/model-{fold}-{method}.json")
+            require(
+                evidence["training_sha256"] == records_hash,
+                "An operation comparator used different teaching records",
+            )
+    require(set(totals) == set(published_totals), "An operation comparator was omitted")
+    require(
+        seen == {(job, method) for job in jobs for method in totals},
+        "Operation delivery coverage is incomplete",
+    )
+    for method, measurements in published_totals.items():
+        for name, value in measurements.items():
+            require(
+                math.isclose(totals[method][name], value, rel_tol=1e-10, abs_tol=1e-9),
+                "Operation aggregate differs from its traces",
+            )
+    return {
+        "verified": True,
+        "jobs": len(jobs),
+        "independently_replayed_deliveries": deliveries,
+        "accepted": {name: int(values["accepted"]) for name, values in totals.items()},
+        "wrong": {name: int(values["wrong"]) for name, values in totals.items()},
+        "summary_sha256": hashlib.sha256(summary_path.read_bytes()).hexdigest(),
+        "scope": "Complete final output, acceptance and buyer-work replay; source-group separation, shared training identity and aggregate arithmetic. Not a reconstruction of gradient updates, teaching edge semantics, search visitation or recorded CPU timing.",
+    }
 
 
 def verify(root):
@@ -284,8 +438,15 @@ def verify(root):
         "schema": "nuria.neural-routing-development-verification.v1",
         "verified": True,
         "archive_files": len(artifacts),
+        "publication_manifests_sha256": {
+            path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in sorted(root.glob("archive-manifest-*.json"))
+        },
         "independently_replayed_deliveries": decisions,
         "attempts": reconstructed,
+        "operation_selection": verify_operation_deliveries(root, jobs),
+        "feedback_acquisition": verify_operation_deliveries(root, jobs, study=8),
+        "stronger_memory": verify_transfer_memory(root),
         "summary_sha256": hashlib.sha256(
             (root / "semantic-summary.json").read_bytes()
         ).hexdigest(),
@@ -297,6 +458,7 @@ def verify(root):
                 "scripts/check_neural_routing_results.py",
                 "scripts/build_guarded_skill_tasks.py",
                 "scripts/verify_active_skill_results.py",
+                "scripts/verify_transfer_memory_results.py",
             )
         },
         "scope": "Published and expanded byte identities, privacy screening, program-group separation, shared training-set identities, independent final output/acceptance/work replay and aggregate arithmetic. Search visitation, membership teaching, gradient training, CPU timing, external receipts and statistical superiority are not independently reconstructed.",

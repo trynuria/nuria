@@ -1,0 +1,137 @@
+{
+  "scope": "Conventional-control validation on an existing private synthetic development set. No qualification, consciousness, natural-world capability, or learning-superiority claim. Prior acquisition records remain unchanged.",
+  "jobs": 16,
+  "totals": {
+    "retained_short_circuit": {
+      "accepted": 14,
+      "wrong_selected": 0,
+      "search_work": 390182,
+      "buyer_work": 9922,
+      "audit_work": 747,
+      "cpu_seconds": 0.14151600000000042,
+      "sources": {
+        "old_strong_fallback": 14,
+        "null": 2
+      }
+    },
+    "field_templates": {
+      "accepted": 16,
+      "wrong_selected": 0,
+      "search_work": 42650,
+      "buyer_work": 11693,
+      "audit_work": 747,
+      "cpu_seconds": 0.011070000000000357,
+      "sources": {
+        "field_templates": 16
+      }
+    },
+    "old_strong": {
+      "accepted": 14,
+      "wrong_selected": 0,
+      "search_work": 299424,
+      "buyer_work": 9922,
+      "audit_work": 747,
+      "cpu_seconds": 0.1202589999999999,
+      "sources": {
+        "solved_prefix": 14,
+        "work_limit": 2
+      }
+    }
+  },
+  "paired_first_fit": {
+    "matches": 16,
+    "short_circuit_work_no_greater": 16,
+    "total_extra_work": 377773
+  },
+  "frozen_comparators": {
+    "spiking": {
+      "accepted": 15
+    },
+    "old_strong": {
+      "accepted": 14
+    },
+    "retained": {
+      "accepted": 10
+    }
+  },
+  "static_preparation": {
+    "0": {
+      "status": "prepared",
+      "work": {
+        "total": 37528,
+        "primitive_attempts": 21802,
+        "candidates": 1576,
+        "byte_blocks": 14150,
+        "errors": 0,
+        "semantic_duplicates": 160
+      },
+      "cpu_seconds": 0.045624,
+      "stored_bytes": 1169068,
+      "history_programs": 192,
+      "complete_candidates": 1376,
+      "declared_max_fields": 8,
+      "preparation_sha256": "21c75ffcc94396764606c60a77dfb5988979f7ef57251d4429abd70d328f0db4",
+      "raw_bindings": 1384,
+      "templates": 40,
+      "template_duplicates": 152,
+      "complete_duplicates": 8
+    },
+    "1": {
+      "status": "prepared",
+      "work": {
+        "total": 47849,
+        "primitive_attempts": 27996,
+        "candidates": 1958,
+        "byte_blocks": 17895,
+        "errors": 0,
+        "semantic_duplicates": 281
+      },
+      "cpu_seconds": 0.05720000000000003,
+      "stored_bytes": 1379944,
+      "history_programs": 198,
+      "complete_candidates": 1632,
+      "declared_max_fields": 8,
+      "preparation_sha256": "757ba2e04a34364eac909d86c8c51dcc094293b1293f9c7863ee0038890ca619",
+      "raw_bindings": 1760,
+      "templates": 45,
+      "template_duplicates": 153,
+      "complete_duplicates": 128
+    }
+  },
+  "validation_journal": {
+    "completed_work": 1229184,
+    "unresolved_reserved_work": 0,
+    "active": {}
+  },
+  "maximum_extra_work": 50000000,
+  "conservative_prior_study_work": 230150796,
+  "full_384_estimate": {
+    "new_actors_search_work_upper_bound": 38400000,
+    "pilot_scaled_search_work": {
+      "retained_short_circuit": 9364368,
+      "field_templates": 1023600
+    },
+    "pilot_scaled_actor_cpu_seconds": {
+      "retained_short_circuit": 3.39638400000001,
+      "field_templates": 0.2656800000000086
+    },
+    "estimates_are_exploratory_not_speed_guarantees": true
+  },
+  "pilot_process_cpu_seconds": 0.438481,
+  "protocol_sha256": "c3beea7cd5afa25e5d705fc4718e3293ab5ec06a304849350c438c13b1e0d35e",
+  "preparation_amendment_sha256": "2fa1e2dfecba5a198395e192c4dcab83dd7bf1b64e3a39a74c14fa863be7d2a3",
+  "results_sha256": "749d42ae301ba85488e3484bfbef5cc30eab3d7b821aa84faf5daa2250d13ffe",
+  "source_sha256": {
+    "controls.py": "2c4352cca3ad7d97122472901d0e22c49765e12793476d1e844493c05f7fbfe9",
+    "run_validation.py": "96ef5537f8bcb03c1168465a5102e37b3abea4c65fbcbd60c124450787c70557",
+    "engine/search.py": "5948b7d3cc7202b4b9ff2349cf8dc26bd07ef64d8162a86003db2bcf7f9179d5",
+    "engine/captured_composition.py": "f1037a60f825e01fbae1b9d48e823d9523fc98d07eb373ce2edb51add34f638d",
+    "engine/captured_routed_text_search.py": "68cc1488effc0fb1dbdfacc5d2e04385c3397bbd9de8c591cfe9eadcb7f3358c",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "cognition/text_composition.py": "c1a47a30d4220d8734d486fcded04a3fb68f49555207167ec3ddf473bd476e52",
+    "cognition/routed_text_search.py": "2634d293a2409c3725fb48339e0e40556d2f9e83d886713ac7a0ca0d660f945a",
+    "scripts/build_guarded_skill_tasks.py": "4586caa5bf8ad53e207e0f6f5dcc108e9a69b508954374db62d9649bbc747f6f",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  }
+}

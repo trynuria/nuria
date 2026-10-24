@@ -1,0 +1,96 @@
+"""Independent cache derivation, actor/buyer and shared validation-budget audit."""
+from pathlib import Path
+from collections import Counter
+import hashlib,json,sys
+import numpy as np
+BASE=Path(__file__).parents[1];HERE=BASE/'strong-memory-controls-01';sys.path.insert(0,str(HERE));sys.path.insert(0,'.')
+import controls as c
+import run_validation as ledger
+from cognition.skills import _Meter
+from scripts.build_guarded_skill_tasks import CONFIG,generate
+from scripts.verify_active_skill_results import outcome
+
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+full=json.loads((HERE/'full-summary.json').read_text());original_journal=(HERE/'validation-work-journal.jsonl').read_bytes()
+if hashlib.sha256(original_journal).hexdigest()!=full['work_journal_sha256_at_completion']:raise ValueError('Full comparison journal changed before independent audit')
+original_spent=ledger.journal_state()['completed_work'];added=0;prepared={};cache_hashes={};struct_meter=_Meter(1000000)
+for held in [0,1]:
+ history=ledger.history_for(held);cache=json.loads((HERE/f'prepared-{held}.json').read_text());op=f'independent-prepare-fold-{held}'
+ ledger.reserve(op,7500000);actual=c.prepare_history(history,CONFIG,budget=7500000);ledger.complete(op,actual.report['work']['total']);added+=actual.report['work']['total']
+ if list(actual.programs)!=cache['programs']or list(actual.template_candidates)!=cache['template_candidates']or actual.report['work']!=cache['report']['work']or actual.report['preparation_sha256']!=cache['report']['preparation_sha256']:raise ValueError('Prepared cache is not reproducible from whitelisted past history')
+ if cache['training_file_sha256']!=sha(BASE/'semantic-priority-dev-08'/f'training-{held}.json'):raise ValueError('Different source cohort memory')
+ # Independent substitution mapping; constants and every non-field parameter are
+ # retained exactly, including if_equal condition fields and repeated aliases.
+ def canonical(node,slots):
+  struct_meter.charge('primitive_attempts');out=dict(node);key='index'if node['op']=='field'else'field'if node['op']=='if_equal'else None
+  if key is not None:
+   if node[key]not in slots:slots[node[key]]=len(slots)
+   out[key]=slots[node[key]]
+  for child in ['arg','then','else']:
+   if child in node:out[child]=canonical(node[child],slots)
+  if 'parts'in node:out['parts']=[canonical(x,slots)for x in node['parts']]
+  return out
+ def bind(node,binding):
+  struct_meter.charge('primitive_attempts');out=dict(node);key='index'if node['op']=='field'else'field'if node['op']=='if_equal'else None
+  if key is not None:out[key]=binding[node[key]]
+  for child in ['arg','then','else']:
+   if child in node:out[child]=bind(node[child],binding)
+  if 'parts'in node:out['parts']=[bind(x,binding)for x in node['parts']]
+  return out
+ for item in actual.template_candidates:
+  struct_meter.charge('candidates');old=history['accepted_programs'][item['source_history_identity']]['expr'];slots={};template=canonical(old,slots);binding=item['binding']
+  if len(binding)!=len(slots)or any(type(i)is not int or not 0<=i<CONFIG['max_fields']for i in binding):raise ValueError('Undeclared template field assignment')
+  expected={'version':CONFIG['version'],'expr':bind(template,binding)};struct_meter.data(c.serial(expected))
+  if expected!=item['program']or item['template_sha256']!=c.digest(template)or item['required_fields']!=max(binding,default=-1)+1:raise ValueError('Template changes unobserved structure/constants or aliases')
+ prepared[held]=actual;cache_hashes[str(held)]=sha(HERE/f'prepared-{held}.json')
+ledger.reserve('independent-template-structure',1000000);ledger.complete('independent-template-structure',struct_meter.values['total']);added+=struct_meter.values['total']
+jobs={j['id']:j for seed in range(4)for j in generate(seed,96)['tasks']};pilot=[json.loads(line)for line in(HERE/'pilot-results.jsonl').read_text().splitlines()];replayed=Counter()
+for row in pilot:
+ job=jobs[row['job_id']];held=row['held_fold'];xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+ for name,actor in [('retained_short_circuit',c.retained_short_circuit),('field_templates',c.field_templates)]:
+  op=f'independent-pilot-{job["id"]}-{name}';ledger.reserve(op,1050000);a=actor(prepared[held],xs,ys,CONFIG,budget=50000);b=outcome(a['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+  charge=a['work']['total']+b['total_work'];ledger.complete(op,charge);added+=charge;old=row['methods'][name]
+  if a['program']!=old['program']or a['work']!=old['work']or b['passed']!=old['accepted']or b['total_work']!=old['buyer_work']:raise ValueError('Pilot actor/result/work does not reproduce')
+  replayed['pilot_actor_calls']+=1
+ if not row['first_fit_parity']or row['first_fit_checks']['original_full_rows']['program']!=row['first_fit_checks']['same_charge_short_circuit']['program']:raise ValueError('First-fit equivalence failed')
+ # Same order and deterministic evaluation imply both scans accept iff all
+ # disclosed predicates hold, so the first fitting program is identical. The
+ # finite cap caveat is retained rather than assuming unbounded work is free.
+# Independent every final buyer, every disclosed fit, every template origin.
+rows=[json.loads(line)for line in(HERE/'full-results.jsonl').read_text().splitlines()];totals=Counter();paired=Counter();seen=set()
+for row in rows:
+ j=jobs[row['job_id']];held=ledger.fold(j)
+ if held!=row['held_fold']or j['id']in seen:raise ValueError('Wrong or duplicate serving cohort')
+ seen.add(j['id']);xs,ys=j['diagnostic_inputs'][:4],j['diagnostic_outputs'][:4]
+ for method,r in row['methods'].items():
+  op=f'independent-buyer-{j["id"]}-{method}';ledger.reserve(op,2000000)
+  b=outcome(r['program'],j['score_inputs'],j['score_outputs'],CONFIG);a=outcome(r['program'],xs,ys,CONFIG);charge=b['total_work']+a['total_work'];ledger.complete(op,charge);added+=charge
+  if b['passed']!=r['accepted']or b['correct']!=r['correct_rows']or b['rows']!=r['rows']or b['total_work']!=r['buyer_work']or r['buyer_calls']!=1or c.digest(r['program'])!=r['committed_program_sha256']:raise ValueError('Independent buyer/commitment differs')
+  if r['program']is not None and not a['passed']:raise ValueError('Selected AST does not fit disclosed audits')
+  if r['work']['total']>50000or r['work']['total']!=sum(r['work'][k]for k in ['primitive_attempts','candidates','byte_blocks']):raise ValueError('Serving cap/work mismatch')
+  if r['selection_source']=='field_templates':
+   meta=r['selection_metadata'];matching=[item for item in prepared[held].template_candidates if item['template_sha256']==meta['template_sha256']and item['source_history_identity']==meta['source_history_identity']and item['binding']==meta['binding']]
+   if len(matching)!=1or matching[0]['program']!=r['program']or matching[0]['required_fields']>r['common_disclosed_field_count']:raise ValueError('Final program not from legal past-derived field substitution')
+  totals[(method,'accepted')]+=int(b['passed']);totals[(method,'wrong')]+=int(r['program']is not None and not b['passed']);replayed['final_buyer_calls']+=1
+  if method=='field_templates':paired[(bool(r['accepted']),bool(row['frozen_comparators']['spiking']['accepted']))]+=1
+if seen!=set(jobs):raise ValueError('Full384denominator changed')
+# Every full proposal was journaled before its single completed buyer decision.
+lines=(HERE/'validation-work-journal.jsonl').read_bytes().splitlines(keepends=True);journal=[json.loads(line)for line in lines];spent=0;active={};proposals={};before_audit=0
+for event in journal:
+ kind=event['event'];op=event['operation']
+ if kind=='reserve':
+  if op in active or spent+sum(active.values())+event['reserved_work']>50000000:raise ValueError('Shared validation reservation overflow/reuse')
+  active[op]=event['reserved_work']
+ elif kind=='proposal':
+  if op not in active or op in proposals:raise ValueError('Unreserved/duplicate proposal')
+  proposals[op]=event['committed_program_sha256']
+ elif kind=='complete':
+  reserve=active.pop(op)
+  if event['work']>reserve:raise ValueError('Actual validation work exceeds reservation')
+  spent+=event['work']
+  if op.startswith('full-')and(proposals.pop(op,None)!=event['committed_program_sha256']or event['buyer_calls']!=1):raise ValueError('Final buyer precedes proposal or retries')
+ else:raise ValueError('Unknown validation ledger event')
+if active or proposals or spent!=original_spent+added:raise ValueError('Shared validation accounting mismatch')
+result={'schema':'nuria.conventional-memory-independent-audit.v1','scope':'Independent known-development cache derivation and complete buyer replay. Strong conventional control is included regardless of its effect on neural claims. Actor inputs are only whitelisted verified prior ASTs/use counts, four disclosed examples and safe configuration; source groups route evaluation only. No new model fitting, reserved data, production or financial actions.','static_caches_reproduced':2,'static_preparation_replay_work':sum(p.report['work']['total']for p in prepared.values()),'independent_template_structure_work':struct_meter.values['total'],'pilot_jobs':len(pilot),'replay_counts':dict(replayed),'full_jobs':len(rows),'totals':{method:{key:totals[(method,key)]for key in ['accepted','wrong']}for method in ['retained_short_circuit','field_templates']},'field_template_vs_spiking':{f'template_{int(a)}_spiking_{int(b)}':n for(a,b),n in paired.items()},'first_fit_logic':'With fixed order and deterministic interpreter, full-row and first-mismatch scans accept a program iff every disclosed row matches; therefore both select the same earliest fitting AST when neither protective ceiling interrupts. Existing16pairedchecks cover this actual corpus; finite-budget coverage remains separate.','validation_original_completed_work':original_spent,'additional_independent_work':added,'validation_completed_work_after_audit':spent,'validation_remaining_after_audit':50000000-spent,'active_reservations':0,'cache_sha256':cache_hashes,'source_sha256':{name:sha(HERE/name)for name in ['controls.py','run_validation.py','full_evaluation.py','pilot-results.jsonl','full-results.jsonl']},'journal_sha256_after_audit':hashlib.sha256(b''.join(lines)).hexdigest(),'audit_source_sha256':sha(Path(__file__))}
+with Path(__file__).with_name('memory-controls-independent-audit.json').open('x')as f:json.dump(result,f,indent=2);f.write('\n')
+print(json.dumps({k:result[k]for k in ['full_jobs','totals','field_template_vs_spiking','additional_independent_work','validation_completed_work_after_audit','validation_remaining_after_audit']},indent=2))

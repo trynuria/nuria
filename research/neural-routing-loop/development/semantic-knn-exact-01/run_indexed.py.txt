@@ -1,0 +1,178 @@
+"""Private DEV operation-edge learning with program-disjoint group folds."""
+from pathlib import Path
+from collections import Counter
+from decimal import InvalidOperation
+import hashlib
+import inspect
+import json
+import sys
+import time
+
+import numpy as np
+from indexed_knn import IndexedExactKNN
+sys.path.insert(0, str(Path(__file__).parent.parent / "semantic-priority-dev-06"))
+from search import search, edge_training, digest, heuristic
+from features import OPS
+from audit_control import ContextualLinearGuidance
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.active_skills import probe_cost
+from cognition.skills import _Meter, WorkLimit
+from cognition.text_skills import evaluate, fields, validate_program
+from scripts.build_guarded_skill_tasks import generate, CONFIG
+from scripts.verify_active_skill_results import outcome
+
+OUTPUT=Path(__file__).parent
+P=OUTPUT.parent/'semantic-priority-dev-06'
+HISTORY=P.parent/'semantic-priority-dev-05'
+PAST=[j for seed in range(10,31)for j in generate(seed,96)['tasks']][:2000]
+JOBS=[j for seed in(0,1,2,3)for j in generate(seed,96)['tasks']]
+TRACES={r['job_id']:r for name in('teacher-pilot.jsonl','teacher-rest.jsonl')for r in map(json.loads,(HISTORY/name).read_text().splitlines())}
+METHODS=('old_strong','retained','property','edit','size','spiking','frozen_input','continuous','linear','per_family_linear','rff','knn')
+STATIC=('old_strong','retained','property','edit','size')
+
+def fold(job):
+    return int(hashlib.sha256(job['private_recipe']['program_sha256'].encode()).hexdigest()[:8],16)%2
+
+def collect(held):
+    records=[];origins=[];teacher_work=teacher_buyer_work=0;teacher_cpu=0.
+    accepted_programs={};program_uses=Counter();began=time.process_time()
+    training=[j for j in PAST if fold(j)!=held]
+    with(P/f'collection-{held}.jsonl').open('x')as stream:
+        for index,job in enumerate(training):
+            trace=TRACES[job['id']]
+            teacher_work+=sum(d['search_work']['total']for d in trace['profiles'].values())
+            teacher_buyer_work+=sum(d['buyer']['total_work']for d in trace['profiles'].values())
+            teacher_cpu+=sum(d['search_cpu_seconds']+d['buyer_cpu_seconds']for d in trace['profiles'].values())
+            accepted=[]
+            for delivered in trace['profiles'].values():
+                if not delivered['accepted']:continue
+                checked=outcome(delivered['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+                if not checked['passed']or digest(delivered['program'])!=delivered['program_sha256']:
+                    raise ValueError('Historical program fails independent buyer replay')
+                accepted.append(delivered['program'])
+                identity=delivered['program_sha256'];accepted_programs[identity]=delivered['program'];program_uses[identity]+=1
+            if not accepted:continue
+            xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+            observed=search(xs,ys,CONFIG,collect=True,prefix_budget=0)
+            taught=edge_training(accepted,xs,ys,observed['candidate_records'],CONFIG)
+            teaching=taught['records']
+            positives=[r for r in teaching if r['label']]
+            negatives=sorted((r for r in teaching if not r['label']),key=lambda r:digest([job['id'],r['candidate_sha256']]))[:32]
+            evidence=digest(trace)
+            selected=[{**r,'job_id':digest(job['id']),'receipt_evidence_sha256':evidence}for r in positives+negatives]
+            records.extend(selected)
+            origin={'job_id':job['id'],'accepted_programs':accepted,'buyer_evidence_sha256':evidence,
+                    'disclosed_inputs':xs,'disclosed_outputs':ys,'selected_records':selected,
+                    'enumerated_candidates':observed['candidate_records'],'teacher_edge_replay':{k:v for k,v in taught.items()if k!='records'},'collection_work':observed['work'],
+                    'collection_cpu_seconds':observed['cpu_seconds']}
+            stream.write(json.dumps(origin)+'\n');stream.flush()
+            origins.append({'job_id':job['id'],'positives':len(positives),'negatives':len(negatives)})
+            if(index+1)%100==0:print('collect',held,index+1,len(records),flush=True)
+    uncapped=len(records)
+    if len(records)>65536:records=sorted(records,key=lambda r:digest([r['job_id'],r['candidate_sha256']]))[:65536]
+    training_groups=sorted({j['private_recipe']['program_sha256']for j in training})
+    test_groups=sorted({j['private_recipe']['program_sha256']for j in JOBS if fold(j)==held})
+    if set(training_groups)&set(test_groups):raise ValueError('Exact source-program group overlap')
+    source_files=[Path(__file__),P/'search.py',P.parent/'semantic-edge-audit-01/features.py',P.parent/'semantic-edge-audit-01/audit_control.py',
+                  P.parent/'semantic-priority-dev-03/search.py',Path(inspect.getfile(SemanticGuidance)),
+                  Path('./cognition/text_skills.py'),
+                  Path('./cognition/text_composition.py'),
+                  Path('./scripts/build_guarded_skill_tasks.py'),
+                  Path('./scripts/verify_active_skill_results.py')]
+    result={'scope':'PRIVATE grouped development. Operation-edge objective: rank operand and prospective unaryfamily BEFORE executing thatfamily.130observables=118shared operand/signature features+12familyonehot, no taskID/recipe/parameters/currentparentoutputs. Root parent edges of actually accepted prior ASTs are legitimate labels; computedrootvalues are never modelfeatures. Concat is unchanged shared fixedshortestpath pass, no concatlabels/decisions. Nonmembership is weaknegative, not impossibility. Opposite targetrecipehashfold from2000past authored/synthetic8profileteacher jobs; exact known384source-recipe groups disjoint per testfold. All models share records/history/budget and whole-program retention challenger gets allactualacceptedpastprograms. No externalreservedaccess/newnaturaloutcomes/consciousnessclaim.',
+            'held_fold':held,'training_jobs':len(training),'accepted_origins':len(origins),
+            'records':records,'positives':sum(r['label']for r in records),'records_before_cap':uncapped,
+            'origins':origins,'accepted_programs':accepted_programs,'program_uses':dict(program_uses),
+            'training_groups':training_groups,'test_groups':test_groups,
+            'teacher_search_work':teacher_work,'teacher_buyer_work':teacher_buyer_work,'teacher_cpu_seconds':teacher_cpu,
+            'collection_cpu_seconds':time.process_time()-began,
+            'sources_sha256':{str(f):hashlib.sha256(f.read_bytes()).hexdigest()for f in source_files},
+            'teacher_traces_sha256':{name:hashlib.sha256((HISTORY/name).read_bytes()).hexdigest()for name in('teacher-pilot.jsonl','teacher-rest.jsonl')}}
+    with(P/f'training-{held}.json').open('x')as stream:json.dump(result,stream)
+    print(json.dumps({k:v for k,v in result.items()if k not in('records','origins','accepted_programs','program_uses','training_groups','test_groups')},indent=2),flush=True)
+
+def fit(held):
+    data=json.loads((P/f'training-{held}.json').read_text());records=data['records'];report={}
+    for method in METHODS:
+        if method in STATIC:continue
+        model=ContextualLinearGuidance(seed=20261026+held)if method=='per_family_linear'else SemanticGuidance(method=method,dimension=130,seed=20261026+held)
+        start=time.process_time();model.fit(records);cpu=time.process_time()-start
+        with(P/f'model-{held}-{method}.json').open('x')as stream:json.dump(model.evidence(),stream)
+        report[method]={'fit_cpu_seconds':cpu,'training_sha256':model.training_sha256,'records':len(records),'positives':sum(r['label']for r in records)}
+        print('fit',held,method,cpu,flush=True)
+    with(P/f'fits-{held}.json').open('x')as stream:json.dump(report,stream,indent=2)
+
+def retained_search(data,xs,ys,budget=50000):
+    started=time.process_time();meter=_Meter(budget);program=None
+    order=sorted(data['accepted_programs'],key=lambda h:(-data['program_uses'][h],h))
+    for identity in order:
+        try:
+            meter.charge('candidates')
+            values=[evaluate(data['accepted_programs'][identity]['expr'],fields(x,CONFIG),meter,CONFIG)for x in xs]
+        except(ValueError,IndexError,KeyError,InvalidOperation)as error:
+            if isinstance(error,WorkLimit):break
+            meter.values['errors']+=1;continue
+        if values==ys:program=data['accepted_programs'][identity];break
+    found=program is not None;fallback=None
+    if program is None and meter.values['total']<budget:
+        remaining=budget-meter.values['total'];fallback=search(xs,ys,CONFIG,budget=remaining,prefix_budget=remaining)
+        program=fallback['program']
+    work=dict(meter.values)
+    if fallback:work={k:work[k]+fallback['work'][k]for k in work}
+    return {'program':program,'status':'solved_retained'if found else 'fallback','work':work,'signature_count':0,
+            'signature_cpu_seconds':0.,'scorer_cpu_seconds':0.,'scored_count':0,'cpu_seconds':time.process_time()-started,
+            'candidate_records':None,'retained_programs':len(order)}
+
+def restore_contextual(evidence):
+    model=ContextualLinearGuidance(seed=evidence['configuration']['seed'])
+    # Private evaluation uses the exact just-emitted inference evidence, not an
+    # unauthenticated production checkpoint import. Complete filehash retained.
+    model.W=np.asarray(evidence['weights']['W']);model.C=np.asarray(evidence['weights']['C'])
+    model.training_sha256=evidence['training_sha256'];model.steps=evidence['optimizer_steps']
+    model.records_count=evidence['records_count'];model.positive_count=evidence['positive_count']
+    return model
+
+def evaluate_fold(held,methods):
+    data=json.loads((P/f'training-{held}.json').read_text());learned={}
+    for method in methods:
+        if method in STATIC:continue
+        evidence=json.loads((P/f'model-{held}-{method}.json').read_text())
+        learned[method]=restore_contextual(evidence)if method=='per_family_linear'else SemanticGuidance.from_evidence(evidence)
+    indexes={m:IndexedExactKNN(model) for m,model in learned.items() if m=='knn'}
+    totals={m:{'accepted':0,'wrong':0,'search_work':0,'audit_work':0,'buyer_work':0,'search_cpu_seconds':0.,'buyer_cpu_seconds':0.,'signature_cpu_seconds':0.,'scorer_cpu_seconds':0.,'signature_count':0}for m in methods}
+    name=f'evaluation-{held}-'+ '-'.join(methods)+'-indexed'
+    with(OUTPUT/(name+'.jsonl')).open('x')as stream:
+        for index,job in enumerate(j for j in JOBS if fold(j)==held):
+            xs,ys=job['diagnostic_inputs'][:4],job['diagnostic_outputs'][:4]
+            audit=sum(probe_cost(x,y)for x,y in zip(xs,ys,strict=True));row={'job_id':job['id'],'family':job['family'],'methods':{}}
+            for method in methods:
+                if method=='knn':indexes[method].reset()
+                if method=='retained':result=retained_search(data,xs,ys)
+                else:
+                    scorer=heuristic if method in('old_strong','property')else((lambda x:np.zeros(len(x)))if method=='size'else((lambda x:x[:,99])if method=='edit'else (indexes[method].score if method=='knn' else learned[method].score)))
+                    result=search(xs,ys,CONFIG,scorer=scorer,budget=50000,prefix_budget=50000 if method=='old_strong'else 10000)
+                start=time.process_time();checked=outcome(result['program'],job['score_inputs'],job['score_outputs'],CONFIG);buyer_cpu=time.process_time()-start
+                record={k:v for k,v in result.items()if k!='candidate_records'};record.update({'accepted':checked['passed'],'correct_rows':checked['correct'],'rows':checked['rows'],'buyer_work':checked['total_work'],'buyer_cpu_seconds':buyer_cpu,'audit_work':audit})
+
+                if method=='knn':record['exact_index']={'hits':indexes[method].hits,'misses':indexes[method].misses,'rows_evaluated':indexes[method].reference_rows_evaluated,'fallbacks':indexes[method].fallback_queries}
+                row['methods'][method]=record;total=totals[method]
+                total['accepted']+=int(checked['passed']);total['wrong']+=int(result['program']is not None and not checked['passed'])
+                total['search_work']+=result['work']['total'];total['audit_work']+=audit;total['buyer_work']+=checked['total_work']
+                total['search_cpu_seconds']+=result['cpu_seconds'];total['buyer_cpu_seconds']+=buyer_cpu
+                for key in('signature_cpu_seconds','scorer_cpu_seconds','signature_count'):total[key]+=result[key]
+            stream.write(json.dumps(row)+'\n');stream.flush()
+            if(index+1)%24==0:print('tested',held,index+1,flush=True)
+    report={'scope':data['scope'],'held_fold':held,'jobs':sum(fold(j)==held for j in JOBS),'totals':totals,
+            'training_records':len(data['records']),'training_positives':data['positives'],
+            'teacher_search_work':data['teacher_search_work'],'teacher_buyer_work':data['teacher_buyer_work'],'teacher_cpu_seconds':data['teacher_cpu_seconds'],'collection_cpu_seconds':data['collection_cpu_seconds'],
+            'training_sha256':hashlib.sha256((P/f'training-{held}.json').read_bytes()).hexdigest(),
+            'sources_sha256':data['sources_sha256'], 'exact_index_startup':{m:{'cpu_seconds':idx.index_cpu_seconds,'bytes':idx.index_bytes,'groups':len(idx.groups),'binary_coordinates':int(idx.binary_mask.sum())}for m,idx in indexes.items()},'optimization_source_sha256':hashlib.sha256((OUTPUT/'indexed_knn.py').read_bytes()).hexdigest()}
+    with(OUTPUT/(name+'-summary.json')).open('x')as stream:json.dump(report,stream,indent=2)
+    print(json.dumps(report,indent=2),flush=True)
+
+if __name__=='__main__':
+    mode=sys.argv[1];held=int(sys.argv[2])
+    if mode=='collect':collect(held)
+    elif mode=='fit':fit(held)
+    elif mode=='evaluate':evaluate_fold(held,tuple(sys.argv[3:])or METHODS)
+    else:raise ValueError('Unknown fixed DEV action')
