@@ -114,6 +114,13 @@ original recurrent circuit. CPU, stored-state sizes and stronger controls remain
 separate from accuracy. No financial action is involved. Website design, rendering
 and existing neural histories are unchanged.
 
+## Service
+
+A [private inference interface](SERVICE.md) accepts segmented digit inputs and
+returns durable model-bound decisions. The [server receipt](service-evidence/server.json)
+records the complete 1,797-row reproduction, identical-history retry and separate
+caller-interface check. This component is separate from the main commerce loop.
+
 ## Reproduction
 
 Use the root dependency versions. Check the published evidence offline:

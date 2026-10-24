@@ -73,3 +73,29 @@ Install reviewed source at `/opt/nuria/neural-digits/current`, provision the
 service management. Credentials and private infrastructure details do not belong
 in source. Read-only deployment receipts identify actual source and model hashes;
 the main website and original workers keep their own release identities.
+
+## Recorded deployment
+
+The [dedicated component receipt](service-evidence/server.json) identifies source
+commit `79477031ca81bad4e3727a23b27619bc220a1c1e`, reviewed model and deployment
+time. The server reproduced 1,741 correct decisions out of all 1,797 examples
+through separate durable request commits. A full course retry reused every
+answer and comparison with an identical 3,595-event journal. A caller-interface
+demonstration also checked exact prediction/comparison retries and unchanged
+optimizer state. It uses an already used training example, not new accuracy
+evidence.
+
+The finite service completed successfully; it is not a continuously running
+learner. Its first execution temporarily used one CPU instead of the declared
+half-core cap after observed throttling, then returned to the half-core limit.
+All nine original worker process IDs, release metadata and frontend bytes were
+verified unchanged. These are local administrative observations and hash-bound
+receipts, not an external execution witness.
+
+The [training-only recovery receipt](service-evidence/training-recovery.json)
+records three source-registered updates and an exact close/reopen continuation
+of weights and Adam optimizer state. All three answers were committed before
+the labels were revealed, and duplicate training receipts had no extra effect.
+Those examples came from the already used training partition. This verifies the
+library's learning/recovery path; it is not unseen accuracy evidence or evidence
+that continued production learning improves choices.
