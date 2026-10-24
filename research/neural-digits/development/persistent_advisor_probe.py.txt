@@ -1,0 +1,201 @@
+"""Development-only native SQLite advisory feasibility probe; not qualification."""
+from __future__ import annotations
+
+import csv
+import hashlib
+import io
+import json
+import sys
+import time
+import zipfile
+from pathlib import Path
+
+import numpy as np
+
+SOURCE = Path('.')
+sys.path.insert(0, str(SOURCE))
+from cognition.sqlite_lab import SQLiteLab, CSV_SHA256
+
+OUT = Path(__file__).resolve().parent / 'persistent-probe-01'
+METHODS = ('no_index', 'last_mix', 'ewma', 'history_linear', 'history_rff')
+FAMILIES = ('stationary', 'drifting', 'recurrent', 'iid', 'short', 'uci_daily_projection')
+SEEDS = (11, 17, 23, 29)
+WINDOWS = 192
+LAGS = 16
+
+
+def canonical(v):
+    return json.dumps(v, sort_keys=True, separators=(',', ':'), allow_nan=False)
+
+
+def digest(v):
+    return hashlib.sha256(canonical(v).encode()).hexdigest()
+
+
+def kernel(csv_bytes, rows):
+    # Query predicate points come from public records, not outcome-based selection.
+    indices = np.random.default_rng(710).choice(len(rows), 24, replace=False)
+    fields = (('hr', 'weekday'), ('mnth', 'workingday'), ('weathersit', 'season'))
+    predicates = []
+    for family, columns in enumerate(fields):
+        unique = sorted({(int(rows[int(i)][columns[0]]), int(rows[int(i)][columns[1]])) for i in indices})
+        predicates.extend({'family': family, 'a': a, 'b': b} for a, b in unique[:8])
+    values = []
+    with SQLiteLab(csv_bytes) as lab:
+        for query in predicates:
+            arms = [lab.run(a, [query]) for a in range(4)]
+            assert len({r['results_sha256'] for r in arms}) == 1
+            values.append({
+                'query': query,
+                'query_steps': [a['query_steps'] for a in arms],
+                'build_steps': [a['index_build_steps'] for a in arms],
+                'results_sha256': arms[0]['results_sha256'],
+            })
+        identity = {'sqlite_version': lab._sqlite.version, 'sqlite_source_id': lab._sqlite.source_id, 'dataset_sha256': lab.dataset_sha256, 'rows': lab.rows}
+    assert all(v['build_steps'] == values[0]['build_steps'] for v in values)
+    return {'identity': identity, 'predicates': values, 'build_steps': values[0]['build_steps']}
+
+
+def schedule(family, seed, rows, cost_kernel):
+    rng = np.random.default_rng(seed)
+    by_family = [[i for i, r in enumerate(cost_kernel['predicates']) if r['query']['family'] == f] for f in range(3)]
+    out, dominant = [], int(rng.integers(3))
+    durations = rng.integers(8, 25, 64)
+    cursor = 0
+    for step in range(WINDOWS):
+        count = 32
+        if family == 'stationary':
+            p = np.full(3, .08); p[dominant] = .84
+        elif family == 'drifting':
+            if step and rng.random() < .06:
+                dominant = int(rng.integers(3))
+            p = np.full(3, .08); p[dominant] = .84
+        elif family == 'recurrent':
+            if step >= int(sum(durations[:cursor + 1])):
+                cursor += 1
+            current = (dominant + cursor) % 3
+            p = np.full(3, .08); p[current] = .84
+        elif family in ('iid', 'short'):
+            p = rng.dirichlet(np.ones(3))
+            count = 2 if family == 'short' else 32
+        elif family == 'uci_daily_projection':
+            # Disclosed application projection of real chronological observations,
+            # not a claim these are real user SQL logs. Hour determines app route;
+            # observed rental count supplies request intensity.
+            row = rows[(seed * 193 + step) % len(rows)]
+            current = int(row['hr']) // 8
+            p = np.full(3, .08); p[current] = .84
+            count = 2 + min(30, int(row['cnt']) // 20)
+        else:
+            raise ValueError(family)
+        chosen = [int(rng.choice(by_family[int(f)])) for f in rng.choice(3, count, p=p)]
+        histogram = np.bincount([cost_kernel['predicates'][i]['query']['family'] for i in chosen], minlength=3).astype(float) / count
+        out.append({'step': step, 'queries': chosen, 'histogram': histogram.tolist(), 'count': count})
+    return out
+
+
+class Forecaster:
+    def __init__(self, kind):
+        self.kind = kind
+        self.history = []
+        self.ewma = np.full(3, 1/3)
+        rng = np.random.default_rng(908)
+        self.proj = rng.normal(size=(64, LAGS * 4)) / np.sqrt(LAGS * 4)
+        self.bias = rng.uniform(-np.pi, np.pi, 64)
+        dimension = LAGS * 4 + 1 if kind == 'history_linear' else 65
+        self.inverse = np.eye(dimension) * 2
+        self.weights_sum = np.zeros((dimension, 3))
+        self.pending = None
+        self.n = 0
+
+    def features(self):
+        history = ([np.zeros(4)] * max(0, LAGS - len(self.history)) + self.history[-LAGS:])
+        x = np.concatenate(history)
+        if self.kind == 'history_rff':
+            x = np.sqrt(2 / 64) * np.cos(2 * (self.proj @ x) + self.bias)
+        return np.r_[1., x]
+
+    def predict(self):
+        if self.kind == 'last_mix':
+            return self.history[-1][:3] if self.history else np.full(3, 1/3)
+        if self.kind == 'ewma':
+            return self.ewma.copy()
+        if self.kind in ('history_linear', 'history_rff'):
+            self.pending = self.features()
+            p = self.pending @ self.inverse @ self.weights_sum
+            # Identical simple shrinkage stabilizes both trained readouts.
+            p = np.maximum(p, .001)
+            return p / p.sum()
+        return np.full(3, 1/3)
+
+    def observe(self, row):
+        y = np.asarray(row['histogram'])
+        if self.kind in ('history_linear', 'history_rff'):
+            x = self.pending
+            v = self.inverse @ x
+            self.inverse -= np.outer(v, v) / (1 + x @ v)
+            self.weights_sum += np.outer(x, y)
+        self.ewma = .65 * self.ewma + .35 * y
+        self.history.append(np.r_[y, row['count'] / 32])
+        self.n += 1
+
+
+def choose(kind, prediction, previous_count, current_arm):
+    if kind == 'no_index' or previous_count < 4:
+        return 0
+    target = int(np.argmax(prediction)) + 1
+    # Same hysteresis for all forecasters, fixed before viewing this probe.
+    if current_arm and prediction[current_arm - 1] >= prediction[target - 1] - .12:
+        return current_arm
+    return target
+
+
+def run(method, windows, cost_kernel):
+    model = Forecaster(method)
+    arm, previous_count, total, query, build, switches = 0, 0, 0, 0, 0, 0
+    trace, squared = [], 0.
+    started = time.process_time()
+    for row in windows:
+        prediction = model.predict()
+        selected = choose(method, prediction, previous_count, arm)
+        build_cost = cost_kernel['build_steps'][selected] if selected and selected != arm else 0
+        # Explicitly no DROP charge; record this exclusion rather than silently
+        # treating the probe as a complete persistent-native run.
+        query_cost = sum(cost_kernel['predicates'][i]['query_steps'][selected] for i in row['queries'])
+        cost = build_cost + query_cost
+        trace.append({'step': row['step'], 'prior_index': arm, 'arm': selected, 'prediction': prediction.tolist(), 'queries_sha256': digest(row['queries']), 'count': row['count'], 'query_steps': query_cost, 'build_steps': build_cost, 'total_steps': cost, 'observed_histogram': row['histogram']})
+        switches += selected != arm
+        arm = selected
+        total += cost; query += query_cost; build += build_cost
+        squared += float(np.mean((prediction - np.asarray(row['histogram'])) ** 2))
+        # Labels are completed query observations, shared by every method. No
+        # unchosen-arm cost or optimal-arm identity ever enters the forecaster.
+        model.observe(row)
+        previous_count = row['count']
+    return {'method': method, 'total_steps': total, 'query_steps': query, 'build_steps': build, 'switches': switches, 'forecast_mse': squared / len(windows), 'policy_cpu_seconds': time.process_time() - started, 'trace': trace}
+
+
+def main():
+    started = time.process_time()
+    OUT.mkdir(exist_ok=False)
+    archive = SOURCE / 'research/intervention-memory/data/bike-sharing-original.zip'
+    raw = zipfile.ZipFile(archive).read('hour.csv')
+    assert hashlib.sha256(raw).hexdigest() == CSV_SHA256
+    rows = list(csv.DictReader(io.StringIO(raw.decode('utf8'))))
+    cost_kernel = kernel(raw, rows)
+    (OUT / 'native-kernel.json').write_text(json.dumps(cost_kernel, indent=2) + '\n')
+    runs = []
+    for family in FAMILIES:
+        for seed in SEEDS:
+            windows = schedule(family, seed, rows, cost_kernel)
+            for method in METHODS:
+                run_result = run(method, windows, cost_kernel)
+                runs.append({'family': family, 'seed': seed, **run_result})
+    summary = {family: {method: {metric: float(np.mean([r[metric] for r in runs if r['family'] == family and r['method'] == method])) for metric in ('total_steps', 'query_steps', 'build_steps', 'switches', 'forecast_mse', 'policy_cpu_seconds')} for method in METHODS} for family in FAMILIES}
+    report = {'schema': 'nuria.persistent-advisor-development-probe.v1', 'source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'phase': 'development-only', 'identities': cost_kernel['identity'], 'families': FAMILIES, 'seeds': SEEDS, 'windows': WINDOWS, 'methods': METHODS, 'summary': summary, 'cpu_seconds': time.process_time() - started, 'limitations': ['No neural model in this feasibility probe.', 'Native measured per-query kernel with persistent-state accounting; not a full fresh persistent execution per policy.', 'Index create VM steps charged on changes; DROP work omitted and must be included in any qualification.', 'All synthetic schedules; uci_daily_projection is a disclosed synthetic application transformation of chronological public rows, not real SQL logs.', 'All forecasters learn completed query histograms, not chosen cost utility; domain action rule is shared and fixed.', 'No reserved data or public qualification used; no production or wallet changes.'], 'runs': runs}
+    (OUT / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(json.dumps({'output': str(OUT), 'cpu_seconds': report['cpu_seconds'], 'summary': summary}, indent=2))
+
+
+if __name__ == '__main__':
+    main()

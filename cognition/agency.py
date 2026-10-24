@@ -2,6 +2,7 @@
 
 import copy
 import math
+import re
 
 import numpy as np
 
@@ -9,15 +10,84 @@ from commerce.ledger import canonical
 from commerce.tasks import HASH, digest, finite, validate_task
 
 VERSION = "neural-task-policy-v1"
+CAPABILITY_VERSION = "neural-task-policy-v2"
 DIM = 17
 RECEIPT_WINDOW = 512
+SOURCE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}\Z")
+ROW_FIELDS = frozenset(
+    (
+        "targets",
+        "baseline",
+        "training_inputs",
+        "training_outputs",
+        "validation_inputs",
+        "validation_outputs",
+        "diagnostic_inputs",
+        "diagnostic_outputs",
+        "heldout_inputs",
+        "heldout_outputs",
+        "inputs",
+        "expected_outputs",
+    )
+)
+
+
+def capability_identity(task, source_id):
+    """Group checked outcomes by capability without absorbing evaluation rows.
+
+    The caller must explicitly declare a source boundary. Provider, operation,
+    language limits, declared dataset/skill identity, verification thresholds,
+    financial ceiling and delivery/outcome terms remain exact. Goal names,
+    prose, evaluation nonces and example/final rows identify individual jobs;
+    they do not define a reusable capability. This grouping is conventional
+    value-model reuse, independently of any neural representation.
+    """
+    if not isinstance(source_id, str) or not SOURCE.fullmatch(source_id):
+        raise ValueError("Capability learning requires an explicit bounded source")
+    validate_task(task)
+    return {
+        "schema": CAPABILITY_VERSION,
+        "source_id": source_id,
+        "provider": task["provider"],
+        "kind": task["kind"],
+        "action": task["action"],
+        "maximum_micro_usd": task["maximum_micro_usd"],
+        "delivery_seconds": task["delivery_seconds"],
+        "acceptance": {
+            key: copy.deepcopy(value)
+            for key, value in task["acceptance"].items()
+            if key not in ROW_FIELDS
+        },
+        "outcome": copy.deepcopy(task.get("outcome")),
+    }
 
 
 class NeuralTaskPolicy:
-    def __init__(self, state=None):
+    def __init__(self, state=None, *, source_id=None):
+        restoring = state is not None
         state = copy.deepcopy(state or {})
-        if state.get("version", VERSION) != VERSION:
+        self.version = state.get(
+            "version", CAPABILITY_VERSION if source_id is not None else VERSION
+        )
+        if self.version not in (VERSION, CAPABILITY_VERSION):
             raise ValueError("Task policy version is incompatible")
+        self.source_id = None
+        self.capabilities = {}
+        if self.version == VERSION:
+            if source_id is not None or {"source_id", "capabilities"} & set(state):
+                raise ValueError("Legacy task models cannot silently change key policy")
+        else:
+            self.source_id = state.get("source_id", source_id)
+            if (
+                not isinstance(self.source_id, str)
+                or not SOURCE.fullmatch(self.source_id)
+                or source_id is not None
+                and source_id != self.source_id
+                or restoring
+                and not {"version", "source_id", "capabilities"} <= set(state)
+            ):
+                raise ValueError("Task capability source or checkpoint is incompatible")
+            self.capabilities = state.get("capabilities", {})
         self.models = state.get("models", {})
         self.pending = state.get("pending", {})
         self.feedback_cursor = state.get("feedback_cursor", 0)
@@ -43,6 +113,40 @@ class NeuralTaskPolicy:
             raise ValueError("Task policy counters are invalid")
         if len(self.models) > 32 or len(self.pending) > 32:
             raise ValueError("Task policy state exceeds its bounds")
+        if self.version == CAPABILITY_VERSION:
+            if (
+                not isinstance(self.capabilities, dict)
+                or set(self.capabilities) != set(self.models)
+                or any(
+                    type(model.get("n")) is not int or model["n"] < 0
+                    for model in self.models.values()
+                )
+                or sum(model["n"] for model in self.models.values()) != self.completed
+                or any(
+                    not isinstance(identity, dict)
+                    or set(identity)
+                    != {
+                        "schema",
+                        "source_id",
+                        "provider",
+                        "kind",
+                        "action",
+                        "maximum_micro_usd",
+                        "delivery_seconds",
+                        "acceptance",
+                        "outcome",
+                    }
+                    or identity["schema"] != CAPABILITY_VERSION
+                    or identity["source_id"] != self.source_id
+                    or not isinstance(identity["acceptance"], dict)
+                    or ROW_FIELDS & set(identity["acceptance"])
+                    or digest(identity) != key
+                    for key, identity in self.capabilities.items()
+                )
+            ):
+                raise ValueError(
+                    "Task capability keys differ from their source-bound identity"
+                )
         if not isinstance(self.receipts, dict) or len(self.receipts) > RECEIPT_WINDOW:
             raise ValueError("Task feedback receipt history exceeds its bounds")
         for seq, receipt in self.receipts.items():
@@ -83,6 +187,9 @@ class NeuralTaskPolicy:
                 or context[0] != 1
                 or np.any(context < 0)
                 or np.any(context > 1)
+                or self.version == CAPABILITY_VERSION
+                and pending.get("action")
+                != self.capabilities[pending["model_key"]]["action"]
             ):
                 raise ValueError("Pending neural task context is malformed")
 
@@ -126,8 +233,10 @@ class NeuralTaskPolicy:
                 for receipt in self.receipts.values()
             ):
                 continue
-            key = digest(
-                {
+            identity = (
+                capability_identity(task, self.source_id)
+                if self.version == CAPABILITY_VERSION
+                else {
                     "goal_id": task["id"],
                     "provider": task["provider"],
                     "kind": task["kind"],
@@ -136,10 +245,13 @@ class NeuralTaskPolicy:
                     "outcome": (task.get("outcome") or {}).get("type"),
                 }
             )
+            key = digest(identity)
             if key not in self.models:
                 if len(self.models) >= 32:
                     continue
                 self.models[key] = {"a": np.eye(DIM).tolist(), "b": [0.0] * DIM, "n": 0}
+                if self.version == CAPABILITY_VERSION:
+                    self.capabilities[key] = identity
             if any(item["goal_id"] == task["id"] for item in self.pending.values()):
                 continue
             model = self.models[key]
@@ -181,6 +293,10 @@ class NeuralTaskPolicy:
             "alternatives": candidates,
             "eligibility_sha256": digest(trace) if trace else None,
         }
+        if self.version == CAPABILITY_VERSION:
+            # The commerce envelope is unchanged. The committed learning schema
+            # discloses the explicit checkpoint/keying version separately.
+            intent["learning_schema"] = CAPABILITY_VERSION
         intent["id"] = digest(intent)
         self.pending[intent["id"]] = {
             k: intent[k]
@@ -264,22 +380,23 @@ class NeuralTaskPolicy:
             self.receipts.pop(oldest)
 
     def state(self):
-        return copy.deepcopy(
-            {
-                "version": VERSION,
-                "models": self.models,
-                "pending": self.pending,
-                "feedback_cursor": self.feedback_cursor,
-                "completed": self.completed,
-                "receipt_floor": self.receipt_floor,
-                "feedback_receipts": self.receipts,
-                "legacy_feedback_floor": self.legacy_feedback_floor,
-            }
-        )
+        state = {
+            "version": self.version,
+            "models": self.models,
+            "pending": self.pending,
+            "feedback_cursor": self.feedback_cursor,
+            "completed": self.completed,
+            "receipt_floor": self.receipt_floor,
+            "feedback_receipts": self.receipts,
+            "legacy_feedback_floor": self.legacy_feedback_floor,
+        }
+        if self.version == CAPABILITY_VERSION:
+            state.update(source_id=self.source_id, capabilities=self.capabilities)
+        return copy.deepcopy(state)
 
     def public(self):
-        return {
-            "method": VERSION,
+        result = {
+            "method": self.version,
             "pending": len(self.pending),
             "completed": self.completed,
             "feedback_cursor": self.feedback_cursor,
@@ -288,3 +405,9 @@ class NeuralTaskPolicy:
             "legacy_feedback_floor": self.legacy_feedback_floor,
             "scope": "Neural-context ridge/UCB task selection. Exact originating context receives verified delayed utility; this is distinct from a proven synaptic or consciousness advantage.",
         }
+        if self.version == CAPABILITY_VERSION:
+            result.update(
+                key_policy="source_capability",
+                scope="Neural-context ridge/UCB task selection with source-capability value reuse. Exact originating context receives verified delayed utility. Capability reuse is conventional learning and does not establish a synaptic or consciousness advantage.",
+            )
+        return result

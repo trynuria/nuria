@@ -1,0 +1,99 @@
+{
+  "schema": "nuria.neural-digit-protocol.v1",
+  "created_utc": "2026-10-24T16:51:06.097860+00:00",
+  "status": "Prospective freeze; official test inputs and targets have not been opened by this study.",
+  "scope": "Bounded supervised neural perception on already segmented 8 by 8 digits. This is a new task-specific spiking specialist, separate from the original 1,024-cell recurrent circuit. No result about general OCR, consciousness, market decisions, treasury choices or hiring is claimed.",
+  "data": {
+    "url": "https://archive.ics.uci.edu/static/public/80/optical+recognition+of+handwritten+digits.zip",
+    "doi": "10.24432/C50P49",
+    "license": "CC-BY-4.0",
+    "archive_sha256": "0d7b054fea010270e9b3f06411c654c5e59547732ad626381980baffe0a23fb0",
+    "train_member": "optdigits.tra",
+    "train_sha256": "e1b683cc211604fe8fd8c4417e6a69f31380e0c61d4af22e93cc21e9257ffedd",
+    "train_rows": 3823,
+    "test_member": "optdigits.tes",
+    "test_rows": 1797,
+    "test_uncompressed_bytes": 264712,
+    "test_crc32": 784219063,
+    "upstream_partition": "Different training and test writers; per-row writer identifiers are unavailable."
+  },
+  "task": {
+    "inputs": "Exactly 64 integer pixel summaries in 0..16, normalized by 16. No augmentation, crop selection or omitted test examples.",
+    "actions": "Ten integer digit labels in 0..9. Equal logits resolve toward the lowest class index.",
+    "feedback": "Official supervised training labels. Qualification inference cannot update weights or optimizer. Test targets reach scoring only after all registered predictions and identity checks are complete."
+  },
+  "selection": {
+    "development": "Fixed stratified 3,060/763 split inside official training data, seed 20261024. All architectures, epochs, initializations and linear-grid outcomes are retained. kNN5 wins development; superiority over every method is not assumed.",
+    "neural": "64 hidden LIF cells and 16 discrete ticks: v = 0.8*v + drive; fire at v >= 1; subtract one on reset. Hard spike fractions feed the action readout. Conventional Adam and the explicit bounded surrogate train weights.",
+    "training": {
+      "architecture": {
+        "ticks": 16,
+        "width": 64
+      },
+      "batch_size": 128,
+      "epochs": 125,
+      "l2": 1e-05,
+      "learning_rate": 0.003,
+      "order_seed_rule": "numpy default_rng(model seed + 707); fresh permutation each epoch; identical order across matched mechanisms",
+      "seeds": [
+        202611,
+        202612,
+        202613
+      ],
+      "training_labels": "All 3823 published training labels are visible to every fitted method; qualification labels never train these checkpoints"
+    },
+    "initializations": [
+      202611,
+      202612,
+      202613
+    ],
+    "seed_aggregation": "Mean accuracy of three fixed initializations on the same 1,797 images. These are not 5,391 independent examples, and no best seed may be selected from test scores.",
+    "primary_control": "Development-selected regularized linear softmax, with the same 64 pixels and all 3,823 training labels.",
+    "learning_control": "Same architecture and output learning, with input weights frozen at initialization. Each seed, training order and label budget is matched.",
+    "other_controls": [
+      "Stable-tie 5-nearest-neighbours using all 3,823 training examples.",
+      "Matched continuous clipped-rate hidden network, with three fixed initializations."
+    ]
+  },
+  "training_manifest_sha256": "6c847cabe427f5ad8e26edfa8ea86f9b5f8d219049845fa566f822cf6522576f",
+  "model_ids": [
+    "linear",
+    "knn5",
+    "snn_trained-202611",
+    "snn_trained-202612",
+    "snn_trained-202613",
+    "snn_input_frozen-202611",
+    "snn_input_frozen-202612",
+    "snn_input_frozen-202613",
+    "continuous-202611",
+    "continuous-202612",
+    "continuous-202613"
+  ],
+  "source_hashes": {
+    "cognition/spiking_digits.py": "4cecbde3a49d916123aedb489e847698841fad46ff8e03863602929d8bc3c795",
+    "scripts/train_spiking_digits.py": "210f5133306a534dc7f56220fe288dc965792380dd3ae329e367c5a16725bf51",
+    "scripts/evaluate_neural_digits.py": "babadb5af81bd737137d706249f88bc3fb9d25631324394acef1f31d09ad2b17",
+    "scripts/verify_neural_digits.py": "a7f4fd113aee204fb7a0d9e923897e64fedea3a963be8e2e02e8833a903bac8f",
+    "tests/test_spiking_digits.py": "23d24cdb59c45879dbef7d7dec5e6402e4f96ad9973bb7c2523a7e29206063db",
+    "tests/test_neural_digit_verifier.py": "0cfa3e8bb1d5afed526f9e931f640ad366dae4a0bc3f6388793829650597b418",
+    "tests/test_neural_digit_evaluation.py": "5f842dca475088638907e78a80955495c5a068edc5d40409978173b73d268b68"
+  },
+  "gates": {
+    "minimum_accuracy_gain": 0.01,
+    "neural_over_linear": "Mean accuracy at least one percentage point above the frozen linear control, with every neural initialization strictly better.",
+    "learned_input_contribution": "Mean accuracy at least one percentage point above matched input-frozen models, with every initialization strictly better than its matched control.",
+    "interpretation": "Passing establishes finite-benchmark improvement over the declared linear and output-only controls. kNN and continuous results remain prominent regardless of outcome; passing does not imply beating those methods."
+  },
+  "mechanistic_checks": {
+    "full_set": "Independent hard-spike, count, logit and label arithmetic for all six spiking branches, before targets are read.",
+    "brian2": "Actual Brian2 Euler threshold/reset reference on the first eight official inputs in each spiking branch. Spike counts and labels must agree exactly; continuous membrane tolerance is disclosed.",
+    "interventions": "Zero actual spike features and restore initial input synapses while retaining the trained readout. Report all three trained models; no intervention selection or tuning after test scores."
+  },
+  "metrics": [
+    "Every branch has correct/incorrect counts and exact matched wins/losses versus linear and kNN5.",
+    "Inference CPU seconds and complete checkpoint bytes are separate observations, not energy or speed claims.",
+    "All 1,797 examples and eleven models remain in the denominator; failures cannot be excluded after inspection."
+  ],
+  "uncertainty": "Exact fixed-benchmark observations. Writer identifiers are unavailable, so no writer-cluster intervals or assertion of 1,797 independent writers is made. Training and execution are not externally witnessed. No first-ever claim is made.",
+  "access_and_reruns": "One official qualification after exact public GitHub protocol-byte verification. Every prediction is synced to disk before targets are parsed. A fitted-model or frozen-source change invalidates this qualification; preserve every failed attempt. Deterministic reproduction is labelled as reproduction, not another unseen experiment."
+}

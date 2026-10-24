@@ -1,0 +1,332 @@
+{
+  "scope": "Training-partition DEV interventions only. Zero/shuffle/revert are counterfactual input or readout disruptions, not evidence spikes outperform a continuous model. Ensemble averages logits across all three existing initializations; exploratory DEV candidate, not qualification.",
+  "source_sha256": "50c503a66638c444605e81f3e4a3478faaf469941cd7fe3134abfc2cee54d906",
+  "interventions": [
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": false,
+      "seed": 0,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 751,
+        "zero_spikes": 78,
+        "permuted_hidden_channels": 94,
+        "initial_input_synapses_trained_head": 376,
+        "initial_output_synapses_trained_input": 521
+      }
+    },
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": false,
+      "seed": 1,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 751,
+        "zero_spikes": 77,
+        "permuted_hidden_channels": 40,
+        "initial_input_synapses_trained_head": 366,
+        "initial_output_synapses_trained_input": 547
+      }
+    },
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": false,
+      "seed": 2,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 749,
+        "zero_spikes": 75,
+        "permuted_hidden_channels": 108,
+        "initial_input_synapses_trained_head": 313,
+        "initial_output_synapses_trained_input": 586
+      }
+    },
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": true,
+      "seed": 0,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 728,
+        "zero_spikes": 78,
+        "permuted_hidden_channels": 70,
+        "initial_input_synapses_trained_head": 728,
+        "initial_output_synapses_trained_input": 97
+      }
+    },
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": true,
+      "seed": 1,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 730,
+        "zero_spikes": 77,
+        "permuted_hidden_channels": 130,
+        "initial_input_synapses_trained_head": 730,
+        "initial_output_synapses_trained_input": 93
+      }
+    },
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": true,
+      "seed": 2,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 710,
+        "zero_spikes": 76,
+        "permuted_hidden_channels": 69,
+        "initial_input_synapses_trained_head": 710,
+        "initial_output_synapses_trained_input": 63
+      }
+    },
+    {
+      "method": "continuous",
+      "width": 64,
+      "frozen_input": false,
+      "seed": 0,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 748,
+        "zero_spikes": 78,
+        "permuted_hidden_channels": 48,
+        "initial_input_synapses_trained_head": 370,
+        "initial_output_synapses_trained_input": 430
+      }
+    },
+    {
+      "method": "continuous",
+      "width": 64,
+      "frozen_input": false,
+      "seed": 1,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 751,
+        "zero_spikes": 77,
+        "permuted_hidden_channels": 63,
+        "initial_input_synapses_trained_head": 448,
+        "initial_output_synapses_trained_input": 511
+      }
+    },
+    {
+      "method": "continuous",
+      "width": 64,
+      "frozen_input": false,
+      "seed": 2,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 750,
+        "zero_spikes": 75,
+        "permuted_hidden_channels": 64,
+        "initial_input_synapses_trained_head": 332,
+        "initial_output_synapses_trained_input": 573
+      }
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": false,
+      "seed": 0,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 750,
+        "zero_spikes": 76,
+        "permuted_hidden_channels": 233,
+        "initial_input_synapses_trained_head": 517,
+        "initial_output_synapses_trained_input": 651
+      }
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": false,
+      "seed": 1,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 750,
+        "zero_spikes": 77,
+        "permuted_hidden_channels": 146,
+        "initial_input_synapses_trained_head": 458,
+        "initial_output_synapses_trained_input": 626
+      }
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": false,
+      "seed": 2,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 750,
+        "zero_spikes": 75,
+        "permuted_hidden_channels": 90,
+        "initial_input_synapses_trained_head": 465,
+        "initial_output_synapses_trained_input": 722
+      }
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": true,
+      "seed": 0,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 743,
+        "zero_spikes": 75,
+        "permuted_hidden_channels": 82,
+        "initial_input_synapses_trained_head": 743,
+        "initial_output_synapses_trained_input": 63
+      }
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": true,
+      "seed": 1,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 739,
+        "zero_spikes": 78,
+        "permuted_hidden_channels": 91,
+        "initial_input_synapses_trained_head": 739,
+        "initial_output_synapses_trained_input": 60
+      }
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": true,
+      "seed": 2,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 740,
+        "zero_spikes": 75,
+        "permuted_hidden_channels": 35,
+        "initial_input_synapses_trained_head": 740,
+        "initial_output_synapses_trained_input": 122
+      }
+    },
+    {
+      "method": "continuous",
+      "width": 128,
+      "frozen_input": false,
+      "seed": 0,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 750,
+        "zero_spikes": 76,
+        "permuted_hidden_channels": 190,
+        "initial_input_synapses_trained_head": 519,
+        "initial_output_synapses_trained_input": 632
+      }
+    },
+    {
+      "method": "continuous",
+      "width": 128,
+      "frozen_input": false,
+      "seed": 1,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 751,
+        "zero_spikes": 77,
+        "permuted_hidden_channels": 95,
+        "initial_input_synapses_trained_head": 504,
+        "initial_output_synapses_trained_input": 567
+      }
+    },
+    {
+      "method": "continuous",
+      "width": 128,
+      "frozen_input": false,
+      "seed": 2,
+      "validation_rows": 763,
+      "interventions_correct": {
+        "intact": 751,
+        "zero_spikes": 76,
+        "permuted_hidden_channels": 73,
+        "initial_input_synapses_trained_head": 456,
+        "initial_output_synapses_trained_input": 709
+      }
+    }
+  ],
+  "ensembles": [
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": false,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "correct": 751,
+      "rows": 763
+    },
+    {
+      "method": "snn",
+      "width": 64,
+      "frozen_input": true,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "correct": 736,
+      "rows": 763
+    },
+    {
+      "method": "continuous",
+      "width": 64,
+      "frozen_input": false,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "correct": 749,
+      "rows": 763
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": false,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "correct": 750,
+      "rows": 763
+    },
+    {
+      "method": "snn",
+      "width": 128,
+      "frozen_input": true,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "correct": 744,
+      "rows": 763
+    },
+    {
+      "method": "continuous",
+      "width": 128,
+      "frozen_input": false,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "correct": 750,
+      "rows": 763
+    }
+  ]
+}

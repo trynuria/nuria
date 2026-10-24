@@ -1,0 +1,89 @@
+"""Development-only codec route probe. No production or holdout claim."""
+from pathlib import Path
+import bz2, hashlib, json, lzma, time, zlib
+import numpy as np
+ROOT=Path('.')
+OUT=Path(__file__).parent
+ACTIONS=('raw','zlib1','bz2','lzma0')
+rng=np.random.default_rng(713)
+paths=sorted([p for p in ROOT.rglob('*') if p.is_file() and p.suffix in ('.py','.md','.html','.js','.json','.css') and not any(x in p.parts for x in ('.git','.venv','node_modules','research')) and p.stat().st_size<100_000])
+# Every file is in a known development tree. Fixed sampled windows are public bytes.
+records=[]
+for p in paths[:260]:
+    raw=p.read_bytes()
+    if not raw: continue
+    length=min(len(raw),int(rng.choice([128,256,512,1024,2048,4096,8192])))
+    start=int(rng.integers(0,max(1,len(raw)-length+1)))
+    raw=raw[start:start+length]
+    a=np.frombuffer(raw,dtype=np.uint8); hist=np.bincount(a,minlength=256)/len(a)
+    nz=hist[hist>0]
+    x=[np.log2(len(a)+1)/16,-float(np.sum(nz*np.log2(nz)))/8,float(np.mean(a<128)),float(np.mean(np.isin(a,[9,10,13,32]))),float(np.mean((a>=48)&(a<=57))),float(np.mean((a>=97)&(a<=122))),float(np.mean((a>=65)&(a<=90))),float(np.mean(a==0)),float(np.mean(a[1:]==a[:-1])) if len(a)>1 else 0,len(nz)/256,*sorted(hist,reverse=True)[:4]]
+    sizes=[]; cpu=[]
+    for codec in ACTIONS:
+        began=time.process_time()
+        if codec=='raw': packed=raw; unpacked=packed
+        elif codec=='zlib1': packed=zlib.compress(raw,1); unpacked=zlib.decompress(packed)
+        elif codec=='bz2': packed=bz2.compress(raw,compresslevel=9); unpacked=bz2.decompress(packed)
+        else: packed=lzma.compress(raw,preset=0); unpacked=lzma.decompress(packed)
+        cpu.append(time.process_time()-began)
+        assert unpacked==raw
+        sizes.append(len(packed))
+    records.append({'path':str(p.relative_to(ROOT)),'window':[start,length],'bytes_sha256':hashlib.sha256(raw).hexdigest(),'x':x,'sizes':sizes,'codec_roundtrip_cpu_seconds':cpu,'input_size':len(raw)})
+# Same public history: every model learns only the selected uniform logging arm,
+# delivered exactly 3 steps later. Evaluation is one-step prequential choices.
+# Targets are clipped normalized compression saving, not best-arm labels.
+class Ridge:
+    def __init__(self,dim,alpha=.025):
+        self.a=np.repeat(np.eye(dim)[None,:,:],4,axis=0); self.b=np.zeros((4,dim));self.alpha=alpha
+    def predict(self,x):
+        inverses=np.linalg.solve(self.a,np.repeat(x[None,:,None],4,axis=0))[:,:,0]
+        return np.sum(inverses*self.b,axis=1)+self.alpha*np.sqrt(np.maximum(0,np.sum(x*inverses,axis=1)))
+    def learn(self,x,arm,reward):
+        self.a[arm]+=np.outer(x,x);self.b[arm]+=reward*x
+
+d=len(records[0]['x']); M=rng.normal(size=(48,d))/np.sqrt(d); bias=rng.uniform(-.6,.2,48)
+# Encoded normalized inputs are current injection; 12 exact LIF microticks.
+def snn(x):
+    v=np.zeros(48); counts=np.zeros(48); current=1.1*(M@x)+.65+bias
+    for tick in range(12):
+        v=.8*v+current; spikes=v>=1.;counts+=spikes;v-=spikes
+    return counts/12
+R=rng.normal(size=(48,d))*2.5; phase=rng.uniform(-np.pi,np.pi,48)
+def phi(name,x):
+    x=np.asarray(x)
+    if name=='raw': return np.r_[1.,x]
+    if name=='quadratic': return np.r_[1.,x,np.array([x[i]*x[j] for i in range(d) for j in range(i,d)])]
+    if name=='rff': return np.r_[1.,x,np.cos(R@x+phase)]
+    if name in ('spiking','frozen','shuffled'): return np.r_[1.,x,snn(x)]
+    raise ValueError(name)
+methods=('raw','quadratic','rff','spiking','frozen','shuffled')
+trials=[]
+for seed in (0,1,2):
+    local=np.random.default_rng(seed)
+    order=local.permutation(len(records)).tolist()*4
+    logging=local.integers(0,4,len(order)).tolist()
+    features={m:[phi(m,r['x']) for r in records] for m in methods}
+    policies={m:Ridge(len(features[m][0])) for m in methods}
+    pending=[]; cost={m:0 for m in methods}; regret={m:0 for m in methods}; correct={m:0 for m in methods}; choose={m:[0]*4 for m in methods}; ticks=[]
+    for t,idx in enumerate(order):
+        for due,oldidx,arm,y in list(pending):
+            if due>t: continue
+            for m,policy in policies.items():
+                if m=='frozen': continue
+                target=y if m!='shuffled' else float(records[order[max(0,t-9)]]['sizes'][arm])/records[order[max(0,t-9)]]['input_size']
+                if m=='shuffled': target=float(np.clip(1-target,-1,1))
+                policy.learn(features[m][oldidx],arm,target)
+            pending.remove((due,oldidx,arm,y))
+        r=records[idx]
+        row={'step':t,'record':idx,'logging_arm':logging[t]}
+        for m,policy in policies.items():
+            arm=int(np.argmax(policy.predict(features[m][idx])))
+            if t>=len(records):
+                cost[m]+=r['sizes'][arm];regret[m]+=r['sizes'][arm]-min(r['sizes']);correct[m]+=int(r['sizes'][arm]==min(r['sizes']));choose[m][arm]+=1
+            row[m]=arm
+        arm=logging[t];y=float(np.clip(1-r['sizes'][arm]/r['input_size'],-1,1))
+        pending.append((t+3,idx,arm,y));ticks.append(row)
+    trials.append({'seed':seed,'scored':len(order)-len(records),'bytes':cost,'excess_over_per_file_best':regret,'best_codec':correct,'chosen':choose})
+    (OUT/f'trace-{seed}.json').write_text(json.dumps(ticks)+'\n')
+report={'scope':'Known local repository development windows only, no future holdout. Fixed reservoir, readout synapse vectors learned by conventional selected-only ridge regression; no synaptic reservoir learning or Brian2 claim. Same uniform logging receipts to all models; scoring actions do not drive history. All codecs actually roundtrip checked. Size primary; CPU separate. First pass warmup and 3 passes score repeated windows: feasibility, not generalization.','records':len(records),'features':d,'neurons':48,'ticks':12,'delay':3,'methods':list(methods),'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'trials':trials}
+(OUT/'records.json').write_text(json.dumps(records)+'\n');(OUT/'result.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))

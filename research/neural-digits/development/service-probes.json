@@ -1,0 +1,1041 @@
+{
+  "schema": "nuria.neural-decision-development-probes.v1",
+  "phase": "development-only; none qualified for production",
+  "codec": {
+    "codec-dev-01": {
+      "scope": "Known local repository development windows only, no future holdout. Fixed reservoir, readout synapse vectors learned by conventional selected-only ridge regression; no synaptic reservoir learning or Brian2 claim. Same uniform logging receipts to all models; scoring actions do not drive history. All codecs actually roundtrip checked. Size primary; CPU separate. First pass warmup and 3 passes score repeated windows: feasibility, not generalization.",
+      "records": 254,
+      "features": 14,
+      "neurons": 48,
+      "ticks": 12,
+      "delay": 3,
+      "methods": [
+        "raw",
+        "quadratic",
+        "rff",
+        "spiking",
+        "frozen",
+        "shuffled"
+      ],
+      "source_sha256": "a92f8d158759dc41bdbde9c2d76ac5c7bd5efeb8b0e02009e7eaf3be2582c0d2",
+      "trials": [
+        {
+          "seed": 0,
+          "scored": 762,
+          "bytes": {
+            "raw": 441647,
+            "quadratic": 445289,
+            "rff": 441682,
+            "spiking": 444114,
+            "frozen": 1229271,
+            "shuffled": 449683
+          },
+          "excess_over_per_file_best": {
+            "raw": 5480,
+            "quadratic": 9122,
+            "rff": 5515,
+            "spiking": 7947,
+            "frozen": 793104,
+            "shuffled": 13516
+          },
+          "best_codec": {
+            "raw": 685,
+            "quadratic": 634,
+            "rff": 662,
+            "spiking": 646,
+            "frozen": 6,
+            "shuffled": 622
+          },
+          "chosen": {
+            "raw": [
+              0,
+              667,
+              77,
+              18
+            ],
+            "quadratic": [
+              0,
+              616,
+              50,
+              96
+            ],
+            "rff": [
+              6,
+              580,
+              124,
+              52
+            ],
+            "spiking": [
+              1,
+              610,
+              57,
+              94
+            ],
+            "frozen": [
+              762,
+              0,
+              0,
+              0
+            ],
+            "shuffled": [
+              0,
+              757,
+              5,
+              0
+            ]
+          }
+        },
+        {
+          "seed": 1,
+          "scored": 762,
+          "bytes": {
+            "raw": 446715,
+            "quadratic": 444614,
+            "rff": 440683,
+            "spiking": 441585,
+            "frozen": 1229271,
+            "shuffled": 449250
+          },
+          "excess_over_per_file_best": {
+            "raw": 10548,
+            "quadratic": 8447,
+            "rff": 4516,
+            "spiking": 5418,
+            "frozen": 793104,
+            "shuffled": 13083
+          },
+          "best_codec": {
+            "raw": 635,
+            "quadratic": 641,
+            "rff": 680,
+            "spiking": 676,
+            "frozen": 6,
+            "shuffled": 622
+          },
+          "chosen": {
+            "raw": [
+              0,
+              720,
+              14,
+              28
+            ],
+            "quadratic": [
+              0,
+              616,
+              61,
+              85
+            ],
+            "rff": [
+              5,
+              622,
+              120,
+              15
+            ],
+            "spiking": [
+              2,
+              625,
+              91,
+              44
+            ],
+            "frozen": [
+              762,
+              0,
+              0,
+              0
+            ],
+            "shuffled": [
+              0,
+              739,
+              18,
+              5
+            ]
+          }
+        },
+        {
+          "seed": 2,
+          "scored": 762,
+          "bytes": {
+            "raw": 442363,
+            "quadratic": 442391,
+            "rff": 445955,
+            "spiking": 441481,
+            "frozen": 1229271,
+            "shuffled": 450441
+          },
+          "excess_over_per_file_best": {
+            "raw": 6196,
+            "quadratic": 6224,
+            "rff": 9788,
+            "spiking": 5314,
+            "frozen": 793104,
+            "shuffled": 14274
+          },
+          "best_codec": {
+            "raw": 664,
+            "quadratic": 660,
+            "rff": 641,
+            "spiking": 666,
+            "frozen": 6,
+            "shuffled": 612
+          },
+          "chosen": {
+            "raw": [
+              0,
+              705,
+              44,
+              13
+            ],
+            "quadratic": [
+              0,
+              610,
+              93,
+              59
+            ],
+            "rff": [
+              4,
+              638,
+              59,
+              61
+            ],
+            "spiking": [
+              0,
+              613,
+              102,
+              47
+            ],
+            "frozen": [
+              762,
+              0,
+              0,
+              0
+            ],
+            "shuffled": [
+              0,
+              750,
+              12,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    "codec-dev-02": {
+      "scope": "Known repository DEV files only, no holdout claim. Heterogeneous real windows; all codec roundtrips checked; primary compressed bytes, CPU separate. Models see same14cheapstats and identicaluniformselectedreceiptsdelay3. Trainable48LIFhidden uses explicit bounded surrogate gradient (not Brian2), selected rewardpredictionerror updates input+actionhead synapses. 24passesmodel budget toheadmethods; ridgecontrols use conventionalexactRLS, strongerlearningalgorithm, sharedreceipts. Same48hidden fixedspike andtanhMLPcontrols; allcandidateparametersfixedbeforethisDEVrun.",
+      "source_sha256": "4cd2592865ec2c60adf417e53bcedceb950ae4f25a7c6b39d459b212295455c9",
+      "records": 270,
+      "kinds": {
+        "small_text": 90,
+        "large_text": 90,
+        "binary": 90
+      },
+      "trials": [
+        {
+          "seed": 0,
+          "train_files": 202,
+          "test_files": 68,
+          "receipts": 4845,
+          "pending_terminal_not_credited": 3,
+          "warmup_rounds": 24,
+          "results": {
+            "raw": {
+              "bytes": 1222142,
+              "excess_over_best": 5485,
+              "exact_best": 56,
+              "train_cpu_seconds": 0.038026000000007,
+              "choices": [
+                0,
+                46,
+                17,
+                5
+              ]
+            },
+            "quadratic": {
+              "bytes": 1216858,
+              "excess_over_best": 201,
+              "exact_best": 59,
+              "train_cpu_seconds": 0.18431500000001133,
+              "choices": [
+                0,
+                47,
+                18,
+                3
+              ]
+            },
+            "rff": {
+              "bytes": 1217311,
+              "excess_over_best": 654,
+              "exact_best": 62,
+              "train_cpu_seconds": 0.060953999999984854,
+              "choices": [
+                4,
+                39,
+                19,
+                6
+              ]
+            },
+            "spiking_trained": {
+              "bytes": 1232077,
+              "excess_over_best": 15420,
+              "exact_best": 49,
+              "train_cpu_seconds": 0.3451969999999924,
+              "choices": [
+                0,
+                59,
+                9,
+                0
+              ]
+            },
+            "spiking_fixed": {
+              "bytes": 1232077,
+              "excess_over_best": 15420,
+              "exact_best": 49,
+              "train_cpu_seconds": 0.3127510000000049,
+              "choices": [
+                0,
+                59,
+                9,
+                0
+              ]
+            },
+            "mlp_trained": {
+              "bytes": 1241506,
+              "excess_over_best": 24849,
+              "exact_best": 43,
+              "train_cpu_seconds": 0.0876859999999926,
+              "choices": [
+                0,
+                65,
+                3,
+                0
+              ]
+            },
+            "frozen": {
+              "bytes": 1789380,
+              "excess_over_best": 572723,
+              "exact_best": 6,
+              "train_cpu_seconds": 0.0,
+              "choices": [
+                68,
+                0,
+                0,
+                0
+              ]
+            },
+            "shuffled": {
+              "bytes": 1248958,
+              "excess_over_best": 32301,
+              "exact_best": 26,
+              "train_cpu_seconds": 0.3429780000000009,
+              "choices": [
+                0,
+                45,
+                0,
+                23
+              ]
+            },
+            "heuristic": {
+              "bytes": 1227158,
+              "choices": [
+                17,
+                30,
+                21,
+                0
+              ]
+            }
+          },
+          "constant_codec_bytes": {
+            "raw": 1789380,
+            "zlib1": 1250537,
+            "bz2": 1229740,
+            "lzma0": 1242552
+          },
+          "per_file_best_bytes": 1216657,
+          "best_codec_counts": [
+            6,
+            40,
+            20,
+            2
+          ]
+        },
+        {
+          "seed": 1,
+          "train_files": 202,
+          "test_files": 68,
+          "receipts": 4845,
+          "pending_terminal_not_credited": 3,
+          "warmup_rounds": 24,
+          "results": {
+            "raw": {
+              "bytes": 1156870,
+              "excess_over_best": 2441,
+              "exact_best": 57,
+              "train_cpu_seconds": 0.03833600000002457,
+              "choices": [
+                0,
+                48,
+                18,
+                2
+              ]
+            },
+            "quadratic": {
+              "bytes": 1157354,
+              "excess_over_best": 2925,
+              "exact_best": 59,
+              "train_cpu_seconds": 0.18215000000001913,
+              "choices": [
+                0,
+                47,
+                19,
+                2
+              ]
+            },
+            "rff": {
+              "bytes": 1160388,
+              "excess_over_best": 5959,
+              "exact_best": 54,
+              "train_cpu_seconds": 0.061738999999997546,
+              "choices": [
+                4,
+                41,
+                18,
+                5
+              ]
+            },
+            "spiking_trained": {
+              "bytes": 1197796,
+              "excess_over_best": 43367,
+              "exact_best": 28,
+              "train_cpu_seconds": 0.34790700000004904,
+              "choices": [
+                0,
+                52,
+                16,
+                0
+              ]
+            },
+            "spiking_fixed": {
+              "bytes": 1197796,
+              "excess_over_best": 43367,
+              "exact_best": 28,
+              "train_cpu_seconds": 0.3143440000000166,
+              "choices": [
+                0,
+                52,
+                16,
+                0
+              ]
+            },
+            "mlp_trained": {
+              "bytes": 1197796,
+              "excess_over_best": 43367,
+              "exact_best": 28,
+              "train_cpu_seconds": 0.08839100000000011,
+              "choices": [
+                0,
+                52,
+                16,
+                0
+              ]
+            },
+            "frozen": {
+              "bytes": 1682693,
+              "excess_over_best": 528264,
+              "exact_best": 6,
+              "train_cpu_seconds": 0.0,
+              "choices": [
+                68,
+                0,
+                0,
+                0
+              ]
+            },
+            "shuffled": {
+              "bytes": 1187659,
+              "excess_over_best": 33230,
+              "exact_best": 40,
+              "train_cpu_seconds": 0.34545000000000714,
+              "choices": [
+                0,
+                68,
+                0,
+                0
+              ]
+            },
+            "heuristic": {
+              "bytes": 1161966,
+              "choices": [
+                16,
+                30,
+                22,
+                0
+              ]
+            }
+          },
+          "constant_codec_bytes": {
+            "raw": 1682693,
+            "zlib1": 1187659,
+            "bz2": 1167014,
+            "lzma0": 1177808
+          },
+          "per_file_best_bytes": 1154429,
+          "best_codec_counts": [
+            6,
+            40,
+            19,
+            3
+          ]
+        },
+        {
+          "seed": 2,
+          "train_files": 202,
+          "test_files": 68,
+          "receipts": 4845,
+          "pending_terminal_not_credited": 3,
+          "warmup_rounds": 24,
+          "results": {
+            "raw": {
+              "bytes": 1460863,
+              "excess_over_best": 11608,
+              "exact_best": 55,
+              "train_cpu_seconds": 0.03871399999993219,
+              "choices": [
+                0,
+                40,
+                12,
+                16
+              ]
+            },
+            "quadratic": {
+              "bytes": 1454559,
+              "excess_over_best": 5304,
+              "exact_best": 59,
+              "train_cpu_seconds": 0.182439000000028,
+              "choices": [
+                0,
+                39,
+                16,
+                13
+              ]
+            },
+            "rff": {
+              "bytes": 1451567,
+              "excess_over_best": 2312,
+              "exact_best": 63,
+              "train_cpu_seconds": 0.062198999999992566,
+              "choices": [
+                0,
+                39,
+                21,
+                8
+              ]
+            },
+            "spiking_trained": {
+              "bytes": 1501395,
+              "excess_over_best": 52140,
+              "exact_best": 26,
+              "train_cpu_seconds": 0.350221000000019,
+              "choices": [
+                0,
+                48,
+                0,
+                20
+              ]
+            },
+            "spiking_fixed": {
+              "bytes": 1501395,
+              "excess_over_best": 52140,
+              "exact_best": 26,
+              "train_cpu_seconds": 0.3161689999999906,
+              "choices": [
+                0,
+                48,
+                0,
+                20
+              ]
+            },
+            "mlp_trained": {
+              "bytes": 1501395,
+              "excess_over_best": 52140,
+              "exact_best": 26,
+              "train_cpu_seconds": 0.08912499999997081,
+              "choices": [
+                0,
+                48,
+                0,
+                20
+              ]
+            },
+            "frozen": {
+              "bytes": 2216445,
+              "excess_over_best": 767190,
+              "exact_best": 1,
+              "train_cpu_seconds": 0.0,
+              "choices": [
+                68,
+                0,
+                0,
+                0
+              ]
+            },
+            "shuffled": {
+              "bytes": 1494241,
+              "excess_over_best": 44986,
+              "exact_best": 43,
+              "train_cpu_seconds": 0.34680700000000897,
+              "choices": [
+                0,
+                68,
+                0,
+                0
+              ]
+            },
+            "heuristic": {
+              "bytes": 1467829,
+              "choices": [
+                20,
+                25,
+                23,
+                0
+              ]
+            }
+          },
+          "constant_codec_bytes": {
+            "raw": 2216445,
+            "zlib1": 1494241,
+            "bz2": 1466657,
+            "lzma0": 1478108
+          },
+          "per_file_best_bytes": 1449255,
+          "best_codec_counts": [
+            1,
+            43,
+            20,
+            4
+          ]
+        }
+      ]
+    },
+    "codec-dev-03": {
+      "scope": "DEV optimizer correction: same measured records ascodec-dev-02, now identical train-only normalized inputs for all, Adam .005 action readout/.002 hidden input synapses, exact online selected-receipt regression. No new holdout or public Brian2 claim. All settings fixed before run.24passes,delay3,48cells,12microticks. Same conventional ridge controls, fixed-spike control, tanhMLP and shuffled outcomes.",
+      "source_sha256": "6b9c844a7ee218ab008f10e342fcf3b58b5181d41a027a7f4966dcdfa4cb2ac2",
+      "trials": [
+        {
+          "seed": 0,
+          "train_files": 202,
+          "test_files": 68,
+          "receipts": 4845,
+          "results": {
+            "raw": {
+              "bytes": 1223531,
+              "excess_over_best": 6874,
+              "exact_best": 55,
+              "train_cpu_seconds": 0.042248999999998246,
+              "choices": [
+                0,
+                46,
+                16,
+                6
+              ]
+            },
+            "quadratic": {
+              "bytes": 1217147,
+              "excess_over_best": 490,
+              "exact_best": 63,
+              "train_cpu_seconds": 0.1768550000000035,
+              "choices": [
+                3,
+                43,
+                18,
+                4
+              ]
+            },
+            "rff": {
+              "bytes": 1219018,
+              "excess_over_best": 2361,
+              "exact_best": 60,
+              "train_cpu_seconds": 0.06676099999999605,
+              "choices": [
+                4,
+                39,
+                18,
+                7
+              ]
+            },
+            "spiking_trained": {
+              "bytes": 1216778,
+              "excess_over_best": 121,
+              "exact_best": 62,
+              "train_cpu_seconds": 0.48860199999999787,
+              "choices": [
+                3,
+                42,
+                22,
+                1
+              ],
+              "input_weight_change_l2": 3.481663918107847
+            },
+            "spiking_fixed": {
+              "bytes": 1232295,
+              "excess_over_best": 15638,
+              "exact_best": 39,
+              "train_cpu_seconds": 0.38951400000000647,
+              "choices": [
+                0,
+                38,
+                30,
+                0
+              ],
+              "input_weight_change_l2": 0.0
+            },
+            "mlp_trained": {
+              "bytes": 1230858,
+              "excess_over_best": 14201,
+              "exact_best": 44,
+              "train_cpu_seconds": 0.22460700000000355,
+              "choices": [
+                0,
+                31,
+                35,
+                2
+              ],
+              "input_weight_change_l2": 4.035380381124511
+            },
+            "frozen": {
+              "bytes": 1789380,
+              "excess_over_best": 572723,
+              "exact_best": 6,
+              "train_cpu_seconds": 0.0,
+              "choices": [
+                68,
+                0,
+                0,
+                0
+              ]
+            },
+            "shuffled": {
+              "bytes": 1256766,
+              "excess_over_best": 40109,
+              "exact_best": 15,
+              "train_cpu_seconds": 0.48507800000000184,
+              "choices": [
+                0,
+                36,
+                15,
+                17
+              ]
+            },
+            "heuristic": {
+              "bytes": 1227158,
+              "choices": [
+                17,
+                30,
+                21,
+                0
+              ]
+            }
+          },
+          "trained_vs_fixed_changed_decisions": 30,
+          "constant_codec_bytes": {
+            "raw": 1789380,
+            "zlib1": 1250537,
+            "bz2": 1229740,
+            "lzma0": 1242552
+          },
+          "per_file_best_bytes": 1216657
+        },
+        {
+          "seed": 1,
+          "train_files": 202,
+          "test_files": 68,
+          "receipts": 4845,
+          "results": {
+            "raw": {
+              "bytes": 1157877,
+              "excess_over_best": 3448,
+              "exact_best": 58,
+              "train_cpu_seconds": 0.042174000000027245,
+              "choices": [
+                0,
+                48,
+                18,
+                2
+              ]
+            },
+            "quadratic": {
+              "bytes": 1157424,
+              "excess_over_best": 2995,
+              "exact_best": 59,
+              "train_cpu_seconds": 0.17443899999997292,
+              "choices": [
+                2,
+                43,
+                20,
+                3
+              ]
+            },
+            "rff": {
+              "bytes": 1158470,
+              "excess_over_best": 4041,
+              "exact_best": 59,
+              "train_cpu_seconds": 0.06577299999998187,
+              "choices": [
+                5,
+                40,
+                18,
+                5
+              ]
+            },
+            "spiking_trained": {
+              "bytes": 1169701,
+              "excess_over_best": 15272,
+              "exact_best": 38,
+              "train_cpu_seconds": 0.48550399999999794,
+              "choices": [
+                2,
+                41,
+                7,
+                18
+              ],
+              "input_weight_change_l2": 3.454201343681807
+            },
+            "spiking_fixed": {
+              "bytes": 1179049,
+              "excess_over_best": 24620,
+              "exact_best": 41,
+              "train_cpu_seconds": 0.3874920000000004,
+              "choices": [
+                0,
+                60,
+                0,
+                8
+              ],
+              "input_weight_change_l2": 0.0
+            },
+            "mlp_trained": {
+              "bytes": 1180565,
+              "excess_over_best": 26136,
+              "exact_best": 29,
+              "train_cpu_seconds": 0.22310900000000888,
+              "choices": [
+                0,
+                37,
+                7,
+                24
+              ],
+              "input_weight_change_l2": 4.077702172615342
+            },
+            "frozen": {
+              "bytes": 1682693,
+              "excess_over_best": 528264,
+              "exact_best": 6,
+              "train_cpu_seconds": 0.0,
+              "choices": [
+                68,
+                0,
+                0,
+                0
+              ]
+            },
+            "shuffled": {
+              "bytes": 1168340,
+              "excess_over_best": 13911,
+              "exact_best": 36,
+              "train_cpu_seconds": 0.4823190000000084,
+              "choices": [
+                0,
+                29,
+                39,
+                0
+              ]
+            },
+            "heuristic": {
+              "bytes": 1161966,
+              "choices": [
+                16,
+                30,
+                22,
+                0
+              ]
+            }
+          },
+          "trained_vs_fixed_changed_decisions": 27,
+          "constant_codec_bytes": {
+            "raw": 1682693,
+            "zlib1": 1187659,
+            "bz2": 1167014,
+            "lzma0": 1177808
+          },
+          "per_file_best_bytes": 1154429
+        },
+        {
+          "seed": 2,
+          "train_files": 202,
+          "test_files": 68,
+          "receipts": 4845,
+          "results": {
+            "raw": {
+              "bytes": 1466467,
+              "excess_over_best": 17212,
+              "exact_best": 49,
+              "train_cpu_seconds": 0.04088699999993972,
+              "choices": [
+                0,
+                34,
+                12,
+                22
+              ]
+            },
+            "quadratic": {
+              "bytes": 1449335,
+              "excess_over_best": 80,
+              "exact_best": 66,
+              "train_cpu_seconds": 0.16975100000002286,
+              "choices": [
+                0,
+                43,
+                21,
+                4
+              ]
+            },
+            "rff": {
+              "bytes": 1458400,
+              "excess_over_best": 9145,
+              "exact_best": 55,
+              "train_cpu_seconds": 0.0641899999999671,
+              "choices": [
+                3,
+                36,
+                20,
+                9
+              ]
+            },
+            "spiking_trained": {
+              "bytes": 1470334,
+              "excess_over_best": 21079,
+              "exact_best": 46,
+              "train_cpu_seconds": 0.47742199999999935,
+              "choices": [
+                0,
+                45,
+                8,
+                15
+              ],
+              "input_weight_change_l2": 3.85211323841723
+            },
+            "spiking_fixed": {
+              "bytes": 1450419,
+              "excess_over_best": 1164,
+              "exact_best": 65,
+              "train_cpu_seconds": 0.38113499999999867,
+              "choices": [
+                0,
+                46,
+                19,
+                3
+              ],
+              "input_weight_change_l2": 0.0
+            },
+            "mlp_trained": {
+              "bytes": 1460556,
+              "excess_over_best": 11301,
+              "exact_best": 40,
+              "train_cpu_seconds": 0.21922899999997858,
+              "choices": [
+                6,
+                19,
+                29,
+                14
+              ],
+              "input_weight_change_l2": 4.215760611566393
+            },
+            "frozen": {
+              "bytes": 2216445,
+              "excess_over_best": 767190,
+              "exact_best": 1,
+              "train_cpu_seconds": 0.0,
+              "choices": [
+                68,
+                0,
+                0,
+                0
+              ]
+            },
+            "shuffled": {
+              "bytes": 1494404,
+              "excess_over_best": 45149,
+              "exact_best": 38,
+              "train_cpu_seconds": 0.47574899999998577,
+              "choices": [
+                0,
+                63,
+                5,
+                0
+              ]
+            },
+            "heuristic": {
+              "bytes": 1467829,
+              "choices": [
+                20,
+                25,
+                23,
+                0
+              ]
+            }
+          },
+          "trained_vs_fixed_changed_decisions": 21,
+          "constant_codec_bytes": {
+            "raw": 2216445,
+            "zlib1": 1494241,
+            "bz2": 1466657,
+            "lzma0": 1478108
+          },
+          "per_file_best_bytes": 1449255
+        }
+      ]
+    }
+  },
+  "sqlite": {
+    "schema": "nuria.persistent-neural-development-diagnostic.v1",
+    "phase": "development-only-seen-study",
+    "seeds": [
+      11,
+      17
+    ],
+    "windows": 192,
+    "summary": {
+      "last_mix": {
+        "total_steps": 50672058.5,
+        "build_steps": 4866848.0,
+        "switches": 37.0,
+        "forecast_mse": 0.08960617666568758
+      },
+      "history_linear": {
+        "total_steps": 42984418.0,
+        "build_steps": 4866848.0,
+        "switches": 37.0,
+        "forecast_mse": 0.043792717160528946
+      },
+      "history_rff": {
+        "total_steps": 45405370.5,
+        "build_steps": 4866848.0,
+        "switches": 37.0,
+        "forecast_mse": 0.04766378156255944
+      },
+      "intrinsic_stdp": {
+        "total_steps": 42984418.0,
+        "build_steps": 4866848.0,
+        "switches": 37.0,
+        "forecast_mse": 0.043724228896447004
+      },
+      "frozen_weights": {
+        "total_steps": 42984418.0,
+        "build_steps": 4866848.0,
+        "switches": 37.0,
+        "forecast_mse": 0.04377525455639021
+      }
+    },
+    "cpu_seconds": 30.533526000000002,
+    "scope": "Actual Brian2 spiking features concatenated to exact same16-lag raw-history ridge head. Intrinsic STDP versus frozen synapses, both with homeostasis and identical readout adaptation. No reward-dependent synaptic credit, no qualification or production claim. Same private probe caveats about kernel accounting and omitted DROPcost."
+  },
+  "privacy_scope": "Aggregate outcomes and analysis source are published. Private local input inventories and runtime filesystem locations are excluded; these exploratory service results are not an externally reproducible qualification. The subsequent optical-digit study uses a complete public hash-pinned dataset and model artifacts."
+}
