@@ -1,0 +1,64 @@
+{
+  "corpus_canonical_sha256": "a2486658db91ba6792850b6669ab7b669dcbbab5141e97b0c7c9dbd58e5ae8b5",
+  "corpus_raw_sha256": "5180f24367aa7c6ed04f0cbd6fa6903f17988cd02c8992d84f2a88f84f246617",
+  "counts": {
+    "acquisition_entries": 3,
+    "maximum_metadata_checks": 65536,
+    "metadata_checks": 184,
+    "pairs": 4,
+    "recipe_groups": 3,
+    "recurrence_entries": 4,
+    "selected_entries": 7,
+    "selected_rows": 168
+  },
+  "pairs": [
+    {
+      "acquisition_position": 36,
+      "acquisition_rows": 24,
+      "acquisition_source_rows_sha256": "569fcdb92306a063d21ba2ae57e6ee07751d16c75e026f523f9047c35a7488d5",
+      "acquisition_visible_inputs_sha256": "5dcb4b9ad93f0b4f733ecc62e1e8d519f7cd015b9b682f05d12a28bcd9d4ca7e",
+      "recipe_sha256": "51355012fbba85ab1e44e8ef08879d388ae4065c7b89be290d02084c7b0e8a4d",
+      "recurrence_position": 44,
+      "recurrence_rows": 24,
+      "recurrence_source_rows_sha256": "4047b75bfb7884d08c25bcc41f14415929bacdcd41b84833ac110a8e914c1548",
+      "recurrence_visible_inputs_sha256": "ee3925018bd1fda3970ec9c2d4ebc11acd2dfdf90aaf5fc5a284155ecec4a50d"
+    },
+    {
+      "acquisition_position": 24,
+      "acquisition_rows": 24,
+      "acquisition_source_rows_sha256": "1e0b7ac1d67f8002a4d587b74473f6931803e3f4b673222396f2b3af14f04ed8",
+      "acquisition_visible_inputs_sha256": "bed0e41f21fbf8935070ffa8bd5f9f10c8cbaa5b3cc1f1a549557b3fe180415d",
+      "recipe_sha256": "49300c8d6790cd6a83122ad268e3b092d04c37e9db773553ab4e316ed8768133",
+      "recurrence_position": 46,
+      "recurrence_rows": 24,
+      "recurrence_source_rows_sha256": "2f272b9b61428efc2939cb97cc93b444e8ffe35faf05288f80282d96854072d4",
+      "recurrence_visible_inputs_sha256": "60bf7d9974c389c1059ba42cf2ef87975151fba4913b4134e5f34a981888700a"
+    },
+    {
+      "acquisition_position": 26,
+      "acquisition_rows": 24,
+      "acquisition_source_rows_sha256": "7d1cea47c020f34d5e2d04726036c54709250feca967e53f7a89cae994e4b178",
+      "acquisition_visible_inputs_sha256": "27ef9128bb1319056fc324c368b8fa29f11ca9c7a16640ddb43a293c0e6febd1",
+      "recipe_sha256": "7a4110b15ec9c4bafadb6c3050cfe4a2db222948fc33d962d352f43c863ff446",
+      "recurrence_position": 50,
+      "recurrence_rows": 24,
+      "recurrence_source_rows_sha256": "70710ea47226e7da55025056945a3c829ba9060347106c5f9be7af9069ea8c57",
+      "recurrence_visible_inputs_sha256": "7e2418d7de16478afb876b4396298f5f148be6244cc5bbd3bcf365dc4801f995"
+    },
+    {
+      "acquisition_position": 26,
+      "acquisition_rows": 24,
+      "acquisition_source_rows_sha256": "7d1cea47c020f34d5e2d04726036c54709250feca967e53f7a89cae994e4b178",
+      "acquisition_visible_inputs_sha256": "27ef9128bb1319056fc324c368b8fa29f11ca9c7a16640ddb43a293c0e6febd1",
+      "recipe_sha256": "7a4110b15ec9c4bafadb6c3050cfe4a2db222948fc33d962d352f43c863ff446",
+      "recurrence_position": 58,
+      "recurrence_rows": 24,
+      "recurrence_source_rows_sha256": "b04f0fe5468d7afbf665e063218e1051ed64b4ec24b9410dac4a66227e057a50",
+      "recurrence_visible_inputs_sha256": "364ee182f3bcecb811324bf4e0141af7447bc05fb5eee6091b71f9cf37c3ce2e"
+    }
+  ],
+  "passed": true,
+  "schema": "nuria-recurrence-plan-check-v1",
+  "scope": "Planner-only declared recipe equality and fresh-row/input checks. No learning, execution, source-truth or customer-demand claim; no routing metadata is authorized for contractor briefs.",
+  "source_provenance_sha256": "ce875c8dd8b5efee86120170d4f55db6da7016214a5d4cfea99d87790196fca4"
+}
