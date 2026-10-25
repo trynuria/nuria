@@ -411,34 +411,111 @@ class ActionLoop:
 
         self.transaction(confirm)
 
-    def receive(self, ident, raw, now):
+    def receive(self, ident, raw, now, *, analysis_resolver=None):
         row = self.row(ident)
         if row["state"] not in ("submitted", "release_pending"):
             raise ValueError("Task cannot receive a delivery in this state")
-        acceptance = verify_delivery(row["contract"], ident, raw)
+        acceptance = verify_delivery(
+            row["contract"], ident, raw, analysis_resolver=analysis_resolver
+        )
+        analysis = row["contract"]["acceptance"]["type"] == "registered_analysis"
         if now > row["created"] + row["contract"]["delivery_seconds"]:
-            acceptance.update(
-                passed=False, utility=min(-0.1, acceptance["utility"] or 0), late=True
-            )
+            if analysis:
+                acceptance.update(passed=False, delivery_passed=False, late=True)
+            else:
+                acceptance.update(
+                    passed=False,
+                    utility=min(-0.1, acceptance["utility"] or 0),
+                    late=True,
+                )
+        state = (
+            "delivered"
+            if analysis
+            else "accepted"
+            if acceptance["passed"]
+            else "rejected"
+        )
 
         def accept():
             self.ledger.db.execute(
                 "UPDATE action_tasks SET acceptance=?,state=?,updated=? WHERE id=?",
                 (
                     canonical(acceptance),
-                    "accepted" if acceptance["passed"] else "rejected",
+                    state,
                     now,
                     ident,
                 ),
             )
             self.event(
                 ident,
-                "accepted" if acceptance["passed"] else "rejected",
+                state,
                 acceptance,
                 now,
             )
 
         self.transaction(accept)
+        return acceptance
+
+    def grade_analysis(self, ident, resolve_grade, now):
+        """Host-only transition from delivered evidence to qualified semantics.
+
+        The callable resolves a separately retained, enrolled checker receipt.
+        No JSON action or public request can supply its own accepted flag.
+        """
+        from commerce.grounded_analysis import GRADE_FIELDS
+
+        row = self.row(ident)
+        if (
+            row["contract"]["acceptance"]["type"] != "registered_analysis"
+            or row["acceptance"] is None
+            or not callable(resolve_grade)
+            or row["state"] not in ("delivered", "accepted", "rejected", "evaluated")
+        ):
+            raise ValueError("Analytical grading needs a delivered registered job")
+        grade = resolve_grade(copy.deepcopy(row))
+        if grade is None:
+            return None
+        if (
+            type(grade) is not dict
+            or set(grade) != GRADE_FIELDS
+            or type(grade["semantic_accepted"]) is not bool
+            or type(grade["utility"]) is not int
+            or grade["utility"] != int(grade["semantic_accepted"])
+            or any(
+                type(grade[key]) is not str or not HASH.fullmatch(grade[key])
+                for key in GRADE_FIELDS - {"semantic_accepted", "utility"}
+            )
+            or grade["analysis_artifact_sha256"]
+            != row["acceptance"]["analysis_artifact_sha256"]
+        ):
+            raise ValueError("Analytical checker evidence is malformed or unbound")
+        if row["acceptance"]["semantic_accepted"] is not None:
+            if any(row["acceptance"][key] != grade[key] for key in GRADE_FIELDS):
+                raise ValueError("A committed analytical grade cannot change")
+            return row["acceptance"]
+        acceptance = {
+            **row["acceptance"],
+            **grade,
+            "passed": grade["semantic_accepted"]
+            and row["acceptance"]["delivery_passed"],
+            "metric": "registered_sql_answer_correctness",
+            "scope": "A separately registered host checker qualified the retained "
+            "answer on its stated source. Binary correctness is not a "
+            "claim of improvement, neural advantage or general usefulness.",
+        }
+        state = "accepted" if acceptance["passed"] else "rejected"
+
+        def commit():
+            current = self.row(ident)
+            if current["acceptance"] != row["acceptance"]:
+                raise ValueError("Analytical delivery changed before qualification")
+            self.ledger.db.execute(
+                "UPDATE action_tasks SET acceptance=?,state=?,updated=? WHERE id=?",
+                (canonical(acceptance), state, now, ident),
+            )
+            self.event(ident, state, acceptance, now)
+
+        self.transaction(commit)
         return acceptance
 
     def settle(self, ident, evidence, now):
@@ -460,7 +537,7 @@ class ActionLoop:
         if (
             not row["quote"]
             or row["state"]
-            not in ("submitted", "accepted", "rejected", "release_pending")
+            not in ("submitted", "delivered", "accepted", "rejected", "release_pending")
             or evidence.get("job_id") != ident
             or evidence.get("account") != row["account"]
             or evidence.get("external_id") != (row["remote"] or {}).get("external_id")

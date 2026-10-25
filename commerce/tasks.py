@@ -68,7 +68,12 @@ def validate_task(task):
         and (
             task["kind"] != "compute"
             or task.get("acceptance", {}).get("type")
-            not in ("transform_program", "transform_execution", "transform_active")
+            not in (
+                "transform_program",
+                "transform_execution",
+                "transform_active",
+                "registered_analysis",
+            )
         )
     ):
         raise ValueError("Task needs a finite total cost ceiling")
@@ -259,6 +264,29 @@ def validate_task(task):
             raise ValueError(
                 "Retained-skill execution source, rows or work allowance is invalid"
             )
+    elif rule.get("type") == "registered_analysis":
+        if (
+            set(rule)
+            != {
+                "type",
+                "registration_sha256",
+                "registry_sha256",
+                "model_sha256",
+                "db_id",
+            }
+            or task["kind"] != "compute"
+            or task["maximum_micro_usd"] != 0
+            or "outcome" in task
+            or type(rule["db_id"]) is not str
+            or not IDENT.fullmatch(rule["db_id"])
+            or any(
+                type(rule[key]) is not str or not HASH.fullmatch(rule[key])
+                for key in ("registration_sha256", "registry_sha256", "model_sha256")
+            )
+        ):
+            raise ValueError(
+                "Registered analysis needs exact nonfinancial source enrollment"
+            )
     elif rule.get("type") == "document":
         if set(rule) != {"type", "required_sections", "minimum_characters"}:
             raise ValueError("Document evaluation fields are invalid")
@@ -348,7 +376,7 @@ def contractor_brief(task, job_id):
     }
 
 
-def verify_delivery(task, job_id, raw):
+def verify_delivery(task, job_id, raw, *, analysis_resolver=None):
     if not isinstance(raw, bytes) or len(raw) > 262144:
         raise ValueError("Task delivery is missing or oversized")
     value = json.loads(raw)
@@ -360,6 +388,10 @@ def verify_delivery(task, job_id, raw):
     ):
         raise ValueError("Delivery is not bound to this task")
     rule, result = task["acceptance"], value["result"]
+    if rule["type"] == "registered_analysis":
+        from commerce.grounded_analysis import verify_registered_delivery
+
+        return verify_registered_delivery(task, job_id, raw, analysis_resolver)
     if rule["type"] == "transform_active":
         return verify_active_delivery(task, job_id, raw, result)
     if rule["type"] == "transform_execution":
