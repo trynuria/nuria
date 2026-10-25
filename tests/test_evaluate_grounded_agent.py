@@ -50,6 +50,7 @@ class EvaluationTests(unittest.TestCase):
             "schema": evaluation.VERSION,
             "arms": list(evaluation.ARMS),
             "execution_schedule": evaluation.SCHEDULE,
+            "comparison_groups": [list(group) for group in evaluation.GROUPS],
             "seed": 20261025,
             "limits": evaluation.LIMITS,
             "global_completion_cap": 200000,
@@ -279,16 +280,36 @@ class EvaluationTests(unittest.TestCase):
     def test_balanced_schedule_rotates_and_defers_teaching_feedback(self):
         self.run_fixture()
         proposals = [event for event in self.events if event[1] == "propose"]
-        self.assertEqual([event[0] for event in proposals[:6]], list(evaluation.ARMS))
-        expected = list(evaluation.ARMS)[1:] + list(evaluation.ARMS)[:1]
-        self.assertEqual([event[0] for event in proposals[6:12]], expected)
+        self.assertEqual(
+            [event[0] for event in proposals[:2]], list(evaluation.GROUPS[0])
+        )
+        expected = list(reversed(evaluation.GROUPS[0]))
+        self.assertEqual([event[0] for event in proposals[2:4]], expected)
         last = max(
-            i for i, e in enumerate(self.events) if e[1:] == ("propose", "teaching0")
+            i
+            for i, e in enumerate(self.events)
+            if e[1:] == ("propose", "teaching0") and e[0] in evaluation.GROUPS[0]
         )
         first = min(
-            i for i, e in enumerate(self.events) if e[1:] == ("settle", "teaching0")
+            i
+            for i, e in enumerate(self.events)
+            if e[1:] == ("settle", "teaching0") and e[0] in evaluation.GROUPS[0]
         )
         self.assertLess(last, first)
+
+    def test_resource_stop_after_primary_preserves_its_completed_comparison(self):
+        self.protocol["prior_known_completion_tokens"] = 187720
+        self.refresh_freeze()
+        result = self.run_fixture()
+        self.assertEqual(len(self.messages), 40)
+        self.assertTrue(result["primary_complete"])
+        self.assertTrue(result["primary_terminal_results_settled"])
+        self.assertFalse(result["complete"])
+        self.assertFalse(result["all_terminal_results_settled"])
+        for arm in evaluation.GROUPS[0]:
+            self.assertEqual(result["arms"][arm]["reserved"]["accepted"], 12)
+        for arm in evaluation.GROUPS[1]:
+            self.assertEqual(result["arms"][arm]["reserved"]["not_executed"], 12)
 
     def test_unknown_usage_preserves_conservative_liability_and_stops(self):
         result = self.run_fixture(unknown=True)
@@ -324,19 +345,23 @@ class EvaluationTests(unittest.TestCase):
         self.assertFalse(result["complete"])
 
     def test_partial_heldout_batch_receives_no_terminal_credit(self):
-        # Eight teaching blocks and one full heldout block fit. A second
-        # six-job worst-case reservation does not. No subset earns credit.
-        self.protocol["prior_known_completion_tokens"] = 163664
+        # Eight paired teaching blocks and one paired heldout block fit.
+        # A second full block does not. No subset earns learning credit.
+        self.protocol["prior_known_completion_tokens"] = 187888
         self.refresh_freeze()
         result = self.run_fixture()
-        self.assertEqual(len(self.messages), 54)
+        self.assertEqual(len(self.messages), 18)
         for arm in evaluation.ARMS:
             reserved = result["arms"][arm]["reserved"]
             self.assertEqual(reserved["selected"], 12)
-            self.assertEqual(reserved["executed"], 1)
+            self.assertEqual(reserved["executed"], int(arm in evaluation.GROUPS[0]))
             self.assertEqual(reserved["settled"], 0)
-            self.assertEqual(reserved["descriptively_graded"], 1)
-            self.assertEqual(reserved["descriptively_accepted"], 1)
+            self.assertEqual(
+                reserved["descriptively_graded"], int(arm in evaluation.GROUPS[0])
+            )
+            self.assertEqual(
+                reserved["descriptively_accepted"], int(arm in evaluation.GROUPS[0])
+            )
         self.assertFalse(
             any(
                 event[1] == "settle" and event[2].startswith("reserved")
@@ -352,7 +377,7 @@ class EvaluationTests(unittest.TestCase):
         self.protocol["artifacts"]["oracle"]["sha256"] = evaluation.sha(path)
         self.refresh_freeze()
         result = self.run_fixture()
-        self.assertEqual(len(self.messages), 6)
+        self.assertEqual(len(self.messages), 2)
         self.assertEqual(
             result["allowance"]["stop_reason"],
             "terminal_checker_failure_requires_review",
@@ -461,7 +486,9 @@ class EvaluationTests(unittest.TestCase):
 
     def test_complete_terminal_coverage_does_not_hide_final_credit_failure(self):
         result = self.run_fixture(final_credit_error=True)
-        self.assertTrue(result["all_terminal_results_settled"])
+        self.assertTrue(result["primary_terminal_results_settled"])
+        self.assertFalse(result["primary_complete"])
+        self.assertFalse(result["all_terminal_results_settled"])
         self.assertTrue(result["source_freeze_verified_at_end"])
         self.assertFalse(result["complete"])
         self.assertEqual(
