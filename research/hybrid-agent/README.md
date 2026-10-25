@@ -1,10 +1,12 @@
-# Grounded hybrid agent: prospective comparison
+# Grounded hybrid agent: comparison and retained evidence
 
 This experiment asks whether checked experience improves a fixed pretrained
 reasoner's analytical work, and whether a Brian2 inspection strategy contributes
 beyond a conventional controller. It is a new capability path, separate from the
-retained text-program synthesis experiments. **No comparative capability gain is
-claimed by this prospective specification.**
+retained text-program synthesis experiments. The [completed primary pair](comparison-03/results.md)
+accepted nine of twelve reserved questions with neural inspection and eight with
+fixed inspection. The four secondary reserved comparisons did not execute in
+that run. This is bounded evidence, not general neural superiority.
 
 ## Capability and boundaries
 
