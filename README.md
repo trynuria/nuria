@@ -34,6 +34,15 @@ The [prospective comparison](research/hybrid-agent/README.md) separates those
 contributions from the same model with simpler controls. Development wiring is
 not a demonstrated neural advantage; this path is not enrolled in production.
 
+The optional [semantic input path](docs/semantic-neural.md) supplies the question's
+pretrained language representation to that separate circuit, replacing identity
+texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the
+actual neural choice, executed answer and usage for later independent checking.
+Its [twelve-text wiring record](research/semantic-input/README.md) verifies the
+input mapping and matched neural observations, rather than claiming a useful-task
+gain. The [methods note](research/hybrid-agent/methods-and-limits.md) distinguishes
+experience retrieval, neural adaptation and changes to language-model weights.
+
 The [neural task loop](docs/action-loop.md) selects configured external goals from
 actual spike features, retains the decision context and action-region eligibility,
 and credits verified delayed outcomes to that origin. Durable task contracts,
