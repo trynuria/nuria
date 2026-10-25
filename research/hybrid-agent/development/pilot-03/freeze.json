@@ -1,0 +1,51 @@
+{
+  "schema": "nuria.grounded-agent-course.v1",
+  "configuration": {
+    "version": "nuria.grounded-analyst.v2",
+    "memory_mode": "none",
+    "max_turns": 12,
+    "max_output_tokens": 6000,
+    "max_tokens_per_turn": 1536,
+    "memory_bytes": 6000,
+    "max_tool_calls": 12,
+    "initial_tool": null,
+    "initial_section": "schema",
+    "model_binding": {
+      "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+      "schema": "nuria.procedural-memory.v1",
+      "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+      "tool_version": "nuria.analyst-workspace.v1"
+    },
+    "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+    "tool_limits": {
+      "vm_steps": 1000000,
+      "row_limit": 200,
+      "byte_limit": 65536,
+      "deadline_ms": 2000
+    },
+    "reasoning_mode": true,
+    "system_sha256": "c3be40128abd98663ed8fbda8c7cda1cdce2f4415cf2ad97dbe4dcea0f4ce65e"
+  },
+  "thinking": true,
+  "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+  "course_file_sha256": "67ec60f5db92c36ded107cb84f6fd19449f16d92c55c5bfdfeaefa5edb99ae51",
+  "oracle_file_sha256": "090f3c1cd06a9a105124218374d8ebaf16a70e569ba65c60b643284e24fc1fea",
+  "selected_task_ids": [
+    "spider-dev-1017",
+    "spider-dev-0506",
+    "spider-dev-1020",
+    "spider-dev-0499",
+    "spider-dev-0505",
+    "spider-dev-1012"
+  ],
+  "seed": 20261025,
+  "source_sha256": {
+    "cognition/reasoner_client.py": "f11187add3611ed0331ea5991d6bb99498dcb3a173ef7a65808c9bbb340a5e54",
+    "cognition/grounded_agent.py": "f83da48331727260a25a616c4c148d52a2325f6fea2dc25cb934e1f76bdf9319",
+    "cognition/working_evidence.py": "6ec67a5c2c5a516c17ef64b0befebc77f4ff7ba41a6c5db7317860280eac577d",
+    "cognition/analyst_workspace.py": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2",
+    "cognition/procedural_memory.py": "6c42c8798e617ac89c85d946524db4e6da2d58c83038b9e67ab05cb30bcd32cc",
+    "scripts/run_grounded_agent.py": "752be7af61955ef44538bfe6287cdc7aff621e111ac0a73e0b0d093065f041c5"
+  },
+  "scope": "Fixed course slice; original benchmark execution agreement, not SQL equivalence or model novelty"
+}
