@@ -1,0 +1,110 @@
+{
+  "schema": "nuria.semantic-input-probe-result.v1",
+  "at_utc": "2026-10-25T22:06:26.307638+00:00",
+  "freeze_sha256": "53ee73f48912996cdddd6834d6f341dfdcdfe419d5e99df6da8bc0b26a9835ac",
+  "protocol_sha256": "36eb9b549c3657c2b338d17ed829ff8f0a0e48630071157399ab40d95a8cc482",
+  "output_sha256": "370efb3e4d7e6d1e62acc9a7992c1d9af2e083af4f2571b0ca77e29fc7b7714b",
+  "model_calls": 12,
+  "comparisons": [
+    {
+      "anchor": "invoice-a",
+      "paraphrase": "invoice-b",
+      "unrelated": "latency-a",
+      "paraphrase_cosine": 0.7957483312182232,
+      "unrelated_cosine": 0.13266569825641752,
+      "passed": true
+    },
+    {
+      "anchor": "unsold-a",
+      "paraphrase": "unsold-b",
+      "unrelated": "device-a",
+      "paraphrase_cosine": 0.5885559765684305,
+      "unrelated_cosine": 0.23298563808419945,
+      "passed": true
+    },
+    {
+      "anchor": "backup-a",
+      "paraphrase": "backup-b",
+      "unrelated": "shipment-a",
+      "paraphrase_cosine": 0.8649197634425012,
+      "unrelated_cosine": 0.22007534834522857,
+      "passed": true
+    },
+    {
+      "anchor": "latency-a",
+      "paraphrase": "latency-b",
+      "unrelated": "invoice-a",
+      "paraphrase_cosine": 0.7962186287963066,
+      "unrelated_cosine": 0.13266569825641752,
+      "passed": true
+    },
+    {
+      "anchor": "device-a",
+      "paraphrase": "device-b",
+      "unrelated": "unsold-a",
+      "paraphrase_cosine": 0.7895848432710807,
+      "unrelated_cosine": 0.23298563808419945,
+      "passed": true
+    },
+    {
+      "anchor": "shipment-a",
+      "paraphrase": "shipment-b",
+      "unrelated": "backup-a",
+      "paraphrase_cosine": 0.7489472606924282,
+      "unrelated_cosine": 0.22007534834522857,
+      "passed": true
+    }
+  ],
+  "all_predeclared_pairs_passed": true,
+  "source_job_invariance": {
+    "metadata_bindings_differ": true,
+    "current_and_context_bytes_identical": true,
+    "neural_input_sha256": "7a1a825e59f1943be1c94f385d50132f1703e417d79fe2231ee9dc7c27a20d6d",
+    "first_origin": {
+      "schema": "nuria.semantic-origin.v1",
+      "job_id": "first-private-job",
+      "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "observation_receipt_sha256": "c65e1d0915ffa7f9c857765b9b60624d2d81dd9a7db82ad79de77f70e56bcdb1",
+      "scope": "Provenance only; these fields are never passed to text encoder or current mapping"
+    },
+    "second_origin": {
+      "schema": "nuria.semantic-origin.v1",
+      "job_id": "different-private-job",
+      "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "observation_receipt_sha256": "c65e1d0915ffa7f9c857765b9b60624d2d81dd9a7db82ad79de77f70e56bcdb1",
+      "scope": "Provenance only; these fields are never passed to text encoder or current mapping"
+    },
+    "extra_model_calls": 0,
+    "scope": "Structural separation of real semantic observation from identity/provenance; same text observation is reused, not a claim about response-independent retraining"
+  },
+  "all_vectors_finite": true,
+  "pooling_norms": [
+    1.000000040484268,
+    0.9999999557764881,
+    1.0000000436150551,
+    0.9999999991302688,
+    1.0000000279999723,
+    1.0000000448467339,
+    1.0000000095923887,
+    1.000000013099911,
+    1.0000000094274875,
+    0.9999999653390118,
+    1.000000000799939,
+    0.9999999977451127
+  ],
+  "peak_rss_bytes": 175865856,
+  "wall_seconds": 1.021219665883109,
+  "maximum_abs_current": 0.1659471094608307,
+  "runtime": {
+    "onnxruntime": "1.31.0",
+    "numpy": "2.5.4",
+    "providers": [
+      "CPUExecutionProvider"
+    ],
+    "intra_op_threads": 2,
+    "inter_op_threads": 1,
+    "sequential": true
+  },
+  "concurrent_activity": "Main analytical comparison remained active on separate MLX process; these host wall timings are concurrent development measurements, not an isolated throughput benchmark",
+  "scope": "Frozen pretrained semantic similarity and current wiring. No answer correctness, new Brian2 language learning, decision improvement, consciousness, purchase or external delivery is established."
+}

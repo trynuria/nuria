@@ -1,0 +1,159 @@
+"""Private candidate: frozen local sentence embeddings into bounded Brian2 currents.
+
+Provenance is retained separately. No identifier, source hash, model digest or
+policy digest is added to text, projection seeds, neural current or salience.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import time
+from pathlib import Path
+
+import numpy as np
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
+
+
+def file_sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def check(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def verify_files(directory, manifest):
+    for key in ('model_file', 'tokenizer_file'):
+        record = manifest[key]
+        path = (directory / record['local_path']).resolve()
+        check(path.is_relative_to(directory.resolve()) and path.is_file() and
+              path.stat().st_size == record['bytes'], 'Pinned encoder file identity differs')
+        raw = path.read_bytes()
+        if 'sha256' in record:
+            check(hashlib.sha256(raw).hexdigest() == record['sha256'], 'Encoder weight checksum differs')
+        else:
+            blob = b'blob ' + str(len(raw)).encode() + b'\0' + raw
+            check(hashlib.sha1(blob).hexdigest() == record['git_blob_sha1'], 'Encoder tokenizer checksum differs')
+
+
+def mean_pool(token_embeddings, mask):
+    values, mask = np.asarray(token_embeddings, dtype=np.float32), np.asarray(mask, dtype=np.float32)
+    check(values.ndim == 3 and values.shape[0] == 1 and values.shape[2] == 384 and
+          mask.shape == values.shape[:2] and np.isfinite(values).all() and np.isfinite(mask).all(),
+          'Encoder output dimensions or values differ')
+    check(np.isin(mask, [0, 1]).all() and float(mask.sum()) >= 1, 'Encoder attention mask differs')
+    pooled = (values * mask[:, :, None]).sum(axis=1)[0] / mask.sum()
+    norm = float(np.linalg.norm(pooled))
+    check(math.isfinite(norm) and norm > 1e-12, 'Encoder returned a degenerate vector')
+    return (pooled / norm).astype('<f4')
+
+
+class FrozenCPUEncoder:
+    def __init__(self, directory, manifest_path):
+        # Optional dependencies are imported only inside this explicitly loaded
+        # private runtime. Importing the scaffold never starts inference.
+        import onnxruntime as ort
+        from tokenizers import Tokenizer
+        self.directory = Path(directory)
+        self.manifest_path = Path(manifest_path)
+        self.manifest = json.loads(self.manifest_path.read_bytes())
+        verify_files(self.directory, self.manifest)
+        self.calls = 0
+        self.tokenizer = Tokenizer.from_file(str(self.directory / self.manifest['tokenizer_file']['local_path']))
+        self.tokenizer.no_padding(); self.tokenizer.no_truncation()
+        options = ort.SessionOptions()
+        options.intra_op_num_threads = 2; options.inter_op_num_threads = 1
+        options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+        options.enable_cpu_mem_arena = False
+        self.session = ort.InferenceSession(str(self.directory / self.manifest['model_file']['local_path']),
+                                             sess_options=options, providers=['CPUExecutionProvider'])
+        check(self.session.get_providers() == ['CPUExecutionProvider'], 'Encoder provider is not CPU-only')
+        self.inputs = {item.name: item.type for item in self.session.get_inputs()}
+        check(set(self.inputs) <= {'input_ids', 'attention_mask', 'token_type_ids'} and
+              'input_ids' in self.inputs and 'attention_mask' in self.inputs and
+              all(value == 'tensor(int64)' for value in self.inputs.values()), 'Encoder ONNX input contract differs')
+        outputs = self.session.get_outputs()
+        check(len(outputs) == 1, 'Encoder ONNX output contract differs')
+        self.output = outputs[0].name
+        self.runtime = {'onnxruntime': ort.__version__, 'numpy': np.__version__,
+                        'providers': self.session.get_providers(), 'intra_op_threads': 2,
+                        'inter_op_threads': 1, 'sequential': True}
+
+    def encode_question(self, text, *, allow_truncation=False):
+        check(type(text) is str and 0 < len(text.encode()) <= 5000 and type(allow_truncation) is bool,
+              'Question exceeds its finite text contract')
+        check(self.calls < 12, 'Initial encoder call allowance exhausted')
+        self.calls += 1
+        verify_files(self.directory, self.manifest)
+        started = time.monotonic()
+        self.tokenizer.no_truncation()
+        complete = self.tokenizer.encode(text, add_special_tokens=True)
+        full_count = len(complete.ids)
+        check(full_count <= 256 or allow_truncation, 'Question needs explicit wordpiece truncation approval')
+        if full_count > 256:
+            self.tokenizer.enable_truncation(max_length=256, stride=0, direction='right')
+            encoded = self.tokenizer.encode(text, add_special_tokens=True)
+            self.tokenizer.no_truncation()
+        else:
+            encoded = complete
+        count = len(encoded.ids)
+        check(0 < count <= 256, 'Question token count exceeds model allowance')
+        supplied = {'input_ids': np.asarray([encoded.ids], dtype=np.int64),
+                    'attention_mask': np.asarray([encoded.attention_mask], dtype=np.int64),
+                    'token_type_ids': np.asarray([encoded.type_ids], dtype=np.int64)}
+        raw = self.session.run([self.output], {key: supplied[key] for key in self.inputs})[0]
+        vector = mean_pool(raw, supplied['attention_mask'])
+        verify_files(self.directory, self.manifest)
+        receipt = {'schema': 'nuria.semantic-observation.v1', 'call': self.calls,
+                   'model': self.manifest['model'], 'revision': self.manifest['revision'],
+                   'model_file_sha256': self.manifest['model_file']['sha256'],
+                   'tokenizer_git_blob_sha1': self.manifest['tokenizer_file']['git_blob_sha1'],
+                   'manifest_sha256': file_sha(self.manifest_path),
+                   'text_sha256': hashlib.sha256(text.encode()).hexdigest(),
+                   'input_bytes': len(text.encode()), 'wordpieces_before_truncation': full_count,
+                   'wordpieces_used': count, 'truncated': full_count > count,
+                   'dimensions': 384, 'vector_float32_sha256': hashlib.sha256(vector.tobytes()).hexdigest(),
+                   'pooling': 'attention-mask mean then L2', 'wall_seconds': time.monotonic()-started,
+                   'runtime': self.runtime,
+                   'scope': 'Frozen pretrained semantic observation, not new language learning by Brian2'}
+        receipt['receipt_sha256'] = digest(receipt)
+        return vector, receipt
+
+
+def projection():
+    rng = np.random.Generator(np.random.PCG64(1729))
+    return ((rng.integers(0, 2, size=(64, 384), dtype=np.int8) * 2 - 1) / math.sqrt(64)).astype('<f4')
+
+
+def brian_inputs(vector, matrix):
+    vector, matrix = np.asarray(vector, dtype=np.float32), np.asarray(matrix, dtype=np.float32)
+    check(vector.shape == (384,) and matrix.shape == (64, 384) and
+          np.isfinite(vector).all() and np.isfinite(matrix).all(), 'Semantic dimensions or values differ')
+    norm = float(np.linalg.norm(vector))
+    check(norm > 1e-12, 'Semantic vector is degenerate')
+    z = matrix @ (vector / norm)
+    norm = float(np.linalg.norm(z))
+    check(norm > 1e-12 and math.isfinite(norm), 'Semantic projection is degenerate')
+    signed = np.tanh(4 * z / norm)
+    drive = np.zeros(1024, dtype=np.float64)
+    drive[:64], drive[64:128] = 0.18 * np.maximum(signed, 0), 0.18 * np.maximum(-signed, 0)
+    memory = (0.5 + 0.5 * signed).astype(np.float64)
+    check(np.isfinite(drive).all() and abs(drive).max() <= 0.2 and
+          np.isfinite(memory).all() and memory.min() >= 0 and memory.max() <= 1,
+          'Semantic currents exceed existing circuit bounds')
+    return {'regional_drive': drive.tolist(),
+            'context': {'memory_features': memory.tolist(), 'salience': 1.0, 'energy': 1.0}}
+
+
+def bind_origin(observation, *, job_id, source_sha256):
+    check(type(job_id) is str and 0 < len(job_id.encode()) <= 256 and
+          type(source_sha256) is str and len(source_sha256) == 64 and
+          set(source_sha256) <= set('0123456789abcdef'), 'Semantic origin identity is malformed')
+    return {'schema': 'nuria.semantic-origin.v1', 'job_id': job_id,
+            'source_sha256': source_sha256, 'observation_receipt_sha256': observation['receipt_sha256'],
+            'scope': 'Provenance only; these fields are never passed to text encoder or current mapping'}

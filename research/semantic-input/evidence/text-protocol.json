@@ -1,0 +1,48 @@
+{
+  "schema": "nuria.semantic-input-probe.v1",
+  "status": "frozen-before-model-read",
+  "scope": "Twelve neutral data-engineering texts; a representation and wiring probe, not a task-solving or learning benchmark",
+  "texts": [
+    {"id":"invoice-a","text":"For every customer, report the sum of paid invoice amounts."},
+    {"id":"invoice-b","text":"Add the amounts of paid invoices separately for each customer."},
+    {"id":"unsold-a","text":"List products with no recorded sales."},
+    {"id":"unsold-b","text":"Return the products that have never been sold."},
+    {"id":"backup-a","text":"Find the most recent successful backup for each database."},
+    {"id":"backup-b","text":"For each database, show its latest backup that completed successfully."},
+    {"id":"latency-a","text":"Compare the median response time before and after the deployment."},
+    {"id":"latency-b","text":"Measure the change in median request latency across the deployment."},
+    {"id":"device-a","text":"Count distinct devices that reported an error during the last hour."},
+    {"id":"device-b","text":"How many unique devices sent an error in the past sixty minutes?"},
+    {"id":"shipment-a","text":"Show shipments that arrived later than their promised delivery date."},
+    {"id":"shipment-b","text":"List shipments delivered after their scheduled arrival date."}
+  ],
+  "comparisons": [
+    {"anchor":"invoice-a","paraphrase":"invoice-b","unrelated":"latency-a"},
+    {"anchor":"unsold-a","paraphrase":"unsold-b","unrelated":"device-a"},
+    {"anchor":"backup-a","paraphrase":"backup-b","unrelated":"shipment-a"},
+    {"anchor":"latency-a","paraphrase":"latency-b","unrelated":"invoice-a"},
+    {"anchor":"device-a","paraphrase":"device-b","unrelated":"unsold-a"},
+    {"anchor":"shipment-a","paraphrase":"shipment-b","unrelated":"backup-a"}
+  ],
+  "criterion": "For each predeclared triple, cosine(anchor,paraphrase) must exceed cosine(anchor,unrelated). Retain every result and failure without text, threshold, model or projection tuning.",
+  "neural_mapping": {
+    "input_dimensions":384,
+    "projection_dimensions":64,
+    "projection":"Fixed Rademacher matrix from NumPy PCG64 seed1729 divided by sqrt(64); independent of texts, tasks and provenance",
+    "projected_normalization":"L2",
+    "signed_compression":"tanh(4*z)",
+    "sensory":"First64=0.18*positive(z_compressed), next64=0.18*positive(-z_compressed); remainder zero",
+    "memory_features":"0.5+0.5*z_compressed",
+    "salience":1.0,
+    "energy":1.0,
+    "provenance_never_enters_currents":true
+  },
+  "invariance_probe": "Use invoice-a representation with two different job IDs and source hashes. Encoder text and all currents must remain identical; metadata bindings must differ.",
+  "brian_probe_inputs":["invoice-a","invoice-b","latency-a","invoice-a-with-different-provenance"],
+  "brian_window_ms":100,
+  "brian_initialization":"A single isolated checkpoint and RNG state restored before every window. Reset associated Python counters and offset. No active worker or previous lab is changed.",
+  "feedback": "No task, payment, semantic answer or learning reward is fabricated. This probe demonstrates semantic input wiring only.",
+  "initial_encode_call_ceiling":12,
+  "per_process_wall_seconds":30,
+  "prospective_later_controls":["same-representation conventional contextual selector","schema-first heuristic","lexical/task-feature selector","no-update spiking selector","shuffled semantic vectors","old random identity texture"]
+}

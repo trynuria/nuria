@@ -1,0 +1,53 @@
+"""Four actual Brian2 windows from one isolated matched checkpoint and RNG."""
+import copy,datetime,hashlib,json,os,resource,shutil,sys,time
+from pathlib import Path
+import numpy as np
+P=Path(__file__).resolve().parent
+ROOT=Path(__file__).resolve().parents[3]
+sys.path.insert(0,str(ROOT))
+from cognition.task_brain import TaskLearningBrain
+from semantic_adapter import brian_inputs,bind_origin,digest,file_sha
+
+def write(path,value):
+ with path.open('x')as f:json.dump(value,f,indent=2,allow_nan=False);f.write('\n')
+def main():
+ os.nice(15)
+ assert shutil.disk_usage(P).free>=22*1024**3
+ began=time.monotonic()
+ observations=json.loads((P/'semantic-output.json').read_bytes())
+ result=json.loads((P/'semantic-probe-result.json').read_bytes())
+ assert file_sha(P/'semantic-output.json')==result['output_sha256']
+ matrix=np.load(P/'projection.npy',allow_pickle=False)
+ directory=P/'brian-probe-01';directory.mkdir(mode=0o700)
+ source={name:file_sha(ROOT/name)for name in('cognition/brain.py','cognition/task_brain.py')}
+ write(directory/'probe-freeze.json',{'at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'semantic_output_sha256':file_sha(P/'semantic-output.json'),'text_protocol_sha256':file_sha(P/'text-protocol.json'),'projection_sha256':file_sha(P/'projection.npy'),'source':source,'windows':['invoice-a','invoice-b','latency-a','invoice-a-with-different-provenance'],'milliseconds_per_window':100,'task_outcomes_or_rewards_supplied':False})
+ brain=TaskLearningBrain(directory/'new-isolated-network')
+ python_state={key:copy.deepcopy(getattr(brain,key))for key in('offset','frames','total_spikes','rate_history')}
+ initial_hash=brain.state_hash()
+ checkpoint=directory/'semantic-origin.pkl'
+ brain.net.store('semantic-origin',filename=str(checkpoint));os.chmod(checkpoint,0o600)
+ trial_inputs=[('invoice-a','invoice-a','semantic-job-one','1'*64),('invoice-b','invoice-b','paraphrase-job','1'*64),('latency-a','latency-a','unrelated-job','1'*64),('invoice-a-with-different-provenance','invoice-a','different-semantic-job','2'*64)]
+ records=[]
+ with(directory/'windows.jsonl').open('x')as journal:
+  for label,text_id,job,scope in trial_inputs:
+   assert shutil.disk_usage(P).free>=22*1024**3
+   brain.net.restore('semantic-origin',filename=str(checkpoint),restore_random_state=True)
+   for key,value in python_state.items():setattr(brain,key,copy.deepcopy(value))
+   assert brain.state_hash()==initial_hash
+   inputs=brian_inputs(np.asarray(observations['vectors'][text_id]),matrix)
+   assert inputs==observations['currents'][text_id]
+   receipt=next(item['observation']for item in observations['receipts']if item['text_id']==text_id)
+   origin=bind_origin(receipt,job_id=job,source_sha256=scope)
+   frame=brain.advance(event=None,utilities={'explore':0.5,'experiment':0.5},duration_ms=100,
+                       context=inputs['context'],regional_drive=np.asarray(inputs['regional_drive']))
+   record={'label':label,'text_id':text_id,'origin':origin,'input_sha256':digest(inputs),
+           'matched_initial_state_sha256':initial_hash,'frame':frame}
+   records.append(record);journal.write(json.dumps(record,allow_nan=False)+'\n');journal.flush();os.fsync(journal.fileno())
+ assert all(r['frame']['before_state_sha256']==initial_hash for r in records)
+ first,last=records[0],records[-1]
+ output={'schema':'nuria.semantic-brian-wiring-probe.v1','at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':source,'checkpoint_sha256':file_sha(checkpoint),'semantic_output_sha256':file_sha(P/'semantic-output.json'),'actual_windows':len(records),'milliseconds_per_window':100,'spikes_by_window':[r['frame']['spike_count']for r in records],'different_provenance_invariance':{'origins_differ':first['origin']!=last['origin'],'input_hash_identical':first['input_sha256']==last['input_sha256'],'spike_hash_identical':first['frame']['spikes_sha256']==last['frame']['spikes_sha256'],'final_state_identical':first['frame']['after_state_sha256']==last['frame']['after_state_sha256']},'semantic_inputs_changed_actual_spike_record':first['frame']['spikes_sha256']!=records[2]['frame']['spikes_sha256'],'all_initial_states_identical':all(r['frame']['before_state_sha256']==initial_hash for r in records),'all_windows_recorded_spikes':all(r['frame']['spike_count']>0 for r in records),'wall_seconds':time.monotonic()-began,'peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,'numpy_version':np.__version__,'scope':'Actual frozen pretrained semantic vectors drove a new isolated Brian2 network. Identity/provenance metadata did not alter neural inputs. This is semantic wiring, not a demonstrated task-decision gain, new language learning, biological simulation or consciousness result. No reward or payment was fabricated; active workers and histories are unchanged.'}
+ assert all(output['different_provenance_invariance'].values())
+ assert all(file_sha(ROOT/name)==sha for name,sha in source.items())
+ write(directory/'result.json',output)
+ print(json.dumps({'completed':True,'actual_windows':len(records),'spikes_by_window':output['spikes_by_window'],'different_provenance_invariance':output['different_provenance_invariance'],'semantic_inputs_changed_actual_spike_record':output['semantic_inputs_changed_actual_spike_record'],'wall_seconds':output['wall_seconds'],'peak_rss_bytes':output['peak_rss_bytes']}))
+if __name__=='__main__':main()
