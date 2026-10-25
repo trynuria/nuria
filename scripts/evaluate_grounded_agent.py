@@ -22,7 +22,11 @@ from cognition.procedural_memory import ProceduralMemory
 from cognition.reasoner_client import LocalReasoner, ReasonerError, digest
 
 VERSION = "nuria.grounded-comparison.v1"
-SCHEDULE = "phase-task-rotating-arms-v1"
+SCHEDULE = "primary-pair-then-secondary-blocks-v2"
+GROUPS = (
+    ("hybrid_fixed", "hybrid_neural"),
+    ("stateless", "episodes", "procedures", "schema_first"),
+)
 ARMS = {
     "stateless": ("none", None, None),
     "episodes": ("episode", None, None),
@@ -342,6 +346,7 @@ def evaluate(
         protocol.get("schema") != VERSION
         or protocol.get("arms") != list(ARMS)
         or protocol.get("execution_schedule") != SCHEDULE
+        or protocol.get("comparison_groups") != [list(group) for group in GROUPS]
         or protocol.get("seed") != 20261025
         or protocol.get("limits") != LIMITS
         or protocol.get("global_completion_cap") != 200000
@@ -445,183 +450,198 @@ def evaluate(
                         "error_type": type(error).__name__,
                     },
                 )
-        block_number = 0
-        for phase, course in courses.items():
-            for task in course:
-                names = list(ARMS)
-                offset = block_number % len(names)
-                order = names[offset:] + names[:offset]
-                block_number += 1
-                permitted = allowance.block_fits(len(ARMS))
-                append(
-                    output / "events.jsonl",
-                    {
-                        "event": "matched_block",
-                        "phase": phase,
-                        "task_id": task["id"],
-                        "arm_order": order,
-                        "permitted": permitted,
-                        "required_completion_headroom": 6000 * len(ARMS),
-                        **allowance.state(),
-                    },
-                )
-                committed = []
-                for arm in order:
-                    state = states[arm]
-                    memory, bridge = state["memory"], state["bridge"]
-                    row = {
-                        "arm": arm,
-                        "phase": phase,
-                        "task_id": task["id"],
-                        "db_id": task["db_id"],
-                        "agent": None,
-                        "settlement": None,
-                        "observed_usage": {
-                            "completion_tokens": 0,
-                            "prompt_tokens": 0,
-                            "unknown_additional_usage": False,
-                        },
-                        "status": "not_executed",
-                        "attempted": False,
-                    }
-                    rows.append(row)
-                    if not permitted or not allowance.reserve():
-                        row["reason"] = allowance.stopped
-                        continue
+        for group_index, group in enumerate(GROUPS):
+            block_number = 0
+            for phase, course in courses.items():
+                for task in course:
+                    names = list(group)
+                    offset = block_number % len(names)
+                    order = names[offset:] + names[:offset]
+                    block_number += 1
+                    permitted = allowance.block_fits(len(group))
                     append(
-                        output / "allowance.jsonl",
+                        output / "events.jsonl",
                         {
-                            "event": "job_reserved",
-                            "arm": arm,
+                            "event": "matched_block",
                             "phase": phase,
                             "task_id": task["id"],
+                            "arm_order": order,
+                            "permitted": permitted,
+                            "required_completion_headroom": 6000 * len(group),
                             **allowance.state(),
                         },
                     )
-                    metered, decision = MeteredReasoner(base, allowance), None
-                    row["attempted"] = True
-                    try:
-                        verify_freeze(
-                            protocol_path, freeze_path, expected_freeze, repository
-                        )
-                        if bridge:
-                            context = digest(
-                                {
-                                    "job_id": task["id"],
-                                    "model_identity": protocol["model_identity"],
-                                    "registry_sha256": workspace.registry_sha256,
-                                    "source": freeze["files"],
-                                    "configuration": LIMITS,
-                                    "seed": protocol["seed"],
-                                }
-                            )
-                            decision = bridge.choose(
-                                task["id"],
-                                context,
-                                task["question"],
-                                {
-                                    tool: memory.outcome_stats(tool)
-                                    for tool in STRATEGIES
-                                },
-                            )
-                        initial = (
-                            decision["first_tool"] if decision else state["first_tool"]
-                        )
-                        agent = dep["agent"](
-                            metered,
-                            workspace,
-                            memory,
-                            **LIMITS,
-                            memory_mode=state["memory_mode"],
-                            initial_tool=initial,
-                            initial_section="schema",
-                            neural_context=neural_view(decision) if decision else None,
-                        )
-                        row["agent"] = agent.run(
-                            job_id=task["id"],
-                            question=task["question"],
-                            db_id=task["db_id"],
-                            seed=protocol["seed"],
-                        )
-                        verify_freeze(
-                            protocol_path, freeze_path, expected_freeze, repository
-                        )
-                        row["status"] = row["agent"]["status"]
-                    except Exception as error:
-                        row["status"], row["error_type"] = (
-                            "host_error",
-                            type(error).__name__,
-                        )
-                        allowance.stopped = "host_error_requires_review"
-                    finally:
-                        allowance.finish(metered.completion, metered.unknown)
-                        row["observed_usage"] = {
-                            "completion_tokens": metered.completion,
-                            "prompt_tokens": metered.prompt,
-                            "unknown_additional_usage": metered.unknown,
+                    committed = []
+                    for arm in order:
+                        state = states[arm]
+                        memory, bridge = state["memory"], state["bridge"]
+                        row = {
+                            "arm": arm,
+                            "comparison_group": group_index,
+                            "phase": phase,
+                            "task_id": task["id"],
+                            "db_id": task["db_id"],
+                            "agent": None,
+                            "settlement": None,
+                            "observed_usage": {
+                                "completion_tokens": 0,
+                                "prompt_tokens": 0,
+                                "unknown_additional_usage": False,
+                            },
+                            "status": "not_executed",
+                            "attempted": False,
                         }
-                        row["neural_decision"] = decision
-                        append(output / "proposals.jsonl", row)
+                        rows.append(row)
+                        if not permitted or not allowance.reserve():
+                            row["reason"] = allowance.stopped
+                            continue
                         append(
                             output / "allowance.jsonl",
-                            {"event": "job_closed", **allowance.state()},
-                        )
-                    if row["agent"] is not None:
-                        committed.append(row)
-                        if phase == "reserved":
-                            reserved_pending[arm].append((task, row))
-                # Release a teaching item's feedback only after the complete
-                # matched block, never between arms evaluating that same item.
-                if phase == "teaching" and len(committed) == len(ARMS):
-                    for row in committed:
-                        state = states[row["arm"]]
-                        finish(state["memory"], state["bridge"], task, row)
-            if phase == "reserved":
-                # No reserved terminal label is used while any inference for
-                # this selected batch can still run, across all six arms.
-                for arm, pending in reserved_pending.items():
-                    if len(pending) == 12:
-                        append(
-                            output / "events.jsonl",
                             {
-                                "event": "heldout_batch_committed",
+                                "event": "job_reserved",
                                 "arm": arm,
-                                "count": 12,
+                                "comparison_group": group_index,
+                                "phase": phase,
+                                "task_id": task["id"],
+                                **allowance.state(),
                             },
                         )
-                        for task, row in pending:
-                            finish(
-                                states[arm]["memory"], states[arm]["bridge"], task, row
+                        metered, decision = MeteredReasoner(base, allowance), None
+                        row["attempted"] = True
+                        try:
+                            verify_freeze(
+                                protocol_path, freeze_path, expected_freeze, repository
                             )
+                            if bridge:
+                                context = digest(
+                                    {
+                                        "job_id": task["id"],
+                                        "model_identity": protocol["model_identity"],
+                                        "registry_sha256": workspace.registry_sha256,
+                                        "source": freeze["files"],
+                                        "configuration": LIMITS,
+                                        "seed": protocol["seed"],
+                                    }
+                                )
+                                decision = bridge.choose(
+                                    task["id"],
+                                    context,
+                                    task["question"],
+                                    {
+                                        tool: memory.outcome_stats(tool)
+                                        for tool in STRATEGIES
+                                    },
+                                )
+                            initial = (
+                                decision["first_tool"]
+                                if decision
+                                else state["first_tool"]
+                            )
+                            agent = dep["agent"](
+                                metered,
+                                workspace,
+                                memory,
+                                **LIMITS,
+                                memory_mode=state["memory_mode"],
+                                initial_tool=initial,
+                                initial_section="schema",
+                                neural_context=neural_view(decision)
+                                if decision
+                                else None,
+                            )
+                            row["agent"] = agent.run(
+                                job_id=task["id"],
+                                question=task["question"],
+                                db_id=task["db_id"],
+                                seed=protocol["seed"],
+                            )
+                            verify_freeze(
+                                protocol_path, freeze_path, expected_freeze, repository
+                            )
+                            row["status"] = row["agent"]["status"]
+                        except Exception as error:
+                            row["status"], row["error_type"] = (
+                                "host_error",
+                                type(error).__name__,
+                            )
+                            allowance.stopped = "host_error_requires_review"
+                        finally:
+                            allowance.finish(metered.completion, metered.unknown)
+                            row["observed_usage"] = {
+                                "completion_tokens": metered.completion,
+                                "prompt_tokens": metered.prompt,
+                                "unknown_additional_usage": metered.unknown,
+                            }
+                            row["neural_decision"] = decision
+                            append(output / "proposals.jsonl", row)
+                            append(
+                                output / "allowance.jsonl",
+                                {"event": "job_closed", **allowance.state()},
+                            )
+                        if row["agent"] is not None:
+                            committed.append(row)
+                            if phase == "reserved":
+                                reserved_pending[arm].append((task, row))
+                    # Release a teaching item's feedback only after the complete
+                    # matched block, never between arms evaluating that same item.
+                    if phase == "teaching" and len(committed) == len(group):
+                        for row in committed:
+                            state = states[row["arm"]]
+                            finish(state["memory"], state["bridge"], task, row)
+                if phase == "reserved":
+                    # No reserved terminal label is used while any inference for
+                    # this group can still run. Other groups own isolated memories.
+                    for arm in group:
+                        pending = reserved_pending[arm]
+                        if len(pending) == 12:
+                            append(
+                                output / "events.jsonl",
+                                {
+                                    "event": "heldout_batch_committed",
+                                    "arm": arm,
+                                    "comparison_group": group_index,
+                                    "count": 12,
+                                },
+                            )
+                            for task, row in pending:
+                                finish(
+                                    states[arm]["memory"],
+                                    states[arm]["bridge"],
+                                    task,
+                                    row,
+                                )
         # A resource stop may leave a fully committed paired subset. Grade it
         # descriptively after inference has ended, without settling memory or
         # applying neural credit. All unexecuted selected jobs stay in the record.
         for task in courses["reserved"]:
-            matched = [
-                row
-                for row in rows
-                if row["phase"] == "reserved" and row["task_id"] == task["id"]
-            ]
-            if len(matched) == len(ARMS) and all(
-                row["agent"] is not None for row in matched
-            ):
-                expected = oracle[task["id"]]
-                for row in matched:
-                    if row["settlement"] is None:
-                        result = row["agent"]
-                        row["descriptive_evaluation"] = {
-                            "accepted": bool(
-                                result["final_sql"] is not None
-                                and grade_result(
-                                    result["selected_receipt"],
-                                    expected["expected_rows"],
-                                    ordered=expected["ordered"],
-                                    expected_columns=expected["column_count"],
-                                )
-                            ),
-                            "scope": "Post-stop matched subset only; no memory settlement or neural credit",
-                            "oracle_sha256": digest(expected),
-                        }
+            for group_index, group in enumerate(GROUPS):
+                matched = [
+                    row
+                    for row in rows
+                    if row["phase"] == "reserved"
+                    and row["task_id"] == task["id"]
+                    and row["arm"] in group
+                ]
+                if len(matched) == len(group) and all(
+                    row["agent"] is not None for row in matched
+                ):
+                    expected = oracle[task["id"]]
+                    for row in matched:
+                        if row["settlement"] is None:
+                            result = row["agent"]
+                            row["descriptive_evaluation"] = {
+                                "accepted": bool(
+                                    result["final_sql"] is not None
+                                    and grade_result(
+                                        result["selected_receipt"],
+                                        expected["expected_rows"],
+                                        ordered=expected["ordered"],
+                                        expected_columns=expected["column_count"],
+                                    )
+                                ),
+                                "scope": "Post-stop matched subset only; no memory settlement or neural credit",
+                                "oracle_sha256": digest(expected),
+                            }
         for state in states.values():
             if state["memory"]:
                 write(
@@ -641,6 +661,15 @@ def evaluate(
         allowance.stopped = "final_source_freeze_changed"
         append(output / "events.jsonl", {"event": "final_source_freeze_changed"})
     terminal_coverage = all(row["settlement"] is not None for row in rows)
+    primary_coverage = all(
+        row["settlement"] is not None for row in rows if row["arm"] in GROUPS[0]
+    )
+    resource_stops = {
+        None,
+        "global_matched_block_reservation_limit",
+        "global_completion_reservation_limit",
+        "global_wall_limit",
+    }
     summary = {
         "schema": VERSION,
         "allowance": allowance.state(),
@@ -654,6 +683,11 @@ def evaluate(
             for arm in ARMS
         },
         "all_terminal_results_settled": terminal_coverage,
+        "primary_arms": list(GROUPS[0]),
+        "primary_terminal_results_settled": primary_coverage,
+        "primary_complete": primary_coverage
+        and source_verified
+        and allowance.stopped in resource_stops,
         "source_freeze_verified_at_end": source_verified,
         "complete": terminal_coverage and source_verified and not allowance.stopped,
         "scope": "Finite exact SQLite agreement on a small public-data cohort; prompt tokens vary and are measured; public benchmark pretraining contamination is possible",
