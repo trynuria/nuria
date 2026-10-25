@@ -122,7 +122,8 @@ checks reproduce the numerical current mapping without another encoding call.
 Unit tests separately verify first-tool enforcement, recovery, metadata
 invariance, delayed credit and durable refusal after interruption.
 
-An actual integration trial also answered a question about 40 recorded work
+An [actual integration trial](../research/hybrid-agent/work-trials/README.md)
+also answered a question about 40 recorded work
 tasks. The enforced neural inspection led to an executed query whose answer
 matched a separate grouping of the retained JSON. Its linked terminal credited
 205 originating tagged synapses once. The trial used one CPU encoding and 3,499
