@@ -83,7 +83,7 @@ and required ordering. This is a small finite execution comparison, rather than
 the complete official benchmark metric. Public benchmark pretraining
 contamination is possible.
 
-The prospective comparison separates the same frozen model with no persistent
+The frozen comparison separates the same model with no persistent
 memory, episode retrieval, procedural retrieval, a schema-first heuristic and
 matched fixed/neural inspection strategies. Teaching outcomes settle immediately.
 Reserved answers are committed as a complete batch before terminal labels can
@@ -94,6 +94,15 @@ limits. Prompt tokens vary and are measured. Inference, retrieval, SQL work,
 errors, abstentions and incomplete runs remain in the record. A circuit wiring
 test, a correct isolated answer and an improvement over a serious comparator are
 different results.
+
+The [completed primary pair](../research/hybrid-agent/comparison-03/results.md)
+accepted 9/12 reserved answers with neural inspection and 8/12 with fixed
+inspection. Completion use was 17,951 versus 26,681 tokens. Both conditions run
+Brian2 and keep separate experience histories; this does not establish a win
+against a brain-free agent. The original run executed 64 of 120 selected records.
+Its secondary reserved conditions remain unexecuted. A separately frozen
+[supplemental protocol](../research/hybrid-agent/supplemental-controls/protocol-01.json)
+completes the schema-first and stateless controls without rewriting that run.
 
 ## Runtime and activation
 

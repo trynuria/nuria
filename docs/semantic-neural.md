@@ -122,6 +122,28 @@ checks reproduce the numerical current mapping without another encoding call.
 Unit tests separately verify first-tool enforcement, recovery, metadata
 invariance, delayed credit and durable refusal after interruption.
 
+An actual integration trial also answered a question about 40 recorded work
+tasks. The enforced neural inspection led to an executed query whose answer
+matched a separate grouping of the retained JSON. Its linked terminal credited
+205 originating tagged synapses once. The trial used one CPU encoding and 3,499
+completion tokens. It retained a checked episode and no qualified reusable
+procedure. This is a working closed loop for one case, not a comparison result or
+retroactive semantic acceptance of the 40 underlying tasks. Those source records
+still have unknown semantic acceptance. The pretrained model's weights did not
+change.
+
+```mermaid
+flowchart LR
+    Q[Question] --> E[Pinned language encoder]
+    E --> B[Brian2 currents and activity]
+    B --> T[Enforced inspection tool]
+    T --> R[Fixed reasoning model]
+    R --> S[Executed read-only query]
+    S --> V[Independent data check]
+    V --> M[Checked episode]
+    V --> C[Originating synaptic credit]
+```
+
 The next useful-task comparison must enroll fresh tasks before inspection and
 freeze representation, observations, feedback, outcome checker and resource
 budgets across all arms. The primary conventional control should use the same
