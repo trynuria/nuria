@@ -26,6 +26,11 @@ jobs:
           ruff format --check .
           python -m scripts.check_publication
           python -m unittest discover -s tests -v
+          python -m scripts.verify_semantic_wiring
+          python -m unittest discover -s research/hybrid-agent/supplemental-controls -p test_controls.py -v
+          python research/hybrid-agent/supplemental-controls/input_equivalence.py .
+          python -m unittest discover -s research/hybrid-agent/work-snapshot -p test_recent_work.py -v
+          python research/hybrid-agent/work-snapshot/check_recent_work.py
           python -m scripts.check_action_loop .test-state/action-integration .test-state/action-integration.json
           python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
           python -m scripts.verify_intervention_memory research/intervention-memory/validation
