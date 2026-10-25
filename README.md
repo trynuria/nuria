@@ -26,6 +26,14 @@ The original 256-neuron circuit continues with its existing history. The expande
 
 ## Actions and learning
 
+The optional [hybrid analyst](docs/hybrid-reasoning.md) adds pretrained reasoning,
+registered read-only data tools, a persistent index of executed evidence and
+outcome-qualified procedural memory. A separate Brian2 branch selects an
+inspection strategy and receives delayed credit at the originating neural state.
+The [prospective comparison](research/hybrid-agent/README.md) separates those
+contributions from the same model with simpler controls. Development wiring is
+not a demonstrated neural advantage; this path is not enrolled in production.
+
 The [neural task loop](docs/action-loop.md) selects configured external goals from
 actual spike features, retains the decision context and action-region eligibility,
 and credits verified delayed outcomes to that origin. Durable task contracts,
