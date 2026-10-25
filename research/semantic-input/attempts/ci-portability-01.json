@@ -1,0 +1,65 @@
+{
+  "schema": "nuria.semantic-float32-portability-check.v1",
+  "at_utc": "2026-10-25T22:50:59.905869+00:00",
+  "original_public_commit": "11a2d094d15cc438afec7e37196da6d59ae2931e",
+  "linux_ci_failure": "https://github.com/trynuria/nuria/actions/runs/40241281613/job/121313404997",
+  "linux_python_tests_run": 1042,
+  "linux_python_test_errors": 1,
+  "optional_skips": 11,
+  "failure": "Exact numerical mapping equality failed on Linux. The failure was at the current-mapping comparison; this does not imply every later verifier check ran on that CI job. Original captured artifact bytes remain unchanged.",
+  "projection_float32_sha256": "e090ccfd2b367d91f7849f1902d620211987c22f70efd1e0af7afe7390d7d281",
+  "records": [
+    {
+      "text_id": "invoice-a",
+      "maximum_absolute_difference_from_float64_fsum_reference": 9.562418512576443e-08
+    },
+    {
+      "text_id": "invoice-b",
+      "maximum_absolute_difference_from_float64_fsum_reference": 5.614132581044373e-08
+    },
+    {
+      "text_id": "unsold-a",
+      "maximum_absolute_difference_from_float64_fsum_reference": 9.270555245688428e-08
+    },
+    {
+      "text_id": "unsold-b",
+      "maximum_absolute_difference_from_float64_fsum_reference": 6.773734595455494e-08
+    },
+    {
+      "text_id": "backup-a",
+      "maximum_absolute_difference_from_float64_fsum_reference": 8.861641409563248e-08
+    },
+    {
+      "text_id": "backup-b",
+      "maximum_absolute_difference_from_float64_fsum_reference": 6.87355378170551e-08
+    },
+    {
+      "text_id": "latency-a",
+      "maximum_absolute_difference_from_float64_fsum_reference": 7.75277044784417e-08
+    },
+    {
+      "text_id": "latency-b",
+      "maximum_absolute_difference_from_float64_fsum_reference": 6.129234975116304e-08
+    },
+    {
+      "text_id": "device-a",
+      "maximum_absolute_difference_from_float64_fsum_reference": 9.527510858031718e-08
+    },
+    {
+      "text_id": "device-b",
+      "maximum_absolute_difference_from_float64_fsum_reference": 7.601529983247701e-08
+    },
+    {
+      "text_id": "shipment-a",
+      "maximum_absolute_difference_from_float64_fsum_reference": 5.0166570564336155e-08
+    },
+    {
+      "text_id": "shipment-b",
+      "maximum_absolute_difference_from_float64_fsum_reference": 7.962827131002825e-08
+    }
+  ],
+  "maximum_local_float32_vs_fsum_difference": 9.562418512576443e-08,
+  "declared_portable_absolute_tolerance": 9.5367431640625e-07,
+  "new_model_calls": 0,
+  "scope": "Local independent summation-order diagnostic and public CI failure; a passing corrected Linux run remains separately required. Exact evidence identities and inactive channels remain checked."
+}
