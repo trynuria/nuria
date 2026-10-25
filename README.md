@@ -30,9 +30,11 @@ The optional [hybrid analyst](docs/hybrid-reasoning.md) adds pretrained reasonin
 registered read-only data tools, a persistent index of executed evidence and
 outcome-qualified procedural memory. A separate Brian2 branch selects an
 inspection strategy and receives delayed credit at the originating neural state.
-The [prospective comparison](research/hybrid-agent/README.md) separates those
-contributions from the same model with simpler controls. Development wiring is
-not a demonstrated neural advantage; this path is not enrolled in production.
+The [primary comparison](research/hybrid-agent/comparison-03/results.md) returned
+9/12 accepted answers with neural inspection versus 8/12 with fixed inspection,
+using 32.72% fewer completion tokens. Both conditions run Brian2; simpler-agent
+superiority remains unestablished. The full run retains all 120 selected records,
+including 56 unexecuted. This path is not enrolled in production.
 
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
@@ -172,7 +174,7 @@ The directory must be new for a fresh capacity run. Evidence is retained. The da
 
 Protocol accrual, claimable vault funds, treasury balance, attributed creator-fee receipts and payments remain separate quantities. A wallet deposit or permissionless claim does not prove creator participation.
 
-The read-only observer can fetch a finalized balance after an verified funding source are configured. Missing or stale evidence stays unknown. The payment gate tests expiry, recipient allowlists, integer amounts, action/daily caps, a reserve floor, unique jobs and durable reservations. The transaction builder produces a single unsigned SOL transfer.
+The read-only observer can fetch a finalized balance after a verified funding source is configured. Missing or stale evidence stays unknown. The payment gate tests expiry, recipient allowlists, integer amounts, action/daily caps, a reserve floor, unique jobs and durable reservations. The transaction builder produces a single unsigned SOL transfer.
 
 **Financial execution is disabled. Local jobs spend zero SOL.** The isolated commerce service implements exact Solana USDC x402 purchases, durable reservations, pre-sign message inspection, simulation, finalized settlement checks and delivery/outcome records. Activation requires the exact token, a dedicated funded spending wallet, approved limits, an isolated signer and a compatible provider. The public API and cognitive worker receive no signing key.
 
@@ -295,7 +297,7 @@ npm run build
 
 Tests cover protocol decoding, fee-beneficiary identity, credential-safe failures, prequential learning, neural ablation fixtures, journal corruption, exact checkpoint continuation, matched replays, source separation, idempotency, crash rollback and spending boundaries. Tests make no RPC requests and retain isolated evidence under `.test-state/`.
 
-CI uses read-only permissions and pinned actions and formatters. Runtime data, secrets, private infrastructure, provider identifiers and recovery archives are excluded. No license grant for Nuria-authored code is added by this publication. `SOURCE-MANIFEST.json` identifies published file hashes. The running release identifies component commits and source hashes; the unchanged original engine has its own historical startup hash.
+CI uses read-only permissions and pinned actions and formatters. Production runtime data, secrets, private infrastructure, provider identifiers and production recovery archives are excluded. Published experimental checkpoints have separate identities and explicit serialization warnings. No license grant for Nuria-authored code is added by this publication. `SOURCE-MANIFEST.json` identifies published file hashes. The running release identifies component commits and source hashes; the unchanged original engine has its own historical startup hash.
 
 Brian2: [documentation](https://brian2.readthedocs.io/) and [reward-modulated STDP example](https://brian2.readthedocs.io/en/stable/examples/frompapers.Izhikevich_2007.html). Pump interfaces: [official public documentation](https://github.com/pump-fun/pump-public-docs). Consciousness research: [Butlin et al., 2023](https://arxiv.org/abs/2308.08708).
 
