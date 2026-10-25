@@ -1,0 +1,38 @@
+{
+  "schema": "nuria.grounded-comparison-interruption.v1",
+  "attempt": "comparison-01",
+  "frozen_public_commit": "cf05dad905e6eabccd8ccc5c0428faf31b46be35",
+  "frozen_public_tree": "7ca4fcb2ab94c4d51707eb75012650c388b54bc9",
+  "original_protocol_sha256": "9aa193b15f3348c7b0d409305e3fcbb23047f18a31f01bf22569d2a9dd9d867f",
+  "source_freeze_sha256": "4a4e2174bf6a979bb2253c773cb9320c84d802f2140c216310021b1317d00da9",
+  "recorded_utc": "2026-10-25T20:50:37.900109+00:00",
+  "completed_proposals": 1,
+  "unfinished_reserved_jobs": 1,
+  "terminal_grades_released": 0,
+  "reserved_phase_attempted": false,
+  "known_attempt_completion_tokens": 3355,
+  "known_attempt_prompt_tokens": 19723,
+  "unresolved_attempt_completion_ceiling": 6000,
+  "historical_unknown_completion_ceiling": 768,
+  "observation": "The command process ended while its second teaching job was in flight. The model server later logged a broken client connection; no terminal summary exists. Exact unfinished inference usage is unknown.",
+  "recovery": "Original artifacts and job reservations are retained. A separate fresh comparison uses unchanged model, source, task identities, scheduling and grading; the complete 6000-token unfinished reservation remains charged. No first-block grades were available to alter the policy.",
+  "artifacts": {
+    "run-freeze.json": {
+      "sha256": "5f5167d6566a3a751d8177654052c7106387d47dbf828ad81386d0b76fb12b1c",
+      "bytes": 5111
+    },
+    "proposals.jsonl": {
+      "sha256": "a40af9ec8278cb6f994c7c1c48a6097a04bf02c4d8a92c99e64acdb92f7327b4",
+      "bytes": 14301
+    },
+    "allowance.jsonl": {
+      "sha256": "17bca96908dbe726e4e8291b75d0efa5bfd63f1828e7c40222d1fb51a3a42999",
+      "bytes": 1356
+    },
+    "events.jsonl": {
+      "sha256": "0588ff415cd7e6df9a2d1dbf15eadd5559f5117dde62318183430512cb4b442e",
+      "bytes": 617
+    }
+  },
+  "disclosure": "No results are inferred for unexecuted or unfinished jobs. This interruption is not a learning result."
+}
