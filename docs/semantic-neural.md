@@ -126,7 +126,9 @@ The next useful-task comparison must enroll fresh tasks before inspection and
 freeze representation, observations, feedback, outcome checker and resource
 budgets across all arms. The primary conventional control should use the same
 384-dimensional embeddings in a regularized contextual selector, alongside a
-schema-first heuristic. A lexical selector tests whether the language encoder is
+schema-first heuristic. The [implemented LinUCB control](semantic-control.md)
+provides that conventional selection and delayed-outcome path; its useful-task
+performance is still unmeasured. A lexical selector tests whether the language encoder is
 necessary. Frozen-state neural, shuffled-embedding and old identity-texture arms
 separate feedback learning, meaningful input and identity memorization. Pair
 initial states and order; count every enrolled task and unresolved liability.
