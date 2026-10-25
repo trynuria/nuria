@@ -1,0 +1,9 @@
+CREATE TABLE snapshot_context(key TEXT PRIMARY KEY,value TEXT)
+CREATE TABLE task_outcomes(
+            task_id TEXT PRIMARY KEY, provider TEXT NOT NULL,
+            state TEXT NOT NULL, kind TEXT NOT NULL,
+            delivery_passed INTEGER, semantic_accepted INTEGER,
+            delivery_metric TEXT, delivery_utility REAL,
+            settlement_verified INTEGER, settlement_basis TEXT,
+            settled_micro_usd INTEGER, outcome_evidence_level TEXT,
+            outcome_metric TEXT, outcome_utility REAL, neural_reward REAL)
