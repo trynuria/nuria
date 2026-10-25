@@ -1,0 +1,30 @@
+{
+  "schema": "nuria.public-text-abstraction-verifier-controls.v1",
+  "checks": [
+    {
+      "case": "duplicate_pair",
+      "rejected": true,
+      "reason": "Duplicate method/job result",
+      "observer_work": 0
+    },
+    {
+      "case": "buyer_output",
+      "rejected": true,
+      "reason": "Recorded buyer outcome differs",
+      "observer_work": 48
+    },
+    {
+      "case": "work_ceiling",
+      "rejected": true,
+      "reason": "Recorded search work exceeds the declared ceiling",
+      "observer_work": 0
+    },
+    {
+      "case": "aggregate",
+      "rejected": true,
+      "reason": "Aggregate result differs: templates",
+      "observer_work": 2795
+    }
+  ],
+  "observer_work": 2843
+}

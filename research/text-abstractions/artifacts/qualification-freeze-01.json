@@ -1,0 +1,20 @@
+{
+  "schema": "nuria.posthoc-qualification-audit.v1",
+  "scope": "Rejection diagnostic on previously revealed broader inputs; no untouched qualification, learner retraining or promoted live skill.",
+  "source_sha256": {
+    "cognition/skill_qualification.py": "42a2fd0a2ace8b59a0c72fbd12c32d848f959f8b70c419f4952612e7f414cf6a",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "cognition/skills.py": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2"
+  },
+  "data_sha256": {
+    "development-course.json": "7fe5b86989e107f348d9e77674cbedcadadac9d8182c231d11224b1f565f332b",
+    "posthoc64-string-challenge-inputs.json": "5446b510fef8cfba9de5abe6a73e438a64fcad45c1341525ddc39359bf1d6c03",
+    "development64-results.jsonl": "d75c9aff945227bf1fd992480c93945b3acff2ed75ef37464b804ba37b391250",
+    "work-fair-pilot-results-01.jsonl": "ebfad78f555e1799c3e8f460a86b571a32b85c09cfb47b8e5cf0d49ce0b3767d"
+  },
+  "audit_source_sha256": "8904f6d99008e11313a772218bd8915d7a48a919677fdf0a4bf9a2109d0fa35e",
+  "prior_known_work": 50361047,
+  "maximum_study_work": 75000000,
+  "per_plan_limit": 100000,
+  "oracle_positive_control": "Reference task programs supplied as a gate positive control, never as learned successes"
+}

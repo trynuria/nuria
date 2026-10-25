@@ -1,0 +1,59 @@
+{
+  "schema": "nuria.text-abstraction-study-reconciliation.v1",
+  "stages": [
+    {
+      "name": "work_fair_pilot_anchor",
+      "work": 49837370,
+      "evidence": "work-fair-pilot-summary-01.json",
+      "evidence_sha256": "f920384416cd5f8798bd6c177b6c4c329067ef64cb7b48a2a65bd90e888a937a"
+    },
+    {
+      "name": "independent_work_fair_audit",
+      "work": 78422,
+      "evidence": "independent-work-fair-audit-01.json",
+      "evidence_sha256": "148fb70bd2d7419a549722a87fbd14d1cae2a3f06bd3cadd1e252f124a93d6c0"
+    },
+    {
+      "name": "initial_verifier_execution_before_public_archive",
+      "work": 445255,
+      "evidence": null,
+      "limitation": "Recorded execution amount; no distinct saved receipt for this initial invocation. The later identical replay has its own saved receipt."
+    },
+    {
+      "name": "public_archive_verifier_execution",
+      "work": 445255,
+      "evidence": "public-archive-verification-01.json",
+      "evidence_sha256": "12b34013a42d91baed78fbb79c1b4a0db67e2ee3443004462404d4fb482d0856"
+    },
+    {
+      "name": "public_verifier_negative_controls",
+      "work": 2843,
+      "evidence": "public-verifier-controls-01.json",
+      "evidence_sha256": "5681c4f01120d95be9f00506ce58fbcf9c5f3981541e357b40e54b614b350ce2"
+    },
+    {
+      "name": "posthoc_qualification_diagnostic",
+      "work": 479785,
+      "evidence": "qualification-summary-01.json",
+      "evidence_sha256": "f312bc6087ff9fbb71ce39ddfd5cf3fdad9f4990d084d42dd473559e5d1fa9d2"
+    },
+    {
+      "name": "independent_qualification_replay",
+      "work": 322546,
+      "evidence": "public-qualification-verification-01.json",
+      "evidence_sha256": "1bb0c31ed36283771dd265a8b11ede08b44f0d54c09133d8d9a509c4800ce3ec"
+    }
+  ],
+  "actual_known_work": 51611476,
+  "maximum_study_work": 75000000,
+  "observer_reserve": 2000000,
+  "remaining_conservative_bound": 21388524,
+  "qualification_freeze_prior_known_work": 50361047,
+  "qualification_summary_known_work_at_recording": 50840832,
+  "qualification_recording_omissions_reconciled_here": [
+    "separate public archive replay:445255",
+    "negative verifier controls:2843",
+    "subsequent independent qualification replay:322546"
+  ],
+  "scope": "Append-only reconciliation of known local metered study work. Earlier freeze and summary files retain their original observations. This is not a financial ledger or a complete hardware-cost measurement. Hashing, formatting, unit tests and future independent replications are outside the declared study work counters."
+}

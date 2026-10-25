@@ -1,0 +1,65 @@
+{
+  "reports": {
+    "imagined_templates_original_first": {
+      "accepted": 2,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 309474,
+      "cpu_seconds": 0.21917200000000003
+    },
+    "imagined_templates_small_first": {
+      "accepted": 3,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 271629,
+      "cpu_seconds": 0.1972170000000001
+    },
+    "coverage-spiking": {
+      "accepted": 1,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 352348,
+      "cpu_seconds": 0.252564
+    },
+    "context-spiking": {
+      "accepted": 0,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 400349,
+      "cpu_seconds": 0.273161
+    },
+    "context-frozen_input": {
+      "accepted": 3,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 266829,
+      "cpu_seconds": 0.175948
+    },
+    "context-continuous": {
+      "accepted": 0,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 400337,
+      "cpu_seconds": 0.2469929999999998
+    },
+    "context-linear": {
+      "accepted": 2,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 305581,
+      "cpu_seconds": 0.186952
+    },
+    "context-knn": {
+      "accepted": 2,
+      "wrong": 0,
+      "jobs": 8,
+      "work": 315504,
+      "cpu_seconds": 0.7442029999999997
+    }
+  },
+  "actual_known_work": 44675153,
+  "observer_reserve": 2000000,
+  "remaining_conservative_bound": 28324847,
+  "freeze_sha256": "3e04b21461c33263327a42b77cbb00c4aa39f0a61f16fab2119bf4f00d2a114f",
+  "scope": "Same first8 repeatedly adapted development cases, not qualification; current prospective structural exclusion was based on historical history and imaginedcontexts can overlap newstructuraltypes, disclosed explicitly."
+}

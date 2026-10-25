@@ -1,0 +1,60 @@
+{
+  "schema": "nuria.template-candidate-bound-review.v1",
+  "scope": "Recorded aggregate counter review only; no search or interpreter rerun. Current shared-candidate implementation was repaired after these experiments. Historical results and v1 source snapshots remain unchanged.",
+  "recorded_trace_checks": [
+    {
+      "trace": "pilot-results.jsonl",
+      "trace_sha256": "c53e9985eac5fdd3f51ff44714d7eb52f2bfd6276edc1aa14cea5a5d3e9b7df6",
+      "template_jobs": 8,
+      "maximum_recorded_candidates": 839,
+      "candidate_limit": 30000,
+      "within_limit": true
+    },
+    {
+      "trace": "pilot02-results.jsonl",
+      "trace_sha256": "1fd56d14667b29efa4a8ff72e366e5a44ee299c92932a0e2f07b79d2f3a29a81",
+      "template_jobs": 0,
+      "maximum_recorded_candidates": 0,
+      "candidate_limit": 30000,
+      "within_limit": true
+    },
+    {
+      "trace": "pilot03-results.jsonl",
+      "trace_sha256": "f81c5c07914daf00a5cda9db69e55e84ecda0e551e128b98303c3a1ee5593775",
+      "template_jobs": 0,
+      "maximum_recorded_candidates": 0,
+      "candidate_limit": 30000,
+      "within_limit": true
+    },
+    {
+      "trace": "development64-results.jsonl",
+      "trace_sha256": "d75c9aff945227bf1fd992480c93945b3acff2ed75ef37464b804ba37b391250",
+      "template_jobs": 64,
+      "maximum_recorded_candidates": 839,
+      "candidate_limit": 30000,
+      "within_limit": true
+    },
+    {
+      "trace": "context-replay-pilot-results-02.jsonl",
+      "trace_sha256": "0b809ee8bdadf3b46731f99bc389761eca44ad74909f69476f23e42ebb41ee6c",
+      "template_jobs": 16,
+      "maximum_recorded_candidates": 1197,
+      "candidate_limit": 30000,
+      "within_limit": true
+    },
+    {
+      "trace": "work-fair-pilot-results-01.jsonl",
+      "trace_sha256": "ebfad78f555e1799c3e8f460a86b571a32b85c09cfb47b8e5cf0d49ce0b3767d",
+      "template_jobs": 0,
+      "maximum_recorded_candidates": 0,
+      "candidate_limit": 30000,
+      "within_limit": true
+    }
+  ],
+  "template_jobs": 88,
+  "maximum_recorded_candidates": 1197,
+  "historical_v1_source_sha256": "e892bdf70eb26b43e1a0e31933dab6b25b77fd254330311cd7daef1dc9eec0c6",
+  "current_v2_source_sha256": "aa71cc4bd224799aa2d6c637b9e4b7ba5e30f8ca5e462852acf8409fe9a4ecd1",
+  "current_source_snapshot": "sources/post-review-v2/cognition/template_reuse.py",
+  "change": "Template attempts and composition fallback now share the remaining candidate allowance; fallback is not called after the allowance is exhausted. Small candidate ceilings exposed the earlier reset. The retained study counters all remained below the original30000 ceiling."
+}

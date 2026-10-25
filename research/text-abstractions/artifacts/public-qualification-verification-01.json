@@ -1,0 +1,22 @@
+{
+  "schema": "nuria.public-qualification-replay.v1",
+  "verified": true,
+  "manifest": {
+    "files": 119,
+    "bytes": 8912463,
+    "sha256": "7a40ff30eed6c5a43b94fb6f6788ab57fcba8f9737324e7ebc57cc70d1ddfeb5"
+  },
+  "qualification": {
+    "plans_replayed": 247,
+    "case_executions": 7904,
+    "learned_proposals_rejected": 183,
+    "reference_controls_passed": 64,
+    "diagnostic_work": 479785,
+    "observer_work": 322546,
+    "scope": "Post-hoc rejection diagnostic; reference programs are positive controls, not learned successes.",
+    "limitations": [
+      "Detailed primitive/byte work-category counters are not separately reconstructed.",
+      "Diversity labels are finite input categories, not a universal domain guarantee."
+    ]
+  }
+}

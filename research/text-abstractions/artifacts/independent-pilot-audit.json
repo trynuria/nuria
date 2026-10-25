@@ -1,0 +1,42 @@
+{
+  "schema": "nuria.abstraction-independent-pilot-audit.v1",
+  "verified": true,
+  "source_freeze_sha256": "e62901d85b43773dd77008c1c2fd388b2ea54c8348b136606c5363ae6b63cf59",
+  "course_sha256": "7fe5b86989e107f348d9e77674cbedcadadac9d8182c231d11224b1f565f332b",
+  "summary_sha256": "5d556ecc00da555f7b576ccee1d9a3c69f84bc249af2d2f897524e7878afc382",
+  "trace_sha256": "c53e9985eac5fdd3f51ff44714d7eb52f2bfd6276edc1aa14cea5a5d3e9b7df6",
+  "independent_audit_source_sha256": "a8e029cf8497934f67ebd4cd50fc7b4b7d8abd332196f01a2cdd735838ac442b",
+  "course_tasks_reference_checked": 64,
+  "reference_target_rows_replayed": 1792,
+  "controller_jobs_per_method": 8,
+  "controller_deliveries_replayed": 32,
+  "historical_programs": 390,
+  "historical_skeletons": 30,
+  "mining_parents": 128,
+  "abstractions": 63,
+  "support_expansions_checked": 429,
+  "maximum_support_expanded_nodes": 9,
+  "accepted": {
+    "templates": 2,
+    "relatedness": 0,
+    "frequency": 0,
+    "uniform": 0
+  },
+  "wrong": {
+    "templates": 0,
+    "relatedness": 0,
+    "frequency": 0,
+    "uniform": 0
+  },
+  "serving_and_buyer_work": 1510410,
+  "identical_abstraction_ordering_metrics_on_all8": true,
+  "findings": [
+    "All64 authored task reference outputs match both frozen independent Python target semantics and the original independent AST verifier.",
+    "All32 actual controller records, including abstentions, match independent final-output/acceptance/buyer-work replay and complete cumulative arithmetic.",
+    "Whole-program structural exclusions cover all390 prior accepted programs; macro support expansion and parent provenance bind to the128 selected historical records.",
+    "The actual controller pilot covers8 tasks, one per structural cluster, not64. No abstraction controller solved a task; templates solved2/8.",
+    "The three abstraction orderings have identical work/states/attempted/status per task; frozen-code inspection suggests first-expansion work starvation, but no frontier-pop witness was recorded.",
+    "Structural novelty does not establish semantic novelty: an older simpler program can agree with a structurally distinct target on every generated row."
+  ],
+  "scope": "Independent stored-evidence and output replay. Does not execute controllers, reproduce search visitation, model fitting, CPU timing or externally authenticate historical buyers. No neural ranker was tested in this pilot; no neural or qualification success is established."
+}

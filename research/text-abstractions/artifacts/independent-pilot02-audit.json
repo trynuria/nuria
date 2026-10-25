@@ -1,0 +1,213 @@
+{
+  "schema": "nuria.abstraction-independent-interleaved-pilot-audit.v1",
+  "verified": true,
+  "source_freeze_sha256": "fe9ea07693a7647d18abef80b21bd040c8dd3ba3ef50584f8ab87ae6bff08dc4",
+  "source_snapshot": "attempt-02-sources",
+  "summary_sha256": "d1a4cfd41705baf07dbd1e2d466c8980060454edb421f069d5b0eb0529537e32",
+  "trace_sha256": "1fd56d14667b29efa4a8ff72e366e5a44ee299c92932a0e2f07b79d2f3a29a81",
+  "prior_provenance_audit_sha256": "bdcc62ee9028af4271b245d6c0399b53e619acc4cd22714496b8b39cb999a21f",
+  "audit_source_sha256": "a0b5c59dfee4848292a9a27d38bdfff22071a03f5524a6ff002dc537f0ab3805",
+  "replayed_new_deliveries": 24,
+  "replayed_reused_template_deliveries": 8,
+  "tasks_per_method": 8,
+  "accepted": {
+    "relatedness": 2,
+    "frequency": 2,
+    "uniform": 2
+  },
+  "wrong": {
+    "relatedness": 0,
+    "frequency": 0,
+    "uniform": 0
+  },
+  "combined_serving_buyer_work": 2430311,
+  "maximum_delivered_native_nodes": 5,
+  "paired_vs_templates": {
+    "relatedness": {
+      "method_only": 0,
+      "template_only": 0,
+      "both": 2
+    },
+    "frequency": {
+      "method_only": 0,
+      "template_only": 0,
+      "both": 2
+    },
+    "uniform": {
+      "method_only": 0,
+      "template_only": 0,
+      "both": 2
+    }
+  },
+  "multi_subskill_solutions": [
+    {
+      "method": "relatedness",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "family": "upper-sliced-last-token",
+      "abstraction_ids": [
+        "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+        "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48"
+      ],
+      "program": {
+        "version": "safe-text-v1",
+        "expr": {
+          "op": "upper",
+          "arg": {
+            "index": -1,
+            "op": "token",
+            "pattern": "alpha",
+            "arg": {
+              "op": "lower",
+              "arg": {
+                "index": -1,
+                "op": "token",
+                "pattern": "alpha",
+                "arg": {
+                  "op": "field",
+                  "index": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "native_nodes": 5,
+      "baseline_passed": true,
+      "baseline_program": {
+        "version": "safe-text-v1",
+        "expr": {
+          "arg": {
+            "arg": {
+              "index": 1,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "alpha"
+          },
+          "op": "upper"
+        }
+      },
+      "baseline_native_nodes": 3
+    }
+  ],
+  "subskill_expansion_witnesses": [
+    {
+      "method": "relatedness",
+      "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "ebbcce21b0cee373b499cf365020ab14a5c0c91de44666abe339514ca5dbe519"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "relatedness",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [
+            "arg",
+            "arg"
+          ],
+          "argument_sha256": [
+            "2013051c02a9965aa1204c84890fe580b60bebc8adcdd7cc21111eeb03e22300"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "relatedness",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "a8f199b6a3cd1da32790cd23bc93f8c260032a03ab2d8dfd0697b2406743ebad"
+          ],
+          "expanded_nodes": 5
+        }
+      ]
+    },
+    {
+      "method": "frequency",
+      "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "ebbcce21b0cee373b499cf365020ab14a5c0c91de44666abe339514ca5dbe519"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "frequency",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "2013051c02a9965aa1204c84890fe580b60bebc8adcdd7cc21111eeb03e22300"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "uniform",
+      "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "ebbcce21b0cee373b499cf365020ab14a5c0c91de44666abe339514ca5dbe519"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "uniform",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "2013051c02a9965aa1204c84890fe580b60bebc8adcdd7cc21111eeb03e22300"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    }
+  ],
+  "meaningful_new_template_missed_solution": false,
+  "findings": [
+    "All24 second-pilot committed outputs, acceptance and buyer work replay independently; all8 original template outputs also replay.",
+    "All recorded subskill identities resolve to the previously audited admitted grammar and have exact native-AST expansion occurrences in their deliveries.",
+    "All three orderings solve exactly the same2/8 tasks as the reused template baseline; there are no method-only or template-only successes.",
+    "The relatedness two-subskill delivery composes lower(last_alpha(field1)) then upper(last_alpha(result)); its5-node AST is redundant on these rows. The template baseline uses3-node upper(last_alpha(field1)) and also passes.",
+    "This establishes an executed two-subskill construction, not a capability gain over templates or a neural result."
+  ],
+  "scope": "Independent stored-output, commitment, static macro expansion, acceptance, buyer-work and aggregate replay. Does not rerun controllers, validate expansion-turn visitation, reproduce CPU timing or establish fresh qualification. These same8 development tasks were reused after a scheduling revision; no neural model was tested."
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "nuria.abstraction-development64-results.v1",
+  "reports": {
+    "templates": {
+      "jobs": 64,
+      "accepted": 16,
+      "wrong": 0,
+      "search_work": 2464207,
+      "buyer_work": 11625,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 1.608989
+    },
+    "native_only_relatedness": {
+      "jobs": 64,
+      "accepted": 0,
+      "wrong": 0,
+      "search_work": 3199170,
+      "buyer_work": 3072,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 1.9113229999999999
+    },
+    "native_plus_relatedness": {
+      "jobs": 64,
+      "accepted": 24,
+      "wrong": 0,
+      "search_work": 2132344,
+      "buyer_work": 28372,
+      "accepted_multi_abstraction": 16,
+      "cpu_seconds": 1.3739660000000002
+    },
+    "native_plus_frequency": {
+      "jobs": 64,
+      "accepted": 16,
+      "wrong": 0,
+      "search_work": 2692057,
+      "buyer_work": 11625,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 1.619523
+    },
+    "native_plus_uniform": {
+      "jobs": 64,
+      "accepted": 16,
+      "wrong": 0,
+      "search_work": 2474210,
+      "buyer_work": 11625,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 1.6911449999999997
+    },
+    "spiking": {
+      "jobs": 64,
+      "accepted": 16,
+      "wrong": 0,
+      "search_work": 2419461,
+      "buyer_work": 11625,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 2.567829999999999
+    },
+    "frozen_input": {
+      "jobs": 64,
+      "accepted": 16,
+      "wrong": 0,
+      "search_work": 2419624,
+      "buyer_work": 11625,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 2.6389580000000006
+    },
+    "continuous": {
+      "jobs": 64,
+      "accepted": 16,
+      "wrong": 0,
+      "search_work": 2419916,
+      "buyer_work": 11625,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 2.163295999999999
+    },
+    "linear": {
+      "jobs": 64,
+      "accepted": 18,
+      "wrong": 0,
+      "search_work": 2345509,
+      "buyer_work": 13795,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 1.6878529999999987
+    },
+    "knn": {
+      "jobs": 64,
+      "accepted": 23,
+      "wrong": 0,
+      "search_work": 2326438,
+      "buyer_work": 20954,
+      "accepted_multi_abstraction": 6,
+      "cpu_seconds": 2.807417000000001
+    },
+    "native_only_spiking": {
+      "jobs": 64,
+      "accepted": 0,
+      "wrong": 0,
+      "search_work": 3199955,
+      "buyer_work": 3072,
+      "accepted_multi_abstraction": 0,
+      "cpu_seconds": 3.1214699999999986
+    }
+  },
+  "actual_known_study_work": 36886013,
+  "observer_work_reserved": 2000000,
+  "remaining_conservative_bound": 36113987,
+  "freeze_sha256": "746f6238e9c39c5c63c0eaad031ff089e61de4255024f44e6e25623e8be67216",
+  "journal_sha256": "0d7d8640339dd55e0637f0892fd82fbf719f80b922818b6bdfb4609cd5dc0ea2",
+  "scope": "All64 authored development tasks from8known structural clusters; first8 already inspected during engineering. Not independent qualification or64independent cluster observations. No test fitting, final-label retries or hidden-source input.",
+  "frozen_models_unchanged": true
+}

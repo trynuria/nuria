@@ -1,0 +1,86 @@
+{
+  "reports": {
+    "relatedness": {
+      "jobs": 8,
+      "accepted": 3,
+      "wrong": 0,
+      "work": 365772,
+      "cpu_seconds": 0.21997099999999997
+    },
+    "frequency": {
+      "jobs": 8,
+      "accepted": 1,
+      "wrong": 0,
+      "work": 374295,
+      "cpu_seconds": 0.22163
+    },
+    "uniform": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 343454,
+      "cpu_seconds": 0.21929700000000008
+    },
+    "original-spiking": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 307979,
+      "cpu_seconds": 0.32933199999999996
+    },
+    "coverage-spiking": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 342378,
+      "cpu_seconds": 0.2642850000000001
+    },
+    "context-spiking": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 350428,
+      "cpu_seconds": 0.24819899999999984
+    },
+    "context-frozen_input": {
+      "jobs": 8,
+      "accepted": 3,
+      "wrong": 0,
+      "work": 286229,
+      "cpu_seconds": 0.2027439999999998
+    },
+    "context-continuous": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 351109,
+      "cpu_seconds": 0.22781200000000013
+    },
+    "context-linear": {
+      "jobs": 8,
+      "accepted": 3,
+      "wrong": 0,
+      "work": 318950,
+      "cpu_seconds": 0.19348199999999993
+    },
+    "context-knn": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 365883,
+      "cpu_seconds": 0.7150810000000001
+    },
+    "native-only-context-spiking": {
+      "jobs": 8,
+      "accepted": 0,
+      "wrong": 0,
+      "work": 400344,
+      "cpu_seconds": 0.295461
+    }
+  },
+  "actual_known_work": 49837370,
+  "observer_reserve": 2000000,
+  "remaining_conservative_bound": 23162630,
+  "freeze_sha256": "18fcd59fd1f781492659279e6fb55da9c1c22b47d970223e8a6f04fe829ac9fb",
+  "scope": "Same first8 adapted development cases. Newlybounded scheduling, no unseenqualification or neuraladvantage assumption."
+}

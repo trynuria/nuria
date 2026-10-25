@@ -1,0 +1,359 @@
+{
+  "schema": "nuria.abstraction-independent-native-pilot-audit.v1",
+  "verified": true,
+  "source_freeze_sha256": "7be25835a4ed9732f637284dd1cc8c6fec7a114134e0a9c5813fd19d9897bc7e",
+  "source_snapshot": "attempt-03-sources",
+  "summary_sha256": "f29b344ee9bfe986a8aaaa300ba3c48005f12a2c7170273b56af34a369d0d2bd",
+  "trace_sha256": "f81c5c07914daf00a5cda9db69e55e84ecda0e551e128b98303c3a1ee5593775",
+  "audit_source_sha256": "69ea6bf9cef916dcad8a65b0fe01c2fa72ab43d462663886729307a7cba590cf",
+  "prior_provenance_audit_sha256": "bdcc62ee9028af4271b245d6c0399b53e619acc4cd22714496b8b39cb999a21f",
+  "new_deliveries_replayed": 32,
+  "reused_template_deliveries_replayed": 8,
+  "jobs_per_method": 8,
+  "accepted": {
+    "native_only_relatedness": 0,
+    "native_plus_relatedness": 3,
+    "native_plus_frequency": 2,
+    "native_plus_uniform": 2
+  },
+  "wrong": {
+    "native_only_relatedness": 0,
+    "native_plus_relatedness": 0,
+    "native_plus_frequency": 0,
+    "native_plus_uniform": 0
+  },
+  "combined_serving_buyer_work": 3749314,
+  "paired_vs_templates": {
+    "native_only_relatedness": {
+      "method_only": 0,
+      "template_only": 2,
+      "both": 0
+    },
+    "native_plus_relatedness": {
+      "method_only": 1,
+      "template_only": 0,
+      "both": 2
+    },
+    "native_plus_frequency": {
+      "method_only": 0,
+      "template_only": 0,
+      "both": 2
+    },
+    "native_plus_uniform": {
+      "method_only": 0,
+      "template_only": 0,
+      "both": 2
+    }
+  },
+  "additional_template_missed_solutions": [
+    {
+      "method": "native_plus_relatedness",
+      "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+      "family": "trim-upper-segment",
+      "recorded_calls": 4,
+      "distinct_subskill_ids": 3,
+      "subskill_ids": [
+        "e743dd763df7853e3786d4e97860398e3194a3b5a17785e88aeb1a29f15a69b7",
+        "d8eabf6cf2bc7839aad4778ed98d0ab53246bd085898215e89d7150a4d85bbf3",
+        "e743dd763df7853e3786d4e97860398e3194a3b5a17785e88aeb1a29f15a69b7",
+        "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48"
+      ],
+      "expanded_nodes": 18,
+      "diagnostic_exact_rows": 4,
+      "buyer_exact_rows": 24,
+      "program": {
+        "version": "safe-text-v1",
+        "expr": {
+          "op": "concat",
+          "parts": [
+            {
+              "op": "upper",
+              "arg": {
+                "index": 0,
+                "op": "token",
+                "pattern": "alnum",
+                "arg": {
+                  "op": "concat",
+                  "parts": [
+                    {
+                      "index": 0,
+                      "op": "token",
+                      "pattern": "alnum",
+                      "arg": {
+                        "op": "field",
+                        "index": 2
+                      }
+                    },
+                    {
+                      "op": "constant",
+                      "value": " "
+                    },
+                    {
+                      "index": 1,
+                      "op": "token",
+                      "pattern": "alnum",
+                      "arg": {
+                        "op": "field",
+                        "index": 2
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "op": "constant",
+              "value": " "
+            },
+            {
+              "op": "upper",
+              "arg": {
+                "index": -1,
+                "op": "token",
+                "pattern": "alpha",
+                "arg": {
+                  "op": "concat",
+                  "parts": [
+                    {
+                      "index": 0,
+                      "op": "token",
+                      "pattern": "alnum",
+                      "arg": {
+                        "op": "field",
+                        "index": 2
+                      }
+                    },
+                    {
+                      "op": "constant",
+                      "value": " "
+                    },
+                    {
+                      "index": 1,
+                      "op": "token",
+                      "pattern": "alnum",
+                      "arg": {
+                        "op": "field",
+                        "index": 2
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "reference_program": {
+        "version": "safe-text-v1",
+        "expr": {
+          "op": "strip",
+          "arg": {
+            "op": "split",
+            "arg": {
+              "op": "upper",
+              "arg": {
+                "op": "field",
+                "index": 2
+              }
+            },
+            "separator": "-",
+            "index": 0
+          }
+        }
+      }
+    }
+  ],
+  "subskill_expansion_witnesses": [
+    {
+      "method": "native_plus_relatedness",
+      "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+      "abstraction_sha256": "e743dd763df7853e3786d4e97860398e3194a3b5a17785e88aeb1a29f15a69b7",
+      "recorded_uses": 2,
+      "matches": [
+        {
+          "path": [
+            "parts",
+            0,
+            "arg",
+            "arg"
+          ],
+          "argument_sha256": [
+            "9d0553fd8ffdb90071c5d8e3d91c5799cf57f6b5b19a2524a69e7973ce3cbe4c"
+          ],
+          "expanded_nodes": 6
+        },
+        {
+          "path": [
+            "parts",
+            2,
+            "arg",
+            "arg"
+          ],
+          "argument_sha256": [
+            "9d0553fd8ffdb90071c5d8e3d91c5799cf57f6b5b19a2524a69e7973ce3cbe4c"
+          ],
+          "expanded_nodes": 6
+        }
+      ]
+    },
+    {
+      "method": "native_plus_relatedness",
+      "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+      "abstraction_sha256": "d8eabf6cf2bc7839aad4778ed98d0ab53246bd085898215e89d7150a4d85bbf3",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [
+            "parts",
+            0
+          ],
+          "argument_sha256": [
+            "5939e6e7269ea750eda3f997eb9dcbba468bc622e4bfb6c26c35631c9f0c6ecd"
+          ],
+          "expanded_nodes": 8
+        }
+      ]
+    },
+    {
+      "method": "native_plus_relatedness",
+      "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+      "abstraction_sha256": "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [
+            "parts",
+            2
+          ],
+          "argument_sha256": [
+            "5939e6e7269ea750eda3f997eb9dcbba468bc622e4bfb6c26c35631c9f0c6ecd"
+          ],
+          "expanded_nodes": 8
+        }
+      ]
+    },
+    {
+      "method": "native_plus_relatedness",
+      "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "ebbcce21b0cee373b499cf365020ab14a5c0c91de44666abe339514ca5dbe519"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "native_plus_relatedness",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [
+            "arg",
+            "arg"
+          ],
+          "argument_sha256": [
+            "2013051c02a9965aa1204c84890fe580b60bebc8adcdd7cc21111eeb03e22300"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "native_plus_relatedness",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "a8f199b6a3cd1da32790cd23bc93f8c260032a03ab2d8dfd0697b2406743ebad"
+          ],
+          "expanded_nodes": 5
+        }
+      ]
+    },
+    {
+      "method": "native_plus_frequency",
+      "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "ebbcce21b0cee373b499cf365020ab14a5c0c91de44666abe339514ca5dbe519"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "native_plus_frequency",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "2013051c02a9965aa1204c84890fe580b60bebc8adcdd7cc21111eeb03e22300"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "native_plus_uniform",
+      "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+      "abstraction_sha256": "16001f93f1a8334ae5af8a6e6559a40e63ca7e98bfdb98987cb43b1f03eea314",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "ebbcce21b0cee373b499cf365020ab14a5c0c91de44666abe339514ca5dbe519"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    },
+    {
+      "method": "native_plus_uniform",
+      "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+      "abstraction_sha256": "32d157754fb1c3a9094e3c4b380c18b7938e6435ca76c0c8e59a872279627c48",
+      "recorded_uses": 1,
+      "matches": [
+        {
+          "path": [],
+          "argument_sha256": [
+            "2013051c02a9965aa1204c84890fe580b60bebc8adcdd7cc21111eeb03e22300"
+          ],
+          "expanded_nodes": 3
+        }
+      ]
+    }
+  ],
+  "post_hoc_semantic_counterexample": {
+    "input": "[\"  Alpha Beta Gamma-Delta Omega-Zeta 123456  \",\"  Alpha Beta Gamma-Delta Omega-Zeta 123456  \",\"  Alpha Beta Gamma-Delta Omega-Zeta 123456  \",\"  Alpha Beta Gamma-Delta Omega-Zeta 123456  \",\"  Alpha Beta Gamma-Delta Omega-Zeta 123456  \",\"  Alpha Beta Gamma-Delta Omega-Zeta 123456  \"]",
+    "reference_output": "ALPHA BETA GAMMA",
+    "delivered_output": "ALPHA BETA",
+    "scope": "Post-hoc outside-generator-distribution semantic witness only; not added to pilot scoring or used for learning."
+  },
+  "findings": [
+    "All32 new committed deliveries, outputs, acceptance and buyer work reconstruct independently; the8 reused template outcomes also match.",
+    "Native-plus-relatedness accepts3/8 withzero wrong, versus2/8 templates and0/8 the same native-only relatedness engine. Its additional acceptance is real on the declared24 buyer rows.",
+    "The additional trim-upper-segment result uses4 admitted subskill calls,3distinct identities and matching expanded native AST occurrences. These are conventional relatedness-guided subskills, not neural choices.",
+    "The delivered program extracts and uppercases the first two tokens; the reference rule uppercases the whole first delimiter segment. The authored generator always places two words in that segment, so the rules coincide in this task distribution.",
+    "A three-word first-segment counterexample distinguishes the delivered and reference programs. Structural holdout and finite-row acceptance do not establish general semantic equivalence.",
+    "Same8developmenttasks were reused after multiple implementation revisions; no fresh qualification or neural advantage is established."
+  ],
+  "scope": "Independent output, commitment, static subskill expansion, acceptance, buyer-work and aggregate replay. Search visitation, neural training, CPU timing and complete invocation ancestry are not independently re-executed. Static preparation/mining work is separate from the reported serving-and-buyer cumulative total."
+}

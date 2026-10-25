@@ -1,0 +1,28 @@
+{
+  "schema": "nuria.posthoc-string-input-challenge.v1",
+  "created_utc": "2026-10-24T21:43:37Z",
+  "scope": "Post-hoc distribution-shift diagnostic on already committed development programs; not unseen qualification or learner teaching.",
+  "seed": 2026102514,
+  "valid_rows_per_job": 32,
+  "maximum_generation_attempts_per_job": 256,
+  "task_selection": "Exactly the original8 first instances, development-course.tasks[::8]; no task selection by method success.",
+  "methods": [
+    "templates",
+    "native_only_relatedness",
+    "native_plus_relatedness",
+    "native_plus_frequency",
+    "native_plus_uniform"
+  ],
+  "input_rule": "Six fields;1..5 segments and1..5 whitespace-separated words per segment; varied ASCII case, standalone/prefixed/suffixed digits and leading/internal/trailing whitespace. Recipe delimiter is retained.",
+  "filter": "Only Python reference-oracle ValueError/IndexError/KeyError domain failures; valid six-field byte bounds checked as invariants, not program-dependent selection.",
+  "label_source": "Frozen scripts.build_abstraction_tasks.target(recipe,values), independent ordinary-Python branches; delivered programs never generate labels.",
+  "same_inputs": "Every method receives exactly the same32 retained rows and labels for each job.",
+  "counterexamples": "Every proposed-program mismatch is retained; abstentions are separately counted and are not mislabeled as incorrect submitted programs.",
+  "original_scores": "Original4diagnostic and24buyer rows are only replayed; no original score, trace, generator, model or program is altered.",
+  "oracle_source_sha256": "c4fc22494020c01d61ecec5bc1d44c15ba5c307462f3feb54a9584267aa554e6",
+  "independent_interpreter_sha256": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741",
+  "course_sha256": "7fe5b86989e107f348d9e77674cbedcadadac9d8182c231d11224b1f565f332b",
+  "pilot03_trace_sha256": "f81c5c07914daf00a5cda9db69e55e84ecda0e551e128b98303c3a1ee5593775",
+  "original_template_trace_sha256": "c53e9985eac5fdd3f51ff44714d7eb52f2bfd6276edc1aa14cea5a5d3e9b7df6",
+  "audit_source_sha256": "8c75ff5d915d7c35f08453bdd584077ce7aa895a5817c5f98e4ff9f21ec51dcb"
+}

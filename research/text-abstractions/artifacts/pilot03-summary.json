@@ -1,0 +1,41 @@
+{
+  "schema": "nuria.abstraction-native-development-pilot.v3",
+  "reports": {
+    "native_only_relatedness": {
+      "jobs": 8,
+      "accepted": 0,
+      "wrong": 0,
+      "accepted_multi_abstraction": 0,
+      "work": 400339,
+      "cpu_seconds": 0.24216
+    },
+    "native_plus_relatedness": {
+      "jobs": 8,
+      "accepted": 3,
+      "wrong": 0,
+      "accepted_multi_abstraction": 2,
+      "work": 270218,
+      "cpu_seconds": 0.17574300000000004
+    },
+    "native_plus_frequency": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "accepted_multi_abstraction": 0,
+      "work": 337770,
+      "cpu_seconds": 0.21025799999999994
+    },
+    "native_plus_uniform": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "accepted_multi_abstraction": 0,
+      "work": 310676,
+      "cpu_seconds": 0.20337099999999997
+    }
+  },
+  "all_serving_buyer_work_including_prior_pilots": 3749314,
+  "prior_template_accepted": 2,
+  "source_freeze_sha256": "7be25835a4ed9732f637284dd1cc8c6fec7a114134e0a9c5813fd19d9897bc7e",
+  "scope": "Reused first8 development instances only; no neural training, unseen qualification or superiority claim."
+}

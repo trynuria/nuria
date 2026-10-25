@@ -1,0 +1,31 @@
+{
+  "schema": "nuria.abstraction-observer-work-receipt.v1",
+  "scope": "This audit invocation only; prior independent observers are separate and must be accounted separately.",
+  "source_sha256": "eaa2e00710a2f85286c5822785ad592bcf0927758fae681817e4fb1ccf9cd66b",
+  "original_audit_sha256": "355ffc066572224d2f8016c56c6f32ef3551e1f187d902f4dcbce258b233288a",
+  "challenge_audit_sha256": "07c77cf486845336c266f482d053a17c8ea0496f502a1f13ed15d2acb3f8dbc5",
+  "stages": {
+    "original_buyer_replay": {
+      "comparison_work": 33792,
+      "interpreter_calls": 3864,
+      "interpreter_work": 105223
+    },
+    "original_disclosed_fit_replay": {
+      "interpreter_calls": 644,
+      "interpreter_work": 17464,
+      "comparison_work": 1288
+    },
+    "posthoc64_broader_output_replay": {
+      "comparison_work": 46598,
+      "interpreter_calls": 5152,
+      "interpreter_work": 175205
+    }
+  },
+  "actual_interpreter_work": 297892,
+  "actual_comparison_work": 81678,
+  "total_declared_work": 379570,
+  "study_observer_reserve": 2000000,
+  "within_this_invocation_reserve": true,
+  "total_cpu_seconds": 2.3487649999999998,
+  "accounting_limit": "Exact independent interpreter/data/comparison meter, not complete hardware instructions or source hashing/serialization work. CPU measured locally; no original study journal mutation."
+}
