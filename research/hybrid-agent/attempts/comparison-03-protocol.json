@@ -1,0 +1,100 @@
+{
+  "schema": "nuria.grounded-comparison.v1",
+  "execution_schedule": "primary-pair-then-secondary-blocks-v2",
+  "arms": [
+    "stateless",
+    "episodes",
+    "procedures",
+    "schema_first",
+    "hybrid_fixed",
+    "hybrid_neural"
+  ],
+  "seed": 20261025,
+  "limits": {
+    "max_turns": 12,
+    "max_output_tokens": 6000,
+    "max_tool_calls": 12,
+    "max_tokens_per_turn": 1536,
+    "memory_bytes": 6000
+  },
+  "global_completion_cap": 200000,
+  "global_wall_seconds": 10800,
+  "prior_known_completion_tokens": 26649,
+  "prior_unknown_completion_ceiling": 12214,
+  "prior_usage_unknown": true,
+  "prior_known_prompt_tokens": 256815,
+  "prior_prompt_tokens_unknown": true,
+  "prior_wall_seconds": 1860,
+  "prior_wall_basis": "Conservative cumulative charge for runtime development and both retained interrupted comparison attempts; no renewed allowance",
+  "endpoint": "http://127.0.0.1:19487/v1/chat/completions",
+  "model_alias": "default_model",
+  "model_identity": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+  "enable_thinking": true,
+  "artifacts": {
+    "registry": {
+      "path": "inputs/registry.json",
+      "sha256": "c2ca20599b6a5dbcca52829f35fe81e91404e9e9087ec562b5a3f54aeec484f7"
+    },
+    "teaching_course": {
+      "path": "inputs/teaching.json",
+      "sha256": "816b753af84e77c5834a5d313febc1518f176028c65d812d9aa83395d95d98fe"
+    },
+    "reserved_course": {
+      "path": "inputs/reserved.json",
+      "sha256": "ae0641070ce2461107c518460722f0211ffa8ba3f0075383302ab15f915f51fd"
+    },
+    "oracle": {
+      "path": "inputs/oracle.json",
+      "sha256": "090f3c1cd06a9a105124218374d8ebaf16a70e569ba65c60b643284e24fc1fea"
+    }
+  },
+  "selected_task_ids": {
+    "teaching": [
+      "spider-dev-0902",
+      "spider-dev-0900",
+      "spider-dev-0057",
+      "spider-dev-0049",
+      "spider-dev-0884",
+      "spider-dev-0067",
+      "spider-dev-0046",
+      "spider-dev-0875"
+    ],
+    "reserved": [
+      "spider-dev-0694",
+      "spider-dev-0281",
+      "spider-dev-0273",
+      "spider-dev-0271",
+      "spider-dev-0687",
+      "spider-dev-0701",
+      "spider-dev-0269",
+      "spider-dev-0289",
+      "spider-dev-0690",
+      "spider-dev-0696",
+      "spider-dev-0698",
+      "spider-dev-0267"
+    ]
+  },
+  "reserved_feedback_policy": "Within each isolated group, all reserved inference ends before any terminal labels. Complete twelve-answer arms settle only then. Fully committed matched subsets can receive descriptive post-stop grades without memory settlement or neural credit.",
+  "prompt_accounting": "Actual variable prompt tokens measured; equal caps do not imply equal total compute",
+  "contamination": "Spider is a public 2018 benchmark and may be in foundation pretraining. No claim of new backbone knowledge, official leaderboard accuracy or general neural superiority.",
+  "comparison_groups": [
+    ["hybrid_fixed", "hybrid_neural"],
+    ["stateless", "episodes", "procedures", "schema_first"]
+  ],
+  "retained_attempts": [
+    "comparison-01-interruption.json",
+    "comparison-02-interruption.json"
+  ],
+  "primary_hypothesis": "Does neural-selected first inspection improve finite task acceptance or measured cost over fixed inspection with the same model, procedural memory and bounded toolset? This does not test general neural superiority or consciousness.",
+  "schedule_amendment": {
+    "declared_before_any_reserved_inference": true,
+    "declared_before_any_teaching_grade": true,
+    "reason": "Complete the primary matched pair before spending the remaining shared allowance on four secondary mechanism controls. At the development mean cost, the original all-six course can exhaust the bounded run before any complete arm comparison.",
+    "primary_arms": ["hybrid_fixed", "hybrid_neural"],
+    "secondary_arms": ["stateless", "episodes", "procedures", "schema_first"],
+    "all_planned_jobs": 120,
+    "primary_planned_jobs": 40,
+    "feedback": "Teaching feedback after every complete within-group block. Both primary reserved batches commit before primary grades. Separate memories prevent primary grades reaching secondary arms. No policy tuning while inference runs.",
+    "reporting": "Primary completion and secondary coverage are separate. Retain every unexecuted job in the selected denominator. An incomplete primary pair cannot establish the planned primary result."
+  }
+}
