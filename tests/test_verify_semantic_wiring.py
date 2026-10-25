@@ -7,8 +7,10 @@ import shutil
 import unittest
 import uuid
 from pathlib import Path
+from unittest.mock import patch
 
-from scripts.verify_semantic_wiring import verify
+from cognition.semantic_encoder import semantic_projection
+from scripts.verify_semantic_wiring import CURRENT_ATOL, compare_currents, verify
 
 
 class VerifySemanticWiringTests(unittest.TestCase):
@@ -50,6 +52,41 @@ class VerifySemanticWiringTests(unittest.TestCase):
         manifest_path.write_text(json.dumps(manifest))
         with self.assertRaises(ValueError):
             verify(self.copy)
+
+    def test_only_bounded_float32_rounding_is_allowed(self):
+        actual = {
+            "regional_drive": [0.1] * 128 + [0.0] * 896,
+            "context": {"memory_features": [0.5] * 64, "salience": 1, "energy": 1},
+        }
+        recorded = json.loads(json.dumps(actual))
+        recorded["context"]["memory_features"][0] += CURRENT_ATOL / 2
+        self.assertEqual(compare_currents(actual, recorded), CURRENT_ATOL / 2)
+        recorded["context"]["memory_features"][0] += 0.0001
+        with self.assertRaisesRegex(ValueError, "agreement bound"):
+            compare_currents(actual, recorded)
+
+    def test_zero_channels_and_scalar_controls_remain_exact(self):
+        actual = {
+            "regional_drive": [0.0] * 1024,
+            "context": {"memory_features": [0.5] * 64, "salience": 1, "energy": 1},
+        }
+        recorded = json.loads(json.dumps(actual))
+        recorded["regional_drive"][-1] = CURRENT_ATOL / 100
+        with self.assertRaisesRegex(ValueError, "agreement bound"):
+            compare_currents(actual, recorded)
+        recorded["regional_drive"][-1] = 0
+        recorded["context"]["salience"] += CURRENT_ATOL / 100
+        with self.assertRaisesRegex(ValueError, "scalar controls"):
+            compare_currents(actual, recorded)
+
+    def test_different_projection_refused_before_numerical_tolerance(self):
+        matrix = semantic_projection()
+        matrix[0, 0] *= -1
+        with patch(
+            "scripts.verify_semantic_wiring.semantic_projection", return_value=matrix
+        ):
+            with self.assertRaisesRegex(ValueError, "exact matrix"):
+                verify(self.original)
 
 
 if __name__ == "__main__":
