@@ -16,10 +16,59 @@ import numpy as np
 
 from cognition.semantic_encoder import digest, semantic_currents, semantic_projection
 
+CURRENT_ATOL = 8 * float(np.finfo(np.float32).eps)
+PROJECTION_SHA256 = "e090ccfd2b367d91f7849f1902d620211987c22f70efd1e0af7afe7390d7d281"
+
 
 def require(value, message):
     if not value:
         raise ValueError(message)
+
+
+def compare_currents(actual, recorded):
+    """Check float32 mappings without equating different BLAS reduction orders.
+
+    Artifact identities and spike/input hashes remain exact checks elsewhere.
+    Here only the bounded numerical recomputation allows eight float32 epsilons
+    of absolute error. Shapes, zero channels and scalar controls stay exact.
+    This does not promise identical future spike trajectories across platforms.
+    """
+    require(
+        type(recorded) is dict
+        and set(recorded) == {"regional_drive", "context"}
+        and type(recorded["context"]) is dict
+        and set(recorded["context"]) == {"memory_features", "salience", "energy"}
+        and recorded["context"]["salience"] == actual["context"]["salience"]
+        and recorded["context"]["energy"] == actual["context"]["energy"],
+        "Recorded mapping structure or scalar controls differ",
+    )
+    maximum = 0.0
+    for expected, observed, size, upper in (
+        (actual["regional_drive"], recorded["regional_drive"], 1024, 0.2),
+        (
+            actual["context"]["memory_features"],
+            recorded["context"]["memory_features"],
+            64,
+            1.0,
+        ),
+    ):
+        require(
+            type(observed) is list
+            and all(type(value) in (int, float) for value in observed),
+            "Recorded mapping requires explicit numeric values",
+        )
+        left, right = np.asarray(expected), np.asarray(observed)
+        require(
+            left.shape == right.shape == (size,)
+            and np.isfinite(right).all()
+            and (right >= 0).all()
+            and (right <= upper).all()
+            and np.array_equal(left == 0, right == 0)
+            and np.allclose(left, right, rtol=0, atol=CURRENT_ATOL),
+            "Recorded currents exceed the float32 numerical agreement bound",
+        )
+        maximum = max(maximum, float(np.max(np.abs(left - right))))
+    return maximum
 
 
 def verify(directory):
@@ -86,10 +135,17 @@ def verify(directory):
     )
     matrix = semantic_projection()
     require(
+        matrix.shape == (64, 384)
+        and hashlib.sha256(np.asarray(matrix, dtype="<f4").tobytes()).hexdigest()
+        == PROJECTION_SHA256,
+        "Projection differs from the retained prototype's exact matrix",
+    )
+    require(
         [row["observation"]["call"] for row in output["receipts"]]
         == list(range(1, 13)),
         "Recorded encoder calls are missing, duplicated or reordered",
     )
+    maximum_current_difference = 0.0
     for key, values in output["vectors"].items():
         vector = np.asarray(values, dtype="<f4")
         require(
@@ -117,9 +173,11 @@ def verify(directory):
             == digest({k: v for k, v in receipt.items() if k != "receipt_sha256"}),
             "Recorded observation receipt differs",
         )
-        require(
-            semantic_currents(vector, matrix) == output["currents"][key],
-            "Recorded currents do not reproduce",
+        maximum_current_difference = max(
+            maximum_current_difference,
+            compare_currents(
+                semantic_currents(vector, matrix), output["currents"][key]
+            ),
         )
     for comparison in protocol["comparisons"]:
         anchor = np.asarray(output["vectors"][comparison["anchor"]])
@@ -178,6 +236,9 @@ def verify(directory):
         "semantic_contrasts": 6,
         "recorded_neural_windows": 4,
         "new_model_calls": 0,
+        "current_mapping_absolute_tolerance": CURRENT_ATOL,
+        "maximum_current_mapping_absolute_difference": maximum_current_difference,
+        "bit_exact_current_mapping_on_this_host": maximum_current_difference == 0,
         "scope": "Retained vector/current/receipt/spike consistency; no independent execution attestation or useful-decision advantage",
     }
 
