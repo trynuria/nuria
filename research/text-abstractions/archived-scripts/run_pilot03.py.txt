@@ -1,0 +1,26 @@
+from pathlib import Path
+import json,time,hashlib,os
+from cognition.abstraction_search import solve_abstractions,prepare_grammar
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import CONFIG
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';ROOT=Path(__file__).resolve().parents[3]
+lib=json.loads((P/'balanced-library-02.json').read_text());course=json.loads((P/'development-course.json').read_text());prepared=prepare_grammar(lib,CONFIG)
+freeze={'schema':'nuria.abstraction-native-development.v3','created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'source_sha256':{f:hashlib.sha256((ROOT/f).read_bytes()).hexdigest()for f in ['cognition/abstraction_search.py','cognition/text_abstractions.py','scripts/build_abstraction_tasks.py','scripts/verify_active_skill_results.py']},'course_sha256':hashlib.sha256((P/'development-course.json').read_bytes()).hexdigest(),'revision':'Restore bounded native unary and intermediate concatenation actions. Native and admitted-subskill invocations interleave and yield after one action. Same engine has a native-only switch. Conventional relatedness discounts empty/tiny fragments using coverage and recognizes whole-value casefold matches; six cheap case transforms precede large parameter families. Adjusted on targeted unit regressions, before this controller run; known8developmentjobs reused, no qualification.','same_grammar_sha256':fingerprint(lib),'original_template_result_reused':True,'methods':['native_only_relatedness','native_plus_relatedness','native_plus_frequency','native_plus_uniform'],'shared_interpreter_ceiling':75000000,'unchanged_serving_ceiling':50000,'prior_recorded_serving_buyer_work':json.loads((P/'pilot02-summary.json').read_text())['all_serving_buyer_work_including_first_pilot']}
+with(P/'controller-freeze-04.json').open('x')as f:json.dump(freeze,f,indent=2)
+spent=freeze['prior_recorded_serving_buyer_work'];reports={}
+with(P/'pilot03-results.jsonl').open('x')as out:
+ for method in freeze['methods']:
+  rows=[];start=time.process_time();ordering=method.split('_')[-1]
+  for job in course['tasks'][::8]:
+   result=solve_abstractions(job['diagnostic_inputs'],job['diagnostic_outputs'],CONFIG,prepared,budget=50000,ordering=ordering,use_abstractions=method!='native_only_relatedness')
+   buyer=outcome(result['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+   spent+=result['work']['total']+buyer['total_work']
+   if spent>75000000:raise ValueError('Shared development work bound exceeded')
+   record={'method':method,'job_id':job['id'],'result':result,'buyer':buyer,'cumulative_serving_and_buyer_work':spent}
+   out.write(json.dumps(record)+'\n');out.flush();os.fsync(out.fileno());rows.append(record)
+   print(method,job['private_recipe']['family'],result['status'],buyer['passed'],len(result.get('abstractions_used',[])),result['expanded_states'],result['work']['total'],flush=True)
+  reports[method]={'jobs':len(rows),'accepted':sum(r['buyer']['passed']for r in rows),'wrong':sum(r['result']['program']is not None and not r['buyer']['passed']for r in rows),'accepted_multi_abstraction':sum(r['buyer']['passed']and len(r['result'].get('abstractions_used',[]))>=2 for r in rows),'work':sum(r['result']['work']['total']+r['buyer']['total_work']for r in rows),'cpu_seconds':time.process_time()-start}
+summary={'schema':'nuria.abstraction-native-development-pilot.v3','reports':reports,'all_serving_buyer_work_including_prior_pilots':spent,'prior_template_accepted':2,'source_freeze_sha256':hashlib.sha256((P/'controller-freeze-04.json').read_bytes()).hexdigest(),'scope':'Reused first8 development instances only; no neural training, unseen qualification or superiority claim.'}
+with(P/'pilot03-summary.json').open('x')as f:json.dump(summary,f,indent=2)
+print(json.dumps(summary,indent=2))

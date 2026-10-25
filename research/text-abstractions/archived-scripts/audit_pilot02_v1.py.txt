@@ -1,0 +1,144 @@
+"""Independent stored-result replay for the interleaved development pilot."""
+
+import collections
+import copy
+import importlib.util
+import json
+from pathlib import Path
+
+P = Path(__file__).resolve().parents[1] / 'artifacts'
+
+
+def load_module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+audit = load_module(P / 'audit_pilot_v1.py', 'prior_independent_abstraction_audit')
+digest, require, read, file_hash = audit.digest, audit.require, audit.read, audit.file_hash
+
+
+def matches(body, node):
+    bindings = {}
+
+    def visit(pattern, value):
+        if pattern['op'] == 'hole':
+            index = pattern['index']
+            if index in bindings:
+                return bindings[index] == value
+            bindings[index] = copy.deepcopy(value)
+            return True
+        if set(pattern) != set(value):
+            return False
+        for key in pattern:
+            if key in ('arg', 'then', 'else'):
+                if not visit(pattern[key], value[key]):
+                    return False
+            elif key == 'parts':
+                if len(pattern[key]) != len(value[key]) or not all(visit(a, b) for a, b in zip(pattern[key], value[key], strict=True)):
+                    return False
+            elif pattern[key] != value[key]:
+                return False
+        return True
+
+    return bindings if visit(body, node) else None
+
+
+def occurrences(body, node, path=()):
+    matched = matches(body, node)
+    if matched is not None:
+        arguments = [matched[index] for index in range(len(matched))]
+        require(audit.expand(body, arguments) == node, 'Matched abstraction does not reconstruct native AST')
+        yield {'path':list(path), 'argument_sha256':[digest(arg) for arg in arguments], 'expanded_nodes':audit.nodes(node)}
+    for key in ('arg', 'then', 'else'):
+        if key in node:
+            yield from occurrences(body, node[key], path + (key,))
+    for index, child in enumerate(node.get('parts', [])):
+        yield from occurrences(body, child, path + ('parts', index))
+
+
+def main():
+    freeze, summary, course, library, prior = map(read, ('controller-freeze-03.json', 'pilot02-summary.json', 'development-course.json', 'balanced-library-02.json', 'independent-pilot-audit.json'))
+    require(prior['verified'], 'Previous independent provenance audit did not pass')
+    snapshot = P / 'attempt-02-sources'
+    for relative, expected in freeze['source_sha256'].items():
+        require(file_hash(snapshot / relative) == expected, 'Second frozen source differs: ' + relative)
+    require(file_hash(P / 'controller-freeze-03.json') == summary['source_freeze_sha256'], 'Second pilot source freeze differs')
+    require(file_hash(P / 'development-course.json') == freeze['course_sha256'] == prior['course_sha256'], 'Previously audited course changed')
+    require(file_hash(P / 'pilot-results.jsonl') == freeze['previous_pilot_sha256'] == prior['trace_sha256'], 'Previously audited baseline trace changed')
+    require(digest(library) == freeze['same_grammar_sha256'] == read('controller-freeze-02.json')['grammar_sha256'], 'Previously audited grammar changed')
+    verifier = load_module(snapshot / 'scripts/verify_active_skill_results.py', 'pilot02_independent_text_verifier')
+    config = course['config']
+    jobs = {job['id']:job for job in course['tasks'][::8]}
+    previous = [json.loads(line) for line in (P / 'pilot-results.jsonl').read_text().splitlines()]
+    baseline = {row['job_id']:row for row in previous if row['method']=='templates'}
+    require(set(baseline)==set(jobs), 'Prior template baseline coverage differs')
+    for job_id, row in baseline.items():
+        job = jobs[job_id]
+        require(verifier.outcome(row['result']['program'],job['score_inputs'],job['score_outputs'],config)==row['buyer'], 'Reused baseline output differs')
+    macros = {item['sha256']:item for item in library['abstractions']}
+    rows = [json.loads(line) for line in (P / 'pilot02-results.jsonl').read_text().splitlines()]
+    methods = ('relatedness','frequency','uniform')
+    require(len(rows)==24 and {(r['method'],r['job_id']) for r in rows} == {(m,j) for m in methods for j in jobs}, 'Second pilot delivery denominator differs')
+    totals, successes = collections.defaultdict(collections.Counter), collections.defaultdict(set)
+    spent = read('pilot-summary.json')['serving_and_buyer_work']
+    static_witnesses, multi, maximum_nodes = [], [], 0
+    for row in rows:
+        method, result, job = row['method'], row['result'], jobs[row['job_id']]
+        program = result['program']
+        commitment = {'inputs':job['diagnostic_inputs'], 'outputs':job['diagnostic_outputs'], 'config':config, 'library_sha256':digest(library), 'ordering':method, 'maximum_states':256, 'argument_beam':8, 'maximum_frontier':4096, 'budget':50000, 'program':program}
+        require(result['commitment']==digest(commitment), 'Second pilot committed delivery differs')
+        require(result['search_version']=='verified-text-abstraction-search-v2-interleaved', 'Second pilot mechanism differs')
+        require(all(type(v) is int and v>=0 for v in result['work'].values()) and result['work']['total']<=50000, 'Second pilot work has invalid counters')
+        require(0<=result['expanded_states']<=result['states']<=256 and result['expanded_states']<=result['expansion_turns'] and result['attempted']<=config['max_candidates'], 'Expansion/state counter bounds differ')
+        actual = verifier.outcome(program,job['score_inputs'],job['score_outputs'],config)
+        require(actual==row['buyer'], 'Independent second-pilot output/acceptance/buyer-work differs')
+        if program is not None:
+            require(verifier.outcome(program,job['diagnostic_inputs'],job['diagnostic_outputs'],config)['passed'], 'Second pilot proposal fails disclosed inputs')
+            maximum_nodes=max(maximum_nodes,audit.nodes(program['expr']))
+            require(audit.nodes(program['expr'])<=config['max_ops'] and audit.depth(program['expr'])<=8, 'Native expanded delivery exceeds authority')
+        used=collections.Counter(result['abstractions_used'])
+        for identity, count in used.items():
+            require(identity in macros and program is not None, 'Unknown or undelivered subskill ID')
+            witnesses=list(occurrences(macros[identity]['body'],program['expr']))
+            require(len(witnesses)>=count, 'Recorded subskill cannot be matched in delivered native AST')
+            static_witnesses.append({'method':method,'job_id':job['id'],'abstraction_sha256':identity,'recorded_uses':count,'matches':witnesses})
+        if actual['passed']:
+            successes[method].add(job['id'])
+        if actual['passed'] and sum(used.values())>=2:
+            previous_result=baseline[job['id']]
+            multi.append({'method':method,'job_id':job['id'],'family':job['family'],'abstraction_ids':result['abstractions_used'],'program':program,'native_nodes':audit.nodes(program['expr']),'baseline_passed':previous_result['buyer']['passed'],'baseline_program':previous_result['result']['program'],'baseline_native_nodes':audit.nodes(previous_result['result']['program']['expr'])if previous_result['result']['program']else None})
+        spent+=result['work']['total']+actual['total_work']
+        require(spent==row['cumulative_serving_and_buyer_work'], 'Second pilot cumulative arithmetic differs')
+        totals[method].update({'jobs':1,'accepted':int(actual['passed']),'wrong':int(program is not None and not actual['passed']),'accepted_multi_abstraction':int(actual['passed'] and sum(used.values())>=2),'work':result['work']['total']+actual['total_work']})
+    for method, values in totals.items():
+        for key,value in values.items():
+            require(summary['reports'][method][key]==value,'Second pilot summary arithmetic differs')
+    require(summary['all_serving_buyer_work_including_first_pilot']==spent,'Combined pilot work differs')
+    baseline_successes={j for j,r in baseline.items()if r['buyer']['passed']}
+    require(summary['prior_template_accepted']==len(baseline_successes),'Reused baseline summary differs')
+    paired={method:{'method_only':len(ids-baseline_successes),'template_only':len(baseline_successes-ids),'both':len(ids&baseline_successes)}for method,ids in successes.items()}
+    report={'schema':'nuria.abstraction-independent-interleaved-pilot-audit.v1','verified':True,
+            'source_freeze_sha256':file_hash(P/'controller-freeze-03.json'),'source_snapshot':'attempt-02-sources',
+            'summary_sha256':file_hash(P/'pilot02-summary.json'),'trace_sha256':file_hash(P/'pilot02-results.jsonl'),
+            'prior_provenance_audit_sha256':file_hash(P/'independent-pilot-audit.json'),'audit_source_sha256':file_hash(Path(__file__)),
+            'replayed_new_deliveries':24,'replayed_reused_template_deliveries':8,'tasks_per_method':8,
+            'accepted':{m:v['accepted']for m,v in totals.items()},'wrong':{m:v['wrong']for m,v in totals.items()},
+            'combined_serving_buyer_work':spent,'maximum_delivered_native_nodes':maximum_nodes,
+            'paired_vs_templates':paired,'multi_subskill_solutions':multi,'subskill_expansion_witnesses':static_witnesses,
+            'meaningful_new_template_missed_solution':any(not row['baseline_passed']for row in multi),
+            'findings':['All24 second-pilot committed outputs, acceptance and buyer work replay independently; all8 original template outputs also replay.',
+                        'All recorded subskill identities resolve to the previously audited admitted grammar and have exact native-AST expansion occurrences in their deliveries.',
+                        'All three orderings solve exactly the same2/8 tasks as the reused template baseline; there are no method-only or template-only successes.',
+                        'The relatedness two-subskill delivery composes lower(last_alpha(field1)) then upper(last_alpha(result)); its5-node AST is redundant on these rows. The template baseline uses3-node upper(last_alpha(field1)) and also passes.',
+                        'This establishes an executed two-subskill construction, not a capability gain over templates or a neural result.'],
+            'scope':'Independent stored-output, commitment, static macro expansion, acceptance, buyer-work and aggregate replay. Does not rerun controllers, validate expansion-turn visitation, reproduce CPU timing or establish fresh qualification. These same8 development tasks were reused after a scheduling revision; no neural model was tested.'}
+    with(P/'independent-pilot02-audit.json').open('x')as stream:
+        json.dump(report,stream,indent=2)
+    print(json.dumps({k:v for k,v in report.items()if k not in('subskill_expansion_witnesses','multi_subskill_solutions')},indent=2))
+
+
+if __name__=='__main__':
+    main()

@@ -1,0 +1,88 @@
+from pathlib import Path
+import json,time,hashlib,os,math
+from cognition.abstraction_search import observations
+from cognition.text_skills import execute_checked,validate_program
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import CONFIG
+from scripts.verify_active_skill_results import text_run
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';R=Path(__file__).resolve().parents[3]
+history=json.loads((P/'history.json').read_text());old=[json.loads(l)for l in(P/'teaching-results.jsonl').read_text().splitlines()]
+assert len(old)==len(history['selected'])
+plan={'schema':'nuria.verified-program-context-replay.v2','created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'reason':'Original215positive memberships contain183rawinput fields, zero token/split/slice positives among enumerated candidate records. Add actual nonleaf subprogram executions from historical accepted ASTs, and controlled contexts around those same past programs.','source_sha256':{f:hashlib.sha256((R/f).read_bytes()).hexdigest()for f in ['cognition/abstraction_search.py','cognition/semantic_guidance.py','cognition/text_skills.py','scripts/verify_active_skill_results.py']},'history_sha256':hashlib.sha256((P/'history.json').read_bytes()).hexdigest(),'old_teaching_sha256':hashlib.sha256((P/'teaching-results.jsonl').read_bytes()).hexdigest(),'contexts':['original','upper','lower','strip','prefix3','suffix3','pair_join','upper_pair_join','slice_pair_join'],'pairing':'next chronologically selected historical accepted program, wraparound','labels':'Positive means a nonleaf candidate has the same disclosed values as a proper nonleaf subprogram, changes every matching raw-field vector, and has not already reached the goal. Rawfield/constant candidates are negative. Insert replayed proper subprograms even when initial search did not visit them. Keep all positives and16 hash-selected negatives percontext.','data_scope':'Contexts beyond original are self-generated mathematical replay tasks, not new customer jobs, external acceptance receipts, paid outcomes or biological activity. Two existing independent interpreters must agree on every replayed label. No new development or challenge recipe/input/target enters this file.','comparators':'All five methods get identical replay records. Entire imagined-program candidate library is also supplied to an additional conventional whole-template control. Keep original models and all negative results.','model_kwargs':{'dimension':64,'width':64,'ticks':16,'epochs':12,'batch_size':128,'seed':2026102601},'guidance_multiplier':12,'maximum_records':65536,'study_work_ceiling':75000000,'prior_known_work':36886013,'observer_reserve':2000000}
+with(P/'context-replay-freeze-02.json').open('x')as f:json.dump(plan,f,indent=2)
+def descendants(n):
+ for k in ('arg','then','else'):
+  if k in n:yield n[k];yield from descendants(n[k])
+ for c in n.get('parts',[]):yield c;yield from descendants(c)
+def contexts(a,b):
+ yield 'original',a
+ for name in ('upper','lower','strip'):yield name,{'version':'safe-text-v1','expr':{'op':name,'arg':a['expr']}}
+ for name,start,end in [('prefix3',0,3),('suffix3',-3,None)]:yield name,{'version':'safe-text-v1','expr':{'op':'slice','arg':a['expr'],'start':start,'end':end}}
+ joined={'op':'concat','parts':[a['expr'],{'op':'constant','value':':'},b['expr']]}
+ yield 'pair_join',{'version':'safe-text-v1','expr':joined}
+ yield 'upper_pair_join',{'version':'safe-text-v1','expr':{'op':'upper','arg':joined}}
+ yield 'slice_pair_join',{'version':'safe-text-v1','expr':{'op':'slice','arg':joined,'start':1,'end':-1}}
+work=0;records=[];coverage=[];candidate_programs={};counts={};started=time.process_time();skipped=[]
+with(P/'context-replay-origins-02.jsonl').open('x')as out:
+ for i,item in enumerate(history['selected']):
+  xs=item['inputs'];source=item['record'];paired=history['selected'][(i+1)%len(history['selected'])]['record'];raw_vectors=set(zip(*[json.loads(x)for x in xs]))
+  for name,program in contexts(source['program'],paired['program']):
+   try:program=validate_program(program,CONFIG)
+   except ValueError:skipped.append({'origin':source['origin_sha256'],'context':name,'reason':'native_program_bound'});continue
+   evidence=[];targets=[];values_by_node={};valid=True;before=work
+   nodes=[program['expr'],*descendants(program['expr'])]
+   for node in nodes:
+    key=fingerprint(node)
+    if key in values_by_node:continue
+    value=[];node_program={'version':'safe-text-v1','expr':node}
+    for x in xs:
+     native=execute_checked(node_program,x,CONFIG);independent,units=text_run(node_program,x,CONFIG);work+=native['work']['total']+units
+     if native['output']!=independent:raise ValueError('Replay interpreters disagree')
+     if native['error']or independent is None:valid=False;break
+     value.append(independent)
+    if not valid:break
+    values_by_node[key]=(node,tuple(value))
+   if not valid:skipped.append({'origin':source['origin_sha256'],'context':name,'reason':'reference_domain_error','spent_work':work-before});continue
+   targets=values_by_node[fingerprint(program['expr'])][1]
+   if name=='original' and targets!=tuple(item['outputs']):raise ValueError('Original accepted labels changed')
+   candidate_programs.setdefault(fingerprint(program),program)
+   useful={values for node,values in list(values_by_node.values())[1:]if node['op']not in('field','constant')and values not in raw_vectors and values!=targets}
+   # Both actual old-search candidates and verified internal executions are
+   # replayed observations. No fresh job's hidden source program is used.
+   candidates={fingerprint({'node':c['node'],'values':c['values']}):(c['node'],tuple(c['values']))for c in old[i]['search']['candidate_records']}
+   for node,values in values_by_node.values():candidates.setdefault(fingerprint({'node':node,'values':list(values)}),(node,values))
+   labelled=[]
+   for key,(node,values)in candidates.items():
+    work+=1+max(1,(len(str(values).encode())+len(str(targets).encode())+31)//32)
+    if values==targets:continue
+    label=int(node['op']not in('field','constant')and values in useful)
+    labelled.append((key,node,values,label))
+   selected=[x for x in labelled if x[3]]+sorted((x for x in labelled if not x[3]),key=lambda x:x[0])[:16]
+   context_id=fingerprint({'old_origin':source['origin_sha256'],'context':name,'program':program,'paired_origin':paired['origin_sha256']})
+   receipt={'kind':'mathematical_program_replay'if name!='original'else'historical_nonleaf_replay','old_evidence':source['evidence_sha256'],'paired_old_evidence':paired['evidence_sha256'],'program_sha256':fingerprint(program),'inputs_sha256':fingerprint(xs),'outputs_sha256':fingerprint(targets),'independent_interpreter_sha256':plan['source_sha256']['scripts/verify_active_skill_results.py']}
+   emitted=[]
+   for key,node,values,label in selected:
+    features=observations(node,values,targets,CONFIG);work+=64
+    row={'features':features,'label':label,'job_id':context_id,'candidate_sha256':key,'program_sha256':fingerprint(program),'receipt_evidence_sha256':fingerprint(receipt)}
+    emitted.append(row);records.append(row)
+    if name=='original':coverage.append(row)
+   if len(records)>65536 or work+plan['prior_known_work']+plan['observer_reserve']>75000000:raise ValueError('Replay record/work bound exceeded; preserve partial evidence')
+   trace={'historical_origin':source,'paired_historical_origin':paired,'context':name,'context_id':context_id,'program':program,'inputs':xs,'outputs':list(targets),'receipt':receipt,'proper_progress_vectors':len(useful),'selected_records':emitted,'actual_work':work-before,'cumulative_work':work}
+   out.write(json.dumps(trace)+'\n');out.flush();os.fsync(out.fileno());counts[name]=counts.get(name,0)+len(emitted)
+  if i%16==0:print('replay',i,len(records),work,flush=True)
+for name,data in [('coverage-training-02',coverage),('context-training-02',records)]:
+ with(P/f'{name}.json').open('x')as f:json.dump({'schema':name,'records':data,'positive':sum(r['label']for r in data),'protocol_sha256':hashlib.sha256((P/'context-replay-freeze-02.json').read_bytes()).hexdigest()},f)
+with(P/'imagined-program-candidates-02.json').open('x')as f:json.dump(list(candidate_programs.values()),f)
+report={'work':work,'records':len(records),'positive':sum(r['label']for r in records),'coverage_records':len(coverage),'coverage_positive':sum(r['label']for r in coverage),'context_record_counts':counts,'skipped':skipped,'imagined_candidates':len(candidate_programs),'cpu_seconds':time.process_time()-started,'scope':plan['data_scope']}
+with(P/'context-replay-summary-02.json').open('x')as f:json.dump(report,f,indent=2)
+fits={}
+for name,data,methods in [('coverage',coverage,['spiking']),('context',records,['spiking','frozen_input','continuous','linear','knn'])]:
+ for method in methods:
+  start=time.process_time();model=SemanticGuidance(method=method,**plan['model_kwargs']).fit(data)
+  path=P/f'model-{name}-{method}-02.json'
+  with path.open('x')as f:json.dump(model.evidence(),f)
+  key=f'{name}-{method}';fits[key]={'records':model.records_count,'positive':model.positive_count,'steps':model.steps,'training_sha256':model.training_sha256,'model_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'cpu_seconds':time.process_time()-start}
+  print('fit',key,fits[key],flush=True)
+with(P/'context-fits-02.json').open('x')as f:json.dump(fits,f,indent=2)
+print(json.dumps(report,indent=2));print(json.dumps(fits,indent=2))

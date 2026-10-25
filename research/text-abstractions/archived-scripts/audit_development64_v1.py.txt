@@ -1,0 +1,226 @@
+"""Replay recorded development deliveries and a separate post-hoc challenge.
+
+No controller, model inference, fitting or learner admission is executed.
+Model files and training identities are checked as stored evidence; this is
+not an independent witness of the original in-memory search trajectory.
+"""
+
+import collections
+import importlib.util
+import json
+import shutil
+import time
+from pathlib import Path
+
+P=Path(__file__).resolve().parents[1] / 'artifacts'
+ROOT=Path(__file__).resolve().parents[3]
+
+
+def module(path,name):
+    spec=importlib.util.spec_from_file_location(name,path)
+    value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value)
+    return value
+
+
+prior=module(P/'audit_pilot02_v1.py','independent_development_prior_helpers')
+audit=prior.audit
+digest,read,require,file_hash,serial=audit.digest,audit.read,audit.require,audit.file_hash,audit.serial
+
+
+def save(name,value):
+    with(P/name).open('x')as stream:json.dump(value,stream,indent=2)
+
+
+def lines(name):
+    return[json.loads(line)for line in(P/name).read_text().splitlines()]
+
+
+def main():
+    started=time.process_time()
+    freeze,summary,course,library,history,training,fits,fit_freeze=map(read,('development64-freeze.json','development64-summary.json','development-course.json','balanced-library-02.json','history.json','training.json','fits.json','teaching-fit-freeze-01.json'))
+    require(summary['freeze_sha256']==file_hash(P/'development64-freeze.json'),'Development source freeze bytes differ')
+    require(summary['journal_sha256']==file_hash(P/'study-budget-journal.jsonl'),'Budget journal bytes differ')
+    require(freeze['course_sha256']==file_hash(P/'development-course.json')==read('independent-pilot-audit.json')['course_sha256'],'Course identity changed')
+    require(freeze['training_sha256']==file_hash(P/'training.json'),'Training file identity changed')
+    require(training['history_sha256']==file_hash(P/'history.json')==fit_freeze['history_sha256'],'Shared training history differs')
+    require(training['protocol_sha256']==file_hash(P/'teaching-fit-freeze-01.json'),'Teaching protocol identity differs')
+    require(fit_freeze['grammar_sha256']==digest(library)==read('controller-freeze-04.json')['same_grammar_sha256'],'Shared admitted grammar differs')
+    snapshots=P/'development64-audit-sources';snapshots.mkdir(exist_ok=False)
+    for relative,expected in freeze['source_sha256'].items():
+        require(file_hash(ROOT/relative)==expected,'Frozen development source identity differs: '+relative)
+        target=snapshots/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/relative,target)
+        require(file_hash(target)==expected,'Retained source copy differs')
+    verifier=module(snapshots/'scripts/verify_active_skill_results.py','development_original_independent_executor')
+    work=collections.defaultdict(collections.Counter);phase=['original_buyer_replay'];native_run=verifier.text_run
+
+    def measured_run(program,value,config):
+        output,units=native_run(program,value,config)
+        work[phase[0]].update({'interpreter_calls':1,'interpreter_work':units})
+        require(sum(v['interpreter_work']+v['comparison_work']for v in work.values())<=2_000_000,'Observer reserve requires reconciliation before more replay')
+        return output,units
+
+    verifier.text_run=measured_run
+
+    def outcome(program,inputs,targets):
+        result=verifier.outcome(program,inputs,targets,course['config'])
+        work[phase[0]]['comparison_work']+=result['comparison_work']
+        return result
+
+    historical={item['record']['origin_sha256']:item['record']for item in history['selected']}
+    require(len(historical)==128,'Historical origin denominator changed')
+    trained=training['records'];require(len(trained)==3812 and sum(r['label']for r in trained)==215,'Original shared training denominator changed')
+    for row in trained:
+        require(row['job_id']in historical,'Training introduced a nonhistorical origin')
+        original=historical[row['job_id']]
+        require(row['program_sha256']==original['program_sha256']and row['receipt_evidence_sha256']==original['evidence_sha256'],'Training parent evidence differs')
+        require(len(row['features'])==64 and all(type(x)in(int,float)and 0<=x<=1 for x in row['features']),'Training feature authority differs')
+        require(type(row['label'])is int and row['label']in(0,1),'Training label type differs')
+    teaching=lines('teaching-results.jsonl')
+    require(len(teaching)==128,'Teaching trace origin coverage differs')
+    require([r for origin in teaching for r in origin['selected_records']]==trained,'Shared training order differs from retained teaching')
+    model_receipts={}
+    for method,expected in freeze['model_sha256'].items():
+        path=P/f'model-{method}.json';require(file_hash(path)==expected==fits[method]['model_sha256'],'Frozen model file changed')
+        model=json.loads(path.read_text())
+        require(model['training_sha256']==digest(trained)==fits[method]['training_sha256'],'Models do not share identical training records')
+        require(model['records_count']==3812 and model['positive_count']==215 and model['configuration']['method']==method,'Model training metadata differs')
+        for key,value in fit_freeze['model_kwargs'].items():require(model['configuration'][key]==value,'A model has unmatched declared settings')
+        if method=='knn':
+            require(model['reference_features']==[r['features']for r in trained]and model['reference_labels']==[r['label']for r in trained],'Nearest-neighbor reference history differs')
+        else:require(model['reference_features']is None and model['reference_labels']is None,'Unexpected private reference data')
+        model_receipts[method]={'file_sha256':expected,'canonical_evidence_sha256':digest(model),'training_records_sha256':model['training_sha256'],'records':3812,'positive':215}
+    records=lines('development64-results.jsonl');jobs={j['id']:j for j in course['tasks']};methods=freeze['methods']
+    require(len(jobs)==64 and len(methods)==11 and len(records)==704,'Development denominator differs')
+    require(len({(r['method'],r['job_id'])for r in records})==704 and {(r['method'],r['job_id'])for r in records}=={(m,j)for m in methods for j in jobs},'Development method coverage differs')
+    require(set(collections.Counter(j['cluster']for j in jobs.values()).values())=={8},'The8 structural cluster boundary differs')
+    totals,successes,witnesses=collections.defaultdict(collections.Counter),collections.defaultdict(set),[]
+    macro_map={m['sha256']:m for m in library['abstractions']}
+    for record in records:
+        method,result,job=record['method'],record['result'],jobs[record['job_id']]
+        require(all(type(v)is int and v>=0 for v in result['work'].values())and result['work']['total']<=50000,'Declared development search work exceeds authority')
+        if method=='templates':
+            require(result['commitment']==digest({k:v for k,v in result.items()if k!='commitment'}),'Whole-template commitment differs')
+            require(result['disclosed_examples_sha256']==digest([job['diagnostic_inputs'],job['diagnostic_outputs']]),'Template disclosed evidence differs')
+        else:
+            ordering=method.removeprefix('native_only_').removeprefix('native_plus_')if method.startswith('native_')and method!='native_only_spiking'else'guided'
+            abstractions=not method.startswith('native_only')
+            require(result['use_native']is True and result['use_abstractions']is abstractions,'Development grammar switch differs')
+            expected={'inputs':job['diagnostic_inputs'],'outputs':job['diagnostic_outputs'],'config':course['config'],'library_sha256':digest(library),'ordering':ordering,'use_native':True,'use_abstractions':abstractions,'maximum_states':256,'argument_beam':8,'maximum_frontier':4096,'budget':50000,'program':result['program']}
+            require(result['commitment']==digest(expected),'Native/guided committed delivery differs')
+            require(result['preparation']['shared']is True and result['preparation']['work']==21609 and result['preparation']['uncharged_preparation_work']==0,'Shared grammar preparation differs')
+            for identity,count in collections.Counter(result['abstractions_used']).items():
+                require(identity in macro_map and result['program']is not None,'Unknown or undelivered subskill identity')
+                matches=list(prior.occurrences(macro_map[identity]['body'],result['program']['expr']))
+                require(len(matches)>=count,'Recorded subskill does not match expanded output AST')
+                witnesses.append({'method':method,'job_id':job['id'],'abstraction_sha256':identity,'uses':count,'matched_occurrences':len(matches)})
+        phase[0]='original_buyer_replay';actual=outcome(result['program'],job['score_inputs'],job['score_outputs'])
+        require(actual==record['buyer'],'Independent development output/acceptance/buyer-work differs')
+        if result['program']is not None:
+            phase[0]='original_disclosed_fit_replay';require(outcome(result['program'],job['diagnostic_inputs'],job['diagnostic_outputs'])['passed'],'Committed program fails its disclosed examples')
+            require(audit.nodes(result['program']['expr'])<=24 and audit.depth(result['program']['expr'])<=8,'Expanded program exceeds native authority')
+        require(record['actual_work']==result['work']['total']+actual['total_work'],'Recorded per-job complete work differs')
+        totals[method].update({'jobs':1,'accepted':int(actual['passed']),'wrong':int(result['program']is not None and not actual['passed']),'search_work':result['work']['total'],'buyer_work':actual['total_work'],'accepted_multi_abstraction':int(actual['passed']and len(result.get('abstractions_used',[]))>=2)})
+        if actual['passed']:successes[method].add(job['id'])
+    for method,values in totals.items():
+        for key,value in values.items():require(summary['reports'][method][key]==value,'Development aggregate differs')
+    journal=lines('study-budget-journal.jsonl');require(len(journal)==1410,'Budget event denominator differs')
+    previous='0'*64;pending={};settled={};spent=None
+    result_map={(r['method'],r['job_id']):r for r in records}
+    for index,event in enumerate(journal,1):
+        require(event['sequence']==index and event['previous_sha256']==previous and event['sha256']==digest({k:v for k,v in event.items()if k!='sha256'}),'Budget hash chain differs')
+        previous=event['sha256'];kind=event['kind']
+        if kind=='anchor':
+            require(index==1 and event['maximum_work']==75_000_000 and event['observer_work_reserved']==2_000_000,'Budget anchor differs')
+            prep1,prep2=read('preparation-summary.json'),read('balanced-preparation-summary-02.json')
+            template_prep=read('controller-freeze-02.json')['template_preparation']['preparation_work']['total']
+            known_prior=read('pilot03-summary.json')['all_serving_buyer_work_including_prior_pilots']+training['work']+prep1['mining_work']['total']+prep1['preparation_work']+prep2['extra_unary_mining_work']['total']+5*21609+2*template_prep
+            require(event['prior_known_work']==known_prior,'Declared prior-work arithmetic differs');spent=known_prior
+        elif kind=='reserve':
+            key=event['method'],event['job_id'];require(key not in pending and key not in settled and key in result_map,'Budget job reservation duplicated')
+            require(event['actual_spent']==spent and event['reserved_work']==150000 and spent+sum(pending.values())+event['reserved_work']+2_000_000<=75_000_000,'Complete-job reservation exceeds shared ceiling')
+            pending[key]=event['reserved_work']
+        elif kind=='settle':
+            key=event['method'],event['job_id'];row=result_map[key];require(key in pending,'Settlement lacks a reserved job')
+            require(event['result_sha256']==digest(row)and event['actual_work']==row['actual_work']<=pending[key]and event['released_work']==pending[key]-row['actual_work'],'Budget settlement evidence differs')
+            spent+=row['actual_work'];require(event['actual_spent']==spent,'Budget cumulative spend differs')
+            settled[key]=pending.pop(key)
+        elif kind=='complete':require(index==len(journal)and not pending and event['pending_jobs']==0 and event['actual_spent']==spent,'Budget completed with unresolved work')
+        else:raise ValueError('Unrecognized budget event')
+    require(len(settled)==704 and spent==summary['actual_known_study_work']and summary['remaining_conservative_bound']==75_000_000-spent-2_000_000,'Budget final reconciliation differs')
+    require(summary['frozen_models_unchanged']is True,'Original evaluator did not assert frozen inference')
+    require(all(file_hash(P/f'model-{m}.json')==r['file_sha256']for m,r in model_receipts.items()),'Frozen model file changed during audit')
+    baseline=successes['templates'];paired={m:{'method_only':len(successes[m]-baseline),'template_only':len(baseline-successes[m]),'both':len(successes[m]&baseline)}for m in methods}
+    original_receipt={'schema':'nuria.independent-abstraction-development64-audit.v1','verified':True,
+                      'freeze_sha256':file_hash(P/'development64-freeze.json'),'trace_sha256':file_hash(P/'development64-results.jsonl'),'summary_sha256':file_hash(P/'development64-summary.json'),'journal_sha256':file_hash(P/'study-budget-journal.jsonl'),
+                      'audit_source_sha256':file_hash(Path(__file__)),'deliveries_replayed':704,'tasks':64,'structural_clusters':8,'methods':11,
+                      'accepted':{m:totals[m]['accepted']for m in methods},'wrong':{m:totals[m]['wrong']for m in methods},'paired_vs_templates':paired,
+                      'budget':{'hash_chain_events':1410,'settled_jobs':704,'pending_jobs':0,'actual_known_study_work':spent,'observer_reserved_work':2_000_000,'remaining_after_reserve':summary['remaining_conservative_bound']},
+                      'shared_training':{'records':3812,'positive':215,'historical_origins':128,'training_records_sha256':digest(trained),'training_file_sha256':file_hash(P/'training.json'),'source_metadata_checked':True,'labels_or_gradients_reexecuted':False},
+                      'model_receipts':model_receipts,'source_sha256':freeze['source_sha256'],'subskill_matches':witnesses,
+                      'observer_replay_work':{k:dict(v)for k,v in work.items()},'observer_total_declared_work':sum(v['interpreter_work']+v['comparison_work']for v in work.values()),'cpu_seconds':time.process_time()-started,
+                      'limitations':['64 authored development tasks represent8 structural clusters; the first8 tasks were previously inspected. No fresh qualification.',
+                                     'All models bind to the same historical training records and frozen file hashes. Original in-memory before/after equality is a recorded evaluator assertion, not independently witnessed by this output replay.',
+                                     'Guided result commitments bind grammar/settings/output but omit scorer-model identity and multiplier. The journal binds method labels, and the source/model freeze binds saved models; original scorer invocation/search visitation is not independently rerun.',
+                                     'Search work is recorded bounded evidence; independent replay reconstructs actual disclosed/final interpreter and buyer-comparison work, not original search visitation or CPU timing.',
+                                     'Shared training provenance and identities checked; gradient fitting and every membership label are not independently recomputed in this receipt.']}
+    save('independent-development64-audit.json',original_receipt)
+    print(json.dumps({'phase':'original704_replay','accepted':original_receipt['accepted'],'observer_work':original_receipt['observer_total_declared_work'],'budget_verified':True}),flush=True)
+
+    # Separate, explicitly post-hoc challenge. Reuse the exact prior input rule;
+    # no challenge label enters training and original results remain untouched.
+    challenge_started=time.process_time();challenge_module=module(P/'posthoc_string_challenge_audit.py','fixed_posthoc_string_input_rule')
+    builder=module(snapshots/'scripts/build_abstraction_tasks.py','full64_frozen_python_target_oracle')
+    challenge_plan={'schema':'nuria.posthoc-string-challenge64.v1','scope':'Post-hoc broader-input diagnostic only; not qualification or learner teaching.',
+                    'seed':challenge_module.SEED,'rows_per_job':32,'jobs':64,'methods':methods,'generator_source_sha256':file_hash(P/'posthoc_string_challenge_audit.py'),
+                    'oracle_source_sha256':freeze['source_sha256']['scripts/build_abstraction_tasks.py'],'committed_trace_sha256':original_receipt['trace_sha256'],
+                    'selection':'All64 original tasks and all11 committed methods; no method-dependent task selection. Filter only reference-oracle domain errors.',
+                    'original_scores':'All original24-row results retained separately; broader inputs do not retroactively alter original acceptance.'}
+    save('posthoc64-string-challenge-plan.json',challenge_plan)
+    datasets=[];prior_datasets={d['job_id']:d for d in read('posthoc-string-challenge-inputs.json')['datasets']}
+    for job in course['tasks']:
+        inputs,targets,metadata,rejected=[],[],[],[]
+        for attempt in range(challenge_module.MAX_ATTEMPTS):
+            values,counts=challenge_module.candidate(job['id'],job['private_recipe']['separator'],attempt);encoded=serial(values)
+            require(len(encoded.encode())<=course['config']['max_input_bytes'],'Broader input exceeds authority')
+            try:target=builder.target(job['private_recipe'],values)
+            except(ValueError,IndexError,KeyError)as error:rejected.append({'attempt':attempt,'reason':type(error).__name__});continue
+            inputs.append(encoded);targets.append(target);metadata.append({'attempt':attempt,**counts})
+            if len(inputs)==32:break
+        require(len(inputs)==32 and len(set(inputs))==32,'Broader reference domain supplied insufficient distinct rows')
+        if job['id']in prior_datasets:require(inputs==prior_datasets[job['id']]['inputs']and targets==prior_datasets[job['id']]['outputs'],'Original fixed posthoc challenge rule changed')
+        datasets.append({'job_id':job['id'],'family':job['family'],'inputs':inputs,'outputs':targets,'input_sha256':digest(inputs),'target_sha256':digest(targets),'generation_metadata':metadata,'reference_domain_rejections':rejected})
+    save('posthoc64-string-challenge-inputs.json',{'schema':challenge_plan['schema'],'datasets':datasets})
+    data={d['job_id']:d for d in datasets};results=[];counterexamples=[];challenge_totals=collections.defaultdict(collections.Counter)
+    before={k:dict(v)for k,v in work.items()};phase[0]='posthoc64_broader_output_replay'
+    for record in records:
+        method,program,job=record['method'],record['result']['program'],jobs[record['job_id']];dataset=data[job['id']]
+        tick=time.process_time();actual=outcome(program,dataset['inputs'],dataset['outputs']);elapsed=time.process_time()-tick
+        failed=[i for i,(a,y)in enumerate(zip(actual['outputs'],dataset['outputs'],strict=True))if a!=y]
+        results.append({'method':method,'job_id':job['id'],'family':job['family'],'program_sha256':digest(program)if program else None,'proposed':program is not None,
+                        'inputs_sha256':dataset['input_sha256'],'targets_sha256':dataset['target_sha256'],'original_buyer':record['buyer'],
+                        'posthoc':{**actual,'failed_indices':failed,'cpu_seconds':elapsed}})
+        challenge_totals[method].update({'jobs':1,'proposed_jobs':int(program is not None),'abstained_jobs':int(program is None),'original_exact_jobs':int(record['buyer']['passed']),
+                                         'challenge_exact_jobs':int(actual['passed']),'challenge_rows':32,'challenge_correct_rows':actual['correct'],'incorrect_proposed_jobs':int(program is not None and not actual['passed']),
+                                         'execution_work':actual['execution_work'],'comparison_work':actual['comparison_work'],'total_work':actual['total_work']})
+        if program is not None:
+            for index in failed:counterexamples.append({'method':method,'job_id':job['id'],'family':job['family'],'row':index,'input':dataset['inputs'][index],'expected':dataset['outputs'][index],'actual':actual['outputs'][index]})
+    save('posthoc64-string-challenge-counterexamples.json',{'schema':challenge_plan['schema'],'scope':challenge_plan['scope'],'counterexamples':counterexamples})
+    challenge_receipt={'schema':challenge_plan['schema'],'verified':True,'scope':challenge_plan['scope'],'plan_sha256':file_hash(P/'posthoc64-string-challenge-plan.json'),
+                       'inputs_sha256':file_hash(P/'posthoc64-string-challenge-inputs.json'),'counterexamples_sha256':file_hash(P/'posthoc64-string-challenge-counterexamples.json'),
+                       'audit_source_sha256':file_hash(Path(__file__)),'independent_original_audit_sha256':file_hash(P/'independent-development64-audit.json'),
+                       'jobs':64,'structural_clusters':8,'rows_per_job':32,'unique_job_rows':2048,'method_job_evaluations':704,
+                       'reference_domain_rejections':sum(len(d['reference_domain_rejections'])for d in datasets),'summaries':{m:dict(challenge_totals[m])for m in methods},
+                       'per_job_results':results,'proposed_program_counterexamples':len(counterexamples),'observer_replay_work':dict(work[phase[0]]),'cpu_seconds':time.process_time()-challenge_started,
+                       'limitations':challenge_plan['scope']+' Fixed already-committed programs, no controller rerun, training or source changes; original24-row scores are retained and replayed separately. The first8 challenge inputs exactly match the previous posthoc diagnostic.'}
+    save('posthoc64-string-challenge-audit.json',challenge_receipt)
+    observer={'schema':'nuria.abstraction-observer-work-receipt.v1','scope':'This audit invocation only; prior independent observers are separate and must be accounted separately.',
+              'source_sha256':file_hash(Path(__file__)),'original_audit_sha256':file_hash(P/'independent-development64-audit.json'),'challenge_audit_sha256':file_hash(P/'posthoc64-string-challenge-audit.json'),
+              'stages':{k:dict(v)for k,v in work.items()},'actual_interpreter_work':sum(v['interpreter_work']for v in work.values()),
+              'actual_comparison_work':sum(v['comparison_work']for v in work.values()),'total_declared_work':sum(v['interpreter_work']+v['comparison_work']for v in work.values()),
+              'study_observer_reserve':2_000_000,'within_this_invocation_reserve':sum(v['interpreter_work']+v['comparison_work']for v in work.values())<=2_000_000,'total_cpu_seconds':time.process_time()-started,
+              'accounting_limit':'Exact independent interpreter/data/comparison meter, not complete hardware instructions or source hashing/serialization work. CPU measured locally; no original study journal mutation.'}
+    save('independent-development64-observer-work.json',observer)
+    print(json.dumps({'phase':'posthoc64_complete','summaries':challenge_receipt['summaries'],'observer_work':observer},indent=2))
+
+
+if __name__=='__main__':main()

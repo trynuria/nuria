@@ -1,0 +1,48 @@
+from pathlib import Path
+import json,time,hashlib,os
+from cognition.abstraction_search import solve_abstractions,prepare_grammar
+from cognition.text_skills import execute_checked
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import CONFIG
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';R=Path(__file__).resolve().parents[3]
+history=json.loads((P/'history.json').read_text());library=json.loads((P/'balanced-library-02.json').read_text());grammar=prepare_grammar(library,CONFIG)
+protocol={'schema':'nuria.abstraction-teaching-fit.v1','created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'source_sha256':{f:hashlib.sha256((R/f).read_bytes()).hexdigest()for f in ['cognition/semantic_guidance.py','cognition/abstraction_search.py','cognition/text_skills.py']},'history_sha256':hashlib.sha256((P/'history.json').read_bytes()).hexdigest(),'grammar_sha256':fingerprint(library),'training':'Actual candidate observations from128 historical jobs. Positive if executed values equal a proper subtree of that historical accepted program. All positives and first32 negatives sorted by candidate hash perorigin; no new course recipe/targets are teaching.','methods':['spiking','frozen_input','continuous','linear','knn'],'model_kwargs':{'dimension':64,'width':64,'ticks':16,'epochs':12,'batch_size':128,'seed':2026102601},'guidance_multiplier':12,'multiplier_rationale':'Every learned probability, including linear/kNN/continuous/frozen controls, uses the same12 multiplier to match declared conventional relatedness range. Chosen before any fitted model evaluation, not tuned permodel or on reserved tasks.','per_job_work':50000,'study_ceiling':75000000,'source_scope':'Known synthetic historical teaching and repeated development, no qualification.'}
+with(P/'teaching-fit-freeze-01.json').open('x')as f:json.dump(protocol,f,indent=2)
+def children(node):
+ for key in ('arg','then','else'):
+  if key in node:
+   yield node[key];yield from children(node[key])
+ for child in node.get('parts',[]):
+  yield child;yield from children(child)
+records=[];work=0;origins=[];start=time.process_time()
+with(P/'teaching-results.jsonl').open('x')as stream:
+ for i,item in enumerate(history['selected']):
+  xs,ys=item['inputs'],item['outputs'];source=item['record'];positives=set();replay_work=0
+  for node in children(source['program']['expr']):
+   program={'version':'safe-text-v1','expr':node};values=[]
+   for x in xs:
+    checked=execute_checked(program,x,CONFIG);replay_work+=checked['work']['total']
+    if checked['error']:break
+    values.append(checked['output'])
+   if len(values)==len(xs):positives.add(tuple(values))
+  result=solve_abstractions(xs,ys,CONFIG,grammar,budget=50000,ordering='relatedness',collect=True)
+  rows=[]
+  for candidate in result['candidate_records']:
+   rows.append({'features':candidate['features'],'label':int(tuple(candidate['values'])in positives),'job_id':source['origin_sha256'],'candidate_sha256':fingerprint({'node':candidate['node'],'values':candidate['values']}),'program_sha256':source['program_sha256'],'receipt_evidence_sha256':source['evidence_sha256']})
+  selected=[r for r in rows if r['label']]+sorted((r for r in rows if not r['label']),key=lambda r:r['candidate_sha256'])[:32]
+  records.extend(selected);work+=result['work']['total']+replay_work
+  if work+3749314>75000000:raise ValueError('Shared study bound exceeded')
+  origin={'origin':source,'historical_job_id':item['historical_job_id'],'search':result,'proper_subtree_replay_work':replay_work,'selected_records':selected,'cumulative_teaching_work':work}
+  stream.write(json.dumps(origin)+'\n');stream.flush();os.fsync(stream.fileno());origins.append({'job_id':source['origin_sha256'],'candidates':len(rows),'selected':len(selected),'positive':sum(r['label']for r in selected)})
+  if i%16==0:print('teach',i,len(records),work,flush=True)
+training={'schema':'nuria.abstraction-teaching-records.v1','records':records,'origins':origins,'work':work,'positive':sum(r['label']for r in records),'cpu_seconds':time.process_time()-start,'history_sha256':protocol['history_sha256'],'protocol_sha256':hashlib.sha256((P/'teaching-fit-freeze-01.json').read_bytes()).hexdigest()}
+with(P/'training.json').open('x')as f:json.dump(training,f)
+fits={}
+for method in protocol['methods']:
+ start=time.process_time();model=SemanticGuidance(method=method,**protocol['model_kwargs']).fit(records);evidence=model.evidence()
+ with(P/f'model-{method}.json').open('x')as f:json.dump(evidence,f)
+ fits[method]={'training_sha256':model.training_sha256,'records':model.records_count,'positive':model.positive_count,'steps':model.steps,'cpu_seconds':time.process_time()-start,'model_sha256':hashlib.sha256((P/f'model-{method}.json').read_bytes()).hexdigest()}
+ print('fit',method,fits[method],flush=True)
+with(P/'fits.json').open('x')as f:json.dump(fits,f,indent=2)
+print(json.dumps({'records':len(records),'positive':training['positive'],'teaching_work':work,'fits':fits},indent=2))

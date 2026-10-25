@@ -1,0 +1,41 @@
+{
+  "schema": "nuria.work-fair-development-pilot.v1",
+  "created_utc": "2026-10-24T22:04:16Z",
+  "engine_sha256": "33d6b63bf8bedfc9a8ca9c2fd80f1aceba651b09060f2e1413992ffb2d8d58a8",
+  "source_files": {
+    "cognition/semantic_guidance.py": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849",
+    "cognition/text_abstractions.py": "d5d358e7c9209e078cab7aa0c0f54c7bb023ceedbbf4ca8aa50b0befde10ccaa",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  },
+  "course_sha256": "7fe5b86989e107f348d9e77674cbedcadadac9d8182c231d11224b1f565f332b",
+  "model_sha256": {
+    "original-spiking": "272e1bc298bd50f7b1a29ed7a3ba5df162f2d7861502d22998bb074579043f22",
+    "coverage-spiking": "3861c322eb91f27633821989513ed471d80d210e49e8b0c1b3d40d7aa1232e08",
+    "context-spiking": "e91743d8a8fc21016cff196322a0d0368896dbce228f80440a70633d698b8396",
+    "context-frozen_input": "6f144d0d5ac9d9f422c9c238701ca51403313207904b4c50948f5e7a6218d714",
+    "context-continuous": "80e047b9be5e6543f0a34a434d43c9b72d13056bd9cb2b8e2be13fa92f58a0de",
+    "context-linear": "40dc5a2be749949ca95f3377d7ffde81bb74a16b86b9a50ccec6e2efc9e5e89c",
+    "context-knn": "806fb723f1f4f5ad962c4866514c1464e513c694065f5957d4a701bf2cb94bc9"
+  },
+  "methods": [
+    "relatedness",
+    "frequency",
+    "uniform",
+    "original-spiking",
+    "coverage-spiking",
+    "context-spiking",
+    "context-frozen_input",
+    "context-continuous",
+    "context-linear",
+    "context-knn",
+    "native-only-context-spiking"
+  ],
+  "scheduler": "confidence normalized to fixed[0,1]units,0.1exploration floor, inverse square-root fatigue by actual state interpreter work/8; assembly phase750units then yields. Allmethodsidentical algorithm;legacy exact32-case parity checked. Fixed before this run; no parameter sweep.",
+  "prior_known_work": 46030549,
+  "guidance_multiplier": 12,
+  "assembly_slice": 750,
+  "scope": "Same first8 adapted development cases. Newlybounded scheduling, no unseenqualification or neuraladvantage assumption.",
+  "maximum_study_work": 75000000,
+  "observer_reserve": 2000000,
+  "legacy_parity_search_work": 1312178
+}

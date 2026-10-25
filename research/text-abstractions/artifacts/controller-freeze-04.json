@@ -1,0 +1,23 @@
+{
+  "schema": "nuria.abstraction-native-development.v3",
+  "created_utc": "2026-10-24T21:38:45Z",
+  "source_sha256": {
+    "cognition/abstraction_search.py": "13800bed6511b6c22b8b7b618191f93732dcc6a6fe8bd357182d4e7a3147e913",
+    "cognition/text_abstractions.py": "d5d358e7c9209e078cab7aa0c0f54c7bb023ceedbbf4ca8aa50b0befde10ccaa",
+    "scripts/build_abstraction_tasks.py": "c4fc22494020c01d61ecec5bc1d44c15ba5c307462f3feb54a9584267aa554e6",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  },
+  "course_sha256": "7fe5b86989e107f348d9e77674cbedcadadac9d8182c231d11224b1f565f332b",
+  "revision": "Restore bounded native unary and intermediate concatenation actions. Native and admitted-subskill invocations interleave and yield after one action. Same engine has a native-only switch. Conventional relatedness discounts empty/tiny fragments using coverage and recognizes whole-value casefold matches; six cheap case transforms precede large parameter families. Adjusted on targeted unit regressions, before this controller run; known8developmentjobs reused, no qualification.",
+  "same_grammar_sha256": "586f9a6dbeef89dbc875caee9bf11ec27913b7a0c3b2d0a97877912aa6dc46a5",
+  "original_template_result_reused": true,
+  "methods": [
+    "native_only_relatedness",
+    "native_plus_relatedness",
+    "native_plus_frequency",
+    "native_plus_uniform"
+  ],
+  "shared_interpreter_ceiling": 75000000,
+  "unchanged_serving_ceiling": 50000,
+  "prior_recorded_serving_buyer_work": 2430311
+}

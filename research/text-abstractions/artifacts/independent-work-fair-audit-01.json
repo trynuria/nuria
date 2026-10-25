@@ -1,0 +1,603 @@
+{
+  "schema": "nuria.independent-work-fair-pilot-audit.v1",
+  "verified": true,
+  "freeze_sha256": "18fcd59fd1f781492659279e6fb55da9c1c22b47d970223e8a6f04fe829ac9fb",
+  "trace_sha256": "ebfad78f555e1799c3e8f460a86b571a32b85c09cfb47b8e5cf0d49ce0b3767d",
+  "summary_sha256": "f920384416cd5f8798bd6c177b6c4c329067ef64cb7b48a2a65bd90e888a937a",
+  "audit_source_sha256": "8c8a0d304c8c4d554aa129379df5ea78796216190603748fd73c00e0bdb650d7",
+  "source_sha256": {
+    "cognition/abstraction_search.py": "33d6b63bf8bedfc9a8ca9c2fd80f1aceba651b09060f2e1413992ffb2d8d58a8",
+    "cognition/semantic_guidance.py": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849",
+    "cognition/text_abstractions.py": "d5d358e7c9209e078cab7aa0c0f54c7bb023ceedbbf4ca8aa50b0befde10ccaa",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  },
+  "model_receipts": {
+    "original-spiking": {
+      "sha256": "272e1bc298bd50f7b1a29ed7a3ba5df162f2d7861502d22998bb074579043f22",
+      "training_sha256": "fceef716788b6c7723bcf223644880ca938c4f8ac210d8078cb5119ec851199b",
+      "records": 3812,
+      "positive": 215
+    },
+    "coverage-spiking": {
+      "sha256": "3861c322eb91f27633821989513ed471d80d210e49e8b0c1b3d40d7aa1232e08",
+      "training_sha256": "e3a1851a51a0ebecb2786c5c2d7351121ca25e766700a980c9b1aa510ef9fb63",
+      "records": 2136,
+      "positive": 235
+    },
+    "context-spiking": {
+      "sha256": "e91743d8a8fc21016cff196322a0d0368896dbce228f80440a70633d698b8396",
+      "training_sha256": "12a724a4bf9a1362a28f302864f06741f964daba028c85a65a08aa7a62ff0f15",
+      "records": 21386,
+      "positive": 4163
+    },
+    "context-frozen_input": {
+      "sha256": "6f144d0d5ac9d9f422c9c238701ca51403313207904b4c50948f5e7a6218d714",
+      "training_sha256": "12a724a4bf9a1362a28f302864f06741f964daba028c85a65a08aa7a62ff0f15",
+      "records": 21386,
+      "positive": 4163
+    },
+    "context-continuous": {
+      "sha256": "80e047b9be5e6543f0a34a434d43c9b72d13056bd9cb2b8e2be13fa92f58a0de",
+      "training_sha256": "12a724a4bf9a1362a28f302864f06741f964daba028c85a65a08aa7a62ff0f15",
+      "records": 21386,
+      "positive": 4163
+    },
+    "context-linear": {
+      "sha256": "40dc5a2be749949ca95f3377d7ffde81bb74a16b86b9a50ccec6e2efc9e5e89c",
+      "training_sha256": "12a724a4bf9a1362a28f302864f06741f964daba028c85a65a08aa7a62ff0f15",
+      "records": 21386,
+      "positive": 4163
+    },
+    "context-knn": {
+      "sha256": "806fb723f1f4f5ad962c4866514c1464e513c694065f5957d4a701bf2cb94bc9",
+      "training_sha256": "12a724a4bf9a1362a28f302864f06741f964daba028c85a65a08aa7a62ff0f15",
+      "records": 21386,
+      "positive": 4163
+    }
+  },
+  "deliveries_replayed": 88,
+  "original_rows_per_job": {
+    "disclosed": 4,
+    "buyer": 24
+  },
+  "totals": {
+    "relatedness": {
+      "jobs": 8,
+      "accepted": 3,
+      "wrong": 0,
+      "work": 365772,
+      "assembly_work": 404,
+      "assembly_yields": 0,
+      "states": 599,
+      "expanded_states": 598
+    },
+    "frequency": {
+      "jobs": 8,
+      "accepted": 1,
+      "wrong": 0,
+      "work": 374295,
+      "assembly_work": 23,
+      "assembly_yields": 0,
+      "states": 760,
+      "expanded_states": 580
+    },
+    "uniform": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 343454,
+      "assembly_work": 45,
+      "assembly_yields": 0,
+      "states": 931,
+      "expanded_states": 931
+    },
+    "original-spiking": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 307979,
+      "assembly_work": 181,
+      "assembly_yields": 0,
+      "states": 1220,
+      "expanded_states": 1188
+    },
+    "coverage-spiking": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 342378,
+      "assembly_work": 109,
+      "assembly_yields": 0,
+      "states": 584,
+      "expanded_states": 584
+    },
+    "context-spiking": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 350428,
+      "assembly_work": 517,
+      "assembly_yields": 0,
+      "states": 616,
+      "expanded_states": 615
+    },
+    "context-frozen_input": {
+      "jobs": 8,
+      "accepted": 3,
+      "wrong": 0,
+      "work": 286229,
+      "assembly_work": 354,
+      "assembly_yields": 0,
+      "states": 510,
+      "expanded_states": 509
+    },
+    "context-continuous": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 351109,
+      "assembly_work": 493,
+      "assembly_yields": 0,
+      "states": 601,
+      "expanded_states": 600
+    },
+    "context-linear": {
+      "jobs": 8,
+      "accepted": 3,
+      "wrong": 0,
+      "work": 318950,
+      "assembly_work": 454,
+      "assembly_yields": 0,
+      "states": 584,
+      "expanded_states": 583
+    },
+    "context-knn": {
+      "jobs": 8,
+      "accepted": 2,
+      "wrong": 0,
+      "work": 365883,
+      "assembly_work": 454,
+      "assembly_yields": 0,
+      "states": 589,
+      "expanded_states": 588
+    },
+    "native-only-context-spiking": {
+      "jobs": 8,
+      "accepted": 0,
+      "wrong": 0,
+      "work": 400344,
+      "assembly_work": 23,
+      "assembly_yields": 0,
+      "states": 891,
+      "expanded_states": 889
+    }
+  },
+  "paired_vs_relatedness": {
+    "relatedness": {
+      "method_only": 0,
+      "control_only": 0,
+      "both": 3
+    },
+    "frequency": {
+      "method_only": 0,
+      "control_only": 2,
+      "both": 1
+    },
+    "uniform": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "original-spiking": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "coverage-spiking": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "context-spiking": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "context-frozen_input": {
+      "method_only": 0,
+      "control_only": 0,
+      "both": 3
+    },
+    "context-continuous": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "context-linear": {
+      "method_only": 0,
+      "control_only": 0,
+      "both": 3
+    },
+    "context-knn": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "native-only-context-spiking": {
+      "method_only": 0,
+      "control_only": 3,
+      "both": 0
+    }
+  },
+  "paired_vs_frozen_input": {
+    "relatedness": {
+      "method_only": 0,
+      "control_only": 0,
+      "both": 3
+    },
+    "frequency": {
+      "method_only": 0,
+      "control_only": 2,
+      "both": 1
+    },
+    "uniform": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "original-spiking": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "coverage-spiking": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "context-spiking": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "context-frozen_input": {
+      "method_only": 0,
+      "control_only": 0,
+      "both": 3
+    },
+    "context-continuous": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "context-linear": {
+      "method_only": 0,
+      "control_only": 0,
+      "both": 3
+    },
+    "context-knn": {
+      "method_only": 0,
+      "control_only": 1,
+      "both": 2
+    },
+    "native-only-context-spiking": {
+      "method_only": 0,
+      "control_only": 3,
+      "both": 0
+    }
+  },
+  "fixed_broader_challenge": {
+    "inputs_file_sha256": "5446b510fef8cfba9de5abe6a73e438a64fcad45c1341525ddc39359bf1d6c03",
+    "rows_per_job": 32,
+    "totals": {
+      "relatedness": {
+        "jobs": 8,
+        "proposed": 3,
+        "exact": 0,
+        "correct_rows": 21,
+        "rows": 256,
+        "incorrect_proposed_jobs": 3
+      },
+      "frequency": {
+        "jobs": 8,
+        "proposed": 1,
+        "exact": 0,
+        "correct_rows": 6,
+        "rows": 256,
+        "incorrect_proposed_jobs": 1
+      },
+      "uniform": {
+        "jobs": 8,
+        "proposed": 2,
+        "exact": 0,
+        "correct_rows": 19,
+        "rows": 256,
+        "incorrect_proposed_jobs": 2
+      },
+      "original-spiking": {
+        "jobs": 8,
+        "proposed": 2,
+        "exact": 0,
+        "correct_rows": 19,
+        "rows": 256,
+        "incorrect_proposed_jobs": 2
+      },
+      "coverage-spiking": {
+        "jobs": 8,
+        "proposed": 2,
+        "exact": 0,
+        "correct_rows": 19,
+        "rows": 256,
+        "incorrect_proposed_jobs": 2
+      },
+      "context-spiking": {
+        "jobs": 8,
+        "proposed": 2,
+        "exact": 0,
+        "correct_rows": 8,
+        "rows": 256,
+        "incorrect_proposed_jobs": 2
+      },
+      "context-frozen_input": {
+        "jobs": 8,
+        "proposed": 3,
+        "exact": 0,
+        "correct_rows": 21,
+        "rows": 256,
+        "incorrect_proposed_jobs": 3
+      },
+      "context-continuous": {
+        "jobs": 8,
+        "proposed": 2,
+        "exact": 0,
+        "correct_rows": 8,
+        "rows": 256,
+        "incorrect_proposed_jobs": 2
+      },
+      "context-linear": {
+        "jobs": 8,
+        "proposed": 3,
+        "exact": 0,
+        "correct_rows": 21,
+        "rows": 256,
+        "incorrect_proposed_jobs": 3
+      },
+      "context-knn": {
+        "jobs": 8,
+        "proposed": 2,
+        "exact": 0,
+        "correct_rows": 8,
+        "rows": 256,
+        "incorrect_proposed_jobs": 2
+      },
+      "native-only-context-spiking": {
+        "jobs": 8,
+        "proposed": 0,
+        "exact": 0,
+        "correct_rows": 0,
+        "rows": 256,
+        "incorrect_proposed_jobs": 0
+      }
+    },
+    "counterexamples": [
+      {
+        "method": "relatedness",
+        "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+        "family": "trim-upper-segment",
+        "row": 0,
+        "input": "[\"  ember  \",\"53MPEal XENON juniper-\\tPine ember garnet 9254  \",\"\\tFODjr\\tZephyr\\tXNNeo\\tSABLE\\t1077  - reed-JUNIPER\\t7986\",\" 9024 22tidal -  QATurz  95Acacia  BIRCH  -  MPEal\\tCPEopr\\t6176\\tcobalt  -\\t52sable  Sable  70TIDAL  ZPYehr  HARBOR66\",\" Yarrow\\t82Violet\\t9976\\t62VIOLET- harbor  violet  DHIala  Reed  TIDAL  -\\tIDGnio -kestrel35\\twillow -\\tSABLE\\tOnyx\\tBIRCH\",\"ZEPHYR  \"]",
+        "expected": "FODJR\tZEPHYR\tXNNEO\tSABLE\t1077",
+        "actual": "FODJR ZEPHYR"
+      },
+      {
+        "method": "relatedness",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "relatedness",
+        "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+        "family": "upper-sliced-last-token",
+        "row": 1,
+        "input": "[\"4182  willow\\t|  69DLAet 98BRHic CBLoat\",\"\\tyarrow\\tgarnet\\tBIRCH\\tacacia18  | Dahlia\\tZPYehr\\t6453\\tmaple\\tzephyr  |\\tGREant \",\"  53CBLoat\\t|67Garnet\\tTidal  |  Harbor\\tKESTREL\\tquartz |umber COBALT 4619 COPPER\\t\",\"\\tDelta  fjord  Quartz\\t| quartz\\tDAHLIA\\tZephyr\\tDelta |  reed\\tDahlia\\tIDGnio\\tMPEal\\t5426\\t|garnet | Violet\\tVOEilt\",\"\\t65zephyr\\tWLOilw90\\tSable\\tPNie32\\tOnyx  \",\"Umber MAPLE94  |\\tDelta 64INDIGO UMBER\"]",
+        "expected": "GREAN",
+        "actual": "GREANT"
+      },
+      {
+        "method": "frequency",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "uniform",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "uniform",
+        "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+        "family": "upper-sliced-last-token",
+        "row": 1,
+        "input": "[\"4182  willow\\t|  69DLAet 98BRHic CBLoat\",\"\\tyarrow\\tgarnet\\tBIRCH\\tacacia18  | Dahlia\\tZPYehr\\t6453\\tmaple\\tzephyr  |\\tGREant \",\"  53CBLoat\\t|67Garnet\\tTidal  |  Harbor\\tKESTREL\\tquartz |umber COBALT 4619 COPPER\\t\",\"\\tDelta  fjord  Quartz\\t| quartz\\tDAHLIA\\tZephyr\\tDelta |  reed\\tDahlia\\tIDGnio\\tMPEal\\t5426\\t|garnet | Violet\\tVOEilt\",\"\\t65zephyr\\tWLOilw90\\tSable\\tPNie32\\tOnyx  \",\"Umber MAPLE94  |\\tDelta 64INDIGO UMBER\"]",
+        "expected": "GREAN",
+        "actual": "GREANT"
+      },
+      {
+        "method": "original-spiking",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "original-spiking",
+        "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+        "family": "upper-sliced-last-token",
+        "row": 1,
+        "input": "[\"4182  willow\\t|  69DLAet 98BRHic CBLoat\",\"\\tyarrow\\tgarnet\\tBIRCH\\tacacia18  | Dahlia\\tZPYehr\\t6453\\tmaple\\tzephyr  |\\tGREant \",\"  53CBLoat\\t|67Garnet\\tTidal  |  Harbor\\tKESTREL\\tquartz |umber COBALT 4619 COPPER\\t\",\"\\tDelta  fjord  Quartz\\t| quartz\\tDAHLIA\\tZephyr\\tDelta |  reed\\tDahlia\\tIDGnio\\tMPEal\\t5426\\t|garnet | Violet\\tVOEilt\",\"\\t65zephyr\\tWLOilw90\\tSable\\tPNie32\\tOnyx  \",\"Umber MAPLE94  |\\tDelta 64INDIGO UMBER\"]",
+        "expected": "GREAN",
+        "actual": "GREANT"
+      },
+      {
+        "method": "coverage-spiking",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "coverage-spiking",
+        "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+        "family": "upper-sliced-last-token",
+        "row": 1,
+        "input": "[\"4182  willow\\t|  69DLAet 98BRHic CBLoat\",\"\\tyarrow\\tgarnet\\tBIRCH\\tacacia18  | Dahlia\\tZPYehr\\t6453\\tmaple\\tzephyr  |\\tGREant \",\"  53CBLoat\\t|67Garnet\\tTidal  |  Harbor\\tKESTREL\\tquartz |umber COBALT 4619 COPPER\\t\",\"\\tDelta  fjord  Quartz\\t| quartz\\tDAHLIA\\tZephyr\\tDelta |  reed\\tDahlia\\tIDGnio\\tMPEal\\t5426\\t|garnet | Violet\\tVOEilt\",\"\\t65zephyr\\tWLOilw90\\tSable\\tPNie32\\tOnyx  \",\"Umber MAPLE94  |\\tDelta 64INDIGO UMBER\"]",
+        "expected": "GREAN",
+        "actual": "GREANT"
+      },
+      {
+        "method": "context-spiking",
+        "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+        "family": "trim-upper-segment",
+        "row": 0,
+        "input": "[\"  ember  \",\"53MPEal XENON juniper-\\tPine ember garnet 9254  \",\"\\tFODjr\\tZephyr\\tXNNeo\\tSABLE\\t1077  - reed-JUNIPER\\t7986\",\" 9024 22tidal -  QATurz  95Acacia  BIRCH  -  MPEal\\tCPEopr\\t6176\\tcobalt  -\\t52sable  Sable  70TIDAL  ZPYehr  HARBOR66\",\" Yarrow\\t82Violet\\t9976\\t62VIOLET- harbor  violet  DHIala  Reed  TIDAL  -\\tIDGnio -kestrel35\\twillow -\\tSABLE\\tOnyx\\tBIRCH\",\"ZEPHYR  \"]",
+        "expected": "FODJR\tZEPHYR\tXNNEO\tSABLE\t1077",
+        "actual": "FODJR ZEPHYR"
+      },
+      {
+        "method": "context-spiking",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "context-frozen_input",
+        "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+        "family": "trim-upper-segment",
+        "row": 0,
+        "input": "[\"  ember  \",\"53MPEal XENON juniper-\\tPine ember garnet 9254  \",\"\\tFODjr\\tZephyr\\tXNNeo\\tSABLE\\t1077  - reed-JUNIPER\\t7986\",\" 9024 22tidal -  QATurz  95Acacia  BIRCH  -  MPEal\\tCPEopr\\t6176\\tcobalt  -\\t52sable  Sable  70TIDAL  ZPYehr  HARBOR66\",\" Yarrow\\t82Violet\\t9976\\t62VIOLET- harbor  violet  DHIala  Reed  TIDAL  -\\tIDGnio -kestrel35\\twillow -\\tSABLE\\tOnyx\\tBIRCH\",\"ZEPHYR  \"]",
+        "expected": "FODJR\tZEPHYR\tXNNEO\tSABLE\t1077",
+        "actual": "FODJR ZEPHYR"
+      },
+      {
+        "method": "context-frozen_input",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "context-frozen_input",
+        "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+        "family": "upper-sliced-last-token",
+        "row": 1,
+        "input": "[\"4182  willow\\t|  69DLAet 98BRHic CBLoat\",\"\\tyarrow\\tgarnet\\tBIRCH\\tacacia18  | Dahlia\\tZPYehr\\t6453\\tmaple\\tzephyr  |\\tGREant \",\"  53CBLoat\\t|67Garnet\\tTidal  |  Harbor\\tKESTREL\\tquartz |umber COBALT 4619 COPPER\\t\",\"\\tDelta  fjord  Quartz\\t| quartz\\tDAHLIA\\tZephyr\\tDelta |  reed\\tDahlia\\tIDGnio\\tMPEal\\t5426\\t|garnet | Violet\\tVOEilt\",\"\\t65zephyr\\tWLOilw90\\tSable\\tPNie32\\tOnyx  \",\"Umber MAPLE94  |\\tDelta 64INDIGO UMBER\"]",
+        "expected": "GREAN",
+        "actual": "GREANT"
+      },
+      {
+        "method": "context-continuous",
+        "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+        "family": "trim-upper-segment",
+        "row": 0,
+        "input": "[\"  ember  \",\"53MPEal XENON juniper-\\tPine ember garnet 9254  \",\"\\tFODjr\\tZephyr\\tXNNeo\\tSABLE\\t1077  - reed-JUNIPER\\t7986\",\" 9024 22tidal -  QATurz  95Acacia  BIRCH  -  MPEal\\tCPEopr\\t6176\\tcobalt  -\\t52sable  Sable  70TIDAL  ZPYehr  HARBOR66\",\" Yarrow\\t82Violet\\t9976\\t62VIOLET- harbor  violet  DHIala  Reed  TIDAL  -\\tIDGnio -kestrel35\\twillow -\\tSABLE\\tOnyx\\tBIRCH\",\"ZEPHYR  \"]",
+        "expected": "FODJR\tZEPHYR\tXNNEO\tSABLE\t1077",
+        "actual": "FODJR ZEPHYR"
+      },
+      {
+        "method": "context-continuous",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "context-linear",
+        "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+        "family": "trim-upper-segment",
+        "row": 0,
+        "input": "[\"  ember  \",\"53MPEal XENON juniper-\\tPine ember garnet 9254  \",\"\\tFODjr\\tZephyr\\tXNNeo\\tSABLE\\t1077  - reed-JUNIPER\\t7986\",\" 9024 22tidal -  QATurz  95Acacia  BIRCH  -  MPEal\\tCPEopr\\t6176\\tcobalt  -\\t52sable  Sable  70TIDAL  ZPYehr  HARBOR66\",\" Yarrow\\t82Violet\\t9976\\t62VIOLET- harbor  violet  DHIala  Reed  TIDAL  -\\tIDGnio -kestrel35\\twillow -\\tSABLE\\tOnyx\\tBIRCH\",\"ZEPHYR  \"]",
+        "expected": "FODJR\tZEPHYR\tXNNEO\tSABLE\t1077",
+        "actual": "FODJR ZEPHYR"
+      },
+      {
+        "method": "context-linear",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      },
+      {
+        "method": "context-linear",
+        "job_id": "10f69a35edb2b9c7828f6b3053d24a7ecf6a7137fb2a47472e8c7cf7f30bae2e",
+        "family": "upper-sliced-last-token",
+        "row": 1,
+        "input": "[\"4182  willow\\t|  69DLAet 98BRHic CBLoat\",\"\\tyarrow\\tgarnet\\tBIRCH\\tacacia18  | Dahlia\\tZPYehr\\t6453\\tmaple\\tzephyr  |\\tGREant \",\"  53CBLoat\\t|67Garnet\\tTidal  |  Harbor\\tKESTREL\\tquartz |umber COBALT 4619 COPPER\\t\",\"\\tDelta  fjord  Quartz\\t| quartz\\tDAHLIA\\tZephyr\\tDelta |  reed\\tDahlia\\tIDGnio\\tMPEal\\t5426\\t|garnet | Violet\\tVOEilt\",\"\\t65zephyr\\tWLOilw90\\tSable\\tPNie32\\tOnyx  \",\"Umber MAPLE94  |\\tDelta 64INDIGO UMBER\"]",
+        "expected": "GREAN",
+        "actual": "GREANT"
+      },
+      {
+        "method": "context-knn",
+        "job_id": "6e21a3ed1b36a86767aa571edfdc2170215fab5e86a576689f2ce80738a085fe",
+        "family": "trim-upper-segment",
+        "row": 0,
+        "input": "[\"  ember  \",\"53MPEal XENON juniper-\\tPine ember garnet 9254  \",\"\\tFODjr\\tZephyr\\tXNNeo\\tSABLE\\t1077  - reed-JUNIPER\\t7986\",\" 9024 22tidal -  QATurz  95Acacia  BIRCH  -  MPEal\\tCPEopr\\t6176\\tcobalt  -\\t52sable  Sable  70TIDAL  ZPYehr  HARBOR66\",\" Yarrow\\t82Violet\\t9976\\t62VIOLET- harbor  violet  DHIala  Reed  TIDAL  -\\tIDGnio -kestrel35\\twillow -\\tSABLE\\tOnyx\\tBIRCH\",\"ZEPHYR  \"]",
+        "expected": "FODJR\tZEPHYR\tXNNEO\tSABLE\t1077",
+        "actual": "FODJR ZEPHYR"
+      },
+      {
+        "method": "context-knn",
+        "job_id": "dcdf4e9dc3c8ef02c1a9e0005b7536a7f3021043cba6c0ab3f30a1b614e58bd0",
+        "family": "lower-last-segment-token",
+        "row": 0,
+        "input": "[\"629  \",\"3145  garnet  Onyx  -\\t98HROabr\\tONYX\\tCBLoat\\t4367  \",\"\\t2375  acacia  Garnet  nectar  46DAHLIA  -\\tDHIala-EBRme  7068\\t\",\"\\tXENON  dahlia30 -  yarrow\\tharbor\\t7829-\\tzephyr\\twillow\\tEMBER\\tDelta\\t- 91QATurz  Maple  indigo90  ember  GARNET\",\" 8364 zephyr 2971 SABLE- zephyr reed LRHac63 violet DELTA- xenon -DELTA Tidal26\\t-\\tcopper\\tWILLOW\\tCBLoat\",\"  79REed \"]",
+        "expected": "copper",
+        "actual": "cbloat"
+      }
+    ],
+    "scope": "Post-hoc fixed diagnostic; all committed programs replayed, no learning/controller execution, original results unchanged."
+  },
+  "known_study_work_before_this_audit": 49837370,
+  "observer_replay_work": {
+    "execution_work": 68126,
+    "comparison_work": 10296
+  },
+  "observer_total_work": 78422,
+  "cpu_seconds": 1.394631,
+  "findings": [
+    "No neural superiority: all three spiking models accept2/8; conventional relatedness, frozen-input control and linear model accept3/8 each.",
+    "Every proposed program fails the fixed broader-domain exact challenge. The narrow original acceptance does not establish useful domain generalization.",
+    "Bounded work-fair scheduling is implemented consistently across methods and counters reconcile; this audit checks recorded counters/settings, not original controller visitation or CPU measurements.",
+    "Same8 development cases were adapted across revisions. No unseen qualification and no evidence of consciousness or a broadly superior neural planner."
+  ],
+  "limits": [
+    "Search, training gradients, model scoring and original in-memory scorer invocation were not re-executed.",
+    "Core commitment binds output, inputs and planner configuration but omits scorer-model identity/multiplier; trace/model association is checked separately.",
+    "Virtual-work accounting is not complete hardware FLOPs or wall-time comparability.",
+    "A source-bound macro ancestry list alone does not prove causal necessity."
+  ]
+}

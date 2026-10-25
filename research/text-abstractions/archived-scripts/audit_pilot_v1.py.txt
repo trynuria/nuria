@@ -1,0 +1,272 @@
+"""Independently reconstruct frozen structural-pilot evidence, not controllers."""
+
+import collections
+import copy
+import gzip
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+
+P = Path(__file__).resolve().parents[1] / 'artifacts'
+ROOT = Path(__file__).resolve().parents[3]
+
+
+def serial(value):
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)
+
+
+def digest(value):
+    return hashlib.sha256(serial(value).encode()).hexdigest()
+
+
+def file_hash(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def require(ok, why):
+    if not ok:
+        raise ValueError(why)
+
+
+def read(name):
+    return json.loads((P / name).read_text())
+
+
+def module_from(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def canonical(program):
+    field_aliases, literal_aliases = {}, {}
+
+    def node(value):
+        result = {'op': value['op']}
+        for key in sorted(set(value) - {'op'}):
+            item = value[key]
+            if (value['op'] == 'field' and key == 'index') or (value['op'] == 'if_equal' and key == 'field'):
+                if item not in field_aliases:
+                    field_aliases[item] = len(field_aliases)
+                result[key] = {'field': field_aliases[item]}
+            elif key in ('arg', 'then', 'else'):
+                result[key] = node(item)
+            elif key == 'parts':
+                result[key] = list(map(node, item))
+            else:
+                kind = 'null' if item is None else type(item).__name__
+                identity = (kind, item)
+                if identity not in literal_aliases:
+                    literal_aliases[identity] = len(literal_aliases)
+                result[key] = {'literal': kind, 'alias': literal_aliases[identity]}
+        return result
+
+    return {'version': program['version'], 'expr': node(program['expr'])}
+
+
+def children(node):
+    return [node[k] for k in ('arg', 'then', 'else') if k in node] + node.get('parts', [])
+
+
+def nodes(node):
+    return 1 + sum(map(nodes, children(node)))
+
+
+def depth(node):
+    return max([0, *[1 + depth(child) for child in children(node)]])
+
+
+def expand(body, args):
+    if body['op'] == 'hole':
+        return copy.deepcopy(args[body['index']])
+    result = copy.deepcopy(body)
+    for key in ('arg', 'then', 'else'):
+        if key in result:
+            result[key] = expand(result[key], args)
+    if 'parts' in result:
+        result['parts'] = [expand(child, args) for child in result['parts']]
+    return result
+
+
+def bind_fields(node, bindings):
+    result = copy.deepcopy(node)
+    key = 'index' if node['op'] == 'field' else 'field' if node['op'] == 'if_equal' else None
+    if key is not None:
+        original = node[key]
+        if original not in bindings:
+            bindings[original] = len(bindings)
+        result[key] = bindings[original]
+    for key in ('arg', 'then', 'else'):
+        if key in result:
+            result[key] = bind_fields(result[key], bindings)
+    if 'parts' in result:
+        result['parts'] = [bind_fields(child, bindings) for child in result['parts']]
+    return result
+
+
+def main():
+    freeze, course, history = map(read, ('controller-freeze-02.json', 'development-course.json', 'history.json'))
+    library, summary, all_programs = map(read, ('balanced-library-02.json', 'pilot-summary.json', 'all-historical-programs.json'))
+    snapshots = P / 'attempt-01-sources'
+    for relative, expected in freeze['source_sha256'].items():
+        require(file_hash(snapshots / relative) == expected, 'Frozen source identity differs: ' + relative)
+    require(file_hash(P / 'protocol-01.json') == freeze['initial_protocol_sha256'], 'Protocol identity differs')
+    require(digest(library) == freeze['grammar_sha256'], 'Library identity differs')
+    require(file_hash(P / 'controller-freeze-02.json') == summary['source_freeze_sha256'], 'Pilot freeze identity differs')
+    require(file_hash(P / 'development-course.json') == summary['course_sha256'], 'Course identity differs')
+    verifier = module_from(snapshots / 'scripts/verify_active_skill_results.py', 'independent_original_text_verifier')
+    generator = module_from(snapshots / 'scripts/build_abstraction_tasks.py', 'frozen_authored_task_oracle')
+    config = course['config']
+    require(config == generator.CONFIG == history['configuration'], 'Language authority differs')
+    archived_programs, archived_origins = {}, {}
+    for relative, expected in history['source_archives'].items():
+        path = ROOT / relative
+        require(file_hash(path) == expected, 'Historical archive identity differs')
+        with gzip.open(path, 'rt') as stream:
+            for line in stream:
+                row = json.loads(line)
+                for program in row['accepted_programs']:
+                    archived_programs.setdefault(digest(program), program)
+                    archived_origins[(digest(row['job_id']), digest(program))] = row
+    require(len(archived_programs) == 390 == len(all_programs), 'Historical denominator differs')
+    require([digest(p) for p in all_programs] == list(archived_programs), 'Whole-template history ordering differs')
+    historical_skeletons = {digest(canonical(p)) for p in all_programs}
+    require(sorted(historical_skeletons) == history['all_historical_skeletons'], 'Historical structural exclusions differ')
+    require(course['source']['excluded_skeletons'] == sorted(historical_skeletons), 'Course dropped historical structural exclusions')
+    selected = {}
+    for item in history['selected']:
+        record = item['record']
+        row = archived_origins[(record['origin_sha256'], record['program_sha256'])]
+        require(record['program'] == archived_programs[record['program_sha256']], 'Mining parent changed')
+        require(record['evidence_sha256'] == row.get('buyer_evidence_sha256', row.get('acquisition_attempt_receipts_sha256')), 'Past evidence binding differs')
+        require(item['inputs'] == row['disclosed_inputs'] and item['outputs'] == row['disclosed_outputs'], 'Mining used another disclosed history')
+        require(verifier.outcome(record['program'], item['inputs'], item['outputs'], config)['passed'], 'Past accepted program fails original disclosed examples')
+        selected[record['program_sha256']] = record
+    require(len(selected) == len(history['selected']) == 128, 'Mining history denominator differs')
+    macro_ids, support_count, max_expanded = set(), 0, 0
+    for macro in library['abstractions']:
+        require(macro['sha256'] == digest({k: v for k, v in macro.items() if k != 'sha256'}), 'Macro record changed')
+        require(macro['source_id'] == library['source_id'] and macro['config_sha256'] == digest(config), 'Macro source/config differs')
+        require(macro['pattern_sha256'] == digest({'schema':macro['schema'], 'source_id':macro['source_id'], 'config_sha256':macro['config_sha256'], 'body':macro['body'], 'arity':macro['arity']}), 'Macro pattern identity differs')
+        require(macro['sha256'] not in macro_ids, 'Duplicate abstraction')
+        macro_ids.add(macro['sha256'])
+        occurrences = [0] * macro['arity']
+
+        def count_holes(node):
+            if node['op'] == 'hole':
+                require(set(node) == {'op', 'index'} and type(node['index']) is int and 0 <= node['index'] < len(occurrences), 'Invalid text hole')
+                occurrences[node['index']] += 1
+            for child in children(node):
+                count_holes(child)
+
+        count_holes(macro['body'])
+        require(all(occurrences) and occurrences == macro['hole_occurrences'], 'Argument aliases differ')
+        require(nodes(macro['body']) == macro['body_nodes'] and nodes(macro['body']) - sum(occurrences) == macro['fixed_nodes'], 'Declared native sizes differ')
+        expanded = []
+        for support in macro['support']:
+            record = selected[support['program_sha256']]
+            require(support['parent_program'] == record['program'] and support['origin_sha256'] == record['origin_sha256'] and support['evidence_sha256'] == record['evidence_sha256'], 'Macro parent evidence differs')
+            subtree = support['parent_program']['expr']
+            for step in support['path']:
+                subtree = subtree[step]
+            actual = expand(macro['body'], support['arguments'])
+            require(actual == subtree and digest(actual) == support['subtree_sha256'], 'Macro support expansion differs')
+            expected_nodes = macro['fixed_nodes'] + sum(n * nodes(arg) for n, arg in zip(occurrences, support['arguments'], strict=True))
+            require(nodes(actual) == expected_nodes <= config['max_ops'] and depth(actual) <= 8, 'Expanded native authority differs')
+            max_expanded = max(max_expanded, expected_nodes)
+            expanded.append(actual)
+            support_count += 1
+        require(2 <= len(macro['support']) <= 8 and len({s['program_sha256'] for s in macro['support']}) == len(macro['support']), 'Parent support denominator differs')
+        expanded_nodes = sum(map(nodes, expanded))
+        definition_nodes = nodes(macro['body']) + sum(1 + sum(map(nodes, s['arguments'])) for s in macro['support'])
+        expanded_bytes = sum(len(serial(n).encode()) for n in expanded)
+        definition_bytes = len(serial(macro['body']).encode()) + sum(len(serial(s['arguments']).encode()) for s in macro['support'])
+        require(macro['compression'] == {'expanded_nodes':expanded_nodes, 'definition_and_bindings_nodes':definition_nodes, 'node_gain':expanded_nodes-definition_nodes, 'expanded_bytes':expanded_bytes, 'definition_and_bindings_bytes':definition_bytes, 'byte_gain':expanded_bytes-definition_bytes}, 'Compression arithmetic differs')
+    require(len(macro_ids) == 63, 'Grammar denominator differs')
+    tasks, checked_target_rows = {}, 0
+    for task in course['tasks']:
+        require(task['id'] not in tasks, 'Duplicate task identity')
+        tasks[task['id']] = task
+        recipe = task['private_recipe']
+        structure = canonical(recipe['program'])
+        require(digest(structure) == task['cluster'] == recipe['skeleton_sha256'] and structure == recipe['skeleton'], 'Course structural metadata differs')
+        require(task['cluster'] not in historical_skeletons, 'Historical whole-program structure leaked into pilot')
+        require(recipe['program'] == generator.program(recipe), 'Equivalent buyer AST differs from frozen recipe')
+        require(len(task['diagnostic_inputs']) == 4 and len(task['score_inputs']) == 24 and not(set(task['diagnostic_inputs']) & set(task['score_inputs'])), 'Diagnostic/final split differs')
+        for phase in ('diagnostic', 'score'):
+            inputs, outputs = task[phase+'_inputs'], task[phase+'_outputs']
+            require(all(generator.target(recipe, json.loads(v)) == out for v, out in zip(inputs, outputs, strict=True)), 'Python target label differs')
+            require(verifier.outcome(recipe['program'], inputs, outputs, config)['passed'], 'Independent AST execution differs from buyer target')
+            checked_target_rows += len(inputs)
+    require(len(tasks) == 64 and set(collections.Counter(t['cluster'] for t in tasks.values()).values()) == {8}, 'Authored course denominator differs')
+    rows = [json.loads(line) for line in (P/'pilot-results.jsonl').read_text().splitlines()]
+    pilot_ids = {job['id'] for job in course['tasks'][::8]}
+    methods = ('templates', 'relatedness', 'frequency', 'uniform')
+    require({(r['method'],r['job_id']) for r in rows} == {(m,j) for m in methods for j in pilot_ids} and len(rows) == 32, 'Actual pilot delivery coverage differs')
+    totals, spent, wrong, same = collections.defaultdict(collections.Counter), 0, 0, {}
+    for row in rows:
+        method, result, task = row['method'], row['result'], tasks[row['job_id']]
+        program = result['program']
+        if program is not None:
+            require(verifier.outcome(program, task['diagnostic_inputs'], task['diagnostic_outputs'], config)['passed'], 'Delivered program fails disclosed examples')
+        actual = verifier.outcome(program, task['score_inputs'], task['score_outputs'], config)
+        require(actual == row['buyer'], 'Independent delivered outputs/acceptance/work differ')
+        require(type(result['work']['total']) is int and 0 <= result['work']['total'] <= 50000, 'Serving meter bound differs')
+        if method == 'templates':
+            require(result['commitment'] == digest({k:v for k,v in result.items() if k != 'commitment'}), 'Template delivery commitment differs')
+            if result['selection_metadata'] and result['selection_metadata']['source'] == 'field_templates':
+                metadata = result['selection_metadata']
+                source = archived_programs[metadata['source_program_sha256']]
+                normalized = bind_fields(source['expr'], {})
+                require(digest(normalized) == metadata['template_sha256'], 'Selected template provenance differs')
+
+                def bind(node):
+                    value = copy.deepcopy(node)
+                    for key in ('index',) if node['op']=='field' else ('field',) if node['op']=='if_equal' else ():
+                        value[key] = metadata['binding'][node[key]]
+                    for key in ('arg','then','else'):
+                        if key in value:
+                            value[key] = bind(value[key])
+                    if 'parts' in value:
+                        value['parts'] = list(map(bind,value['parts']))
+                    return value
+
+                require(bind(normalized) == program['expr'], 'Field-template binding differs')
+        else:
+            require(all(a in macro_ids for a in result['abstractions_used']), 'Unadmitted abstraction used')
+            require(result['commitment'] == digest({'inputs':task['diagnostic_inputs'], 'outputs':task['diagnostic_outputs'], 'config':config, 'library_sha256':digest(library), 'ordering':method, 'maximum_states':256, 'argument_beam':8, 'maximum_frontier':4096, 'budget':50000, 'program':program}), 'Abstraction delivery commitment differs')
+            same.setdefault(task['id'], {})[method] = {k:result[k] for k in ('work','states','attempted','status')}
+        spent += result['work']['total'] + actual['total_work']
+        require(spent == row['cumulative_serving_and_buyer_work'], 'Cumulative work differs')
+        totals[method].update({'jobs':1, 'accepted':int(actual['passed']), 'wrong':int(program is not None and not actual['passed']), 'accepted_multi_abstraction':int(actual['passed'] and len(result.get('abstractions_used',[]))>=2), 'work':result['work']['total']+actual['total_work']})
+    for method, values in totals.items():
+        for key, value in values.items():
+            require(summary['reports'][method][key] == value, 'Pilot aggregate differs')
+    require(spent == summary['serving_and_buyer_work'], 'Study serving total differs')
+    report = {'schema':'nuria.abstraction-independent-pilot-audit.v1', 'verified':True,
+              'source_freeze_sha256':file_hash(P/'controller-freeze-02.json'), 'course_sha256':file_hash(P/'development-course.json'),
+              'summary_sha256':file_hash(P/'pilot-summary.json'), 'trace_sha256':file_hash(P/'pilot-results.jsonl'),
+              'independent_audit_source_sha256':file_hash(Path(__file__)),
+              'course_tasks_reference_checked':64, 'reference_target_rows_replayed':checked_target_rows,
+              'controller_jobs_per_method':8, 'controller_deliveries_replayed':32,
+              'historical_programs':390, 'historical_skeletons':len(historical_skeletons), 'mining_parents':128,
+              'abstractions':63, 'support_expansions_checked':support_count, 'maximum_support_expanded_nodes':max_expanded,
+              'accepted':{m:v['accepted'] for m,v in totals.items()}, 'wrong':{m:v['wrong'] for m,v in totals.items()},
+              'serving_and_buyer_work':spent,
+              'identical_abstraction_ordering_metrics_on_all8':all(v['relatedness']==v['frequency']==v['uniform'] for v in same.values()),
+              'findings':['All64 authored task reference outputs match both frozen independent Python target semantics and the original independent AST verifier.',
+                          'All32 actual controller records, including abstentions, match independent final-output/acceptance/buyer-work replay and complete cumulative arithmetic.',
+                          'Whole-program structural exclusions cover all390 prior accepted programs; macro support expansion and parent provenance bind to the128 selected historical records.',
+                          'The actual controller pilot covers8 tasks, one per structural cluster, not64. No abstraction controller solved a task; templates solved2/8.',
+                          'The three abstraction orderings have identical work/states/attempted/status per task; frozen-code inspection suggests first-expansion work starvation, but no frontier-pop witness was recorded.',
+                          'Structural novelty does not establish semantic novelty: an older simpler program can agree with a structurally distinct target on every generated row.'],
+              'scope':'Independent stored-evidence and output replay. Does not execute controllers, reproduce search visitation, model fitting, CPU timing or externally authenticate historical buyers. No neural ranker was tested in this pilot; no neural or qualification success is established.'}
+    with (P/'independent-pilot-audit.json').open('x') as stream:
+        json.dump(report,stream,indent=2)
+    print(json.dumps(report,indent=2))
+
+
+if __name__ == '__main__':
+    main()

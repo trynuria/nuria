@@ -1,0 +1,117 @@
+"""Independent native-operation pilot replay, without controller execution."""
+
+import collections
+import importlib.util
+import json
+from pathlib import Path
+
+P = Path(__file__).resolve().parents[1] / 'artifacts'
+
+
+def module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    value = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(value)
+    return value
+
+
+prior_code = module(P / 'audit_pilot02_v1.py', 'prior_native_result_audit')
+audit = prior_code.audit
+read, digest, require, file_hash = audit.read, audit.digest, audit.require, audit.file_hash
+
+
+def main():
+    freeze, summary, course, library, previous = map(read, ('controller-freeze-04.json','pilot03-summary.json','development-course.json','balanced-library-02.json','independent-pilot02-audit.json'))
+    require(previous['verified'], 'Previous replay failed')
+    snapshots = P / 'attempt-03-sources'
+    for relative, expected in freeze['source_sha256'].items():
+        require(file_hash(snapshots / relative)==expected, 'Third frozen source identity differs: '+relative)
+    require(summary['source_freeze_sha256']==file_hash(P/'controller-freeze-04.json'), 'Third pilot source-freeze binding differs')
+    require(file_hash(P/'development-course.json')==freeze['course_sha256']==read('independent-pilot-audit.json')['course_sha256'], 'Original course identity differs')
+    require(digest(library)==freeze['same_grammar_sha256']==read('controller-freeze-03.json')['same_grammar_sha256'], 'Admitted grammar changed')
+    require(file_hash(P/'pilot02-results.jsonl')==previous['trace_sha256'], 'Previous result bytes changed')
+    verifier=module(snapshots/'scripts/verify_active_skill_results.py','pilot03_original_independent_executor')
+    config=course['config']
+    jobs={t['id']:t for t in course['tasks'][::8]}
+    baseline={r['job_id']:r for r in (json.loads(line)for line in(P/'pilot-results.jsonl').read_text().splitlines())if r['method']=='templates'}
+    require(set(jobs)==set(baseline), 'Original template coverage differs')
+    for job_id,row in baseline.items():
+        job=jobs[job_id]
+        require(verifier.outcome(row['result']['program'],job['score_inputs'],job['score_outputs'],config)==row['buyer'],'Original baseline output differs')
+    methods=('native_only_relatedness','native_plus_relatedness','native_plus_frequency','native_plus_uniform')
+    require(freeze['methods']==list(methods), 'Third pilot declared method set differs')
+    rows=[json.loads(line)for line in(P/'pilot03-results.jsonl').read_text().splitlines()]
+    require(len(rows)==32 and {(r['method'],r['job_id'])for r in rows}=={(m,j)for m in methods for j in jobs},'Third pilot actual delivery coverage differs')
+    macros={a['sha256']:a for a in library['abstractions']}
+    totals,successes=collections.defaultdict(collections.Counter),collections.defaultdict(set)
+    spent=read('pilot02-summary.json')['all_serving_buyer_work_including_first_pilot']
+    require(spent==freeze['prior_recorded_serving_buyer_work']==previous['combined_serving_buyer_work'],'Prior cumulative work differs')
+    witnesses,additional=[],[]
+    for row in rows:
+        method,result,job=row['method'],row['result'],jobs[row['job_id']]
+        ordering=method.removeprefix('native_only_').removeprefix('native_plus_')
+        use_abstractions=method!='native_only_relatedness'
+        require(result['use_native'] is True and result['use_abstractions'] is use_abstractions,'Native/learned grammar switch differs')
+        require(result['search_version']=='verified-text-abstraction-search-v3-native','Native engine version differs')
+        expected={'inputs':job['diagnostic_inputs'],'outputs':job['diagnostic_outputs'],'config':config,'library_sha256':digest(library),'ordering':ordering,'use_native':True,'use_abstractions':use_abstractions,'maximum_states':256,'argument_beam':8,'maximum_frontier':4096,'budget':50000,'program':result['program']}
+        require(result['commitment']==digest(expected),'Native pilot committed program differs')
+        require(all(type(v)is int and v>=0 for v in result['work'].values()) and result['work']['total']<=50000,'Native search work invalid')
+        require(0<=result['expanded_states']<=result['states']<=256 and result['expanded_states']<=result['expansion_turns'] and result['attempted']<=config['max_candidates'],'Native state bound differs')
+        if not use_abstractions:
+            require(not result['abstractions_used'] and result['invocation_counts']['macro']==0,'Native-only arm used learned subskills')
+        actual=verifier.outcome(result['program'],job['score_inputs'],job['score_outputs'],config)
+        require(actual==row['buyer'],'Native pilot output, acceptance or buyer work differs')
+        if result['program'] is not None:
+            require(verifier.outcome(result['program'],job['diagnostic_inputs'],job['diagnostic_outputs'],config)['passed'],'Native proposal fails disclosed evidence')
+            require(audit.nodes(result['program']['expr'])<=config['max_ops'] and audit.depth(result['program']['expr'])<=8,'Native delivered AST exceeds authority')
+        used=collections.Counter(result['abstractions_used'])
+        for identity,count in used.items():
+            require(identity in macros and result['program'] is not None,'Unadmitted learned subskill identity')
+            occurrences=list(prior_code.occurrences(macros[identity]['body'],result['program']['expr']))
+            require(len(occurrences)>=count,'Recorded subskill use has no matching native expansion')
+            witnesses.append({'method':method,'job_id':job['id'],'abstraction_sha256':identity,'recorded_uses':count,'matches':occurrences})
+        if actual['passed']:
+            successes[method].add(job['id'])
+            if not baseline[job['id']]['buyer']['passed']:
+                additional.append({'method':method,'job_id':job['id'],'family':job['family'],'recorded_calls':len(result['abstractions_used']),'distinct_subskill_ids':len(used),'subskill_ids':result['abstractions_used'],'expanded_nodes':audit.nodes(result['program']['expr']),'diagnostic_exact_rows':4,'buyer_exact_rows':24,'program':result['program'],'reference_program':job['private_recipe']['program']})
+        spent+=result['work']['total']+actual['total_work']
+        require(spent==row['cumulative_serving_and_buyer_work'],'Native cumulative work differs')
+        totals[method].update({'jobs':1,'accepted':int(actual['passed']),'wrong':int(result['program']is not None and not actual['passed']),'accepted_multi_abstraction':int(actual['passed']and sum(used.values())>=2),'work':result['work']['total']+actual['total_work']})
+    for method,values in totals.items():
+        for key,value in values.items():
+            require(summary['reports'][method][key]==value,'Native pilot summary arithmetic differs')
+    require(spent==summary['all_serving_buyer_work_including_prior_pilots'],'Native aggregate cumulative work differs')
+    baseline_successes={j for j,r in baseline.items()if r['buyer']['passed']}
+    paired={m:{'method_only':len(successes[m]-baseline_successes),'template_only':len(baseline_successes-successes[m]),'both':len(successes[m]&baseline_successes)}for m in methods}
+    require(len(additional)==1 and additional[0]['family']=='trim-upper-segment' and additional[0]['recorded_calls']==4,'Expected additional construction differs')
+    # A post-hoc semantic counterexample is not added to the registered pilot.
+    extra=additional[0]
+    job=jobs[extra['job_id']]
+    values=['  Alpha Beta Gamma-Delta Omega-Zeta 123456  ']*6
+    encoded=json.dumps(values,separators=(',',':'))
+    reference_output,_=verifier.text_run(extra['reference_program'],encoded,config)
+    delivered_output,_=verifier.text_run(extra['program'],encoded,config)
+    require(reference_output!=delivered_output,'Semantic counterexample did not distinguish the programs')
+    counterexample={'input':encoded,'reference_output':reference_output,'delivered_output':delivered_output,'scope':'Post-hoc outside-generator-distribution semantic witness only; not added to pilot scoring or used for learning.'}
+    report={'schema':'nuria.abstraction-independent-native-pilot-audit.v1','verified':True,
+            'source_freeze_sha256':file_hash(P/'controller-freeze-04.json'),'source_snapshot':'attempt-03-sources',
+            'summary_sha256':file_hash(P/'pilot03-summary.json'),'trace_sha256':file_hash(P/'pilot03-results.jsonl'),
+            'audit_source_sha256':file_hash(Path(__file__)),'prior_provenance_audit_sha256':file_hash(P/'independent-pilot-audit.json'),
+            'new_deliveries_replayed':32,'reused_template_deliveries_replayed':8,'jobs_per_method':8,
+            'accepted':{m:totals[m]['accepted']for m in methods},'wrong':{m:totals[m]['wrong']for m in methods},
+            'combined_serving_buyer_work':spent,'paired_vs_templates':paired,
+            'additional_template_missed_solutions':additional,'subskill_expansion_witnesses':witnesses,'post_hoc_semantic_counterexample':counterexample,
+            'findings':['All32 new committed deliveries, outputs, acceptance and buyer work reconstruct independently; the8 reused template outcomes also match.',
+                        'Native-plus-relatedness accepts3/8 withzero wrong, versus2/8 templates and0/8 the same native-only relatedness engine. Its additional acceptance is real on the declared24 buyer rows.',
+                        'The additional trim-upper-segment result uses4 admitted subskill calls,3distinct identities and matching expanded native AST occurrences. These are conventional relatedness-guided subskills, not neural choices.',
+                        'The delivered program extracts and uppercases the first two tokens; the reference rule uppercases the whole first delimiter segment. The authored generator always places two words in that segment, so the rules coincide in this task distribution.',
+                        'A three-word first-segment counterexample distinguishes the delivered and reference programs. Structural holdout and finite-row acceptance do not establish general semantic equivalence.',
+                        'Same8developmenttasks were reused after multiple implementation revisions; no fresh qualification or neural advantage is established.'],
+            'scope':'Independent output, commitment, static subskill expansion, acceptance, buyer-work and aggregate replay. Search visitation, neural training, CPU timing and complete invocation ancestry are not independently re-executed. Static preparation/mining work is separate from the reported serving-and-buyer cumulative total.'}
+    with(P/'independent-pilot03-audit.json').open('x')as stream:
+        json.dump(report,stream,indent=2)
+    print(json.dumps({k:v for k,v in report.items()if k not in('subskill_expansion_witnesses','additional_template_missed_solutions')},indent=2))
+
+
+if __name__=='__main__':
+    main()

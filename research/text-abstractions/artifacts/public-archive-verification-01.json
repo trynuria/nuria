@@ -1,0 +1,607 @@
+{
+  "schema": "nuria.public-text-abstraction-replay.v1",
+  "verified": true,
+  "manifest": {
+    "files": 109,
+    "bytes": 8210412,
+    "sha256": "07f4dd621cd92cd93585d824014a9b6ae545eb8dc242b02387223a8079df6d5c"
+  },
+  "identities": {
+    "summary_links": 6,
+    "source_snapshot_links": 25,
+    "frozen_models": {
+      "spiking": "272e1bc298bd50f7b1a29ed7a3ba5df162f2d7861502d22998bb074579043f22",
+      "frozen_input": "3277c356557555df0594d2b1a7d3382553ccf0524c9d51d50d0cbf5a27fd2cac",
+      "continuous": "8d8c03926a104281539538cfa8a8304f00cb6d01afbccf11fd139edec75d4781",
+      "linear": "635c9a11aba2a67bd0467b48c4141be4ae7ed40dad5e475cabb954e24cd1bc79",
+      "knn": "2f9ee4ed38d05f631327adf693dc72540d448feb5db46392fb90c92f2e82a3c9",
+      "original-spiking": "272e1bc298bd50f7b1a29ed7a3ba5df162f2d7861502d22998bb074579043f22",
+      "coverage-spiking": "3861c322eb91f27633821989513ed471d80d210e49e8b0c1b3d40d7aa1232e08",
+      "context-spiking": "e91743d8a8fc21016cff196322a0d0368896dbce228f80440a70633d698b8396",
+      "context-frozen_input": "6f144d0d5ac9d9f422c9c238701ca51403313207904b4c50948f5e7a6218d714",
+      "context-continuous": "80e047b9be5e6543f0a34a434d43c9b72d13056bd9cb2b8e2be13fa92f58a0de",
+      "context-linear": "40dc5a2be749949ca95f3377d7ffde81bb74a16b86b9a50ccec6e2efc9e5e89c",
+      "context-knn": "806fb723f1f4f5ad962c4866514c1464e513c694065f5957d4a701bf2cb94bc9"
+    }
+  },
+  "runs": {
+    "pilot-results": {
+      "deliveries": 32,
+      "tasks": 8,
+      "methods": {
+        "templates": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 308024,
+          "buyer_work": 1450,
+          "work": 309474,
+          "accepted_multi_abstraction": 0
+        },
+        "relatedness": {
+          "jobs": 8,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 399928,
+          "buyer_work": 384,
+          "work": 400312,
+          "accepted_multi_abstraction": 0
+        },
+        "frequency": {
+          "jobs": 8,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 399928,
+          "buyer_work": 384,
+          "work": 400312,
+          "accepted_multi_abstraction": 0
+        },
+        "uniform": {
+          "jobs": 8,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 399928,
+          "buyer_work": 384,
+          "work": 400312,
+          "accepted_multi_abstraction": 0
+        }
+      },
+      "observer_work": 2795
+    },
+    "pilot02-results": {
+      "deliveries": 24,
+      "tasks": 8,
+      "methods": {
+        "relatedness": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 304735,
+          "buyer_work": 1642,
+          "work": 306377,
+          "accepted_multi_abstraction": 1
+        },
+        "frequency": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 305312,
+          "buyer_work": 1450,
+          "work": 306762,
+          "accepted_multi_abstraction": 0
+        },
+        "uniform": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 305312,
+          "buyer_work": 1450,
+          "work": 306762,
+          "accepted_multi_abstraction": 0
+        }
+      },
+      "observer_work": 5153
+    },
+    "pilot03-results": {
+      "deliveries": 32,
+      "tasks": 8,
+      "methods": {
+        "native_only_relatedness": {
+          "jobs": 8,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 399955,
+          "buyer_work": 384,
+          "work": 400339,
+          "accepted_multi_abstraction": 0
+        },
+        "native_plus_relatedness": {
+          "jobs": 8,
+          "accepted": 3,
+          "wrong": 0,
+          "search_work": 266677,
+          "buyer_work": 3541,
+          "work": 270218,
+          "accepted_multi_abstraction": 2
+        },
+        "native_plus_frequency": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 336320,
+          "buyer_work": 1450,
+          "work": 337770,
+          "accepted_multi_abstraction": 0
+        },
+        "native_plus_uniform": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 309226,
+          "buyer_work": 1450,
+          "work": 310676,
+          "accepted_multi_abstraction": 0
+        }
+      },
+      "observer_work": 7761
+    },
+    "development64-results": {
+      "deliveries": 704,
+      "tasks": 64,
+      "methods": {
+        "templates": {
+          "jobs": 64,
+          "accepted": 16,
+          "wrong": 0,
+          "search_work": 2464207,
+          "buyer_work": 11625,
+          "work": 2475832,
+          "accepted_multi_abstraction": 0
+        },
+        "native_only_relatedness": {
+          "jobs": 64,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 3199170,
+          "buyer_work": 3072,
+          "work": 3202242,
+          "accepted_multi_abstraction": 0
+        },
+        "native_plus_relatedness": {
+          "jobs": 64,
+          "accepted": 24,
+          "wrong": 0,
+          "search_work": 2132344,
+          "buyer_work": 28372,
+          "work": 2160716,
+          "accepted_multi_abstraction": 16
+        },
+        "native_plus_frequency": {
+          "jobs": 64,
+          "accepted": 16,
+          "wrong": 0,
+          "search_work": 2692057,
+          "buyer_work": 11625,
+          "work": 2703682,
+          "accepted_multi_abstraction": 0
+        },
+        "native_plus_uniform": {
+          "jobs": 64,
+          "accepted": 16,
+          "wrong": 0,
+          "search_work": 2474210,
+          "buyer_work": 11625,
+          "work": 2485835,
+          "accepted_multi_abstraction": 0
+        },
+        "spiking": {
+          "jobs": 64,
+          "accepted": 16,
+          "wrong": 0,
+          "search_work": 2419461,
+          "buyer_work": 11625,
+          "work": 2431086,
+          "accepted_multi_abstraction": 0
+        },
+        "frozen_input": {
+          "jobs": 64,
+          "accepted": 16,
+          "wrong": 0,
+          "search_work": 2419624,
+          "buyer_work": 11625,
+          "work": 2431249,
+          "accepted_multi_abstraction": 0
+        },
+        "continuous": {
+          "jobs": 64,
+          "accepted": 16,
+          "wrong": 0,
+          "search_work": 2419916,
+          "buyer_work": 11625,
+          "work": 2431541,
+          "accepted_multi_abstraction": 0
+        },
+        "linear": {
+          "jobs": 64,
+          "accepted": 18,
+          "wrong": 0,
+          "search_work": 2345509,
+          "buyer_work": 13795,
+          "work": 2359304,
+          "accepted_multi_abstraction": 0
+        },
+        "knn": {
+          "jobs": 64,
+          "accepted": 23,
+          "wrong": 0,
+          "search_work": 2326438,
+          "buyer_work": 20954,
+          "work": 2347392,
+          "accepted_multi_abstraction": 6
+        },
+        "native_only_spiking": {
+          "jobs": 64,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 3199955,
+          "buyer_work": 3072,
+          "work": 3203027,
+          "accepted_multi_abstraction": 0
+        }
+      },
+      "observer_work": 157767
+    },
+    "context-replay-pilot-results-02": {
+      "deliveries": 64,
+      "tasks": 8,
+      "methods": {
+        "imagined_templates_original_first": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 308024,
+          "buyer_work": 1450,
+          "work": 309474,
+          "accepted_multi_abstraction": 0
+        },
+        "imagined_templates_small_first": {
+          "jobs": 8,
+          "accepted": 3,
+          "wrong": 0,
+          "search_work": 269552,
+          "buyer_work": 2077,
+          "work": 271629,
+          "accepted_multi_abstraction": 0
+        },
+        "coverage-spiking": {
+          "jobs": 8,
+          "accepted": 1,
+          "wrong": 0,
+          "search_work": 351288,
+          "buyer_work": 1060,
+          "work": 352348,
+          "accepted_multi_abstraction": 0
+        },
+        "context-spiking": {
+          "jobs": 8,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 399965,
+          "buyer_work": 384,
+          "work": 400349,
+          "accepted_multi_abstraction": 0
+        },
+        "context-frozen_input": {
+          "jobs": 8,
+          "accepted": 3,
+          "wrong": 0,
+          "search_work": 262232,
+          "buyer_work": 4597,
+          "work": 266829,
+          "accepted_multi_abstraction": 2
+        },
+        "context-continuous": {
+          "jobs": 8,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 399953,
+          "buyer_work": 384,
+          "work": 400337,
+          "accepted_multi_abstraction": 0
+        },
+        "context-linear": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 303651,
+          "buyer_work": 1930,
+          "work": 305581,
+          "accepted_multi_abstraction": 1
+        },
+        "context-knn": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 312689,
+          "buyer_work": 2815,
+          "work": 315504,
+          "accepted_multi_abstraction": 1
+        }
+      },
+      "observer_work": 16738
+    },
+    "work-fair-pilot-results-01": {
+      "deliveries": 88,
+      "tasks": 8,
+      "methods": {
+        "relatedness": {
+          "jobs": 8,
+          "accepted": 3,
+          "wrong": 0,
+          "search_work": 361943,
+          "buyer_work": 3829,
+          "work": 365772,
+          "accepted_multi_abstraction": 2
+        },
+        "frequency": {
+          "jobs": 8,
+          "accepted": 1,
+          "wrong": 0,
+          "search_work": 373379,
+          "buyer_work": 916,
+          "work": 374295,
+          "accepted_multi_abstraction": 0
+        },
+        "uniform": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 342004,
+          "buyer_work": 1450,
+          "work": 343454,
+          "accepted_multi_abstraction": 0
+        },
+        "original-spiking": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 306529,
+          "buyer_work": 1450,
+          "work": 307979,
+          "accepted_multi_abstraction": 0
+        },
+        "coverage-spiking": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 340352,
+          "buyer_work": 2026,
+          "work": 342378,
+          "accepted_multi_abstraction": 1
+        },
+        "context-spiking": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 346893,
+          "buyer_work": 3535,
+          "work": 350428,
+          "accepted_multi_abstraction": 1
+        },
+        "context-frozen_input": {
+          "jobs": 8,
+          "accepted": 3,
+          "wrong": 0,
+          "search_work": 282208,
+          "buyer_work": 4021,
+          "work": 286229,
+          "accepted_multi_abstraction": 2
+        },
+        "context-continuous": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 347574,
+          "buyer_work": 3535,
+          "work": 351109,
+          "accepted_multi_abstraction": 1
+        },
+        "context-linear": {
+          "jobs": 8,
+          "accepted": 3,
+          "wrong": 0,
+          "search_work": 314545,
+          "buyer_work": 4405,
+          "work": 318950,
+          "accepted_multi_abstraction": 2
+        },
+        "context-knn": {
+          "jobs": 8,
+          "accepted": 2,
+          "wrong": 0,
+          "search_work": 362492,
+          "buyer_work": 3391,
+          "work": 365883,
+          "accepted_multi_abstraction": 1
+        },
+        "native-only-context-spiking": {
+          "jobs": 8,
+          "accepted": 0,
+          "wrong": 0,
+          "search_work": 399960,
+          "buyer_work": 384,
+          "work": 400344,
+          "accepted_multi_abstraction": 0
+        }
+      },
+      "observer_work": 33238
+    }
+  },
+  "budget": {
+    "events": 1410,
+    "settled": 704,
+    "pending": 0,
+    "recorded_prior_work_anchor": 8654107,
+    "scope": "Reservations and settlements replayed; earlier mining work is an anchor."
+  },
+  "broader_input_challenge": {
+    "tasks": 64,
+    "unique_inputs": 2048,
+    "method_job_evaluations": 704,
+    "methods": {
+      "templates": {
+        "jobs": 64,
+        "proposed_jobs": 16,
+        "abstained_jobs": 48,
+        "original_exact_jobs": 16,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 165,
+        "incorrect_proposed_jobs": 16,
+        "execution_work": 14725,
+        "comparison_work": 4218,
+        "total_work": 18943
+      },
+      "native_only_relatedness": {
+        "jobs": 64,
+        "proposed_jobs": 0,
+        "abstained_jobs": 64,
+        "original_exact_jobs": 0,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 0,
+        "incorrect_proposed_jobs": 0,
+        "execution_work": 0,
+        "comparison_work": 4218,
+        "total_work": 4218
+      },
+      "native_plus_relatedness": {
+        "jobs": 64,
+        "proposed_jobs": 24,
+        "abstained_jobs": 40,
+        "original_exact_jobs": 24,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 177,
+        "incorrect_proposed_jobs": 24,
+        "execution_work": 38801,
+        "comparison_work": 4311,
+        "total_work": 43112
+      },
+      "native_plus_frequency": {
+        "jobs": 64,
+        "proposed_jobs": 16,
+        "abstained_jobs": 48,
+        "original_exact_jobs": 16,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 165,
+        "incorrect_proposed_jobs": 16,
+        "execution_work": 14725,
+        "comparison_work": 4218,
+        "total_work": 18943
+      },
+      "native_plus_uniform": {
+        "jobs": 64,
+        "proposed_jobs": 16,
+        "abstained_jobs": 48,
+        "original_exact_jobs": 16,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 165,
+        "incorrect_proposed_jobs": 16,
+        "execution_work": 14725,
+        "comparison_work": 4218,
+        "total_work": 18943
+      },
+      "spiking": {
+        "jobs": 64,
+        "proposed_jobs": 16,
+        "abstained_jobs": 48,
+        "original_exact_jobs": 16,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 165,
+        "incorrect_proposed_jobs": 16,
+        "execution_work": 14725,
+        "comparison_work": 4218,
+        "total_work": 18943
+      },
+      "frozen_input": {
+        "jobs": 64,
+        "proposed_jobs": 16,
+        "abstained_jobs": 48,
+        "original_exact_jobs": 16,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 165,
+        "incorrect_proposed_jobs": 16,
+        "execution_work": 14725,
+        "comparison_work": 4218,
+        "total_work": 18943
+      },
+      "continuous": {
+        "jobs": 64,
+        "proposed_jobs": 16,
+        "abstained_jobs": 48,
+        "original_exact_jobs": 16,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 165,
+        "incorrect_proposed_jobs": 16,
+        "execution_work": 14725,
+        "comparison_work": 4218,
+        "total_work": 18943
+      },
+      "linear": {
+        "jobs": 64,
+        "proposed_jobs": 18,
+        "abstained_jobs": 46,
+        "original_exact_jobs": 18,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 169,
+        "incorrect_proposed_jobs": 18,
+        "execution_work": 18226,
+        "comparison_work": 4243,
+        "total_work": 22469
+      },
+      "knn": {
+        "jobs": 64,
+        "proposed_jobs": 23,
+        "abstained_jobs": 41,
+        "original_exact_jobs": 23,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 183,
+        "incorrect_proposed_jobs": 23,
+        "execution_work": 29828,
+        "comparison_work": 4300,
+        "total_work": 34128
+      },
+      "native_only_spiking": {
+        "jobs": 64,
+        "proposed_jobs": 0,
+        "abstained_jobs": 64,
+        "original_exact_jobs": 0,
+        "challenge_exact_jobs": 0,
+        "challenge_rows": 2048,
+        "challenge_correct_rows": 0,
+        "incorrect_proposed_jobs": 0,
+        "execution_work": 0,
+        "comparison_work": 4218,
+        "total_work": 4218
+      }
+    },
+    "observer_work": 221803
+  },
+  "deliveries_replayed": 944,
+  "observer_work": 445255,
+  "scope": [
+    "Authored development data; repeatedly exposed pilot tasks are retained.",
+    "Recorded proposals replayed in the separate original text interpreter.",
+    "Broader challenge labels are fixed recorded reference outputs.",
+    "Original search trajectories, gradients and CPU timing are not replayed.",
+    "Neural superiority and broader semantic generalization were not shown."
+  ]
+}

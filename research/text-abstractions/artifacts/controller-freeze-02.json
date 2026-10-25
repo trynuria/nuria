@@ -1,0 +1,40 @@
+{
+  "created_utc": "2026-10-24T20:59:25Z",
+  "schema": "nuria.abstraction-development-freeze.v1",
+  "source_sha256": {
+    "cognition/text_abstractions.py": "d5d358e7c9209e078cab7aa0c0f54c7bb023ceedbbf4ca8aa50b0befde10ccaa",
+    "cognition/abstraction_search.py": "4dbe8e26191740b112e633ac7e82e227566e42363e3841bfb9823f7bb81e5d85",
+    "cognition/template_reuse.py": "e892bdf70eb26b43e1a0e31933dab6b25b77fd254330311cd7daef1dc9eec0c6",
+    "scripts/build_abstraction_tasks.py": "c4fc22494020c01d61ecec5bc1d44c15ba5c307462f3feb54a9584267aa554e6",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  },
+  "initial_protocol_sha256": "4bf586129cdc60763681e8051dbf7e6c4d895bc7ba6ecf1ddd3bc30c11ad0578",
+  "static_preparation_revision": "Balanced16unary plus48global, arity-first. Both mining attempts retained; no new controller result preceded this selection.",
+  "grammar_sha256": "586f9a6dbeef89dbc875caee9bf11ec27913b7a0c3b2d0a97877912aa6dc46a5",
+  "all_historical_programs": 390,
+  "template_preparation": {
+    "binding_policy": "all-common-fields-with-alias-preservation-and-collapse",
+    "config_sha256": "dafac95792448f3549ff85e06bf972eb4b0e31367bdc081fd39bc3c678c14a9f",
+    "history_programs": 390,
+    "implementation_sha256": "3217c1c9229d800d9afb1e962e4eca77238d6c01558fcf17dd043e91464d4714",
+    "preparation_sha256": "9c75d293ee74e48993d23934ac6b507fe0c47e79a2b971db1f4a0a097014ddde",
+    "preparation_work": {
+      "byte_blocks": 5236,
+      "candidates": 390,
+      "errors": 0,
+      "primitive_attempts": 4246,
+      "semantic_duplicates": 344,
+      "total": 9872
+    },
+    "schema": "whole-program-field-templates-v1",
+    "source_program_serialized_bytes": 77913,
+    "source_programs_sha256": "85235995f09a09d9c2d602040e44c84e9be0cde8b6439c771277c746b3ddccc5",
+    "status": "prepared",
+    "stored_bytes": 16153,
+    "template_duplicates": 344,
+    "templates": 46
+  },
+  "shared_grammar_preparation_work": 21609,
+  "decision": "Conventional whole-template control receives all390 accepted historical programs, while abstraction miner has bounded128-parent capacity. All same-grammar arms share the identical63 learned abstractions. Extra baseline history is conservative, not a neural data advantage.",
+  "remaining_model_hyperparameters": "exact protocol01, not tuned on this pilot"
+}

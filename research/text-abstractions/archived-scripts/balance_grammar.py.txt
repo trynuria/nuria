@@ -1,0 +1,18 @@
+from pathlib import Path
+from collections import Counter
+import json,time
+from cognition.text_abstractions import extract_abstractions
+from cognition.abstraction_search import prepare_grammar
+from cognition.skills import fingerprint
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts'
+history=json.loads((P/'history.json').read_text());initial=json.loads((P/'library.json').read_text());started=time.process_time()
+unary=extract_abstractions([x['record']for x in history['selected']],history['configuration'],source_id=initial['source_id'],max_arity=1,max_abstractions=16,maximum_work=10000000)
+with(P/'unary-library-02.json').open('x')as f:json.dump(unary,f,indent=2)
+by_hash={a['sha256']:a for a in unary['abstractions']}
+for a in initial['abstractions'][:48]:by_hash.setdefault(a['sha256'],a)
+library={**initial,'abstractions':list(by_hash.values()),'selection':{'schema':'nuria.arity-balanced-grammar.v1','rule':'up to16 unary compression-ranked abstractions plus first48 global compression-ranked, deduplicated. Chosen after static initial-library arity inspection and before any new course/controller run.','initial_library_sha256':fingerprint(initial),'unary_library_sha256':fingerprint(unary)},'serialized_abstraction_bytes':sum(len(json.dumps(a,sort_keys=True,separators=(',',':')).encode())for a in by_hash.values())}
+with(P/'balanced-library-02.json').open('x')as f:json.dump(library,f,indent=2)
+prepared=prepare_grammar(library,history['configuration'])
+report={'abstractions':len(by_hash),'arities':dict(Counter(a['arity']for a in by_hash.values())),'initial_mining_work':initial['work'],'extra_unary_mining_work':unary['work'],'balanced_preparation_work':prepared.preparation_work,'cpu_seconds':time.process_time()-started,'library_sha256':fingerprint(library)}
+with(P/'balanced-preparation-summary-02.json').open('x')as f:json.dump(report,f,indent=2)
+print(json.dumps(report,indent=2))

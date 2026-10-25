@@ -1,0 +1,39 @@
+from pathlib import Path
+from collections import defaultdict,Counter
+import gzip,json,hashlib,time,sys
+ROOT=Path(__file__).resolve().parents[3];sys.path.insert(0,str(ROOT))
+from cognition.text_abstractions import extract_abstractions
+from cognition.abstraction_search import prepare_grammar
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import CONFIG,skeleton_hash
+P=Path(__file__).resolve().parents[1] / 'artifacts'
+files=[ROOT/'research/neural-routing-loop/development'/d/f for d,f in [('semantic-priority-dev-06','collection-0.jsonl.gz'),('semantic-priority-dev-06','collection-1.jsonl.gz'),('semantic-priority-dev-08','collection-new-0.jsonl.gz'),('semantic-priority-dev-08','collection-new-1.jsonl.gz')]]
+started=time.process_time();buckets=defaultdict(list);seen=set();skeletons=set();origins=0;source_hashes={}
+for path in files:
+ source_hashes[str(path.relative_to(ROOT))]=hashlib.sha256(path.read_bytes()).hexdigest()
+ with gzip.open(path,'rt') as f:
+  for line in f:
+   d=json.loads(line);origins+=1
+   for program in d['accepted_programs']:
+    key=fingerprint(program);sk=skeleton_hash(program);skeletons.add(sk)
+    if key in seen:continue
+    seen.add(key)
+    record={'program':program,'program_sha256':key,'origin_sha256':fingerprint(d['job_id']),'evidence_sha256':d.get('buyer_evidence_sha256',d.get('acquisition_attempt_receipts_sha256'))}
+    buckets[sk].append({'record':record,'inputs':d['disclosed_inputs'],'outputs':d['disclosed_outputs'],'historical_job_id':d['job_id'],'archive':str(path.relative_to(ROOT))})
+selected=[];used_origins=set()
+for position in range(max(map(len,buckets.values()))):
+ for sk in sorted(buckets):
+  if position>=len(buckets[sk]):continue
+  item=buckets[sk][position]
+  if item['record']['origin_sha256'] in used_origins:continue
+  selected.append(item);used_origins.add(item['record']['origin_sha256'])
+  if len(selected)==128:break
+ if len(selected)==128:break
+history={'schema':'nuria.text-abstraction-history.v1','selection':'Round robin over sorted canonical whole-program structural buckets, retaining chronological distinct programs and one program per historical origin; first128. Only previously buyer-accepted program ASTs, disclosed rows and archived receipt identities. No new-course task/target or generator ASTs enter mining.','source_archives':source_hashes,'historical_origins_scanned':origins,'unique_programs':len(seen),'all_historical_skeletons':sorted(skeletons),'selected':selected,'configuration':CONFIG,'cpu_seconds':time.process_time()-started}
+with(P/'history.json').open('x')as f:json.dump(history,f,indent=2)
+started=time.process_time();library=extract_abstractions([x['record']for x in selected],CONFIG,source_id='nuria-text-abstractions-development-01',maximum_work=10000000)
+with(P/'library.json').open('x')as f:json.dump(library,f,indent=2)
+prepared=prepare_grammar(library,CONFIG)
+summary={'history_programs':len(selected),'historical_skeletons':len(skeletons),'library_abstractions':len(library['abstractions']),'arities':dict(Counter(a['arity']for a in library['abstractions'])),'mining_work':library['work'],'preparation_work':prepared.preparation_work,'cpu_seconds':time.process_time()-started,'library_fields':list(library),'library_sha256':fingerprint(library)}
+with(P/'preparation-summary.json').open('x')as f:json.dump(summary,f,indent=2)
+print(json.dumps(summary,indent=2))

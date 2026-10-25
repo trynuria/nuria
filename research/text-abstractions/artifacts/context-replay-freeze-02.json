@@ -1,0 +1,41 @@
+{
+  "schema": "nuria.verified-program-context-replay.v2",
+  "created_utc": "2026-10-24T21:53:58Z",
+  "reason": "Original215positive memberships contain183rawinput fields, zero token/split/slice positives among enumerated candidate records. Add actual nonleaf subprogram executions from historical accepted ASTs, and controlled contexts around those same past programs.",
+  "source_sha256": {
+    "cognition/abstraction_search.py": "13800bed6511b6c22b8b7b618191f93732dcc6a6fe8bd357182d4e7a3147e913",
+    "cognition/semantic_guidance.py": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  },
+  "history_sha256": "03f6e78cda6258900a02cba67aa81425a9aa9ef863e998b146e72cd87f07b260",
+  "old_teaching_sha256": "e82086dab6f9d943142d941501471b3ea59eb04b0e9b2961fe195db317ec0008",
+  "contexts": [
+    "original",
+    "upper",
+    "lower",
+    "strip",
+    "prefix3",
+    "suffix3",
+    "pair_join",
+    "upper_pair_join",
+    "slice_pair_join"
+  ],
+  "pairing": "next chronologically selected historical accepted program, wraparound",
+  "labels": "Positive means a nonleaf candidate has the same disclosed values as a proper nonleaf subprogram, changes every matching raw-field vector, and has not already reached the goal. Rawfield/constant candidates are negative. Insert replayed proper subprograms even when initial search did not visit them. Keep all positives and16 hash-selected negatives percontext.",
+  "data_scope": "Contexts beyond original are self-generated mathematical replay tasks, not new customer jobs, external acceptance receipts, paid outcomes or biological activity. Two existing independent interpreters must agree on every replayed label. No new development or challenge recipe/input/target enters this file.",
+  "comparators": "All five methods get identical replay records. Entire imagined-program candidate library is also supplied to an additional conventional whole-template control. Keep original models and all negative results.",
+  "model_kwargs": {
+    "dimension": 64,
+    "width": 64,
+    "ticks": 16,
+    "epochs": 12,
+    "batch_size": 128,
+    "seed": 2026102601
+  },
+  "guidance_multiplier": 12,
+  "maximum_records": 65536,
+  "study_work_ceiling": 75000000,
+  "prior_known_work": 36886013,
+  "observer_reserve": 2000000
+}

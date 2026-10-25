@@ -1,0 +1,40 @@
+{
+  "schema": "nuria.abstraction-development64.v1",
+  "created_utc": "2026-10-24T21:43:31Z",
+  "source_sha256": {
+    "cognition/abstraction_search.py": "13800bed6511b6c22b8b7b618191f93732dcc6a6fe8bd357182d4e7a3147e913",
+    "cognition/text_abstractions.py": "d5d358e7c9209e078cab7aa0c0f54c7bb023ceedbbf4ca8aa50b0befde10ccaa",
+    "cognition/template_reuse.py": "e892bdf70eb26b43e1a0e31933dab6b25b77fd254330311cd7daef1dc9eec0c6",
+    "cognition/semantic_guidance.py": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849",
+    "cognition/exact_feature_neighbors.py": "347370c945c8b89095c60ceec624ec028a5ff18cf83b2c89ea548c9104670cec",
+    "scripts/build_abstraction_tasks.py": "c4fc22494020c01d61ecec5bc1d44c15ba5c307462f3feb54a9584267aa554e6",
+    "scripts/verify_active_skill_results.py": "e792644271372932752c3d2c5815a3f7278a9ae583f1a7b4c9c2106a89695741"
+  },
+  "course_sha256": "7fe5b86989e107f348d9e77674cbedcadadac9d8182c231d11224b1f565f332b",
+  "model_sha256": {
+    "spiking": "272e1bc298bd50f7b1a29ed7a3ba5df162f2d7861502d22998bb074579043f22",
+    "frozen_input": "3277c356557555df0594d2b1a7d3382553ccf0524c9d51d50d0cbf5a27fd2cac",
+    "continuous": "8d8c03926a104281539538cfa8a8304f00cb6d01afbccf11fd139edec75d4781",
+    "linear": "635c9a11aba2a67bd0467b48c4141be4ae7ed40dad5e475cabb954e24cd1bc79",
+    "knn": "2f9ee4ed38d05f631327adf693dc72540d448feb5db46392fb90c92f2e82a3c9"
+  },
+  "training_sha256": "35e14e4c65bc750b794630bb64d36c7937d085f9eb3e479ab525e5499532404f",
+  "methods": [
+    "templates",
+    "native_only_relatedness",
+    "native_plus_relatedness",
+    "native_plus_frequency",
+    "native_plus_uniform",
+    "spiking",
+    "frozen_input",
+    "continuous",
+    "linear",
+    "knn",
+    "native_only_spiking"
+  ],
+  "guidance_multiplier": 12,
+  "scope": "All64 authored development tasks from8known structural clusters; first8 already inspected during engineering. Not independent qualification or64independent cluster observations. No test fitting, final-label retries or hidden-source input.",
+  "per_job_search_ceiling": 50000,
+  "study_work_ceiling": 75000000,
+  "observer_work_reserve": 2000000
+}

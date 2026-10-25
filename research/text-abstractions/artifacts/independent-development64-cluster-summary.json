@@ -1,0 +1,181 @@
+{
+  "schema": "nuria.development64-independent-cluster-arithmetic.v1",
+  "trace_sha256": "d75c9aff945227bf1fd992480c93945b3acff2ed75ef37464b804ba37b391250",
+  "clusters": 8,
+  "instances_per_cluster": 8,
+  "accepted_by_family": {
+    "templates": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "native_only_relatedness": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 0,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 0,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "native_plus_relatedness": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 8,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "native_plus_frequency": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "native_plus_uniform": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "spiking": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "frozen_input": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "continuous": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "linear": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 2,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "knn": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 7,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 8,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 8,
+      "joined-short-and-trimmed-segments": 0
+    },
+    "native_only_spiking": {
+      "upper-inner-token": 0,
+      "joined-token-and-prefix": 0,
+      "trim-upper-segment": 0,
+      "joined-segment-and-token": 0,
+      "lower-last-segment-token": 0,
+      "slice-joined-tokens": 0,
+      "upper-sliced-last-token": 0,
+      "joined-short-and-trimmed-segments": 0
+    }
+  },
+  "paired_vs_templates": {
+    "templates": {
+      "additional_tasks": 0,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [],
+      "clusters_with_lost_tasks": []
+    },
+    "native_plus_relatedness": {
+      "additional_tasks": 8,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [
+        "trim-upper-segment"
+      ],
+      "clusters_with_lost_tasks": []
+    },
+    "native_plus_frequency": {
+      "additional_tasks": 0,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [],
+      "clusters_with_lost_tasks": []
+    },
+    "native_plus_uniform": {
+      "additional_tasks": 0,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [],
+      "clusters_with_lost_tasks": []
+    },
+    "spiking": {
+      "additional_tasks": 0,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [],
+      "clusters_with_lost_tasks": []
+    },
+    "frozen_input": {
+      "additional_tasks": 0,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [],
+      "clusters_with_lost_tasks": []
+    },
+    "continuous": {
+      "additional_tasks": 0,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [],
+      "clusters_with_lost_tasks": []
+    },
+    "linear": {
+      "additional_tasks": 2,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [
+        "trim-upper-segment"
+      ],
+      "clusters_with_lost_tasks": []
+    },
+    "knn": {
+      "additional_tasks": 7,
+      "lost_tasks": 0,
+      "clusters_with_additional_tasks": [
+        "trim-upper-segment"
+      ],
+      "clusters_with_lost_tasks": []
+    }
+  },
+  "scope": "Arithmetic supplement from independently replayed stored results. Eight additional relatedness successes belong to one structural cluster, not eight independent task families; no statistical qualification claim."
+}

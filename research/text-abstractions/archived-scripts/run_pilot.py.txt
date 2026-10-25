@@ -1,0 +1,40 @@
+from pathlib import Path
+import gzip,json,time,hashlib,os
+from cognition.abstraction_search import solve_abstractions,prepare_grammar
+from cognition.template_reuse import prepare_templates,solve_templates
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import generate,CONFIG
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';ROOT=Path(__file__).resolve().parents[3]
+history=json.loads((P/'history.json').read_text());lib=json.loads((P/'balanced-library-02.json').read_text())
+programs={}
+for relative in history['source_archives']:
+ with gzip.open(ROOT/relative,'rt')as f:
+  for line in f:
+   row=json.loads(line)
+   for program in row['accepted_programs']:programs.setdefault(fingerprint(program),program)
+with(P/'all-historical-programs.json').open('x')as f:json.dump(list(programs.values()),f,indent=2)
+prepared=prepare_grammar(lib,CONFIG);templates=prepare_templates(list(programs.values()),CONFIG)
+source_files=['cognition/text_abstractions.py','cognition/abstraction_search.py','cognition/template_reuse.py','scripts/build_abstraction_tasks.py','scripts/verify_active_skill_results.py']
+freeze={'created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'schema':'nuria.abstraction-development-freeze.v1','source_sha256':{x:hashlib.sha256((ROOT/x).read_bytes()).hexdigest()for x in source_files},'initial_protocol_sha256':hashlib.sha256((P/'protocol-01.json').read_bytes()).hexdigest(),'static_preparation_revision':'Balanced16unary plus48global, arity-first. Both mining attempts retained; no new controller result preceded this selection.','grammar_sha256':fingerprint(lib),'all_historical_programs':len(programs),'template_preparation':templates.report,'shared_grammar_preparation_work':prepared.preparation_work,'decision':'Conventional whole-template control receives all390 accepted historical programs, while abstraction miner has bounded128-parent capacity. All same-grammar arms share the identical63 learned abstractions. Extra baseline history is conservative, not a neural data advantage.','remaining_model_hyperparameters':'exact protocol01, not tuned on this pilot'}
+with(P/'controller-freeze-02.json').open('x')as f:json.dump(freeze,f,indent=2)
+course=generate(2026102501,per_cluster=8,excluded_skeletons=history['all_historical_skeletons'])
+with(P/'development-course.json').open('x')as f:json.dump(course,f,indent=2)
+jobs=course['tasks'][::8]
+reports={};spent=0
+with(P/'pilot-results.jsonl').open('x')as out:
+ for method in ['templates','relatedness','frequency','uniform']:
+  rows=[];start=time.process_time()
+  for job in jobs:
+   xs,ys=job['diagnostic_inputs'],job['diagnostic_outputs']
+   result=solve_templates(xs,ys,CONFIG,templates,budget=50000)if method=='templates'else solve_abstractions(xs,ys,CONFIG,prepared,budget=50000,ordering=method)
+   buyer=outcome(result['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+   spent+=result['work']['total']+buyer['total_work']
+   if spent>75000000:raise ValueError('Shared pilot work bound exceeded')
+   record={'method':method,'job_id':job['id'],'result':result,'buyer':buyer,'cumulative_serving_and_buyer_work':spent}
+   out.write(json.dumps(record)+'\n');out.flush();os.fsync(out.fileno());rows.append(record)
+   print(method,job['cluster'],result['status'],buyer['passed'],len(result.get('abstractions_used',[])),result['work']['total'],flush=True)
+  reports[method]={'jobs':len(rows),'accepted':sum(r['buyer']['passed']for r in rows),'wrong':sum(r['result']['program']is not None and not r['buyer']['passed']for r in rows),'accepted_multi_abstraction':sum(r['buyer']['passed']and len(r['result'].get('abstractions_used',[]))>=2 for r in rows),'work':sum(r['result']['work']['total']+r['buyer']['total_work']for r in rows),'cpu_seconds':time.process_time()-start}
+summary={'schema':'nuria.abstraction-development-pilot.v1','reports':reports,'serving_and_buyer_work':spent,'source_freeze_sha256':hashlib.sha256((P/'controller-freeze-02.json').read_bytes()).hexdigest(),'course_sha256':hashlib.sha256((P/'development-course.json').read_bytes()).hexdigest(),'scope':'First8 authored structural development instances, no qualification or statistical neural claim.'}
+with(P/'pilot-summary.json').open('x')as f:json.dump(summary,f,indent=2)
+print(json.dumps(summary,indent=2))

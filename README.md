@@ -81,6 +81,16 @@ wrong proposals versus one for the spiking controller. The neural-superiority
 interpretation therefore failed. All attempts and independent replays are
 retained; the new policy is not enrolled in the original running circuit.
 
+The [reusable-subprogram study](research/text-abstractions/README.md) extracts
+source-bound text abstractions from accepted programs. Conventional ordering
+passed 24/64 authored development tasks versus 16/64 for whole-program reuse and
+spiking guidance. Every submitted program subsequently failed at least one
+broader-input check. A new [qualification gate](docs/skill-qualification.md)
+records that distinction explicitly: it rejects all 183 retained learned
+proposal instances on the revealed challenge while accepting all 64 reference-program
+controls. Neither result establishes neural superiority or general semantic
+transfer; the optional components are not enrolled in the running worker.
+
 Skill acquisition uses conventional program synthesis and verified retention.
 The [comparison record](research/skill-acquisition/README.md) retains the failed
 unary experiment and the stronger factored baseline that beat fragment search.

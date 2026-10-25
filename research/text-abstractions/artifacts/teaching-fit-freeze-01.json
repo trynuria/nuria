@@ -1,0 +1,32 @@
+{
+  "schema": "nuria.abstraction-teaching-fit.v1",
+  "created_utc": "2026-10-24T21:42:01Z",
+  "source_sha256": {
+    "cognition/semantic_guidance.py": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849",
+    "cognition/abstraction_search.py": "13800bed6511b6c22b8b7b618191f93732dcc6a6fe8bd357182d4e7a3147e913",
+    "cognition/text_skills.py": "78a76720b94d04edb24bc5c675b88ec156767dced674dcde4e25aae9d1a6ed87"
+  },
+  "history_sha256": "03f6e78cda6258900a02cba67aa81425a9aa9ef863e998b146e72cd87f07b260",
+  "grammar_sha256": "586f9a6dbeef89dbc875caee9bf11ec27913b7a0c3b2d0a97877912aa6dc46a5",
+  "training": "Actual candidate observations from128 historical jobs. Positive if executed values equal a proper subtree of that historical accepted program. All positives and first32 negatives sorted by candidate hash perorigin; no new course recipe/targets are teaching.",
+  "methods": [
+    "spiking",
+    "frozen_input",
+    "continuous",
+    "linear",
+    "knn"
+  ],
+  "model_kwargs": {
+    "dimension": 64,
+    "width": 64,
+    "ticks": 16,
+    "epochs": 12,
+    "batch_size": 128,
+    "seed": 2026102601
+  },
+  "guidance_multiplier": 12,
+  "multiplier_rationale": "Every learned probability, including linear/kNN/continuous/frozen controls, uses the same12 multiplier to match declared conventional relatedness range. Chosen before any fitted model evaluation, not tuned permodel or on reserved tasks.",
+  "per_job_work": 50000,
+  "study_ceiling": 75000000,
+  "source_scope": "Known synthetic historical teaching and repeated development, no qualification."
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "nuria.posthoc-string-challenge64.v1",
+  "scope": "Post-hoc broader-input diagnostic only; not qualification or learner teaching.",
+  "seed": 2026102514,
+  "rows_per_job": 32,
+  "jobs": 64,
+  "methods": [
+    "templates",
+    "native_only_relatedness",
+    "native_plus_relatedness",
+    "native_plus_frequency",
+    "native_plus_uniform",
+    "spiking",
+    "frozen_input",
+    "continuous",
+    "linear",
+    "knn",
+    "native_only_spiking"
+  ],
+  "generator_source_sha256": "8c75ff5d915d7c35f08453bdd584077ce7aa895a5817c5f98e4ff9f21ec51dcb",
+  "oracle_source_sha256": "c4fc22494020c01d61ecec5bc1d44c15ba5c307462f3feb54a9584267aa554e6",
+  "committed_trace_sha256": "d75c9aff945227bf1fd992480c93945b3acff2ed75ef37464b804ba37b391250",
+  "selection": "All64 original tasks and all11 committed methods; no method-dependent task selection. Filter only reference-oracle domain errors.",
+  "original_scores": "All original24-row results retained separately; broader inputs do not retroactively alter original acceptance."
+}

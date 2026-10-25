@@ -1,0 +1,26 @@
+from pathlib import Path
+import json,time,hashlib,os
+from cognition.abstraction_search import solve_abstractions,prepare_grammar
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import CONFIG
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';ROOT=Path(__file__).resolve().parents[3]
+lib=json.loads((P/'balanced-library-02.json').read_text());course=json.loads((P/'development-course.json').read_text());prepared=prepare_grammar(lib,CONFIG)
+freeze={'schema':'nuria.abstraction-interleaved-development.v2','created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'source_sha256':{f:hashlib.sha256((ROOT/f).read_bytes()).hexdigest()for f in ['cognition/abstraction_search.py','cognition/text_abstractions.py','scripts/build_abstraction_tasks.py','scripts/verify_active_skill_results.py']},'course_sha256':hashlib.sha256((P/'development-course.json').read_bytes()).hexdigest(),'revision':'Pilot01 gives zero successes for every macroordering. Lazy interleaving now yields after one invocation, records expansion turns and expanded state count; raw-field concatenation retained. Same library, samefirst8jobs, same50k serving, samecontrollerfeatures. This is adaptation on known development, not fresh qualification. No neural fitting from the new course.','previous_pilot_sha256':hashlib.sha256((P/'pilot-results.jsonl').read_bytes()).hexdigest(),'same_grammar_sha256':fingerprint(lib),'original_template_result_reused':True}
+with(P/'controller-freeze-03.json').open('x')as f:json.dump(freeze,f,indent=2)
+prior=[json.loads(l)for l in(P/'pilot-results.jsonl').read_text().splitlines()];spent=json.loads((P/'pilot-summary.json').read_text())['serving_and_buyer_work'];reports={}
+with(P/'pilot02-results.jsonl').open('x')as out:
+ for method in ['relatedness','frequency','uniform']:
+  rows=[];start=time.process_time()
+  for job in course['tasks'][::8]:
+   result=solve_abstractions(job['diagnostic_inputs'],job['diagnostic_outputs'],CONFIG,prepared,budget=50000,ordering=method)
+   buyer=outcome(result['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+   spent+=result['work']['total']+buyer['total_work']
+   if spent>75000000:raise ValueError('Shared development work bound exceeded')
+   record={'method':method,'job_id':job['id'],'result':result,'buyer':buyer,'cumulative_serving_and_buyer_work':spent}
+   out.write(json.dumps(record)+'\n');out.flush();os.fsync(out.fileno());rows.append(record)
+   print(method,job['private_recipe']['family'],result['status'],buyer['passed'],len(result.get('abstractions_used',[])),result['expanded_states'],result['work']['total'],flush=True)
+  reports[method]={'jobs':len(rows),'accepted':sum(r['buyer']['passed']for r in rows),'wrong':sum(r['result']['program']is not None and not r['buyer']['passed']for r in rows),'accepted_multi_abstraction':sum(r['buyer']['passed']and len(r['result'].get('abstractions_used',[]))>=2 for r in rows),'work':sum(r['result']['work']['total']+r['buyer']['total_work']for r in rows),'cpu_seconds':time.process_time()-start}
+summary={'schema':'nuria.abstraction-interleaved-development-pilot.v2','reports':reports,'all_serving_buyer_work_including_first_pilot':spent,'prior_template_accepted':sum(r['buyer']['passed']for r in prior if r['method']=='templates'),'source_freeze_sha256':hashlib.sha256((P/'controller-freeze-03.json').read_bytes()).hexdigest(),'scope':'Reused first8 development instances only; static scheduling correction, no qualification or neural superiority claim.'}
+with(P/'pilot02-summary.json').open('x')as f:json.dump(summary,f,indent=2)
+print(json.dumps(summary,indent=2))
