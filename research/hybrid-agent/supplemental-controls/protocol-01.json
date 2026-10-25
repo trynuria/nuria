@@ -1,0 +1,136 @@
+{
+  "schema": "nuria.supplementary-nonlearning-controls.v3",
+  "scope": "Post-hoc coverage completion of the original selected nonlearning conditions, not a new unseen preregistration. Original study, 200k allowance and all120 selected records remain unchanged.",
+  "condition_order": [
+    "schema_first",
+    "stateless"
+  ],
+  "selected_task_ids": [
+    "spider-dev-0694",
+    "spider-dev-0281",
+    "spider-dev-0273",
+    "spider-dev-0271",
+    "spider-dev-0687",
+    "spider-dev-0701",
+    "spider-dev-0269",
+    "spider-dev-0289",
+    "spider-dev-0690",
+    "spider-dev-0696",
+    "spider-dev-0698",
+    "spider-dev-0267"
+  ],
+  "planned_records": 24,
+  "skip_policy": "Skip a condition only if all twelve original reserved proposals were completed; otherwise repeat all twelve in fresh none-memory state without teaching calls.",
+  "grading_policy": "All supplementary inference ends before any supplementary oracle is opened. Only complete twelve-proposal conditions are graded. Incomplete conditions retain unknown acceptance; no terminal experience or neural credit is applied.",
+  "limits": {
+    "max_turns": 12,
+    "max_output_tokens": 6000,
+    "max_tool_calls": 12,
+    "max_tokens_per_turn": 1536,
+    "memory_bytes": 6000
+  },
+  "memory_mode": "none",
+  "neural_context": null,
+  "initial_section": "schema",
+  "seed": 20261025,
+  "endpoint": "http://127.0.0.1:19487/v1/chat/completions",
+  "model_alias": "default_model",
+  "model_identity": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+  "enable_thinking": true,
+  "additional_completion_cap": 60000,
+  "other_supplementary_reserved_completion_tokens": 0,
+  "other_supplementary_known_completion_tokens": 3499,
+  "semantic_trial_usage": {
+    "known_completion_tokens": 3499,
+    "reserved_completion_tokens": 0,
+    "closed": true,
+    "protocol_sha256": "431e3b092c46a680ad5aa509be523ff9c0d14da3606084bab1358d4e3ae51950",
+    "trace_usage_reconciled": true,
+    "source_bindings_verified": true
+  },
+  "cumulative_completion_cap": 260000,
+  "maximum_wall_seconds": 3600,
+  "absolute_deadline_utc": "2026-10-26T00:20:14+00:00",
+  "original_protocol_sha256": "4e7b7a5c71890574f2b319cce6a493adca46e28c2992269e8132df58e75d29ed",
+  "original_source_freeze_sha256": "a4cff862bda1b3f7136726106f468e5f8153af0372f5cbe437bc3c37965fe342",
+  "frozen_source_files": {
+    "cognition/analyst_workspace.py": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2",
+    "cognition/brain.py": "f79cba0b06a2c5c861b17a48507bb7a93f05f5cbc73f0d1effc78a6649f18349",
+    "cognition/grounded_agent.py": "f83da48331727260a25a616c4c148d52a2325f6fea2dc25cb934e1f76bdf9319",
+    "cognition/hybrid_neural.py": "e475cbbe14d2625b0fb611d012e5e2430c34ff3eb82460be13a73bdeb5ac409f",
+    "cognition/procedural_memory.py": "6c42c8798e617ac89c85d946524db4e6da2d58c83038b9e67ab05cb30bcd32cc",
+    "cognition/reasoner_client.py": "f11187add3611ed0331ea5991d6bb99498dcb3a173ef7a65808c9bbb340a5e54",
+    "cognition/task_brain.py": "3b53467394c55dfa809cb41d45c2b6b58514d814e6dd3828ee607ceff3634a0f",
+    "cognition/working_evidence.py": "6ec67a5c2c5a516c17ef64b0befebc77f4ff7ba41a6c5db7317860280eac577d",
+    "requirements.txt": "74d246b6ff799bb0e75bc47562e0c3d908b8c52269bfd143a6570c8bf101fe30",
+    "research/hybrid-agent/attempts/comparison-03-protocol.json": "4e7b7a5c71890574f2b319cce6a493adca46e28c2992269e8132df58e75d29ed",
+    "research/hybrid-agent/runtime/model-manifest.json": "8ac036221dc55d464e964d7616d57f965c811de5be9e605433b2d9573f7afc26",
+    "research/hybrid-agent/runtime/requirements-macos-arm64.lock": "75240be39b6ea105f1d6eef15575fcffcb0063bcd270bdf0af7847a5428f8d36",
+    "scripts/ask_grounded_analyst.py": "379323a4f664d0563e358f2756a857492864ce75ceed5e51211f8a53f1564334",
+    "scripts/evaluate_grounded_agent.py": "8a610d722af1989a9b87cd072568ae45056884abf7d2806e54af5d3831deb72b",
+    "scripts/register_work_snapshot.py": "bfdda8b75f7ee3b94dea3799dadc42f61b926cb57912e31523207b09fa35df65",
+    "scripts/run_grounded_agent.py": "752be7af61955ef44538bfe6287cdc7aff621e111ac0a73e0b0d093065f041c5",
+    "scripts/verify_grounded_comparison.py": "86017dc7b9803414a19472db4b394db2154adcc5287797b49aa01a9b4d70d252"
+  },
+  "starting_evidence": {
+    "original_protocol": "4e7b7a5c71890574f2b319cce6a493adca46e28c2992269e8132df58e75d29ed",
+    "original_source_freeze": "a4cff862bda1b3f7136726106f468e5f8153af0372f5cbe437bc3c37965fe342",
+    "main_summary": "cfd6752ddac67e0e19ea40478a23f3ad9f897dd03db0e2b1d0d971c229b66afa",
+    "main_selected_results": "b45e9bdf27d00585532f4ab70a548fd8d1515c29d96314aae4e01c33ff347cad",
+    "main_independent_check": "d9680fdb4ab2801346ab636c3c2ac2b06757edb88a6854c2a5b6b21361e2ca48",
+    "post_lifecycle": "0b14649850bdabc8ec04e3103c4b0fecc2cde77d7b1a26fb90bb02c172c1bdc2",
+    "post_reservation": "3ce48d8b93629aa02a622efd4e2b22f42eddad17fda45021bdcb0fec69d17b12",
+    "post_accounting": "bd16d92bf48d5f7a86ac8f5d3686e3d24df69f993449d693944d43108a269fde",
+    "post_terminal": "fb85ddd5e1b7f26c7fc1959122829c2a951da54d488458e647c9894465b348fc",
+    "semantic_protocol": "431e3b092c46a680ad5aa509be523ff9c0d14da3606084bab1358d4e3ae51950",
+    "semantic_helper": "6b3f73523eb550f3f017682368d17ab7396c23f085409eeaaa195d4a10cfee42",
+    "semantic_terminal": "53261c272ab170b97889da2ea09bce63c418db9299650ff573f6e57d85de4d0a",
+    "semantic_result": "f31598dba3bfb961d7cc14725ef2e43eaa3b0828608ffe993e42a1b54387a10f",
+    "semantic_artifact": "7827b1c5a8446d173e4fb8b4c98ce43bd41de61b841011ea9543cfb1d40b8212",
+    "semantic_decision": "889c269858129901a0896494f098409eadf75cbcb3a3d8938647da89d7471739"
+  },
+  "original_coverage": {
+    "schema_first": {
+      "original_executed_ids": [],
+      "original_executed": 0,
+      "skip_original_complete": false
+    },
+    "stateless": {
+      "original_executed_ids": [],
+      "original_executed": 0,
+      "skip_original_complete": false
+    }
+  },
+  "starting_account": {
+    "known_completion_tokens": 173889,
+    "unknown_completion_ceiling": 12214,
+    "prior_unresolved_usage": true,
+    "prior_conservative_charge": 186103,
+    "post_job_reservation_present": true,
+    "post_job_usage_closed": true,
+    "scope": "Historical pending liabilities remain fully charged; no old usage is released or relabelled as known."
+  },
+  "artifacts": {
+    "registry": {
+      "path": "inputs/registry.json",
+      "sha256": "c2ca20599b6a5dbcca52829f35fe81e91404e9e9087ec562b5a3f54aeec484f7"
+    },
+    "teaching_course": {
+      "path": "inputs/teaching.json",
+      "sha256": "816b753af84e77c5834a5d313febc1518f176028c65d812d9aa83395d95d98fe"
+    },
+    "reserved_course": {
+      "path": "inputs/reserved.json",
+      "sha256": "ae0641070ce2461107c518460722f0211ffa8ba3f0075383302ab15f915f51fd"
+    },
+    "oracle": {
+      "path": "inputs/oracle.json",
+      "sha256": "090f3c1cd06a9a105124218374d8ebaf16a70e569ba65c60b643284e24fc1fea"
+    }
+  },
+  "helper_sha256": "1cb1a7d02659844485436dce090cdc5d235f886a83b1d88d4354acc0628131fa",
+  "prepared_at_utc": "2026-10-25T23:17:59.270480+00:00",
+  "order_effects": "Conditions run schema-first then stateless in fixed predeclared order. Hardware, runtime order and post-hoc coverage selection can affect the comparison; this is not a newly randomized or unseen preregistered trial.",
+  "input_equivalence_scope": "With the same host observations, none-memory first requests do not depend on settled teaching records. Real tool timing, hashes, prompt lengths, floating-point generation and latency may vary. No bit-exact model reproduction is promised.",
+  "financial_actions": 0
+}
