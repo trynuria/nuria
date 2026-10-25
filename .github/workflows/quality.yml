@@ -33,6 +33,7 @@ jobs:
           python -m scripts.verify_skill_expression_results research/skill-acquisition/expression-development-02
           python -m scripts.verify_skill_retention research/skill-acquisition/retention-reserved
           python -m scripts.check_neural_digit_results research/neural-digits
+          python -m scripts.verify_text_abstraction_results
           python research/verified-memory/verify_release.py
           python research/verified-memory/verify_attempts.py
       - name: Check frontend
