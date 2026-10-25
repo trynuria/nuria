@@ -1,0 +1,39 @@
+from pathlib import Path
+import json,time,hashlib,os
+from cognition.abstraction_search import solve_abstractions,prepare_grammar
+from cognition.template_reuse import prepare_templates,solve_templates
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.exact_feature_neighbors import ExactFeatureNeighbors
+from cognition.skills import fingerprint
+from cognition.text_skills import shape
+from scripts.build_abstraction_tasks import CONFIG,skeleton_hash
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';R=Path(__file__).resolve().parents[3]
+lib=json.loads((P/'balanced-library-02.json').read_text());grammar=prepare_grammar(lib,CONFIG);course=json.loads((P/'development-course.json').read_text())
+old=json.loads((P/'all-historical-programs.json').read_text());imagined=json.loads((P/'imagined-program-candidates-02.json').read_text());combined={fingerprint(p):p for p in old+imagined};ordered=sorted(combined.values(),key=lambda p:(shape(p['expr'],CONFIG),fingerprint(p)))
+caches={'imagined_templates_original_first':prepare_templates(list(combined.values()),CONFIG),'imagined_templates_small_first':prepare_templates(ordered,CONFIG)}
+models={name:SemanticGuidance.from_evidence(json.loads((P/f'model-{name}-02.json').read_text()))for name in ['coverage-spiking','context-spiking','context-frozen_input','context-continuous','context-linear','context-knn']}
+index=ExactFeatureNeighbors(models['context-knn'].reference_x,models['context-knn'].reference_y,neighbors=9)
+methods=list(caches)+list(models)
+freeze={'schema':'nuria.context-replay-pilot.v2','created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'methods':methods,'model_sha256':{m:hashlib.sha256((P/f'model-{m}-02.json').read_bytes()).hexdigest()for m in models},'engine_sha256':hashlib.sha256((R/'cognition/abstraction_search.py').read_bytes()).hexdigest(),'course_sha256':hashlib.sha256((P/'development-course.json').read_bytes()).hexdigest(),'hypothesis':'Historical nonterminal coverage and replayed contexts can improve guidance; all five matched models share the same21386 replayrecords. Coverage-only spiking is a separate teaching ablation. Strong conventional whole-template controls also receive all1142 imagined program candidates, with two prospectively declared ordering rules. No neural advantage assumed.','guidance_multiplier':12,'source_history':'Only old128 accepted origins and derived mathematical replays, no new-course or posthoc-challenge targets supplied to fits.','imagined_candidate_count':len(imagined),'whole_template_candidate_count':len(combined),'dream_skeleton_overlap_with_development':len({skeleton_hash(p)for p in imagined}&{t['private_recipe']['skeleton_sha256']for t in course['tasks']}),'scope':'Same first8 repeatedly adapted development cases, not qualification; current prospective structural exclusion was based on historical history and imaginedcontexts can overlap newstructuraltypes, disclosed explicitly.'}
+with(P/'context-replay-pilot-freeze-02.json').open('x')as f:json.dump(freeze,f,indent=2)
+spent=36886013+json.loads((P/'context-replay-summary-02.json').read_text())['work']+379570+grammar.preparation_work+sum(c.report['preparation_work']['total']for c in caches.values())
+reports={}
+with(P/'context-replay-pilot-results-02.jsonl').open('x')as stream:
+ for method in methods:
+  rows=[];started=time.process_time()
+  for task in course['tasks'][::8]:
+   if spent+150000+2000000>75000000:raise ValueError('Shared study ceiling cannot reserve next result')
+   if method in caches:result=solve_templates(task['diagnostic_inputs'],task['diagnostic_outputs'],CONFIG,caches[method],budget=50000)
+   else:
+    if method=='context-knn':index.reset();score=index.score
+    else:score=models[method].score
+    result=solve_abstractions(task['diagnostic_inputs'],task['diagnostic_outputs'],CONFIG,grammar,budget=50000,ordering='guided',scorer=lambda x:12*score(x))
+   buyer=outcome(result['program'],task['score_inputs'],task['score_outputs'],CONFIG);actual=result['work']['total']+buyer['total_work'];spent+=actual
+   row={'method':method,'job_id':task['id'],'result':result,'buyer':buyer,'actual_work':actual,'cumulative_known_work':spent}
+   stream.write(json.dumps(row)+'\n');stream.flush();os.fsync(stream.fileno());rows.append(row)
+   print(method,task['private_recipe']['family'],buyer['passed'],result['work']['total'],len(result.get('abstractions_used',[])),flush=True)
+  reports[method]={'accepted':sum(r['buyer']['passed']for r in rows),'wrong':sum(r['result']['program']is not None and not r['buyer']['passed']for r in rows),'jobs':len(rows),'work':sum(r['actual_work']for r in rows),'cpu_seconds':time.process_time()-started}
+summary={'reports':reports,'actual_known_work':spent,'observer_reserve':2000000,'remaining_conservative_bound':75000000-spent-2000000,'freeze_sha256':hashlib.sha256((P/'context-replay-pilot-freeze-02.json').read_bytes()).hexdigest(),'scope':freeze['scope']}
+with(P/'context-replay-pilot-summary-02.json').open('x')as f:json.dump(summary,f,indent=2)
+print(json.dumps(summary,indent=2))

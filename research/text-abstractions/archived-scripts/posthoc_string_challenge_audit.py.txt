@@ -1,0 +1,199 @@
+"""Post-hoc input-distribution stress diagnostic for already delivered ASTs.
+
+No controller, training code or new learner is executed. New labels come only
+from the frozen ordinary-Python recipe oracle. This deliberately challenges a
+known narrow input format; it is not unseen qualification or a learning course.
+Original diagnostic and 24-row buyer scores remain unchanged.
+"""
+
+import collections
+import hashlib
+import importlib.util
+import json
+import random
+import time
+from pathlib import Path
+
+P = Path(__file__).resolve().parents[1] / 'artifacts'
+SCHEMA = 'nuria.posthoc-string-input-challenge.v1'
+SEED = 2026102514
+ROWS = 32
+MAX_ATTEMPTS = 256
+WORDS = ('acacia','birch','cobalt','delta','ember','fjord','garnet','harbor',
+         'indigo','juniper','kestrel','larch','maple','nectar','onyx','pine',
+         'quartz','reed','sable','tidal','umber','violet','willow','xenon',
+         'yarrow','zephyr','copper','dahlia')
+
+
+def serial(value):
+    return json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False)
+
+
+def digest(value):
+    return hashlib.sha256(serial(value).encode()).hexdigest()
+
+
+def file_hash(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def require(ok,label):
+    if not ok:
+        raise ValueError(label)
+
+
+def load_module(path,name):
+    spec=importlib.util.spec_from_file_location(name,path)
+    module=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def save(name,value):
+    with(P/name).open('x')as stream:
+        json.dump(value,stream,indent=2)
+
+
+def candidate(job_id,separator,attempt):
+    """Fixed input distribution; no access to any delivered program or output."""
+    rng=random.Random(int(digest([SCHEMA,SEED,job_id,attempt]),16))
+    values,segments_per_field,word_counts=[],[],[]
+    for field in range(6):
+        segment_count=1+(attempt+field)%5
+        segments=[]
+        for part in range(segment_count):
+            count=1+(attempt+2*field+part)%5
+            word_counts.append(count)
+            words=[]
+            for position in range(count):
+                word=rng.choice(WORDS)
+                case=rng.randrange(4)
+                word=(word,word.upper(),word.title(),word[::2].upper()+word[1::2])[case]
+                # Some segments contain standalone, prefixed or suffixed digits;
+                # the independent oracle decides domain membership afterwards.
+                numeric=rng.randrange(8)
+                if numeric==0:
+                    word=str(rng.randrange(10,10000))
+                elif numeric==1:
+                    word=str(rng.randrange(10,100))+word
+                elif numeric==2:
+                    word+=str(rng.randrange(10,100))
+                words.append(word)
+            internal=rng.choice((' ','  ','\t'))
+            segments.append(rng.choice(('',' ','  ','\t'))+internal.join(words)+rng.choice(('',' ','  ','\t')))
+        values.append(separator.join(segments))
+        segments_per_field.append(segment_count)
+    return values,{'segments_per_field':segments_per_field,'word_counts':word_counts}
+
+
+def main():
+    started=time.process_time()
+    freeze=json.loads((P/'controller-freeze-04.json').read_text())
+    snapshots=P/'attempt-03-sources'
+    builder_path=snapshots/'scripts/build_abstraction_tasks.py'
+    verifier_path=snapshots/'scripts/verify_active_skill_results.py'
+    require(file_hash(builder_path)==freeze['source_sha256']['scripts/build_abstraction_tasks.py'],'Frozen recipe oracle changed')
+    require(file_hash(verifier_path)==freeze['source_sha256']['scripts/verify_active_skill_results.py'],'Frozen independent interpreter changed')
+    builder=load_module(builder_path,'frozen_posthoc_recipe_oracle')
+    verifier=load_module(verifier_path,'frozen_posthoc_independent_interpreter')
+    course=json.loads((P/'development-course.json').read_text())
+    require(file_hash(P/'development-course.json')==freeze['course_sha256'],'Original authored course changed')
+    jobs=course['tasks'][::8]
+    require(len(jobs)==8 and len({j['id']for j in jobs})==8,'Original fixed task selection differs')
+    new=[json.loads(line)for line in(P/'pilot03-results.jsonl').read_text().splitlines()]
+    baseline=[json.loads(line)for line in(P/'pilot-results.jsonl').read_text().splitlines()if json.loads(line)['method']=='templates']
+    records=new+baseline
+    methods=('templates','native_only_relatedness','native_plus_relatedness','native_plus_frequency','native_plus_uniform')
+    require(len(records)==40 and {(r['method'],r['job_id'])for r in records}=={(m,j['id'])for m in methods for j in jobs},'Committed program coverage differs')
+    plan={'schema':SCHEMA,'created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
+          'scope':'Post-hoc distribution-shift diagnostic on already committed development programs; not unseen qualification or learner teaching.',
+          'seed':SEED,'valid_rows_per_job':ROWS,'maximum_generation_attempts_per_job':MAX_ATTEMPTS,
+          'task_selection':'Exactly the original8 first instances, development-course.tasks[::8]; no task selection by method success.',
+          'methods':list(methods),'input_rule':'Six fields;1..5 segments and1..5 whitespace-separated words per segment; varied ASCII case, standalone/prefixed/suffixed digits and leading/internal/trailing whitespace. Recipe delimiter is retained.',
+          'filter':'Only Python reference-oracle ValueError/IndexError/KeyError domain failures; valid six-field byte bounds checked as invariants, not program-dependent selection.',
+          'label_source':'Frozen scripts.build_abstraction_tasks.target(recipe,values), independent ordinary-Python branches; delivered programs never generate labels.',
+          'same_inputs':'Every method receives exactly the same32 retained rows and labels for each job.',
+          'counterexamples':'Every proposed-program mismatch is retained; abstentions are separately counted and are not mislabeled as incorrect submitted programs.',
+          'original_scores':'Original4diagnostic and24buyer rows are only replayed; no original score, trace, generator, model or program is altered.',
+          'oracle_source_sha256':file_hash(builder_path),'independent_interpreter_sha256':file_hash(verifier_path),
+          'course_sha256':file_hash(P/'development-course.json'),'pilot03_trace_sha256':file_hash(P/'pilot03-results.jsonl'),
+          'original_template_trace_sha256':file_hash(P/'pilot-results.jsonl'),'audit_source_sha256':file_hash(Path(__file__))}
+    # Persist the complete fixed rule before evaluating delivered programs.
+    save('posthoc-string-challenge-plan.json',plan)
+    generation_started=time.process_time()
+    datasets=[]
+    for job in jobs:
+        inputs,outputs,metadata,rejected=[],[],[],[]
+        for attempt in range(MAX_ATTEMPTS):
+            values,counts=candidate(job['id'],job['private_recipe']['separator'],attempt)
+            encoded=serial(values)
+            require(len(values)==6 and all(type(v)is str for v in values)and len(encoded.encode())<=course['config']['max_input_bytes'],'Constructed input exceeds reviewed record authority')
+            try:
+                expected=builder.target(job['private_recipe'],values)
+            except(ValueError,IndexError,KeyError)as error:
+                rejected.append({'attempt':attempt,'reason':type(error).__name__,'input_sha256':digest(encoded)})
+                continue
+            require(type(expected)is str and len(expected.encode())<=course['config']['max_input_bytes'],'Reference output exceeds reviewed authority')
+            require(encoded not in inputs,'Constructed challenge input unexpectedly repeated')
+            inputs.append(encoded);outputs.append(expected);metadata.append({'attempt':attempt,**counts})
+            if len(inputs)==ROWS:
+                break
+        require(len(inputs)==ROWS,'Reference domain supplied insufficient bounded challenge rows')
+        require(not(set(inputs)&set(job['diagnostic_inputs']+job['score_inputs'])),'Challenge unexpectedly repeats original data')
+        datasets.append({'job_id':job['id'],'family':job['family'],'inputs':inputs,'outputs':outputs,
+                         'input_sha256':digest(inputs),'target_sha256':digest(outputs),'generation_metadata':metadata,
+                         'reference_domain_rejections':rejected,'generation_attempts':len(inputs)+len(rejected)})
+    generation_cpu=time.process_time()-generation_started
+    save('posthoc-string-challenge-inputs.json',{'schema':SCHEMA,'seed':SEED,'datasets':datasets})
+    data={d['job_id']:d for d in datasets};by_key={(r['method'],r['job_id']):r for r in records}
+    totals,results,counterexamples=collections.defaultdict(collections.Counter),[],[]
+    interpreter_cpu=original_cpu=0.0
+    for job in jobs:
+        challenge=data[job['id']]
+        for method in methods:
+            record=by_key[(method,job['id'])];program=record['result']['program']
+            t=time.process_time()
+            original=verifier.outcome(program,job['score_inputs'],job['score_outputs'],course['config'])
+            elapsed_original=time.process_time()-t;original_cpu+=elapsed_original
+            require(original==record['buyer'],'An original24-row score changed')
+            t=time.process_time()
+            outcome=verifier.outcome(program,challenge['inputs'],challenge['outputs'],course['config'])
+            elapsed=time.process_time()-t;interpreter_cpu+=elapsed
+            failed=[i for i,(actual,expected)in enumerate(zip(outcome['outputs'],challenge['outputs'],strict=True))if actual!=expected]
+            execution_errors=sum(v is None for v in outcome['outputs'])if program is not None else 0
+            entry={'method':method,'job_id':job['id'],'family':job['family'],'program_sha256':digest(program)if program else None,
+                   'proposed':program is not None,'challenge_inputs_sha256':challenge['input_sha256'],'challenge_targets_sha256':challenge['target_sha256'],
+                   'original_buyer':{'rows':original['rows'],'correct':original['correct'],'exact':original['passed'],'execution_work':original['execution_work'],'comparison_work':original['comparison_work'],'total_work':original['total_work']},
+                   'posthoc_challenge':{'rows':outcome['rows'],'correct':outcome['correct'],'exact':outcome['passed'],'failed_indices':failed,'outputs':outcome['outputs'],
+                                        'execution_errors':execution_errors,'execution_work':outcome['execution_work'],'comparison_work':outcome['comparison_work'],'total_work':outcome['total_work'],'cpu_seconds':elapsed},
+                   'original_replay_cpu_seconds':elapsed_original}
+            results.append(entry)
+            totals[method].update({'jobs':1,'proposed_jobs':int(program is not None),'abstained_jobs':int(program is None),'original_exact_jobs':int(original['passed']),
+                                   'challenge_exact_jobs':int(outcome['passed']),'challenge_rows':outcome['rows'],'challenge_correct_rows':outcome['correct'],
+                                   'incorrect_proposed_jobs':int(program is not None and not outcome['passed']),'execution_errors':execution_errors,
+                                   'execution_work':outcome['execution_work'],'comparison_work':outcome['comparison_work'],'total_work':outcome['total_work']})
+            if program is not None:
+                for index in failed:
+                    counterexamples.append({'method':method,'job_id':job['id'],'family':job['family'],'row':index,'program_sha256':entry['program_sha256'],
+                                            'input':challenge['inputs'][index],'expected':challenge['outputs'][index],'actual':outcome['outputs'][index],
+                                            'classification':'execution_error'if outcome['outputs'][index]is None else'incorrect_output'})
+    save('posthoc-string-challenge-counterexamples.json',{'schema':SCHEMA,'scope':'Post-hoc proposed-program failures only; no original score alterations or new teaching.','counterexamples':counterexamples})
+    report={'schema':SCHEMA,'verified':True,'scope':plan['scope'],'plan_sha256':file_hash(P/'posthoc-string-challenge-plan.json'),
+            'input_file_sha256':file_hash(P/'posthoc-string-challenge-inputs.json'),'counterexample_file_sha256':file_hash(P/'posthoc-string-challenge-counterexamples.json'),
+            'audit_source_sha256':file_hash(Path(__file__)),'oracle_source_sha256':plan['oracle_source_sha256'],'independent_interpreter_sha256':plan['independent_interpreter_sha256'],
+            'course_sha256':plan['course_sha256'],'committed_trace_sha256':{'pilot03':plan['pilot03_trace_sha256'],'templates':plan['original_template_trace_sha256']},
+            'jobs':8,'methods':list(methods),'challenge_rows_per_job':ROWS,'unique_job_rows':sum(len(d['inputs'])for d in datasets),'method_job_evaluations':len(results),
+            'reference_domain_rejections':sum(len(d['reference_domain_rejections'])for d in datasets),'generation_cpu_seconds':generation_cpu,
+            'challenge_execution_and_comparison_cpu_seconds':interpreter_cpu,'original_replay_cpu_seconds':original_cpu,'total_audit_cpu_seconds':time.process_time()-started,
+            'summaries':{m:dict(totals[m])for m in methods},'per_job_results':results,'proposed_program_counterexamples':len(counterexamples),
+            'limitations':['Input distribution was deliberately expanded after observing a narrow-generator shortcut; this is a post-hoc stress diagnostic, not fresh qualification.',
+                           'Eight task recipes and their already committed programs were fixed. Every method received identical retained rows for a job; only independent reference-domain errors were filtered.',
+                           'Original24-row acceptance remains unchanged. This diagnostic evaluates a broader input distribution, not retroactive original buyer rejection.',
+                           'Interpreter work is the independent verifier\'s actual declared primitive/data meter plus separately reported comparison work, not complete hardware instructions. CPU is local measured process time.',
+                           'No controller, search, model fitting, learner admission, paid action or external service was run. Challenge inputs/labels are not learner teaching.']}
+    save('posthoc-string-challenge-audit.json',report)
+    print(json.dumps({k:v for k,v in report.items()if k!='per_job_results'},indent=2))
+
+
+if __name__=='__main__':
+    main()

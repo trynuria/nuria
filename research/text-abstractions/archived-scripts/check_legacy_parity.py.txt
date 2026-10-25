@@ -1,0 +1,13 @@
+from pathlib import Path
+import json
+from cognition.abstraction_search import prepare_grammar,solve_abstractions
+from scripts.build_abstraction_tasks import CONFIG
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';lib=json.loads((P/'balanced-library-02.json').read_text());grammar=prepare_grammar(lib,CONFIG);tasks={j['id']:j for j in json.loads((P/'development-course.json').read_text())['tasks']}
+rows=[json.loads(l)for l in(P/'pilot03-results.jsonl').read_text().splitlines()];report=[]
+for row in rows:
+ job=tasks[row['job_id']];method=row['method'];result=solve_abstractions(job['diagnostic_inputs'],job['diagnostic_outputs'],CONFIG,grammar,ordering=method.split('_')[-1],use_abstractions=method!='native_only_relatedness',scheduling='legacy')
+ same=result['program']==row['result']['program']and result['work']==row['result']['work']
+ report.append({'method':method,'job_id':job['id'],'program_and_work_identical':same})
+ if not same:raise ValueError('Legacy execution changed')
+with(P/'legacy-v3-parity-01.json').open('x')as f:json.dump({'verified':True,'jobs':len(report),'rows':report},f,indent=2)
+print('Legacy program and work parity:',len(report),'of',len(report))

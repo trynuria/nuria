@@ -1,0 +1,90 @@
+"""Post-hoc scope qualification of retained programs; no learner is called."""
+from pathlib import Path
+import hashlib
+import json
+import time
+from collections import defaultdict
+
+from cognition.skill_qualification import prepare_qualification, qualify_text_skill
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import CONFIG
+
+P = Path(__file__).resolve().parents[1] / 'artifacts'
+R = Path(__file__).resolve().parents[3]
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def write(name, value):
+    with (P / name).open('x') as stream:
+        json.dump(value, stream, indent=2)
+
+course = json.loads((P / 'development-course.json').read_text())
+tasks = {task['id']: task for task in course['tasks']}
+challenges = {row['job_id']: row for row in json.loads((P / 'posthoc64-string-challenge-inputs.json').read_text())['datasets']}
+freeze = {
+    'schema': 'nuria.posthoc-qualification-audit.v1',
+    'scope': 'Rejection diagnostic on previously revealed broader inputs; no untouched qualification, learner retraining or promoted live skill.',
+    'source_sha256': {name: sha(R / name) for name in ['cognition/skill_qualification.py', 'cognition/text_skills.py', 'cognition/skills.py']},
+    'data_sha256': {name: sha(P / name) for name in ['development-course.json', 'posthoc64-string-challenge-inputs.json', 'development64-results.jsonl', 'work-fair-pilot-results-01.jsonl']},
+    'audit_source_sha256': sha(Path(__file__)),
+    'prior_known_work': 50361047,
+    'maximum_study_work': 75000000,
+    'per_plan_limit': 100000,
+    'oracle_positive_control': 'Reference task programs supplied as a gate positive control, never as learned successes',
+}
+write('qualification-freeze-01.json', freeze)
+spent = freeze['prior_known_work']
+reports = defaultdict(lambda: {'proposed': 0, 'qualified_for_cases': 0, 'rejected': 0, 'work_limit': 0, 'work': 0})
+start = time.process_time()
+with (P / 'qualification-results-01.jsonl').open('x') as out:
+    trace_sets = [
+        ('development64', [json.loads(line) for line in (P / 'development64-results.jsonl').read_text().splitlines()]),
+        ('work_fair_pilot', [json.loads(line) for line in (P / 'work-fair-pilot-results-01.jsonl').read_text().splitlines()]),
+        ('reference_positive_control', [{'method': 'reference_program', 'job_id': task['id'], 'result': {'program': task['private_recipe']['program']}} for task in tasks.values()]),
+    ]
+    for stage, traces in trace_sets:
+        for row in traces:
+            program = row['result']['program']
+            if program is None:
+                continue
+            if spent + freeze['per_plan_limit'] + 2000000 > freeze['maximum_study_work']:
+                raise ValueError('Cannot reserve a bounded remaining diagnostic')
+            job, challenge = tasks[row['job_id']], challenges[row['job_id']]
+            cases = []
+            for value, expected, metadata in zip(challenge['inputs'], challenge['outputs'], challenge['generation_metadata'], strict=True):
+                tags = ['varied_records']
+                if 1 in metadata['word_counts']:
+                    tags.append('one_word_segment')
+                if any(n >= 4 for n in metadata['word_counts']):
+                    tags.append('four_plus_word_segment')
+                if any(n >= 3 for n in metadata['segments_per_field']):
+                    tags.append('three_plus_segments')
+                cases.append({'input': value, 'expected': expected, 'coverage': tags})
+            prepared = prepare_qualification(
+                program, job['diagnostic_inputs'], CONFIG,
+                source_id='authored-text-abstraction-development',
+                domain=f"{job['private_recipe']['family']}:{row['job_id']}",
+                cases=cases,
+                minimum_coverage={'varied_records': 32, 'one_word_segment': 1, 'four_plus_word_segment': 1, 'three_plus_segments': 1},
+            )
+            result = qualify_text_skill(prepared, budget=freeze['per_plan_limit'])
+            spent += result['work']['total']
+            report = reports[f'{stage}/{row["method"]}']
+            report['proposed'] += 1
+            report['qualified_for_cases'] += result['qualified_for_cases']
+            if result['status'] in ('rejected', 'work_limit'):
+                report[result['status']] += 1
+            report['work'] += result['work']['total']
+            out.write(json.dumps({'stage': stage, 'method': row['method'], 'job_id': row['job_id'], 'qualification': result, 'cumulative_known_work': spent}) + '\n')
+summary = {
+    'schema': freeze['schema'], 'scope': freeze['scope'],
+    'reports': dict(reports), 'prior_known_work': freeze['prior_known_work'],
+    'diagnostic_work': spent-freeze['prior_known_work'], 'actual_known_work': spent,
+    'remaining_conservative_bound': freeze['maximum_study_work']-spent-2000000,
+    'source_freeze_sha256': sha(P / 'qualification-freeze-01.json'),
+    'trace_sha256': sha(P / 'qualification-results-01.jsonl'),
+    'cpu_seconds': time.process_time()-start,
+}
+write('qualification-summary-01.json', summary)
+print(json.dumps(summary, indent=2))

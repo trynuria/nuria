@@ -1,0 +1,93 @@
+"""Independent delivery and broader-domain replay; never execute a controller."""
+import collections
+import hashlib
+import importlib.util
+import json
+import math
+import shutil
+import time
+from pathlib import Path
+
+P=Path(__file__).resolve().parents[1] / 'artifacts'
+R=Path(__file__).resolve().parents[3]
+
+def read(name):return json.loads((P/name).read_text())
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def serial(v):return json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False)
+def digest(v):return hashlib.sha256(serial(v).encode()).hexdigest()
+def require(v,message):
+    if not v:raise ValueError(message)
+def save(name,v):
+    with(P/name).open('x')as f:json.dump(v,f,indent=2)
+def module(path,name):
+    spec=importlib.util.spec_from_file_location(name,path);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
+
+def main():
+    started=time.process_time();freeze=read('work-fair-pilot-freeze-01.json');summary=read('work-fair-pilot-summary-01.json');course=read('development-course.json');library=read('balanced-library-02.json')
+    require(summary['freeze_sha256']==sha(P/'work-fair-pilot-freeze-01.json'),'Freeze receipt differs')
+    require(freeze['course_sha256']==sha(P/'development-course.json'),'Course identity differs')
+    source_hashes={'cognition/abstraction_search.py':freeze['engine_sha256'],**freeze['source_files']}
+    snapshot=P/'work-fair-audit-sources-01';snapshot.mkdir(exist_ok=False)
+    for relative,expected in source_hashes.items():
+        require(sha(R/relative)==expected,'Evaluated source identity differs: '+relative)
+        dest=snapshot/relative;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(R/relative,dest);require(sha(dest)==expected,'Source preservation differs')
+    executor=module(snapshot/'scripts/verify_active_skill_results.py','independent_work_fair_vm')
+    jobs={r['id']:r for r in course['tasks'][::8]};rows=[json.loads(line)for line in(P/'work-fair-pilot-results-01.jsonl').read_text().splitlines()];methods=freeze['methods']
+    require(len(rows)==88 and len(jobs)==8 and len(methods)==11,'Pilot denominator differs')
+    require(len({(r['method'],r['job_id'])for r in rows})==88 and {(r['method'],r['job_id'])for r in rows}=={(m,j)for m in methods for j in jobs},'Declared method/job coverage differs')
+    model_paths={'original-spiking':P/'model-spiking.json',**{m:P/f'model-{m}-02.json'for m in freeze['model_sha256']if m!='original-spiking'}}
+    training={'original-spiking':read('training.json'),'coverage-spiking':read('coverage-training-02.json'),'context':read('context-training-02.json')}
+    models={}
+    for method,path in model_paths.items():
+        require(sha(path)==freeze['model_sha256'][method],'Frozen model file differs')
+        model=json.loads(path.read_text());data=training.get(method,training['context'])['records']
+        require(model['training_sha256']==digest(data)and model['records_count']==len(data)and model['positive_count']==sum(r['label']for r in data),'Model training identity or counts differ')
+        require(model['configuration']['method']==method.split('-')[-1],'Declared model method differs')
+        models[method]={'sha256':sha(path),'training_sha256':model['training_sha256'],'records':model['records_count'],'positive':model['positive_count']}
+    parity=read('legacy-v3-parity-01.json');legacy=[json.loads(l)for l in(P/'pilot03-results.jsonl').read_text().splitlines()]
+    require(parity['verified']and parity['jobs']==32 and len(parity['rows'])==32,'Declared legacy parity coverage differs')
+    parity_work=sum(r['result']['work']['total']for r in legacy);require(parity_work==freeze['legacy_parity_search_work'],'Legacy reproduction work differs')
+    require(freeze['prior_known_work']==read('context-replay-pilot-summary-02.json')['actual_known_work']+parity_work+2*21609,'Prior known work arithmetic differs')
+    challenge={d['job_id']:d for d in read('posthoc64-string-challenge-inputs.json')['datasets']};require(set(jobs)<=set(challenge),'Fixed broader challenge lacks jobs')
+    totals=collections.defaultdict(collections.Counter);successes=collections.defaultdict(set);broad=collections.defaultdict(collections.Counter);observer=collections.Counter();counterexamples=[];spent=freeze['prior_known_work'];macro_ids={a['sha256']for a in library['abstractions']};comparisons=[]
+    def outcome(program,inputs,outputs):
+        result=executor.outcome(program,inputs,outputs,course['config']);observer['execution_work']+=result['execution_work'];observer['comparison_work']+=result['comparison_work'];require(sum(observer.values())<=2_000_000,'Observer reserve requires reconciliation');return result
+    for row in rows:
+        method,result,job=row['method'],row['result'],jobs[row['job_id']];guided=method not in('relatedness','frequency','uniform');native_only=method=='native-only-context-spiking';order='guided'if guided else method
+        require(result['search_version']=='verified-text-abstraction-search-v4-work-fair'and result['scheduling']=='work_fair','Scheduler/version differs')
+        require(result['use_native']is True and result['use_abstractions']is (not native_only),'Grammar authority differs')
+        expected={'inputs':job['diagnostic_inputs'],'outputs':job['diagnostic_outputs'],'config':course['config'],'library_sha256':digest(library),'ordering':order,'use_native':True,'use_abstractions':not native_only,'maximum_states':256,'argument_beam':8,'maximum_frontier':4096,'scheduling':'work_fair','assembly_slice':750,'budget':50000,'program':result['program']}
+        require(result['commitment']==digest(expected),'Committed delivery/settings differs')
+        expected_model=freeze['model_sha256'].get('context-spiking'if native_only else method)
+        require(row['model_sha256']==expected_model,'Trace/model-file association differs')
+        work=result['work'];require(all(type(v)is int and v>=0 for v in work.values())and work['total']<=50000,'Search work invalid')
+        require(work['total']==work['primitive_attempts']+work['candidates']+work['byte_blocks'],'Recorded meter components differ')
+        require(0<=result['expanded_states']<=result['states']<=256 and result['expanded_states']==len(result['state_work'])and result['expanded_states']<=result['expansion_turns'],'State scheduler counters invalid')
+        require(sum(result['invocation_counts'].values())==result['expansion_turns'],'Invocation/turn denominator differs')
+        require(all(k.isdigit()and 0<=int(k)<result['states']and type(v)is int and v>=0 for k,v in result['state_work'].items())and sum(result['state_work'].values())<=work['total'],'Per-state work exceeds complete search')
+        require(type(result['assembly_work'])is int and 0<=result['assembly_work']<=work['total']and type(result['assembly_yields'])is int and result['assembly_yields']>=0,'Assembly accounting invalid')
+        require(result['attempted']<=course['config']['max_candidates']and len(result['candidate_records'])==result['states'],'Search candidate authority differs')
+        require(result['preparation']=={'shared':True,'work':21609,'charged_to_search':0,'uncharged_preparation_work':0},'Preparation accounting differs')
+        require(all(a in macro_ids for a in result['abstractions_used'])and (not native_only or not result['abstractions_used']),'Unadmitted subskill ancestry')
+        for record in result['candidate_records']:
+            require(len(record['features'])==64 and all(type(x)in(int,float)and math.isfinite(x)and 0<=x<=1 for x in record['features'])and math.isfinite(record['priority']),'Candidate feature/ranking authority differs')
+        actual=outcome(result['program'],job['score_inputs'],job['score_outputs']);require(actual==row['buyer'],'Independent original buyer replay differs')
+        if result['program']is not None:require(outcome(result['program'],job['diagnostic_inputs'],job['diagnostic_outputs'])['passed'],'Proposed program does not fit disclosed evidence')
+        require(row['actual_work']==work['total']+actual['total_work'],'Per-job complete cost differs')
+        spent+=row['actual_work'];require(spent==row['cumulative_known_work'],'Cumulative known work differs')
+        totals[method].update({'jobs':1,'accepted':int(actual['passed']),'wrong':int(result['program']is not None and not actual['passed']),'work':row['actual_work'],'assembly_work':result['assembly_work'],'assembly_yields':result['assembly_yields'],'states':result['states'],'expanded_states':result['expanded_states']})
+        if actual['passed']:successes[method].add(job['id'])
+        data=challenge[job['id']];cross=outcome(result['program'],data['inputs'],data['outputs'])
+        broad[method].update({'jobs':1,'proposed':int(result['program']is not None),'exact':int(cross['passed']),'correct_rows':cross['correct'],'rows':len(data['inputs']),'incorrect_proposed_jobs':int(result['program']is not None and not cross['passed'])})
+        if result['program']is not None:
+            i=next((i for i,(a,y)in enumerate(zip(cross['outputs'],data['outputs'],strict=True))if a!=y),None)
+            if i is not None:counterexamples.append({'method':method,'job_id':job['id'],'family':job['family'],'row':i,'input':data['inputs'][i],'expected':data['outputs'][i],'actual':cross['outputs'][i]})
+    for method,values in totals.items():
+        for key in('jobs','accepted','wrong','work'):require(summary['reports'][method][key]==values[key],'Summary arithmetic differs')
+    require(spent==summary['actual_known_work']and summary['remaining_conservative_bound']==75_000_000-spent-2_000_000,'Study ceiling reconciliation differs')
+    def paired(control):return{m:{'method_only':len(successes[m]-successes[control]),'control_only':len(successes[control]-successes[m]),'both':len(successes[m]&successes[control])}for m in methods}
+    report={'schema':'nuria.independent-work-fair-pilot-audit.v1','verified':True,'freeze_sha256':sha(P/'work-fair-pilot-freeze-01.json'),'trace_sha256':sha(P/'work-fair-pilot-results-01.jsonl'),'summary_sha256':sha(P/'work-fair-pilot-summary-01.json'),'audit_source_sha256':sha(Path(__file__)),'source_sha256':source_hashes,'model_receipts':models,'deliveries_replayed':88,'original_rows_per_job':{'disclosed':4,'buyer':24},'totals':{m:dict(v)for m,v in totals.items()},'paired_vs_relatedness':paired('relatedness'),'paired_vs_frozen_input':paired('context-frozen_input'),'fixed_broader_challenge':{'inputs_file_sha256':sha(P/'posthoc64-string-challenge-inputs.json'),'rows_per_job':32,'totals':{m:dict(v)for m,v in broad.items()},'counterexamples':counterexamples,'scope':'Post-hoc fixed diagnostic; all committed programs replayed, no learning/controller execution, original results unchanged.'},'known_study_work_before_this_audit':spent,'observer_replay_work':dict(observer),'observer_total_work':sum(observer.values()),'cpu_seconds':time.process_time()-started,'findings':['No neural superiority: all three spiking models accept2/8; conventional relatedness, frozen-input control and linear model accept3/8 each.','Every proposed program fails the fixed broader-domain exact challenge. The narrow original acceptance does not establish useful domain generalization.','Bounded work-fair scheduling is implemented consistently across methods and counters reconcile; this audit checks recorded counters/settings, not original controller visitation or CPU measurements.','Same8 development cases were adapted across revisions. No unseen qualification and no evidence of consciousness or a broadly superior neural planner.'],'limits':['Search, training gradients, model scoring and original in-memory scorer invocation were not re-executed.','Core commitment binds output, inputs and planner configuration but omits scorer-model identity/multiplier; trace/model association is checked separately.','Virtual-work accounting is not complete hardware FLOPs or wall-time comparability.','A source-bound macro ancestry list alone does not prove causal necessity.']}
+    save('independent-work-fair-audit-01.json',report)
+    print(json.dumps({k:report[k]for k in('verified','deliveries_replayed','totals','observer_total_work','known_study_work_before_this_audit','findings')},indent=2))
+
+if __name__=='__main__':main()

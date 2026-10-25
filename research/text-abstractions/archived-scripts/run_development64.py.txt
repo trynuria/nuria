@@ -1,0 +1,63 @@
+from pathlib import Path
+import json,time,hashlib,os
+from cognition.abstraction_search import solve_abstractions,prepare_grammar
+from cognition.template_reuse import prepare_templates,solve_templates
+from cognition.semantic_guidance import SemanticGuidance
+from cognition.exact_feature_neighbors import ExactFeatureNeighbors
+from cognition.skills import fingerprint
+from scripts.build_abstraction_tasks import CONFIG
+from scripts.verify_active_skill_results import outcome
+P=Path(__file__).resolve().parents[1] / 'artifacts's[1] / 'artifacts';R=Path(__file__).resolve().parents[3]
+library=json.loads((P/'balanced-library-02.json').read_text());course=json.loads((P/'development-course.json').read_text());grammar=prepare_grammar(library,CONFIG)
+programs=json.loads((P/'all-historical-programs.json').read_text());templates=prepare_templates(programs,CONFIG)
+fit_protocol=json.loads((P/'teaching-fit-freeze-01.json').read_text());training=json.loads((P/'training.json').read_text())
+models={m:SemanticGuidance.from_evidence(json.loads((P/f'model-{m}.json').read_text()))for m in fit_protocol['methods']}
+model_before={m:fingerprint(model.evidence())for m,model in models.items()}
+knn=ExactFeatureNeighbors(models['knn'].reference_x,models['knn'].reference_y,neighbors=models['knn'].configuration['neighbors'])
+methods=['templates','native_only_relatedness','native_plus_relatedness','native_plus_frequency','native_plus_uniform','spiking','frozen_input','continuous','linear','knn','native_only_spiking']
+freeze={'schema':'nuria.abstraction-development64.v1','created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'source_sha256':{f:hashlib.sha256((R/f).read_bytes()).hexdigest()for f in ['cognition/abstraction_search.py','cognition/text_abstractions.py','cognition/template_reuse.py','cognition/semantic_guidance.py','cognition/exact_feature_neighbors.py','scripts/build_abstraction_tasks.py','scripts/verify_active_skill_results.py']},'course_sha256':hashlib.sha256((P/'development-course.json').read_bytes()).hexdigest(),'model_sha256':{m:hashlib.sha256((P/f'model-{m}.json').read_bytes()).hexdigest()for m in models},'training_sha256':hashlib.sha256((P/'training.json').read_bytes()).hexdigest(),'methods':methods,'guidance_multiplier':fit_protocol['guidance_multiplier'],'scope':'All64 authored development tasks from8known structural clusters; first8 already inspected during engineering. Not independent qualification or64independent cluster observations. No test fitting, final-label retries or hidden-source input.','per_job_search_ceiling':50000,'study_work_ceiling':75000000,'observer_work_reserve':2000000}
+with(P/'development64-freeze.json').open('x')as f:json.dump(freeze,f,indent=2)
+# Both mining attempts, repeated actual preparations and historical teaching are
+# retained. Observer work has an explicit conservative reserve, not a free retry.
+prep1=json.loads((P/'preparation-summary.json').read_text());prep2=json.loads((P/'balanced-preparation-summary-02.json').read_text())
+spent=json.loads((P/'pilot03-summary.json').read_text())['all_serving_buyer_work_including_prior_pilots']+training['work']+prep1['mining_work']['total']+prep1['preparation_work']+prep2['extra_unary_mining_work']['total']+5*grammar.preparation_work+2*templates.report['preparation_work']['total']
+sequence=0;previous='0'*64;journal=(P/'study-budget-journal.jsonl').open('x')
+def event(kind,**fields):
+ global sequence,previous
+ sequence+=1;row={'sequence':sequence,'previous_sha256':previous,'kind':kind,**fields};row['sha256']=fingerprint(row);journal.write(json.dumps(row)+'\n');journal.flush();os.fsync(journal.fileno());previous=row['sha256']
+event('anchor',prior_known_work=spent,observer_work_reserved=2000000,maximum_work=75000000,boundary='Interpreter/construction accounting and known preparation; fitting/inference/serialization CPU separately measured, not all hardware instructions.')
+reports={};allrows=[]
+with(P/'development64-results.jsonl').open('x')as out:
+ for method in methods:
+  rows=[];start=time.process_time()
+  for i,job in enumerate(course['tasks']):
+   reserved=150000
+   if spent+reserved+2000000>75000000:raise ValueError('Shared work ceiling cannot reserve next complete job')
+   event('reserve',method=method,job_id=job['id'],reserved_work=reserved,actual_spent=spent)
+   xs,ys=job['diagnostic_inputs'],job['diagnostic_outputs'];kwargs={'budget':50000}
+   if method=='templates':result=solve_templates(xs,ys,CONFIG,templates,**kwargs)
+   elif method in ('native_only_relatedness','native_plus_relatedness','native_plus_frequency','native_plus_uniform'):
+    result=solve_abstractions(xs,ys,CONFIG,grammar,ordering=method.split('_')[-1],use_abstractions=not method.startswith('native_only'),**kwargs)
+   else:
+    model_method='spiking'if method=='native_only_spiking'else method
+    if model_method=='knn':knn.reset();score=knn.score
+    else:score=models[model_method].score
+    result=solve_abstractions(xs,ys,CONFIG,grammar,ordering='guided',scorer=lambda x:12*score(x),use_abstractions=method!='native_only_spiking',**kwargs)
+    if model_method=='knn':result['neighbor_index']=knn.statistics()
+   buyer=outcome(result['program'],job['score_inputs'],job['score_outputs'],CONFIG)
+   work=result['work']['total']+buyer['total_work']
+   if work>reserved:raise ValueError('Work exceeded reserved complete job bound; reconcile before retry')
+   row={'method':method,'job_id':job['id'],'result':result,'buyer':buyer,'actual_work':work}
+   out.write(json.dumps(row)+'\n');out.flush();os.fsync(out.fileno());spent+=work
+   event('settle',method=method,job_id=job['id'],actual_work=work,released_work=reserved-work,actual_spent=spent,result_sha256=fingerprint(row))
+   rows.append(row);allrows.append(row)
+   if i%16==0:print(method,i,sum(r['buyer']['passed']for r in rows),spent,flush=True)
+  reports[method]={'jobs':len(rows),'accepted':sum(r['buyer']['passed']for r in rows),'wrong':sum(r['result']['program']is not None and not r['buyer']['passed']for r in rows),'search_work':sum(r['result']['work']['total']for r in rows),'buyer_work':sum(r['buyer']['total_work']for r in rows),'accepted_multi_abstraction':sum(r['buyer']['passed']and len(r['result'].get('abstractions_used',[]))>=2 for r in rows),'cpu_seconds':time.process_time()-start}
+  print('completed',method,reports[method],flush=True)
+for m,model in models.items():
+ if fingerprint(model.evidence())!=model_before[m]:raise ValueError('Serving changed frozen model evidence')
+event('complete',actual_spent=spent,pending_jobs=0,observer_work_reserved=2000000)
+journal.close()
+summary={'schema':'nuria.abstraction-development64-results.v1','reports':reports,'actual_known_study_work':spent,'observer_work_reserved':2000000,'remaining_conservative_bound':75000000-spent-2000000,'freeze_sha256':hashlib.sha256((P/'development64-freeze.json').read_bytes()).hexdigest(),'journal_sha256':hashlib.sha256((P/'study-budget-journal.jsonl').read_bytes()).hexdigest(),'scope':freeze['scope'],'frozen_models_unchanged':True}
+with(P/'development64-summary.json').open('x')as f:json.dump(summary,f,indent=2)
+print(json.dumps(summary,indent=2))
