@@ -1,0 +1,100 @@
+{
+  "schema": "nuria.grounded-pilot-independent-check.v1",
+  "checked_at": "2026-10-25T20:11:41.457613+00:00",
+  "task_id": "spider-dev-1017",
+  "scope": "Only the one authorized development pilot and its oracle entry; no sealed questions or other oracle labels inspected",
+  "verdict": "correct_candidate_and_intact_settlement_integration_only",
+  "candidate_correct_on_original_database": true,
+  "candidate_matches_oracle": true,
+  "reference_sql_independently_reexecuted": true,
+  "independent_python_grouping_matches": true,
+  "source_qualification": "mixed-source integration run; workspace source changed after freeze; not a frozen qualification",
+  "workspace_source_mismatch": {
+    "frozen": "4bbbc6fbec04a2a7d3f79978d2cdd4fb158bb4e2779e7b7165da6568df2dca6b",
+    "current": "3eae209411898f765a0d9c3409620662aa675fe49143b2e4773d762c52fd49c2",
+    "same": false
+  },
+  "source_mismatch_effect": "Not reconstructed; this check independently validates answer values and stored evidence only",
+  "db_id": "singer",
+  "database_sha256_before": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+  "database_sha256_after": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+  "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+  "actual_checker_sqlite_version": "3.53.4",
+  "candidate_sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship",
+  "reference_sql": "SELECT Citizenship ,  max(Net_Worth_Millions) FROM singer GROUP BY Citizenship",
+  "columns": ["Citizenship", "Max_Net_Worth_Millions"],
+  "rows": [
+    ["Australia", 17.0],
+    ["Chile", 17.4],
+    ["France", 30.0],
+    ["Germany", 14.3],
+    ["United States", 28.8]
+  ],
+  "original_base_rows": 8,
+  "null_citizenship_or_worth_rows": 0,
+  "own_executed_query_confirmed": true,
+  "receipt_checks": [
+    {
+      "turn": 0,
+      "tool": "list_tables",
+      "result_sha256": "3c5c7820154795ccd6280d7971ebfc7234a79c993dfe74081d52781a1bbca579"
+    },
+    {
+      "turn": 1,
+      "tool": "describe_table",
+      "result_sha256": "008c5f2f7c25270003738ebb68ba0e76960b8ef06f60a5901071b7073b988891"
+    },
+    {
+      "turn": 2,
+      "tool": "query",
+      "result_sha256": "987a8f1f89aa867f4f00af02db8a19d0028876929ef1d58cd35eba16af1b5259"
+    },
+    {
+      "turn": 3,
+      "tool": "query",
+      "result_sha256": "68d0db876a5d2a8780103ab930868b8965af6d1cf0a36abcca6a5cd84842893a"
+    }
+  ],
+  "model_calls": 5,
+  "model_usage": {
+    "prompt_tokens": 8909,
+    "completion_tokens": 887,
+    "total_tokens": 9796,
+    "unknown_additional_usage": false
+  },
+  "wall_seconds": 54.30841050017625,
+  "memory_event_counts": {
+    "begin": 1,
+    "action": 4,
+    "proposal": 1,
+    "settlement": 1
+  },
+  "memory_chain_head": "618911ae3fe44aebdba721e69cce764e2d0b707d92c828f72de595523f09a976",
+  "memory_terminal_acceptance": true,
+  "memory_retrieval": {
+    "mode": "none",
+    "item_count": 0,
+    "bytes": 0,
+    "tokens": 0,
+    "memory_sha256": "ed5c0263a4009ddef37bb9be57887426e89581a57cbff4712bad995c1d8c0709",
+    "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda"
+  },
+  "learning_gain_demonstrated": false,
+  "neural_added_value_demonstrated": false,
+  "limitations": [
+    "One simple GROUP BY/MAX task; no performance comparison.",
+    "Historical procedural memory was not retrieved.",
+    "No neural-context treatment was used.",
+    "Reported model usage is internally consistent with retained receipts; raw inference responses were not retained in this pilot artifact.",
+    "Workspace implementation hash and SQLite runtime were absent from these early receipts; a later implementation adds them.",
+    "Recorded memory cost units use a 1000 multiplier over progress callbacks; this check makes no native CPU work claim."
+  ],
+  "input_file_sha256": {
+    "results.jsonl": "2dbd931a7b81f6ab54b87bb58c17bfe64c2174df201e7943df110a601aeabff0",
+    "freeze.json": "d3e4e8f958ffdff218145f1aa770a3d95174dac17055482f8cb0d8b776f46d9f",
+    "source-comparison-after-pilot.json": "78b3a24c67b7cd0d3bd12897e6f4bc90f17e8667e6151f185016402e3851b82e",
+    "oracle.json": "090f3c1cd06a9a105124218374d8ebaf16a70e569ba65c60b643284e24fc1fea",
+    "registry.json": "c2ca20599b6a5dbcca52829f35fe81e91404e9e9087ec562b5a3f54aeec484f7",
+    "memory.sqlite": "e4196bdd80f0954ac84eb55c927e7465301b38a0d9314d380d970dc42e67698c"
+  }
+}

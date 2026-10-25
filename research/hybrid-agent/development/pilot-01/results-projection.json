@@ -1,0 +1,344 @@
+{
+  "schema": "nuria.grounded-development-trace-projection.v1",
+  "original_results_sha256": "2dbd931a7b81f6ab54b87bb58c17bfe64c2174df201e7943df110a601aeabff0",
+  "projection_policy": {
+    "trace_projection": "Retains executed actions, SQL, complete tool receipts, model usage/commitments, final answer and host settlement. Omits action explanations and candidate procedure annotations; no model reasoning bodies or raw response bodies are included.",
+    "identity_scope": "Original hashes identify retained original bytes, not the reduced projections. Projection file hashes are computed separately. Local hashes provide consistency, not an external witness."
+  },
+  "jobs": [
+    {
+      "task_id": "spider-dev-1017",
+      "question": "For each citizenship, what is the maximum net worth?",
+      "db_id": "singer",
+      "original_record_line_sha256": "5f7dcbc60da4a6afb1b038946e3595ce0dae95408ff50809cb49cc458df0f13a",
+      "original_agent_result_sha256": "7bf171a2bd00ecbf75ce87e6c578f13bb89dd1395abcfcdd20b9c2607387d0ae",
+      "agent": {
+        "schema": "nuria.grounded-analyst.v1",
+        "job_id": "spider-dev-1017",
+        "episode_id": "8c42de8f41eeb4e524f780c80891c4f7b7a7c05b95916796d4764e035f4dab5c",
+        "context_sha256": "6c7615fb4e3fd2f29b647ea171bce1da0cec478ad6437a310869d1fecdcfd2d2",
+        "configuration": {
+          "version": "nuria.grounded-analyst.v1",
+          "memory_mode": "none",
+          "max_turns": 12,
+          "max_output_tokens": 6000,
+          "max_tokens_per_turn": 768,
+          "memory_bytes": 6000,
+          "model_binding": {
+            "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+            "schema": "nuria.procedural-memory.v1",
+            "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "tool_version": "nuria.analyst-workspace.v1"
+          },
+          "system_sha256": "5913adf03185be5bcd61702a5decfc47601a78b6e201fc9c121951d3c968ca75"
+        },
+        "status": "proposed",
+        "proposal_sha256": "10f2fa34e8a5543a3ecac9ec9aefc2997fd1114c0892e632a68c601dc7f1c960",
+        "final_sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship",
+        "selected_receipt": {
+          "schema": "nuria.analyst-workspace.v1",
+          "tool": "query",
+          "request_sha256": "20ff1874e46c42d5e83bb080c98075d0426bfd3edcd348703dee7b6b842aa58a",
+          "source": {
+            "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "db_id": "singer",
+            "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+            "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+          },
+          "columns": ["Citizenship", "Max_Net_Worth_Millions"],
+          "complete": true,
+          "cost": {
+            "output_bytes": 848,
+            "vm_progress_callbacks": 262,
+            "worker_wall_ms": 0.3392500802874565,
+            "wall_ms": 54.97629102319479,
+            "payload_bytes_observed": 130
+          },
+          "error": null,
+          "rows": [
+            ["Australia", 17.0],
+            ["Chile", 17.4],
+            ["France", 30.0],
+            ["Germany", 14.3],
+            ["United States", 28.8]
+          ],
+          "status": "ok",
+          "result_sha256": "987a8f1f89aa867f4f00af02db8a19d0028876929ef1d58cd35eba16af1b5259"
+        },
+        "memory_retrieval": {
+          "mode": "none",
+          "item_count": 0,
+          "bytes": 0,
+          "tokens": 0,
+          "memory_sha256": "ed5c0263a4009ddef37bb9be57887426e89581a57cbff4712bad995c1d8c0709",
+          "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda"
+        },
+        "model_usage": {
+          "prompt_tokens": 8909,
+          "completion_tokens": 887,
+          "total_tokens": 9796,
+          "unknown_additional_usage": false
+        },
+        "tool_calls": 4,
+        "protocol_errors": 0,
+        "source": {
+          "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+          "db_id": "singer",
+          "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+        },
+        "wall_seconds": 54.30841050017625,
+        "accepted": null,
+        "scope": "Committed proposal; independent host acceptance and memory settlement have not run"
+      },
+      "execution_trace": [
+        {
+          "turn": 0,
+          "kind": "action",
+          "action": {
+            "tool": "list_tables",
+            "arguments": {}
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 584,
+              "completion_tokens": 100,
+              "total_tokens": 684
+            },
+            "request_sha256": "73f8005fcc70beee23d8c4716ba9ac2f0c79b4542d3e0c2bf72f8f02bcef9089",
+            "response_sha256": "27345017661ea104a55713390bd45607d966f7761d749c622cb642e02d2639b9",
+            "finish_reason": "stop",
+            "wall_seconds": 4.892360582947731
+          }
+        },
+        {
+          "turn": 0,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "list_tables",
+            "request_sha256": "f6d6495fd16754061568e2f7bcd0520d688b8333184b73dd604171dbd57287d8",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "type"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 773,
+              "vm_progress_callbacks": 87,
+              "worker_wall_ms": 0.4462499637156725,
+              "wall_ms": 114.0785408206284,
+              "payload_bytes_observed": 51
+            },
+            "error": null,
+            "rows": [
+              ["singer", "table"],
+              ["song", "table"]
+            ],
+            "status": "ok",
+            "result_sha256": "3c5c7820154795ccd6280d7971ebfc7234a79c993dfe74081d52781a1bbca579"
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "singer"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1119,
+              "completion_tokens": 97,
+              "total_tokens": 1216
+            },
+            "request_sha256": "fb1a7bac622fe80d5c1c6441f0e9402c8ee92602d20fcc92310cbf92cdca1bbe",
+            "response_sha256": "5dae3c227698bc7c6b0ef4df7781c22b486d5b478e8675b5d0053af14512b2bf",
+            "finish_reason": "stop",
+            "wall_seconds": 6.345749708125368
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "request_sha256": "073c6b417da5e130d8bf25084f7cc0b6d7ba801762997851f37ab356c403da1d",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 963,
+              "vm_progress_callbacks": 115,
+              "worker_wall_ms": 0.41329185478389263,
+              "wall_ms": 113.48524992354214,
+              "payload_bytes_observed": 234
+            },
+            "error": null,
+            "rows": [
+              [0, "Singer_ID", "INT", 0, null, 1, 0],
+              [1, "Name", "TEXT", 0, null, 0, 0],
+              [2, "Birth_Year", "REAL", 0, null, 0, 0],
+              [3, "Net_Worth_Millions", "REAL", 0, null, 0, 0],
+              [4, "Citizenship", "TEXT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "008c5f2f7c25270003738ebb68ba0e76960b8ef06f60a5901071b7073b988891"
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1782,
+              "completion_tokens": 159,
+              "total_tokens": 1941
+            },
+            "request_sha256": "e380f31c59649440f3c4e3c75d42a29caa933152130276479d03973c07a08951",
+            "response_sha256": "96e563f46f9dc3936aab2c74d86c69acc07be209041f2c96e4b115eab23d90a6",
+            "finish_reason": "stop",
+            "wall_seconds": 10.260288750054315
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "request_sha256": "20ff1874e46c42d5e83bb080c98075d0426bfd3edcd348703dee7b6b842aa58a",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["Citizenship", "Max_Net_Worth_Millions"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 848,
+              "vm_progress_callbacks": 262,
+              "worker_wall_ms": 0.3392500802874565,
+              "wall_ms": 54.97629102319479,
+              "payload_bytes_observed": 130
+            },
+            "error": null,
+            "rows": [
+              ["Australia", 17.0],
+              ["Chile", 17.4],
+              ["France", 30.0],
+              ["Germany", 14.3],
+              ["United States", 28.8]
+            ],
+            "status": "ok",
+            "result_sha256": "987a8f1f89aa867f4f00af02db8a19d0028876929ef1d58cd35eba16af1b5259"
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT COUNT(*) AS total, COUNT(Citizenship) AS non_null_citizenship, COUNT(Net_Worth_Millions) AS non_null_net_worth, SUM(CASE WHEN Citizenship IS NULL THEN 1 ELSE 0 END) AS null_citizenship, SUM(CASE WHEN Net_Worth_Millions IS NULL THEN 1 ELSE 0 END) AS null_net_worth FROM singer"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2386,
+              "completion_tokens": 231,
+              "total_tokens": 2617
+            },
+            "request_sha256": "b96d3b199b8a3d22c6668332bcbc34aa009acf529608e90fdc555a8917941887",
+            "response_sha256": "9546da0fadbd8c982c3be007ea5678afeb8bdee74654adfcee78d608b42f0f24",
+            "finish_reason": "stop",
+            "wall_seconds": 14.191973875043914
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "request_sha256": "f9d38f976e79ac1a1a447e6ecb9419229c6ed84fd278f2cd8f03bde00700e228",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": [
+              "total",
+              "non_null_citizenship",
+              "non_null_net_worth",
+              "null_citizenship",
+              "null_net_worth"
+            ],
+            "complete": true,
+            "cost": {
+              "output_bytes": 819,
+              "vm_progress_callbacks": 177,
+              "worker_wall_ms": 0.3088749945163727,
+              "wall_ms": 48.34416578523815,
+              "payload_bytes_observed": 101
+            },
+            "error": null,
+            "rows": [[8, 8, 8, 0, 0]],
+            "status": "ok",
+            "result_sha256": "68d0db876a5d2a8780103ab930868b8965af6d1cf0a36abcca6a5cd84842893a"
+          }
+        },
+        {
+          "turn": 4,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3038,
+              "completion_tokens": 300,
+              "total_tokens": 3338
+            },
+            "request_sha256": "f0bca86fe91dfea62d3cb9214c1f25e2da7d1a8514cd82bee5913617cf5f37aa",
+            "response_sha256": "5eb8bcba06051ce1850c8358fce6135ce3c70626b4c621b6522d58b4a6a4c1c3",
+            "finish_reason": "stop",
+            "wall_seconds": 18.283084792084992
+          }
+        }
+      ],
+      "settlement": {
+        "episode_id": "8c42de8f41eeb4e524f780c80891c4f7b7a7c05b95916796d4764e035f4dab5c",
+        "origin_sha256": "8c42de8f41eeb4e524f780c80891c4f7b7a7c05b95916796d4764e035f4dab5c",
+        "proposal_sha256": "10f2fa34e8a5543a3ecac9ec9aefc2997fd1114c0892e632a68c601dc7f1c960",
+        "accepted": true,
+        "checker_id": "sqlite-execution-result-v1",
+        "evidence_sha256": "193831d95582559e9404b35e10cb49750461c7b6cfad51982a60d213ec68e373",
+        "terminal_reward": 1,
+        "receipt_sha256": "c478157ba856e38357d9da598309db89a832c40150eba9141318fad009422f33"
+      }
+    }
+  ]
+}
