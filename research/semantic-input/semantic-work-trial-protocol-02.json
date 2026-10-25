@@ -1,0 +1,68 @@
+{
+  "schema": "nuria.semantic-work-trial.v1",
+  "job_id": "semantic-recorded-work-audit-01",
+  "source_sha256": "0b40b7d85e28aae838996afafe40dd650b74dd23b49d9013d33ef09865578713",
+  "domain_checker_sha256": "5e941694675c6253e2035958e0df960154125625cefb495fe467f97790c60ca8",
+  "registry_file_sha256": "dc46fa6bb4c5e3391c9cf45a07fa7420b013a714de62264348c86ac99fa2d2ca",
+  "question": "For each provider in task_outcomes, return provider, task count, count with delivery_passed=1, count with outcome_utility>0, count with outcome_utility IS NULL, count with settlement_basis=included_capacity, and count with settled_micro_usd>0. Order by provider. Preserve the snapshot coverage: these are only recent reported tasks, and included capacity is not an external purchase.",
+  "expected_rows_sha256": "25fbebd4e25f27681250a73b4f9d73dddc5824ad0532e1542bd0115308bdd084",
+  "model_identity": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+  "new_source": {
+    "cognition/semantic_encoder.py": "d22bd18838626a63adcffda20747ef8f733b0ed4ca1659d79fa63f843e2ffe5a",
+    "cognition/semantic_worker.py": "12126739d2a41f618b5431e88e1e3670649bdc19ef19002413b65fee3d759f9e",
+    "cognition/semantic_neural.py": "7ebd963707017764957631ca5fe0cbdd93c5b8aa4cd53b155514afe86f2097cb",
+    "scripts/ask_semantic_analyst.py": "20cf6e9b056132df670a4e18752e7d46bc24c8ad80b966f1b2a76a800cf2c344",
+    "research/semantic-input/runtime/model-manifest.json": "6652abcd0dfa9b7a4cc940109b84b5a0707e9a9a927d7efe811f508889e1826d",
+    "research/semantic-input/runtime/requirements-cpu.lock": "24ebdae5180abc0ec0cd4cb789d700470558da3d109a49adea0d15bc8099f8e1"
+  },
+  "host_helper_sha256": "6b3f73523eb550f3f017682368d17ab7396c23f085409eeaaa195d4a10cfee42",
+  "host_checker_sha256": "a18ac99afae50e0df3eea5f3a5a956b5c4756230035089e7fc4b0d276024c799",
+  "encoder_binding": {
+    "schema": "nuria.semantic-worker.v1",
+    "dimensions": 384,
+    "encoder_binding": {
+      "schema": "nuria.semantic-encoder.v1",
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "model_file_sha256": "4278337fd0ff3c68bfb6291042cad8ab363e1d9fbc43dcb499fe91c871902474",
+      "tokenizer_git_blob_sha1": "cb202bfe2e3c98645018a6d12f182a434c9d3e02",
+      "manifest_sha256": "6652abcd0dfa9b7a4cc940109b84b5a0707e9a9a927d7efe811f508889e1826d",
+      "implementation_sha256": "d22bd18838626a63adcffda20747ef8f733b0ed4ca1659d79fa63f843e2ffe5a",
+      "dimensions": 384,
+      "maximum_input_bytes": 5000,
+      "maximum_wordpieces": 256,
+      "truncation": "refuse",
+      "pooling": "attention-mask mean then L2",
+      "max_calls": 1,
+      "runtime": {
+        "onnxruntime": "1.31.0",
+        "tokenizers": "0.23.3",
+        "numpy": "2.5.4"
+      },
+      "providers": [
+        "CPUExecutionProvider"
+      ],
+      "intra_op_threads": 2,
+      "inter_op_threads": 1,
+      "execution_mode": "sequential"
+    },
+    "encoder_binding_sha256": "a61ca2fac85cbc645ec59bcf68b898b63958ec386786c7c030e09d6ac04f9b4e",
+    "worker_sha256": "12126739d2a41f618b5431e88e1e3670649bdc19ef19002413b65fee3d759f9e",
+    "interpreter_sha256": "7b05d803bbc1bbfc81644af4faf2b88f0a37b8de96b9f42c1e08033e2cd0848a",
+    "max_calls": 1,
+    "timeout_seconds": 30,
+    "maximum_input_bytes": 8192,
+    "maximum_output_bytes": 65536,
+    "python_isolated_mode": true,
+    "question_transport": "JSON stdin only"
+  },
+  "encoder_binding_sha256": "2c17f1671d6b70791544e95e5c7268f9391e2c6dfbf4d1f658cc99589acf81f5",
+  "maximum_additional_cpu_encodes": 1,
+  "maximum_completion_tokens": 6000,
+  "maximum_trial_wall_seconds": 360,
+  "global_deadline_utc": "2026-10-25T23:31:12.634660+00:00",
+  "public_repository": "trynuria/nuria",
+  "public_protocol_path": "research/semantic-input/semantic-work-trial-protocol-02.json",
+  "publication_requirement": "Exact public commit, tree, protocol and source hashes must be verified separately by the host before the private grant is issued.",
+  "scope": "One actual semantic first-tool selection over40recent server-reported work tasks; an independent raw-JSON grouping checker. Included capacity is not an external purchase. No task gain, neural superiority or general transfer claim."
+}
