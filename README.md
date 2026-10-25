@@ -42,6 +42,9 @@ Its [twelve-text wiring record](research/semantic-input/README.md) verifies the
 input mapping and matched neural observations, rather than claiming a useful-task
 gain. The [methods note](research/hybrid-agent/methods-and-limits.md) distinguishes
 experience retrieval, neural adaptation and changes to language-model weights.
+An [adaptive conventional controller](docs/semantic-control.md) supplies a
+same-information comparator for future semantic-input trials; its implementation
+does not establish a comparison result.
 
 The [neural task loop](docs/action-loop.md) selects configured external goals from
 actual spike features, retains the decision context and action-region eligibility,
