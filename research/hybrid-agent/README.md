@@ -53,17 +53,35 @@ are selected before the reserved bodies are opened. A separate frozen protocol
 binds the selected artifacts, source identities, model and limits before the
 reserved comparison begins.
 
-The runner visits all six branches for each question, rotating their execution
-order across questions. A 36,000-completion-token headroom check precedes each
-six-job block. Teaching feedback is released only after all six proposals in that
-block are committed. Reserved terminal labels are withheld until the complete
-reserved inference phase ends; they cannot influence later reserved proposals.
-Reference SQL and expected rows remain outside the agent's tool surface.
+The original [protocol](protocol.json) used six-branch blocks. Two interrupted
+attempts remain recorded in [the attempt archive](attempts/). Neither released a
+teaching grade or began reserved inference. The first lost its command process;
+the second exposed a private launcher error that caused spawned database workers
+to re-enter the launcher. These are retained execution failures, not learning
+results.
+
+The [prospective amendment](attempts/comparison-03-protocol.json) completes the
+primary **hybrid fixed versus hybrid neural** comparison first. Both use the same
+model, procedural memory and tools. Their specific difference is the initial
+inspection strategy. The four other branches form a separate secondary group.
+This prioritizes a complete primary comparison within the unchanged cumulative
+200,000-completion-token and 10,800-second allowance.
+
+Within each group, the runner rotates branch order for each question and reserves
+headroom for the complete matched block: 12,000 tokens for the primary pair or
+24,000 for the four secondary branches. Teaching feedback follows the complete
+block. All twelve reserved answers from each branch commit before any reserved
+grade is released within that group. Experience histories are isolated, and no
+policy changes are permitted during the run. Reference SQL and expected rows
+remain outside the agent's tool surface.
 
 If a resource limit stops the run early, only completely committed balanced
 reserved blocks receive descriptive grading after the stop. That grading does not
 settle retrievable experience or apply neural credit. All 120 planned branch/job
-records remain in the selected denominator, including unexecuted work.
+records remain in the selected denominator, including unexecuted work. Primary
+completion and secondary coverage are reported separately. A complete primary
+pair does not establish that the secondary comparisons finished or that the
+neural branch beats every simpler control.
 
 The checker compares complete finite execution results, retaining duplicate rows,
 NULL values, value types, column count and required ordering. This is not the full
