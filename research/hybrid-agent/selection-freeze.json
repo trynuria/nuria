@@ -1,0 +1,95 @@
+{
+  "archive_etag": null,
+  "archive_last_modified": "Wed, 11 Sep 2024 21:03:09 GMT",
+  "archive_size": 205800266,
+  "canonical_archive_url": "https://drive.usercontent.google.com/download?id=1403EGqzIDoHMdQF4c9Bkyl7dZLZ5Wt6J&export=download&authuser=0&confirm=t",
+  "contamination_limit": "Spider is public since 2018 and may occur in backbone pretraining. This is a frozen agent comparison, not new backbone knowledge or a leaderboard submission.",
+  "created_utc": "2026-10-25T19:58:16Z",
+  "database_order": [
+    "battle_death",
+    "singer",
+    "pets_1",
+    "network_1",
+    "voter_1",
+    "employee_hire_evaluation"
+  ],
+  "database_selection": "First six SHA256(seed+':spider:'+db_id)-ordered official development DB IDs with >=6 metadata-counted questions and <=5MiB SQLite member; no difficulty or execution-result selection",
+  "dataset": "Spider 1.0",
+  "eligible_database_ids": [
+    "battle_death",
+    "car_1",
+    "concert_singer",
+    "course_teach",
+    "cre_Doc_Template_Mgt",
+    "dog_kennels",
+    "employee_hire_evaluation",
+    "flight_2",
+    "museum_visit",
+    "network_1",
+    "orchestra",
+    "pets_1",
+    "poker_player",
+    "singer",
+    "student_transcripts_tracking",
+    "tvshow",
+    "voter_1",
+    "world_1"
+  ],
+  "grading_scope": "Strict finite result rows, duplicates, NULLs, column count and top-level ordered output. Not the complete official Spider test-suite metric or universal SQL equivalence.",
+  "license": "CC-BY-SA-4.0",
+  "members": {
+    "battle_death": {
+      "archive_path": "spider_data/database/battle_death/battle_death.sqlite",
+      "bytes": 28672,
+      "crc32": 2181115970
+    },
+    "employee_hire_evaluation": {
+      "archive_path": "spider_data/database/employee_hire_evaluation/employee_hire_evaluation.sqlite",
+      "bytes": 36864,
+      "crc32": 1360362467
+    },
+    "network_1": {
+      "archive_path": "spider_data/database/network_1/network_1.sqlite",
+      "bytes": 28672,
+      "crc32": 345618879
+    },
+    "pets_1": {
+      "archive_path": "spider_data/database/pets_1/pets_1.sqlite",
+      "bytes": 16384,
+      "crc32": 2506377593
+    },
+    "singer": {
+      "archive_path": "spider_data/database/singer/singer.sqlite",
+      "bytes": 20480,
+      "crc32": 3443329157
+    },
+    "voter_1": {
+      "archive_path": "spider_data/database/voter_1/voter_1.sqlite",
+      "bytes": 20480,
+      "crc32": 3574577049
+    }
+  },
+  "metadata_sha256": "c4d27262ca4d012890bcca37315ef3c5e12101384b6261d46489de127f28c473",
+  "metadata_url": "https://datasets-server.huggingface.co/statistics?dataset=xlangai/spider&config=spider&split=validation",
+  "per_database_quota": {
+    "development": 3,
+    "reserved": 6,
+    "teaching": 4
+  },
+  "preparation_source_sha256": "7091bbca677d23bb96f23d3789f5e1ef096bf12743361ddde3571b7b988d0f95",
+  "questions_member": {
+    "archive_path": "spider_data/dev.json",
+    "bytes": 3629512,
+    "crc32": 3503897136
+  },
+  "reserved_policy": "Question bodies remain sealed until model and policy freeze",
+  "schema": "nuria.spider-source-selection.v1",
+  "seed": "nuria-livesql-hybrid-v1",
+  "source_url": "https://yale-lily.github.io/spider",
+  "splits": {
+    "development": ["battle_death", "singer"],
+    "reserved": ["voter_1", "employee_hire_evaluation"],
+    "teaching": ["pets_1", "network_1"]
+  },
+  "task_selection": "First hash-ordered syntactically SELECT/WITH-eligible original development row indices per selected DB; no result-dependent replacement"
+}
