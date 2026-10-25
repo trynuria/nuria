@@ -98,5 +98,22 @@ python -m scripts.verify_semantic_wiring
 
 This recomputes all twelve bounded current mappings, checks text/vector/model and
 spike hashes, preserves the full denominator and tests the recorded provenance
-invariance. It checks retained evidence consistency, not external attestation of
-the original execution or replay from the private binary checkpoint.
+invariance. Artifact, vector, input and spike hashes are exact. The mapping uses
+the prototype's exact projection matrix, identified by float32 data hash
+`e090ccfd2b367d91f7849f1902d620211987c22f70efd1e0af7afe7390d7d281`.
+The arithmetic is float32, whose reduction order can differ between ARM and x86 BLAS
+implementations. Its numerical recomputation permits an absolute difference of
+eight float32 epsilons (`0.00000095367431640625`), while shapes, zero channels and
+scalar controls remain exact. The verifier reports the largest actual difference;
+it does not promise identical future spike trajectories across platforms. Tests
+reject changes above that bound and any newly active zero channel.
+
+This checks retained evidence consistency, not external attestation of the
+original execution or replay from the private binary checkpoint.
+
+The [portability record](attempts/ci-portability-01.json) retains the initial
+Linux verifier failure and a separate twelve-vector float64 summation diagnostic.
+The recorded probe is unchanged; corrected cross-platform CI is a separate check.
+The [conventional semantic controller](../../docs/semantic-control.md) is now
+implemented for a future matched useful-task course. It has not been credited
+with an unrun comparison result.
