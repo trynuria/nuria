@@ -13,6 +13,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 import shutil
 import time
 from datetime import datetime, timezone
@@ -87,9 +88,13 @@ def boundary_row(
     }
 
 
-def prepare(repository, *, budget_file, model_configuration):
+def prepare(
+    repository, *, budget_file, model_configuration, protocol_name="protocol-01.json"
+):
     """Freeze all cases, rules and code before any new model request."""
     root = Path(repository).resolve()
+    if not re.fullmatch(r"protocol-[0-9]{2}\.json", protocol_name):
+        raise ValueError("A numbered protocol filename is required")
     projection = json.loads((root / BASE).read_bytes())
     if (
         sha(root / BASE)
@@ -144,8 +149,21 @@ def prepare(repository, *, budget_file, model_configuration):
                 amount=amount,
             )
         )
-    write(root / PREFIX / "sources/boundary-42.json", boundary)
-    write(root / PREFIX / "sources/settlement-43.json", settlement)
+    for name, value in (
+        ("boundary-42.json", boundary),
+        ("settlement-43.json", settlement),
+    ):
+        target = root / PREFIX / "sources" / name
+        if target.exists():
+            expected_bytes = (
+                json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n"
+            ).encode()
+            if target.read_bytes() != expected_bytes:
+                raise ValueError(
+                    "An earlier fixture differs; retain it and use a new course"
+                )
+        else:
+            write(target, value)
     cases = []
     definitions = (
         (
@@ -244,7 +262,7 @@ def prepare(repository, *, budget_file, model_configuration):
         "failure_policy": "At most one new plan after observed reader unavailability; charge the failed operation; retain every failure. Stop model calls on transport ambiguity.",
         "interpretation": "Finite useful execution capability; no claimed advantage over exact planning, neural gain, consciousness or real purchasing.",
     }
-    write(root / PREFIX / "protocol-01.json", protocol)
+    write(root / PREFIX / protocol_name, protocol)
     return protocol
 
 
@@ -456,6 +474,7 @@ def main():
             args.repository,
             budget_file=args.budget,
             model_configuration=load_reasoner(args.config).configuration,
+            protocol_name=args.protocol.name if args.protocol else "protocol-01.json",
         )
         print(json.dumps({"selected": result["selected_jobs"], "frozen": True}))
     else:

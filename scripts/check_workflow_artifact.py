@@ -16,7 +16,7 @@ from collections import Counter
 from pathlib import Path
 
 CHECKER_ID = "nuria.workflow-artifact-checker.v1"
-SCOPE = "Server-reported records; no independent payment or semantic acceptance verification."
+SCOPE = "Recorded task evidence; no independent payment or semantic acceptance verification."
 TITLES = {
     "provider_brief": "Provider brief",
     "payment_brief": "Payment brief",
@@ -294,6 +294,11 @@ def verify_artifact(
             + TITLES[kind]
             + "\n\n"
             + SCOPE
+            + (
+                "\n\nCoverage: " + projection["coverage"]
+                if "coverage" in projection
+                else ""
+            )
             + "\n\nSource: `"
             + source_hash
             + "`\n\n```json\n"
