@@ -16,9 +16,16 @@ against the registered read-only database.
 
 These are two integration runs on the same question, not a randomized comparison.
 The token counts do not establish a semantic-input or neural performance gain.
-Both start without qualified procedures and finish with **zero qualified
-procedures**. Each retains a nine-event checked experience history. Model weights
-do not change.
+Both original artifact-time retrieval blocks contain **zero retrieved
+procedures**. Each accepted post-terminal memory contains a textual procedure
+annotation and a nine-event checked experience history. Those annotations are
+prompt memory, rather than an executable report skill. Model weights do not
+change.
+
+This clarifies the earlier description of zero qualified procedures: an empty
+retrieval does not establish that accepted annotations were absent. A later
+[analytical skill library](../../../docs/analytical-skills.md) adds executable
+reuse separately, preserving these original records.
 
 ## The semantic loop
 
