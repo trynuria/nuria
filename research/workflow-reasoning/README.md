@@ -22,6 +22,29 @@ planning, general intelligence, neural learning or consciousness. The protocol
 and implementation are published before model execution; results are reported
 with their complete selected denominator.
 
+## Observed result
+
+| Method       | Selected | Attempted | Accepted |
+| ------------ | -------: | --------: | -------: |
+| Greedy       |        6 |         6 |        6 |
+| Exact        |        6 |         6 |        6 |
+| Hosted model |        6 |         6 |        6 |
+
+The model used seven requests and 1,137 output tokens, including reasoning, in
+about 25 seconds. Its injected-fault case actually attempted the missing JSON
+reader, retained that failure and then used the verified SQLite mirror. All
+methods charged seven local work units for that case, including the failed read.
+
+The added configured inference cost was $0.029298. Total exposure in the shared
+reasoning allowance became $2.715296, including $0.136390 permanently provisioned
+for an earlier request whose provider usage is unknown. This is conservative
+configured accounting, not a provider invoice.
+
+[Retained proposals, execution records and saved artifacts](results-01) include
+all eighteen selected jobs. No model or neural advantage over the two controls
+was observed. The useful addition is goal-to-tool execution with independently
+checked delivery and bounded failure recovery.
+
 - [Active frozen protocol](protocol-02.json)
 - [Unused preflight protocol](protocol-01.json): revised before inference to
   require source coverage labels on standalone artifacts; no outcomes changed.
