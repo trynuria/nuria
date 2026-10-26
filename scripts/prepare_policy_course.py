@@ -354,7 +354,7 @@ def prepare_policy_course(
         "maximum_planned_completion_tokens": 328096,
         "maximum_model_wall_seconds": 5400,
         "maximum_new_retained_bytes": 100 * 1024 * 1024,
-        "minimum_free_disk_bytes": 16 * 1024**3,
+        "minimum_free_disk_bytes": 8 * 1024**3,
         "feedback_policy": "Training labels may inform a frozen policy. Validation selects one fixed policy before test. No test label is disclosed until every selected test job has a retained terminal record. No outcome-based task replacement.",
         "fairness": "All methods receive identical training records and use the same pinned model, registered data/tools and collective per-job ceilings. Fixed review adds a conventional handwritten review policy. Learned policy is frozen before test. Equal caps do not mean equal actual compute.",
         "grading_scope": "Finite executed SQL rows, multiplicity, NULLs, column count and declared ordering; not universal SQL equivalence or official Spider test-suite accuracy",
