@@ -137,6 +137,11 @@ class WorkflowArtifactCheckerTests(unittest.TestCase):
                 + title
                 + "\n\n"
                 + SCOPE
+                + (
+                    "\n\nCoverage: " + self.projection["coverage"]
+                    if "coverage" in self.projection
+                    else ""
+                )
                 + "\n\nSource: `"
                 + expected_source
                 + "`\n\n```json\n"
@@ -253,6 +258,24 @@ class WorkflowArtifactCheckerTests(unittest.TestCase):
         changed["action_tasks"][0]["settlement"]["total_micro_usd"] += 1
         self.assertFalse(
             verify_artifact(changed, artifact, "payment_brief")["accepted"]
+        )
+
+    def test_synthetic_scope_cannot_be_removed_from_standalone_artifact(self):
+        self.projection["coverage"] = "Declared synthetic boundary revision."
+        artifact = self.artifact("payment_brief", payment_expected())
+        self.assertTrue(
+            verify_artifact(self.projection, artifact, "payment_brief")["accepted"]
+        )
+        text = Path(artifact["path"]).read_text()
+        altered = self.artifact(
+            "payment_brief",
+            {},
+            text=text.replace(
+                "\n\nCoverage: Declared synthetic boundary revision.", ""
+            ),
+        )
+        self.assertFalse(
+            verify_artifact(self.projection, altered, "payment_brief")["accepted"]
         )
 
     def test_document_requires_scope_source_and_one_standalone_json_fact_block(self):
