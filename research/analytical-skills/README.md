@@ -41,8 +41,9 @@ substituted for measured calls.
 
 The development course used two separate generated revisions and all three
 methods returned correct reports. The original locking failure remains in the
-development record. Challenge results are not included in this initial protocol
-publication.
+development record. The [completed challenge](results.md) returns 12/12 for all three methods,
+with additional schema work for the qualified executor. The original protocol
+publication preceded that execution.
 
 ## Run and check
 
