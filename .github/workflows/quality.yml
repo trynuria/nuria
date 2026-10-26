@@ -42,6 +42,10 @@ jobs:
           python research/analytical-skills/challenge-01/verify.py --repository . --workspace "$RUNNER_TEMP/nuria-report-transfer" --output "$RUNNER_TEMP/nuria-report-transfer.json"
           python -m unittest discover -s research/analytical-skills/challenge-01 -p test_package.py -v
           python -m scripts.verify_analytical_report_lifecycle --repository . --workspace "$RUNNER_TEMP/nuria-report-lifecycle" --output "$RUNNER_TEMP/nuria-report-lifecycle.json"
+          python research/adaptive-reasoning/results-01/replay.py --workspace "$RUNNER_TEMP/nuria-hosted-reasoning" --output "$RUNNER_TEMP/nuria-hosted-reasoning.json"
+          python -m unittest discover -s research/adaptive-reasoning/results-01 -p 'test_*.py' -v
+          python -m scripts.extract_workflow_evidence --evidence research/workflow-reasoning/results-01 --workspace "$RUNNER_TEMP/nuria-workflow-evidence"
+          python -m scripts.verify_workflow_course --repository . --results "$RUNNER_TEMP/nuria-workflow-evidence" --replay-workspace "$RUNNER_TEMP/nuria-workflow-replay"
           python -m scripts.check_action_loop .test-state/action-integration .test-state/action-integration.json
           python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
           python -m scripts.verify_intervention_memory research/intervention-memory/validation
