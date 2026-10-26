@@ -3,8 +3,10 @@
 Status: the first live trial stopped on a provider 503 after 32 of 54 selected
 jobs. It retains 31 accepted answers, one abstention and 22 unexecuted jobs.
 Validation tied and kept the baseline. See [the recovery record and distinct
-model-upgrade check](recovery-and-substitution.md). No learned or neural advantage
-is claimed.
+model-upgrade check](recovery-and-substitution.md). The latter completed 12/12
+jobs and accepted 9/12, tying the historical backend. No learned or neural
+advantage is claimed. [Portable retained evidence](results-01) preserves both
+results and their actual coverage.
 
 [Protocol 02](protocol-02.json) declares a finite comparison before task bodies
 are decoded or inference begins. Its SHA-256 is
@@ -17,9 +19,9 @@ model-pretraining contamination is established.
 
 The declared runtime is `gpt-6.1-sol` with low reasoning effort through the
 Responses API. The configured test uses one shared $10 total
-ceiling, including unresolved request liabilities. Model metadata access is
-verified; metadata access alone does not verify inference or available quota.
-Current token rates are reviewed before paid use.
+ceiling, including unresolved request liabilities. Actual inference and
+independent output checking are retained separately from model metadata access.
+Configured rates are accounting assumptions, not provider invoice evidence.
 
 Six checked training tasks feed two bounded policy proposals. Four separate
 validation questions select one frozen policy; ties keep the original. Twelve

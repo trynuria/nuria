@@ -64,5 +64,21 @@ earlier elapsed model time from the 90-minute allowance. Its own ceilings are
 at most 72,000 completions and 30 minutes. The original interrupted run remains
 a separate retained result.
 
-The [evaluator](../../scripts/evaluate_model_substitution.py) and protocol are
-published before follow-up inference. Results will be reported separately.
+The [evaluator](../../scripts/evaluate_model_substitution.py) and protocol were
+published before follow-up inference. All twelve jobs completed. Nine passed
+the unchanged strict result contract; three submitted results did not. This
+ties the historical 9/12 and demonstrates no model upgrade advantage here.
+
+Inspection identified limits in that measurement. One prompt asks for states
+while its reference counts 305 area-code mappings; the new query returns 51
+distinct state values. Another leaves output-column order unspecified. A third
+has competing phone-prefix versus state-join interpretations and unresolved
+ties. These observations do not retroactively alter the frozen 9/12 score or
+establish that every alternate answer is correct.
+
+The complete follow-up used 27 additional requests, 59,735 input tokens and
+2,610 output tokens, at $0.145570 configured cost. Combined exposure after this
+check was $2.685998, including the permanent $0.136390 unknown-usage provision.
+Subsequent [workflow testing](../workflow-reasoning) uses the same allowance and
+reports its additional cost separately. The [portable evidence](results-01)
+retains both the incomplete primary course and the complete secondary check.
