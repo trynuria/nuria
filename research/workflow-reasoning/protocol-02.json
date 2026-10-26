@@ -1,0 +1,185 @@
+{
+  "acceptance": "Exact independently rederived facts, source hash, scope text and actual saved Markdown readback.",
+  "aggregate_resources": {
+    "completion_ceiling_including_prior": 328096,
+    "prior_active_model_wall_seconds_rounded_up": 604,
+    "prior_known_completion": 10901,
+    "prior_unknown_completion_charged": 2048,
+    "total_active_model_wall_ceiling_seconds": 5400
+  },
+  "budget_before": {
+    "accounted_cost_and_liability_micro_usd": 2685998,
+    "cap_micro_usd": 10000000,
+    "charged_ceilings": [
+      {
+        "charged_ceiling_micro_usd": 136390,
+        "evidence_sha256": "a80e8576e36d5543800191a1c41c3d66df467ca2c8dcbb80dd90b37ab02e3f18",
+        "reason": "Returned HTTP 503 with no delivered final action. Permanently charge the full original reservation; provider usage remains unknown. Retain the failed job and its 2048-token liability; no failed-job retry is authorized.",
+        "reconciliation_id": "455b34e43bdc54f7029cd9948c2ec9f5b0575625ceae463fbf8d4607743dfa0d",
+        "reservation": "080548178449400b8ed6a87b24b26ccd"
+      }
+    ],
+    "conservative_charged_ceiling_micro_usd": 136390,
+    "known_completion_tokens": 10901,
+    "maximum_requests": 700,
+    "records_sha256": "8b0d9e54c9cb19425b7798c45e9f3709cb14c446863733f68495cc93ed2608ac",
+    "requests": 103,
+    "settled_cost_micro_usd": 2549608,
+    "unresolved_liability_micro_usd": 0
+  },
+  "cases": [
+    {
+      "audit_policy": {
+        "maximum_tasks": 4
+      },
+      "deadline_units": 4,
+      "goal": "Write a provider evidence brief separating delivery, positive utility and unknown outcomes.",
+      "goal_type": "provider_brief",
+      "id": "provider_original",
+      "injected_missing_primary": false,
+      "maximum_work": 4,
+      "projection_sha256": "11de51d4df41a7c98b441d73cb775bafbbcb6c88442425e77e980656a8231f3f",
+      "scope": "retained_reported_source",
+      "source_file_sha256": "a5496e9be868e5d050e5b536f2b31e6e4fb4dee8e093e77c765de6463ed10f98",
+      "source_path": "research/hybrid-agent/work-snapshot/action-task-projection.json"
+    },
+    {
+      "audit_policy": {
+        "maximum_tasks": 4
+      },
+      "deadline_units": 4,
+      "goal": "Write a payment and delivery audit without treating delivery as payment or recorded amounts as chain verification.",
+      "goal_type": "payment_brief",
+      "id": "payment_original",
+      "injected_missing_primary": false,
+      "maximum_work": 4,
+      "projection_sha256": "11de51d4df41a7c98b441d73cb775bafbbcb6c88442425e77e980656a8231f3f",
+      "scope": "retained_reported_source",
+      "source_file_sha256": "a5496e9be868e5d050e5b536f2b31e6e4fb4dee8e093e77c765de6463ed10f98",
+      "source_path": "research/hybrid-agent/work-snapshot/action-task-projection.json"
+    },
+    {
+      "audit_policy": {
+        "maximum_tasks": 4
+      },
+      "deadline_units": 5,
+      "goal": "Plan at most four local rechecks for failed delivery or unknown utility, failure-first then full task ID; list the deferred tasks. Do not run the rechecks.",
+      "goal_type": "audit_brief",
+      "id": "audit_original",
+      "injected_missing_primary": false,
+      "maximum_work": 5,
+      "projection_sha256": "11de51d4df41a7c98b441d73cb775bafbbcb6c88442425e77e980656a8231f3f",
+      "scope": "retained_reported_source",
+      "source_file_sha256": "a5496e9be868e5d050e5b536f2b31e6e4fb4dee8e093e77c765de6463ed10f98",
+      "source_path": "research/hybrid-agent/work-snapshot/action-task-projection.json"
+    },
+    {
+      "audit_policy": {
+        "maximum_tasks": 4
+      },
+      "deadline_units": 4,
+      "goal": "Write a provider brief for the declared boundary revision, preserving distinct task IDs and unknown utility.",
+      "goal_type": "provider_brief",
+      "id": "provider_boundary",
+      "injected_missing_primary": false,
+      "maximum_work": 4,
+      "projection_sha256": "b5258c1161b0588ecca0bdfabf917aa576aedf44849125d6c8985415cd9ad684",
+      "scope": "declared_synthetic_boundary",
+      "source_file_sha256": "fa74173e04cee5d3135204a514af11a806c972881aab9b71a4b76b1967f3fd61",
+      "source_path": "research/workflow-reasoning/sources/boundary-42.json"
+    },
+    {
+      "audit_policy": {
+        "maximum_tasks": 4
+      },
+      "deadline_units": 7,
+      "goal": "Produce the provider evidence brief. If a reader fails, use observed execution feedback to find another enrolled route. Do not invent a successful read.",
+      "goal_type": "provider_brief",
+      "id": "reader_unavailable",
+      "injected_missing_primary": true,
+      "maximum_work": 7,
+      "projection_sha256": "11de51d4df41a7c98b441d73cb775bafbbcb6c88442425e77e980656a8231f3f",
+      "scope": "injected_availability_fault_on_real_source",
+      "source_file_sha256": "a5496e9be868e5d050e5b536f2b31e6e4fb4dee8e093e77c765de6463ed10f98",
+      "source_path": "research/hybrid-agent/work-snapshot/action-task-projection.json"
+    },
+    {
+      "audit_policy": {
+        "maximum_tasks": 4
+      },
+      "deadline_units": 4,
+      "goal": "Write a payment audit for the declared settlement boundary, preserving unknown delivery and distinguishing utility, reported money and independently verified payments.",
+      "goal_type": "payment_brief",
+      "id": "payment_boundary",
+      "injected_missing_primary": false,
+      "maximum_work": 4,
+      "projection_sha256": "b4a3943f0eb5d2c569e4ee5a36b6c1dd96a8a6b4c8da6941f3cb1afed5f4317e",
+      "scope": "declared_synthetic_boundary",
+      "source_file_sha256": "ba3eb4712c2c7785adc687f0335b78b466c952b48820c2b338b5c0ddf38717bf",
+      "source_path": "research/workflow-reasoning/sources/settlement-43.json"
+    }
+  ],
+  "failure_policy": "At most one new plan after observed reader unavailability; charge the failed operation; retain every failure. Stop model calls on transport ambiguity.",
+  "frozen_utc": "2026-10-26T15:15:47.434787+00:00",
+  "interpretation": "Finite useful execution capability; no claimed advantage over exact planning, neural gain, consciousness or real purchasing.",
+  "limits": {
+    "maximum_additional_configured_cost_micro_usd": 1000000,
+    "maximum_calls_per_case": 2,
+    "maximum_completion_per_case": 2500,
+    "maximum_completion_tokens": 15000,
+    "maximum_model_calls": 12,
+    "maximum_retained_bytes": 20971520,
+    "maximum_wall_seconds": 600,
+    "minimum_free_disk_bytes": 8589934592,
+    "shared_cap_micro_usd": 10000000,
+    "shared_operational_ceiling_micro_usd": 5000000
+  },
+  "methods": [
+    "greedy",
+    "exact",
+    "model"
+  ],
+  "mirror": {
+    "path": "research/hybrid-agent/work-snapshot/registered/work.sqlite",
+    "sha256": "826f6bb0b66cb9a5ed566e1b0bcedd24293389f3463e9c56ecbc138db12408e0"
+  },
+  "model_configuration": {
+    "accounting": "configured_uncached_token_rates;not_provider_invoice",
+    "budget_cap_micro_usd": 10000000,
+    "budget_maximum_requests": 700,
+    "endpoint": "https://api.openai.com/v1/responses",
+    "input_envelope": "request_utf8_bytes+1024+128_per_message;text_only",
+    "input_micro_usd_per_million_tokens": 2000000,
+    "max_input_bytes": 120000,
+    "max_output_tokens": 32768,
+    "max_response_bytes": 1048576,
+    "model": "gpt-6.1-sol",
+    "output_micro_usd_per_million_tokens": 10000000,
+    "reasoning_effort": "low",
+    "seed_supported": false,
+    "service_tier": "default",
+    "store": false,
+    "timeout_seconds": 180,
+    "version": "nuria.hosted-reasoner.v2"
+  },
+  "selected_jobs": 18,
+  "source_hashes": {
+    "cognition/analyst_workspace.py": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2",
+    "cognition/grounded_agent.py": "f83da48331727260a25a616c4c148d52a2325f6fea2dc25cb934e1f76bdf9319",
+    "cognition/hosted_reasoner.py": "ffdd810c38e83a46a9d5cd1e3e374653de488eb9ce0e5650af358d587a440d77",
+    "cognition/procedural_memory.py": "6c42c8798e617ac89c85d946524db4e6da2d58c83038b9e67ab05cb30bcd32cc",
+    "cognition/reasoner_client.py": "f11187add3611ed0331ea5991d6bb99498dcb3a173ef7a65808c9bbb340a5e54",
+    "cognition/reasoning_policy.py": "86fad04aac5af8e39378aabf9565301f6e5cc2e240ec59213c0de19cab13a5af",
+    "cognition/workflow_agent.py": "58e21906ecbb23f56c6bd6942fbf08e6589b53efce294415dfa811c2216823d7",
+    "cognition/workflow_catalog.py": "0230af56db13912e4223c5bd27028d58bd2831172eeee5d2675daa10a49ec35d",
+    "cognition/workflow_planner.py": "4aafbc5ef0a7aaae94fd246415594f3708673d917a23c5b2d3e4c1a8a9d71444",
+    "cognition/working_evidence.py": "6ec67a5c2c5a516c17ef64b0befebc77f4ff7ba41a6c5db7317860280eac577d",
+    "scripts/ask_grounded_analyst.py": "379323a4f664d0563e358f2756a857492864ce75ceed5e51211f8a53f1564334",
+    "scripts/ask_hosted_analyst.py": "770e3580e651b39b05eae374a5b426680c0b132a407bb2d4be6b9f6e2d0bf91e",
+    "scripts/check_workflow_artifact.py": "60162b93cbecbad8663d055dbd8aa35a699b1498f1ad38b9be80e1453d30bef0",
+    "scripts/evaluate_model_substitution.py": "d4a447c22c179eb43f389cf37d5d5af8ffae9a30a9f8b10ec08a45993d782ffc",
+    "scripts/evaluate_reasoning_policy.py": "bd43cd37ad39ad9f8636b2bfce095d8269739a0d17f3b86e22b0ae16c1ed4b36",
+    "scripts/evaluate_workflow_reasoning.py": "800f8c8f547365fa7a8f61f0d50f10c37e9e9791e9a13cac50d6d96b4a46559a"
+  },
+  "version": "nuria.workflow-reasoning-course.v1"
+}
