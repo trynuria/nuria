@@ -1,0 +1,526 @@
+{
+  "schema": "nuria.policy-course.v1",
+  "created_utc": "2026-10-26T13:22:36.058890+00:00",
+  "dataset": "Spider 1.0 development",
+  "source_url": "https://yale-lily.github.io/spider",
+  "license": "CC-BY-SA-4.0",
+  "dataset_sha256": "30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+  "registry_sha256": "c2ca20599b6a5dbcca52829f35fe81e91404e9e9087ec562b5a3f54aeec484f7",
+  "model_identity": "ef6975a4c0c1eea9ff26c7d1bd711e2a046f6f7ff9eef9a8b4d260bfb07ac1ee",
+  "seed": "nuria-reasoning-policy-20261026-v1",
+  "inference_seed": 20261026,
+  "selection_rule": "Lexical row-index/database-ID metadata only; balanced fixed quotas and SHA256 order; no question, SQL, AST, difficulty or outcome inspection",
+  "database_order": [
+    "employee_hire_evaluation",
+    "pets_1",
+    "singer",
+    "network_1",
+    "voter_1",
+    "battle_death"
+  ],
+  "prior_records": [
+    {
+      "record_id": "prior-001",
+      "sha256": "9aa193b15f3348c7b0d409305e3fcbb23047f18a31f01bf22569d2a9dd9d867f",
+      "task_ids": [
+        "spider-dev-0046",
+        "spider-dev-0049",
+        "spider-dev-0057",
+        "spider-dev-0067",
+        "spider-dev-0267",
+        "spider-dev-0269",
+        "spider-dev-0271",
+        "spider-dev-0273",
+        "spider-dev-0281",
+        "spider-dev-0289",
+        "spider-dev-0687",
+        "spider-dev-0690",
+        "spider-dev-0694",
+        "spider-dev-0696",
+        "spider-dev-0698",
+        "spider-dev-0701",
+        "spider-dev-0875",
+        "spider-dev-0884",
+        "spider-dev-0900",
+        "spider-dev-0902"
+      ]
+    },
+    {
+      "record_id": "prior-002",
+      "sha256": "4e7b7a5c71890574f2b319cce6a493adca46e28c2992269e8132df58e75d29ed",
+      "task_ids": [
+        "spider-dev-0046",
+        "spider-dev-0049",
+        "spider-dev-0057",
+        "spider-dev-0067",
+        "spider-dev-0267",
+        "spider-dev-0269",
+        "spider-dev-0271",
+        "spider-dev-0273",
+        "spider-dev-0281",
+        "spider-dev-0289",
+        "spider-dev-0687",
+        "spider-dev-0690",
+        "spider-dev-0694",
+        "spider-dev-0696",
+        "spider-dev-0698",
+        "spider-dev-0701",
+        "spider-dev-0875",
+        "spider-dev-0884",
+        "spider-dev-0900",
+        "spider-dev-0902"
+      ]
+    },
+    {
+      "record_id": "prior-003",
+      "sha256": "130b963e08cf0c83db8cae5ee11b1bd3b0f9b0899fa5fac007ec50ed086c6869",
+      "task_ids": [
+        "spider-dev-0267",
+        "spider-dev-0269",
+        "spider-dev-0271",
+        "spider-dev-0273",
+        "spider-dev-0281",
+        "spider-dev-0289",
+        "spider-dev-0687",
+        "spider-dev-0690",
+        "spider-dev-0694",
+        "spider-dev-0696",
+        "spider-dev-0698",
+        "spider-dev-0701"
+      ]
+    },
+    {
+      "record_id": "prior-004",
+      "sha256": "b68a9a6ab730ba6e616f07c0bd4b8a0a245dfc3d63181f8e2772d89ef1be10a5",
+      "task_ids": [
+        "spider-dev-0046",
+        "spider-dev-0049",
+        "spider-dev-0057",
+        "spider-dev-0067",
+        "spider-dev-0267",
+        "spider-dev-0269",
+        "spider-dev-0271",
+        "spider-dev-0273",
+        "spider-dev-0281",
+        "spider-dev-0289",
+        "spider-dev-0499",
+        "spider-dev-0505",
+        "spider-dev-0506",
+        "spider-dev-0687",
+        "spider-dev-0690",
+        "spider-dev-0694",
+        "spider-dev-0696",
+        "spider-dev-0698",
+        "spider-dev-0701",
+        "spider-dev-0875",
+        "spider-dev-0884",
+        "spider-dev-0900",
+        "spider-dev-0902",
+        "spider-dev-1012",
+        "spider-dev-1017",
+        "spider-dev-1020"
+      ]
+    }
+  ],
+  "excluded_task_ids": [
+    "spider-dev-0046",
+    "spider-dev-0049",
+    "spider-dev-0057",
+    "spider-dev-0067",
+    "spider-dev-0267",
+    "spider-dev-0269",
+    "spider-dev-0271",
+    "spider-dev-0273",
+    "spider-dev-0281",
+    "spider-dev-0289",
+    "spider-dev-0499",
+    "spider-dev-0505",
+    "spider-dev-0506",
+    "spider-dev-0687",
+    "spider-dev-0690",
+    "spider-dev-0694",
+    "spider-dev-0696",
+    "spider-dev-0698",
+    "spider-dev-0701",
+    "spider-dev-0875",
+    "spider-dev-0884",
+    "spider-dev-0900",
+    "spider-dev-0902",
+    "spider-dev-1012",
+    "spider-dev-1017",
+    "spider-dev-1020"
+  ],
+  "metadata_sha256": "10a874413ad834bdc1ce0b788b081dc4af228aeb6956a9893a7e92ef6fd96cad",
+  "selected": {
+    "train": [
+      {
+        "task_id": "spider-dev-0292",
+        "db_id": "employee_hire_evaluation"
+      },
+      {
+        "task_id": "spider-dev-0079",
+        "db_id": "pets_1"
+      },
+      {
+        "task_id": "spider-dev-1024",
+        "db_id": "singer"
+      },
+      {
+        "task_id": "spider-dev-0865",
+        "db_id": "network_1"
+      },
+      {
+        "task_id": "spider-dev-0695",
+        "db_id": "voter_1"
+      },
+      {
+        "task_id": "spider-dev-0497",
+        "db_id": "battle_death"
+      }
+    ],
+    "validation": [
+      {
+        "task_id": "spider-dev-0280",
+        "db_id": "employee_hire_evaluation"
+      },
+      {
+        "task_id": "spider-dev-0056",
+        "db_id": "pets_1"
+      },
+      {
+        "task_id": "spider-dev-1014",
+        "db_id": "singer"
+      },
+      {
+        "task_id": "spider-dev-0912",
+        "db_id": "network_1"
+      }
+    ],
+    "test": [
+      {
+        "task_id": "spider-dev-0285",
+        "db_id": "employee_hire_evaluation"
+      },
+      {
+        "task_id": "spider-dev-0083",
+        "db_id": "pets_1"
+      },
+      {
+        "task_id": "spider-dev-1009",
+        "db_id": "singer"
+      },
+      {
+        "task_id": "spider-dev-0891",
+        "db_id": "network_1"
+      },
+      {
+        "task_id": "spider-dev-0692",
+        "db_id": "voter_1"
+      },
+      {
+        "task_id": "spider-dev-0494",
+        "db_id": "battle_death"
+      },
+      {
+        "task_id": "spider-dev-0294",
+        "db_id": "employee_hire_evaluation"
+      },
+      {
+        "task_id": "spider-dev-0084",
+        "db_id": "pets_1"
+      },
+      {
+        "task_id": "spider-dev-1001",
+        "db_id": "singer"
+      },
+      {
+        "task_id": "spider-dev-0869",
+        "db_id": "network_1"
+      },
+      {
+        "task_id": "spider-dev-0697",
+        "db_id": "voter_1"
+      },
+      {
+        "task_id": "spider-dev-0500",
+        "db_id": "battle_death"
+      }
+    ]
+  },
+  "source_files": {
+    "cognition/hosted_reasoner.py": "92eb36e3ad14bef4f8d58296863358b31c69e1321f5b8803201b00063b292aa7",
+    "cognition/reasoning_policy.py": "86fad04aac5af8e39378aabf9565301f6e5cc2e240ec59213c0de19cab13a5af",
+    "cognition/grounded_agent.py": "f83da48331727260a25a616c4c148d52a2325f6fea2dc25cb934e1f76bdf9319",
+    "cognition/analyst_workspace.py": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2",
+    "cognition/procedural_memory.py": "6c42c8798e617ac89c85d946524db4e6da2d58c83038b9e67ab05cb30bcd32cc",
+    "cognition/reasoner_client.py": "f11187add3611ed0331ea5991d6bb99498dcb3a173ef7a65808c9bbb340a5e54",
+    "cognition/working_evidence.py": "6ec67a5c2c5a516c17ef64b0befebc77f4ff7ba41a6c5db7317860280eac577d",
+    "scripts/evaluate_reasoning_policy.py": "091aaabf31caee920fadeb4af0f11d25248c442f74d014bd9142ab905e6effeb",
+    "scripts/ask_hosted_analyst.py": "770e3580e651b39b05eae374a5b426680c0b132a407bb2d4be6b9f6e2d0bf91e",
+    "scripts/ask_grounded_analyst.py": "379323a4f664d0563e358f2756a857492864ce75ceed5e51211f8a53f1564334",
+    "scripts/prepare_policy_course.py": "01e784e19fead249d3a1336ee2a9fdb5d2f631b6d2b6603ef770b9f16fa19e04"
+  },
+  "methods": [
+    "schema_first",
+    "learned_policy",
+    "fixed_review"
+  ],
+  "phase_methods": {
+    "train": [
+      "schema_first"
+    ],
+    "validation": [
+      "schema_first",
+      "candidate_1",
+      "candidate_2"
+    ],
+    "test": [
+      "schema_first",
+      "learned_policy",
+      "fixed_review"
+    ]
+  },
+  "limits_per_job": {
+    "max_turns": 12,
+    "max_tool_calls": 12,
+    "max_output_tokens": 6000,
+    "max_tokens_per_turn": 2048,
+    "max_candidates": 2
+  },
+  "expected_jobs": {
+    "train": [
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0292"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0079"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-1024"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0865"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0695"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0497"
+      }
+    ],
+    "validation": [
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0280"
+      },
+      {
+        "method": "candidate_1",
+        "task_id": "spider-dev-0280"
+      },
+      {
+        "method": "candidate_2",
+        "task_id": "spider-dev-0280"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0056"
+      },
+      {
+        "method": "candidate_1",
+        "task_id": "spider-dev-0056"
+      },
+      {
+        "method": "candidate_2",
+        "task_id": "spider-dev-0056"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-1014"
+      },
+      {
+        "method": "candidate_1",
+        "task_id": "spider-dev-1014"
+      },
+      {
+        "method": "candidate_2",
+        "task_id": "spider-dev-1014"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0912"
+      },
+      {
+        "method": "candidate_1",
+        "task_id": "spider-dev-0912"
+      },
+      {
+        "method": "candidate_2",
+        "task_id": "spider-dev-0912"
+      }
+    ],
+    "test": [
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0285"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0285"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0285"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0083"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0083"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0083"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-1009"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-1009"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-1009"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0891"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0891"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0891"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0692"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0692"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0692"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0494"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0494"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0494"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0294"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0294"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0294"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0084"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0084"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0084"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-1001"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-1001"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-1001"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0869"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0869"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0869"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0697"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0697"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0697"
+      },
+      {
+        "method": "schema_first",
+        "task_id": "spider-dev-0500"
+      },
+      {
+        "method": "learned_policy",
+        "task_id": "spider-dev-0500"
+      },
+      {
+        "method": "fixed_review",
+        "task_id": "spider-dev-0500"
+      }
+    ]
+  },
+  "expected_job_count": 54,
+  "expected_test_jobs": 36,
+  "development_critic_calls": 2,
+  "development_critic_completion_cap": 2048,
+  "maximum_planned_completion_tokens": 328096,
+  "maximum_model_wall_seconds": 5400,
+  "maximum_new_retained_bytes": 104857600,
+  "minimum_free_disk_bytes": 17179869184,
+  "feedback_policy": "Training labels may inform a frozen policy. Validation selects one fixed policy before test. No test label is disclosed until every selected test job has a retained terminal record. No outcome-based task replacement.",
+  "fairness": "All methods receive identical training records and use the same pinned model, registered data/tools and collective per-job ceilings. Fixed review adds a conventional handwritten review policy. Learned policy is frozen before test. Equal caps do not mean equal actual compute.",
+  "grading_scope": "Finite executed SQL rows, multiplicity, NULLs, column count and declared ordering; not universal SQL equivalence or official Spider test-suite accuracy",
+  "limits": "New local task IDs remain the same public benchmark and the same six databases. Foundation-model pretraining contamination is possible. No difficulty filtering or minimum difficulty is established. This freeze does not authorize paid inference or attest external preregistration."
+}

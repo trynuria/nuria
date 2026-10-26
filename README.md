@@ -38,6 +38,15 @@ match neural accuracy at 9/12 with schema first and return 8/12 for stateless.
 The original run retains all 120 selected records,
 including 56 unexecuted. This path is not enrolled in production.
 
+The optional [hosted reasoning path](docs/adaptive-reasoning.md) adds a pretrained
+reasoner, registered tools, a shared inference budget and checked outcomes.
+The first policy study stopped after 32/54 jobs; validation tied and retained
+the baseline. A complete historical model comparison also tied at 9/12.
+The new [workflow course](research/workflow-reasoning) completed six checked
+goal-to-artifact jobs, including a real failed-reader recovery; greedy and exact
+planning also completed 6/6. This establishes a useful execution path, without
+demonstrating model or neural superiority. Production workers are unchanged.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the

@@ -11,6 +11,10 @@ RULES = (
         r"(?i)\b(?:the user (?:asked|requested|instructed)|owner(?:['’]s)? request|in this chat|conversation_id|thread_id)\b",
     ),
     ("credential", r"\b(?:privy_app_secret_|fapi_|jup_)[A-Za-z0-9_-]{24,}"),
+    (
+        "OpenAI credential",
+        r"\bsk-(?:(?:proj|svcacct)-[A-Za-z0-9_-]{32,}|[A-Za-z0-9]{32,})(?![A-Za-z0-9_-])",
+    ),
     ("bot credential", r"\b[0-9]{8,12}:[A-Za-z0-9_-]{30,}"),
     (
         "private key",

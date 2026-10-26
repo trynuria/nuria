@@ -1,0 +1,29 @@
+{
+  "schema": "nuria.actual-evidence-privacy-review.v1",
+  "archive_members_checked": 328,
+  "private_path_or_credential_findings": [],
+  "actual_archive_sha256": "7ea74423d3f12a279d88762f313d5b499f3e47e33772db5c74b376317dfdee8b",
+  "independent_replay_engine_sha256": "9697d450d1688524a132b12ed4668426d8907e686977fe4acc977a15138bf8a6",
+  "portable_replay_sha256": "ae450d79b206f043d12a4a30534d053299cf66de93256b7f912ec90e09040454",
+  "included_task_bodies": {
+    "primary": 15,
+    "secondary": 12
+  },
+  "omitted_primary_never_attempted_task_bodies": 7,
+  "retained_unexecuted_job_records": 22,
+  "independent_tests_passed": 13,
+  "no_inference_during_packaging": true,
+  "fixture_storage": "New test fixtures are retained under .test-state; earlier adjacent fixture files are preserved locally and excluded from publication.",
+  "approved_public_files": [
+    "README.md",
+    "build.py",
+    "evidence.tar.gz",
+    "package.json",
+    "privacy-review.json",
+    "replay-result.json",
+    "replay.py",
+    "test_replay.py",
+    "test_verify.py",
+    "verify.py"
+  ]
+}
