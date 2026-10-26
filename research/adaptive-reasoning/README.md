@@ -1,7 +1,10 @@
 # Outcome-driven reasoning policy
 
-Status: implementation and offline orchestration checks complete. No live model
-trial has run, and no new reasoning or neural advantage is claimed.
+Status: the first live trial stopped on a provider 503 after 32 of 54 selected
+jobs. It retains 31 accepted answers, one abstention and 22 unexecuted jobs.
+Validation tied and kept the baseline. See [the recovery record and distinct
+model-upgrade check](recovery-and-substitution.md). No learned or neural advantage
+is claimed.
 
 [Protocol 02](protocol-02.json) declares a finite comparison before task bodies
 are decoded or inference begins. Its SHA-256 is
