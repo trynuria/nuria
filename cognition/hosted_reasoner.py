@@ -4,6 +4,8 @@ This adapter is optional and owns no environment-based credentials or fallback.
 Its ledger accounts at host-supplied token rates, without cache discounts; it is
 not a provider invoice. Prices and the text-input token envelope must be reviewed
 before live use. Unknown settlement blocks later calls until host reconciliation.
+An explicit host loss provision can consume its entire original reservation,
+without claiming provider settlement or making the original usage known.
 """
 
 from __future__ import annotations
@@ -24,7 +26,7 @@ from pathlib import Path
 
 from cognition.reasoner_client import ReasonerError, _integer, _NoRedirect, digest
 
-VERSION = "nuria.hosted-reasoner.v1"
+VERSION = "nuria.hosted-reasoner.v2"
 ENDPOINT = "https://api.openai.com/v1/responses"
 
 
@@ -65,7 +67,8 @@ class SharedReasoningBudget:
 
     One unresolved request blocks further reservations, including after process
     loss. The allowance never renews on reopening. No automatic reconciliation
-    can release an ambiguous liability.
+    can release an ambiguous liability. The host may instead provision its whole
+    original ceiling as a permanent budget charge; provider usage stays unknown.
     """
 
     def __init__(self, path, *, max_cost_micro_usd, max_requests=128):
@@ -83,6 +86,9 @@ class SharedReasoningBudget:
                 " request_sha256 TEXT NOT NULL, contract_sha256 TEXT NOT NULL,"
                 " reserved INTEGER NOT NULL, charged INTEGER, state TEXT NOT NULL,"
                 " usage TEXT);"
+                "CREATE TABLE IF NOT EXISTS reconciliations (id TEXT PRIMARY KEY,"
+                " reservation TEXT NOT NULL UNIQUE, evidence_sha256 TEXT NOT NULL UNIQUE,"
+                " reason TEXT NOT NULL);"
             )
             database.execute(
                 "INSERT OR IGNORE INTO policy VALUES (1,?,?)",
@@ -122,7 +128,7 @@ class SharedReasoningBudget:
             rows = database.execute(
                 "SELECT reserved,charged,state FROM requests"
             ).fetchall()
-            if any(state != "settled" for _, _, state in rows):
+            if any(state not in ("settled", "charged_ceiling") for _, _, state in rows):
                 raise ValueError("A prior request has unresolved spending liability")
             spent = sum(charged for _, charged, _ in rows)
             if len(rows) >= self.maximum or spent + amount > self.limit:
@@ -170,24 +176,116 @@ class SharedReasoningBudget:
         if overrun:
             raise ValueError("Observed usage exceeded the reserved cost envelope")
 
+    def close_at_ceiling(self, reservation, *, evidence_sha256, reason):
+        """Permanently consume an ambiguous request's full original reservation.
+
+        This is a host-only loss provision, not provider billing reconciliation.
+        The host must establish that the request is no longer active and retain
+        its failure and original bounds. This method records the supplied public
+        evidence hash; it cannot authenticate that evidence or discover usage.
+        It grants no retry authority for that failed job. No refund, discount,
+        changed ceiling or automatic invocation is supported.
+        """
+        if type(reservation) is not str or not re.fullmatch(
+            "[0-9a-f]{32}", reservation
+        ):
+            raise ValueError("An exact original reservation identity is required")
+        if type(evidence_sha256) is not str or not re.fullmatch(
+            "[0-9a-f]{64}", evidence_sha256
+        ):
+            raise ValueError("A retained reconciliation evidence hash is required")
+        if (
+            type(reason) is not str
+            or not reason.strip()
+            or len(reason.encode()) > 2048
+            or any(ord(character) < 32 for character in reason)
+        ):
+            raise ValueError("A bounded host reconciliation reason is required")
+        record = {
+            "schema": "nuria.reasoning-loss-provision.v1",
+            "reservation": reservation,
+            "evidence_sha256": evidence_sha256,
+            "reason": reason,
+        }
+        identity = digest(record)
+        with self._connection() as database:
+            database.execute("BEGIN IMMEDIATE")
+            row = database.execute(
+                "SELECT reserved,charged,state,usage FROM requests WHERE id=?",
+                (reservation,),
+            ).fetchone()
+            if row is None:
+                raise ValueError("The original reservation does not exist")
+            prior = database.execute(
+                "SELECT id,reservation,evidence_sha256,reason FROM reconciliations "
+                "WHERE reservation=? OR evidence_sha256=?",
+                (reservation, evidence_sha256),
+            ).fetchall()
+            if prior:
+                if (
+                    prior != [(identity, reservation, evidence_sha256, reason)]
+                    or row[2] != "charged_ceiling"
+                    or row[1] != row[0]
+                    or row[3] is not None
+                ):
+                    raise ValueError(
+                        "A retained loss provision cannot be changed or reused"
+                    )
+            else:
+                if row[2] != "ambiguous" or row[1] is not None or row[3] is not None:
+                    raise ValueError(
+                        "Only an unknown ambiguous request can close at its ceiling"
+                    )
+                database.execute(
+                    "INSERT INTO reconciliations VALUES (?,?,?,?)",
+                    (identity, reservation, evidence_sha256, reason),
+                )
+                database.execute(
+                    "UPDATE requests SET charged=reserved,state='charged_ceiling' WHERE id=?",
+                    (reservation,),
+                )
+        return {
+            **record,
+            "reconciliation_id": identity,
+            "charged_ceiling_micro_usd": row[0],
+            "provider_usage_known": False,
+            "provider_settlement_verified": False,
+        }
+
     def snapshot(self):
         with self._connection() as database:
             rows = database.execute(
                 "SELECT reserved,charged,state FROM requests"
             ).fetchall()
+        known = sum(charged for _, charged, state in rows if state == "settled")
+        conservative = sum(
+            charged for _, charged, state in rows if state == "charged_ceiling"
+        )
+        pending = sum(
+            max(reserved, charged or 0)
+            for reserved, charged, state in rows
+            if state not in ("settled", "charged_ceiling")
+        )
+        unknown = sum(state != "settled" for _, _, state in rows)
         return {
             "maximum_cost_micro_usd": self.limit,
             "maximum_requests": self.maximum,
             "requests": len(rows),
-            "settled_cost_micro_usd": sum(
-                charged for _, charged, state in rows if state == "settled"
+            "settled_cost_micro_usd": known,
+            "conservative_charged_ceiling_micro_usd": conservative,
+            "charged_ceiling_requests": sum(
+                state == "charged_ceiling" for _, _, state in rows
             ),
-            "unresolved_liability_micro_usd": sum(
-                max(reserved, charged or 0)
-                for reserved, charged, state in rows
-                if state != "settled"
+            "unresolved_liability_micro_usd": pending,
+            "unknown_usage_requests": unknown,
+            "provider_usage_unknown": bool(unknown),
+            "accounted_cost_and_liability_micro_usd": known + conservative + pending,
+            "remaining_headroom_micro_usd": max(
+                0, self.limit - known - conservative - pending
             ),
-            "blocked": any(state != "settled" for _, _, state in rows),
+            "blocked": any(
+                state not in ("settled", "charged_ceiling") for _, _, state in rows
+            ),
         }
 
 
