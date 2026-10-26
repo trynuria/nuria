@@ -33,7 +33,9 @@ inspection strategy and receives delayed credit at the originating neural state.
 The [primary comparison](research/hybrid-agent/comparison-03/results.md) returned
 9/12 accepted answers with neural inspection versus 8/12 with fixed inspection,
 using 32.72% fewer completion tokens. Both conditions run Brian2; simpler-agent
-superiority remains unestablished. The full run retains all 120 selected records,
+superiority remains unestablished. [Supplemental controls](research/hybrid-agent/supplemental-controls/RESULTS.md)
+match neural accuracy at 9/12 with schema first and return 8/12 for stateless.
+The original run retains all 120 selected records,
 including 56 unexecuted. This path is not enrolled in production.
 
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
@@ -47,6 +49,19 @@ experience retrieval, neural adaptation and changes to language-model weights.
 An [adaptive conventional controller](docs/semantic-control.md) supplies a
 same-information comparator for future semantic-input trials; its implementation
 does not establish a comparison result.
+
+A [completed work audit](research/hybrid-agent/work-trials/README.md) exercises the
+question-to-inspection-to-checked-outcome loop on 40 reported tasks. The linked
+[numeric witness](research/hybrid-agent/weight-delta/README.md) checks the resulting
+205 weight changes against all 22,920 excitatory weights and the original state
+identities. Both analytical answers pass; neither run qualifies a reusable
+procedure or demonstrates a comparative neural gain.
+
+The optional [source-series host](docs/source-series.md) carries one enrolled
+history across fresh immutable ledger revisions. Jobs and delayed checks remain
+bound to their original data; incompatible identities and uncertain retries are
+refused. The finite adapter is tested with real SQLite and deterministic runtime
+fixtures, and is not enrolled in production.
 
 The [neural task loop](docs/action-loop.md) selects configured external goals from
 actual spike features, retains the decision context and action-region eligibility,
