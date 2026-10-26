@@ -66,6 +66,34 @@ histories are unchanged.
 
 ## Run an enrolled report
 
+An explicit host enrollment command can derive the bank, source and checker
+identities from a retained accepted episode. It preserves the original memory,
+promotes the episode's own executed SQL and independently checks the originating
+report under the reviewed profile.
+
+```sh
+python -m scripts.enroll_analytical_report \
+  --output /absolute/path/to/new-private-enrollment \
+  --memory-snapshot /absolute/path/to/retained-memory.sqlite \
+  --episode-id FULL_EPISODE_SHA256 \
+  --execution-receipt /absolute/path/to/retained-query-receipt.json \
+  --registry /absolute/path/to/original/registry.json \
+  --db-id work \
+  --report-id provider-outcomes-report-v1
+
+python -m scripts.run_analytical_report \
+  --enrollment /absolute/path/to/new-private-enrollment/enrollment.json \
+  --registry /absolute/path/to/compatible/registry.json \
+  --job-id report-001
+```
+
+The input is a retained snapshot, rather than an invitation to modify a running
+memory. Nonempty write-ahead or rollback journals require a consistent host
+snapshot first. The command refuses uncertain inputs, leaves the original files
+unchanged and retains its own copied history and origin checks. Report semantics
+remain a host enrollment choice; the command does not discover arbitrary new
+report meanings from a prompt.
+
 The optional host worker runs one already promoted skill without starting a model
 service. The host supplies its source, checker, report, database and skill
 identities, plus a private state directory. Enrollment remains explicit.
