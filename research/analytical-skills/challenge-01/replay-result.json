@@ -1,0 +1,26 @@
+{
+  "schema": "nuria.analytical-skill-course.verification.v1",
+  "passed": true,
+  "phase": "challenge",
+  "cases": 12,
+  "queries_replayed": 36,
+  "origin_queries_replayed": 1,
+  "memory_events": 4,
+  "skill_events": 37,
+  "counts": {
+    "qualified-skill": {
+      "accepted": 12,
+      "wrong": 0
+    },
+    "exact-query-cache": {
+      "accepted": 12,
+      "wrong": 0
+    },
+    "conventional-template": {
+      "accepted": 12,
+      "wrong": 0
+    }
+  },
+  "model_calls": 0,
+  "scope": "Retained input/hash, direct SQLite and independent Python report checks; no model intelligence or neural-gain test."
+}

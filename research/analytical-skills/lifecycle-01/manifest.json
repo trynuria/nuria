@@ -1,0 +1,80 @@
+{
+  "schema": "nuria.analytical-report-lifecycle.evidence.v1",
+  "origin": {
+    "archive": "research/hybrid-agent/work-trials/retained-work-trials.zip",
+    "archive_sha256": "b7885e31b85a24b48fe86a742db30ecb517b2192a91c65eea994cb8466450f0a",
+    "episode_id": "e81a9ee09f8d989b33369bbda17366676bb43c2a5799887c66017d81b0fcb78a",
+    "memory_sha256": "7a1604b6ea81ad9957ebe5d3a58b38876be1f1fc2e4f4395949e59988bb22690",
+    "scope": "Already accepted historical semantic work query; original evidence is retained in the existing public package."
+  },
+  "synthetic_plan": {
+    "sha256": "041762172b019be18ca5f13510d75e44138ec5345bd76e6bb01d1cb73c65e991",
+    "record": {
+      "schema": "nuria.analytical-report-lifecycle.plan.v1",
+      "historical_origin": "Previously accepted semantic work query; already known",
+      "report_id": "provider-outcomes-report-v1",
+      "synthetic_cases": [
+        {
+          "name": "changed-rows",
+          "rows": [
+            ["synthetic-a", "new-provider", 1, 2, "included_capacity", 0],
+            ["synthetic-b", "new-provider", 2, null, "other", 10],
+            ["synthetic-c", "\u03a9-report", null, -3, null, -1],
+            ["synthetic-d", "\u03a9-report", 0, 0, "included_capacity", 0]
+          ],
+          "expected": [
+            ["new-provider", 2, 1, 1, 1, 1, 1],
+            ["\u03a9-report", 2, 0, 0, 0, 1, 0]
+          ]
+        },
+        {
+          "name": "empty",
+          "rows": [],
+          "expected": []
+        }
+      ],
+      "scope": "Declared deterministic source-revision fixtures; no unseen model benchmark",
+      "model_calls": 0
+    },
+    "scope": "Declared deterministic data fixtures committed before enrollment and synthetic execution."
+  },
+  "development_checker_diagnostic": {
+    "kind": "Explicit projection of separately retained development records",
+    "initial_accepted": false,
+    "corrected_accepted": true,
+    "initial_observed_rows": [
+      ["local-composed-records-v1", 25, 20, 20, 0, 25, 0],
+      ["local-record-audit-v1", 15, 14, 14, 0, 15, 0]
+    ],
+    "corrected_observed_rows": [
+      ["local-composed-records-v1", 25, 20, 20, 0, 25, 0],
+      ["local-record-audit-v1", 15, 14, 14, 0, 15, 0]
+    ],
+    "observed_columns": [
+      "provider",
+      "task_count",
+      "delivery_passed_count",
+      "outcome_utility_positive_count",
+      "outcome_utility_null_count",
+      "included_capacity_count",
+      "settled_positive_count"
+    ],
+    "expected_column_count": 7,
+    "error": "The first integration checker compared the column-name array directly with the integer expected count. The separately retained follow-up compares its length with 7 and preserves exact row equality.",
+    "initial_record_sha256": "59fa9693374f7e34c914a04d75179cff775832ff371d780668b172b1883a0e78",
+    "corrected_record_sha256": "099845c380b9a4f549bd031e14ffab6e34e00a453028d803defd3515c11a27b1",
+    "scope": "Projection identifies original record bytes but does not reconstruct or attest the entire private development record. Neither attempt is a challenge trial."
+  },
+  "implementation_sha256": {
+    "cognition/analytical_enrollment.py": "b362a00becc141ed298ae6c14e34b4d6b50c6f63c46446a68597497d776ebaf2",
+    "cognition/analytical_report_worker.py": "7e5a7fd0847a6f39caf07dab4f4b9db81d1e0adb83e32a0f1e0ba2f98974e33a",
+    "cognition/analytical_skills.py": "51e004f4bde1ea817426e0ad1d45fd1d31158652a42a5901d6c5057c3a1fb7c3",
+    "cognition/analyst_workspace.py": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2",
+    "cognition/procedural_memory.py": "6c42c8798e617ac89c85d946524db4e6da2d58c83038b9e67ab05cb30bcd32cc",
+    "scripts/enroll_analytical_report.py": "39ea206d4b5c3c0996f0724bc3b1ca2dc9b87783b6f79a5fc2fe161ff30f6c33",
+    "scripts/run_analytical_report.py": "0f3d094d25dc70cc0d7754ba6f013ec1f6935b7b52c4352e6f271c83d5ed632a",
+    "scripts/verify_analytical_report_lifecycle.py": "6ef1ab9a3bacf5a8e9c236fa343a73be4ffca4ce64c341acb65a6a8a45a9c3f9",
+    "tests/test_analytical_report_lifecycle.py": "c0f3310d56bdba3e503d376c36f74532ce2d7d4548f241f29cf150f7211d1b23"
+  },
+  "scope": "The executable replayer verifies origin package identity, actual enrollment/CLI behavior, fresh source rows, idempotent output and preserved original evidence. It measures no model or neural capability advantage."
+}

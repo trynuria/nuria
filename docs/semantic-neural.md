@@ -127,8 +127,10 @@ also answered a question about 40 recorded work
 tasks. The enforced neural inspection led to an executed query whose answer
 matched a separate grouping of the retained JSON. Its linked terminal credited
 205 originating tagged synapses once. The trial used one CPU encoding and 3,499
-completion tokens. It retained a checked episode and no qualified reusable
-procedure. This is a working closed loop for one case, not a comparison result or
+completion tokens. Its original artifact-time retrieval was empty; the accepted
+post-terminal memory retains a textual procedure annotation. Executable report
+reuse is a separate later capability. This is a working closed loop for one case,
+not a comparison result or
 retroactive semantic acceptance of the 40 underlying tasks. Those source records
 still have unknown semantic acceptance. The pretrained model's weights did not
 change.

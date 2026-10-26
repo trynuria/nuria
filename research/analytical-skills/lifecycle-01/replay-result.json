@@ -1,0 +1,37 @@
+{
+  "schema": "nuria.analytical-report-lifecycle.verification.v1",
+  "passed": true,
+  "archive_sha256": "b7885e31b85a24b48fe86a742db30ecb517b2192a91c65eea994cb8466450f0a",
+  "origin_episode": "e81a9ee09f8d989b33369bbda17366676bb43c2a5799887c66017d81b0fcb78a",
+  "origin_memory_sha256": "7a1604b6ea81ad9957ebe5d3a58b38876be1f1fc2e4f4395949e59988bb22690",
+  "historical_report_rows": [
+    ["local-composed-records-v1", 25, 20, 20, 0, 25, 0],
+    ["local-record-audit-v1", 15, 14, 14, 0, 15, 0]
+  ],
+  "historical_accepted": true,
+  "retained_artifact_replay_identical": true,
+  "replay_workspace_queries": 0,
+  "replay_independent_checks": 0,
+  "synthetic_plan_sha256": "041762172b019be18ca5f13510d75e44138ec5345bd76e6bb01d1cb73c65e991",
+  "synthetic_cases": [
+    {
+      "name": "changed-rows",
+      "accepted": true,
+      "rows": [
+        ["new-provider", 2, 1, 1, 1, 1, 1],
+        ["\u03a9-report", 2, 0, 0, 0, 1, 0]
+      ],
+      "fresh_source": true
+    },
+    {
+      "name": "empty",
+      "accepted": true,
+      "rows": [],
+      "fresh_source": true
+    }
+  ],
+  "original_evidence_unchanged": true,
+  "model_calls": 0,
+  "neural_credit": null,
+  "scope": "Host-enrolled exact report reuse from a known accepted model query; synthetic fresh rows and recovery fixtures, not a model-intelligence or neural-advantage test."
+}

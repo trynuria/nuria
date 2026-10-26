@@ -39,6 +39,9 @@ jobs:
           python -m unittest discover -s research/hybrid-agent/work-trials -p test_work_trials.py -v
           python research/hybrid-agent/weight-delta/verify_weight_delta.py --work-evidence research/hybrid-agent/work-trials
           python -m unittest discover -s research/hybrid-agent/weight-delta -p test_weight_delta.py -v
+          python research/analytical-skills/challenge-01/verify.py --repository . --workspace "$RUNNER_TEMP/nuria-report-transfer" --output "$RUNNER_TEMP/nuria-report-transfer.json"
+          python -m unittest discover -s research/analytical-skills/challenge-01 -p test_package.py -v
+          python -m scripts.verify_analytical_report_lifecycle --repository . --workspace "$RUNNER_TEMP/nuria-report-lifecycle" --output "$RUNNER_TEMP/nuria-report-lifecycle.json"
           python -m scripts.check_action_loop .test-state/action-integration .test-state/action-integration.json
           python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
           python -m scripts.verify_intervention_memory research/intervention-memory/validation
