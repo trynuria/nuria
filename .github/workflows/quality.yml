@@ -31,10 +31,14 @@ jobs:
           python -m scripts.verify_grounded_comparison "$RUNNER_TEMP/nuria-comparison-03-evidence/run" --protocol "$RUNNER_TEMP/nuria-comparison-03-evidence/evidence/protocol.json" --source-freeze "$RUNNER_TEMP/nuria-comparison-03-evidence/evidence/source-freeze.json" --source-freeze-sha256 a4cff862bda1b3f7136726106f468e5f8153af0372f5cbe437bc3c37965fe342 --output "$RUNNER_TEMP/nuria-comparison-03-verification.json"
           python -m unittest discover -s research/hybrid-agent/supplemental-controls -p test_controls.py -v
           python research/hybrid-agent/supplemental-controls/input_equivalence.py .
+          python research/hybrid-agent/supplemental-controls/results-01/verify_results.py --package research/hybrid-agent/supplemental-controls/results-01 --repository . --workspace "$RUNNER_TEMP/nuria-simple-controls" --output "$RUNNER_TEMP/nuria-simple-controls.json"
+          python -m unittest discover -s research/hybrid-agent/supplemental-controls/results-01 -p test_results.py -v
           python -m unittest discover -s research/hybrid-agent/work-snapshot -p test_recent_work.py -v
           python research/hybrid-agent/work-snapshot/check_recent_work.py
           python research/hybrid-agent/work-trials/verify_work_trials.py --repository . --workspace "$RUNNER_TEMP/nuria-work-trials" --output "$RUNNER_TEMP/nuria-work-trials.json"
           python -m unittest discover -s research/hybrid-agent/work-trials -p test_work_trials.py -v
+          python research/hybrid-agent/weight-delta/verify_weight_delta.py --work-evidence research/hybrid-agent/work-trials
+          python -m unittest discover -s research/hybrid-agent/weight-delta -p test_weight_delta.py -v
           python -m scripts.check_action_loop .test-state/action-integration .test-state/action-integration.json
           python -m scripts.verify_adaptive_memory research/adaptive-memory/validation --replay-environment
           python -m scripts.verify_intervention_memory research/intervention-memory/validation
