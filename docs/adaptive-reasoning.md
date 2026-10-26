@@ -5,11 +5,17 @@ tools, retained execution evidence and independently checked outcomes. The
 current Brian2 experiment controls an initial inspection choice. That limited
 control has not demonstrated better decisions than a strong schema-first agent.
 
-The next experiment changes the reasoning strategy itself. It uses completed
-work to propose reusable guidance, tests that guidance on separate validation
-questions and freezes one policy before testing new questions. The implementation
-is ready for a configured reasoning service. Its model effectiveness has not yet
-been measured. Offline fixtures test orchestration, not intelligence.
+The hosted implementation has now run against real registered databases. Its
+first strategy-learning course was interrupted by a provider error: validation
+tied, and the baseline remained selected. A separate complete historical-cohort
+comparison tied the earlier model at 9/12. Neither establishes smarter decisions.
+Offline fixtures remain orchestration tests, not intelligence measurements.
+
+A separate goal-directed workflow path now turns an operational goal into typed
+tool dependencies and an independently checked saved artifact. All six declared
+cases completed, including recovery from a genuinely unavailable reader.
+Greedy and exact planning also completed all six; this demonstrates useful
+execution, rather than an advantage over those simpler controls.
 
 ## Learning from completed work
 
@@ -43,12 +49,17 @@ selected implicitly.
 Each request reserves its maximum locally accounted cost before transport.
 Reasoning tokens count toward output usage. Ambiguous transport or usage keeps
 the liability reserved and blocks another request, including after reopening the
-ledger. Rates and the text-input token envelope are reviewed host assumptions;
+ledger. An explicit host loss provision can permanently charge the full original
+ceiling without claiming provider settlement or releasing headroom. It preserves
+unknown usage and grants no failed-job retry authority. Rates and the text-input
+token envelope are reviewed host assumptions;
 this ledger is not the provider's invoice. Responses use `store: false`, which
 does not imply zero provider retention. Hidden model reasoning is not retained.
 
 The existing loopback client and original neural workers are unchanged. Hosted
-reasoning is not provisioned or activated by publishing this code.
+reasoning was configured for bounded local trials; publishing this code does not
+activate it in production. This is an external model dependency, not a locally
+trained foundation model.
 
 ## A useful comparison
 
@@ -102,7 +113,7 @@ python -m scripts.ask_hosted_analyst \
   --state /private/nuria/analysis \
   --job-id provider-review-001 \
   --db-id work \
-  --question "Which providers delivered accepted work, and at what recorded cost?"
+  --question "Which providers have delivered work, and what settlement amounts are reported?"
 ```
 
 The paths are examples. The host must enroll real sources and configure its own
@@ -121,3 +132,40 @@ separate matched intervention after a useful reasoning improvement exists.
 
 The previous 9/12 neural/schema-first tie, 205 originating weight changes and
 12/12 report-reuse parity remain unchanged.
+
+The [retained trial record](../research/adaptive-reasoning/recovery-and-substitution.md)
+preserves the interrupted 31 accepted answers, one abstention and 22 unexecuted
+jobs. The separately frozen complete-cohort model substitution scored 9/12,
+tying the historical backend. The strict score remains unchanged despite
+identified ambiguities in several task/reference contracts.
+
+## Goal-directed workflows
+
+The [workflow planner](../cognition/workflow_agent.py) accepts a goal, typed
+source descriptors and a host-enrolled catalog. It proposes a bounded dependency
+graph. The [executor](../cognition/workflow_planner.py) rejects invalid types,
+cycles, unused nodes, changed sources and excess cumulative work before calling
+registered handlers. Plans cannot supply code, shell commands, paths or URLs.
+Handlers are trusted host Python, not a sandbox for arbitrary generated code.
+
+On a real reader failure, the model may propose one new plan. The failed read
+and its work charge remain in the execution log. Model inference has its own
+shared dollar ledger; local planning units are neither dollars nor CPU seconds.
+The [independent checker](../scripts/check_workflow_artifact.py) rederives facts
+from the source and reads the actual saved Markdown. A renderer's success flag
+alone never establishes acceptance.
+
+The [six-case course](../research/workflow-reasoning) covers provider evidence,
+delivery versus reported settlement, a bounded audit plan, two explicitly
+synthetic boundary revisions and an injected primary-reader fault. Three goals
+use the original forty recent server-reported task records. The mirror recovery
+uses those same records; the two boundary revisions are fixtures, not new live
+activity. Audit artifacts propose rechecks and defer excess work; they do not
+hire people, run the proposed audits or spend treasury funds.
+
+The hosted model, greedy planner and finite exact planner each completed 6/6.
+Seven paid model requests produced six accepted artifacts; the fault case
+actually retained a failed JSON read before switching to SQLite. The course
+used $0.029298 at the configured uncached rates. This is a capability check over
+eight registered operations, not a general optimal planner, learning gain,
+verified purchase, neural advantage or consciousness result.
