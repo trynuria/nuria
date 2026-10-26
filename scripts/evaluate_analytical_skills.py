@@ -227,18 +227,18 @@ def accepted_origin(output, query=QUERY):
     return registry, memory, episode, receipt, outcome
 
 
-def run_course(output, cases, *, phase, protocol_sha256=None, protocol_bytes=None):
+def _execute_course(output, cases, *, phase, protocol_sha256=None, protocol_bytes=None):
     from cognition.analytical_skills import AnalyticalSkills
 
     output = Path(output)
-    output.mkdir(parents=True, exist_ok=False)
     if protocol_bytes is not None:
         (output / "prospective-protocol.json").write_bytes(protocol_bytes)
     registry, memory, episode, origin_receipt, origin_outcome = accepted_origin(output)
-    bank = AnalyticalSkills(
-        output / "skills.sqlite3", source_id=SOURCE_ID, checker_id=CHECKER_ID
-    )
+    bank = None
     try:
+        bank = AnalyticalSkills(
+            output / "skills.sqlite3", source_id=SOURCE_ID, checker_id=CHECKER_ID
+        )
         promoted = bank.promote(
             memory, episode, registry, "ledger", REPORT_ID, origin_receipt
         )
@@ -292,6 +292,9 @@ def run_course(output, cases, *, phase, protocol_sha256=None, protocol_bytes=Non
                     "controls": controls,
                 }
             )
+            (output / f"completed-case-{index:02d}.json").write_text(
+                canonical(records[-1]) + "\n"
+            )
         costs = {
             "qualified-skill": {
                 "query_calls": len(records) * 2,
@@ -330,7 +333,8 @@ def run_course(output, cases, *, phase, protocol_sha256=None, protocol_bytes=Non
         (output / "results.json").write_text(canonical(results) + "\n")
         (output / "memory-events.json").write_text(canonical(memory.export()) + "\n")
     finally:
-        bank.close()
+        if bank is not None:
+            bank.close()
         memory.close()
     files = {
         str(f.relative_to(output)): sha(f)
@@ -345,6 +349,66 @@ def run_course(output, cases, *, phase, protocol_sha256=None, protocol_bytes=Non
     }
     (output / "manifest.json").write_text(canonical(manifest) + "\n")
     return results
+
+
+def run_course(output, cases, *, phase, protocol_sha256=None, protocol_bytes=None):
+    """Retain selection before execution and preserve incomplete attempts."""
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=False)
+    selection = {
+        "schema": COURSE_SCHEMA,
+        "phase": phase,
+        "protocol_sha256": protocol_sha256,
+        "cases": cases,
+        "methods": ["qualified-skill", "exact-query-cache", "conventional-template"],
+        "selected_method_cases": 3 * len(cases),
+        "failure_policy": "Any interrupted or failed execution makes the course incomplete. Completed cases remain retained; all other selected method/case records are explicitly unexecuted, never dropped from the denominator.",
+    }
+    (output / "selection.json").write_text(canonical(selection) + "\n")
+    try:
+        return _execute_course(
+            output,
+            cases,
+            phase=phase,
+            protocol_sha256=protocol_sha256,
+            protocol_bytes=protocol_bytes,
+        )
+    except BaseException as error:
+        completed = sorted(output.glob("completed-case-*.json"))
+        failure = {
+            "schema": COURSE_SCHEMA,
+            "phase": phase,
+            "protocol_sha256": protocol_sha256,
+            "status": "incomplete",
+            "error_type": type(error).__name__,
+            "selected_cases": len(cases),
+            "selected_method_cases": 3 * len(cases),
+            "completed_cases": len(completed),
+            "completed_method_cases": 3 * len(completed),
+            "uncompleted_method_cases": 3 * (len(cases) - len(completed)),
+            "completed_records": [file.name for file in completed],
+            "model_calls": 0,
+            "scope": "Selected but incomplete work is not a successful comparison. Partial query or bank events may exist for the interrupted case and remain retained for reconciliation.",
+        }
+        (output / "failure.json").write_text(canonical(failure) + "\n")
+        files = {
+            str(file.relative_to(output)): sha(file)
+            for file in sorted(output.rglob("*"))
+            if file.is_file() and file.name != "manifest.json"
+        }
+        (output / "manifest.json").write_text(
+            canonical(
+                {
+                    "schema": COURSE_SCHEMA,
+                    "phase": phase,
+                    "protocol_sha256": protocol_sha256,
+                    "status": "incomplete",
+                    "files": files,
+                }
+            )
+            + "\n"
+        )
+        raise
 
 
 def validate_protocol(path, expected_sha256, repository):

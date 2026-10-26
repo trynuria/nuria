@@ -334,7 +334,40 @@ def verify(directory, *, expected_protocol_sha256=None):
         file = local_file(directory, name)
         if sha(file) != expected:
             raise ValueError("Retained artifact identity changed")
+    if (directory / "failure.json").exists():
+        failure = json.loads(local_file(directory, "failure.json").read_text())
+        selection = json.loads(local_file(directory, "selection.json").read_text())
+        if (
+            failure["selected_method_cases"] != 3 * len(selection["cases"])
+            or failure["completed_method_cases"] + failure["uncompleted_method_cases"]
+            != failure["selected_method_cases"]
+        ):
+            raise ValueError("Incomplete course accounting changed")
+        raise ValueError(
+            f"Incomplete course cannot pass: {failure['completed_method_cases']}/{failure['selected_method_cases']} method/case records completed"
+        )
     results = json.loads((directory / "results.json").read_text())
+    if (directory / "selection.json").exists():
+        selection = json.loads(local_file(directory, "selection.json").read_text())
+        if (
+            selection["cases"] != [record["case"] for record in results["records"]]
+            or selection["selected_method_cases"] != 3 * len(results["records"])
+            or selection["methods"]
+            != ["qualified-skill", "exact-query-cache", "conventional-template"]
+        ):
+            raise ValueError("Selected course coverage changed")
+        for index, record in enumerate(results["records"]):
+            if (
+                json.loads(
+                    local_file(
+                        directory, f"completed-case-{index:02d}.json"
+                    ).read_text()
+                )
+                != record
+            ):
+                raise ValueError("Durable completed-case evidence differs")
+    elif results["phase"] == "challenge":
+        raise ValueError("Challenge course has no durable pre-execution selection")
     if results["model_calls"] != 0 or results["model_completion_tokens"] != 0:
         raise ValueError("This finite fixture course does not execute a model")
     if (
