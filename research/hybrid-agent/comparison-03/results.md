@@ -73,3 +73,11 @@ performance has not been measured.
 The frozen protocol and failed attempts remain in [the attempt archive](../attempts/).
 Any supplemental control completion must retain its own protocol, accounting and
 post-hoc designation; it does not rewrite this run's coverage.
+
+## Subsequent simple controls
+
+The [separate supplemental run](../supplemental-controls/RESULTS.md) is complete.
+Schema first accepts the same nine cases as neural inspection; stateless accepts
+eight. Neural inspection uses fewer completion tokens but more prompt tokens than
+schema first. The stronger-control tie and post-hoc limitations accompany this
+primary result; the original records are unchanged.
