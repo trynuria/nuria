@@ -76,7 +76,7 @@ unexecuted jobs are retained separately.
 
 The complete planned denominator is 54 analytical jobs and two policy proposals.
 The shared ceiling is 328,096 completion tokens and 100 MiB of retained course
-evidence, with a 16 GiB disk floor. A 90-minute preflight allowance stops new model
+evidence, with an 8 GiB hosted-trial disk floor. A 90-minute preflight allowance stops new model
 calls before their nominal transport timeout would exceed it. Socket timeouts do
 not forcibly terminate an in-flight request; an external process supervisor is
 required for a hard wall-clock cutoff. These bounds do
