@@ -93,6 +93,16 @@ agent configuration around a frozen backbone, not newly acquired language
 knowledge or uncontaminated benchmark performance. Spider-derived materials retain
 their [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) attribution.
 
+## Supplemental simple controls
+
+The separately frozen [control completion](supplemental-controls/RESULTS.md)
+finished all twelve schema-first and twelve stateless questions. Neural inspection
+and schema first each accept the same nine of twelve; stateless accepts eight.
+Neural inspection uses fewer completion tokens than schema first but more prompt
+tokens. This post-hoc completion does not establish general neural superiority or
+rewrite the original run's incomplete coverage. The complete metrics and all
+control records are independently replayable.
+
 ## Development check
 
 The latest six-question development run produced six accepted answers, no wrong
