@@ -101,8 +101,19 @@ inspection. Completion use was 17,951 versus 26,681 tokens. Both conditions run
 Brian2 and keep separate experience histories; this does not establish a win
 against a brain-free agent. The original run executed 64 of 120 selected records.
 Its secondary reserved conditions remain unexecuted. A separately frozen
-[supplemental protocol](../research/hybrid-agent/supplemental-controls/protocol-01.json)
-completes the schema-first and stateless controls without rewriting that run.
+[supplemental completion](../research/hybrid-agent/supplemental-controls/RESULTS.md)
+finished all 24 simple-control jobs without rewriting that run. Schema first
+accepts the same nine cases as neural inspection; stateless accepts eight. Neural
+inspection uses fewer completion tokens but more input tokens than schema first.
+
+## Evolving data without a reset
+
+The optional [source-series host](source-series.md) keeps one enrolled memory and
+semantic-lab identity while admitting new immutable data revisions. Each job pins
+its own source, and delayed outcomes are checked against that original snapshot.
+A later ledger update cannot silently replace a pending job's evidence. Changed
+schemas, tools, models or checker contracts require explicit review. This is a
+finite continuity rail, not a demonstrated reasoning gain or a production rollout.
 
 ## Runtime and activation
 

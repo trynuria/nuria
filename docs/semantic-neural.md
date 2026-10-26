@@ -133,6 +133,14 @@ retroactive semantic acceptance of the 40 underlying tasks. Those source records
 still have unknown semantic acceptance. The pretrained model's weights did not
 change.
 
+The separate [numeric witness](../research/hybrid-agent/weight-delta/README.md)
+checks all 22,920 excitatory weights. Exactly 205 changed at the saved originating
+indices; the full after-array matches the bounded reward equation exactly, and
+the other projected variables remain unchanged. Safe numeric exports reproduce
+both original projected-state hashes. Their derivation from trusted local
+checkpoints is disclosed. Portable checking neither unpickles nor reruns neural
+dynamics, and the update does not itself establish a future decision benefit.
+
 ```mermaid
 flowchart LR
     Q[Question] --> E[Pinned language encoder]
