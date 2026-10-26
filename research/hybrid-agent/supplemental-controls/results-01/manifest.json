@@ -1,0 +1,298 @@
+{
+  "schema": "nuria.supplementary-controls-package.v1",
+  "protocol_sha256": "130b963e08cf0c83db8cae5ee11b1bd3b0f9b0899fa5fac007ec50ed086c6869",
+  "closed_before_packaging": true,
+  "archive_sha256": "2e419326a90c2f942798498e8f9cd30484d2a16767066af459a783c7db38f323",
+  "replay_result_sha256": "eee86acda1c48cdfc2ae12d333836d66f20b21ffebbc51a79c86dc536fa3115d",
+  "files": [
+    {
+      "path": "evidence/evaluate-controls.py",
+      "bytes": 45137,
+      "sha256": "1cb1a7d02659844485436dce090cdc5d235f886a83b1d88d4354acc0628131fa",
+      "kind": "original"
+    },
+    {
+      "path": "evidence/independent-check.json",
+      "bytes": 1880,
+      "sha256": "eee86acda1c48cdfc2ae12d333836d66f20b21ffebbc51a79c86dc536fa3115d",
+      "kind": "derived"
+    },
+    {
+      "path": "evidence/main-summary.json",
+      "bytes": 8719,
+      "sha256": "cfd6752ddac67e0e19ea40478a23f3ad9f897dd03db0e2b1d0d971c229b66afa",
+      "kind": "original"
+    },
+    {
+      "path": "evidence/post-accounting.json",
+      "bytes": 626,
+      "sha256": "bd16d92bf48d5f7a86ac8f5d3686e3d24df69f993449d693944d43108a269fde",
+      "kind": "original"
+    },
+    {
+      "path": "evidence/prior-closure.json",
+      "bytes": 1375,
+      "sha256": "795e6a7a421366d530c4a5b395364ad14ac839bf86c60a92f04f68394b88b3e2",
+      "kind": "derived"
+    },
+    {
+      "path": "evidence/protocol.json",
+      "bytes": 7593,
+      "sha256": "130b963e08cf0c83db8cae5ee11b1bd3b0f9b0899fa5fac007ec50ed086c6869",
+      "kind": "original"
+    },
+    {
+      "path": "evidence/publication.json",
+      "bytes": 782,
+      "sha256": "c3fbcf8a765ff37fc3bc11c282718bd35f791e0ab4e510cd8e53ac9fa528134b",
+      "kind": "original"
+    },
+    {
+      "path": "evidence/semantic-terminal.json",
+      "bytes": 2737,
+      "sha256": "53261c272ab170b97889da2ea09bce63c418db9299650ff573f6e57d85de4d0a",
+      "kind": "original"
+    },
+    {
+      "path": "evidence/source-freeze.json",
+      "bytes": 2254,
+      "sha256": "a4cff862bda1b3f7136726106f468e5f8153af0372f5cbe437bc3c37965fe342",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/oracle.json",
+      "bytes": 47902,
+      "sha256": "090f3c1cd06a9a105124218374d8ebaf16a70e569ba65c60b643284e24fc1fea",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/registry.json",
+      "bytes": 4730,
+      "sha256": "c2ca20599b6a5dbcca52829f35fe81e91404e9e9087ec562b5a3f54aeec484f7",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/reserved.json",
+      "bytes": 4818,
+      "sha256": "ae0641070ce2461107c518460722f0211ffa8ba3f0075383302ab15f915f51fd",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/battle_death/battle_death.sqlite",
+      "bytes": 28672,
+      "sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/battle_death/business.txt",
+      "bytes": 114,
+      "sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/battle_death/columns.txt",
+      "bytes": 1707,
+      "sha256": "151739b1d0f88edfe3cc2fc214a477f930e5f6ddf91ce5216d06808db6d6df43",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/battle_death/schema.txt",
+      "bytes": 553,
+      "sha256": "a56226aa7688e5fb88081368d469d7d97f39de0df523544d426b2d8d03edadb1",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/employee_hire_evaluation/business.txt",
+      "bytes": 114,
+      "sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/employee_hire_evaluation/columns.txt",
+      "bytes": 1644,
+      "sha256": "cd4076b10853ae9f98ed55c1faf5ec81c13c6d3ee68557c7ed285290795e69b2",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/employee_hire_evaluation/employee_hire_evaluation.sqlite",
+      "bytes": 36864,
+      "sha256": "760fec5cc872ef0cdf99242614f05c93dbd00d422ac9da87ea64fcf555be7373",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/employee_hire_evaluation/schema.txt",
+      "bytes": 710,
+      "sha256": "116f61c30cab4b4c2419d8133acc3f5004173fa69554f6e80dba55c6e4221d61",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/network_1/business.txt",
+      "bytes": 114,
+      "sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/network_1/columns.txt",
+      "bytes": 691,
+      "sha256": "0fe7066c23bcff299f0c389412b7cf0302eec7c499760b9b8c6cbc083f75aea2",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/network_1/network_1.sqlite",
+      "bytes": 28672,
+      "sha256": "bec92cd9a68d6f23469a0df246429299f44caaf75eab12275784e0bb7d0aa9ca",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/network_1/schema.txt",
+      "bytes": 489,
+      "sha256": "2612862a2e46d27c31c0ce3b4f82e9d9f97cf58a8481dab21dc5a35bc6fae0b9",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/pets_1/business.txt",
+      "bytes": 114,
+      "sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/pets_1/columns.txt",
+      "bytes": 1366,
+      "sha256": "6adb03f4081c0521783e6839065004484113327bd8fe90247a07019e977c5c3b",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/pets_1/pets_1.sqlite",
+      "bytes": 16384,
+      "sha256": "8ffe0ea9b3b034ca8860a2f18300a98c7583ce2522ea195726a04803f675e5bb",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/pets_1/schema.txt",
+      "bytes": 541,
+      "sha256": "2705982f1abebe2d5a12f014deb05828f7b0ffc7d3286a1838f31b7f615211f8",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/singer/business.txt",
+      "bytes": 114,
+      "sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/singer/columns.txt",
+      "bytes": 967,
+      "sha256": "7f6f6c9237d810135ff5b06fc4f64a22cd739d21a4931e609261ccd94093f372",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/singer/schema.txt",
+      "bytes": 341,
+      "sha256": "4c72a1e13aea9f0337c846b5d0c24ef360710af3032f5f8ea9fd22a6b4625686",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/singer/singer.sqlite",
+      "bytes": 20480,
+      "sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/voter_1/business.txt",
+      "bytes": 114,
+      "sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/voter_1/columns.txt",
+      "bytes": 973,
+      "sha256": "4cfb292610ea2104e0a19fabe35bb4faf062d6ee408bc5d773589854f347fb6b",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/voter_1/schema.txt",
+      "bytes": 643,
+      "sha256": "4bab077ba1a9322924c236120b039bc0cfb36f9e155f06a394760c13b623342f",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/source/voter_1/voter_1.sqlite",
+      "bytes": 20480,
+      "sha256": "815bf1611b8a32f649d292a6138562f1761a0c10cb256e20f6561199cff31531",
+      "kind": "original"
+    },
+    {
+      "path": "inputs/teaching.json",
+      "bytes": 3205,
+      "sha256": "816b753af84e77c5834a5d313febc1518f176028c65d812d9aa83395d95d98fe",
+      "kind": "original"
+    },
+    {
+      "path": "run/allowance.jsonl",
+      "bytes": 26705,
+      "sha256": "dfc7b8ee18bb8e30b08bc1a49d76b4ff2249e5b8d2f8c159d1296061097320c1",
+      "kind": "original"
+    },
+    {
+      "path": "run/events.jsonl",
+      "bytes": 1133,
+      "sha256": "84fff0411f6b32488a9c163af7fd6cd9a27a03c7bc63e8942d0555a60d4c39d6",
+      "kind": "original"
+    },
+    {
+      "path": "run/outcomes.jsonl",
+      "bytes": 256509,
+      "sha256": "1ad126878ee8e0cdfc11f5edb30c2450b84b7bc6ed6469c22d89b642b339a17b",
+      "kind": "original"
+    },
+    {
+      "path": "run/proposals.jsonl",
+      "bytes": 247622,
+      "sha256": "457f4371650ee2710be257b2ee3566a741ce98cef6ddd33b71e153343cabda77",
+      "kind": "original"
+    },
+    {
+      "path": "run/run-freeze.json",
+      "bytes": 8164,
+      "sha256": "0b96ef9b722b82fdaf32d7ffffd9c82c3cdda7b34e3302adc79d7bc9a7f37ab6",
+      "kind": "original"
+    },
+    {
+      "path": "run/schema_first/memory-export.json",
+      "bytes": 55345,
+      "sha256": "ee5c8f2e3e321c00db4ea47af5d8f4ae75103f534daa81bc9c7c13af5b4ddbf9",
+      "kind": "original"
+    },
+    {
+      "path": "run/schema_first/memory.sqlite",
+      "bytes": 98304,
+      "sha256": "cd33138df478624b083b1a8d398878b901047422284e4f69e6e14ace47c38e10",
+      "kind": "original"
+    },
+    {
+      "path": "run/selected-results.json",
+      "bytes": 368884,
+      "sha256": "c28da14e336f27986ec5c9dbba5d55494848b876935a76f0f2074c4104ede176",
+      "kind": "original"
+    },
+    {
+      "path": "run/stateless/memory-export.json",
+      "bytes": 66161,
+      "sha256": "cfaaf8a238f20354623ec886b37c138f0fa62d68ad21368f48c971c8ff58fce5",
+      "kind": "original"
+    },
+    {
+      "path": "run/stateless/memory.sqlite",
+      "bytes": 118784,
+      "sha256": "dc2f86eda42a2ace29fd7d84edac15f562e54567acdad3363f25810e695cc4ce",
+      "kind": "original"
+    },
+    {
+      "path": "run/summary.json",
+      "bytes": 1415,
+      "sha256": "40cea9a46ab7a9985fa9a8ed88186a9d1442ae6e5cb565079672607b96abd39b",
+      "kind": "original"
+    }
+  ],
+  "scope": "Post-hoc control completion, not a new unseen preregistration. Original comparison retains 64 of 120 executed records. Models and production history are excluded. No neural checkpoints or signing data are included."
+}
