@@ -38,6 +38,14 @@ match neural accuracy at 9/12 with schema first and return 8/12 for stateless.
 The original run retains all 120 selected records,
 including 56 unexecuted. This path is not enrolled in production.
 
+The optional [adaptive reasoning study](docs/adaptive-reasoning.md) adds an
+explicit hosted reasoner, shared inference budget and outcome-driven strategy
+selection. It can propose guidance from checked training work and freeze it
+against a separate validation split before fresh questions are tested. The
+same-information comparison and registered-question command are implemented;
+live model effectiveness remains unmeasured. No existing result or production
+worker is replaced by this addition.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the

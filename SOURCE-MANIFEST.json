@@ -61,7 +61,8 @@
     "Completed primary grounded comparison with all 120 selected records retained, 64 executed and 52 final queries independently replayed; 9/12 neural versus 8/12 fixed accepted on the small reserved cohort, with 32.72% fewer completion tokens. Portable original evidence and two checked real-work integration runs include question-only semantic neural input and origin-bound recorded synaptic credit. Stronger control completion is separately frozen; no general neural superiority or production activation.",
     "Completed all 24 post-hoc simple controls with independent request and SQL replay: neural inspection ties schema first at 9/12 and exceeds stateless at 8/12, with explicit prompt/completion tradeoffs. Publish safe numeric arrays verifying the exact 205-weight originating update. Add finite source-series continuity across immutable data revisions with durable authority, correct delayed-source attribution and 16 tested protocol cases. No general neural-superiority claim, production activation, new financial authority or site design change.",
     "Add outcome-qualified exact SQL reports, independent source checks and a finite host report worker with no model fallback or neural credit. A publicly frozen generated course returns 12/12 for qualified reuse, exact SQL caching and a conventional template, with additional schema work for qualified reuse; no intelligence advantage is established. Preserve portable evidence, complete selected/unexecuted accounting and corrected interpretation of post-terminal textual memory. Site design and production enrollment are unchanged.",
-    "Add explicit enrollment from an accepted retained memory snapshot into the reviewed report profile, preserving original evidence and refusing uncertain journal state. A portable actual-origin lifecycle replay checks the historical model query, identical-job replay with zero new queries/checks and two declared synthetic source revisions. Model and neural capabilities are not re-evaluated; original comparison results, frozen implementations, site design and production enrollment remain unchanged."
+    "Add explicit enrollment from an accepted retained memory snapshot into the reviewed report profile, preserving original evidence and refusing uncertain journal state. A portable actual-origin lifecycle replay checks the historical model query, identical-job replay with zero new queries/checks and two declared synthetic source revisions. Model and neural capabilities are not re-evaluated; original comparison results, frozen implementations, site design and production enrollment remain unchanged.",
+    "Optional explicit hosted reasoning with shared durable inference limits, outcome-driven strategy proposals, complete held-out policy selection and a prospectively frozen same-information transfer course. Runtime model effectiveness remains unmeasured; existing neural histories, results, financial authority and site design are unchanged."
   ],
   "files": [
     {
@@ -78,7 +79,7 @@
     },
     {
       "path": ".prettierignore",
-      "published_sha256": "39bc3eeddb8c2581b77103926db4792a91379056af76f9c2e661b56a5f96090f"
+      "published_sha256": "960a791d7901b691dce0d8dd98cf4747b6097ad4f9c6b2cee04f2698f7a8239f"
     },
     {
       "path": ".prettierrc.json",
@@ -90,7 +91,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "6cea5f5925a3d78acd7fbb287ef16e8b6443e39779f983e41ec3a7b8c6899aa4"
+      "published_sha256": "9bcee2bd54bf63a99b5ee86901d3c912c9f68e72d516f866be617035fbc55719"
     },
     {
       "path": "api.py",
@@ -273,6 +274,10 @@
       "published_sha256": "ddad3ec66da53b49cdea7e83463de3e707708e37b419c5e9ef0002d48c2b9b6d"
     },
     {
+      "path": "cognition/hosted_reasoner.py",
+      "published_sha256": "92eb36e3ad14bef4f8d58296863358b31c69e1321f5b8803201b00063b292aa7"
+    },
+    {
       "path": "cognition/hybrid_neural.py",
       "published_sha256": "e475cbbe14d2625b0fb611d012e5e2430c34ff3eb82460be13a73bdeb5ac409f"
     },
@@ -335,6 +340,10 @@
     {
       "path": "cognition/reasoner_client.py",
       "published_sha256": "f11187add3611ed0331ea5991d6bb99498dcb3a173ef7a65808c9bbb340a5e54"
+    },
+    {
+      "path": "cognition/reasoning_policy.py",
+      "published_sha256": "86fad04aac5af8e39378aabf9565301f6e5cc2e240ec59213c0de19cab13a5af"
     },
     {
       "path": "cognition/routed_text_search.py",
@@ -743,6 +752,10 @@
     {
       "path": "docs/active-skills.md",
       "published_sha256": "20f57045e9f96079097455349377f7a89eb3263a1af3488782a0281b5311a75a"
+    },
+    {
+      "path": "docs/adaptive-reasoning.md",
+      "published_sha256": "cc7cef5c2411ba2055b90349b50f6404a90b0f7b63c9308307c427cdbbc58e45"
     },
     {
       "path": "docs/analytical-skills.md",
@@ -1555,6 +1568,14 @@
     {
       "path": "research/adaptive-memory/validation/verification.json",
       "published_sha256": "de2c09e9b1cf3d83b4898a6fe8fb220c7ac4d286cf7791cbc3ff3a4cc36e46db"
+    },
+    {
+      "path": "research/adaptive-reasoning/README.md",
+      "published_sha256": "6cf0cf016b668a739d5cb221de6efe520e5c9fa6046ff0dc7d1ea7d78d158ea6"
+    },
+    {
+      "path": "research/adaptive-reasoning/protocol-01.json",
+      "published_sha256": "adeea584db706f45640cfb0548e56183f8debfb7a7c453a827a4fe64662f1756"
     },
     {
       "path": "research/analytical-skills/README.md",
@@ -5501,6 +5522,10 @@
       "published_sha256": "379323a4f664d0563e358f2756a857492864ce75ceed5e51211f8a53f1564334"
     },
     {
+      "path": "scripts/ask_hosted_analyst.py",
+      "published_sha256": "770e3580e651b39b05eae374a5b426680c0b132a407bb2d4be6b9f6e2d0bf91e"
+    },
+    {
       "path": "scripts/ask_semantic_analyst.py",
       "published_sha256": "20cf6e9b056132df670a4e18752e7d46bc24c8ad80b966f1b2a76a800cf2c344"
     },
@@ -5621,6 +5646,10 @@
       "published_sha256": "babadb5af81bd737137d706249f88bc3fb9d25631324394acef1f31d09ad2b17"
     },
     {
+      "path": "scripts/evaluate_reasoning_policy.py",
+      "published_sha256": "091aaabf31caee920fadeb4af0f11d25248c442f74d014bd9142ab905e6effeb"
+    },
+    {
       "path": "scripts/evaluate_skill_expressions.py",
       "published_sha256": "8a3ea57b56353428478da61c2c6ebe9cc026b1cfdbc98a2a4b9822c208e77872"
     },
@@ -5651,6 +5680,10 @@
     {
       "path": "scripts/prepare_livesql_workspace.py",
       "published_sha256": "7091bbca677d23bb96f23d3789f5e1ef096bf12743361ddde3571b7b988d0f95"
+    },
+    {
+      "path": "scripts/prepare_policy_course.py",
+      "published_sha256": "01e784e19fead249d3a1336ee2a9fdb5d2f631b6d2b6603ef770b9f16fa19e04"
     },
     {
       "path": "scripts/prepare_task.py",
@@ -5913,6 +5946,10 @@
       "published_sha256": "1e797aa3e36059583f92b6c6a0ce69ba1449cb073b4da6ce0c09637f012348e1"
     },
     {
+      "path": "tests/test_ask_hosted_analyst.py",
+      "published_sha256": "254bf9434bd9a3a82047f20872d583b81c49a2aceb65e7e5ab70e7b6f6911dad"
+    },
+    {
       "path": "tests/test_ask_semantic_analyst.py",
       "published_sha256": "69c584225d5e816240248d524224bbf51830ae5b0f3de08aee0f15f044104831"
     },
@@ -6045,6 +6082,10 @@
       "published_sha256": "64aaabfb650084f2e4c28116bd781a7cc696027330ce3297668737ea5585b416"
     },
     {
+      "path": "tests/test_hosted_reasoner.py",
+      "published_sha256": "c12e22258db66d8ef987d692f087612e8b1d3b5fc3b953d5ea2bbb4b04db2110"
+    },
+    {
       "path": "tests/test_hybrid_neural.py",
       "published_sha256": "d0d98b2b106884c3374650fd4ad61c6b3aee2deb03387858e8b6645cd56a5c2d"
     },
@@ -6121,6 +6162,10 @@
       "published_sha256": "ca8d74de9daa5fb9c90af8efb4a8389e321d278e412aff1348d03894bd8ab363"
     },
     {
+      "path": "tests/test_policy_course.py",
+      "published_sha256": "937b9981265a1809b0ba2c5b3f9a5ed3e6922822519a04329b7850b0bdcffc96"
+    },
+    {
       "path": "tests/test_procedural_memory.py",
       "published_sha256": "67d60096b981bf4b05a2cf5391ed5daf704f4606dd88448ea6986d6dfe3e2581"
     },
@@ -6131,6 +6176,14 @@
     {
       "path": "tests/test_reasoner_client.py",
       "published_sha256": "cc1d03318147a9c5a936b687648eba7341a377b11f8a031e591e47d1c1f62069"
+    },
+    {
+      "path": "tests/test_reasoning_policy.py",
+      "published_sha256": "b633ed5dd170a179addebe78af8ee9336326ff2769e966ec144671d01a69ad98"
+    },
+    {
+      "path": "tests/test_reasoning_policy_runner.py",
+      "published_sha256": "c56739292b5f395e232c8e6fde72bbbe24d791f3198c39a6dc7836ed92179b26"
     },
     {
       "path": "tests/test_receipt_verifier.py",
