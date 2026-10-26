@@ -54,14 +54,23 @@ A [completed work audit](research/hybrid-agent/work-trials/README.md) exercises 
 question-to-inspection-to-checked-outcome loop on 40 reported tasks. The linked
 [numeric witness](research/hybrid-agent/weight-delta/README.md) checks the resulting
 205 weight changes against all 22,920 excitatory weights and the original state
-identities. Both analytical answers pass; neither run qualifies a reusable
-procedure or demonstrates a comparative neural gain.
+identities. Both analytical answers pass. Their original artifact-time retrieval
+blocks are empty; their accepted post-terminal memories retain textual
+annotations. These runs do not demonstrate a comparative neural gain.
 
 The optional [source-series host](docs/source-series.md) carries one enrolled
 history across fresh immutable ledger revisions. Jobs and delayed checks remain
 bound to their original data; incompatible identities and uncertain retries are
 refused. The finite adapter is tested with real SQLite and deterministic runtime
 fixtures, and is not enrolled in production.
+
+The optional [analytical skill library](docs/analytical-skills.md) promotes an
+accepted episode's own executed SQL into an executable recurring report. New
+compatible snapshots are queried afresh and independently checked. A
+[prospectively pinned generated course](research/analytical-skills/results.md)
+returns 12/12 for the qualified executor, exact SQL caching and a conventional
+template. Qualified reuse adds schema-inspection work; no reasoning or neural
+advantage is established.
 
 The [neural task loop](docs/action-loop.md) selects configured external goals from
 actual spike features, retains the decision context and action-region eligibility,
