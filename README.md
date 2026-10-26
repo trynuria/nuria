@@ -71,6 +71,11 @@ compatible snapshots are queried afresh and independently checked. A
 returns 12/12 for the qualified executor, exact SQL caching and a conventional
 template. Qualified reuse adds schema-inspection work; no reasoning or neural
 advantage is established.
+An [actual-origin lifecycle replay](research/analytical-skills/lifecycle-01/README.md)
+enrolls the earlier accepted model query, checks fresh compatible data and replays
+an identical job with zero new workspace queries or independent checks. Original
+memory and source files remain unchanged. This optional host path is not enrolled
+in production.
 
 The [neural task loop](docs/action-loop.md) selects configured external goals from
 actual spike features, retains the decision context and action-region eligibility,
