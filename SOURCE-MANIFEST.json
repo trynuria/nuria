@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "scope": "Nuria source release; runtime histories, secrets and private infrastructure are excluded",
+  "scope": "Nuria source release with isolated research evidence; production histories, secrets and private infrastructure are excluded",
   "baseline_commit": "e30346af50a0b8ca6db0c71974e385c737828fb3",
   "deployment_identity": "Live API reports component commits, deployment time and source hashes; the original circuit retains its historical startup identity",
   "changes": [
@@ -52,7 +52,14 @@
     "Shared-observation semantic-priority models with trained LIF, frozen/continuous and conventional controls; all four negative development variants retain full checkpoints, labels and delivery traces. Independent replay reconstructs 14,592 deliveries and deterministic retraining reproduces all 48 checkpoints. No passed superiority gate or live enrollment.",
     "Retain the negative 2,000-job verified curriculum, complete teacher/delivery replay and stronger executable-program memory comparison. Bound and screen expanded archives, bind every exported item to the Git tree, and publish previously ignored reviewed logs. No neural-superiority claim, production enrollment or site change.",
     "Complete bounded feedback-driven program acquisition, matched neural controls and stronger field-template transfer. Retain all negative trials and independent replay of 24,576 deliveries; templates accept 382/384 with two incorrect proposals versus the trained spiking model at 356/384 with one. Optional exact neighbor indexing preserves results. The new neural policy remains unenrolled; the original site, workers, histories and financial authority are unchanged.",
-    "Optional source-bound reusable text abstractions, native/macro work-aware search, whole-program transfer and finite domain-labelled qualification. Complete failed development attempts, independent replay and broader-input counterexamples remain published; every learned proposal fails the broader challenge. Historical template source is retained alongside a shared-candidate-limit repair. No neural-superiority result, live enrollment, financial authority or site design change."
+    "Optional source-bound reusable text abstractions, native/macro work-aware search, whole-program transfer and finite domain-labelled qualification. Complete failed development attempts, independent replay and broader-input counterexamples remain published; every learned proposal fails the broader challenge. Historical template source is retained alongside a shared-candidate-limit repair. No neural-superiority result, live enrollment, financial authority or site design change.",
+    "Optional pinned-model analytical reasoning with host-grounded working evidence, outcome-qualified procedures, source-bound Brian2 inspection strategy, immutable recovery, registered included-compute delivery, and a prospective balanced six-arm external-data comparison; production enrollment unchanged.",
+    "Retained development and interrupted comparison evidence, guarded detached module execution checks, prospectively prioritized matched neural/fixed inspection comparison within unchanged cumulative limits, a standalone private analytical CLI and source-bound recent-work projection; no production activation.",
+    "Optional question-only pretrained semantic observations, identity-independent bounded neural input, isolated CPU worker and runnable analyst command; full retained wiring evidence, recovery tests and explicit comparison limits. Production enrollment and site design unchanged.",
+    "Portable post-hoc control-completion implementation with retained synthetic input-equivalence proof, and a privacy-filtered40-task source projection with independent JSON/SQLite correspondence checks. Comparative execution remains separately recorded.",
+    "Optional full-vector LinUCB semantic comparator with verified-origin outcome updates and durable finite recovery; retained Linux float32 verifier failure, exact projection identity and bounded numerical portability checks. No useful-task comparison gain or production activation claimed.",
+    "Completed primary grounded comparison with all 120 selected records retained, 64 executed and 52 final queries independently replayed; 9/12 neural versus 8/12 fixed accepted on the small reserved cohort, with 32.72% fewer completion tokens. Portable original evidence and two checked real-work integration runs include question-only semantic neural input and origin-bound recorded synaptic credit. Stronger control completion is separately frozen; no general neural superiority or production activation.",
+    "Completed all 24 post-hoc simple controls with independent request and SQL replay: neural inspection ties schema first at 9/12 and exceeds stateless at 8/12, with explicit prompt/completion tradeoffs. Publish safe numeric arrays verifying the exact 205-weight originating update. Add finite source-series continuity across immutable data revisions with durable authority, correct delayed-source attribution and 16 tested protocol cases. No general neural-superiority claim, production activation, new financial authority or site design change."
   ],
   "files": [
     {
@@ -61,7 +68,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "96e044058da81ee22cf7b0dae38dd0e18ad175989e8b9124d941bedb4d0a6fcd"
+      "published_sha256": "84cf07ecceaf4352b81e02a9ae9db271bcb97b9646245515e65ef32b808f9cc3"
     },
     {
       "path": ".gitignore",
@@ -69,7 +76,7 @@
     },
     {
       "path": ".prettierignore",
-      "published_sha256": "94bf28347b5225db6044104f8bbe937864678d109cdc8cddfa7b5efbc50797da"
+      "published_sha256": "6df8c93512772ec2b9e9e952334434315ad877c8ed3138460ac8243b2dd328dd"
     },
     {
       "path": ".prettierrc.json",
@@ -81,7 +88,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "5324c3205e299404fe4f905549cf1e0faa49e10472f9e14fa7fcfc67626e480b"
+      "published_sha256": "019f76da85cb7c3cacee9fba34cd5d9770232f58be0ad12b2ed3f9f6c186f3a2"
     },
     {
       "path": "api.py",
@@ -208,6 +215,10 @@
       "published_sha256": "a77317b20a2edd6bd646fd0456f2822b754b98b3eee97318e7cc4ea31252b8ca"
     },
     {
+      "path": "cognition/analyst_workspace.py",
+      "published_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+    },
+    {
       "path": "cognition/backup.py",
       "published_sha256": "3b5ca4e643ac2b1d51d9a9e8700f660d6a1430fe74d1dfe46ba9a2d75c8c86f9"
     },
@@ -240,8 +251,16 @@
       "published_sha256": "5f8273e77f1bb0ac27998ac4414d865e5a80f725f5e03271b3d8d177ebec074c"
     },
     {
+      "path": "cognition/grounded_agent.py",
+      "published_sha256": "f83da48331727260a25a616c4c148d52a2325f6fea2dc25cb934e1f76bdf9319"
+    },
+    {
       "path": "cognition/guarded_skills.py",
       "published_sha256": "ddad3ec66da53b49cdea7e83463de3e707708e37b419c5e9ef0002d48c2b9b6d"
+    },
+    {
+      "path": "cognition/hybrid_neural.py",
+      "published_sha256": "e475cbbe14d2625b0fb611d012e5e2430c34ff3eb82460be13a73bdeb5ac409f"
     },
     {
       "path": "cognition/intervention_encoding.py",
@@ -296,6 +315,14 @@
       "published_sha256": "3d3c930324d41c12e5e6a3a8df7855fda8009e470dc03cefedad10c3b573db9b"
     },
     {
+      "path": "cognition/procedural_memory.py",
+      "published_sha256": "6c42c8798e617ac89c85d946524db4e6da2d58c83038b9e67ab05cb30bcd32cc"
+    },
+    {
+      "path": "cognition/reasoner_client.py",
+      "published_sha256": "f11187add3611ed0331ea5991d6bb99498dcb3a173ef7a65808c9bbb340a5e54"
+    },
+    {
       "path": "cognition/routed_text_search.py",
       "published_sha256": "2634d293a2409c3725fb48339e0e40556d2f9e83d886713ac7a0ca0d660f945a"
     },
@@ -304,8 +331,24 @@
       "published_sha256": "1b7a1f025d81429a40380ce8421c22c5f46302aad1c46d2b6489caa98a709c36"
     },
     {
+      "path": "cognition/semantic_control.py",
+      "published_sha256": "f6b33678ac75ab859095211996f1ed4bceda42552e95340b99de4bdd6f6895cb"
+    },
+    {
+      "path": "cognition/semantic_encoder.py",
+      "published_sha256": "d22bd18838626a63adcffda20747ef8f733b0ed4ca1659d79fa63f843e2ffe5a"
+    },
+    {
       "path": "cognition/semantic_guidance.py",
       "published_sha256": "d8e0ec1629234dbea3763b580e7cde49c3450fe67dfcc9314bdabe85a685f849"
+    },
+    {
+      "path": "cognition/semantic_neural.py",
+      "published_sha256": "7ebd963707017764957631ca5fe0cbdd93c5b8aa4cd53b155514afe86f2097cb"
+    },
+    {
+      "path": "cognition/semantic_worker.py",
+      "published_sha256": "12126739d2a41f618b5431e88e1e3670649bdc19ef19002413b65fee3d759f9e"
     },
     {
       "path": "cognition/skill_expressions.py",
@@ -326,6 +369,10 @@
     {
       "path": "cognition/skills.py",
       "published_sha256": "fae36b0a4dec940830b6a31ba3afd34293739fd7014ac2f94e12173f7f4363e2"
+    },
+    {
+      "path": "cognition/source_series.py",
+      "published_sha256": "a4a155e2dc9c720b27bcfafc7724e353cdd0d17eef0cc4ba4fec021f8a1f345e"
     },
     {
       "path": "cognition/spike_sensor.py",
@@ -372,6 +419,10 @@
       "published_sha256": "76465d8dccb1a7cc2f9b1d45efea9597b94c8912765b14e66fa770d1787c49ef"
     },
     {
+      "path": "cognition/working_evidence.py",
+      "published_sha256": "6ec67a5c2c5a516c17ef64b0befebc77f4ff7ba41a6c5db7317860280eac577d"
+    },
+    {
       "path": "cognition/world.py",
       "published_sha256": "8cc242363cb92256253ec4a1ae18b8c1f9cc885694e9a8d70bbd12888addce79"
     },
@@ -393,7 +444,7 @@
     },
     {
       "path": "commerce/action_loop.py",
-      "published_sha256": "dcdb14c45a8bb2b201d505c4cd89e0f07d5f21e868381ae6c5f66e6765a1f209"
+      "published_sha256": "f8b1074ab7e0fd0e729c1ba81bbe29c8916e725e9bd14240968412bff8ae643b"
     },
     {
       "path": "commerce/actions.example.json",
@@ -446,6 +497,10 @@
     {
       "path": "commerce/funding.py",
       "published_sha256": "4019a71fafa8cca6881f804a2b3a62ad9262f7ac369730afda3de2a9a9c0f720"
+    },
+    {
+      "path": "commerce/grounded_analysis.py",
+      "published_sha256": "a29edf2a5b2dca102ca698f4668b8fdd75adebfda55c204ec905335524f96d97"
     },
     {
       "path": "commerce/information.py",
@@ -581,11 +636,11 @@
     },
     {
       "path": "commerce/task_runtime.py",
-      "published_sha256": "ed2b83ae5fe0478431d5531abcc6fb46dae61451c1ef3de487be83fb8fe586bc"
+      "published_sha256": "c4f28122523926224f5a176df09295c138ba243bc15859e83489045ecf82e9a3"
     },
     {
       "path": "commerce/tasks.py",
-      "published_sha256": "113b8cc45384c0b1dd28428bed83548769b6d79e0a039a3a241dd9c0c7657d75"
+      "published_sha256": "2c95d1a26bf3c0dcbd7b0531914c040d5d58bf180f3c22074fe2e754ec83c416"
     },
     {
       "path": "commerce/tests/fixtures-x402-typescript.json",
@@ -768,6 +823,18 @@
       "published_sha256": "8d8b5b44bb1626d512408f463b7812c703f9c1c8cc93148d2e85f38c7a1b9c3e"
     },
     {
+      "path": "docs/hybrid-neural.md",
+      "published_sha256": "2135c8cd1c92c46cdf736f7b355049cf445c1c0ff37d607f73fc3bacf1f11b37"
+    },
+    {
+      "path": "docs/hybrid-reasoning.md",
+      "published_sha256": "aecc715188be469cf735597878540b6c0e35235cfa4f0a3bf36504e56e8127ee"
+    },
+    {
+      "path": "docs/hybrid-usage.md",
+      "published_sha256": "528cdd9ecfe33945fb84d0d8005360da6bd31b086f28721200046a2aaf851332"
+    },
+    {
       "path": "docs/jupiter-interface-review.json",
       "published_sha256": "15c16cdcd5d31803705047bc222fda6015f4f093362485529ba64b76929bcb55"
     },
@@ -788,6 +855,10 @@
       "published_sha256": "9e546c78f63b9d076e376e100a6d170d955f07b9008fd70568a18d0242789932"
     },
     {
+      "path": "docs/procedural-memory.md",
+      "published_sha256": "95c8a400cb6f3f1231fe3f3b1fa95d76447a9fed651acb93a9363a8ae47ab2ef"
+    },
+    {
       "path": "docs/pump-interface-review.json",
       "published_sha256": "e23d2e3ca780b22143cc2dbfa9d1991aa3523cac5f6fdd68a4dd3cd20f4fe1d7"
     },
@@ -796,12 +867,24 @@
       "published_sha256": "f9acc94d5c83404f5e3901c46ce324a0118017c1b71c5c7a43115ad6b8fea2a6"
     },
     {
+      "path": "docs/semantic-control.md",
+      "published_sha256": "1d80e3a5fc66cba6f27b521be1f7d8c44f79402bd2d5b5c4c5d26e21027d01da"
+    },
+    {
       "path": "docs/semantic-curriculum.md",
       "published_sha256": "85396d95fc4ee94338b8253edc651bfc0c3ee759ff0fd568dbfa39c1bf39ea9a"
     },
     {
+      "path": "docs/semantic-encoder.md",
+      "published_sha256": "9a4a8ff3800851050bf378bc820e47e2bb29899945f98c9e7fd3ffd392a1db74"
+    },
+    {
       "path": "docs/semantic-guidance.md",
       "published_sha256": "de601c26aacb9804b8ca2247236b3fe596baae056e6684fb9c498f70dc331f91"
+    },
+    {
+      "path": "docs/semantic-neural.md",
+      "published_sha256": "0c5cc6ae0b51d049ef8e8f0b134e98c9e3b6273189c5b695fd5cf0a205f8f164"
     },
     {
       "path": "docs/semantic-operation-selection.md",
@@ -810,6 +893,10 @@
     {
       "path": "docs/skill-qualification.md",
       "published_sha256": "905089ced310cc176580ddaf40420be15cdaa5c24c9bd71182b9c05618878445"
+    },
+    {
+      "path": "docs/source-series.md",
+      "published_sha256": "9f3c3efb33cd507729b05a5fe3137e5826ab7aa3ff9d30cb5e7b6e1a93702626"
     },
     {
       "path": "docs/spending.md",
@@ -822,6 +909,10 @@
     {
       "path": "docs/text-abstractions.md",
       "published_sha256": "0522f110cf4a43a7b6a80211f1962087eb578e2f99ab600ba0fff466fa4bd32c"
+    },
+    {
+      "path": "docs/work-analysis.md",
+      "published_sha256": "41c3135728e43ee289a1b4349b99e412b8e6127b3f637967a96e2d5d59aef210"
     },
     {
       "path": "engine.py",
@@ -1630,6 +1721,338 @@
     {
       "path": "research/guarded-skills/reserved/verification.json",
       "published_sha256": "a56ec1421804d887445e49a80915d15dc75eac6802b813567080adeab81a0141"
+    },
+    {
+      "path": "research/hybrid-agent/README.md",
+      "published_sha256": "8208d1ff4a9944634d047ca2d052dab4f3f3d8dce0d45517626c2dfaa7a08f78"
+    },
+    {
+      "path": "research/hybrid-agent/attempts/comparison-01-interruption.json",
+      "published_sha256": "6510b179b5baa31ea1a00a92c7a972f15a9c51852b39bba63c1583ff70de97cd"
+    },
+    {
+      "path": "research/hybrid-agent/attempts/comparison-02-interruption.json",
+      "published_sha256": "e1172b1d2f9311aa01aa40813cb714f854720f69c0ee222e3f2cd77fa0f6167b"
+    },
+    {
+      "path": "research/hybrid-agent/attempts/comparison-02-protocol.json",
+      "published_sha256": "1066c83f960dedc85aed795fcb47e8812c65ad1f85cb2c35f7441e2b368e56f4"
+    },
+    {
+      "path": "research/hybrid-agent/attempts/comparison-03-protocol.json",
+      "published_sha256": "4e7b7a5c71890574f2b319cce6a493adca46e28c2992269e8132df58e75d29ed"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/README.md",
+      "published_sha256": "8495fed62760ab8feb468ec7bfc85e3e21cb73fdefaefe0697353ebd550004c3"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-episodes-001.zip",
+      "published_sha256": "f1c70acf8564979ac890cd78fbbd4ed661ee036df0a3e3b875404f64785d4c16"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_fixed-001.zip",
+      "published_sha256": "eb4240f727b04d19667f39f7cd49e1cb03ccb3072435f209c5ff00f3708e0263"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_fixed-002.zip",
+      "published_sha256": "6f7167c991b192d75096d4a1b4691c3295819370bca989b17a0f25e768a1b11a"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_fixed-003.zip",
+      "published_sha256": "465e555715fb576cec15145f242f5d349afa4dc2b613802fe518bf6721676c75"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_fixed-004.zip",
+      "published_sha256": "3bf4c34d5b051da75fa3e45e98afb656b63b5eceb6fde907477800f6a3b3357b"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_fixed-005.zip",
+      "published_sha256": "7bae5d992c597c879baddad33ba96791bbc751475efe5570ad7aa9f6b2ab104a"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_neural-001.zip",
+      "published_sha256": "365e7be2519fc131ed0059b42175c04d038ca44da2868d885d78bfa9f1a39086"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_neural-002.zip",
+      "published_sha256": "94c6566e879e8b8671a21fd304061238bc8eed4c292d566ed1eacc4a27acb8bd"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_neural-003.zip",
+      "published_sha256": "2d768561169db8af67f74d9491b968cf20780b0c3f87c2a8fab46bd8ddf3cb06"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_neural-004.zip",
+      "published_sha256": "40efd1051cfd6fd12ca9b68cc40f02d125c834f9d5004f87a15b8d2f1ebe5a82"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-hybrid_neural-005.zip",
+      "published_sha256": "704e85656e31bfacf87db2090aab0b129f61bc5ee33aa23d7ab34890603421ce"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-procedures-001.zip",
+      "published_sha256": "ddd3c331ceb7aff7aedfe0ff98fb10e2390c56c2a7e744900dc6d0964eb1956c"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-schema_first-001.zip",
+      "published_sha256": "830d8fb19416d4bc46e7be465a98f6b285784317e7c59b9f73630abf6f72c6c3"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/arm-stateless-001.zip",
+      "published_sha256": "bad6a04ba6d9746bb9860b247da0bc25878aaaea8b82aadf4c8cf40e70854174"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/extract_evidence.py",
+      "published_sha256": "61601e7fbd5c53c19255ec142ecc6273f6cfac0e8d30a0c8546c3e529fef1370"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/inputs-001.zip",
+      "published_sha256": "261646e614b376b7163de6c160bb3994931e39f2c14ad83932f58626e61041b2"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/manifest.json",
+      "published_sha256": "d454737fac9b57fa5a78e1480475b9fc21579c903fd05f7c1a908c6823abfca9"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/results.md",
+      "published_sha256": "125915b0aff11490a99fd8963284217b9677992056dde0a5480f290932192115"
+    },
+    {
+      "path": "research/hybrid-agent/comparison-03/run-files-001.zip",
+      "published_sha256": "4aeabf0cdb6218810bc9d126fea25d1ec4359f3792fb3a7ce7b154ccea27af83"
+    },
+    {
+      "path": "research/hybrid-agent/development/README.md",
+      "published_sha256": "7a025fa0a11c3c7c85bb787255e8660fd83e6f4464eea6f1bb5e7aaf9ece4c4e"
+    },
+    {
+      "path": "research/hybrid-agent/development/manifest.json",
+      "published_sha256": "5f80a860ec983f15970d069829e592e4d729e013ae0b7a1313cd8a425d94f814"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-01/freeze.json",
+      "published_sha256": "781a37e3c7226533e136871544527c92293c8f2ec3c62c330e1b9d3bf426a9b8"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-01/grounded-pilot01-independent-check.json",
+      "published_sha256": "a05dac8744e1ce0f4be1000473231f4508b124b95918a2ee5ec1375242189690"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-01/results-projection.json",
+      "published_sha256": "935b72b99798cdbc1f586edde5a452e90789b585c0be7f8fb0821a1723d50e30"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-01/source-comparison-after-pilot.json",
+      "published_sha256": "4c3372d61b3f366a4eb0fd675f3d92e3462c760d2868dc53004e6d83c381de04"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-01/summary.json",
+      "published_sha256": "b54447eb046aeeb94fdcef6dae945b24a8b11b24f8254688d1bd9975f7c4c3a6"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-02/freeze.json",
+      "published_sha256": "fa3a6bfe0ace7d5856b1d4860045bf62d5b91d5305b39231467fbe2d41dfb019"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-02/results-projection.json",
+      "published_sha256": "d0609749caef370d320bdd7eea836ca76fd007256f303b815c94fc200b30fbf7"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-02/summary.json",
+      "published_sha256": "f62c1c3da6c337c1bbba50cf8d0c02f88d04e7a702926e6208f025a0d2e81f15"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-03/freeze.json",
+      "published_sha256": "0aa7978912b4c9957788a9c8e087a8354d1ce7551f9b9515adcedcd9db1db518"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-03/independent-check-01.json",
+      "published_sha256": "0d7cd61fb12bb494039d61a317f4172cf4024972b1ed6b3c67050dad390ad64a"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-03/results-projection.json",
+      "published_sha256": "5ee56bc477d3c3231febb839656be83c5db2ddae8876d72b5f6295c54a5186a6"
+    },
+    {
+      "path": "research/hybrid-agent/development/pilot-03/summary.json",
+      "published_sha256": "713ed01ae8b6e6c3f19fb1aed53d679e507cd695f41dc31e5d5d47ee08242aad"
+    },
+    {
+      "path": "research/hybrid-agent/development/summary.json",
+      "published_sha256": "68f32d00d6544b01bf60889aba546cfdc13f3667182595878a40a00199dc669e"
+    },
+    {
+      "path": "research/hybrid-agent/methods-and-limits.md",
+      "published_sha256": "40150f95147f0ae42c868f18d0ba478ecc994b21111d6f809d1d8686d9798b49"
+    },
+    {
+      "path": "research/hybrid-agent/protocol.json",
+      "published_sha256": "9aa193b15f3348c7b0d409305e3fcbb23047f18a31f01bf22569d2a9dd9d867f"
+    },
+    {
+      "path": "research/hybrid-agent/runtime/model-manifest.json",
+      "published_sha256": "8ac036221dc55d464e964d7616d57f965c811de5be9e605433b2d9573f7afc26"
+    },
+    {
+      "path": "research/hybrid-agent/runtime/requirements-macos-arm64.lock",
+      "published_sha256": "75240be39b6ea105f1d6eef15575fcffcb0063bcd270bdf0af7847a5428f8d36"
+    },
+    {
+      "path": "research/hybrid-agent/runtime/requirements.in",
+      "published_sha256": "a16ed5bd095cda4e48ea50e044f6b02105c93148b2d8ecedbff2442d17e84721"
+    },
+    {
+      "path": "research/hybrid-agent/selection-freeze.json",
+      "published_sha256": "97b71363e56d649173ba872c18f09a51d3b5fe5fe187ebb60de8d6e535f187f6"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/README.md",
+      "published_sha256": "1d2d429c8622f5c735ad744f0872fbd00ec23ceb2fd8728348ef8b7a68bcfe1b"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/RESULTS.md",
+      "published_sha256": "d79dcb77b5a5eb875587e7813c72a2a808690db038ac6737da7eec2cc1f81344"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/evaluate_controls.py",
+      "published_sha256": "1cb1a7d02659844485436dce090cdc5d235f886a83b1d88d4354acc0628131fa"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/input-equivalence-proof.json",
+      "published_sha256": "6d7a434be2792708ef7997642ac042bcfc41a1e8fce9f7a52e7a0614b8a2af73"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/input_equivalence.py",
+      "published_sha256": "6c3ade965c2bec91cde212025d1de201b82bac607bf295ddaa9d44c4c7345823"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/protocol-01.json",
+      "published_sha256": "130b963e08cf0c83db8cae5ee11b1bd3b0f9b0899fa5fac007ec50ed086c6869"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/results-01/README.md",
+      "published_sha256": "5528ccb55564aa71ce1a720603b03a0b06df366c16854be06beafde769fc95c4"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/results-01/manifest.json",
+      "published_sha256": "f9d7816c7cb38856aab8ce2ce1f2d6ea67817ef89151cccfad5646e0664fe434"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/results-01/replay-result.json",
+      "published_sha256": "eee86acda1c48cdfc2ae12d333836d66f20b21ffebbc51a79c86dc536fa3115d"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/results-01/retained-controls.zip",
+      "published_sha256": "2e419326a90c2f942798498e8f9cd30484d2a16767066af459a783c7db38f323"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/results-01/test_results.py",
+      "published_sha256": "fea65d53032a2946a17a2fd5749d0a09a688bc0340dc2d468256795148c9bfa8"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/results-01/verify_results.py",
+      "published_sha256": "a2ed8c2db2d561d0049591200693ca0c78f1a5630bcebaa3e7016e6d1fb944c8"
+    },
+    {
+      "path": "research/hybrid-agent/supplemental-controls/test_controls.py",
+      "published_sha256": "197d8198f6325e543a50b9b9db4c43cacfbe67504b2b7e0d4aab48d8e69f6e1a"
+    },
+    {
+      "path": "research/hybrid-agent/weight-delta/README.md",
+      "published_sha256": "2c2751e38594e8c283953d2d300ca90a81ca27f1d7836142977bd201ff939274"
+    },
+    {
+      "path": "research/hybrid-agent/weight-delta/arrays.npz",
+      "published_sha256": "8b7db172bcc82654e625dd7452f7f046705c756c3fe173a1cbb26d3e24094589"
+    },
+    {
+      "path": "research/hybrid-agent/weight-delta/derivation.json",
+      "published_sha256": "8c4434d66d73982ca9c6d92db7b663a84352b9c91c584d921a0b58275eab7ffd"
+    },
+    {
+      "path": "research/hybrid-agent/weight-delta/replay-result.json",
+      "published_sha256": "dba06bcef4708d3ed9a17eeaf9f84c810a4bfd94183c34efdfb90df662184b5b"
+    },
+    {
+      "path": "research/hybrid-agent/weight-delta/test_weight_delta.py",
+      "published_sha256": "66c222eb0b6fb7a9986330c9ed0122be1cb0879139b476f171f4a48dfce0a8e4"
+    },
+    {
+      "path": "research/hybrid-agent/weight-delta/verify_weight_delta.py",
+      "published_sha256": "c501316040ee633444b698741b9745e2ad1e9d1a72b9532883f6992efb28f6ee"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/README.md",
+      "published_sha256": "92ae8ecd98f89de2f69490d08a845d42979f9411c0237b65b0c532f31d9dab99"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/action-task-projection.json",
+      "published_sha256": "a5496e9be868e5d050e5b536f2b31e6e4fb4dee8e093e77c765de6463ed10f98"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/api-provenance.json",
+      "published_sha256": "4911c34499c3eb019f5e7451856263b15e8fa3e5b4f703e02136db6571329a6c"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/check_recent_work.py",
+      "published_sha256": "ac2a1a854e9fd8b5c7d79be10374dfa11d5d8e90bfc4d0c58d81fc7ffacb9a81"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/derivation.json",
+      "published_sha256": "e634492b1ef59ceae5bd8f01b4d56db556df11af4a5effa4f7843419a8564ecc"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/question-and-check.json",
+      "published_sha256": "aa0c6c0206fefdcb5469be37bff51c1e24545ed1b44ed510de07995f1cf3dda0"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/registered/business.txt",
+      "published_sha256": "5c78c5f819cb521eb0328de66d041ea631c208261d93353084262a741169af65"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/registered/columns.txt",
+      "published_sha256": "4613cb7487e0755d9c3c98dd3c11dfb6f6279e69a3ecea6574c3b1222827604b"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/registered/registry.json",
+      "published_sha256": "dc46fa6bb4c5e3391c9cf45a07fa7420b013a714de62264348c86ac99fa2d2ca"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/registered/schema.txt",
+      "published_sha256": "e78e268a93d241dd57b28556bba7882aeeeda50f83b2ca7214ff1b9ddac3c424"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/registered/work.sqlite",
+      "published_sha256": "826f6bb0b66cb9a5ed566e1b0bcedd24293389f3463e9c56ecbc138db12408e0"
+    },
+    {
+      "path": "research/hybrid-agent/work-snapshot/test_recent_work.py",
+      "published_sha256": "9beec1c1616a2347a8f47e7e482c3d028bf1303302842af15bda6c242bb9e7ef"
+    },
+    {
+      "path": "research/hybrid-agent/work-trials/README.md",
+      "published_sha256": "ddbe619c08a76fff8cab31f47d715806287c90826375ec8f03e9e42eb322685b"
+    },
+    {
+      "path": "research/hybrid-agent/work-trials/manifest.json",
+      "published_sha256": "1e3cbb8a66f0c5ddd64e1d0532b9ceda4852e603c8ee2f04f7345f2947c5c57f"
+    },
+    {
+      "path": "research/hybrid-agent/work-trials/replay-result.json",
+      "published_sha256": "10bff73236a83d15538d66746ee0b1221a64641295546d75c1d55f44cd862ea0"
+    },
+    {
+      "path": "research/hybrid-agent/work-trials/retained-work-trials.zip",
+      "published_sha256": "b7885e31b85a24b48fe86a742db30ecb517b2192a91c65eea994cb8466450f0a"
+    },
+    {
+      "path": "research/hybrid-agent/work-trials/test_work_trials.py",
+      "published_sha256": "e576eec0b75adeb4fa55b492b6ede3957d0d1464d34645e47081ebf785af7188"
+    },
+    {
+      "path": "research/hybrid-agent/work-trials/verify_work_trials.py",
+      "published_sha256": "c35e40a62fa031c7aa9e89fb3512c9c73dbd990020b7d88310b873befb71ff01"
     },
     {
       "path": "research/intervention-memory/README.md",
@@ -3732,6 +4155,86 @@
       "published_sha256": "f2e8338468513fcef89259546bcb1e59b3cbd0b3f785fc781b5c4eeee9b1b725"
     },
     {
+      "path": "research/semantic-input/README.md",
+      "published_sha256": "45bb4455b510ddedd877d249b2a56c54f550d13eb073801dbb73d0ebfa18ca96"
+    },
+    {
+      "path": "research/semantic-input/attempts/ci-portability-01.json",
+      "published_sha256": "493af4534a0ac7a9fbb0ed306c8318993a6e7f20c56072097c5b9abc93cb7860"
+    },
+    {
+      "path": "research/semantic-input/evidence-manifest.json",
+      "published_sha256": "4c938a710eaa3271c72cc6dc890b0bd7e891796516b6cc7bfc1fb47adb92424b"
+    },
+    {
+      "path": "research/semantic-input/evidence/brian-freeze.json",
+      "published_sha256": "4bd6bb03b3b7fe15d69d942af754aac2aa3d9f16b24d3850b4ac85bd456c23bf"
+    },
+    {
+      "path": "research/semantic-input/evidence/brian-result.json",
+      "published_sha256": "7318e1e47199812c64c556fb2351ce12c6e4b307145763674e0cc5ea2453ba53"
+    },
+    {
+      "path": "research/semantic-input/evidence/brian-windows.jsonl.gz",
+      "published_sha256": "71c8f018e4953c6899838ba79f8e515a635364be4e4194c935fb6e273e37acdc"
+    },
+    {
+      "path": "research/semantic-input/evidence/prototype-adapter.py.txt",
+      "published_sha256": "e5aea60563fb1affa6b5a08c924ebd1ab7f029f086ac8bbb72d83e3a0d37ad1d"
+    },
+    {
+      "path": "research/semantic-input/evidence/prototype-brian-probe.py.txt",
+      "published_sha256": "bd60d1b1c91d303de8ec17b9509dea7fafcd87b4d41863bd958ba69f65873663"
+    },
+    {
+      "path": "research/semantic-input/evidence/prototype-freeze.json",
+      "published_sha256": "53ee73f48912996cdddd6834d6f341dfdcdfe419d5e99df6da8bc0b26a9835ac"
+    },
+    {
+      "path": "research/semantic-input/evidence/prototype-model-manifest.json",
+      "published_sha256": "27228f1907520abfc4b5ba50541ea78b3dc9aae3b0edfc7755f2b1ad2a8bed2c"
+    },
+    {
+      "path": "research/semantic-input/evidence/prototype-probe.py.txt",
+      "published_sha256": "bc468abe6e0306371a1d709ce36d008a7afb0cabc97885a6258018ff8a2abb8a"
+    },
+    {
+      "path": "research/semantic-input/evidence/public-current-equivalence-final.json",
+      "published_sha256": "b43f59aefd482732421cd0e221cee31324c9f89d0da2b3b5a10693caeef48d10"
+    },
+    {
+      "path": "research/semantic-input/evidence/public-current-equivalence.json",
+      "published_sha256": "176d41e038a9c0516104336ee647b12b0d8daa29a76101d52d0f795937aeb318"
+    },
+    {
+      "path": "research/semantic-input/evidence/semantic-observations.jsonl.gz",
+      "published_sha256": "43246eb0a87fed85feecb96527b941ccb8240152a7cc9fd4d7c13bf5cf0fb017"
+    },
+    {
+      "path": "research/semantic-input/evidence/semantic-output.json.gz",
+      "published_sha256": "640fc635405fb0d3b6be0271398a80a7a62d3f350e0d83417d407ad0fe79ba39"
+    },
+    {
+      "path": "research/semantic-input/evidence/semantic-result.json",
+      "published_sha256": "b66786afd31b035dbbac93d4d9ab5aba93c35d4c8956620cc30ceb41dad60e8d"
+    },
+    {
+      "path": "research/semantic-input/evidence/text-protocol.json",
+      "published_sha256": "36eb9b549c3657c2b338d17ed829ff8f0a0e48630071157399ab40d95a8cc482"
+    },
+    {
+      "path": "research/semantic-input/runtime/model-manifest.json",
+      "published_sha256": "6652abcd0dfa9b7a4cc940109b84b5a0707e9a9a927d7efe811f508889e1826d"
+    },
+    {
+      "path": "research/semantic-input/runtime/requirements-cpu.lock",
+      "published_sha256": "24ebdae5180abc0ec0cd4cb789d700470558da3d109a49adea0d15bc8099f8e1"
+    },
+    {
+      "path": "research/semantic-input/semantic-work-trial-protocol-02.json",
+      "published_sha256": "431e3b092c46a680ad5aa509be523ff9c0d14da3606084bab1358d4e3ae51950"
+    },
+    {
       "path": "research/skill-acquisition/README.md",
       "published_sha256": "367f9295a076b86ca91832b678dd6ccdf140d3b0fb7e35c8da4c978439acc21d"
     },
@@ -4920,6 +5423,14 @@
       "published_sha256": "84828a0986fc99f0fa705afea90505b1794eb65c42a38c42c0192dd816dfb383"
     },
     {
+      "path": "scripts/ask_grounded_analyst.py",
+      "published_sha256": "379323a4f664d0563e358f2756a857492864ce75ceed5e51211f8a53f1564334"
+    },
+    {
+      "path": "scripts/ask_semantic_analyst.py",
+      "published_sha256": "20cf6e9b056132df670a4e18752e7d46bc24c8ad80b966f1b2a76a800cf2c344"
+    },
+    {
       "path": "scripts/benchmark_cognition.py",
       "published_sha256": "3b3bb4e86a9b530761e60b00a63537f86b7060956ee9aea6f8cd4ffece65f691"
     },
@@ -5008,6 +5519,10 @@
       "published_sha256": "617a3e2d9c2d11cc0b088c0a98b29b2c3dae582446066627c9d16287ce7844c8"
     },
     {
+      "path": "scripts/evaluate_grounded_agent.py",
+      "published_sha256": "8a610d722af1989a9b87cd072568ae45056884abf7d2806e54af5d3831deb72b"
+    },
+    {
       "path": "scripts/evaluate_guarded_skills.py",
       "published_sha256": "c151a75babac35e747aafb168af58a68ba6804539f5c43f6e7a7d33c7c87da80"
     },
@@ -5052,12 +5567,20 @@
       "published_sha256": "c434f9e6fc36b77918cb5b2bcb17a2461bbec88f1751136c126a414abc415138"
     },
     {
+      "path": "scripts/prepare_livesql_workspace.py",
+      "published_sha256": "7091bbca677d23bb96f23d3789f5e1ef096bf12743361ddde3571b7b988d0f95"
+    },
+    {
       "path": "scripts/prepare_task.py",
       "published_sha256": "75b75da0801986f85e81c0946261c103565aaadeaedd3848c5b6279fdeda6873"
     },
     {
       "path": "scripts/reanalyze_composed_external.py",
       "published_sha256": "c4e722e1a25d0842dc1ade0f67328e3567b6ce2676c7c041b5a29b29f8709c09"
+    },
+    {
+      "path": "scripts/register_work_snapshot.py",
+      "published_sha256": "bfdda8b75f7ee3b94dea3799dadc42f61b926cb57912e31523207b09fa35df65"
     },
     {
       "path": "scripts/render_acquisition.py",
@@ -5078,6 +5601,10 @@
     {
       "path": "scripts/reproduce_semantic_guidance.py",
       "published_sha256": "f103a661c4df5f796ac356e57288d7270db55c26c684afd7f52dc18d9e7481d9"
+    },
+    {
+      "path": "scripts/run_grounded_agent.py",
+      "published_sha256": "752be7af61955ef44538bfe6287cdc7aff621e111ac0a73e0b0d093065f041c5"
     },
     {
       "path": "scripts/run_neural_digit_service.py",
@@ -5112,6 +5639,10 @@
       "published_sha256": "717f7a271490a5e9b96e3a36a39f1f49594172dafe527beba62a64ed7c754939"
     },
     {
+      "path": "scripts/verify_grounded_comparison.py",
+      "published_sha256": "86017dc7b9803414a19472db4b394db2154adcc5287797b49aa01a9b4d70d252"
+    },
+    {
       "path": "scripts/verify_guarded_skill_results.py",
       "published_sha256": "57e50fd1adb7d49d60293ef29a4b323981fc1c07197061c51f23be1d6b29dd5a"
     },
@@ -5142,6 +5673,10 @@
     {
       "path": "scripts/verify_semantic_guidance.py",
       "published_sha256": "d338b437741a47a3a2643cba1c0e6c74fcec779f7c13f630690feabd9ff3c6dd"
+    },
+    {
+      "path": "scripts/verify_semantic_wiring.py",
+      "published_sha256": "649e3a5d7e50c0c43a7370fb4901bcd6782b23ca97fff00e22fe742c5b223e44"
     },
     {
       "path": "scripts/verify_skill_expression_results.py",
@@ -5256,6 +5791,18 @@
       "published_sha256": "41929eba2f179ccbd13e9f0e2c1dc70bdebc5060989373c298bbe75bb1e39aa2"
     },
     {
+      "path": "tests/test_analyst_workspace.py",
+      "published_sha256": "d474fcea69768bab781717d1aa8d855c07b2b2dd3ef3777d46991da744d42508"
+    },
+    {
+      "path": "tests/test_ask_grounded_analyst.py",
+      "published_sha256": "1e797aa3e36059583f92b6c6a0ce69ba1449cb073b4da6ce0c09637f012348e1"
+    },
+    {
+      "path": "tests/test_ask_semantic_analyst.py",
+      "published_sha256": "69c584225d5e816240248d524224bbf51830ae5b0f3de08aee0f15f044104831"
+    },
+    {
       "path": "tests/test_backup_paths.py",
       "published_sha256": "1033a49ea6da5b6e99a238742d126f02cb8febcf5f9cdcef9524519593d58954"
     },
@@ -5328,6 +5875,10 @@
       "published_sha256": "147bdd23432ecbf3b932cd7ab6c534b5b988db7fec9ecc17cf09459f1a0d96d9"
     },
     {
+      "path": "tests/test_evaluate_grounded_agent.py",
+      "published_sha256": "11f2f67605d33fa6e0700431590631e83a25cbf51134428466cd0fd566de4052"
+    },
+    {
       "path": "tests/test_evidence.py",
       "published_sha256": "9df801b8ac7782eb4fb33f007d1ff87d80052b8e99b3cb27cef5ff8e2b60a19b"
     },
@@ -5348,6 +5899,18 @@
       "published_sha256": "ed2f9968d879d301acc5bf129e9051f7b36203199912f283aff6a75c80b55d13"
     },
     {
+      "path": "tests/test_grounded_agent.py",
+      "published_sha256": "287bbe12e771ae92e204b05abfbd419c33e8e3200d7a74462d61e090aac3e613"
+    },
+    {
+      "path": "tests/test_grounded_analysis.py",
+      "published_sha256": "4f2452455ec9c59a21e294a45e01f16aea75b83ac2aecbde6d4e6376c6d09c74"
+    },
+    {
+      "path": "tests/test_grounded_recovery.py",
+      "published_sha256": "79b28bbb60c59b5653ad095c3d40026b2b9ba8cbefe40266d7da01865e31004e"
+    },
+    {
       "path": "tests/test_guarded_evaluation.py",
       "published_sha256": "f29dd634dfd7a3465f4e7039fb2bb303f1ed180e2f20ab4a9188e47623a2b959"
     },
@@ -5366,6 +5929,10 @@
     {
       "path": "tests/test_guarded_skills.py",
       "published_sha256": "64aaabfb650084f2e4c28116bd781a7cc696027330ce3297668737ea5585b416"
+    },
+    {
+      "path": "tests/test_hybrid_neural.py",
+      "published_sha256": "d0d98b2b106884c3374650fd4ad61c6b3aee2deb03387858e8b6645cd56a5c2d"
     },
     {
       "path": "tests/test_information_choice.py",
@@ -5440,8 +6007,16 @@
       "published_sha256": "ca8d74de9daa5fb9c90af8efb4a8389e321d278e412aff1348d03894bd8ab363"
     },
     {
+      "path": "tests/test_procedural_memory.py",
+      "published_sha256": "67d60096b981bf4b05a2cf5391ed5daf704f4606dd88448ea6986d6dfe3e2581"
+    },
+    {
       "path": "tests/test_pump_sweep.py",
       "published_sha256": "f1514e1b9054ae5fd34551b40815d3771155d6a8f4d4d7abfc78ff2efb93e410"
+    },
+    {
+      "path": "tests/test_reasoner_client.py",
+      "published_sha256": "cc1d03318147a9c5a936b687648eba7341a377b11f8a031e591e47d1c1f62069"
     },
     {
       "path": "tests/test_receipt_verifier.py",
@@ -5460,12 +6035,28 @@
       "published_sha256": "5d041e263e354a6880363b756ac2362a7e0c80ad6d62c6a6b37662fbc6bd0fe9"
     },
     {
+      "path": "tests/test_semantic_control.py",
+      "published_sha256": "642d87b53009721d691cc9d02b9bf6231794e664b317f6f43f046a4a5f387689"
+    },
+    {
+      "path": "tests/test_semantic_encoder.py",
+      "published_sha256": "801e876f6b42983f469ca0e5ff8f21ec1246fd7aface1cc1f65f8c4f953bf2f3"
+    },
+    {
       "path": "tests/test_semantic_guidance.py",
       "published_sha256": "6add947e83dfd592df286737aefc352c088872eb51becb1692ca7155254eb884"
     },
     {
       "path": "tests/test_semantic_guidance_verifier.py",
       "published_sha256": "0df452d1706700ed5d9191b8bda6afd58b8db66fd6b58e6faaa526944a853d5e"
+    },
+    {
+      "path": "tests/test_semantic_neural.py",
+      "published_sha256": "b174d61a8de481e12b9881c74bd4dd6ba82ae7e8f6087251e6bf2e7d95b26d96"
+    },
+    {
+      "path": "tests/test_semantic_worker.py",
+      "published_sha256": "de9066b5de4529ef96a9deaab9f0a3a042d4e55a7d78dad94b5d7d017bba84d6"
     },
     {
       "path": "tests/test_session_budget.py",
@@ -5502,6 +6093,10 @@
     {
       "path": "tests/test_skills.py",
       "published_sha256": "2bcb82ea5faf1d5d64a2036ef6fef120bc5ea12d9bb375a96528a9e149e53cb0"
+    },
+    {
+      "path": "tests/test_source_series.py",
+      "published_sha256": "220d064a9514b62f32951450e4ebf349b3694823d254f10a9c5530a473ae87a5"
     },
     {
       "path": "tests/test_spiking_digits.py",
@@ -5548,8 +6143,24 @@
       "published_sha256": "2d23946a4e768264d05cae327b68592017a228a91856ac68aa5776addc5f275b"
     },
     {
+      "path": "tests/test_verify_grounded_comparison.py",
+      "published_sha256": "dc69abb5146f479458c32ef33c5a986e3f76bdf14a2b422457e7d2ba84631b83"
+    },
+    {
+      "path": "tests/test_verify_semantic_wiring.py",
+      "published_sha256": "f13cd6ec17e3d812041dbf9c975938418c9744f61f911003c17e64e0c8fc2a24"
+    },
+    {
       "path": "tests/test_work.py",
       "published_sha256": "d56c94d250acdd5ffaf617c7c2ea4cbd3f3a4af3b4912d84d748b7aae0f0a68e"
+    },
+    {
+      "path": "tests/test_work_snapshot.py",
+      "published_sha256": "0fd6be8590d7e24ff6f1c0479e9492ae9e72e95c4a61154f513952ed02fc4af3"
+    },
+    {
+      "path": "tests/test_working_evidence.py",
+      "published_sha256": "8868ed4d76621c9ebe53d64b9b1e83bd15a3369e6e3c36af6ca7145828c5dedb"
     },
     {
       "path": "tests/verification-view.test.cjs",

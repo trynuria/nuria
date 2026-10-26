@@ -51,3 +51,20 @@ research/neural-routing-loop/development/**/*.json
 
 # Frozen abstraction study inputs, checkpoints and receipts retain exact bytes.
 research/text-abstractions/artifacts/**/*.json
+
+# Retained semantic observations, source projections and frozen trial protocols.
+research/semantic-input/**/*.json
+research/hybrid-agent/work-snapshot/**/*.json
+research/hybrid-agent/supplemental-controls/protocol*.json
+
+# Original comparison records retain their byte identities.
+research/hybrid-agent/comparison-03/**/*.json
+
+# Recorded work-audit receipts preserve original byte identities.
+research/hybrid-agent/work-trials/**/*.json
+
+# Numeric export derivation retains its recorded byte identity.
+research/hybrid-agent/weight-delta/derivation.json
+
+# Supplemental original records and independent replay receipts.
+research/hybrid-agent/supplemental-controls/results-01/**/*.json

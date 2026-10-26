@@ -1,0 +1,45 @@
+"""One private twelve-text CPU semantic observation probe; no action learning."""
+import datetime,hashlib,json,os,resource,shutil,time
+from pathlib import Path
+import numpy as np
+from semantic_adapter import FrozenCPUEncoder,brian_inputs,bind_origin,digest,file_sha,projection
+P=Path(__file__).resolve().parent
+FLOOR=22*1024**3
+
+def write(path,value):
+ with path.open('x')as f:json.dump(value,f,indent=2,allow_nan=False);f.write('\n')
+def guard():
+ if shutil.disk_usage(P).free<FLOOR:raise RuntimeError('Approved free-disk headroom is unavailable')
+def main():
+ os.nice(15);guard()
+ protocol=json.loads((P/'text-protocol.json').read_bytes())
+ assert len(protocol['texts'])==12
+ matrix=projection()
+ with(P/'projection.npy').open('xb')as f:np.save(f,matrix,allow_pickle=False)
+ freeze={'schema':'nuria.semantic-probe-freeze.v1','at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'files':{name:file_sha(P/name)for name in('text-protocol.json','model-manifest.json','semantic_adapter.py','probe_semantics.py','requirements.lock','runtime-prepared-02.json','projection.npy')},'text_count':12,'actual_model_calls_before_freeze':0,'protocol_status':'Predeclared before model text processing'}
+ write(P/'probe-freeze.json',freeze)
+ began=time.monotonic()
+ encoder=FrozenCPUEncoder(P/'model',P/'model-manifest.json')
+ vectors,receipts,currents={},[],{}
+ with(P/'semantic-observations.jsonl').open('x')as journal:
+  for item in protocol['texts']:
+   guard();vector,receipt=encoder.encode_question(item['text'])
+   receipts.append({'text_id':item['id'],'observation':receipt})
+   vectors[item['id']]=vector.tolist();currents[item['id']]=brian_inputs(vector,matrix)
+   journal.write(json.dumps(receipts[-1],allow_nan=False)+'\n');journal.flush();os.fsync(journal.fileno())
+ cos=lambda a,b:float(np.dot(np.asarray(vectors[a]),np.asarray(vectors[b]))/(np.linalg.norm(vectors[a])*np.linalg.norm(vectors[b])))
+ checks=[]
+ for record in protocol['comparisons']:
+  positive=cos(record['anchor'],record['paraphrase']);negative=cos(record['anchor'],record['unrelated'])
+  checks.append({**record,'paraphrase_cosine':positive,'unrelated_cosine':negative,'passed':positive>negative})
+ observation=receipts[0]['observation']
+ first=bind_origin(observation,job_id='first-private-job',source_sha256='1'*64)
+ second=bind_origin(observation,job_id='different-private-job',source_sha256='2'*64)
+ invariant1=brian_inputs(np.asarray(vectors['invoice-a']),matrix)
+ invariant2=brian_inputs(np.asarray(vectors['invoice-a']),matrix)
+ output={'schema':'nuria.semantic-input-observations.v1','vectors':vectors,'currents':currents,'receipts':receipts}
+ write(P/'semantic-output.json',output)
+ stats={'schema':'nuria.semantic-input-probe-result.v1','at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'freeze_sha256':file_sha(P/'probe-freeze.json'),'protocol_sha256':file_sha(P/'text-protocol.json'),'output_sha256':file_sha(P/'semantic-output.json'),'model_calls':encoder.calls,'comparisons':checks,'all_predeclared_pairs_passed':all(r['passed']for r in checks),'source_job_invariance':{'metadata_bindings_differ':first!=second,'current_and_context_bytes_identical':digest(invariant1)==digest(invariant2),'neural_input_sha256':digest(invariant1),'first_origin':first,'second_origin':second,'extra_model_calls':0,'scope':'Structural separation of real semantic observation from identity/provenance; same text observation is reused, not a claim about response-independent retraining'},'all_vectors_finite':all(np.isfinite(np.asarray(v)).all()for v in vectors.values()),'pooling_norms':[float(np.linalg.norm(v))for v in vectors.values()],'peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,'wall_seconds':time.monotonic()-began,'maximum_abs_current':max(abs(v)for c in currents.values()for v in c['regional_drive']),'free_disk_bytes':shutil.disk_usage(P).free,'runtime':encoder.runtime,'concurrent_activity':'Main analytical comparison remained active on separate MLX process; these host wall timings are concurrent development measurements, not an isolated throughput benchmark','scope':'Frozen pretrained semantic similarity and current wiring. No answer correctness, new Brian2 language learning, decision improvement, consciousness, purchase or external delivery is established.'}
+ guard();write(P/'semantic-probe-result.json',stats)
+ print(json.dumps({'completed':True,'model_calls':encoder.calls,'pairs_passed':sum(x['passed']for x in checks),'pairs':len(checks),'wall_seconds':stats['wall_seconds'],'peak_rss_bytes':stats['peak_rss_bytes'],'maximum_abs_current':stats['maximum_abs_current']}))
+if __name__=='__main__':main()

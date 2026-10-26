@@ -1,0 +1,25 @@
+{
+  "schema": "nuria.nonlearning-history-input-proof.v1",
+  "passed": true,
+  "conditions": [
+    {
+      "condition": "schema_first",
+      "same_first_request": true,
+      "request_sha256": "16c72ce3641a97eaf89c6d676712bd6af82c75c3b0150f18ec15bd8255785462",
+      "teaching_episodes_in_primed_fixture": 8,
+      "different_memory_heads": true,
+      "same_host_observation": true
+    },
+    {
+      "condition": "stateless",
+      "same_first_request": true,
+      "request_sha256": "5405e475e0331b5b80857776a4700d26dba84191ef32c5b5110d4db6cbe6d653",
+      "teaching_episodes_in_primed_fixture": 8,
+      "different_memory_heads": true,
+      "same_host_observation": true
+    }
+  ],
+  "model_calls": 0,
+  "actual_course_or_oracle_read": false,
+  "scope": "Synthetic first-request equality with and without settled teaching records, holding the genuine host receipt fixed. Real schema-read wall times can vary between executions. This establishes history irrelevance for the none-memory input path, not capability, bit-identical runtime generations, or an unseen preregistered evaluation."
+}

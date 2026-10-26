@@ -1,0 +1,35 @@
+{
+  "schema": "nuria.grounded-comparison-interruption.v1",
+  "attempt": "comparison-02",
+  "recorded_utc": "2026-10-25T20:57:37.864588+00:00",
+  "original_protocol_sha256": "1066c83f960dedc85aed795fcb47e8812c65ad1f85cb2c35f7441e2b368e56f4",
+  "source_freeze_sha256": "1c827cfd3963c7b33848a96c9fbdd2be411df42fc5e8f7f617f3601ac301e9c4",
+  "committed_teaching_attempts": 3,
+  "terminal_grades_released": 0,
+  "reserved_phase_attempted": false,
+  "known_attempt_completion_tokens": 4397,
+  "known_attempt_prompt_tokens": 35072,
+  "unfinished_attempt_completion_ceiling": 5446,
+  "cumulative_known_completion_tokens": 26649,
+  "cumulative_unknown_completion_ceiling": 12214,
+  "observation": "The private detached launcher lacked an entry-point guard. Spawned SQL workers re-entered the launcher and refused the existing evaluation output directory. The first two attempts therefore received worker failures; a third was interrupted after diagnosis. This is an execution-harness failure, not measured agent competence.",
+  "recovery": "Retain the attempt and all reservations. Use the existing guarded Python module directly for the next independently recorded process, after a bounded detached spawn check. Agent, model, tools and task identities remain unchanged.",
+  "artifacts": {
+    "run-freeze.json": {
+      "sha256": "4bdb17fa84c56a59179201125d0549991eab5b43e2b2d65fd80706ad73ff44df",
+      "bytes": 5345
+    },
+    "proposals.jsonl": {
+      "sha256": "9f675457ab1a1d93dcf207b28a44158d50399f63ed84d4eb808333ca8bbe5bb5",
+      "bytes": 26351
+    },
+    "allowance.jsonl": {
+      "sha256": "3308d8764f17e99b7cdc3304d6671eaa5612a0a50cb906f7ce04aeb7020f38fa",
+      "bytes": 2669
+    },
+    "events.jsonl": {
+      "sha256": "c60e422fbc923fffdc5e69fdaf58bbe82b76d15e48c4528b9745e480477bd3e5",
+      "bytes": 618
+    }
+  }
+}

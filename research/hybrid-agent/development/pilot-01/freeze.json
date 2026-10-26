@@ -1,0 +1,32 @@
+{
+  "schema": "nuria.grounded-agent-course.v1",
+  "configuration": {
+    "version": "nuria.grounded-analyst.v1",
+    "memory_mode": "none",
+    "max_turns": 12,
+    "max_output_tokens": 6000,
+    "max_tokens_per_turn": 768,
+    "memory_bytes": 6000,
+    "model_binding": {
+      "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+      "schema": "nuria.procedural-memory.v1",
+      "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+      "tool_version": "nuria.analyst-workspace.v1"
+    },
+    "system_sha256": "5913adf03185be5bcd61702a5decfc47601a78b6e201fc9c121951d3c968ca75"
+  },
+  "thinking": true,
+  "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+  "course_file_sha256": "67ec60f5db92c36ded107cb84f6fd19449f16d92c55c5bfdfeaefa5edb99ae51",
+  "oracle_file_sha256": "090f3c1cd06a9a105124218374d8ebaf16a70e569ba65c60b643284e24fc1fea",
+  "selected_task_ids": ["spider-dev-1017"],
+  "seed": 20261025,
+  "source_sha256": {
+    "cognition/reasoner_client.py": "9650d16045fad015caa592389839751e247bb8258ee97f4247d0e6e5be8ffad7",
+    "cognition/grounded_agent.py": "6a1817c45794e740a8647858d1ab7ca4d63b8365120160e770cf173cfbba028f",
+    "cognition/analyst_workspace.py": "4bbbc6fbec04a2a7d3f79978d2cdd4fb158bb4e2779e7b7165da6568df2dca6b",
+    "cognition/procedural_memory.py": "c95099b1966f86a5418c3d98ba5f829d4f9adcdc65767ddead35deba25b17fb9",
+    "scripts/run_grounded_agent.py": "98757b568942c9d43c6c33685fb7b7707211531ad573c77a9b353e5bea5b6de5"
+  },
+  "scope": "Fixed course slice; original benchmark execution agreement, not SQL equivalence or model novelty"
+}

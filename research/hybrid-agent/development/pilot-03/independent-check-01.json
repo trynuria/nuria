@@ -1,0 +1,698 @@
+{
+  "schema": "nuria.grounded-pilot-independent-check.v2",
+  "checked_at": "2026-10-25T20:39:44.923024+00:00",
+  "verdict": "all_six_original_source_results_and_settlements_verified",
+  "scope": "Exactly the six explicitly authorized pilot-03 jobs and filtered oracle entries; no reserved questions or other labels inspected",
+  "summary": {
+    "jobs": 6,
+    "accepted": 6,
+    "wrong_submissions": 0,
+    "abstentions": 0,
+    "status_counts": {
+      "proposed": 6
+    },
+    "prompt_tokens": 104151,
+    "completion_tokens": 8840,
+    "tool_calls": 27,
+    "wall_seconds": 588.3355494581629,
+    "unknown_usage_jobs": 0
+  },
+  "source_freeze_matches_current": true,
+  "source_sha256": {
+    "cognition/reasoner_client.py": "f11187add3611ed0331ea5991d6bb99498dcb3a173ef7a65808c9bbb340a5e54",
+    "cognition/grounded_agent.py": "f83da48331727260a25a616c4c148d52a2325f6fea2dc25cb934e1f76bdf9319",
+    "cognition/working_evidence.py": "6ec67a5c2c5a516c17ef64b0befebc77f4ff7ba41a6c5db7317860280eac577d",
+    "cognition/analyst_workspace.py": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2",
+    "cognition/procedural_memory.py": "6c42c8798e617ac89c85d946524db4e6da2d58c83038b9e67ab05cb30bcd32cc",
+    "scripts/run_grounded_agent.py": "752be7af61955ef44538bfe6287cdc7aff621e111ac0a73e0b0d093065f041c5"
+  },
+  "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+  "database_sha256": {
+    "singer": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+    "battle_death": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d"
+  },
+  "checker_sqlite_version": "3.53.4",
+  "memory_event_counts": {
+    "begin": 6,
+    "action": 27,
+    "proposal": 6,
+    "settlement": 6
+  },
+  "memory_chain_head": "8aa23551a26231585df78af4c63bfcccd3a68120877583553cd86674523dc57c",
+  "reconstructed_model_requests": 37,
+  "oracle_isolation": {
+    "method": "Replay frozen host logic from retained actions/receipts and empty historical experience before loading filtered oracle entries; exact request SHA256 equality for every retained call",
+    "full_host_replay_matches": true,
+    "evaluator_fields_absent": true,
+    "raw_prompts_retained": false,
+    "scope": "Request commitments establish local prompt provenance under the retained/frozen source, not independent witnessing of inference or model training data"
+  },
+  "jobs": [
+    {
+      "task_id": "spider-dev-1017",
+      "db_id": "singer",
+      "candidate_sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship",
+      "reference_sql": "SELECT Citizenship ,  max(Net_Worth_Millions) FROM singer GROUP BY Citizenship",
+      "columns": ["Citizenship", "Max_Net_Worth_Millions"],
+      "rows": [
+        ["Australia", 17.0],
+        ["Chile", 17.4],
+        ["France", 30.0],
+        ["Germany", 14.3],
+        ["United States", 28.8]
+      ],
+      "correct_against_original_source": true,
+      "candidate_matches_authorized_oracle": true,
+      "reference_reexecution_matches_oracle": true,
+      "own_query_execution_confirmed": true,
+      "receipt_checks": [
+        {
+          "turn": 0,
+          "tool": "list_tables",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "4ea38f9f69e0640e1eed7ebf8d2e5bf0574e58dd8bdbc4670cf43018ff0be132"
+        },
+        {
+          "turn": 1,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "168c2cfba9050c3ac61f2249f782ef6281c0e37f0fcbf478983786ef01764c6c"
+        },
+        {
+          "turn": 2,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "d40d359d2d45fed984eb7076e399768988c3debf28a663a3ccd8e84c352c8f6e"
+        }
+      ],
+      "model_calls": 4,
+      "model_usage": {
+        "prompt_tokens": 8490,
+        "completion_tokens": 559,
+        "total_tokens": 9049,
+        "unknown_additional_usage": false
+      },
+      "protocol_errors": 0,
+      "wall_seconds": 42.7124439580366,
+      "memory_settlement_intact": true,
+      "prompt_reconstruction": {
+        "all_request_hashes_match": true,
+        "request_count": 4,
+        "requests": [
+          {
+            "turn": 0,
+            "request_sha256": "592dc4e61eae45ee1ae643d27ccaaae71c94139c688103436d3ac0477d6c14d8",
+            "message_count": 2,
+            "utf8_message_bytes": 2858
+          },
+          {
+            "turn": 1,
+            "request_sha256": "4ad59a4123b798960090e8073ca29b78bd54fe320c19e1e890aa9a36a0f4fa5b",
+            "message_count": 4,
+            "utf8_message_bytes": 4359
+          },
+          {
+            "turn": 2,
+            "request_sha256": "380500e21869f56d36e2b9de030911bd23d990cdd7093796f6863da25fa87d60",
+            "message_count": 6,
+            "utf8_message_bytes": 6381
+          },
+          {
+            "turn": 3,
+            "request_sha256": "7a2873a6d8d274eefd5853f795bdad1fdebfd2ab36f4a0f0904601b56871d33c",
+            "message_count": 6,
+            "utf8_message_bytes": 7313
+          }
+        ],
+        "historical_experience_empty": true,
+        "oracle_fields_absent": true,
+        "host_replay_matches_retained_trace": true
+      }
+    },
+    {
+      "task_id": "spider-dev-0506",
+      "db_id": "battle_death",
+      "candidate_sql": "SELECT note FROM death WHERE note LIKE '%East%'",
+      "reference_sql": "SELECT note FROM death WHERE note LIKE '%East%'",
+      "columns": ["note"],
+      "rows": [["East Champaran, Bihar"]],
+      "correct_against_original_source": true,
+      "candidate_matches_authorized_oracle": true,
+      "reference_reexecution_matches_oracle": true,
+      "own_query_execution_confirmed": true,
+      "receipt_checks": [
+        {
+          "turn": 0,
+          "tool": "list_tables",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "19d1575677723ef76eaa78dd024172a43654327312fe607dbc4d25dd882e91b6"
+        },
+        {
+          "turn": 1,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "95786e45a88e033560056016b9931467a1e5b84c0576ea0d2c820bd085a703cd"
+        },
+        {
+          "turn": 2,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "6b97fe9c91a185c415e12110abf92a59e215e07d0280c8996b96cd3896a64e9a"
+        }
+      ],
+      "model_calls": 4,
+      "model_usage": {
+        "prompt_tokens": 8359,
+        "completion_tokens": 556,
+        "total_tokens": 8915,
+        "unknown_additional_usage": false
+      },
+      "protocol_errors": 0,
+      "wall_seconds": 42.03278820798732,
+      "memory_settlement_intact": true,
+      "prompt_reconstruction": {
+        "all_request_hashes_match": true,
+        "request_count": 4,
+        "requests": [
+          {
+            "turn": 0,
+            "request_sha256": "46df94fbe2d6cfd28ac8a51d23e694430f3a5df1ae40cceab690e3162b796a9f",
+            "message_count": 2,
+            "utf8_message_bytes": 2878
+          },
+          {
+            "turn": 1,
+            "request_sha256": "b3e90420953340bbdb5ee874f28d288b4896342605cf4939fd0b9f8b86d0395a",
+            "message_count": 4,
+            "utf8_message_bytes": 4439
+          },
+          {
+            "turn": 2,
+            "request_sha256": "d98a7fbe7b1f577992807bc5bfa85af3d65ef5fa4740282edb33952ed07a11c2",
+            "message_count": 6,
+            "utf8_message_bytes": 6427
+          },
+          {
+            "turn": 3,
+            "request_sha256": "3b7085c197b6a79935d7f9ac7352692ddd592173bfbdab718a7b9df2ea805143",
+            "message_count": 6,
+            "utf8_message_bytes": 6978
+          }
+        ],
+        "historical_experience_empty": true,
+        "oracle_fields_absent": true,
+        "host_replay_matches_retained_trace": true
+      }
+    },
+    {
+      "task_id": "spider-dev-1020",
+      "db_id": "singer",
+      "candidate_sql": "SELECT DISTINCT s.Name FROM singer AS s JOIN song AS so ON s.Singer_ID = so.Singer_ID WHERE so.Sales > 300000",
+      "reference_sql": "SELECT DISTINCT T1.Name FROM singer AS T1 JOIN song AS T2 ON T1.Singer_ID  =  T2.Singer_ID WHERE T2.Sales  >  300000",
+      "columns": ["Name"],
+      "rows": [["Liliane Bettencourt"], ["Christy Walton"], ["Iris Fontbona"]],
+      "correct_against_original_source": true,
+      "candidate_matches_authorized_oracle": true,
+      "reference_reexecution_matches_oracle": true,
+      "own_query_execution_confirmed": true,
+      "receipt_checks": [
+        {
+          "turn": 0,
+          "tool": "list_tables",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "bda0f3b459265b95759ff609f2e066fd75de07e138ec173950682fc8af6af01b"
+        },
+        {
+          "turn": 1,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "228aa946b66b6d0a895c452ffd68306eb81048e017758120c0657fb8769eed22"
+        },
+        {
+          "turn": 2,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "119fff04e52b3008ca7deaa8f40fd3969cc05fed39df1705047028cca7ac8661"
+        },
+        {
+          "turn": 3,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "d1bf3e71f4544669026ea4ba2ec9ba529b5e55901fcfb0760f76bd56cb862a32"
+        },
+        {
+          "turn": 7,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "0d29923befee6efae30e72d813141e8606accfcca6afe7e9e2b15a04c36a68af"
+        }
+      ],
+      "model_calls": 9,
+      "model_usage": {
+        "prompt_tokens": 23462,
+        "completion_tokens": 2075,
+        "total_tokens": 25537,
+        "unknown_additional_usage": false
+      },
+      "protocol_errors": 3,
+      "wall_seconds": 134.5896231669467,
+      "memory_settlement_intact": true,
+      "prompt_reconstruction": {
+        "all_request_hashes_match": true,
+        "request_count": 9,
+        "requests": [
+          {
+            "turn": 0,
+            "request_sha256": "7818c87682dd10d6c1a62534fd1fffdb9698958633c3e4ccb0efe59dd57324e1",
+            "message_count": 2,
+            "utf8_message_bytes": 2881
+          },
+          {
+            "turn": 1,
+            "request_sha256": "44c1676e952917517dda18bffe824a364c30a7b71903c49b67acf29facbd6b8b",
+            "message_count": 4,
+            "utf8_message_bytes": 4381
+          },
+          {
+            "turn": 2,
+            "request_sha256": "78b54cbc7174aeed713d6ab80a9c765bf49a491e4b1e318f9e410a77a0dbbf16",
+            "message_count": 6,
+            "utf8_message_bytes": 6421
+          },
+          {
+            "turn": 3,
+            "request_sha256": "b3df95b40b8e3f23f2168457c0d8a9527b0a30b803bbb6b3e34dd1aa2223ba0b",
+            "message_count": 6,
+            "utf8_message_bytes": 7348
+          },
+          {
+            "turn": 4,
+            "request_sha256": "64e83f84ef47a2c305e44c2886c4948c79ae5effc23da9cd183eb3e841503c9d",
+            "message_count": 6,
+            "utf8_message_bytes": 7901
+          },
+          {
+            "turn": 5,
+            "request_sha256": "11be7ceebfa36e996d6e992c5c1acb41a66c5a5faf380f427f88ce58977864d2",
+            "message_count": 6,
+            "utf8_message_bytes": 6682
+          },
+          {
+            "turn": 6,
+            "request_sha256": "49d4a734cff4c41920aa131cc1a9749ee8d16e00a9fbad0897fa09e8e2e89a1b",
+            "message_count": 6,
+            "utf8_message_bytes": 5529
+          },
+          {
+            "turn": 7,
+            "request_sha256": "f766159bb069791581c68491e6df4528045a32ee9208f18dd80309f3014742af",
+            "message_count": 6,
+            "utf8_message_bytes": 6058
+          },
+          {
+            "turn": 8,
+            "request_sha256": "b6856f1862055298de781bf2037a517b85dcbedc8f0ec2d34b53eab099620c7c",
+            "message_count": 6,
+            "utf8_message_bytes": 7848
+          }
+        ],
+        "historical_experience_empty": true,
+        "oracle_fields_absent": true,
+        "host_replay_matches_retained_trace": true
+      }
+    },
+    {
+      "task_id": "spider-dev-0499",
+      "db_id": "battle_death",
+      "candidate_sql": "SELECT b.id, b.name\nFROM battle b\nJOIN ship s ON s.lost_in_battle = b.id\nJOIN death d ON d.caused_by_ship_id = s.id\nGROUP BY b.id, b.name\nHAVING SUM(d.killed) > 10\nORDER BY b.id",
+      "reference_sql": "SELECT T1.id ,  T1.name FROM battle AS T1 JOIN ship AS T2 ON T1.id  =  T2.lost_in_battle JOIN death AS T3 ON T2.id  =  T3.caused_by_ship_id GROUP BY T1.id HAVING sum(T3.killed)  >  10",
+      "columns": ["id", "name"],
+      "rows": [
+        [5, "Battle of Messinopolis"],
+        [6, "Battle of Boruy"],
+        [8, "Siege of Constantinople"]
+      ],
+      "correct_against_original_source": true,
+      "candidate_matches_authorized_oracle": true,
+      "reference_reexecution_matches_oracle": true,
+      "own_query_execution_confirmed": true,
+      "receipt_checks": [
+        {
+          "turn": 0,
+          "tool": "list_tables",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "01274dafe6c9d67279de8278bb2666ff2a48702b7dbc7c8521025c3f07677605"
+        },
+        {
+          "turn": 1,
+          "tool": "read_knowledge",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "ca77d9d92da04568a82b0b148c87d01044b10520a9a9e05a77df1136eac41d18"
+        },
+        {
+          "turn": 2,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "4efe3e7590e1706124b43bdbd6bf77664af96f46db569ae7afb6e777758d1722"
+        },
+        {
+          "turn": 3,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "10815443a6c8cb0d423ceb6168cf719fb8ba4db91bab472999f8139fc841f828"
+        },
+        {
+          "turn": 4,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "b99fda55fac4e0f1c60d20986826e61f81b47001e37a7f924c27fc44cbfc4082"
+        },
+        {
+          "turn": 5,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "d818f610253b06addb91e3b81182817b42d0c3d458c9105713c2e496154b17bb"
+        },
+        {
+          "turn": 6,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "fa36c6066aa81986167e04451ca5c69abf887e95a4870089fb2cf79529ee67b9"
+        }
+      ],
+      "model_calls": 9,
+      "model_usage": {
+        "prompt_tokens": 29926,
+        "completion_tokens": 2688,
+        "total_tokens": 32614,
+        "unknown_additional_usage": false
+      },
+      "protocol_errors": 1,
+      "wall_seconds": 175.10618275008164,
+      "memory_settlement_intact": true,
+      "prompt_reconstruction": {
+        "all_request_hashes_match": true,
+        "request_count": 9,
+        "requests": [
+          {
+            "turn": 0,
+            "request_sha256": "40ea3b2a83b457d50ad1371056ad12a95e679764884eb8ceabcb19750844063d",
+            "message_count": 2,
+            "utf8_message_bytes": 2902
+          },
+          {
+            "turn": 1,
+            "request_sha256": "77c8a78538c7797cbb64edf26f28bdcd40c40f10cc46f35b7a5c682c213a8ea9",
+            "message_count": 4,
+            "utf8_message_bytes": 4462
+          },
+          {
+            "turn": 2,
+            "request_sha256": "6501fa5d8b4019862a2b0b68d51a29a5487a947efd48a43cd2d11ad8eedbea4f",
+            "message_count": 6,
+            "utf8_message_bytes": 6209
+          },
+          {
+            "turn": 3,
+            "request_sha256": "c6099d7e7e7f3d129c3f8071bcfa9d723e49a78f536154a5549edf1bcb4f1382",
+            "message_count": 6,
+            "utf8_message_bytes": 7198
+          },
+          {
+            "turn": 4,
+            "request_sha256": "1507e3fb436366d9d49ea6dc464ffcb1232896b69d233daf0fa2e2647b91cda9",
+            "message_count": 6,
+            "utf8_message_bytes": 7975
+          },
+          {
+            "turn": 5,
+            "request_sha256": "e4fafe8176ff235787f77d7b60ff4e39e89df2724c0477a3ec02a2097d748cc3",
+            "message_count": 6,
+            "utf8_message_bytes": 8780
+          },
+          {
+            "turn": 6,
+            "request_sha256": "72202db35eb0e704031b797eb1d71a037b6dc5d6dfd74fd16ef38204bab24f78",
+            "message_count": 6,
+            "utf8_message_bytes": 9632
+          },
+          {
+            "turn": 7,
+            "request_sha256": "1e1cc330bb89dcc7a35280a40396cc143116f35b27bd6f2d96f86f3d9498ea8b",
+            "message_count": 6,
+            "utf8_message_bytes": 10328
+          },
+          {
+            "turn": 8,
+            "request_sha256": "7c442c3fa53d8c9c1d5fc6c26f9e628e66f93cf0e044fd7962efa6e75e8214b6",
+            "message_count": 6,
+            "utf8_message_bytes": 9057
+          }
+        ],
+        "historical_experience_empty": true,
+        "oracle_fields_absent": true,
+        "host_replay_matches_retained_trace": true
+      }
+    },
+    {
+      "task_id": "spider-dev-0505",
+      "db_id": "battle_death",
+      "candidate_sql": "SELECT T1.name, T1.result, T1.bulgarian_commander FROM battle AS T1 WHERE NOT EXISTS (SELECT * FROM ship AS T2 WHERE T2.lost_in_battle = T1.id AND T2.location = 'English Channel') ORDER BY T1.name",
+      "reference_sql": "SELECT name ,  RESULT ,  bulgarian_commander FROM battle EXCEPT SELECT T1.name ,  T1.result ,  T1.bulgarian_commander FROM battle AS T1 JOIN ship AS T2 ON T1.id  =  T2.lost_in_battle WHERE T2.location  =  'English Channel'",
+      "columns": ["name", "result", "bulgarian_commander"],
+      "rows": [
+        ["Battle of Adrianople", "Bulgarian victory", "Kaloyan"],
+        ["Battle of Rusion", "Bulgarian victory", "Kaloyan"],
+        ["Battle of Serres", "Bulgarian victory", "Kaloyan"]
+      ],
+      "correct_against_original_source": true,
+      "candidate_matches_authorized_oracle": true,
+      "reference_reexecution_matches_oracle": true,
+      "own_query_execution_confirmed": true,
+      "receipt_checks": [
+        {
+          "turn": 0,
+          "tool": "list_tables",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "390e3e61b03223a1b4a1b024351180884b1e64c5d0477d1786dd8a9915a4b352"
+        },
+        {
+          "turn": 1,
+          "tool": "read_knowledge",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "8ad0d363f0e5bd9fe58631f868968b3246a7357590c7b2885f8b06037419ac45"
+        },
+        {
+          "turn": 2,
+          "tool": "read_knowledge",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "9cafa64268a849b9094046ca98a35a1e139411e839dffb7d9c900779870315ff"
+        },
+        {
+          "turn": 3,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "a4ebfb35406ec85dc62a630153f05e1547867f915a44f24df04e99a55e474198"
+        },
+        {
+          "turn": 4,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "c362ac2a01ff23c8b2f60707336de9f9ecdbef3cb56bbefaf336c76b9f89f61f"
+        },
+        {
+          "turn": 5,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "8559cd0a15c8d874ba3c669b3d1c1ede293b3aa932ffccf4b09ca29744c90d51"
+        }
+      ],
+      "model_calls": 7,
+      "model_usage": {
+        "prompt_tokens": 25505,
+        "completion_tokens": 2160,
+        "total_tokens": 27665,
+        "unknown_additional_usage": false
+      },
+      "protocol_errors": 0,
+      "wall_seconds": 144.1055471249856,
+      "memory_settlement_intact": true,
+      "prompt_reconstruction": {
+        "all_request_hashes_match": true,
+        "request_count": 7,
+        "requests": [
+          {
+            "turn": 0,
+            "request_sha256": "3e82259fc3547f7e9c349d87577a819847f58e72f9a41ec64dd0d61392492207",
+            "message_count": 2,
+            "utf8_message_bytes": 2916
+          },
+          {
+            "turn": 1,
+            "request_sha256": "69e27e1cf5a20e721bbf51343cb10105d31fcb1e3864f007f168d344741732db",
+            "message_count": 4,
+            "utf8_message_bytes": 4492
+          },
+          {
+            "turn": 2,
+            "request_sha256": "eba67a059dab3e0bb313a4d28a18b0fa7b60d65e868b7b86f3855404a18e8e19",
+            "message_count": 6,
+            "utf8_message_bytes": 9966
+          },
+          {
+            "turn": 3,
+            "request_sha256": "c87a4238360eddc81fff3d3223ecc18dd2acd1a74283160e14ed4df664ba4beb",
+            "message_count": 6,
+            "utf8_message_bytes": 10622
+          },
+          {
+            "turn": 4,
+            "request_sha256": "bfdc183974ae664656336841dc69be8090c4945c124f092dc70a2233f2b96947",
+            "message_count": 6,
+            "utf8_message_bytes": 9423
+          },
+          {
+            "turn": 5,
+            "request_sha256": "976faa7638fe00eadcfd97307d58407b0c1d6ddf1cbe4160872796ff549e69e8",
+            "message_count": 6,
+            "utf8_message_bytes": 11224
+          },
+          {
+            "turn": 6,
+            "request_sha256": "97b04633a739cd5adcd3979bdf08e8fedb8ab95fe56fb168351acc083def7a17",
+            "message_count": 6,
+            "utf8_message_bytes": 12293
+          }
+        ],
+        "historical_experience_empty": true,
+        "oracle_fields_absent": true,
+        "host_replay_matches_retained_trace": true
+      }
+    },
+    {
+      "task_id": "spider-dev-1012",
+      "db_id": "singer",
+      "candidate_sql": "SELECT Citizenship, COUNT(*) FROM singer GROUP BY Citizenship",
+      "reference_sql": "SELECT Citizenship ,  COUNT(*) FROM singer GROUP BY Citizenship",
+      "columns": ["Citizenship", "COUNT(*)"],
+      "rows": [
+        ["Australia", 1],
+        ["Chile", 1],
+        ["France", 1],
+        ["Germany", 1],
+        ["United States", 4]
+      ],
+      "correct_against_original_source": true,
+      "candidate_matches_authorized_oracle": true,
+      "reference_reexecution_matches_oracle": true,
+      "own_query_execution_confirmed": true,
+      "receipt_checks": [
+        {
+          "turn": 0,
+          "tool": "list_tables",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "f306850c2fc242c8981c49f4976618f35eecac2b370237a72eb4aec939cedaa7"
+        },
+        {
+          "turn": 1,
+          "tool": "describe_table",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "8277181d45a4db003ced8e6268124699d1b9f4fff751f2493217a99ba28677e5"
+        },
+        {
+          "turn": 2,
+          "tool": "query",
+          "status": "ok",
+          "complete": true,
+          "result_sha256": "4d4e70b8c36c5f8debf4b8c6de3feb7f9ab846ca87c60368ee9dbd22fc4018fc"
+        }
+      ],
+      "model_calls": 4,
+      "model_usage": {
+        "prompt_tokens": 8409,
+        "completion_tokens": 802,
+        "total_tokens": 9211,
+        "unknown_additional_usage": false
+      },
+      "protocol_errors": 0,
+      "wall_seconds": 49.78896425012499,
+      "memory_settlement_intact": true,
+      "prompt_reconstruction": {
+        "all_request_hashes_match": true,
+        "request_count": 4,
+        "requests": [
+          {
+            "turn": 0,
+            "request_sha256": "e04ba0b4bd984ad3bee0f17eedc9499262ba39d2bb233e958bf039f6169d1210",
+            "message_count": 2,
+            "utf8_message_bytes": 2890
+          },
+          {
+            "turn": 1,
+            "request_sha256": "d64e76dc388ae0996a664ba9a6d813668273700e4931a4c48bc283b0d9be415b",
+            "message_count": 4,
+            "utf8_message_bytes": 4390
+          },
+          {
+            "turn": 2,
+            "request_sha256": "35e56f2e46819a88d95bc877bd3b2c1170bee057de44d57d2539944ba31aa1a3",
+            "message_count": 6,
+            "utf8_message_bytes": 6404
+          },
+          {
+            "turn": 3,
+            "request_sha256": "2df57e6070d85c75511280a84cd1002e28418c8317d4b0fbdb7bc41b6b11c081",
+            "message_count": 6,
+            "utf8_message_bytes": 7152
+          }
+        ],
+        "historical_experience_empty": true,
+        "oracle_fields_absent": true,
+        "host_replay_matches_retained_trace": true
+      }
+    }
+  ],
+  "limitations": [
+    "Raw model response bodies were not retained, so their response hashes and claimed token usage cannot be independently reproduced from raw inference traffic.",
+    "Exact token sums are internally checked against retained model receipts; model weights/inference execution are not externally attested.",
+    "Six already authorized development questions on two databases; no held-out qualification, comparator, neural added value or learning gain established.",
+    "Local append-hash consistency and source/runtime commitments are not an independent external witness."
+  ],
+  "input_file_sha256": {
+    "freeze.json": "64c94f363d4e863840684cb621be4d80066d9130b0ab1009a3e4404841c81d7a",
+    "results.jsonl": "f6d79055474eaca18181cbf529e89ccefd70745064b08dfa20c1a07185342e7b",
+    "summary.json": "841b80a3622ccad77f85a37e0bc986ffbe78c65fc8a28166ed54a8f12947956d",
+    "memory.sqlite": "34f34cccb1ace4f4663df58b12eebdbea65e4f95dc75e62ea814f4f93105e1bc"
+  },
+  "external_file_sha256": {
+    "registry.json": "c2ca20599b6a5dbcca52829f35fe81e91404e9e9087ec562b5a3f54aeec484f7",
+    "oracle.json": "090f3c1cd06a9a105124218374d8ebaf16a70e569ba65c60b643284e24fc1fea",
+    "learner/development.json": "67ec60f5db92c36ded107cb84f6fd19449f16d92c55c5bfdfeaefa5edb99ae51"
+  }
+}

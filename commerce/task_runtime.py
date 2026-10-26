@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 
 from commerce.action_loop import ActionLoop
+from commerce.grounded_analysis import GroundedAnalysis
 from commerce.ledger import canonical
 from commerce.local_skills import LocalSkills
 from commerce.rentahuman import RentAHuman, field
@@ -299,6 +300,8 @@ def run_actions(
     cognition,
     decisions,
     now=None,
+    *,
+    analysis_bindings=None,
 ):
     now = time.time() if now is None else now
     loop = ActionLoop(ledger)
@@ -306,6 +309,9 @@ def run_actions(
     if not isinstance(tasks, list) or len(tasks) > 16:
         raise ValueError("Task catalog is invalid")
     providers, readiness = {}, []
+    analysis_bindings = {} if analysis_bindings is None else analysis_bindings
+    if type(analysis_bindings) is not dict:
+        raise ValueError("Analytical runtimes require explicit host bindings")
     for config in controls.get("adapters", []):
         try:
             if config["type"] == "x402":
@@ -322,13 +328,20 @@ def run_actions(
                 providers[config["id"]] = HumanTasks(config["enrollment"], key)
             elif config["type"] == "local_skills":
                 providers[config["id"]] = LocalSkills(ledger, config)
+            elif config["type"] == "grounded_analysis":
+                binding = analysis_bindings.get(config["id"], {})
+                if type(binding) is not dict or set(binding) - {"analyst", "checkers"}:
+                    raise ValueError("Analytical runtime binding is malformed")
+                providers[config["id"]] = GroundedAnalysis(ledger, config, **binding)
             else:
                 raise ValueError("Provider capability is not implemented")
             readiness.append(
                 {
                     "id": config["id"],
                     "phase": "included_compute_enabled"
-                    if isinstance(providers[config["id"]], LocalSkills)
+                    if isinstance(
+                        providers[config["id"]], (LocalSkills, GroundedAnalysis)
+                    )
                     and providers[config["id"]].enabled
                     else "configured_unverified",
                     "funded_delivery_test": config.get("funded_delivery_test") is True,
@@ -389,7 +402,8 @@ def run_actions(
             if not adapter:
                 continue
             local = isinstance(adapter, LocalSkills)
-            nonfinancial = local and adapter.enabled
+            analysis = isinstance(adapter, GroundedAnalysis)
+            nonfinancial = (local or analysis) and adapter.enabled
             # Included compute is independently enrolled and cannot authorize
             # a paid quote, signer, human job or external request.
             execute = nonfinancial or controls.get("enabled") is True
@@ -434,10 +448,18 @@ def run_actions(
                 )
                 row = loop.row(ident)
             if observed.get("delivery") and row["acceptance"] is None:
-                loop.receive(ident, observed["delivery"], now)
+                loop.receive(
+                    ident,
+                    observed["delivery"],
+                    now,
+                    analysis_resolver=adapter.resolve_delivery if analysis else None,
+                )
                 row = loop.row(ident)
             if local and row["acceptance"]:
                 adapter.admit(row)
+            if analysis and row["acceptance"]:
+                loop.grade_analysis(ident, adapter.grade, now)
+                row = loop.row(ident)
             if observed.get("settlement"):
                 loop.settle(ident, observed["settlement"], now)
             if row["acceptance"] and row["contract"].get("outcome"):
@@ -482,7 +504,7 @@ def run_actions(
         "schema": "nuria.action-loop.v1",
         "execution_enabled": controls.get("enabled") is True and policy.enabled,
         "included_compute_enabled": any(
-            isinstance(adapter, LocalSkills) and adapter.enabled
+            isinstance(adapter, (LocalSkills, GroundedAnalysis)) and adapter.enabled
             for adapter in providers.values()
         ),
         "providers": readiness,
@@ -492,6 +514,11 @@ def run_actions(
             adapter.public()
             for adapter in providers.values()
             if isinstance(adapter, LocalSkills)
+        ],
+        "grounded_analysis": [
+            adapter.public()
+            for adapter in providers.values()
+            if isinstance(adapter, GroundedAnalysis)
         ],
         "feedback": loop.feedback(
             cognition.get("agency", {}).get(

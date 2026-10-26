@@ -1,0 +1,32 @@
+{
+  "schema": "nuria.recent-work-question-check.v1",
+  "question": "For each provider in task_outcomes, return provider, task count, count with delivery_passed=1, count with outcome_utility>0, count with outcome_utility IS NULL, count with settlement_basis=included_capacity, and count with settled_micro_usd>0. Order by provider. Preserve the snapshot coverage: these are only recent reported tasks, and included capacity is not an external purchase.",
+  "expected_rows": [
+    [
+      "local-composed-records-v1",
+      25,
+      20,
+      20,
+      0,
+      25,
+      0
+    ],
+    [
+      "local-record-audit-v1",
+      15,
+      14,
+      14,
+      0,
+      15,
+      0
+    ]
+  ],
+  "expected_columns": 7,
+  "ordered": true,
+  "original_domain_check_file_sha256": "5e941694675c6253e2035958e0df960154125625cefb495fe467f97790c60ca8",
+  "original_raw_response_sha256": "0b40b7d85e28aae838996afafe40dd650b74dd23b49d9013d33ef09865578713",
+  "original_registry_file_sha256": "dc46fa6bb4c5e3391c9cf45a07fa7420b013a714de62264348c86ac99fa2d2ca",
+  "coverage": "40 recent action_tasks only; server-reported evidence is not independent payment verification",
+  "checker_method": "Independent grouping of the retained JSON response, not SQL reference text or model self-grading",
+  "result_status": "Expected result frozen before useful-source model inference; no model output or grade is part of this preview."
+}

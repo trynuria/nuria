@@ -1,0 +1,27 @@
+{
+  "schema": "nuria.recent-work-public-derivation.v1",
+  "created_utc": "2026-10-25T22:24:04.759253+00:00",
+  "original_raw_response_sha256": "0b40b7d85e28aae838996afafe40dd650b74dd23b49d9013d33ef09865578713",
+  "original_domain_check_file_sha256": "5e941694675c6253e2035958e0df960154125625cefb495fe467f97790c60ca8",
+  "original_registered_file_sha256": {
+    "work.sqlite": "826f6bb0b66cb9a5ed566e1b0bcedd24293389f3463e9c56ecbc138db12408e0",
+    "business.txt": "5c78c5f819cb521eb0328de66d041ea631c208261d93353084262a741169af65",
+    "schema.txt": "e78e268a93d241dd57b28556bba7882aeeeda50f83b2ca7214ff1b9ddac3c424",
+    "columns.txt": "4613cb7487e0755d9c3c98dd3c11dfb6f6279e69a3ecea6574c3b1222827604b",
+    "registry.json": "dc46fa6bb4c5e3391c9cf45a07fa7420b013a714de62264348c86ac99fa2d2ca"
+  },
+  "derived_file_sha256": {
+    "action-task-projection.json": "a5496e9be868e5d050e5b536f2b31e6e4fb4dee8e093e77c765de6463ed10f98",
+    "api-provenance.json": "4911c34499c3eb019f5e7451856263b15e8fa3e5b4f703e02136db6571329a6c",
+    "question-and-check.json": "aa0c6c0206fefdcb5469be37bff51c1e24545ed1b44ed510de07995f1cf3dda0",
+    "registered/business.txt": "5c78c5f819cb521eb0328de66d041ea631c208261d93353084262a741169af65",
+    "registered/columns.txt": "4613cb7487e0755d9c3c98dd3c11dfb6f6279e69a3ecea6574c3b1222827604b",
+    "registered/registry.json": "dc46fa6bb4c5e3391c9cf45a07fa7420b013a714de62264348c86ac99fa2d2ca",
+    "registered/schema.txt": "e78e268a93d241dd57b28556bba7882aeeeda50f83b2ca7214ff1b9ddac3c424",
+    "registered/work.sqlite": "826f6bb0b66cb9a5ed566e1b0bcedd24293389f3463e9c56ecbc138db12408e0"
+  },
+  "projection": "For each of the 40 original action_tasks, retain id, provider, acceptance.passed, settlement.basis, settlement.total_micro_usd and outcome.utility, preserving original values and nulls. No other raw response branch is copied.",
+  "registered_database": "Byte-for-byte copy of the original registered 40-row SQLite projection and its documents/portable relative-path registry. These file hashes remain those used by the actual job.",
+  "privacy": "Full raw response, policy, token configuration, money, wallet fields, jobs, commissions, destination objects, arbitrary acceptance artifacts and private runtime paths are excluded.",
+  "verification_limit": "Published projection can reproduce this finite grouping and be checked against the registered database. The original raw response hash is retained for identity, but its unpublished body cannot be independently reconstructed from this package. No server claim becomes chain-payment proof through projection."
+}

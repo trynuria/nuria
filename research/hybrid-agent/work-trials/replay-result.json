@@ -1,0 +1,48 @@
+{
+  "schema": "nuria.work-trial-replay.v1",
+  "passed": true,
+  "task_rows": 40,
+  "semantic_acceptance_unknown_source_rows": 40,
+  "expected_rows": [
+    ["local-composed-records-v1", 25, 20, 20, 0, 25, 0],
+    ["local-record-audit-v1", 15, 14, 14, 0, 15, 0]
+  ],
+  "trials": {
+    "ordinary": {
+      "accepted": true,
+      "tool_calls": 6,
+      "completion_tokens": 4849,
+      "prompt_tokens": 27318,
+      "memory_events": 9,
+      "qualified_procedures": 0,
+      "final_sql_replayed": true
+    },
+    "semantic": {
+      "accepted": true,
+      "tool_calls": 6,
+      "completion_tokens": 3499,
+      "prompt_tokens": 22679,
+      "memory_events": 9,
+      "qualified_procedures": 0,
+      "final_sql_replayed": true,
+      "completed_cpu_encodes": 1,
+      "first_tool": "list_tables",
+      "action_spikes": {
+        "list_tables": 28,
+        "read_knowledge": 25
+      },
+      "recorded_tagged_synapses": 205,
+      "recorded_changed_synapses": 205,
+      "neural_capsule_check": {
+        "capsules": 4,
+        "head_manifest_sha256": "183568dc644b18b3044a8176238d0f60f798092f9e495fdaac7c889c641118b2",
+        "spiking_state_reexecuted": false,
+        "pickle_loaded": false
+      }
+    }
+  },
+  "model_calls": 0,
+  "encoder_calls": 0,
+  "pickle_loaded": false,
+  "scope": "Finite SQL agreement and recorded local consistency for two same-question integration runs. Original result paths are omitted in explicit derived projections, so their original checksums are identity references rather than independently recomputable originals. Neural capsule bytes, lineage and origin-linked recorded credit are checked without restoring or reexecuting neural dynamics. No neural advantage, independent external attestation, general transfer, purchases, or semantic acceptance of the40source tasks is established."
+}

@@ -1,0 +1,138 @@
+{
+  "schema": "nuria.grounded-development-publication.v1",
+  "scope": "Portable development evidence only; no reserved comparison outcomes. Exact original-file identities and intentionally reduced projections are distinguished below.",
+  "original_artifacts": {
+    "pilot-01": {
+      "summary.json": {
+        "sha256": "672f9ed65030407bbbdadc19234688d60a075ef357016614495ea81a5b7ce4dc",
+        "bytes": 195,
+        "publication": "portable_json_reencoding"
+      },
+      "freeze.json": {
+        "sha256": "d3e4e8f958ffdff218145f1aa770a3d95174dac17055482f8cb0d8b776f46d9f",
+        "bytes": 1682,
+        "publication": "portable_json_reencoding"
+      },
+      "source-comparison-after-pilot.json": {
+        "sha256": "78b3a24c67b7cd0d3bd12897e6f4bc90f17e8667e6151f185016402e3851b82e",
+        "bytes": 1122,
+        "publication": "portable_json_reencoding"
+      },
+      "grounded-pilot01-independent-check.json": {
+        "sha256": "f5845cd69050becbc7c1231c878837de382bde8eae085d5d630b48332d962deb",
+        "bytes": 4568,
+        "publication": "portable_json_reencoding"
+      },
+      "results.jsonl": {
+        "sha256": "2dbd931a7b81f6ab54b87bb58c17bfe64c2174df201e7943df110a601aeabff0",
+        "bytes": 10750,
+        "publication": "reduced_projection",
+        "projection": "results-projection.json"
+      }
+    },
+    "pilot-02": {
+      "summary.json": {
+        "sha256": "8170136457c5fca7e4263a97e2cbfd6919d9dff8537073b1e292bf43aa3a15f4",
+        "bytes": 292,
+        "publication": "portable_json_reencoding"
+      },
+      "freeze.json": {
+        "sha256": "8460b2f376c126230dc75967523cfc1f8d91308d46cecbc18882f4ef94e049bd",
+        "bytes": 2100,
+        "publication": "portable_json_reencoding"
+      },
+      "results.jsonl": {
+        "sha256": "2124bf42f42db4cae520bda8d902a337b341f120a9db7744a53e8957f41faeda",
+        "bytes": 81476,
+        "publication": "reduced_projection",
+        "projection": "results-projection.json"
+      }
+    },
+    "pilot-03": {
+      "summary.json": {
+        "sha256": "841b80a3622ccad77f85a37e0bc986ffbe78c65fc8a28166ed54a8f12947956d",
+        "bytes": 262,
+        "publication": "portable_json_reencoding"
+      },
+      "freeze.json": {
+        "sha256": "64c94f363d4e863840684cb621be4d80066d9130b0ab1009a3e4404841c81d7a",
+        "bytes": 2239,
+        "publication": "portable_json_reencoding"
+      },
+      "independent-check-01.json": {
+        "sha256": "6b5a19324806332edd03881f3a0f76ff26f23f12414fcf940bd1348ecfa17387",
+        "bytes": 26601,
+        "publication": "portable_json_reencoding"
+      },
+      "results.jsonl": {
+        "sha256": "f6d79055474eaca18181cbf529e89ccefd70745064b08dfa20c1a07185342e7b",
+        "bytes": 78775,
+        "publication": "reduced_projection",
+        "projection": "results-projection.json"
+      }
+    }
+  },
+  "public_artifacts": {
+    "README.md": {
+      "sha256": "7a025fa0a11c3c7c85bb787255e8660fd83e6f4464eea6f1bb5e7aaf9ece4c4e",
+      "bytes": 4976
+    },
+    "pilot-01/freeze.json": {
+      "sha256": "781a37e3c7226533e136871544527c92293c8f2ec3c62c330e1b9d3bf426a9b8",
+      "bytes": 1675
+    },
+    "pilot-01/grounded-pilot01-independent-check.json": {
+      "sha256": "a05dac8744e1ce0f4be1000473231f4508b124b95918a2ee5ec1375242189690",
+      "bytes": 4467
+    },
+    "pilot-01/results-projection.json": {
+      "sha256": "935b72b99798cdbc1f586edde5a452e90789b585c0be7f8fb0821a1723d50e30",
+      "bytes": 14601
+    },
+    "pilot-01/source-comparison-after-pilot.json": {
+      "sha256": "4c3372d61b3f366a4eb0fd675f3d92e3462c760d2868dc53004e6d83c381de04",
+      "bytes": 1123
+    },
+    "pilot-01/summary.json": {
+      "sha256": "b54447eb046aeeb94fdcef6dae945b24a8b11b24f8254688d1bd9975f7c4c3a6",
+      "bytes": 196
+    },
+    "pilot-02/freeze.json": {
+      "sha256": "fa3a6bfe0ace7d5856b1d4860045bf62d5b91d5305b39231467fbe2d41dfb019",
+      "bytes": 2101
+    },
+    "pilot-02/results-projection.json": {
+      "sha256": "d0609749caef370d320bdd7eea836ca76fd007256f303b815c94fc200b30fbf7",
+      "bytes": 109304
+    },
+    "pilot-02/summary.json": {
+      "sha256": "f62c1c3da6c337c1bbba50cf8d0c02f88d04e7a702926e6208f025a0d2e81f15",
+      "bytes": 293
+    },
+    "pilot-03/freeze.json": {
+      "sha256": "0aa7978912b4c9957788a9c8e087a8354d1ce7551f9b9515adcedcd9db1db518",
+      "bytes": 2240
+    },
+    "pilot-03/independent-check-01.json": {
+      "sha256": "0d7cd61fb12bb494039d61a317f4172cf4024972b1ed6b3c67050dad390ad64a",
+      "bytes": 25827
+    },
+    "pilot-03/results-projection.json": {
+      "sha256": "5ee56bc477d3c3231febb839656be83c5db2ddae8876d72b5f6295c54a5186a6",
+      "bytes": 102479
+    },
+    "pilot-03/summary.json": {
+      "sha256": "713ed01ae8b6e6c3f19fb1aed53d679e507cd695f41dc31e5d5d47ee08242aad",
+      "bytes": 263
+    },
+    "summary.json": {
+      "sha256": "68f32d00d6544b01bf60889aba546cfdc13f3667182595878a40a00199dc669e",
+      "bytes": 3100
+    }
+  },
+  "projection_policy": {
+    "trace_projection": "Retains executed actions, SQL, complete tool receipts, model usage/commitments, final answer and host settlement. Omits action explanations and candidate procedure annotations; no model reasoning bodies or raw response bodies are included.",
+    "identity_scope": "Original hashes identify retained original bytes, not the reduced projections. Projection file hashes are computed separately. Local hashes provide consistency, not an external witness.",
+    "json_copies": "Original JSON values are retained in readable files; whitespace formatting may differ. Original file hashes identify original bytes, and public file hashes identify the reformatted copies."
+  }
+}

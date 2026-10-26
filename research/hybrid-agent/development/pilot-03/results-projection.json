@@ -1,0 +1,2392 @@
+{
+  "schema": "nuria.grounded-development-trace-projection.v1",
+  "original_results_sha256": "f6d79055474eaca18181cbf529e89ccefd70745064b08dfa20c1a07185342e7b",
+  "projection_policy": {
+    "trace_projection": "Retains executed actions, SQL, complete tool receipts, model usage/commitments, final answer and host settlement. Omits action explanations and candidate procedure annotations; no model reasoning bodies or raw response bodies are included.",
+    "identity_scope": "Original hashes identify retained original bytes, not the reduced projections. Projection file hashes are computed separately. Local hashes provide consistency, not an external witness."
+  },
+  "jobs": [
+    {
+      "task_id": "spider-dev-1017",
+      "question": "For each citizenship, what is the maximum net worth?",
+      "db_id": "singer",
+      "original_record_line_sha256": "0d7739d18ab86e44660ff003721065679e791ee541e62d5501bb2d1b3d3806dd",
+      "original_agent_result_sha256": "6f2bb652dd36bff0ee6f7e3fb601addc25bba382d8bb9600b561c4de456910e5",
+      "agent": {
+        "schema": "nuria.grounded-analyst.v2",
+        "job_id": "spider-dev-1017",
+        "episode_id": "a812627cd66fc5a5fb8045c70471e1d7ae79462edb3a87d238002d1ddff0038b",
+        "context_sha256": "4f4877f7934594f3e43fa9bd9c3b610ca833c4f027dafc9b4690d24fa23b3f58",
+        "configuration": {
+          "version": "nuria.grounded-analyst.v2",
+          "memory_mode": "none",
+          "max_turns": 12,
+          "max_output_tokens": 6000,
+          "max_tokens_per_turn": 1536,
+          "memory_bytes": 6000,
+          "max_tool_calls": 12,
+          "initial_tool": null,
+          "initial_section": "schema",
+          "model_binding": {
+            "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+            "schema": "nuria.procedural-memory.v1",
+            "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "tool_version": "nuria.analyst-workspace.v1"
+          },
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+          "tool_limits": {
+            "vm_steps": 1000000,
+            "row_limit": 200,
+            "byte_limit": 65536,
+            "deadline_ms": 2000
+          },
+          "reasoning_mode": true,
+          "system_sha256": "c3be40128abd98663ed8fbda8c7cda1cdce2f4415cf2ad97dbe4dcea0f4ce65e"
+        },
+        "status": "proposed",
+        "proposal_sha256": "f8f129bdff60cbe56e7c889dc495bc51938521ff4830252d2b773b881aa2039e",
+        "final_sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship",
+        "selected_receipt": {
+          "schema": "nuria.analyst-workspace.v1",
+          "tool": "query",
+          "runtime": {
+            "sqlite_version": "3.53.4",
+            "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+          },
+          "request_sha256": "20ff1874e46c42d5e83bb080c98075d0426bfd3edcd348703dee7b6b842aa58a",
+          "source": {
+            "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "db_id": "singer",
+            "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+            "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+          },
+          "columns": ["Citizenship", "Max_Net_Worth_Millions"],
+          "complete": true,
+          "cost": {
+            "output_bytes": 978,
+            "vm_progress_callbacks": 262,
+            "worker_wall_ms": 0.45062508434057236,
+            "wall_ms": 59.31220785714686,
+            "payload_bytes_observed": 130
+          },
+          "error": null,
+          "rows": [
+            ["Australia", 17.0],
+            ["Chile", 17.4],
+            ["France", 30.0],
+            ["Germany", 14.3],
+            ["United States", 28.8]
+          ],
+          "status": "ok",
+          "result_sha256": "d40d359d2d45fed984eb7076e399768988c3debf28a663a3ccd8e84c352c8f6e"
+        },
+        "memory_retrieval": {
+          "mode": "none",
+          "item_count": 0,
+          "bytes": 0,
+          "tokens": 0,
+          "memory_sha256": "ed5c0263a4009ddef37bb9be57887426e89581a57cbff4712bad995c1d8c0709",
+          "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda",
+          "token_accounting": "utf8-byte-upper-bound"
+        },
+        "model_usage": {
+          "prompt_tokens": 8490,
+          "completion_tokens": 559,
+          "total_tokens": 9049,
+          "unknown_additional_usage": false
+        },
+        "tool_calls": 3,
+        "protocol_errors": 0,
+        "source": {
+          "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+          "db_id": "singer",
+          "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+        },
+        "wall_seconds": 42.7124439580366,
+        "accepted": null,
+        "scope": "Committed proposal; independent host acceptance and memory settlement have not run"
+      },
+      "execution_trace": [
+        {
+          "turn": 0,
+          "kind": "action",
+          "action": {
+            "tool": "list_tables",
+            "arguments": {}
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 735,
+              "completion_tokens": 90,
+              "total_tokens": 825
+            },
+            "request_sha256": "592dc4e61eae45ee1ae643d27ccaaae71c94139c688103436d3ac0477d6c14d8",
+            "response_sha256": "bf20c47fd51388e6d598cde91f1daa5ad638e22817e2efc83524239a2855f297",
+            "finish_reason": "stop",
+            "wall_seconds": 4.942132958909497
+          }
+        },
+        {
+          "turn": 0,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "list_tables",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "f6d6495fd16754061568e2f7bcd0520d688b8333184b73dd604171dbd57287d8",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "type"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 903,
+              "vm_progress_callbacks": 87,
+              "worker_wall_ms": 0.33900002017617226,
+              "wall_ms": 64.16479195468128,
+              "payload_bytes_observed": 51
+            },
+            "error": null,
+            "rows": [
+              ["singer", "table"],
+              ["song", "table"]
+            ],
+            "status": "ok",
+            "result_sha256": "4ea38f9f69e0640e1eed7ebf8d2e5bf0574e58dd8bdbc4670cf43018ff0be132"
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "singer"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1650,
+              "completion_tokens": 114,
+              "total_tokens": 1764
+            },
+            "request_sha256": "4ad59a4123b798960090e8073ca29b78bd54fe320c19e1e890aa9a36a0f4fa5b",
+            "response_sha256": "62e64c9d01bd8acb57d8743d8ac48a38194ad6694f556e45021d1501c2fa812d",
+            "finish_reason": "stop",
+            "wall_seconds": 8.39280041703023
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "073c6b417da5e130d8bf25084f7cc0b6d7ba801762997851f37ab356c403da1d",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1091,
+              "vm_progress_callbacks": 115,
+              "worker_wall_ms": 0.3060828894376755,
+              "wall_ms": 55.49433291889727,
+              "payload_bytes_observed": 234
+            },
+            "error": null,
+            "rows": [
+              [0, "Singer_ID", "INT", 0, null, 1, 0],
+              [1, "Name", "TEXT", 0, null, 0, 0],
+              [2, "Birth_Year", "REAL", 0, null, 0, 0],
+              [3, "Net_Worth_Millions", "REAL", 0, null, 0, 0],
+              [4, "Citizenship", "TEXT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "168c2cfba9050c3ac61f2249f782ef6281c0e37f0fcbf478983786ef01764c6c"
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2820,
+              "completion_tokens": 101,
+              "total_tokens": 2921
+            },
+            "request_sha256": "380500e21869f56d36e2b9de030911bd23d990cdd7093796f6863da25fa87d60",
+            "response_sha256": "4c19c377a827de9eb4fb32fe9ba1aad6fdac9e3c1b3e9fd734fced6a85eebc7a",
+            "finish_reason": "stop",
+            "wall_seconds": 11.609095957828686
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "20ff1874e46c42d5e83bb080c98075d0426bfd3edcd348703dee7b6b842aa58a",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["Citizenship", "Max_Net_Worth_Millions"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 978,
+              "vm_progress_callbacks": 262,
+              "worker_wall_ms": 0.45062508434057236,
+              "wall_ms": 59.31220785714686,
+              "payload_bytes_observed": 130
+            },
+            "error": null,
+            "rows": [
+              ["Australia", 17.0],
+              ["Chile", 17.4],
+              ["France", 30.0],
+              ["Germany", 14.3],
+              ["United States", 28.8]
+            ],
+            "status": "ok",
+            "result_sha256": "d40d359d2d45fed984eb7076e399768988c3debf28a663a3ccd8e84c352c8f6e"
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT Citizenship, MAX(Net_Worth_Millions) AS Max_Net_Worth_Millions FROM singer GROUP BY Citizenship ORDER BY Citizenship"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3285,
+              "completion_tokens": 254,
+              "total_tokens": 3539
+            },
+            "request_sha256": "7a2873a6d8d274eefd5853f795bdad1fdebfd2ab36f4a0f0904601b56871d33c",
+            "response_sha256": "81d0449521920703575dfafea6bb8150efed60b39aae8ed416911f4faa0fbd50",
+            "finish_reason": "stop",
+            "wall_seconds": 17.585919542005286
+          }
+        }
+      ],
+      "settlement": {
+        "episode_id": "a812627cd66fc5a5fb8045c70471e1d7ae79462edb3a87d238002d1ddff0038b",
+        "origin_sha256": "a812627cd66fc5a5fb8045c70471e1d7ae79462edb3a87d238002d1ddff0038b",
+        "proposal_sha256": "f8f129bdff60cbe56e7c889dc495bc51938521ff4830252d2b773b881aa2039e",
+        "accepted": true,
+        "checker_id": "sqlite-execution-result-v1",
+        "evidence_sha256": "29a3e5a6dda3022116fd2afb028dfebd0ffe7ab1915164bac6de1fec6c26dd0c",
+        "terminal_reward": 1,
+        "receipt_sha256": "e0744775d02590df3000cb87a7942d3787f98295cfedb8383754699cb1587c75"
+      }
+    },
+    {
+      "task_id": "spider-dev-0506",
+      "question": "What are the notes of the death events which has substring 'East'?",
+      "db_id": "battle_death",
+      "original_record_line_sha256": "539f02409dd270315db6fc2886bc82bbe1e7abbf3ed83a1af2e6fd94eee8e094",
+      "original_agent_result_sha256": "6e00d78c7e41dfeeb24ef98efbab9343f24aa4317c5ae6873a56fbfc5a18f86f",
+      "agent": {
+        "schema": "nuria.grounded-analyst.v2",
+        "job_id": "spider-dev-0506",
+        "episode_id": "dfc8bf245e4c367013defe550fb7016d0c63ce1f4708ab210a20f894ed5f147f",
+        "context_sha256": "a9990a941296c861583ab7a2fab9858d0a85d37cba60c91435fbe4bb746ddf1a",
+        "configuration": {
+          "version": "nuria.grounded-analyst.v2",
+          "memory_mode": "none",
+          "max_turns": 12,
+          "max_output_tokens": 6000,
+          "max_tokens_per_turn": 1536,
+          "memory_bytes": 6000,
+          "max_tool_calls": 12,
+          "initial_tool": null,
+          "initial_section": "schema",
+          "model_binding": {
+            "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+            "schema": "nuria.procedural-memory.v1",
+            "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "tool_version": "nuria.analyst-workspace.v1"
+          },
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+          "tool_limits": {
+            "vm_steps": 1000000,
+            "row_limit": 200,
+            "byte_limit": 65536,
+            "deadline_ms": 2000
+          },
+          "reasoning_mode": true,
+          "system_sha256": "c3be40128abd98663ed8fbda8c7cda1cdce2f4415cf2ad97dbe4dcea0f4ce65e"
+        },
+        "status": "proposed",
+        "proposal_sha256": "fcaff01ab8d5a595b2d4c574663638fa48961779141fc34670bcba135d3322ed",
+        "final_sql": "SELECT note FROM death WHERE note LIKE '%East%'",
+        "selected_receipt": {
+          "schema": "nuria.analyst-workspace.v1",
+          "tool": "query",
+          "runtime": {
+            "sqlite_version": "3.53.4",
+            "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+          },
+          "request_sha256": "827575bb8a02f87f980e26060464ad759c955cd79a0c4f45c4295bad717525cb",
+          "source": {
+            "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "db_id": "battle_death",
+            "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+            "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+          },
+          "columns": ["note"],
+          "complete": true,
+          "cost": {
+            "output_bytes": 887,
+            "vm_progress_callbacks": 111,
+            "worker_wall_ms": 0.29229093343019485,
+            "wall_ms": 53.73033322393894,
+            "payload_bytes_observed": 34
+          },
+          "error": null,
+          "rows": [["East Champaran, Bihar"]],
+          "status": "ok",
+          "result_sha256": "6b97fe9c91a185c415e12110abf92a59e215e07d0280c8996b96cd3896a64e9a"
+        },
+        "memory_retrieval": {
+          "mode": "none",
+          "item_count": 0,
+          "bytes": 0,
+          "tokens": 0,
+          "memory_sha256": "2dfcb6dc786c923863222041a40d8e1636e035e9207c66a670fc5978ef25e39e",
+          "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda",
+          "token_accounting": "utf8-byte-upper-bound"
+        },
+        "model_usage": {
+          "prompt_tokens": 8359,
+          "completion_tokens": 556,
+          "total_tokens": 8915,
+          "unknown_additional_usage": false
+        },
+        "tool_calls": 3,
+        "protocol_errors": 0,
+        "source": {
+          "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+          "db_id": "battle_death",
+          "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+        },
+        "wall_seconds": 42.03278820798732,
+        "accepted": null,
+        "scope": "Committed proposal; independent host acceptance and memory settlement have not run"
+      },
+      "execution_trace": [
+        {
+          "turn": 0,
+          "kind": "action",
+          "action": {
+            "tool": "list_tables",
+            "arguments": {}
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 739,
+              "completion_tokens": 82,
+              "total_tokens": 821
+            },
+            "request_sha256": "46df94fbe2d6cfd28ac8a51d23e694430f3a5df1ae40cceab690e3162b796a9f",
+            "response_sha256": "9a5425f10886636dac26bdd1644beb5d23f8a0b425ac75207612483ca62965f8",
+            "finish_reason": "stop",
+            "wall_seconds": 4.780212833080441
+          }
+        },
+        {
+          "turn": 0,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "list_tables",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "d4226934ffcecc733627a18ecc72059c3f42184183f47d399dcc0e3461a2eaf5",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "type"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 927,
+              "vm_progress_callbacks": 120,
+              "worker_wall_ms": 0.3392500802874565,
+              "wall_ms": 55.61804096214473,
+              "payload_bytes_observed": 69
+            },
+            "error": null,
+            "rows": [
+              ["battle", "table"],
+              ["death", "table"],
+              ["ship", "table"]
+            ],
+            "status": "ok",
+            "result_sha256": "19d1575677723ef76eaa78dd024172a43654327312fe607dbc4d25dd882e91b6"
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "death"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1662,
+              "completion_tokens": 130,
+              "total_tokens": 1792
+            },
+            "request_sha256": "b3e90420953340bbdb5ee874f28d288b4896342605cf4939fd0b9f8b86d0395a",
+            "response_sha256": "9e5ced03ad7ce2db14ff6223cd23b6be1dcf76af191733f8ddb818d9817db54c",
+            "finish_reason": "stop",
+            "wall_seconds": 8.856157709145918
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "125de16b75a2a38460d0a96025fac29684397b64a0924cd876bb8fd78ce71da1",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1079,
+              "vm_progress_callbacks": 141,
+              "worker_wall_ms": 0.31629204750061035,
+              "wall_ms": 55.04745803773403,
+              "payload_bytes_observed": 215
+            },
+            "error": null,
+            "rows": [
+              [0, "caused_by_ship_id", "INT", 0, null, 0, 0],
+              [1, "id", "INT", 0, null, 1, 0],
+              [2, "note", "TEXT", 0, null, 0, 0],
+              [3, "killed", "INT", 0, null, 0, 0],
+              [4, "injured", "INT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "95786e45a88e033560056016b9931467a1e5b84c0576ea0d2c820bd085a703cd"
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT note FROM death WHERE note LIKE '%East%'"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2815,
+              "completion_tokens": 190,
+              "total_tokens": 3005
+            },
+            "request_sha256": "d98a7fbe7b1f577992807bc5bfa85af3d65ef5fa4740282edb33952ed07a11c2",
+            "response_sha256": "690a84050f234b22c64b6f039a06b5f5311ae32512e0b184b8e7128adc1deff9",
+            "finish_reason": "stop",
+            "wall_seconds": 14.09165554214269
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "827575bb8a02f87f980e26060464ad759c955cd79a0c4f45c4295bad717525cb",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["note"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 887,
+              "vm_progress_callbacks": 111,
+              "worker_wall_ms": 0.29229093343019485,
+              "wall_ms": 53.73033322393894,
+              "payload_bytes_observed": 34
+            },
+            "error": null,
+            "rows": [["East Champaran, Bihar"]],
+            "status": "ok",
+            "result_sha256": "6b97fe9c91a185c415e12110abf92a59e215e07d0280c8996b96cd3896a64e9a"
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT note FROM death WHERE note LIKE '%East%'"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3143,
+              "completion_tokens": 154,
+              "total_tokens": 3297
+            },
+            "request_sha256": "3b7085c197b6a79935d7f9ac7352692ddd592173bfbdab718a7b9df2ea805143",
+            "response_sha256": "43b34517a0e4a6625ef1f30c4e168b3fd11ea40c91ca5b082e302e464d771e43",
+            "finish_reason": "stop",
+            "wall_seconds": 14.136994624976069
+          }
+        }
+      ],
+      "settlement": {
+        "episode_id": "dfc8bf245e4c367013defe550fb7016d0c63ce1f4708ab210a20f894ed5f147f",
+        "origin_sha256": "dfc8bf245e4c367013defe550fb7016d0c63ce1f4708ab210a20f894ed5f147f",
+        "proposal_sha256": "fcaff01ab8d5a595b2d4c574663638fa48961779141fc34670bcba135d3322ed",
+        "accepted": true,
+        "checker_id": "sqlite-execution-result-v1",
+        "evidence_sha256": "18117fba4787910a7299712187729621429efaed9655affab6f0b8d438707885",
+        "terminal_reward": 1,
+        "receipt_sha256": "0c2da0f75b3647d1a9a8c90ad262502e882f22a9a56c65bdd7abbfc083d76041"
+      }
+    },
+    {
+      "task_id": "spider-dev-1020",
+      "question": "Show distinct names of singers that have songs with sales more than 300000.",
+      "db_id": "singer",
+      "original_record_line_sha256": "595f902d5cd2196eb5b5199f6fa9ea2efa735b22702b756e8e548834f678f934",
+      "original_agent_result_sha256": "f3da0709da9a8d3be56914e3b0afb0933077d6438429508111244f49802e4955",
+      "agent": {
+        "schema": "nuria.grounded-analyst.v2",
+        "job_id": "spider-dev-1020",
+        "episode_id": "d5445815384a4d627493a7c6134359c07191967fbf213309c57f0350c5563f21",
+        "context_sha256": "e271d7f9429d0bcc732565fb47640f6916d563263ec06d6f3eb0b20761d61c17",
+        "configuration": {
+          "version": "nuria.grounded-analyst.v2",
+          "memory_mode": "none",
+          "max_turns": 12,
+          "max_output_tokens": 6000,
+          "max_tokens_per_turn": 1536,
+          "memory_bytes": 6000,
+          "max_tool_calls": 12,
+          "initial_tool": null,
+          "initial_section": "schema",
+          "model_binding": {
+            "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+            "schema": "nuria.procedural-memory.v1",
+            "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "tool_version": "nuria.analyst-workspace.v1"
+          },
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+          "tool_limits": {
+            "vm_steps": 1000000,
+            "row_limit": 200,
+            "byte_limit": 65536,
+            "deadline_ms": 2000
+          },
+          "reasoning_mode": true,
+          "system_sha256": "c3be40128abd98663ed8fbda8c7cda1cdce2f4415cf2ad97dbe4dcea0f4ce65e"
+        },
+        "status": "proposed",
+        "proposal_sha256": "b912bafb601a402289e897f5bbd7965c6e6ec6fdacbad9c83d9ec5119af87892",
+        "final_sql": "SELECT DISTINCT s.Name FROM singer AS s JOIN song AS so ON s.Singer_ID = so.Singer_ID WHERE so.Sales > 300000",
+        "selected_receipt": {
+          "schema": "nuria.analyst-workspace.v1",
+          "tool": "query",
+          "runtime": {
+            "sqlite_version": "3.53.4",
+            "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+          },
+          "request_sha256": "c31ed3c0b7aaefe53c8cb6aea9de205a25cd477179ac292ca19777d3c81cbb76",
+          "source": {
+            "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "db_id": "singer",
+            "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+            "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+          },
+          "columns": ["Name"],
+          "complete": true,
+          "cost": {
+            "output_bytes": 916,
+            "vm_progress_callbacks": 115,
+            "worker_wall_ms": 0.35095796920359135,
+            "wall_ms": 65.33324997872114,
+            "payload_bytes_observed": 69
+          },
+          "error": null,
+          "rows": [["Liliane Bettencourt"], ["Christy Walton"], ["Iris Fontbona"]],
+          "status": "ok",
+          "result_sha256": "0d29923befee6efae30e72d813141e8606accfcca6afe7e9e2b15a04c36a68af"
+        },
+        "memory_retrieval": {
+          "mode": "none",
+          "item_count": 0,
+          "bytes": 0,
+          "tokens": 0,
+          "memory_sha256": "1e2814f5cc65a06c0e2d9d8d7d5b6a714c1aba045b3bdb8794bbe67ae31c5009",
+          "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda",
+          "token_accounting": "utf8-byte-upper-bound"
+        },
+        "model_usage": {
+          "prompt_tokens": 23462,
+          "completion_tokens": 2075,
+          "total_tokens": 25537,
+          "unknown_additional_usage": false
+        },
+        "tool_calls": 5,
+        "protocol_errors": 3,
+        "source": {
+          "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+          "db_id": "singer",
+          "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+        },
+        "wall_seconds": 134.5896231669467,
+        "accepted": null,
+        "scope": "Committed proposal; independent host acceptance and memory settlement have not run"
+      },
+      "execution_trace": [
+        {
+          "turn": 0,
+          "kind": "action",
+          "action": {
+            "tool": "list_tables",
+            "arguments": {}
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 744,
+              "completion_tokens": 78,
+              "total_tokens": 822
+            },
+            "request_sha256": "7818c87682dd10d6c1a62534fd1fffdb9698958633c3e4ccb0efe59dd57324e1",
+            "response_sha256": "09d1a1c377db721dabf60abeaaaf7cd922aad8c9604a8f7319c6506387c64580",
+            "finish_reason": "stop",
+            "wall_seconds": 4.6617675421293825
+          }
+        },
+        {
+          "turn": 0,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "list_tables",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "f6d6495fd16754061568e2f7bcd0520d688b8333184b73dd604171dbd57287d8",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "type"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 902,
+              "vm_progress_callbacks": 87,
+              "worker_wall_ms": 0.28841709718108177,
+              "wall_ms": 55.3865828551352,
+              "payload_bytes_observed": 51
+            },
+            "error": null,
+            "rows": [
+              ["singer", "table"],
+              ["song", "table"]
+            ],
+            "status": "ok",
+            "result_sha256": "bda0f3b459265b95759ff609f2e066fd75de07e138ec173950682fc8af6af01b"
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "singer"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1660,
+              "completion_tokens": 115,
+              "total_tokens": 1775
+            },
+            "request_sha256": "44c1676e952917517dda18bffe824a364c30a7b71903c49b67acf29facbd6b8b",
+            "response_sha256": "d54db5b8c25a713bd437600ca4a7dbc80e0c87f54db94338a20e0db0fa960b4e",
+            "finish_reason": "stop",
+            "wall_seconds": 8.431797000113875
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "073c6b417da5e130d8bf25084f7cc0b6d7ba801762997851f37ab356c403da1d",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1092,
+              "vm_progress_callbacks": 115,
+              "worker_wall_ms": 0.33412501215934753,
+              "wall_ms": 58.21870896033943,
+              "payload_bytes_observed": 234
+            },
+            "error": null,
+            "rows": [
+              [0, "Singer_ID", "INT", 0, null, 1, 0],
+              [1, "Name", "TEXT", 0, null, 0, 0],
+              [2, "Birth_Year", "REAL", 0, null, 0, 0],
+              [3, "Net_Worth_Millions", "REAL", 0, null, 0, 0],
+              [4, "Citizenship", "TEXT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "228aa946b66b6d0a895c452ffd68306eb81048e017758120c0657fb8769eed22"
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "song"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2832,
+              "completion_tokens": 124,
+              "total_tokens": 2956
+            },
+            "request_sha256": "78b54cbc7174aeed713d6ab80a9c765bf49a491e4b1e318f9e410a77a0dbbf16",
+            "response_sha256": "46406dd6d44c1a2d5a6b5f8e4cfc16431237c536ae735dfe5c13d6354ed2375b",
+            "finish_reason": "stop",
+            "wall_seconds": 12.291852417169139
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "1642e66877be69c7cbf5bc9a2effde890f4d9ca9134c4c516a62e3a5343759ea",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1082,
+              "vm_progress_callbacks": 115,
+              "worker_wall_ms": 0.32766698859632015,
+              "wall_ms": 57.828209130093455,
+              "payload_bytes_observed": 223
+            },
+            "error": null,
+            "rows": [
+              [0, "Song_ID", "INT", 0, null, 1, 0],
+              [1, "Title", "TEXT", 0, null, 0, 0],
+              [2, "Singer_ID", "INT", 0, null, 0, 0],
+              [3, "Sales", "REAL", 0, null, 0, 0],
+              [4, "Highest_Position", "REAL", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "119fff04e52b3008ca7deaa8f40fd3969cc05fed39df1705047028cca7ac8661"
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT DISTINCT s.Name\nFROM singer AS s\nJOIN song AS so ON s.Singer_ID = so.Singer_ID\nWHERE so.Sales > 300000"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3361,
+              "completion_tokens": 227,
+              "total_tokens": 3588
+            },
+            "request_sha256": "b3df95b40b8e3f23f2168457c0d8a9527b0a30b803bbb6b3e34dd1aa2223ba0b",
+            "response_sha256": "2c6c16b5fa35ab5e326ddc25fba7f6e97ed5299fe09ecd4609151489a815f9cb",
+            "finish_reason": "stop",
+            "wall_seconds": 16.934149291133508
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "b9cf1a4280b70f6802bb38aefac14425a55a453ab77a130700b084555834429e",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["Name"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 916,
+              "vm_progress_callbacks": 115,
+              "worker_wall_ms": 0.33012498170137405,
+              "wall_ms": 55.22566707804799,
+              "payload_bytes_observed": 69
+            },
+            "error": null,
+            "rows": [["Liliane Bettencourt"], ["Christy Walton"], ["Iris Fontbona"]],
+            "status": "ok",
+            "result_sha256": "d1bf3e71f4544669026ea4ba2ec9ba529b5e55901fcfb0760f76bd56cb862a32"
+          }
+        },
+        {
+          "turn": 4,
+          "kind": "invalid_action",
+          "model": {
+            "usage": {
+              "prompt_tokens": 3662,
+              "completion_tokens": 270,
+              "total_tokens": 3932
+            },
+            "request_sha256": "64e83f84ef47a2c305e44c2886c4948c79ae5effc23da9cd183eb3e841503c9d",
+            "response_sha256": "4b0c0f441ee06846a814a90f86e2089cccc6a1daa870f56713edd2c9aeb2fdc9",
+            "finish_reason": "stop",
+            "wall_seconds": 19.300610250094905
+          }
+        },
+        {
+          "turn": 5,
+          "kind": "invalid_action",
+          "model": {
+            "usage": {
+              "prompt_tokens": 2965,
+              "completion_tokens": 357,
+              "total_tokens": 3322
+            },
+            "request_sha256": "11be7ceebfa36e996d6e992c5c1acb41a66c5a5faf380f427f88ce58977864d2",
+            "response_sha256": "c66bf1c4752665279e696076da5735821656beccc1781a11ca4f8d53110157ab",
+            "finish_reason": "stop",
+            "wall_seconds": 20.048825124977157
+          }
+        },
+        {
+          "turn": 6,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT DISTINCT s.Name FROM singer AS s JOIN song AS so ON s.Singer_ID = so.Singer_ID WHERE so.Sales > 300000"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2323,
+              "completion_tokens": 628,
+              "total_tokens": 2951
+            },
+            "request_sha256": "49d4a734cff4c41920aa131cc1a9749ee8d16e00a9fbad0897fa09e8e2e89a1b",
+            "response_sha256": "b65e910c0590a44370f18a708603106c2fe1bbb8be96e575ffeac9e5bc97b75c",
+            "finish_reason": "stop",
+            "wall_seconds": 26.050384667003527
+          }
+        },
+        {
+          "turn": 7,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT DISTINCT s.Name FROM singer AS s JOIN song AS so ON s.Singer_ID = so.Singer_ID WHERE so.Sales > 300000"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2462,
+              "completion_tokens": 109,
+              "total_tokens": 2571
+            },
+            "request_sha256": "f766159bb069791581c68491e6df4528045a32ee9208f18dd80309f3014742af",
+            "response_sha256": "6987c9b7d947669ac654bbae3feb5a95dacad26a1ba2f155e5a07db80ef54bb0",
+            "finish_reason": "stop",
+            "wall_seconds": 10.879474125104025
+          }
+        },
+        {
+          "turn": 7,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "c31ed3c0b7aaefe53c8cb6aea9de205a25cd477179ac292ca19777d3c81cbb76",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["Name"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 916,
+              "vm_progress_callbacks": 115,
+              "worker_wall_ms": 0.35095796920359135,
+              "wall_ms": 65.33324997872114,
+              "payload_bytes_observed": 69
+            },
+            "error": null,
+            "rows": [["Liliane Bettencourt"], ["Christy Walton"], ["Iris Fontbona"]],
+            "status": "ok",
+            "result_sha256": "0d29923befee6efae30e72d813141e8606accfcca6afe7e9e2b15a04c36a68af"
+          }
+        },
+        {
+          "turn": 8,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT DISTINCT s.Name FROM singer AS s JOIN song AS so ON s.Singer_ID = so.Singer_ID WHERE so.Sales > 300000"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3453,
+              "completion_tokens": 167,
+              "total_tokens": 3620
+            },
+            "request_sha256": "b6856f1862055298de781bf2037a517b85dcbedc8f0ec2d34b53eab099620c7c",
+            "response_sha256": "2999a089c94d4856e83281f136ffec9bd024dcc26a3512690ca435d56718162f",
+            "finish_reason": "stop",
+            "wall_seconds": 15.692244125064462
+          }
+        }
+      ],
+      "settlement": {
+        "episode_id": "d5445815384a4d627493a7c6134359c07191967fbf213309c57f0350c5563f21",
+        "origin_sha256": "d5445815384a4d627493a7c6134359c07191967fbf213309c57f0350c5563f21",
+        "proposal_sha256": "b912bafb601a402289e897f5bbd7965c6e6ec6fdacbad9c83d9ec5119af87892",
+        "accepted": true,
+        "checker_id": "sqlite-execution-result-v1",
+        "evidence_sha256": "1d14400b389157bfbda6cd9029c1649e1f39ffb260f5f276440855727fd6ddd0",
+        "terminal_reward": 1,
+        "receipt_sha256": "902f2e6df488ec7258b1313f437eaeaec7caffa6c5bbb72e0be1770a9435bd46"
+      }
+    },
+    {
+      "task_id": "spider-dev-0499",
+      "question": "What are the ids and names of the battles that led to more than 10 people killed in total.",
+      "db_id": "battle_death",
+      "original_record_line_sha256": "e03ae3a98ac38be4353145562d341433ec6500002858ff472bf08734b08240f8",
+      "original_agent_result_sha256": "864e8cc63b316130bf4a1c83faa3fc8d98497a8b8f06e70e50cceafd820dbc19",
+      "agent": {
+        "schema": "nuria.grounded-analyst.v2",
+        "job_id": "spider-dev-0499",
+        "episode_id": "631bbff5de10e563543fbe5b24ced816c99ff6b5f42977842eaef148222e92ce",
+        "context_sha256": "e4618e9d983d9422760bbf9fbe3175fe7da28ce84a5248ab2488483613c08ac8",
+        "configuration": {
+          "version": "nuria.grounded-analyst.v2",
+          "memory_mode": "none",
+          "max_turns": 12,
+          "max_output_tokens": 6000,
+          "max_tokens_per_turn": 1536,
+          "memory_bytes": 6000,
+          "max_tool_calls": 12,
+          "initial_tool": null,
+          "initial_section": "schema",
+          "model_binding": {
+            "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+            "schema": "nuria.procedural-memory.v1",
+            "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "tool_version": "nuria.analyst-workspace.v1"
+          },
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+          "tool_limits": {
+            "vm_steps": 1000000,
+            "row_limit": 200,
+            "byte_limit": 65536,
+            "deadline_ms": 2000
+          },
+          "reasoning_mode": true,
+          "system_sha256": "c3be40128abd98663ed8fbda8c7cda1cdce2f4415cf2ad97dbe4dcea0f4ce65e"
+        },
+        "status": "proposed",
+        "proposal_sha256": "e8327b5d221ce463dad9578f2950767e8e980af5f2c8ebad9df1883dc89782cb",
+        "final_sql": "SELECT b.id, b.name\nFROM battle b\nJOIN ship s ON s.lost_in_battle = b.id\nJOIN death d ON d.caused_by_ship_id = s.id\nGROUP BY b.id, b.name\nHAVING SUM(d.killed) > 10\nORDER BY b.id",
+        "selected_receipt": {
+          "schema": "nuria.analyst-workspace.v1",
+          "tool": "query",
+          "runtime": {
+            "sqlite_version": "3.53.4",
+            "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+          },
+          "request_sha256": "062eee3510ab25a971632f4f0a40ce8907af580fbbb37212d915c2d68fe5ca0e",
+          "source": {
+            "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "db_id": "battle_death",
+            "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+            "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+          },
+          "columns": ["id", "name"],
+          "complete": true,
+          "cost": {
+            "output_bytes": 948,
+            "vm_progress_callbacks": 508,
+            "worker_wall_ms": 0.43325009755790234,
+            "wall_ms": 56.788959074765444,
+            "payload_bytes_observed": 94
+          },
+          "error": null,
+          "rows": [
+            [5, "Battle of Messinopolis"],
+            [6, "Battle of Boruy"],
+            [8, "Siege of Constantinople"]
+          ],
+          "status": "ok",
+          "result_sha256": "fa36c6066aa81986167e04451ca5c69abf887e95a4870089fb2cf79529ee67b9"
+        },
+        "memory_retrieval": {
+          "mode": "none",
+          "item_count": 0,
+          "bytes": 0,
+          "tokens": 0,
+          "memory_sha256": "3b3bc5d70374877f45d76e6a3cbeb5740870cc4fb1afb704e695eba2c3f56dca",
+          "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda",
+          "token_accounting": "utf8-byte-upper-bound"
+        },
+        "model_usage": {
+          "prompt_tokens": 29926,
+          "completion_tokens": 2688,
+          "total_tokens": 32614,
+          "unknown_additional_usage": false
+        },
+        "tool_calls": 7,
+        "protocol_errors": 1,
+        "source": {
+          "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+          "db_id": "battle_death",
+          "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+        },
+        "wall_seconds": 175.10618275008164,
+        "accepted": null,
+        "scope": "Committed proposal; independent host acceptance and memory settlement have not run"
+      },
+      "execution_trace": [
+        {
+          "turn": 0,
+          "kind": "action",
+          "action": {
+            "tool": "list_tables",
+            "arguments": {}
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 746,
+              "completion_tokens": 60,
+              "total_tokens": 806
+            },
+            "request_sha256": "40ea3b2a83b457d50ad1371056ad12a95e679764884eb8ceabcb19750844063d",
+            "response_sha256": "831efb7119e6ff581c4ac80ad011cce65d0ce6df20cba77ac6d6f9475cfb27a4",
+            "finish_reason": "stop",
+            "wall_seconds": 4.197879333049059
+          }
+        },
+        {
+          "turn": 0,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "list_tables",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "d4226934ffcecc733627a18ecc72059c3f42184183f47d399dcc0e3461a2eaf5",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "type"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 928,
+              "vm_progress_callbacks": 120,
+              "worker_wall_ms": 0.3677080385386944,
+              "wall_ms": 61.964833876118064,
+              "payload_bytes_observed": 69
+            },
+            "error": null,
+            "rows": [
+              ["battle", "table"],
+              ["death", "table"],
+              ["ship", "table"]
+            ],
+            "status": "ok",
+            "result_sha256": "01274dafe6c9d67279de8278bb2666ff2a48702b7dbc7c8521025c3f07677605"
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "action",
+          "action": {
+            "tool": "read_knowledge",
+            "arguments": {
+              "section": "business"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1663,
+              "completion_tokens": 112,
+              "total_tokens": 1775
+            },
+            "request_sha256": "77c8a78538c7797cbb64edf26f28bdcd40c40f10cc46f35b7a5c682c213a8ea9",
+            "response_sha256": "1b6697175cfa239548aed0da1cde3abd8bff9edf08b4cf28038595bf248cfe57",
+            "finish_reason": "stop",
+            "wall_seconds": 8.467081791954115
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "read_knowledge",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "72f45155b0e70ff1246c5f025667170fb1bd04535d8929edc90e283f78e85f8b",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "status": "ok",
+            "complete": true,
+            "content": "Spider 1.0 provides no additional task-specific external business knowledge. Use the database schema and question.",
+            "document_sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+            "cost": {
+              "vm_progress_callbacks": 0,
+              "output_bytes": 1005,
+              "wall_ms": 0.6747499573975801,
+              "payload_bytes_observed": 114
+            },
+            "result_sha256": "ca77d9d92da04568a82b0b148c87d01044b10520a9a9e05a77df1136eac41d18"
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "battle"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2646,
+              "completion_tokens": 96,
+              "total_tokens": 2742
+            },
+            "request_sha256": "6501fa5d8b4019862a2b0b68d51a29a5487a947efd48a43cd2d11ad8eedbea4f",
+            "response_sha256": "23489b640e9a3d30a233a373ce518ed84ce7285fcd0c5bbacc9ff297f4db8077",
+            "finish_reason": "stop",
+            "wall_seconds": 11.101916667073965
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "d5c7bf24f98cb8b58528072ccc03994078939cc0a671156dcf76506e9ce73625",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1119,
+              "vm_progress_callbacks": 149,
+              "worker_wall_ms": 0.395042123273015,
+              "wall_ms": 61.26883300021291,
+              "payload_bytes_observed": 257
+            },
+            "error": null,
+            "rows": [
+              [0, "id", "INT", 0, null, 1, 0],
+              [1, "name", "TEXT", 0, null, 0, 0],
+              [2, "date", "TEXT", 0, null, 0, 0],
+              [3, "bulgarian_commander", "TEXT", 0, null, 0, 0],
+              [4, "latin_commander", "TEXT", 0, null, 0, 0],
+              [5, "result", "TEXT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "4efe3e7590e1706124b43bdbd6bf77664af96f46db569ae7afb6e777758d1722"
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "death"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3211,
+              "completion_tokens": 79,
+              "total_tokens": 3290
+            },
+            "request_sha256": "c6099d7e7e7f3d129c3f8071bcfa9d723e49a78f536154a5549edf1bcb4f1382",
+            "response_sha256": "344e60e44768b94be964cf7087d9bee5f38b3756a9a7fed1069e2776ba320816",
+            "finish_reason": "stop",
+            "wall_seconds": 12.373594417003915
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "125de16b75a2a38460d0a96025fac29684397b64a0924cd876bb8fd78ce71da1",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1078,
+              "vm_progress_callbacks": 141,
+              "worker_wall_ms": 0.3659999929368496,
+              "wall_ms": 61.95333297364414,
+              "payload_bytes_observed": 215
+            },
+            "error": null,
+            "rows": [
+              [0, "caused_by_ship_id", "INT", 0, null, 0, 0],
+              [1, "id", "INT", 0, null, 1, 0],
+              [2, "note", "TEXT", 0, null, 0, 0],
+              [3, "killed", "INT", 0, null, 0, 0],
+              [4, "injured", "INT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "10815443a6c8cb0d423ceb6168cf719fb8ba4db91bab472999f8139fc841f828"
+          }
+        },
+        {
+          "turn": 4,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "ship"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3682,
+              "completion_tokens": 70,
+              "total_tokens": 3752
+            },
+            "request_sha256": "1507e3fb436366d9d49ea6dc464ffcb1232896b69d233daf0fa2e2647b91cda9",
+            "response_sha256": "b1286841ab9c5e3d3790e8106767371ba0b443124fe33fe7f47512bc343b8a78",
+            "finish_reason": "stop",
+            "wall_seconds": 13.571346832904965
+          }
+        },
+        {
+          "turn": 4,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "52229799b3cad53d40d15e63958e7901f0050ccc09405c160bbe58709c4b064c",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1158,
+              "vm_progress_callbacks": 157,
+              "worker_wall_ms": 0.42587495408952236,
+              "wall_ms": 62.72420799359679,
+              "payload_bytes_observed": 294
+            },
+            "error": null,
+            "rows": [
+              [0, "lost_in_battle", "INT", 0, null, 0, 0],
+              [1, "id", "INT", 0, null, 1, 0],
+              [2, "name", "TEXT", 0, null, 0, 0],
+              [3, "tonnage", "TEXT", 0, null, 0, 0],
+              [4, "ship_type", "TEXT", 0, null, 0, 0],
+              [5, "location", "TEXT", 0, null, 0, 0],
+              [6, "disposition_of_ship", "TEXT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "b99fda55fac4e0f1c60d20986826e61f81b47001e37a7f924c27fc44cbfc4082"
+          }
+        },
+        {
+          "turn": 5,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT b.id, b.name, SUM(d.killed) AS total_killed\nFROM battle b\nJOIN ship s ON s.lost_in_battle = b.id\nJOIN death d ON d.caused_by_ship_id = s.id\nGROUP BY b.id, b.name\nHAVING SUM(d.killed) > 10"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 4176,
+              "completion_tokens": 257,
+              "total_tokens": 4433
+            },
+            "request_sha256": "e4fafe8176ff235787f77d7b60ff4e39e89df2724c0477a3ec02a2097d748cc3",
+            "response_sha256": "f39a0a28516062e03fcb2ffaed7603701018e4d33353f73e913ef0bad7448f88",
+            "finish_reason": "stop",
+            "wall_seconds": 20.821956708095968
+          }
+        },
+        {
+          "turn": 5,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "5bd92f9986d1b4a446055c83b7d9b2bc2e0e648d9fc675c195656079588c26bc",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["id", "name", "total_killed"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 972,
+              "vm_progress_callbacks": 487,
+              "worker_wall_ms": 0.43833302333950996,
+              "wall_ms": 60.23087492212653,
+              "payload_bytes_observed": 118
+            },
+            "error": null,
+            "rows": [
+              [5, "Battle of Messinopolis", 21],
+              [6, "Battle of Boruy", 27],
+              [8, "Siege of Constantinople", 37]
+            ],
+            "status": "ok",
+            "result_sha256": "d818f610253b06addb91e3b81182817b42d0c3d458c9105713c2e496154b17bb"
+          }
+        },
+        {
+          "turn": 6,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT b.id, b.name\nFROM battle b\nJOIN ship s ON s.lost_in_battle = b.id\nJOIN death d ON d.caused_by_ship_id = s.id\nGROUP BY b.id, b.name\nHAVING SUM(d.killed) > 10\nORDER BY b.id"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 4608,
+              "completion_tokens": 658,
+              "total_tokens": 5266
+            },
+            "request_sha256": "72202db35eb0e704031b797eb1d71a037b6dc5d6dfd74fd16ef38204bab24f78",
+            "response_sha256": "c8350c37906181a9cff51153e30b0abcf6b41de5f740f1fe50b1567a1e7ed3f4",
+            "finish_reason": "stop",
+            "wall_seconds": 34.36294175009243
+          }
+        },
+        {
+          "turn": 6,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "062eee3510ab25a971632f4f0a40ce8907af580fbbb37212d915c2d68fe5ca0e",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["id", "name"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 948,
+              "vm_progress_callbacks": 508,
+              "worker_wall_ms": 0.43325009755790234,
+              "wall_ms": 56.788959074765444,
+              "payload_bytes_observed": 94
+            },
+            "error": null,
+            "rows": [
+              [5, "Battle of Messinopolis"],
+              [6, "Battle of Boruy"],
+              [8, "Siege of Constantinople"]
+            ],
+            "status": "ok",
+            "result_sha256": "fa36c6066aa81986167e04451ca5c69abf887e95a4870089fb2cf79529ee67b9"
+          }
+        },
+        {
+          "turn": 7,
+          "kind": "invalid_action",
+          "model": {
+            "usage": {
+              "prompt_tokens": 4945,
+              "completion_tokens": 473,
+              "total_tokens": 5418
+            },
+            "request_sha256": "1e1cc330bb89dcc7a35280a40396cc143116f35b27bd6f2d96f86f3d9498ea8b",
+            "response_sha256": "31d219371652f65631f823aa028ba5680973cbdea9727927ca4f5a8b60733048",
+            "finish_reason": "stop",
+            "wall_seconds": 29.935200833017007
+          }
+        },
+        {
+          "turn": 8,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT b.id, b.name\nFROM battle b\nJOIN ship s ON s.lost_in_battle = b.id\nJOIN death d ON d.caused_by_ship_id = s.id\nGROUP BY b.id, b.name\nHAVING SUM(d.killed) > 10\nORDER BY b.id"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 4249,
+              "completion_tokens": 883,
+              "total_tokens": 5132
+            },
+            "request_sha256": "7c442c3fa53d8c9c1d5fc6c26f9e628e66f93cf0e044fd7962efa6e75e8214b6",
+            "response_sha256": "f13fc7f7ca8f631b052f2b247f134274aa34175303199c3fad43e01f2fb7ad06",
+            "finish_reason": "stop",
+            "wall_seconds": 39.900681249797344
+          }
+        }
+      ],
+      "settlement": {
+        "episode_id": "631bbff5de10e563543fbe5b24ced816c99ff6b5f42977842eaef148222e92ce",
+        "origin_sha256": "631bbff5de10e563543fbe5b24ced816c99ff6b5f42977842eaef148222e92ce",
+        "proposal_sha256": "e8327b5d221ce463dad9578f2950767e8e980af5f2c8ebad9df1883dc89782cb",
+        "accepted": true,
+        "checker_id": "sqlite-execution-result-v1",
+        "evidence_sha256": "b76abae04b6a7c1a7cc9ea6e512a216aca83c15f530fdee93cda3fb2a94c5d11",
+        "terminal_reward": 1,
+        "receipt_sha256": "372cc38d2685079d477b30736038aed26c600f64ded83929ee34488546862dc2"
+      }
+    },
+    {
+      "task_id": "spider-dev-0505",
+      "question": "Show names, results and bulgarian commanders of the battles with no ships lost in the 'English Channel'.",
+      "db_id": "battle_death",
+      "original_record_line_sha256": "8f581624d0830552e65c7fe0db5411a04d281518e7e50930d0b2289c91ef8a95",
+      "original_agent_result_sha256": "a54504fbfd2cd97cbc1b8cf29e01088409b2c3cef155d4288b1f800cd0a8806c",
+      "agent": {
+        "schema": "nuria.grounded-analyst.v2",
+        "job_id": "spider-dev-0505",
+        "episode_id": "56d17e7fcdbdb0241d3a3b78207649af1de39fa9bbcf1f783511352100861ece",
+        "context_sha256": "a4f0f520e2e7963bb7737b53a5b29eca9e6934162cd2f777ba8144a073798c67",
+        "configuration": {
+          "version": "nuria.grounded-analyst.v2",
+          "memory_mode": "none",
+          "max_turns": 12,
+          "max_output_tokens": 6000,
+          "max_tokens_per_turn": 1536,
+          "memory_bytes": 6000,
+          "max_tool_calls": 12,
+          "initial_tool": null,
+          "initial_section": "schema",
+          "model_binding": {
+            "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+            "schema": "nuria.procedural-memory.v1",
+            "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "tool_version": "nuria.analyst-workspace.v1"
+          },
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+          "tool_limits": {
+            "vm_steps": 1000000,
+            "row_limit": 200,
+            "byte_limit": 65536,
+            "deadline_ms": 2000
+          },
+          "reasoning_mode": true,
+          "system_sha256": "c3be40128abd98663ed8fbda8c7cda1cdce2f4415cf2ad97dbe4dcea0f4ce65e"
+        },
+        "status": "proposed",
+        "proposal_sha256": "91596bd9fa54c08a55575c311cddeb823a4844b37277862bc9c852fea97aad1e",
+        "final_sql": "SELECT T1.name, T1.result, T1.bulgarian_commander FROM battle AS T1 WHERE NOT EXISTS (SELECT * FROM ship AS T2 WHERE T2.lost_in_battle = T1.id AND T2.location = 'English Channel') ORDER BY T1.name",
+        "selected_receipt": {
+          "schema": "nuria.analyst-workspace.v1",
+          "tool": "query",
+          "runtime": {
+            "sqlite_version": "3.53.4",
+            "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+          },
+          "request_sha256": "1dded4292972b66878cc785a9e5f49f3864ad5393c29610d29ef68321f6e6020",
+          "source": {
+            "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "db_id": "battle_death",
+            "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+            "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+          },
+          "columns": ["name", "result", "bulgarian_commander"],
+          "complete": true,
+          "cost": {
+            "output_bytes": 1051,
+            "vm_progress_callbacks": 322,
+            "worker_wall_ms": 0.41204108856618404,
+            "wall_ms": 61.07070902362466,
+            "payload_bytes_observed": 196
+          },
+          "error": null,
+          "rows": [
+            ["Battle of Adrianople", "Bulgarian victory", "Kaloyan"],
+            ["Battle of Rusion", "Bulgarian victory", "Kaloyan"],
+            ["Battle of Serres", "Bulgarian victory", "Kaloyan"]
+          ],
+          "status": "ok",
+          "result_sha256": "8559cd0a15c8d874ba3c669b3d1c1ede293b3aa932ffccf4b09ca29744c90d51"
+        },
+        "memory_retrieval": {
+          "mode": "none",
+          "item_count": 0,
+          "bytes": 0,
+          "tokens": 0,
+          "memory_sha256": "845d415511a2afe858321c23ef5774949bb0b2c6d10c1c5f007af9d685098be6",
+          "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda",
+          "token_accounting": "utf8-byte-upper-bound"
+        },
+        "model_usage": {
+          "prompt_tokens": 25505,
+          "completion_tokens": 2160,
+          "total_tokens": 27665,
+          "unknown_additional_usage": false
+        },
+        "tool_calls": 6,
+        "protocol_errors": 0,
+        "source": {
+          "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+          "db_id": "battle_death",
+          "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+        },
+        "wall_seconds": 144.1055471249856,
+        "accepted": null,
+        "scope": "Committed proposal; independent host acceptance and memory settlement have not run"
+      },
+      "execution_trace": [
+        {
+          "turn": 0,
+          "kind": "action",
+          "action": {
+            "tool": "list_tables",
+            "arguments": {}
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 747,
+              "completion_tokens": 115,
+              "total_tokens": 862
+            },
+            "request_sha256": "3e82259fc3547f7e9c349d87577a819847f58e72f9a41ec64dd0d61392492207",
+            "response_sha256": "6cb84c53bb3d5d193a1fe713c9864628fdac3fa82420980d1811d2a522467bb9",
+            "finish_reason": "stop",
+            "wall_seconds": 5.804958833847195
+          }
+        },
+        {
+          "turn": 0,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "list_tables",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "d4226934ffcecc733627a18ecc72059c3f42184183f47d399dcc0e3461a2eaf5",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "type"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 927,
+              "vm_progress_callbacks": 120,
+              "worker_wall_ms": 0.3180410712957382,
+              "wall_ms": 58.05787513963878,
+              "payload_bytes_observed": 69
+            },
+            "error": null,
+            "rows": [
+              ["battle", "table"],
+              ["death", "table"],
+              ["ship", "table"]
+            ],
+            "status": "ok",
+            "result_sha256": "390e3e61b03223a1b4a1b024351180884b1e64c5d0477d1786dd8a9915a4b352"
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "action",
+          "action": {
+            "tool": "read_knowledge",
+            "arguments": {
+              "section": "columns"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1683,
+              "completion_tokens": 162,
+              "total_tokens": 1845
+            },
+            "request_sha256": "69e27e1cf5a20e721bbf51343cb10105d31fcb1e3864f007f168d344741732db",
+            "response_sha256": "57ae1a3ce8a0a6547006ea9431b476ca3399b7fd7743d3ae4bda2a1ceca4e950",
+            "finish_reason": "stop",
+            "wall_seconds": 9.927267832914367
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "read_knowledge",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "7fe308b1f38f531d89cc5521c142869e195e3f343ccd427907a15ccb659c4c86",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "status": "ok",
+            "complete": true,
+            "content": "{\n  \"battle\": [\n    [\n      0,\n      \"id\",\n      \"INT\",\n      0,\n      null,\n      1,\n      0\n    ],\n    [\n      1,\n      \"name\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      2,\n      \"date\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      3,\n      \"bulgarian_commander\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      4,\n      \"latin_commander\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      5,\n      \"result\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ]\n  ],\n  \"death\": [\n    [\n      0,\n      \"caused_by_ship_id\",\n      \"INT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      1,\n      \"id\",\n      \"INT\",\n      0,\n      null,\n      1,\n      0\n    ],\n    [\n      2,\n      \"note\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      3,\n      \"killed\",\n      \"INT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      4,\n      \"injured\",\n      \"INT\",\n      0,\n      null,\n      0,\n      0\n    ]\n  ],\n  \"ship\": [\n    [\n      0,\n      \"lost_in_battle\",\n      \"INT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      1,\n      \"id\",\n      \"INT\",\n      0,\n      null,\n      1,\n      0\n    ],\n    [\n      2,\n      \"name\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      3,\n      \"tonnage\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      4,\n      \"ship_type\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      5,\n      \"location\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ],\n    [\n      6,\n      \"disposition_of_ship\",\n      \"TEXT\",\n      0,\n      null,\n      0,\n      0\n    ]\n  ]\n}",
+            "document_sha256": "151739b1d0f88edfe3cc2fc214a477f930e5f6ddf91ce5216d06808db6d6df43",
+            "cost": {
+              "vm_progress_callbacks": 0,
+              "output_bytes": 2845,
+              "wall_ms": 1.241791993379593,
+              "payload_bytes_observed": 1707
+            },
+            "result_sha256": "8ad0d363f0e5bd9fe58631f868968b3246a7357590c7b2885f8b06037419ac45"
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "action",
+          "action": {
+            "tool": "read_knowledge",
+            "arguments": {
+              "section": "business"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 4174,
+              "completion_tokens": 228,
+              "total_tokens": 4402
+            },
+            "request_sha256": "eba67a059dab3e0bb313a4d28a18b0fa7b60d65e868b7b86f3855404a18e8e19",
+            "response_sha256": "fa606a94b8d9a5f326215227be164c9193080460e40d20f39d793682ea02662a",
+            "finish_reason": "stop",
+            "wall_seconds": 19.750190749997273
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "read_knowledge",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "72f45155b0e70ff1246c5f025667170fb1bd04535d8929edc90e283f78e85f8b",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "status": "ok",
+            "complete": true,
+            "content": "Spider 1.0 provides no additional task-specific external business knowledge. Use the database schema and question.",
+            "document_sha256": "36e3821a369ccf94da08c5dde4c895b93a5fe3cfdb49f63c2218a74f570a0257",
+            "cost": {
+              "vm_progress_callbacks": 0,
+              "output_bytes": 1006,
+              "wall_ms": 0.41641597636044025,
+              "payload_bytes_observed": 114
+            },
+            "result_sha256": "9cafa64268a849b9094046ca98a35a1e139411e839dffb7d9c900779870315ff"
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT location, COUNT(*) AS cnt FROM ship GROUP BY location ORDER BY cnt DESC LIMIT 50"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 4532,
+              "completion_tokens": 308,
+              "total_tokens": 4840
+            },
+            "request_sha256": "c87a4238360eddc81fff3d3223ecc18dd2acd1a74283160e14ed4df664ba4beb",
+            "response_sha256": "61681dc161d0698edd830c6d79a5637f76fc2af3b8e0caf8ce22b84693456269",
+            "finish_reason": "stop",
+            "wall_seconds": 23.46463808300905
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "077669f081104603a7336c1df1c61e4b421f3d2c4e156ce15b93d3a660a2d9e4",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["location", "cnt"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 932,
+              "vm_progress_callbacks": 219,
+              "worker_wall_ms": 0.36933296360075474,
+              "wall_ms": 56.62579205818474,
+              "payload_bytes_observed": 79
+            },
+            "error": null,
+            "rows": [
+              ["English Channel", 5],
+              ["SW Approaches", 1],
+              ["Mid-Atlantic", 1]
+            ],
+            "status": "ok",
+            "result_sha256": "a4ebfb35406ec85dc62a630153f05e1547867f915a44f24df04e99a55e474198"
+          }
+        },
+        {
+          "turn": 4,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT b.id, b.name, b.result, b.bulgarian_commander, (SELECT COUNT(*) FROM ship s WHERE s.lost_in_battle = b.id AND s.location = 'English Channel') AS ec_lost_ships FROM battle b ORDER BY b.id"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 4117,
+              "completion_tokens": 486,
+              "total_tokens": 4603
+            },
+            "request_sha256": "bfdc183974ae664656336841dc69be8090c4945c124f092dc70a2233f2b96947",
+            "response_sha256": "e6a0bd0db64e830965b899f6767262d214667184ab43cfbe970fce24973873a3",
+            "finish_reason": "stop",
+            "wall_seconds": 27.14206195808947
+          }
+        },
+        {
+          "turn": 4,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "faa5a3f00c07ecf97974c356bba550ddc4c6b5b7ee570c4f52655dba576518f7",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["id", "name", "result", "bulgarian_commander", "ec_lost_ships"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1372,
+              "vm_progress_callbacks": 447,
+              "worker_wall_ms": 0.4371670074760914,
+              "wall_ms": 53.46891703084111,
+              "payload_bytes_observed": 518
+            },
+            "error": null,
+            "rows": [
+              [1, "Battle of Adrianople", "Bulgarian victory", "Kaloyan", 0],
+              [2, "Battle of Serres", "Bulgarian victory", "Kaloyan", 0],
+              [3, "Battle of Rusion", "Bulgarian victory", "Kaloyan", 0],
+              [4, "Battle of Rodosto", "Bulgarian victory", "Kaloyan", 1],
+              [5, "Battle of Messinopolis", "Bulgarian victory", "Unknown", 1],
+              [6, "Battle of Boruy", "Bulgarian victory", "Boril", 1],
+              [7, "Battle of Philippopolis", "Latin victory", "Boril", 1],
+              [8, "Siege of Constantinople", "Two Year Truce", "Ivan Asen II", 1]
+            ],
+            "status": "ok",
+            "result_sha256": "c362ac2a01ff23c8b2f60707336de9f9ecdbef3cb56bbefaf336c76b9f89f61f"
+          }
+        },
+        {
+          "turn": 5,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT T1.name, T1.result, T1.bulgarian_commander FROM battle AS T1 WHERE NOT EXISTS (SELECT * FROM ship AS T2 WHERE T2.lost_in_battle = T1.id AND T2.location = 'English Channel') ORDER BY T1.name"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 4876,
+              "completion_tokens": 499,
+              "total_tokens": 5375
+            },
+            "request_sha256": "976faa7638fe00eadcfd97307d58407b0c1d6ddf1cbe4160872796ff549e69e8",
+            "response_sha256": "1828174e6a7a06cc641dfdb7fda4e8d95471900d4e34a91f47a21231e30ccda3",
+            "finish_reason": "stop",
+            "wall_seconds": 30.002428124891594
+          }
+        },
+        {
+          "turn": 5,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "1dded4292972b66878cc785a9e5f49f3864ad5393c29610d29ef68321f6e6020",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "battle_death",
+              "db_sha256": "12569f4493a9655639c4ea86ba4bd8a4ea6411e1b8ae0e1fdf3d6a995344265d",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "result", "bulgarian_commander"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1051,
+              "vm_progress_callbacks": 322,
+              "worker_wall_ms": 0.41204108856618404,
+              "wall_ms": 61.07070902362466,
+              "payload_bytes_observed": 196
+            },
+            "error": null,
+            "rows": [
+              ["Battle of Adrianople", "Bulgarian victory", "Kaloyan"],
+              ["Battle of Rusion", "Bulgarian victory", "Kaloyan"],
+              ["Battle of Serres", "Bulgarian victory", "Kaloyan"]
+            ],
+            "status": "ok",
+            "result_sha256": "8559cd0a15c8d874ba3c669b3d1c1ede293b3aa932ffccf4b09ca29744c90d51"
+          }
+        },
+        {
+          "turn": 6,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT T1.name, T1.result, T1.bulgarian_commander FROM battle AS T1 WHERE NOT EXISTS (SELECT * FROM ship AS T2 WHERE T2.lost_in_battle = T1.id AND T2.location = 'English Channel') ORDER BY T1.name"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 5376,
+              "completion_tokens": 362,
+              "total_tokens": 5738
+            },
+            "request_sha256": "97b04633a739cd5adcd3979bdf08e8fedb8ab95fe56fb168351acc083def7a17",
+            "response_sha256": "001f5506a71e1ed7b6296ff81f30fdb24b7ed45aded56c6ff379e3498f4bc289",
+            "finish_reason": "stop",
+            "wall_seconds": 27.775441667065024
+          }
+        }
+      ],
+      "settlement": {
+        "episode_id": "56d17e7fcdbdb0241d3a3b78207649af1de39fa9bbcf1f783511352100861ece",
+        "origin_sha256": "56d17e7fcdbdb0241d3a3b78207649af1de39fa9bbcf1f783511352100861ece",
+        "proposal_sha256": "91596bd9fa54c08a55575c311cddeb823a4844b37277862bc9c852fea97aad1e",
+        "accepted": true,
+        "checker_id": "sqlite-execution-result-v1",
+        "evidence_sha256": "789a73356530e5fdcf976fef6044372169a4710bcf16f5b5aeb54bfee6bf795a",
+        "terminal_reward": 1,
+        "receipt_sha256": "5b62627652ea1fa2bb94a1567a53dc63af2af50c77f643401e77c7bbee391ebd"
+      }
+    },
+    {
+      "task_id": "spider-dev-1012",
+      "question": "Show different citizenship of singers and the number of singers of each citizenship.",
+      "db_id": "singer",
+      "original_record_line_sha256": "bf5052d3018c31abf31f64a10c840c614e9928d7b54f7f5d462206e65a715357",
+      "original_agent_result_sha256": "8c3eb9ad7190806340a0c063edfd5a65280d7ad4711b712c56c5ba9047c3fde8",
+      "agent": {
+        "schema": "nuria.grounded-analyst.v2",
+        "job_id": "spider-dev-1012",
+        "episode_id": "bda225f1fa190db4667c2f3845ad619ee66130db93f84de60b48e69e90876d31",
+        "context_sha256": "e38030963155423de86c7a27e6d8a22efcaf106942b6196ef01b3961e9f68b1f",
+        "configuration": {
+          "version": "nuria.grounded-analyst.v2",
+          "memory_mode": "none",
+          "max_turns": 12,
+          "max_output_tokens": 6000,
+          "max_tokens_per_turn": 1536,
+          "memory_bytes": 6000,
+          "max_tool_calls": 12,
+          "initial_tool": null,
+          "initial_section": "schema",
+          "model_binding": {
+            "model_id": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+            "schema": "nuria.procedural-memory.v1",
+            "source_id": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "tool_version": "nuria.analyst-workspace.v1"
+          },
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6",
+          "tool_limits": {
+            "vm_steps": 1000000,
+            "row_limit": 200,
+            "byte_limit": 65536,
+            "deadline_ms": 2000
+          },
+          "reasoning_mode": true,
+          "system_sha256": "c3be40128abd98663ed8fbda8c7cda1cdce2f4415cf2ad97dbe4dcea0f4ce65e"
+        },
+        "status": "proposed",
+        "proposal_sha256": "1e531be8df1b0419f8ee30d15cc352766f5ab8d732aa48f4cce5a4cfafd7aafd",
+        "final_sql": "SELECT Citizenship, COUNT(*) FROM singer GROUP BY Citizenship",
+        "selected_receipt": {
+          "schema": "nuria.analyst-workspace.v1",
+          "tool": "query",
+          "runtime": {
+            "sqlite_version": "3.53.4",
+            "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+          },
+          "request_sha256": "31aadc9bfd7b3245f4c104fac2b86d8cb844db2e821afeb87efb02c4ca8ad6a7",
+          "source": {
+            "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+            "db_id": "singer",
+            "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+            "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+          },
+          "columns": ["Citizenship", "COUNT(*)"],
+          "complete": true,
+          "cost": {
+            "output_bytes": 949,
+            "vm_progress_callbacks": 216,
+            "worker_wall_ms": 0.3383748698979616,
+            "wall_ms": 57.643708074465394,
+            "payload_bytes_observed": 101
+          },
+          "error": null,
+          "rows": [
+            ["Australia", 1],
+            ["Chile", 1],
+            ["France", 1],
+            ["Germany", 1],
+            ["United States", 4]
+          ],
+          "status": "ok",
+          "result_sha256": "4d4e70b8c36c5f8debf4b8c6de3feb7f9ab846ca87c60368ee9dbd22fc4018fc"
+        },
+        "memory_retrieval": {
+          "mode": "none",
+          "item_count": 0,
+          "bytes": 0,
+          "tokens": 0,
+          "memory_sha256": "a03ced94a2aa57c7c7bb2af5d40f342dc72913df86ad9d57263c46034936888b",
+          "binding_sha256": "8879ef66668d2cdb3379cfb77851cac213445309c82c8bedae800fada2627eda",
+          "token_accounting": "utf8-byte-upper-bound"
+        },
+        "model_usage": {
+          "prompt_tokens": 8409,
+          "completion_tokens": 802,
+          "total_tokens": 9211,
+          "unknown_additional_usage": false
+        },
+        "tool_calls": 3,
+        "protocol_errors": 0,
+        "source": {
+          "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+          "db_id": "singer",
+          "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+          "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+        },
+        "wall_seconds": 49.78896425012499,
+        "accepted": null,
+        "scope": "Committed proposal; independent host acceptance and memory settlement have not run"
+      },
+      "execution_trace": [
+        {
+          "turn": 0,
+          "kind": "action",
+          "action": {
+            "tool": "list_tables",
+            "arguments": {}
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 738,
+              "completion_tokens": 95,
+              "total_tokens": 833
+            },
+            "request_sha256": "e04ba0b4bd984ad3bee0f17eedc9499262ba39d2bb233e958bf039f6169d1210",
+            "response_sha256": "0727703af1e339c6f7f5cb2ae7bc63646ff8df401aec5f254ca0eed6f7212bee",
+            "finish_reason": "stop",
+            "wall_seconds": 5.149756083032116
+          }
+        },
+        {
+          "turn": 0,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "list_tables",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "f6d6495fd16754061568e2f7bcd0520d688b8333184b73dd604171dbd57287d8",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["name", "type"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 902,
+              "vm_progress_callbacks": 87,
+              "worker_wall_ms": 0.3097080625593662,
+              "wall_ms": 56.88316700980067,
+              "payload_bytes_observed": 51
+            },
+            "error": null,
+            "rows": [
+              ["singer", "table"],
+              ["song", "table"]
+            ],
+            "status": "ok",
+            "result_sha256": "f306850c2fc242c8981c49f4976618f35eecac2b370237a72eb4aec939cedaa7"
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "action",
+          "action": {
+            "tool": "describe_table",
+            "arguments": {
+              "table": "singer"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 1645,
+              "completion_tokens": 80,
+              "total_tokens": 1725
+            },
+            "request_sha256": "d64e76dc388ae0996a664ba9a6d813668273700e4931a4c48bc283b0d9be415b",
+            "response_sha256": "d9b9495fca05e55e8af200de1a2b13c54ecce4407b184f906ec7cee553441911",
+            "finish_reason": "stop",
+            "wall_seconds": 7.417139416793361
+          }
+        },
+        {
+          "turn": 1,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "describe_table",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "073c6b417da5e130d8bf25084f7cc0b6d7ba801762997851f37ab356c403da1d",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["cid", "name", "type", "notnull", "dflt_value", "pk", "hidden"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 1092,
+              "vm_progress_callbacks": 115,
+              "worker_wall_ms": 0.33774995245039463,
+              "wall_ms": 56.11562496051192,
+              "payload_bytes_observed": 234
+            },
+            "error": null,
+            "rows": [
+              [0, "Singer_ID", "INT", 0, null, 1, 0],
+              [1, "Name", "TEXT", 0, null, 0, 0],
+              [2, "Birth_Year", "REAL", 0, null, 0, 0],
+              [3, "Net_Worth_Millions", "REAL", 0, null, 0, 0],
+              [4, "Citizenship", "TEXT", 0, null, 0, 0]
+            ],
+            "status": "ok",
+            "result_sha256": "8277181d45a4db003ced8e6268124699d1b9f4fff751f2493217a99ba28677e5"
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "action",
+          "action": {
+            "tool": "query",
+            "arguments": {
+              "sql": "SELECT Citizenship, COUNT(*) FROM singer GROUP BY Citizenship"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 2822,
+              "completion_tokens": 436,
+              "total_tokens": 3258
+            },
+            "request_sha256": "35e56f2e46819a88d95bc877bd3b2c1170bee057de44d57d2539944ba31aa1a3",
+            "response_sha256": "0012f6e3e52339fe27970ad308654d822df780672469b41054a72659470d7a6b",
+            "finish_reason": "stop",
+            "wall_seconds": 21.519644332816824
+          }
+        },
+        {
+          "turn": 2,
+          "kind": "tool_receipt",
+          "receipt": {
+            "schema": "nuria.analyst-workspace.v1",
+            "tool": "query",
+            "runtime": {
+              "sqlite_version": "3.53.4",
+              "implementation_sha256": "d38930e55c7decc6b688185dd147d803a4f2551125c1793b9898350cbfed41e2"
+            },
+            "request_sha256": "31aadc9bfd7b3245f4c104fac2b86d8cb844db2e821afeb87efb02c4ca8ad6a7",
+            "source": {
+              "dataset_revision": "sha256:30d64a3fccde493226df79687aed9e4a1c0129525baf44f29c0573d914d758a4",
+              "db_id": "singer",
+              "db_sha256": "5c1b72755d148c294b26d7b479307e8799b93485ac918720f953e2ab84d59a0a",
+              "registry_sha256": "d26945ea2b2433d6aa8d8e44b8c6150fe4579c61506092a13bd59d954c2f11d6"
+            },
+            "columns": ["Citizenship", "COUNT(*)"],
+            "complete": true,
+            "cost": {
+              "output_bytes": 949,
+              "vm_progress_callbacks": 216,
+              "worker_wall_ms": 0.3383748698979616,
+              "wall_ms": 57.643708074465394,
+              "payload_bytes_observed": 101
+            },
+            "error": null,
+            "rows": [
+              ["Australia", 1],
+              ["Chile", 1],
+              ["France", 1],
+              ["Germany", 1],
+              ["United States", 4]
+            ],
+            "status": "ok",
+            "result_sha256": "4d4e70b8c36c5f8debf4b8c6de3feb7f9ab846ca87c60368ee9dbd22fc4018fc"
+          }
+        },
+        {
+          "turn": 3,
+          "kind": "action",
+          "action": {
+            "tool": "final",
+            "arguments": {
+              "sql": "SELECT Citizenship, COUNT(*) FROM singer GROUP BY Citizenship"
+            }
+          },
+          "model": {
+            "usage": {
+              "prompt_tokens": 3204,
+              "completion_tokens": 191,
+              "total_tokens": 3395
+            },
+            "request_sha256": "2df57e6070d85c75511280a84cd1002e28418c8317d4b0fbdb7bc41b6b11c081",
+            "response_sha256": "922ee653559bd8db03d0d404d4217026ac26adccafd53579ede3dcf495bdf883",
+            "finish_reason": "stop",
+            "wall_seconds": 15.528419750044122
+          }
+        }
+      ],
+      "settlement": {
+        "episode_id": "bda225f1fa190db4667c2f3845ad619ee66130db93f84de60b48e69e90876d31",
+        "origin_sha256": "bda225f1fa190db4667c2f3845ad619ee66130db93f84de60b48e69e90876d31",
+        "proposal_sha256": "1e531be8df1b0419f8ee30d15cc352766f5ab8d732aa48f4cce5a4cfafd7aafd",
+        "accepted": true,
+        "checker_id": "sqlite-execution-result-v1",
+        "evidence_sha256": "72901b888ae5c981ba2f9197d4718343dd929772aca393ba039adc1c6dc6b902",
+        "terminal_reward": 1,
+        "receipt_sha256": "2f4bcebeaf5bb26a551d9137f94c1496c360d01c338141bdd1920a64d8b397df"
+      }
+    }
+  ]
+}

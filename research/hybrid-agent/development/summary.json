@@ -1,0 +1,77 @@
+{
+  "schema": "nuria.grounded-development-summary.v1",
+  "model": "mlx-community/Qwen3.8-27B-4bit@10c35caafbb80f7dc6a7a432cdd11af10a6d4818",
+  "pilots": [
+    {
+      "pilot": "pilot-01",
+      "selected_jobs": 1,
+      "distinct_task_ids": ["spider-dev-1017"],
+      "accepted": 1,
+      "wrong_submissions": 0,
+      "abstentions": 0,
+      "known_prompt_tokens": 8909,
+      "known_completion_tokens": 887,
+      "unknown_additional_completion_ceiling": 0,
+      "prompt_usage_complete": true,
+      "tool_calls": 4,
+      "wall_seconds": 54.30841050017625,
+      "qualification": "Mixed-source integration only; source changed after freeze"
+    },
+    {
+      "pilot": "pilot-02",
+      "selected_jobs": 6,
+      "distinct_task_ids": [
+        "spider-dev-1017",
+        "spider-dev-0506",
+        "spider-dev-1020",
+        "spider-dev-0499",
+        "spider-dev-0505",
+        "spider-dev-1012"
+      ],
+      "accepted": 5,
+      "wrong_submissions": 0,
+      "abstentions": 1,
+      "known_prompt_tokens": 88111,
+      "known_completion_tokens": 8614,
+      "unknown_additional_completion_ceiling": 768,
+      "prompt_usage_complete": false,
+      "tool_calls": 31,
+      "wall_seconds": 565.4257978729438,
+      "qualification": "Development diagnostic; no independent improvement or neural treatment comparison",
+      "unknown_usage_note": "One model-protocol failure lost response usage. Known totals exclude that response; its requested 768-token completion ceiling remains a conservative liability. Additional prompt usage is unknown."
+    },
+    {
+      "pilot": "pilot-03",
+      "selected_jobs": 6,
+      "distinct_task_ids": [
+        "spider-dev-1017",
+        "spider-dev-0506",
+        "spider-dev-1020",
+        "spider-dev-0499",
+        "spider-dev-0505",
+        "spider-dev-1012"
+      ],
+      "accepted": 6,
+      "wrong_submissions": 0,
+      "abstentions": 0,
+      "known_prompt_tokens": 104151,
+      "known_completion_tokens": 8840,
+      "unknown_additional_completion_ceiling": 0,
+      "prompt_usage_complete": true,
+      "tool_calls": 27,
+      "wall_seconds": 588.3355494581629,
+      "qualification": "Development diagnostic; no independent improvement or neural treatment comparison"
+    }
+  ],
+  "unique_development_questions": 6,
+  "interpretation": "The same six development questions were reused while repairing the harness. The last run delivered six checked answers. This is not unseen-task generalization, a clean single-mechanism ablation, procedural learning gain, neural added value or a full benchmark result.",
+  "attribution": {
+    "dataset": "Spider 1.0",
+    "authors": "Tao Yu et al. (2018), Yale LILY",
+    "url": "https://yale-lily.github.io/spider",
+    "paper": "https://arxiv.org/abs/1809.08887",
+    "license": "CC-BY-SA-4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "adaptation": "Selected official development questions and derived SQL execution records are included. Their original identifiers and source hashes are retained. No dataset license is asserted for unrelated Nuria-authored code."
+  }
+}

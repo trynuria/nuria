@@ -1,0 +1,291 @@
+{
+  "schema": "nuria.semantic-weight-delta-witness.v1",
+  "arrays": {
+    "path": "arrays.npz",
+    "sha256": "8b7db172bcc82654e625dd7452f7f046705c756c3fe173a1cbb26d3e24094589",
+    "bytes": 654145,
+    "members": {
+      "after_clock": {
+        "shape": [2],
+        "dtype": "<f8",
+        "raw_sha256": "e9ba5fddaa3d687be57b6ac8730f903477505d07936c68a11ab5b4549e86cfc2"
+      },
+      "after_neurons_adaptation": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "54f7552c22257c46effc0dc0d58697c62748641e2e9a62dfd0179dcc0de67aaa"
+      },
+      "after_neurons_bias": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "93e0a83cfd595eb2bca02c32221e3dd6d7e25574d2b075c7df41b580effcee40"
+      },
+      "after_neurons_drive": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "62210cfdd1a840559a43483e0bf04727c2bf5f0a628e409742c5790d9863f8e5"
+      },
+      "after_neurons_ge": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "053af9e562dad9924d669df06e83ea815e63f8c7dcdc186250ebe92b55fef9dd"
+      },
+      "after_neurons_gi": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "ade2437d627954df706112af57550b3933043860d3dfc019aa94bf72b86d88ff"
+      },
+      "after_neurons_tau": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "dc1939119e5abb9c006c2f98270cfd6d4c10423d59413105bf1e830e2edb6fd0"
+      },
+      "after_neurons_v": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "9ebebe91509d0368565bb7fb0ddaba3e1635007e8a7c6bb80280c7c8e98efa87"
+      },
+      "after_plastic_eligibility": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "26dd1bd34bd62e3f72d9ff0500d39f6e09eae655198d45a9ef96004213b8b8c2"
+      },
+      "after_plastic_plastic_gain": {
+        "shape": [1],
+        "dtype": "<f8",
+        "raw_sha256": "6c3c396ed6b5c36dcae172271f462051b1266b851e92df3deea8ac65478fd712"
+      },
+      "after_plastic_post": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "1b35af8a2c86c123bbb21de54c6c675a48605073966e93c3db5f6dd43519c625"
+      },
+      "after_plastic_pre": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "50e11bb8eaa7367ca3d604ab396f76ea8c112e350a4f748c481265b40920154e"
+      },
+      "after_plastic_w": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "f0d536e9e337bd1dc9a49db4bbf8c159ec259826a8a87f863774ddf4b89813d3"
+      },
+      "before_clock": {
+        "shape": [2],
+        "dtype": "<f8",
+        "raw_sha256": "e9ba5fddaa3d687be57b6ac8730f903477505d07936c68a11ab5b4549e86cfc2"
+      },
+      "before_neurons_adaptation": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "54f7552c22257c46effc0dc0d58697c62748641e2e9a62dfd0179dcc0de67aaa"
+      },
+      "before_neurons_bias": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "93e0a83cfd595eb2bca02c32221e3dd6d7e25574d2b075c7df41b580effcee40"
+      },
+      "before_neurons_drive": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "62210cfdd1a840559a43483e0bf04727c2bf5f0a628e409742c5790d9863f8e5"
+      },
+      "before_neurons_ge": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "053af9e562dad9924d669df06e83ea815e63f8c7dcdc186250ebe92b55fef9dd"
+      },
+      "before_neurons_gi": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "ade2437d627954df706112af57550b3933043860d3dfc019aa94bf72b86d88ff"
+      },
+      "before_neurons_tau": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "dc1939119e5abb9c006c2f98270cfd6d4c10423d59413105bf1e830e2edb6fd0"
+      },
+      "before_neurons_v": {
+        "shape": [1024],
+        "dtype": "<f8",
+        "raw_sha256": "9ebebe91509d0368565bb7fb0ddaba3e1635007e8a7c6bb80280c7c8e98efa87"
+      },
+      "before_plastic_eligibility": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "26dd1bd34bd62e3f72d9ff0500d39f6e09eae655198d45a9ef96004213b8b8c2"
+      },
+      "before_plastic_plastic_gain": {
+        "shape": [1],
+        "dtype": "<f8",
+        "raw_sha256": "6c3c396ed6b5c36dcae172271f462051b1266b851e92df3deea8ac65478fd712"
+      },
+      "before_plastic_post": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "1b35af8a2c86c123bbb21de54c6c675a48605073966e93c3db5f6dd43519c625"
+      },
+      "before_plastic_pre": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "50e11bb8eaa7367ca3d604ab396f76ea8c112e350a4f748c481265b40920154e"
+      },
+      "before_plastic_w": {
+        "shape": [22920],
+        "dtype": "<f8",
+        "raw_sha256": "7d39174bd0505bca8a61dc55202cf6290215009d882bd89291d7f2ee9eff163d"
+      },
+      "origin_eligibility": {
+        "shape": [205],
+        "dtype": "<f8",
+        "raw_sha256": "17b5e9d4262f18ceb63d1236f87abeb2ccde0ceec2600528328a0d050e1989fa"
+      },
+      "origin_indices": {
+        "shape": [205],
+        "dtype": "<i8",
+        "raw_sha256": "afd637587fb6c3d5ea74b9c9307d80db13706c1e1b61fa76f4d0555c4fcfc876"
+      },
+      "synapse_post": {
+        "shape": [22920],
+        "dtype": "<i8",
+        "raw_sha256": "db1bcdee58608cdf2b444e2b30c68e7e1c642c6641904516ade1681ce483fead"
+      },
+      "synapse_pre": {
+        "shape": [22920],
+        "dtype": "<i8",
+        "raw_sha256": "6fd1753b79a9e12980a9ee9d1bd97fbb1277ead5d88de2e400829a93cdb95836"
+      }
+    }
+  },
+  "source_archive_sha256": "b7885e31b85a24b48fe86a742db30ecb517b2192a91c65eea994cb8466450f0a",
+  "source_entries_sha256": {
+    "semantic/semantic-lab/LAB.json": "fea4ba6f4b990093064e768c57dd9094522edc54359f4d980f20760521e27c34",
+    "semantic/semantic-lab/HEAD.json": "2708ebd877de7a743296e602330d8b22b60b62d12db7751f89b21315ff8cbe08",
+    "semantic/semantic-lab/SEMANTIC.json": "9b9a6f05338b1d776e0173cb0d4ceaff44299322039c463d0b5017535c1926eb",
+    "semantic/semantic-lab/capsules/000002-68d3c9f14da421e8/manifest.json": "4c18208d42242b6dbf5d4a51e27536548bea82e5c636381b797b84d60fe54f09",
+    "semantic/semantic-lab/capsules/000002-68d3c9f14da421e8/metadata.json": "f93a674a944b50e8d8950beebc670f67b8ce6532c83da7a43282d4d72169b6d9",
+    "semantic/semantic-lab/capsules/000002-68d3c9f14da421e8/network.pkl": "d379e9d80176c37c4803cf4e82a526329bd26c8e0d3a3627b72a494cf30382c5",
+    "semantic/semantic-lab/capsules/000003-18eaa49a66e05d0e/manifest.json": "183568dc644b18b3044a8176238d0f60f798092f9e495fdaac7c889c641118b2",
+    "semantic/semantic-lab/capsules/000003-18eaa49a66e05d0e/metadata.json": "bb8b29b39a9150dabe4cfafaa22cf4ff8a53018209df21359afc64ec3464aff2",
+    "semantic/semantic-lab/capsules/000003-18eaa49a66e05d0e/network.pkl": "152b2a63d31429030a14b349bea0686b89ac6a887765ca22f9c7d1748f391c79",
+    "semantic/terminal-check.json": "53261c272ab170b97889da2ea09bce63c418db9299650ff573f6e57d85de4d0a",
+    "semantic/protocol.json": "431e3b092c46a680ad5aa509be523ff9c0d14da3606084bab1358d4e3ae51950",
+    "source-freeze.json": "a4cff862bda1b3f7136726106f468e5f8153af0372f5cbe437bc3c37965fe342"
+  },
+  "source_freeze_sha256": "a4cff862bda1b3f7136726106f468e5f8153af0372f5cbe437bc3c37965fe342",
+  "semantic_protocol_sha256": "431e3b092c46a680ad5aa509be523ff9c0d14da3606084bab1358d4e3ae51950",
+  "before_capsule": "000002-68d3c9f14da421e8",
+  "after_capsule": "000003-18eaa49a66e05d0e",
+  "before_state_sha256": "196fa5ac1756b3b2434a15ba9250471d8857612078a4b5d5f98e150b86ec3566",
+  "after_state_sha256": "6eb0f45c480eb5a0e2c6b7601f32d1675fb63c7ac1bbb9a57f687084e6cf2ed8",
+  "topology_sha256": "fc1e11942e49a7e8dd52edf074a5d7ba993a9379fb87cc67313a85227cc72157",
+  "job_id": "semantic-recorded-work-audit-01",
+  "decision_sha256": "a53da7ff10c1d41fc7c9fd8c8f4a1760b95d8573bd23f5ea35bb3403ee7b67bb",
+  "origin_sha256": "6bcb178a1251a29c036b8ce3ee2625faa347caec9f7ff93baeee70ca87e84aeb",
+  "terminal_receipt_sha256": "e845c07d92894efb67604a424c3f69d3994493abf8aeb90d7d480541f216dd72",
+  "neural_credit_receipt_sha256": "58e8bb8cc6467fb87878fe60701bfc37dc5603b20260450eefde34e390f8e9ed",
+  "recorded_and_numeric_changed_synapses": 205,
+  "synapse_count": 22920,
+  "reward": 1.0,
+  "update": {
+    "step": 0.002,
+    "minimum_weight": 0.002,
+    "maximum_weight": 0.18,
+    "origin_action": "explore",
+    "postsynaptic_range": [768, 784]
+  },
+  "serialization_decode": {
+    "performed": true,
+    "source": "Only our own original locally generated checkpoints, not downloaded or public copies",
+    "method": "Restricted NumPy-only unpickler after validating the complete original4capsule manifest chain, both source freezes and all frozen implementation identities",
+    "allowed_globals": [
+      "numpy._core.numeric._frombuffer",
+      "numpy.dtype",
+      "numpy._core.multiarray.scalar"
+    ],
+    "no_brian_restore": true,
+    "no_dynamics_rerun": true
+  },
+  "numeric_mapping": {
+    "before_neurons_v": ["cognition", "cognitive_neurons", "v", 0],
+    "before_neurons_ge": ["cognition", "cognitive_neurons", "ge", 0],
+    "before_neurons_gi": ["cognition", "cognitive_neurons", "gi", 0],
+    "before_neurons_adaptation": [
+      "cognition",
+      "cognitive_neurons",
+      "adaptation",
+      0
+    ],
+    "before_neurons_bias": ["cognition", "cognitive_neurons", "bias", 0],
+    "before_neurons_drive": ["cognition", "cognitive_neurons", "drive", 0],
+    "before_neurons_tau": ["cognition", "cognitive_neurons", "tau", 0],
+    "before_plastic_w": ["cognition", "cognitive_plastic", "w", 0],
+    "before_plastic_pre": ["cognition", "cognitive_plastic", "pre", 0],
+    "before_plastic_post": ["cognition", "cognitive_plastic", "post", 0],
+    "before_plastic_eligibility": [
+      "cognition",
+      "cognitive_plastic",
+      "eligibility",
+      0
+    ],
+    "before_plastic_plastic_gain": [
+      "cognition",
+      "cognitive_plastic",
+      "plastic_gain",
+      0
+    ],
+    "before_clock": {
+      "network_time": ["cognition", "0_t"],
+      "offset": "original capsule metadata.brain.offset"
+    },
+    "after_neurons_v": ["cognition", "cognitive_neurons", "v", 0],
+    "after_neurons_ge": ["cognition", "cognitive_neurons", "ge", 0],
+    "after_neurons_gi": ["cognition", "cognitive_neurons", "gi", 0],
+    "after_neurons_adaptation": [
+      "cognition",
+      "cognitive_neurons",
+      "adaptation",
+      0
+    ],
+    "after_neurons_bias": ["cognition", "cognitive_neurons", "bias", 0],
+    "after_neurons_drive": ["cognition", "cognitive_neurons", "drive", 0],
+    "after_neurons_tau": ["cognition", "cognitive_neurons", "tau", 0],
+    "after_plastic_w": ["cognition", "cognitive_plastic", "w", 0],
+    "after_plastic_pre": ["cognition", "cognitive_plastic", "pre", 0],
+    "after_plastic_post": ["cognition", "cognitive_plastic", "post", 0],
+    "after_plastic_eligibility": [
+      "cognition",
+      "cognitive_plastic",
+      "eligibility",
+      0
+    ],
+    "after_plastic_plastic_gain": [
+      "cognition",
+      "cognitive_plastic",
+      "plastic_gain",
+      0
+    ],
+    "after_clock": {
+      "network_time": ["cognition", "0_t"],
+      "offset": "original capsule metadata.brain.offset"
+    },
+    "synapse_pre": ["cognition", "cognitive_plastic", "_synaptic_pre", 0],
+    "synapse_post": ["cognition", "cognitive_plastic", "_synaptic_post", 0]
+  },
+  "source_projection_order": [
+    "neurons_v",
+    "neurons_ge",
+    "neurons_gi",
+    "neurons_adaptation",
+    "neurons_bias",
+    "neurons_drive",
+    "neurons_tau",
+    "plastic_w",
+    "plastic_pre",
+    "plastic_post",
+    "plastic_eligibility",
+    "plastic_plastic_gain",
+    "clock"
+  ],
+  "scope": "Numeric export consistency with original recorded projected-state hashes and originating eligibility credit. No neural dynamics rerun, external attestation, useful learning gain, consciousness or human-brain claim."
+}

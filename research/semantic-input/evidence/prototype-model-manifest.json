@@ -1,0 +1,42 @@
+{
+  "schema": "nuria.semantic-encoder-candidate.v1",
+  "status": "metadata-reviewed-not-downloaded",
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "source": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+  "license": "Apache-2.0",
+  "model_file": {
+    "remote_path": "onnx/model_qint8_arm64.onnx",
+    "local_path": "model_qint8_arm64.onnx",
+    "bytes": 23026053,
+    "sha256": "4278337fd0ff3c68bfb6291042cad8ab363e1d9fbc43dcb499fe91c871902474"
+  },
+  "tokenizer_file": {
+    "remote_path": "tokenizer.json",
+    "local_path": "tokenizer.json",
+    "bytes": 466247,
+    "git_blob_sha1": "cb202bfe2e3c98645018a6d12f182a434c9d3e02"
+  },
+  "dimensions": 384,
+  "maximum_input_bytes": 5000,
+  "maximum_wordpieces": 256,
+  "pooling": "attention-mask-weighted mean of final token embeddings, then L2 normalization",
+  "providers": ["CPUExecutionProvider"],
+  "intra_op_threads": 2,
+  "inter_op_threads": 1,
+  "initial_maximum_encode_calls": 12,
+  "resource_bounds_proposed": {
+    "all_model_and_dependency_download_bytes": 157286400,
+    "isolated_environment_and_cache_bytes": 1073741824,
+    "per_probe_wall_seconds": 30,
+    "paid_cost_usd": 0
+  },
+  "packages_proposed": {
+    "onnxruntime": "1.31.0",
+    "tokenizers": "0.23.3",
+    "numpy": "2.5.4"
+  },
+  "preinspection_visibility": "Question text and enrolled tool descriptions only. No schema, database rows, expected answer, labels or future tool results before their actual charged receipt.",
+  "provenance": "Job/source/model/policy identities bind receipts but are never encoded as text or sensory values.",
+  "primary_metadata_receipt": "../semantic-input-design-01/all-MiniLM-L6-v2-metadata.json"
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "nuria.supplementary-controls-verification.v1",
+  "passed": true,
+  "posthoc": true,
+  "protocol_sha256": "130b963e08cf0c83db8cae5ee11b1bd3b0f9b0899fa5fac007ec50ed086c6869",
+  "selected_records": 24,
+  "attempted_records": 24,
+  "final_queries_replayed": 21,
+  "reasoning_request_hashes_reconstructed": 108,
+  "conditions": {
+    "schema_first": {
+      "selected": 12,
+      "executed": 12,
+      "skipped_original_complete": false,
+      "graded": 12,
+      "accepted": 9,
+      "abstentions": 1,
+      "unknown_or_unexecuted": 0
+    },
+    "stateless": {
+      "selected": 12,
+      "executed": 12,
+      "skipped_original_complete": false,
+      "graded": 12,
+      "accepted": 8,
+      "abstentions": 2,
+      "unknown_or_unexecuted": 0
+    }
+  },
+  "metrics": {
+    "schema_first": {
+      "known_completion_tokens": 20782,
+      "known_prompt_tokens": 117338,
+      "tool_calls": 32,
+      "wrong_submitted_answers": 2
+    },
+    "stateless": {
+      "known_completion_tokens": 20856,
+      "known_prompt_tokens": 177192,
+      "tool_calls": 48,
+      "wrong_submitted_answers": 2
+    }
+  },
+  "allowance": {
+    "known_completion_tokens": 41638,
+    "known_prompt_tokens": 294530,
+    "pending_completion_ceiling": 0,
+    "new_unknown_usage": false,
+    "historical_unknown_completion_ceiling": 12214,
+    "semantic_completion_inside_additional_cap": 3499,
+    "cumulative_conservative_charge": 227741
+  },
+  "complete": true,
+  "neural_credit_applied": false,
+  "scope": "Finite SQLite replay, exact source and canonical host-request reconstruction, and local record consistency. Original study retains 64 of 120 executed records. Historical unknown ceiling is retained. Journals do not independently attest absolute UTC deadlines, backend cancellation, weights or cross-file ordering. Incomplete conditions remain ungraded; no neural-superiority claim."
+}
