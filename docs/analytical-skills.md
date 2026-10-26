@@ -64,6 +64,49 @@ episode, reconcile unknown execution automatically, roll history over or enroll
 itself in the production worker. Financial authority and the original neural
 histories are unchanged.
 
+## Run an enrolled report
+
+The optional host worker runs one already promoted skill without starting a model
+service. The host supplies its source, checker, report, database and skill
+identities, plus a private state directory. Enrollment remains explicit.
+
+```sh
+python -m scripts.run_analytical_report \
+  --registry /absolute/path/to/registry.json \
+  --state /absolute/path/to/private/report-worker \
+  --skill-bank /absolute/path/to/existing/skills.sqlite \
+  --source-id SOURCE_ID \
+  --checker-id CHECKER_ID \
+  --report-id REPORT_ID \
+  --db-id work \
+  --skill-id FULL_SKILL_SHA256 \
+  --job-id report-001
+```
+
+Its reviewed profile groups individual `task_outcomes` rows independently in
+Python. It checks provider counts, exact delivery flags, positive and missing
+utility, included capacity and positive recorded micro-USD amounts. Delivery and
+utility do not establish semantic acceptance; a recorded amount does not attest
+an external payment. The checker reads the source rows, rather than using the
+candidate query as its oracle.
+
+A repeated job with the same immutable source returns its retained artifact
+without another workspace query or checker call. A new source revision needs a
+new job identity. Changed duplicates are refused. An absent or revoked skill is
+unavailable; incompatible semantics and uncertain execution remain explicit.
+There is no automatic model fallback or retry after an interrupted operation.
+
+The independent checker is finite: at most 10,000 rows, 200 provider groups,
+2 MiB of row data and its declared time/work bounds. Exceeding a bound leaves the
+result pending. Workspace queries and the raw-row check are separate measured
+work. These limits are operational bounds, not evidence that the service can
+process unlimited history.
+
+The worker gives report reuse no neural decision origin or neural credit.
+`SourceSeriesHost` and the commerce provider retain their existing enrollment and
+credit rules. The report worker is a separate host entry point, rather than a
+transparent replacement inside those paths.
+
 ## Evidence and interpretation
 
 The module tests exercise real SQLite sources, promotion provenance, fresh rows,
