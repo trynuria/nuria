@@ -354,6 +354,206 @@ class HostedReasonerTests(unittest.TestCase):
             with self.subTest(options=options), self.assertRaises(ValueError):
                 self.client(**options)
 
+    def test_host_ceiling_provision_retains_unknown_usage_and_full_charge(self):
+        reservation = self.budget.reserve("a" * 64, "b" * 64, 6000)
+        self.budget.ambiguous(reservation)
+        record = self.budget.close_at_ceiling(
+            reservation,
+            evidence_sha256="c" * 64,
+            reason="Retained fixture failure and original bounds",
+        )
+        self.assertFalse(record["provider_usage_known"])
+        self.assertFalse(record["provider_settlement_verified"])
+        self.assertEqual(record["charged_ceiling_micro_usd"], 6000)
+        snapshot = self.budget.snapshot()
+        self.assertFalse(snapshot["blocked"])
+        self.assertEqual(snapshot["settled_cost_micro_usd"], 0)
+        self.assertEqual(snapshot["conservative_charged_ceiling_micro_usd"], 6000)
+        self.assertEqual(snapshot["unresolved_liability_micro_usd"], 0)
+        self.assertEqual(snapshot["unknown_usage_requests"], 1)
+        self.assertTrue(snapshot["provider_usage_unknown"])
+        self.assertEqual(snapshot["remaining_headroom_micro_usd"], 94000)
+        self.assertEqual(snapshot["accounted_cost_and_liability_micro_usd"], 6000)
+        database = sqlite3.connect(self.budget.path)
+        try:
+            self.assertEqual(
+                database.execute(
+                    "SELECT reserved,charged,state,usage FROM requests WHERE id=?",
+                    (reservation,),
+                ).fetchone(),
+                (6000, 6000, "charged_ceiling", None),
+            )
+            self.assertEqual(
+                database.execute(
+                    "SELECT id,reservation,evidence_sha256,reason FROM reconciliations"
+                ).fetchall(),
+                [
+                    (
+                        record["reconciliation_id"],
+                        reservation,
+                        "c" * 64,
+                        record["reason"],
+                    )
+                ],
+            )
+        finally:
+            database.close()
+
+    def test_ceiling_charge_preserves_cap_across_reopening_and_independent_requests(
+        self,
+    ):
+        budget = SharedReasoningBudget(
+            self.root / "loss-cap.sqlite", max_cost_micro_usd=1000
+        )
+        known = budget.reserve("1" * 64, "2" * 64, 100)
+        budget.settle(known, cost_micro_usd=100, usage={"fixture": "known"})
+        unknown = budget.reserve("3" * 64, "4" * 64, 600)
+        budget.ambiguous(unknown)
+        budget.close_at_ceiling(
+            unknown, evidence_sha256="5" * 64, reason="Fixture loss provision"
+        )
+        reopened = SharedReasoningBudget(budget.path, max_cost_micro_usd=1000)
+        self.assertEqual(reopened.snapshot(), budget.snapshot())
+        self.assertEqual(reopened.snapshot()["remaining_headroom_micro_usd"], 300)
+        with self.assertRaisesRegex(ValueError, "exhausted"):
+            reopened.reserve("6" * 64, "7" * 64, 301)
+        next_request = reopened.reserve("6" * 64, "7" * 64, 300)
+        self.assertNotEqual(next_request, unknown)
+        self.assertEqual(
+            reopened.snapshot()["accounted_cost_and_liability_micro_usd"], 1000
+        )
+        self.assertEqual(reopened.snapshot()["unknown_usage_requests"], 2)
+        with self.assertRaisesRegex(ValueError, "cannot be silently changed"):
+            SharedReasoningBudget(budget.path, max_cost_micro_usd=1001)
+
+    def test_ceiling_provision_does_not_restore_request_allowance_or_permit_refund(
+        self,
+    ):
+        budget = SharedReasoningBudget(
+            self.root / "loss-count.sqlite", max_cost_micro_usd=1000, max_requests=1
+        )
+        reservation = budget.reserve("a" * 64, "b" * 64, 600)
+        budget.ambiguous(reservation)
+        budget.close_at_ceiling(
+            reservation, evidence_sha256="c" * 64, reason="Fixture loss provision"
+        )
+        with self.assertRaisesRegex(ValueError, "exhausted"):
+            budget.reserve("d" * 64, "e" * 64, 1)
+        with self.assertRaisesRegex(ValueError, "Only the original pending"):
+            budget.settle(
+                reservation, cost_micro_usd=0, usage={"fixture": "forged refund"}
+            )
+        with self.assertRaises(TypeError):
+            budget.close_at_ceiling(
+                reservation,
+                evidence_sha256="c" * 64,
+                reason="Fixture loss provision",
+                cost_micro_usd=0,
+            )
+        self.assertEqual(
+            budget.snapshot()["conservative_charged_ceiling_micro_usd"], 600
+        )
+        self.assertTrue(budget.snapshot()["provider_usage_unknown"])
+
+    def test_ceiling_provision_is_idempotent_only_for_identical_retained_evidence(self):
+        reservation = self.budget.reserve("a" * 64, "b" * 64, 600)
+        self.budget.ambiguous(reservation)
+        arguments = {"evidence_sha256": "c" * 64, "reason": "Fixture loss provision"}
+        first = self.budget.close_at_ceiling(reservation, **arguments)
+        before = self.budget.snapshot()
+        self.assertEqual(self.budget.close_at_ceiling(reservation, **arguments), first)
+        for changes in (
+            {"evidence_sha256": "d" * 64},
+            {"reason": "Different evidence narrative"},
+        ):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                self.budget.close_at_ceiling(reservation, **(arguments | changes))
+        self.assertEqual(self.budget.snapshot(), before)
+
+    def test_reconciliation_evidence_cannot_be_reused_for_a_different_request(self):
+        first = self.budget.reserve("a" * 64, "b" * 64, 600)
+        self.budget.ambiguous(first)
+        self.budget.close_at_ceiling(
+            first, evidence_sha256="c" * 64, reason="Fixture loss provision"
+        )
+        second = self.budget.reserve("d" * 64, "e" * 64, 1000)
+        self.budget.ambiguous(second)
+        with self.assertRaisesRegex(ValueError, "cannot be changed or reused"):
+            self.budget.close_at_ceiling(
+                second, evidence_sha256="c" * 64, reason="Fixture loss provision"
+            )
+        self.assertTrue(self.budget.snapshot()["blocked"])
+        self.assertEqual(self.budget.snapshot()["unresolved_liability_micro_usd"], 1000)
+
+    def test_only_unknown_ambiguous_requests_can_receive_a_ceiling_provision(self):
+        reservation = self.budget.reserve("a" * 64, "b" * 64, 600)
+        with self.assertRaisesRegex(ValueError, "Only an unknown ambiguous"):
+            self.budget.close_at_ceiling(
+                reservation, evidence_sha256="c" * 64, reason="Still reserved"
+            )
+        self.budget.settle(reservation, cost_micro_usd=100, usage={"fixture": "known"})
+        with self.assertRaisesRegex(ValueError, "Only an unknown ambiguous"):
+            self.budget.close_at_ceiling(
+                reservation, evidence_sha256="c" * 64, reason="Known settled usage"
+            )
+        overrun = self.budget.reserve("d" * 64, "e" * 64, 100)
+        with self.assertRaisesRegex(ValueError, "exceeded"):
+            self.budget.settle(
+                overrun, cost_micro_usd=101, usage={"fixture": "known overrun"}
+            )
+        with self.assertRaisesRegex(ValueError, "Only an unknown ambiguous"):
+            self.budget.close_at_ceiling(
+                overrun, evidence_sha256="f" * 64, reason="Cannot erase a known overrun"
+            )
+        self.assertTrue(self.budget.snapshot()["blocked"])
+
+    def test_other_pending_requests_continue_to_block_after_one_ceiling_provision(self):
+        first = self.budget.reserve("a" * 64, "b" * 64, 600)
+        self.budget.ambiguous(first)
+        # Simulate a retained older ledger containing another pending request.
+        second = uuid.uuid4().hex
+        database = sqlite3.connect(self.budget.path)
+        try:
+            database.execute(
+                "INSERT INTO requests VALUES (?,?,?,?,NULL,'ambiguous',NULL)",
+                (second, "d" * 64, "e" * 64, 1000),
+            )
+            database.commit()
+        finally:
+            database.close()
+        self.budget.close_at_ceiling(
+            first, evidence_sha256="c" * 64, reason="Only this fixture request"
+        )
+        snapshot = self.budget.snapshot()
+        self.assertEqual(snapshot["conservative_charged_ceiling_micro_usd"], 600)
+        self.assertEqual(snapshot["unresolved_liability_micro_usd"], 1000)
+        self.assertEqual(snapshot["unknown_usage_requests"], 2)
+        self.assertTrue(snapshot["blocked"])
+        with self.assertRaisesRegex(ValueError, "unresolved"):
+            self.budget.reserve("f" * 64, "0" * 64, 1)
+
+    def test_ceiling_provision_rejects_missing_identity_and_invalid_evidence(self):
+        reservation = self.budget.reserve("a" * 64, "b" * 64, 600)
+        self.budget.ambiguous(reservation)
+        before = self.budget.snapshot()
+        for target, evidence, reason in (
+            ("not-an-id", "c" * 64, "Fixture"),
+            ("f" * 32, "c" * 64, "Fixture"),
+            (reservation, "not-a-hash", "Fixture"),
+            (reservation, "c" * 64, ""),
+            (reservation, "c" * 64, "  "),
+            (reservation, "c" * 64, "Control\ncharacter"),
+            (reservation, "c" * 64, "x" * 2049),
+        ):
+            with (
+                self.subTest(target=target, evidence=evidence),
+                self.assertRaises(ValueError),
+            ):
+                self.budget.close_at_ceiling(
+                    target, evidence_sha256=evidence, reason=reason
+                )
+        self.assertEqual(self.budget.snapshot(), before)
+
 
 if __name__ == "__main__":
     unittest.main()
