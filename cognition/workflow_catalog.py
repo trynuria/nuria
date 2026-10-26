@@ -17,7 +17,7 @@ from urllib.parse import quote
 
 from cognition.workflow_planner import ToolUnavailable
 
-SCOPE = "Server-reported records; no independent payment or semantic acceptance verification."
+SCOPE = "Recorded task evidence; no independent payment or semantic acceptance verification."
 
 
 def canonical(value):
@@ -216,6 +216,11 @@ def build_catalog(*, projection, json_path, sqlite_path, output_dir, source_spec
                 + kind.replace("_", " ").capitalize()
                 + "\n\n"
                 + SCOPE
+                + (
+                    "\n\nCoverage: " + projection["coverage"]
+                    if "coverage" in projection
+                    else ""
+                )
                 + "\n\nSource: `"
                 + expected
                 + "`\n\n```json\n"
