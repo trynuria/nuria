@@ -75,6 +75,14 @@ physical sample rate for the public viewer.
 
 ## Compare against a simple readout
 
+For an already acquired, openly licensed human-organoid source, use the
+[DANDI replay](../research/biology/dandi-01/README.md). It reads curated NWB spike
+times through PyNWB, retains all 49 sorted units and compares a continuous
+recording-driven Brian2 circuit with conventional history models and a zero-drive
+control. This is an event-count representation, separate from waveform samples;
+it never labels counts as voltages. The current real-data result favours the
+simple history model. No booked biological hardware or live feedback is involved.
+
 A labelled course is a JSON object containing `schema: 1`, `target_definition` and
 12–128 `rows`. Each row supplies a complete `recording`, a scalar `target`,
 `start_utc` and `stop_utc`. Windows must be chronological, non-overlapping, have
