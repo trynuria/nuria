@@ -66,7 +66,8 @@
     "Prospective resource revision for hosted inference: an 8 GiB disk reserve and 100 MiB retention cap; the local 27B model keeps its 20 GiB startup requirement. Task identities, model settings, grading and the shared $10 testing allowance are unchanged. The unused original protocol is retained.",
     "Goal-directed typed workflows execute enrolled local tools, retain an unavailable-reader failure and its cumulative work charge, and deliver independently checked Markdown artifacts. Hosted model, greedy and exact controls each completed 6/6; no model or neural superiority was demonstrated.",
     "Portable archived evidence independently replays the actual incomplete54-job reasoning course, complete12-job model substitution and all 18 workflow jobs without inference or credentials. Full denominators and original mismatches remain retained.",
-    "Add a bounded current FinalSpark public-view reader, source-labelled numeric recording import, isolated matched Brian2 waveform replay, chronological same-information readout comparison and read-only NeuroPlatform v2 boundary. Retain an unsuccessful synthetic readout result and explicit provider-access, data-rights and stimulation gates. Production enrollment, original neural histories and observatory design remain unchanged."
+    "Add a bounded current FinalSpark public-view reader, source-labelled numeric recording import, isolated matched Brian2 waveform replay, chronological same-information readout comparison and read-only NeuroPlatform v2 boundary. Retain an unsuccessful synthetic readout result and explicit provider-access, data-rights and stimulation gates. Production enrollment, original neural histories and observatory design remain unchanged.",
+    "Add pinned open-access DANDI human-organoid acquisition, maintained PyNWB sorted-spike import, conserved all-unit time bins and isolated matched Brian2 replay. Retain the first real-recording negative neural comparison, complete chronological controls and a reconstructed publisher-binning discrepancy, with offline score replay and CI verification of the original NWB file. Original neural histories, production enrollment, financial authority and site design remain unchanged."
   ],
   "files": [
     {
@@ -75,7 +76,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "752b885cdbc911e21d9534a13a5251b5f53330f4c671baf596a8c9d5961f7f58"
+      "published_sha256": "eb9df5a1781f308d35a59e5d1cbc46dde6e809b179105243838432aa724b5478"
     },
     {
       "path": ".gitignore",
@@ -83,7 +84,7 @@
     },
     {
       "path": ".prettierignore",
-      "published_sha256": "83512af085786ed990e30217963fbe423753c1faec949c42b327b246bb9fce86"
+      "published_sha256": "44b24249b6c83323199353a167531c359c1fe9c115e255dc60396619ee818a2a"
     },
     {
       "path": ".prettierrc.json",
@@ -95,7 +96,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "43ba65c945d50c97db41bd146258594f3073962ddb033af3fc13aefd5937a529"
+      "published_sha256": "d44b8673400821731d6fec16b0f1190805c82e0584c66aff1ce3067d09e29575"
     },
     {
       "path": "api.py",
@@ -340,6 +341,14 @@
     {
       "path": "cognition/multiscale_loop.py",
       "published_sha256": "c6f1e6a17fd04db0ea2412e33606fceb925b6130f0cedcef91c5fa935566187e"
+    },
+    {
+      "path": "cognition/nwb_spikes.py",
+      "published_sha256": "ee964fe450bd3aa9aec234755c21a9d6dd537f3614d0993abce7090e1a5edd53"
+    },
+    {
+      "path": "cognition/organoid_replay.py",
+      "published_sha256": "ce9dca93d946372244ae47e334fdcc3837625f3359ff29b4e23f12e9a8e567c2"
     },
     {
       "path": "cognition/payments.py",
@@ -799,7 +808,7 @@
     },
     {
       "path": "docs/biology.md",
-      "published_sha256": "a503ce5a4fcdd9416e8bce44346ff7718273f63bdec24e464f7a8a9974f8462d"
+      "published_sha256": "4f5415221d9241c798f6ee5fc40b09a89a4966c336074814ee2f8b142ed85d54"
     },
     {
       "path": "docs/capabilities.json",
@@ -851,7 +860,7 @@
     },
     {
       "path": "docs/docs-content.html",
-      "published_sha256": "0232b61be3ae64cbed314537cecd9e9976652c04ebd81217a1ee6d198d3cd836"
+      "published_sha256": "14cee4083ad0192430d7213efad5479708d48206d4d2bf3ff39b5e78aa51dc93"
     },
     {
       "path": "docs/docs.css",
@@ -995,7 +1004,7 @@
     },
     {
       "path": "index.html",
-      "published_sha256": "b232fa6ca9f3bf5578675e7ed4b04218cfc0990038a372d4cca207956551e6b6"
+      "published_sha256": "9a5ba85534320696b802b14befb3c58b57bcf7680d5c14e66e0ad2b38ce656f8"
     },
     {
       "path": "ingest.py",
@@ -1723,7 +1732,39 @@
     },
     {
       "path": "research/biology/README.md",
-      "published_sha256": "be048eb5acb2a03f5e04904507ecb01196174337b497994f9e0ee9de3e3f742a"
+      "published_sha256": "cf3611a5f68cb9726d8cc384e22c3560e8284e393076e7d06fe6f25d50caf9d0"
+    },
+    {
+      "path": "research/biology/dandi-01/README.md",
+      "published_sha256": "1bfebd7ef38b7765cfb1d4f3ac9515af06db884bd2c09d809eaef5fbd7974a0c"
+    },
+    {
+      "path": "research/biology/dandi-01/attribution.json",
+      "published_sha256": "224bc48999797aeee447cc1bc2ee270f24f148e216fd952894b76911867e70c3"
+    },
+    {
+      "path": "research/biology/dandi-01/binned.json",
+      "published_sha256": "a3467715dc2038fa8e0568702586e691c27a407b59f9568defe60cc12d89ac0c"
+    },
+    {
+      "path": "research/biology/dandi-01/binning-differences.json",
+      "published_sha256": "55b71bb491cc019868c94e327d1a204e601b7ade50b6b3560cda77b8fd254fe8"
+    },
+    {
+      "path": "research/biology/dandi-01/comparison.svg",
+      "published_sha256": "a866d3de6460e3a0bd2bc9df065407b6dc029923682058da05fd3cc5cfda8f7a"
+    },
+    {
+      "path": "research/biology/dandi-01/protocol.json",
+      "published_sha256": "56e6d71a48176e6287544eca17052b71be1acd6fd3a84d29f33ecf4b70c741bd"
+    },
+    {
+      "path": "research/biology/dandi-01/quantization-diagnosis.json",
+      "published_sha256": "8433d703a5bb97ae9139a02de55b1e8557e9f75c880e922fb590eb45c6bef0a6"
+    },
+    {
+      "path": "research/biology/dandi-01/result.json",
+      "published_sha256": "cbefc52c3974e8c6066837bdcbd470eb6266d7b05409c5d03d012069937e48b4"
     },
     {
       "path": "research/biology/public-bridge-01.json",
@@ -1732,6 +1773,10 @@
     {
       "path": "research/biology/public-observation-01.json",
       "published_sha256": "87356956ad3f689576d41c4f26bea98180ef7066a0a2f38b6b73278d9031aa7e"
+    },
+    {
+      "path": "research/biology/requirements.txt",
+      "published_sha256": "aa74689dbd5ea7ae54ad605e1d7840b923e1cc398fdf6ed0a644cbcaba15e848"
     },
     {
       "path": "research/biology/synthetic-comparison-01.json",
@@ -5766,6 +5811,10 @@
       "published_sha256": "084e77c0b0c3c38e4198fcc38c2ac28ad342783348f717dc75ab159c5457c03e"
     },
     {
+      "path": "scripts/dandi_replay.py",
+      "published_sha256": "ec3a7503b57f6c6737789fd37286fdc2497133db897a609a50ce9d19ed35dab1"
+    },
+    {
       "path": "scripts/diagnose_multiscale.py",
       "published_sha256": "363e8c9079813c9dc237d56d60e0fb87dd1588dbd54a61904f005e85dbc884a2"
     },
@@ -5864,6 +5913,10 @@
     {
       "path": "scripts/plot_multiscale.py",
       "published_sha256": "c434f9e6fc36b77918cb5b2bcb17a2461bbec88f1751136c126a414abc415138"
+    },
+    {
+      "path": "scripts/plot_organoid_replay.py",
+      "published_sha256": "c6adeebd0439d9f44d58f6833e8d640f5aada24a1ef86399169e7bd0dc8debc8"
     },
     {
       "path": "scripts/prepare_livesql_workspace.py",
@@ -6352,6 +6405,10 @@
     {
       "path": "tests/test_neural_task_credit.py",
       "published_sha256": "d748280bdff8941ebd20af058c52bb9cbe384e29d1e5d56911848bc54486cfcb"
+    },
+    {
+      "path": "tests/test_nwb_spikes.py",
+      "published_sha256": "2a53793cd7926c6c70ef825ccef1a8817ddc9c6f7dd5d2225d10a53b7a8d289b"
     },
     {
       "path": "tests/test_payment_recovery.py",
