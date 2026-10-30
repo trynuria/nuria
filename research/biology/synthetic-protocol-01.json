@@ -1,0 +1,15 @@
+{
+  "course_sha256": "559827124a815b19f168d9c9626f764814977643583740a941b3fbc811ef4d13",
+  "rules": {
+    "baseline": "Ridge regression on the identical waveform statistics",
+    "candidate": "Same statistics plus isolated fixed Brian2 transform",
+    "metric": "Test mean squared error; lower is better",
+    "neural_state": "Reset before each window; no label/reward feedback to the circuit",
+    "normalization": "Train-only mean and standard deviation",
+    "publication_gate": "No claim of biological learning, general intelligence or superiority from a fixture",
+    "ridge": [0.01, 1.0, 100.0],
+    "split": "Chronological 50% train / 25% validation / 25% test",
+    "task": "Predict a separately supplied scalar target",
+    "version": 1
+  }
+}

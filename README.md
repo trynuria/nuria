@@ -200,6 +200,15 @@ module is separate from the running cognitive worker; the published comparison
 shows altered neural activity but no established predictive advantage. The
 current live worker remains the default.
 
+The optional [biological-data path](docs/biology.md) reads the current FinalSpark
+public viewer, preserves acquisition/provenance limits and replays validated
+waveforms into a separate Brian2 circuit. A recorded-data importer, chronological
+readout comparison and read-only NeuroPlatform v2 boundary prepare for granted
+research access. The public stream is observation only; no tissue stimulation,
+biological learning or intelligence gain is established. The
+[integration record](research/biology/README.md) retains both working signal
+coupling and the unsuccessful synthetic readout comparison.
+
 Run a bounded evaluation without RPC access:
 
 ```sh
