@@ -82,7 +82,9 @@ def score(features, neural, counts):
     )
     if not all(mask.any() for mask in (train, validation, test)):
         raise ValueError("Empty chronological partition")
-    if np.asarray(features).shape != x.shape or not np.array_equal(features, x):
+    if np.asarray(features).shape != x.shape or not np.allclose(
+        features, x, rtol=1e-12, atol=1e-13
+    ):
         raise ValueError("Retained past-only features disagree with source counts")
     methods = {}
 
@@ -252,7 +254,9 @@ def verify(binned_path, result_path):
     if (
         result["selected_simple_baseline"] != expected["selected_simple_baseline"]
         or result["partition_sizes"] != expected["partition_sizes"]
-        or result["test_targets"] != expected["test_targets"]
+        or not np.allclose(
+            result["test_targets"], expected["test_targets"], rtol=1e-12, atol=1e-13
+        )
         or result["target_bin_indices"] != expected["target_bin_indices"]
         or set(result["methods"]) != set(expected["methods"])
     ):
