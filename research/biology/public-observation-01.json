@@ -1,0 +1,145 @@
+{
+  "acquisition_continuity_verified": false,
+  "biological_origin_independently_verified": false,
+  "completed": true,
+  "disconnected": true,
+  "endpoint": "https://livenp.finalspark.com",
+  "frames": [
+    {
+      "features": {
+        "channels": [0, 1, 2, 3],
+        "line_length_per_sample": [
+          7.063651188602292, 17.206407239580244, 11.820452916241944, 8.425952614117891
+        ],
+        "rms": [
+          6.41102063127544, 15.980550671967332, 10.731240122525854, 7.54368514449343
+        ],
+        "scope": "Descriptive waveform statistics; no event detection or neural identity inference",
+        "spectral_centroid_cycles_per_sample": [
+          0.24730251267138822, 0.23444981041020424, 0.24395592094158225,
+          0.2506303833645632
+        ],
+        "spike_rate_hz": null,
+        "standard_deviation": [
+          6.405056972565022, 15.978171040079596, 10.727908849847914, 7.537967436743328
+        ]
+      },
+      "file": "frame-001.json",
+      "received_utc": "2026-10-30T20:27:58.562760+00:00",
+      "sha256": "c60b66e401d33d51dcae846ac18c30d2c2450318719cdbea549a3b47cba60922"
+    },
+    {
+      "features": {
+        "channels": [0, 1, 2, 3],
+        "line_length_per_sample": [
+          7.070894721711405, 18.121981118156285, 11.909143112688382, 8.999571436211196
+        ],
+        "rms": [
+          6.412152771840624, 16.481260885778493, 10.618671075968527, 8.069998783196223
+        ],
+        "scope": "Descriptive waveform statistics; no event detection or neural identity inference",
+        "spectral_centroid_cycles_per_sample": [
+          0.24478261163200557, 0.2416409058048527, 0.24970433621824703,
+          0.24477111365204746
+        ],
+        "spike_rate_hz": null,
+        "standard_deviation": [
+          6.406339836164343, 16.478801878939514, 10.6146479378144, 8.065810702277442
+        ]
+      },
+      "file": "frame-002.json",
+      "received_utc": "2026-10-30T20:28:01.112476+00:00",
+      "sha256": "e6a387c8a32d31667f02c0631cb5b49ce1989dd5c509ebf89048a8385cabaffa"
+    },
+    {
+      "features": {
+        "channels": [0, 1, 2, 3],
+        "line_length_per_sample": [
+          6.943443078372984, 17.06011371183127, 11.740644746344115, 9.134740907477543
+        ],
+        "rms": [
+          6.255057625636201, 15.775018561094328, 10.608064464315767, 8.042146848331296
+        ],
+        "scope": "Descriptive waveform statistics; no event detection or neural identity inference",
+        "spectral_centroid_cycles_per_sample": [
+          0.24477228929866535, 0.23788455686877516, 0.2453289890250793,
+          0.2561018459927139
+        ],
+        "spike_rate_hz": null,
+        "standard_deviation": [
+          6.2491455238300775, 15.772595851219291, 10.60460922729428, 8.03671110649646
+        ]
+      },
+      "file": "frame-003.json",
+      "received_utc": "2026-10-30T20:28:01.119950+00:00",
+      "sha256": "dff90ce802e1f9893cf377e66b64ea421de44f152a3e81c6776ee19ebee46803"
+    }
+  ],
+  "mode": "public_observed",
+  "received_bytes": 515669,
+  "requests": [
+    {
+      "bytes": 30596,
+      "closing": false,
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "bytes": 21,
+      "closing": false,
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "bytes": 118,
+      "closing": false,
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "bytes": 2,
+      "closing": false,
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "bytes": 32,
+      "closing": false,
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "bytes": 2,
+      "closing": false,
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "bytes": 121276,
+      "closing": false,
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "bytes": 363620,
+      "closing": false,
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "bytes": 2,
+      "closing": true,
+      "method": "POST",
+      "status": 200
+    }
+  ],
+  "schema": 1,
+  "selection": {
+    "channels": [0, 1, 2, 3],
+    "controller_id": "6a2690e103b588f428c382e7",
+    "mea_index": 0,
+    "samples_per_channel": 1600
+  },
+  "started_utc": "2026-10-30T20:27:54.427365+00:00",
+  "wall_seconds": 7.0632429998368025
+}
