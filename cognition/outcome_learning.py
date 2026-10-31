@@ -6,6 +6,8 @@ the original. Artifacts are never activated by the optimizer itself.
 
 from __future__ import annotations
 
+import json
+
 from cognition.outcome_worker import BASE_POLICY, identity, run_work
 
 
@@ -116,10 +118,19 @@ def learn_policy(
         "journal": store.verify(),
         "lineage": result.to_dict(),
         "activated": False,
-        "optimizer": {"package": "gepa", "version": "0.1.4", "max_evaluations": max_evaluations,
-                      "max_proposals": max_proposals, "reflection_minibatch": 6,
-                      "candidate_screen": "improvement_or_equal", "validation_tie": "retain_original"},
+        "optimizer": {
+            "package": "gepa",
+            "version": "0.1.4",
+            "max_evaluations": max_evaluations,
+            "max_proposals": max_proposals,
+            "reflection_minibatch": 6,
+            "candidate_screen": "improvement_or_equal",
+            "validation_tie": "retain_original",
+        },
     }
+    # Optimizer maps may use integer example IDs. Canonicalize the exported
+    # JSON shape before hashing so reopening a multi-example artifact agrees.
+    artifact = json.loads(json.dumps(artifact, allow_nan=False))
     artifact["artifact_sha256"] = identity(artifact)
     return artifact
 
