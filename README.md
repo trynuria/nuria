@@ -209,6 +209,13 @@ biological learning or intelligence gain is established. The
 [integration record](research/biology/README.md) retains both working signal
 coupling and the unsuccessful synthetic readout comparison.
 
+The [DANDI replay](research/biology/dandi-01/README.md) extends that path to a
+published human-organoid recording with exact source hashes and PyNWB import.
+All 49 curated units are retained in the fixed two-minute interval. Conventional
+history forecasting outperforms the neural-augmented readouts; complete evidence
+and a publisher-binning discrepancy remain public. This is recorded-data research,
+separate from live tissue, production inputs and the original neural history.
+
 Run a bounded evaluation without RPC access:
 
 ```sh

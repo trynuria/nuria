@@ -78,6 +78,14 @@ library versions. Neither route verifies a public signal's biological provenance
 
 ## What still requires provider access
 
+An additional [DANDI recorded-organoid experiment](dandi-01/README.md) now runs on
+openly licensed human data: 49 curated units, 3,089 entries in the fixed two-minute
+interval and 480 measured neural windows. Exact source acquisition and PyNWB
+import are reproducible. The history-only model beats both neural-augmented
+controls; the full negative result and original binning discrepancy are retained.
+This recorded-data path requires no FinalSpark allocation and grants no tissue
+control.
+
 The v2 database query boundary is tested with a substitute controller. No granted
 SDK session, culture recording, live stimulation or tissue adaptation was tested.
 The optional HDF5 importer has no FinalSpark-file validation yet. JSON and numeric
