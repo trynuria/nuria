@@ -47,6 +47,16 @@ goal-to-artifact jobs, including a real failed-reader recovery; greedy and exact
 planning also completed 6/6. This establishes a useful execution path, without
 demonstrating model or neural superiority. Production workers are unchanged.
 
+The [outcome-grounded programming worker](docs/outcome-learning.md) runs enrolled
+Python work, independently checks delivery and retains accepted and rejected
+experience for subsequent jobs. Its [112-task external comparison](research/outcome-learning/course-02)
+returned 83 accepted programs with conditional skill memory versus 81 for each
+of two simpler agents; the difference did not clear the improvement threshold.
+All 336 physical outcomes reproduced in an independent native replay. A
+[real project-work sequence](research/outcome-learning/project-work-01) completed
+three checked Nuria audits and repeated them with zero new model requests or
+executions. This optional worker is not enrolled in production.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the

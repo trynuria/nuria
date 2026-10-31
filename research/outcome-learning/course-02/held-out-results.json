@@ -1,0 +1,230 @@
+{
+  "budget": {
+    "accounted_cost_and_liability_micro_usd": 9051036,
+    "blocked": false,
+    "charged_ceiling_requests": 1,
+    "conservative_charged_ceiling_micro_usd": 136390,
+    "maximum_cost_micro_usd": 10000000,
+    "maximum_requests": 700,
+    "provider_usage_unknown": true,
+    "remaining_headroom_micro_usd": 948964,
+    "requests": 647,
+    "settled_cost_micro_usd": 8914646,
+    "unknown_usage_requests": 1,
+    "unresolved_liability_micro_usd": 0
+  },
+  "gepa_advantage_demonstrated": false,
+  "learned_policy_changed": false,
+  "methods": {
+    "nuria_gepa": {
+      "accepted": 81,
+      "execution_alias_of": "simple_retrieval",
+      "families": {
+        "collections-algorithms": {
+          "accepted": 16,
+          "tasks": 16
+        },
+        "files-archives": {
+          "accepted": 8,
+          "tasks": 16
+        },
+        "numerical": {
+          "accepted": 12,
+          "tasks": 16
+        },
+        "structured-data": {
+          "accepted": 9,
+          "tasks": 16
+        },
+        "tabular": {
+          "accepted": 12,
+          "tasks": 16
+        },
+        "text": {
+          "accepted": 15,
+          "tasks": 16
+        },
+        "visualization": {
+          "accepted": 9,
+          "tasks": 16
+        }
+      },
+      "journal": {
+        "events": 336,
+        "tail_sha256": "ee7166850b39869d174604ee685403f88f3ae53773b15479f8cde106b9800cf7"
+      },
+      "tasks": 112
+    },
+    "outcome_playbook": {
+      "accepted": 83,
+      "families": {
+        "collections-algorithms": {
+          "accepted": 16,
+          "tasks": 16
+        },
+        "files-archives": {
+          "accepted": 8,
+          "tasks": 16
+        },
+        "numerical": {
+          "accepted": 13,
+          "tasks": 16
+        },
+        "structured-data": {
+          "accepted": 9,
+          "tasks": 16
+        },
+        "tabular": {
+          "accepted": 12,
+          "tasks": 16
+        },
+        "text": {
+          "accepted": 15,
+          "tasks": 16
+        },
+        "visualization": {
+          "accepted": 10,
+          "tasks": 16
+        }
+      },
+      "journal": {
+        "events": 336,
+        "tail_sha256": "89e6b29b0585fcc8d8932179dca3cab0bbefe3f9e6cd65faef3804b931841cb2"
+      },
+      "tasks": 112
+    },
+    "simple_reflection": {
+      "accepted": 81,
+      "families": {
+        "collections-algorithms": {
+          "accepted": 16,
+          "tasks": 16
+        },
+        "files-archives": {
+          "accepted": 8,
+          "tasks": 16
+        },
+        "numerical": {
+          "accepted": 13,
+          "tasks": 16
+        },
+        "structured-data": {
+          "accepted": 8,
+          "tasks": 16
+        },
+        "tabular": {
+          "accepted": 12,
+          "tasks": 16
+        },
+        "text": {
+          "accepted": 15,
+          "tasks": 16
+        },
+        "visualization": {
+          "accepted": 9,
+          "tasks": 16
+        }
+      },
+      "journal": {
+        "events": 336,
+        "tail_sha256": "fbc341cae99ab18dca2062c8fee3cad3aa4d9b173bf9857535166797d45899db"
+      },
+      "tasks": 112
+    },
+    "simple_retrieval": {
+      "accepted": 81,
+      "families": {
+        "collections-algorithms": {
+          "accepted": 16,
+          "tasks": 16
+        },
+        "files-archives": {
+          "accepted": 8,
+          "tasks": 16
+        },
+        "numerical": {
+          "accepted": 12,
+          "tasks": 16
+        },
+        "structured-data": {
+          "accepted": 9,
+          "tasks": 16
+        },
+        "tabular": {
+          "accepted": 12,
+          "tasks": 16
+        },
+        "text": {
+          "accepted": 15,
+          "tasks": 16
+        },
+        "visualization": {
+          "accepted": 9,
+          "tasks": 16
+        }
+      },
+      "journal": {
+        "events": 336,
+        "tail_sha256": "ee7166850b39869d174604ee685403f88f3ae53773b15479f8cde106b9800cf7"
+      },
+      "tasks": 112
+    }
+  },
+  "paired": {
+    "simple_reflection": {
+      "accuracy_delta": 0.0,
+      "losses": 3,
+      "one_sided_exact_p": 0.65625,
+      "wins": 3
+    },
+    "simple_retrieval": {
+      "accuracy_delta": 0.0,
+      "losses": 0,
+      "one_sided_exact_p": 1.0,
+      "wins": 0
+    }
+  },
+  "physical_execution_methods": [
+    "simple_retrieval",
+    "simple_reflection",
+    "outcome_playbook"
+  ],
+  "playbook_advantage_demonstrated": false,
+  "playbook_comparisons": {
+    "simple_reflection": {
+      "accuracy_delta": 0.017857142857142856,
+      "losses": 0,
+      "one_sided_exact_p": 0.25,
+      "three_comparison_adjusted_p": 0.75,
+      "wins": 2
+    },
+    "simple_retrieval": {
+      "accuracy_delta": 0.017857142857142856,
+      "losses": 1,
+      "one_sided_exact_p": 0.3125,
+      "three_comparison_adjusted_p": 0.9375,
+      "wins": 3
+    }
+  },
+  "reflection_vs_retrieval": {
+    "accuracy_delta": 0.0,
+    "losses": 3,
+    "one_sided_exact_p": 0.65625,
+    "wins": 3
+  },
+  "runtime_selection": {
+    "artifact_sha256": "1307543fe3fc0df36d950754e8e8ee88a1b7289d55616b2342c914da8e00afec",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "selected_method": "simple_retrieval"
+  },
+  "selected_policy_comparison": {
+    "accuracy_delta": 0.0,
+    "improvement_supported": false,
+    "losses": 0,
+    "method": "simple_retrieval",
+    "one_sided_exact_p": 1.0,
+    "three_comparison_adjusted_p": 1.0,
+    "wins": 0
+  },
+  "success_rule": "positive accuracy difference and one-sided exact paired p <= .025 against BOTH simpler controls; no family loses more than one task"
+}

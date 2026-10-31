@@ -1,0 +1,1411 @@
+{
+  "rules_sha256": "19a2712402ca0e152254189e30816423faf0e467a816fafcac899b83ce2f9757",
+  "batches": [
+    {
+      "offset": 0,
+      "sha256": "a99c150ab0be55fdf7ff8f1910cbdd8ea4b14dac2d2bc0efc00aad904f581b97",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 100,
+      "sha256": "dd0be4cc523e97c9bb89c0ff040bb4943805c78f12462a3e78e02565504b6663",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 200,
+      "sha256": "5814dc4a83febffb50a6efe1f4892c61e160c1bf11f1d2abdc3ba26aad6465d3",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 300,
+      "sha256": "cc8aecfe354577e335340c72758071e7e90c090761735c4b472eaa8a1ffd144b",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 400,
+      "sha256": "614354943ac9b97db751bfe37112dc4561e4b9cec70ceb8aba661aa969815995",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 500,
+      "sha256": "aec44d69579c0898db238d73e5cae0cc992a8cf180c42f80896cd79616f2e358",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 600,
+      "sha256": "e9a8b8bbf2f39f63451ffc56a0dc4c3e27b6c046b208b6b33612507719f2eea2",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 700,
+      "sha256": "20b346f6ff798e2c7a55c807561df52f83f8307ad7f991baa10d92fc6eb1f167",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 800,
+      "sha256": "3e8140763d3ad7a16863f5799de4773d788c7f587d078facdcafa8f0aad63f30",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 900,
+      "sha256": "034a3f14aca043a7f55e1904a87c4c3d4828553b52c1d1f268d570eaba13f6a9",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 1000,
+      "sha256": "a3129b70cc4bfa61cef3713ce4b87bb3ca5b264e86ba7fcc94d095c04eab5e6d",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    },
+    {
+      "offset": 1100,
+      "sha256": "11484a53a89740d06f9df105eb284099acbbe42356bd43cd41ce9bd273e10ad6",
+      "headers": {
+        "x-revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a"
+      }
+    }
+  ],
+  "eligible_counts": {
+    "tabular": 241,
+    "visualization": 83,
+    "numerical": 59,
+    "structured-data": 64,
+    "files-archives": 81,
+    "time": 5,
+    "text": 48,
+    "collections-algorithms": 47
+  },
+  "cohort": {
+    "train": [
+      {
+        "task_id": "BigCodeBench/560",
+        "libs": [
+          "pandas",
+          "datetime",
+          "matplotlib"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/85",
+        "libs": [
+          "pandas",
+          "datetime",
+          "numpy"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/754",
+        "libs": [
+          "pandas",
+          "datetime",
+          "numpy"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/522",
+        "libs": [
+          "collections",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/210",
+        "libs": [
+          "operator",
+          "collections",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/467",
+        "libs": [
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/250",
+        "libs": [
+          "numpy",
+          "itertools",
+          "json"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/668",
+        "libs": [
+          "math",
+          "itertools"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/257",
+        "libs": [
+          "math",
+          "numpy"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/7",
+        "libs": [
+          "operator",
+          "csv",
+          "collections"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/1090",
+        "libs": [
+          "ast",
+          "collections",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/839",
+        "libs": [
+          "csv",
+          "random"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/547",
+        "libs": [
+          "base64",
+          "hashlib",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/962",
+        "libs": [
+          "glob",
+          "shutil",
+          "pathlib",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/510",
+        "libs": [
+          "difflib",
+          "gzip"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/271",
+        "libs": [
+          "hashlib",
+          "random",
+          "string",
+          "time"
+        ],
+        "family": "time"
+      },
+      {
+        "task_id": "BigCodeBench/220",
+        "libs": [
+          "turtle",
+          "random",
+          "time"
+        ],
+        "family": "time"
+      },
+      {
+        "task_id": "BigCodeBench/821",
+        "libs": [
+          "threading",
+          "time"
+        ],
+        "family": "time"
+      },
+      {
+        "task_id": "BigCodeBench/1108",
+        "libs": [
+          "collections",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/855",
+        "libs": [
+          "collections",
+          "string",
+          "random"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/932",
+        "libs": [
+          "collections",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/542",
+        "libs": [
+          "struct",
+          "hashlib",
+          "random"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/868",
+        "libs": [
+          "random",
+          "itertools"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/667",
+        "libs": [
+          "collections",
+          "heapq"
+        ],
+        "family": "collections-algorithms"
+      }
+    ],
+    "validation": [
+      {
+        "task_id": "BigCodeBench/700",
+        "libs": [
+          "pandas",
+          "numpy"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/484",
+        "libs": [
+          "math",
+          "pandas",
+          "datetime",
+          "numpy"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/252",
+        "libs": [
+          "matplotlib",
+          "itertools"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/436",
+        "libs": [
+          "matplotlib",
+          "string"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/556",
+        "libs": [
+          "difflib",
+          "numpy",
+          "random"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/682",
+        "libs": [
+          "math",
+          "collections"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/266",
+        "libs": [
+          "csv",
+          "collections",
+          "os"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/592",
+        "libs": [
+          "csv",
+          "datetime",
+          "random",
+          "os"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/313",
+        "libs": [
+          "shutil",
+          "datetime",
+          "re",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/127",
+        "libs": [
+          "glob",
+          "shutil",
+          "hashlib",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/819",
+        "libs": [
+          "random",
+          "time"
+        ],
+        "family": "time"
+      },
+      {
+        "task_id": "BigCodeBench/893",
+        "libs": [
+          "datetime",
+          "re"
+        ],
+        "family": "time"
+      },
+      {
+        "task_id": "BigCodeBench/930",
+        "libs": [
+          "random",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/824",
+        "libs": [
+          "string",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/279",
+        "libs": [
+          "collections",
+          "random"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/1114",
+        "libs": [
+          "collections",
+          "random"
+        ],
+        "family": "collections-algorithms"
+      }
+    ],
+    "test": [
+      {
+        "task_id": "BigCodeBench/641",
+        "libs": [
+          "pandas",
+          "re",
+          "os"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/605",
+        "libs": [
+          "pandas",
+          "matplotlib"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/1068",
+        "libs": [
+          "sqlite3",
+          "pandas",
+          "warnings"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/902",
+        "libs": [
+          "pandas",
+          "collections"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/846",
+        "libs": [
+          "pandas",
+          "collections"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/208",
+        "libs": [
+          "pandas",
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/612",
+        "libs": [
+          "pandas",
+          "numpy",
+          "random"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/890",
+        "libs": [
+          "pandas",
+          "random",
+          "os"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/491",
+        "libs": [
+          "datetime",
+          "random",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/664",
+        "libs": [
+          "statistics",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/895",
+        "libs": [
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/520",
+        "libs": [
+          "collections",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/1048",
+        "libs": [
+          "datetime",
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/366",
+        "libs": [
+          "random",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/441",
+        "libs": [
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/897",
+        "libs": [
+          "numpy",
+          "matplotlib",
+          "random"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/863",
+        "libs": [
+          "math",
+          "numpy"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/795",
+        "libs": [
+          "math",
+          "collections"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/201",
+        "libs": [
+          "statistics",
+          "bisect"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/254",
+        "libs": [
+          "math",
+          "json"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/554",
+        "libs": [
+          "numpy",
+          "random"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/802",
+        "libs": [
+          "numpy",
+          "itertools"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/825",
+        "libs": [
+          "numpy",
+          "itertools",
+          "string"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/707",
+        "libs": [
+          "numpy",
+          "json"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/594",
+        "libs": [
+          "shutil",
+          "random",
+          "os",
+          "csv",
+          "datetime"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/329",
+        "libs": [
+          "json",
+          "re",
+          "os"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/724",
+        "libs": [
+          "json",
+          "os"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/1128",
+        "libs": [
+          "base64",
+          "hashlib",
+          "time",
+          "os",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/711",
+        "libs": [
+          "csv",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/708",
+        "libs": [
+          "csv",
+          "base64",
+          "os",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/1117",
+        "libs": [
+          "collections",
+          "random",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/771",
+        "libs": [
+          "csv",
+          "pathlib",
+          "re",
+          "os"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/131",
+        "libs": [
+          "base64",
+          "hashlib",
+          "os",
+          "binascii"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/759",
+        "libs": [
+          "shutil",
+          "fnmatch",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/118",
+        "libs": [
+          "shutil",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/675",
+        "libs": [
+          "random",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/906",
+        "libs": [
+          "re",
+          "shutil",
+          "zipfile",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/1091",
+        "libs": [
+          "glob",
+          "ast",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/19",
+        "libs": [
+          "glob",
+          "zipfile",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/730",
+        "libs": [
+          "pickle",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/1119",
+        "libs": [
+          "codecs",
+          "hashlib",
+          "random",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/1",
+        "libs": [
+          "collections",
+          "random",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/822",
+        "libs": [
+          "random",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/862",
+        "libs": [
+          "collections",
+          "random",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/843",
+        "libs": [
+          "random",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/394",
+        "libs": [
+          "collections",
+          "random",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/1099",
+        "libs": [
+          "collections",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/928",
+        "libs": [
+          "collections",
+          "itertools",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/330",
+        "libs": [
+          "random",
+          "heapq"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/644",
+        "libs": [
+          "base64",
+          "hashlib"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/934",
+        "libs": [
+          "hashlib",
+          "collections"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/1111",
+        "libs": [
+          "operator",
+          "collections",
+          "itertools"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/595",
+        "libs": [
+          "bisect",
+          "random",
+          "array"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/268",
+        "libs": [
+          "collections",
+          "random"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/331",
+        "libs": [
+          "bisect",
+          "random"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/4",
+        "libs": [
+          "collections",
+          "itertools"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/240",
+        "libs": [
+          "pandas",
+          "random"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/615",
+        "libs": [
+          "pandas",
+          "random"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/480",
+        "libs": [
+          "pandas",
+          "random",
+          "re"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/521",
+        "libs": [
+          "pandas",
+          "matplotlib"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/165",
+        "libs": [
+          "pandas",
+          "random",
+          "matplotlib"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/117",
+        "libs": [
+          "pandas",
+          "numpy",
+          "random"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/482",
+        "libs": [
+          "pandas",
+          "random",
+          "re"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/799",
+        "libs": [
+          "pandas",
+          "random"
+        ],
+        "family": "tabular"
+      },
+      {
+        "task_id": "BigCodeBench/387",
+        "libs": [
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/1075",
+        "libs": [
+          "datetime",
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/970",
+        "libs": [
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/894",
+        "libs": [
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/259",
+        "libs": [
+          "numpy",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/405",
+        "libs": [
+          "random",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/200",
+        "libs": [
+          "statistics",
+          "bisect",
+          "random",
+          "matplotlib"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/124",
+        "libs": [
+          "random",
+          "matplotlib",
+          "time"
+        ],
+        "family": "visualization"
+      },
+      {
+        "task_id": "BigCodeBench/899",
+        "libs": [
+          "numpy",
+          "random"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/535",
+        "libs": [
+          "sqlite3",
+          "numpy",
+          "random"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/569",
+        "libs": [
+          "types",
+          "math",
+          "inspect"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/1138",
+        "libs": [
+          "numpy",
+          "itertools"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/253",
+        "libs": [
+          "numpy",
+          "random"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/11",
+        "libs": [
+          "numpy",
+          "itertools",
+          "random"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/872",
+        "libs": [
+          "numpy",
+          "itertools"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/2",
+        "libs": [
+          "statistics",
+          "random"
+        ],
+        "family": "numerical"
+      },
+      {
+        "task_id": "BigCodeBench/764",
+        "libs": [
+          "csv",
+          "random"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/202",
+        "libs": [
+          "collections",
+          "re",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/258",
+        "libs": [
+          "random",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/842",
+        "libs": [
+          "sqlite3",
+          "random"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/743",
+        "libs": [
+          "json",
+          "os"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/836",
+        "libs": [
+          "csv",
+          "shutil",
+          "os"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/327",
+        "libs": [
+          "csv",
+          "collections",
+          "re"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/841",
+        "libs": [
+          "collections",
+          "string",
+          "re",
+          "json"
+        ],
+        "family": "structured-data"
+      },
+      {
+        "task_id": "BigCodeBench/773",
+        "libs": [
+          "shutil",
+          "re",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/336",
+        "libs": [
+          "glob",
+          "pathlib",
+          "re",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/24",
+        "libs": [
+          "base64",
+          "hashlib",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/779",
+        "libs": [
+          "shutil",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/344",
+        "libs": [
+          "shutil",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/939",
+        "libs": [
+          "glob",
+          "re",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/389",
+        "libs": [
+          "shutil",
+          "re",
+          "os"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/159",
+        "libs": [
+          "struct",
+          "io",
+          "gzip"
+        ],
+        "family": "files-archives"
+      },
+      {
+        "task_id": "BigCodeBench/270",
+        "libs": [
+          "collections",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/860",
+        "libs": [
+          "random",
+          "string",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/960",
+        "libs": [
+          "random",
+          "string"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/342",
+        "libs": [
+          "random",
+          "string",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/733",
+        "libs": [
+          "string",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/766",
+        "libs": [
+          "collections",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/1097",
+        "libs": [
+          "string",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/1126",
+        "libs": [
+          "hashlib",
+          "re"
+        ],
+        "family": "text"
+      },
+      {
+        "task_id": "BigCodeBench/816",
+        "libs": [
+          "collections",
+          "random"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/333",
+        "libs": [
+          "random",
+          "heapq"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/8",
+        "libs": [
+          "collections",
+          "random",
+          "itertools"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/1110",
+        "libs": [
+          "operator",
+          "collections",
+          "itertools"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/740",
+        "libs": [
+          "collections",
+          "heapq"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/297",
+        "libs": [
+          "collections",
+          "itertools"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/1021",
+        "libs": [
+          "hashlib",
+          "binascii"
+        ],
+        "family": "collections-algorithms"
+      },
+      {
+        "task_id": "BigCodeBench/751",
+        "libs": [
+          "collections",
+          "random"
+        ],
+        "family": "collections-algorithms"
+      }
+    ]
+  }
+}

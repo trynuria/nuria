@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-10-31T21:15:59.639814+00:00",
+  "before_any_paid_calls": true,
+  "fixes": [
+    "Register generated module as __main__ for upstream unittest.mock patch paths",
+    "Preserve historical unittest assertEquals as the identical assertEqual method",
+    "Supply hidden-checker-only dependencies Faker40.44.0 and pytz2026.6; no task or oracle edits"
+  ],
+  "preflight_reference_passed": 92,
+  "cohort_total": 96,
+  "remaining_problems": [
+    {
+      "task_id": "BigCodeBench/220",
+      "split": "train",
+      "checker": {
+        "checks_sha256": "596e144c073b596f9c7682ec4961c3061949331a7c05cd22a8bcca264f5d00f5",
+        "code_sha256": "ad109a88ea2049da44f059d7fee151272155d35899ced0b23ec40742d0f7ac1b",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 12, in <module>\n    exec(compile(open('program.py').read(),'program.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"program.py\", line 2, in <module>\n    import turtle\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/turtle.py\", line 101, in <module>\n    import tkinter as TK\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py\", line 38, in <module>\n    import _tkinter # If this fails your Python may not be configured for Tk\n    ^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named '_tkinter'\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.076975
+      }
+    },
+    {
+      "task_id": "BigCodeBench/821",
+      "split": "train",
+      "checker": {
+        "checks_sha256": "c16a9bf0bbb8af7c1cf4b8ddfb8544cb985b340f4065b91b5a2d305b411b19ae",
+        "code_sha256": "6872b394182b919238fac1222144dd78106285973cadba827b0b6e0fff4dcf84",
+        "exit_code": -9,
+        "passed": false,
+        "stderr": "....",
+        "stdout": "",
+        "timed_out": true,
+        "wall_seconds": 12.012546
+      }
+    },
+    {
+      "task_id": "BigCodeBench/491",
+      "split": "test",
+      "checker": {
+        "checks_sha256": "61ca0eb504dd58ccd7020bd57c76b6208018d4bbd4e1f9bfd145a377b478a62d",
+        "code_sha256": "7cf9b31c2ae4c9dc22baf6f588a15c23a4b661310892475a59cd14b40720b5b5",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "program.py:13: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).\n  start_time = datetime.utcfromtimestamp(epoch_milliseconds / 1000.0)\nprogram.py:14: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  current_time = datetime.utcnow()\nhost_check.py:25: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).\nF.....\n======================================================================\nFAIL: test_case_1 (__main__.TestCases.test_case_1)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 23, in test_case_1\n  File \"host_check.py\", line 14, in _check_sales_data\nAssertionError: 2129 != 2130\n\n----------------------------------------------------------------------\nRan 6 tests in 0.032s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 60, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.560155
+      }
+    },
+    {
+      "task_id": "BigCodeBench/201",
+      "split": "test",
+      "checker": {
+        "checks_sha256": "12b7170f2763c5cf88415ccf831bc2904446ba255a967c7a98d5a2f4920aa08f",
+        "code_sha256": "149ae2ad2cf45d6900d685c014bac166318c13f95d1f2337ddff46534e936c1e",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "...EEE\n======================================================================\nERROR: test_no_values_greater_than_average (__main__.TestCases.test_no_values_greater_than_average)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 22, in test_no_values_greater_than_average\n  File \"program.py\", line 13, in task_func\n    data.sort()\n    ~~~~~~~~~^^\nValueError: sort array is read-only\n\n======================================================================\nERROR: test_norma_value (__main__.TestCases.test_norma_value)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 27, in test_norma_value\n  File \"program.py\", line 13, in task_func\n    data.sort()\n    ~~~~~~~~~^^\nValueError: sort array is read-only\n\n======================================================================\nERROR: test_valid_input (__main__.TestCases.test_valid_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 7, in test_valid_input\n  File \"program.py\", line 13, in task_func\n    data.sort()\n    ~~~~~~~~~^^\nValueError: sort array is read-only\n\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nFAILED (errors=3)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 35, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.291706
+      }
+    }
+  ],
+  "cohort_unchanged": true,
+  "grading": "Primary denominator remains all frozen tasks; oracle problems reported separately, no resampling"
+}

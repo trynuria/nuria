@@ -103,3 +103,23 @@ jobs:
           NURIA_DANDI_NWB="$RUNNER_TEMP/nuria-dandi/human-HO3.nwb" python -m unittest tests.test_nwb_spikes -v
           NURIA_DANDI_NWB="$RUNNER_TEMP/nuria-dandi/human-HO3.nwb" python -m unittest tests.test_active_observation -v
           python -m scripts.dandi_replay verify research/biology/dandi-01/binned.json research/biology/dandi-01/result.json
+  outcomes:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      NURIA_TEST_LINUX_ISOLATION: "1"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.14"
+      - name: Install isolated work runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --yes bubblewrap
+          python -m pip install -r research/outcome-learning/requirements.txt
+      - name: Check outcome learning, isolation and recovery
+        run: python -m unittest tests.test_outcome_worker tests.test_outcome_learning -v
+      - name: Reconstruct and independently execute held-out work
+        run: |
+          python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"

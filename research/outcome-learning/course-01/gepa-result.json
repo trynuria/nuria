@@ -1,0 +1,500 @@
+{
+  "_str_candidate_key": "current_candidate",
+  "best_idx": 0,
+  "best_outputs_valset": {
+    "0": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "a7041a216c9dc6155aac6f06f63310f192418c280bfb6e1a71191ce2cfae0f57",
+              "code_sha256": "a924aa3dbd4601b3a8368afccc2933e22439826fd775dbdcd44a8d913f3da936",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.243169
+            },
+            "program": "import pandas as pd\nimport numpy as np\ndef task_func(data, cols):\n    df = pd.DataFrame(data, columns=cols)\n    return df.corr(numeric_only=True)\n",
+            "task": "Turn the provided data into a DataFrame and then calculate the correlation matrix of numeric columns.\nThe function should output with:\n    correlation_matrix (pd.DataFrame): The correlation matrix.\nYou should write self-contained code starting with:\n```\nimport pandas as pd\nimport numpy as np\ndef task_func(data, cols):\n```\nRequired signature:\nimport pandas as pd\nimport numpy as np\ndef task_func(data, cols):\n"
+          }
+        ]
+      ]
+    ],
+    "1": [
+      [
+        0,
+        [
+          0.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "789b8d8c1ccc33bc98c642cdcc48be361a2dee53cbcc3a28f6b3699d7ee6fa70",
+              "code_sha256": "e3ba1ab0f5c522bc18470481bbb114aa92afe862edf28a75ce5033ae6d736435",
+              "exit_code": 1,
+              "passed": false,
+              "stderr": "EEEEEEEEE\n======================================================================\nERROR: test_case_1 (__main__.TestCases.test_case_1)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 7, in test_case_1\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 20, in test_case_2\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 33, in test_case_3\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 40, in test_case_4\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_5 (__main__.TestCases.test_case_5)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 44, in test_case_5\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_6 (__main__.TestCases.test_case_6)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 48, in test_case_6\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_7 (__main__.TestCases.test_case_7)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 58, in test_case_7\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_8 (__main__.TestCases.test_case_8)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 64, in test_case_8\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n======================================================================\nERROR: test_case_9 (__main__.TestCases.test_case_9)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 70, in test_case_9\n  File \"program.py\", line 15, in task_func\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8067, in pandas._libs.tslibs.offsets.to_offset\nTypeError: Argument 'freq' has incorrect type (expected str, got int)\n\n----------------------------------------------------------------------\nRan 9 tests in 0.003s\n\nFAILED (errors=9)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 77, in <module>\nAssertionError: Independent checks failed\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.237743
+            },
+            "program": "import math\nimport numpy as np\nfrom datetime import datetime\nimport pandas as pd\n\n\ndef task_func(\n    start_time,\n    end_time,\n    step,\n    columns=[\"Timestamp\", \"Sensor1\", \"Sensor2\", \"Sensor3\", \"SensorStatus\"],\n    sensor_statuses=[\"OK\", \"MAINTENANCE_REQUIRED\", \"ERROR\"],\n    random_seed=42,\n):\n    timestamps = pd.date_range(start=start_time, end=end_time, freq=step)\n    rng = np.random.RandomState(random_seed)\n    rows = []\n    for timestamp in timestamps:\n        seconds = timestamp.timestamp()\n        rows.append([\n            timestamp,\n            math.sin(seconds) + rng.normal(0, 0.1),\n            math.cos(seconds) + rng.normal(0, 0.1),\n            math.tan(seconds) + rng.normal(0, 0.1),\n            rng.choice(sensor_statuses),\n        ])\n    return pd.DataFrame(rows, columns=columns)\n",
+            "task": "Generate a DataFrame with detailed artificial sensor readings for specified timestamps and sensor statuses from a predefined list. The function generates sensor readings for Sensor1, Sensor2, and Sensor3 (or their corresponding named columns in the supplied column list) using sine, cosine, and tan functions, respectively, of the timestamp (converted to seconds), with a small random noise added to simulate real sensor data variability. SensorStatus is randomly chosen from the provided statuses for each timestamp.\nThe function should output with:\n    pd.DataFrame: Generated sensor readings for the given timestamps.\nYou should write self-contained code starting with:\n```\nimport math\nimport numpy as np\nfrom datetime import datetime\nimport pandas as pd\ndef task_func(\n    start_time,\n    end_time,\n    step,\n    columns=[\"Timestamp\", \"Sensor1\", \"Sensor2\", \"Sensor3\", \"SensorStatus\"],\n    sensor_statuses=[\"OK\", \"MAINTENANCE_REQUIRED\", \"ERROR\"],\n    random_seed=42,\n):\n```\nRequired signature:\nimport math\nimport numpy as np\nfrom datetime import datetime\nimport pandas as pd\ndef task_func(\n    start_time,\n    end_time,\n    step,\n    columns=[\"Timestamp\", \"Sensor1\", \"Sensor2\", \"Sensor3\", \"SensorStatus\"],\n    sensor_statuses=[\"OK\", \"MAINTENANCE_REQUIRED\", \"ERROR\"],\n    random_seed=42,\n):\n"
+          }
+        ]
+      ]
+    ],
+    "2": [
+      [
+        0,
+        [
+          0.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "1a8a78d74ea9127b6f5145ffb18590f1117570e9e59b54eb50919c6e492e9062",
+              "code_sha256": "9e847e1cf17a7430648a2cbbe4e779579976339328c13b07fc8fc2ef1117ae9b",
+              "exit_code": 1,
+              "passed": false,
+              "stderr": "...F.\n======================================================================\nFAIL: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 35, in test_case_4\nAssertionError: 'red' != 'black'\n- red\n+ black\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.018s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 49, in <module>\nAssertionError: Independent checks failed\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.504515
+            },
+            "program": "import matplotlib.pyplot as plt\nfrom itertools import zip_longest\n# Constants\nCOLORS = ['red', 'green', 'blue', 'yellow', 'purple']\ndef task_func(data, labels):\n    colors = COLORS * (len(labels) // len(COLORS) + 1)\n    fig, ax = plt.subplots()\n    for series, label, color in zip_longest(data, labels, colors):\n        if series is not None:\n            ax.plot(series, label=label, color=color if color is not None else 'black')\n    if ax.get_legend_handles_labels()[0]:\n        ax.legend()\n    return ax\n",
+            "task": "Plot a list of data with different colors. If there are more data series than the predefined colors, the function cycles through the colors. In case of even more series than colors + labels, 'black' is used.\nThe function should output with:\n    matplotlib.axes.Axes: The Axes object of the plot.\nYou should write self-contained code starting with:\n```\nimport matplotlib.pyplot as plt\nfrom itertools import zip_longest\n# Constants\nCOLORS = ['red', 'green', 'blue', 'yellow', 'purple']\ndef task_func(data, labels):\n```\nRequired signature:\nimport matplotlib.pyplot as plt\nfrom itertools import zip_longest\n# Constants\nCOLORS = ['red', 'green', 'blue', 'yellow', 'purple']\ndef task_func(data, labels):\n"
+          }
+        ]
+      ]
+    ],
+    "3": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "2e3dbcbb1ebad5cf301764a86dae9282af46f181bcb906de8eac54c23b41f033",
+              "code_sha256": "e8ba3460f7c97a09ff245787bee256d018f923f65ad3fb49f2e4bfcaaebdae31",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.029s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.509516
+            },
+            "program": "import string\nimport matplotlib.pyplot as plt\ndef task_func(s):\n    \"\"\"Return ASCII letter frequencies and their bar-chart Axes.\"\"\"\n    if not isinstance(s, str):\n        raise TypeError('s must be a string')\n\n    lowered = s.lower()\n    frequencies = {letter: lowered.count(letter) for letter in string.ascii_lowercase}\n    _, ax = plt.subplots()\n    ax.bar(list(frequencies), list(frequencies.values()))\n    ax.set_title('Letter Frequencies')\n    ax.set_xlabel('Letters')\n    ax.set_ylabel('Frequency')\n    return frequencies, ax\n",
+            "task": "Calculate the frequency of each letter in a string and return a bar chart of frequencies. Results are case-insensitive. If non-string input is provided, function will throw an error.\nThe function should output with:\n    tuple: A tuple containing:\n    dict: A dictionary with the frequency of each letter.\n    Axes: The bar subplot of 'Letter Frequencies' with 'Letters' on the x-axis and 'Frequency'\n    on the y-axis.\nYou should write self-contained code starting with:\n```\nimport string\nimport matplotlib.pyplot as plt\ndef task_func(s):\n```\nRequired signature:\nimport string\nimport matplotlib.pyplot as plt\ndef task_func(s):\n"
+          }
+        ]
+      ]
+    ],
+    "4": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "055c6a4786fdd49b10bb80f7b26fe3106015c06432be42677e23f5a69ff636f9",
+              "code_sha256": "f7a8d67a23b518fcbd42051938d7cd6a630e03e46f55bd65b508979852082bba",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.009s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.129149
+            },
+            "program": "import numpy as np\nimport random\nfrom difflib import SequenceMatcher\n\ndef task_func(s, min_length, max_length, letters):\n    length = np.random.randint(min_length, max_length + 1)\n    generated = ''.join(random.choice(letters) for _ in range(length))\n    similar = SequenceMatcher(None, s, generated).ratio() >= 0.5\n    return generated, similar\n",
+            "task": "Generates a random string of length between `min_length` and `max_length`, inclusive, using characters from `letters`, and evaluates its similarity to the provided string `s`. A similarity score of 0.5 or higher considered 'similar'.\nThe function should output with:\n    tuple: A tuple containing the generated string and a boolean indicating whether it's\n    considered similar to `s` based on the similarity threshold.\nYou should write self-contained code starting with:\n```\nimport numpy as np\nimport random\nfrom difflib import SequenceMatcher\ndef task_func(s, min_length, max_length, letters):\n```\nRequired signature:\nimport numpy as np\nimport random\nfrom difflib import SequenceMatcher\ndef task_func(s, min_length, max_length, letters):\n"
+          }
+        ]
+      ]
+    ],
+    "5": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "39ed8f03e2ab5fae154f975c71de44a482be6f77e1219a4db82a8990bd993d9a",
+              "code_sha256": "7886d09e7e9147dbe368cb35e99ae6d7c187a9c5c0af4b922d76f4a4a111df7b",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.075798
+            },
+            "program": "from collections import Counter\nimport math\ndef task_func(nested_dict):\n    totals = Counter()\n    for inner_dict in nested_dict.values():\n        totals.update(inner_dict)\n    totals.pop('ele', None)\n    return {key: math.sin(value) for key, value in totals.items()}\n",
+            "task": "Aggregate the values of the same keys from a nested dictionary and remove the \"ele\" key. For each remaining key take the sine.\nThe function should output with:\n    dict: A dictionary with aggregated values.\nYou should write self-contained code starting with:\n```\nfrom collections import Counter\nimport math\ndef task_func(nested_dict):\n```\nRequired signature:\nfrom collections import Counter\nimport math\ndef task_func(nested_dict):\n"
+          }
+        ]
+      ]
+    ],
+    "6": [
+      [
+        0,
+        [
+          0.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "972c6bdf787fd5c3bfb13bb7651f8c54d0319333b3360596429d8111c5e3f274",
+              "code_sha256": "2babdfec1cbd393760c14938e75a699645b75cdf4b0aa90cc3bdce984d219e51",
+              "exit_code": 1,
+              "passed": false,
+              "stderr": "..F..\n======================================================================\nFAIL: test_nested_directories (__main__.TestCases.test_nested_directories)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 45, in test_nested_directories\nAssertionError: 1 != 3 : Incorrect number of rows in CSV for nested directories\n\n----------------------------------------------------------------------\nRan 5 tests in 0.016s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 73, in <module>\nAssertionError: Independent checks failed\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.078087
+            },
+            "program": "import os\nimport os.path\nimport csv\nimport collections\n# Constants\nFILE_NAME = 'file_sizes.csv'\ndef task_func(my_path):\n    \"\"\"Write immediate file names and their sizes in bytes to a CSV report.\"\"\"\n    report_path = os.path.join(my_path, FILE_NAME)\n    sizes = collections.OrderedDict()\n    for name in os.listdir(my_path):\n        path = os.path.join(my_path, name)\n        if name != FILE_NAME and os.path.isfile(path):\n            sizes[name] = os.path.getsize(path)\n\n    with open(report_path, 'w', newline='', encoding='utf-8') as report:\n        writer = csv.writer(report)\n        writer.writerow(['File Name', 'Size (Bytes)'])\n        writer.writerows(sizes.items())\n    return report_path\n",
+            "task": "Create a report on the file size in a directory and write it to a CSV file.\nThe function should output with:\n    str: The path of the CSV file.\nYou should write self-contained code starting with:\n```\nimport os\nimport os.path\nimport csv\nimport collections\n# Constants\nFILE_NAME = 'file_sizes.csv'\ndef task_func(my_path):\n```\nRequired signature:\nimport os\nimport os.path\nimport csv\nimport collections\n# Constants\nFILE_NAME = 'file_sizes.csv'\ndef task_func(my_path):\n"
+          }
+        ]
+      ]
+    ],
+    "7": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "e298de68206d6ab7cc6de1b0a6732c3b851b011ca3011fb16600507d4b928c5a",
+              "code_sha256": "e9ddfefb728303311c7734d7af3858d4bd8cc7462ec857825d0b84ee7c2c3644",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.078135
+            },
+            "program": "import csv\nimport os\nfrom datetime import datetime\nfrom random import randint\n# Constants\nSENSORS = ['Temperature', 'Humidity', 'Pressure']\nOUTPUT_DIR = './output'\ndef task_func(hours, output_dir=OUTPUT_DIR):\n    \"\"\"Save hourly sensor readings to sensor_data.csv and return its path.\n\n    Readings are simulated integers from 0 to 100. Timestamps begin at\n    the current time and advance by one hour per row.\n    \"\"\"\n    from datetime import timedelta\n\n    os.makedirs(output_dir, exist_ok=True)\n    file_path = os.path.join(output_dir, 'sensor_data.csv')\n    start = datetime.now()\n    with open(file_path, 'w', newline='', encoding='utf-8') as csv_file:\n        writer = csv.writer(csv_file)\n        writer.writerow(['Time'] + SENSORS)\n        for hour in range(hours):\n            timestamp = (start + timedelta(hours=hour)).strftime('%Y-%m-%d %H:%M:%S')\n            writer.writerow([timestamp] + [randint(0, 100) for _ in SENSORS])\n    return file_path\n",
+            "task": "Create sensor data for the specified number of hours and save it in a CSV file with coloumns 'Time', 'Temperature', 'Humidity' and 'Pressure'.\nThe function should output with:\n    hours (int): Number of hours to generate data for.\nYou should write self-contained code starting with:\n```\nimport csv\nimport os\nfrom datetime import datetime\nfrom random import randint\n# Constants\nSENSORS = ['Temperature', 'Humidity', 'Pressure']\nOUTPUT_DIR = './output'\ndef task_func(hours, output_dir=OUTPUT_DIR):\n```\nRequired signature:\nimport csv\nimport os\nfrom datetime import datetime\nfrom random import randint\n# Constants\nSENSORS = ['Temperature', 'Humidity', 'Pressure']\nOUTPUT_DIR = './output'\ndef task_func(hours, output_dir=OUTPUT_DIR):\n"
+          }
+        ]
+      ]
+    ],
+    "8": [
+      [
+        0,
+        [
+          0.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "dc94bc68e9b81b68bf3b0b7df0af5902a04005f14fe33cdf43ede3444eb88934",
+              "code_sha256": "8f0321f625f0310721a5ead992b4291e22a9e1d2e005f8c3fe4ba9521a6d3bd4",
+              "exit_code": 1,
+              "passed": false,
+              "stderr": "EEEEE\n======================================================================\nERROR: test_case_1 (__main__.TestCases.test_case_1)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 31, in test_case_1\n  File \"program.py\", line 30, in task_func\n    os.makedirs(destination, exist_ok=True)\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 236, in makedirs\nFileExistsError: [Errno 17] File exists: '<execution>/tmpovdt0qdn/test/test_file1.txt'\n\n======================================================================\nERROR: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 41, in test_case_2\n  File \"program.py\", line 30, in task_func\n    os.makedirs(destination, exist_ok=True)\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 236, in makedirs\nFileExistsError: [Errno 17] File exists: '<execution>/tmpze6v742i/test/test_file2.txt'\n\n======================================================================\nERROR: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 49, in test_case_3\n  File \"program.py\", line 30, in task_func\n    os.makedirs(destination, exist_ok=True)\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 236, in makedirs\nFileExistsError: [Errno 17] File exists: '<execution>/tmpz0925abx/test/test_file1.txt'\n\n======================================================================\nERROR: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 54, in test_case_4\n  File \"program.py\", line 30, in task_func\n    os.makedirs(destination, exist_ok=True)\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 236, in makedirs\nFileExistsError: [Errno 17] File exists: '<execution>/tmpgb2egxtt/test/test_file1.txt'\n\n======================================================================\nERROR: test_case_5 (__main__.TestCases.test_case_5)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 60, in test_case_5\n  File \"program.py\", line 30, in task_func\n    os.makedirs(destination, exist_ok=True)\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen os>\", line 236, in makedirs\nFileExistsError: [Errno 17] File exists: '<execution>/tmp6qqadobu/test/test_file1.txt'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nFAILED (errors=5)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 66, in <module>\nAssertionError: Independent checks failed\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.287478
+            },
+            "program": "import re\nimport os\nimport shutil\nfrom datetime import datetime\n\ndef task_func(directory):\n    \"\"\"Move immediate files into folders named for their first unbracketed text.\"\"\"\n    moved = {}\n    for filename in os.listdir(directory):\n        source = os.path.join(directory, filename)\n        if not os.path.isfile(source):\n            continue\n\n        # Track brackets so text inside bracketed sections is not a candidate.\n        depth = 0\n        folder = None\n        for match in re.finditer(r'\\[|\\]|[^\\[\\]]+', filename):\n            text = match.group()\n            if text == '[':\n                depth += 1\n            elif text == ']':\n                depth = max(0, depth - 1)\n            elif depth == 0 and text.strip():\n                folder = text.strip()\n                break\n\n        if folder is None:\n            continue\n        destination = os.path.join(directory, folder)\n        os.makedirs(destination, exist_ok=True)\n        shutil.move(source, os.path.join(destination, filename))\n        moved.setdefault(folder, []).append(filename)\n\n    return os.fsdecode(directory), moved\n",
+            "task": "Organize files in a directory based on the first text that is not enclosed in square brackets. Move the files to subdirectories named after this text. If no matching text is found, the file is not moved.\nThe function should output with:\n    tuple:\n    str: The directory path with organized files.\n    dict: A dictionary where keys are the created subdirectories and values are lists of files moved to them.\nYou should write self-contained code starting with:\n```\nimport re\nimport os\nimport shutil\nfrom datetime import datetime\ndef task_func(directory):\n```\nRequired signature:\nimport re\nimport os\nimport shutil\nfrom datetime import datetime\ndef task_func(directory):\n"
+          }
+        ]
+      ]
+    ],
+    "9": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "42f6f6ccb753142f951a46b4179ea37ae0754a0893c1ef93b46139ac40de771d",
+              "code_sha256": "e55d88cb28c9a4e0f9de65714ec6b38d2dfd99dce0482026c2b1cc51914ffabf",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.003s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.132605
+            },
+            "program": "import os\nimport shutil\nimport glob\nimport hashlib\n\ndef task_func(ROOT_DIR, DEST_DIR, SPECIFIC_HASH):\n    os.makedirs(DEST_DIR, exist_ok=True)\n    moved = 0\n    for name in os.listdir(ROOT_DIR):\n        path = os.path.join(ROOT_DIR, name)\n        if not os.path.isfile(path):\n            continue\n        digest = hashlib.md5()\n        with open(path, 'rb') as file:\n            for chunk in iter(lambda: file.read(1024 * 1024), b''):\n                digest.update(chunk)\n        if digest.hexdigest() == SPECIFIC_HASH:\n            shutil.move(path, DEST_DIR)\n            moved += 1\n    return moved\n",
+            "task": "Moves all files from a specified root directory (ROOT_DIR) to a target directory (DEST_DIR) if they match a specific hash value (SPECIFIC_HASH). The function calculates the MD5 hash of each file in ROOT_DIR and moves it if the hash matches SPECIFIC_HASH.\nNote that: The function assumes the existence of the root directory. The existence of DEST_DIR is ensured by the function.\nThe function should output with:\n    int: The number of files moved to the target directory.\nYou should write self-contained code starting with:\n```\nimport os\nimport shutil\nimport glob\nimport hashlib\ndef task_func(ROOT_DIR, DEST_DIR, SPECIFIC_HASH):\n```\nRequired signature:\nimport os\nimport shutil\nimport glob\nimport hashlib\ndef task_func(ROOT_DIR, DEST_DIR, SPECIFIC_HASH):\n"
+          }
+        ]
+      ]
+    ],
+    "10": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "bbb3aba8adb2d82f5f7d3b9f4a0b595d6e83d02b7c3f741d12e076b91fdb01d7",
+              "code_sha256": "0fbadb6eb4f694f0d4e08dd166599801934015cd59464024d631efe640ed842c",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 10.434s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 10.503372
+            },
+            "program": "import time\nimport random\n\ndef task_func(iterations=5, min_delay=1.0, max_delay=2.0, seed=None):\n    if isinstance(iterations, bool) or not isinstance(iterations, int) or iterations <= 0:\n        raise ValueError('iterations must be a positive integer')\n    if not isinstance(min_delay, float) or not min_delay > 0:\n        raise ValueError('min_delay must be a positive floating point value')\n    if not isinstance(max_delay, float) or not max_delay > 0:\n        raise ValueError('max_delay must be a positive floating point value')\n\n    if seed is not None:\n        random.seed(seed)\n\n    messages = []\n    total_delay = 0.0\n    for _ in range(iterations):\n        delay = random.uniform(min_delay, max_delay)\n        time.sleep(delay)\n        messages.append(f'{delay:.2f} seconds have passed')\n        total_delay += delay\n    return messages, total_delay\n",
+            "task": "Simulates a delay and then returns a message indicating the elapsed time. This is repeated for a specified number of iterations. For each iteration the delay is randomly sampled from a uniform distribution specified by min_delay and max_delay. After each iteration the message: '{delay} seconds have passed', where {delay} is replaces with the actual delay of the iteration with 2 positions after the decimal point, is saved to an array. The function returns a list of all messages, as well as the total delay. >>> messages, delay = task_func(2, 2.0, 4.2, seed=12) >>> print(messages) ['3.04 seconds have passed', '3.45 seconds have passed'] >>> print(delay) 6.490494998960768\nThe function should raise the exception for: ValueError: If iterations is not a positive integer or if min_delay/max_delay is not a positive floating point value.\nThe function should output with:\n    list of str: A list of messages indicating the elapsed time for each iteration.\n    float: The total amount of delay\nYou should write self-contained code starting with:\n```\nimport time\nimport random\ndef task_func(iterations=5, min_delay=1.0, max_delay=2.0, seed=None):\n```\nRequired signature:\nimport time\nimport random\ndef task_func(iterations=5, min_delay=1.0, max_delay=2.0, seed=None):\n"
+          }
+        ]
+      ]
+    ],
+    "11": [
+      [
+        0,
+        [
+          0.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "fdb96f7b85db4d1cd328c6d5a72316b4b68b2dd786e1975519defe82b5f6402e",
+              "code_sha256": "20a1f911255e78d0e797771e2a19e79d214503961a56aeb3a1b15aa1b334e6fe",
+              "exit_code": 1,
+              "passed": false,
+              "stderr": "..FF.F\n======================================================================\nFAIL: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 21, in test_case_3\nAssertionError: Tuples differ: ([], None) != ([], datetime.time(0, 0))\n\nFirst differing element 1:\nNone\ndatetime.time(0, 0)\n\n- ([], None)\n+ ([], datetime.time(0, 0))\n\n======================================================================\nFAIL: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 25, in test_case_4\nAssertionError: Tuples differ: ([], None) != ([], datetime.time(0, 0))\n\nFirst differing element 1:\nNone\ndatetime.time(0, 0)\n\n- ([], None)\n+ ([], datetime.time(0, 0))\n\n======================================================================\nFAIL: test_case_invalid_format (__main__.TestCases.test_case_invalid_format)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 37, in test_case_invalid_format\nAssertionError: Tuples differ: ([], None) != ([], datetime.time(0, 0))\n\nFirst differing element 1:\nNone\ndatetime.time(0, 0)\n\n- ([], None)\n+ ([], datetime.time(0, 0))\n\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nFAILED (failures=3)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 42, in <module>\nAssertionError: Independent checks failed\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.078622
+            },
+            "program": "import re\nfrom datetime import time\n\ndef task_func(logs: list):\n    \"\"\"Return error times in log order and their arithmetic mean time of day.\"\"\"\n    error_times = []\n    for log in logs:\n        match = re.search(r'(\\d{2}):(\\d{2}):(\\d{2}).*\\bERROR\\b', log)\n        if match:\n            hour, minute, second = map(int, match.groups())\n            error_times.append(time(hour, minute, second))\n\n    if not error_times:\n        return [], None\n\n    total_seconds = sum(\n        value.hour * 3600 + value.minute * 60 + value.second\n        for value in error_times\n    )\n    average_seconds = int(total_seconds / len(error_times))\n    hour, remainder = divmod(average_seconds, 3600)\n    minute, second = divmod(remainder, 60)\n    return error_times, time(hour, minute, second)\n",
+            "task": "Analyze the given list of logs for the occurrence of errors and calculate the average time of occurrence of errors.\nThe function should output with:\n    list: A list of times when errors occurred.\n    time: The average time of occurrence of these errors.\nYou should write self-contained code starting with:\n```\nimport re\nfrom datetime import time\ndef task_func(logs: list):\n```\nRequired signature:\nimport re\nfrom datetime import time\ndef task_func(logs: list):\n"
+          }
+        ]
+      ]
+    ],
+    "12": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "7e3e1ee329fb4aa40130d64e86d00d1cb258d35cd145f53685511e60dd675ff2",
+              "code_sha256": "80843d1cd64f1fc52e127e7dbdf372e633a97894c71bf428736dd6cb7ccc0121",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.076895
+            },
+            "program": "import random\nimport string\nPOSSIBLE_LETTERS = ['a', 'b', 'c']\ndef task_func(word):\n    if any(not char.isalpha() for char in word):\n        raise ValueError('Input must contain only letters')\n    if len(word) < 2:\n        return [''] * len(POSSIBLE_LETTERS)\n    pairs = [word[i:i + 2] for i in range(len(word) - 1)]\n    return [random.choice(pairs) for _ in POSSIBLE_LETTERS]\n",
+            "task": "Generates a list of random pairs of adjacent letters from the given word. The number of such pairs will be equal to the length of the constant POSSIBLE_LETTERS.\nThe function should raise the exception for: ValueError: If the input contains non-letter characters.\nThe function should output with:\n    list: A list of random pairs of adjacent letters from the word. If the word has fewer than 2 letters, returns a list of empty strings based on POSSIBLE_LETTERS length.\nYou should write self-contained code starting with:\n```\nimport random\nimport string\nPOSSIBLE_LETTERS = ['a', 'b', 'c']\ndef task_func(word):\n```\nRequired signature:\nimport random\nimport string\nPOSSIBLE_LETTERS = ['a', 'b', 'c']\ndef task_func(word):\n"
+          }
+        ]
+      ]
+    ],
+    "13": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "3a465d8ea73508ac01da05043c2d25b75c336ed55445b8c923948185bc7db0fc",
+              "code_sha256": "932c3277792b48b8c16fd6d5479ec3addd02a5f38a5201a7e3b47869402622bc",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.073588
+            },
+            "program": "import re\nimport string\n# Constants\nPUNCTUATION = string.punctuation\ndef task_func(text):\n    words = re.findall(r'\\b\\w+\\b', text)\n    punctuation_count = sum(char in PUNCTUATION for char in text)\n    return len(words), punctuation_count\n",
+            "task": "Count the number of words and punctuation marks in a string.\nThe function should output with:\n    tuple: A tuple containing the number of words and punctuation marks.\nYou should write self-contained code starting with:\n```\nimport re\nimport string\n# Constants\nPUNCTUATION = string.punctuation\ndef task_func(text):\n```\nRequired signature:\nimport re\nimport string\n# Constants\nPUNCTUATION = string.punctuation\ndef task_func(text):\n"
+          }
+        ]
+      ]
+    ],
+    "14": [
+      [
+        0,
+        [
+          1.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "fd265a54d54f9182c338cc67f5e6e0c4c6556389b86b9bb512e689ca3370e8a1",
+              "code_sha256": "34ca59e42691a23c2e78dc62f37cf72fd83fde6f6a4c8b893936257f027b8a0a",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.002s\n\nOK\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.07546
+            },
+            "program": "import random\nfrom collections import Counter\n# Constants\nCARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']\ndef task_func(x=1):\n    deck = CARDS * 4\n    hands = []\n    counts = Counter()\n    for _ in range(x):\n        hand = random.sample(deck, 5)\n        hands.append(hand)\n        counts.update(hand)\n    return hands, counts\n",
+            "task": "Draw x random 5-card poker hands from a 52-card pack (without suits) and return the hands along with a counter of the drawn cards. The output is random; hence, the returned list will vary with each call.\nThe function should output with:\n    tuple: A tuple containing two elements:\n    list of list str: Each inner list contains 5 strings, representing a 5-card poker hand.\n    Counter: A counter of the drawn cards.\nYou should write self-contained code starting with:\n```\nimport random\nfrom collections import Counter\n# Constants\nCARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']\ndef task_func(x=1):\n```\nRequired signature:\nimport random\nfrom collections import Counter\n# Constants\nCARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']\ndef task_func(x=1):\n"
+          }
+        ]
+      ]
+    ],
+    "15": [
+      [
+        0,
+        [
+          0.0,
+          {
+            "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+          },
+          {
+            "outcome": {
+              "checks_sha256": "1074b0baed4be88b04a19cce5d674210d6c9edb2758df30d79207cd19b9bc3c9",
+              "code_sha256": "12b631e114a1ef89dff7c4fed180be7400c5da1f5346752b2977621a614e604c",
+              "exit_code": 1,
+              "passed": false,
+              "stderr": "FF.F.\n======================================================================\nFAIL: test_case_1 (__main__.TestCases.test_case_1)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 12, in test_case_1\nAssertionError: 1 != 10\n\n======================================================================\nFAIL: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 20, in test_case_2\nAssertionError: 1 != 5\n\n======================================================================\nFAIL: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 33, in test_case_4\nAssertionError: 1 != 0\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nFAILED (failures=3)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 44, in <module>\nAssertionError: Independent checks failed\n",
+              "stdout": "",
+              "timed_out": false,
+              "wall_seconds": 0.078392
+            },
+            "program": "from collections import defaultdict\nfrom random import randint\ndef task_func(dict1):\n    departments = defaultdict(list)\n    for department, salary in dict1.items():\n        if department.startswith('EMP$$'):\n            departments[department].append(salary)\n    return dict(departments)\n",
+            "task": "Create a dictionary of employee data for departments starting with 'EMP$$'. The keys are department codes and the values are lists of the salaries of employees in that department.\nThe function should output with:\n    dict: A dictionary with department codes starting with 'EMP$$' as keys and lists of employee salaries as values.\nYou should write self-contained code starting with:\n```\nfrom collections import defaultdict\nfrom random import randint\ndef task_func(dict1):\n```\nRequired signature:\nfrom collections import defaultdict\nfrom random import randint\ndef task_func(dict1):\n"
+          }
+        ]
+      ]
+    ]
+  },
+  "candidates": [
+    {
+      "current_candidate": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n"
+    }
+  ],
+  "discovery_eval_counts": [
+    0
+  ],
+  "num_full_val_evals": 1,
+  "objective_pareto_front": null,
+  "parents": [
+    [
+      null
+    ]
+  ],
+  "per_objective_best_candidates": null,
+  "per_val_instance_best_candidates": {
+    "0": [
+      0
+    ],
+    "1": [
+      0
+    ],
+    "2": [
+      0
+    ],
+    "3": [
+      0
+    ],
+    "4": [
+      0
+    ],
+    "5": [
+      0
+    ],
+    "6": [
+      0
+    ],
+    "7": [
+      0
+    ],
+    "8": [
+      0
+    ],
+    "9": [
+      0
+    ],
+    "10": [
+      0
+    ],
+    "11": [
+      0
+    ],
+    "12": [
+      0
+    ],
+    "13": [
+      0
+    ],
+    "14": [
+      0
+    ],
+    "15": [
+      0
+    ]
+  },
+  "run_dir": null,
+  "seed": 0,
+  "total_metric_calls": 34,
+  "val_aggregate_scores": [
+    0.625
+  ],
+  "val_aggregate_subscores": null,
+  "val_subscores": [
+    {
+      "0": 1.0,
+      "1": 0.0,
+      "2": 0.0,
+      "3": 1.0,
+      "4": 1.0,
+      "5": 1.0,
+      "6": 0.0,
+      "7": 1.0,
+      "8": 0.0,
+      "9": 1.0,
+      "10": 1.0,
+      "11": 0.0,
+      "12": 1.0,
+      "13": 1.0,
+      "14": 1.0,
+      "15": 0.0
+    }
+  ],
+  "validation_schema_version": 2
+}

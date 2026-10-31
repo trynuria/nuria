@@ -1,0 +1,1298 @@
+[
+  {
+    "accepted": false,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "from io import StringIO\n\nentries = [\n    {'name': 'Ada', 'age': 30, 'city': 'London'},\n    \"{'name': 'Ben', 'age': 25, 'city': 'Paris'}\",\n    {'name': 'Cora', 'age': 40, 'city': 'Rome'},\n    \"{'name': 'Dan', 'age': 20}\",\n    {'name': 'Eve', 'age': 35},\n]\nfile_pointer = StringIO(json.dumps(entries))\nresult = task_func(file_pointer)\nassert isinstance(result, Counter)\nassert result == Counter({'name': 5, 'age': 5, 'city': 3})\nassert list(result) == ['name', 'age', 'city']\nassert not file_pointer.closed\nassert task_func(StringIO('[]')) == Counter()\nassert task_func(StringIO('[{}, \"{}\"]')) == Counter()\n",
+          "code": "import ast\nimport json\nfrom collections import Counter\n\n\ndef task_func(file_pointer):\n    \"\"\"Count key occurrences across JSON dictionaries and dictionary literals.\"\"\"\n    data = json.load(file_pointer)\n    counts = Counter()\n    for entry in data:\n        if isinstance(entry, str):\n            entry = ast.literal_eval(entry)\n        counts.update(entry.keys())\n    return counts\n",
+          "lesson": "Use ast.literal_eval for Python dictionary literals and update Counter with dictionary keys rather than dictionary values."
+        },
+        "response_sha256": "6d5061fb367c01ecbfc32f6ebbfd48954d0ae696db730143e526f78830465c31",
+        "smoke": {
+          "checks_sha256": "0c78b3c3bc3345782a5b23d29a5ebab1e2c92ec9c63010f430bf274c105c31df",
+          "code_sha256": "6d08e2e237c7b7d33941b0375393d7acc34c0bacd316066bdc7e21ff4ed47656",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.077385
+        },
+        "usage": {
+          "completion_tokens": 334,
+          "prompt_tokens": 476,
+          "reasoning_tokens": 0,
+          "total_tokens": 810
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "87abbb340aa87defce6943ac0644a94c07b466b265732a57c9eb60461f6387d3",
+      "code_sha256": "6d08e2e237c7b7d33941b0375393d7acc34c0bacd316066bdc7e21ff4ed47656",
+      "exit_code": 1,
+      "passed": false,
+      "stderr": "..E.....\n======================================================================\nERROR: test_mixed_valid_invalid_dicts (__main__.TestCases.test_mixed_valid_invalid_dicts)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 41, in test_mixed_valid_invalid_dicts\n  File \"program.py\", line 12, in task_func\n    entry = ast.literal_eval(entry)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ast.py\", line 106, in literal_eval\n    return _convert(node_or_string)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ast.py\", line 105, in _convert\n    return _convert_signed_num(node)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ast.py\", line 79, in _convert_signed_num\n    return _convert_num(node)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ast.py\", line 70, in _convert_num\n    _raise_malformed_node(node)\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ast.py\", line 67, in _raise_malformed_node\n    raise ValueError(msg + f': {node!r}')\nValueError: malformed node or string on line 1: Name(id='Invalid', ctx=Load())\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nFAILED (errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 69, in <module>\nAssertionError: Independent checks failed\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.078667
+    },
+    "code": "import ast\nimport json\nfrom collections import Counter\n\n\ndef task_func(file_pointer):\n    \"\"\"Count key occurrences across JSON dictionaries and dictionary literals.\"\"\"\n    data = json.load(file_pointer)\n    counts = Counter()\n    for entry in data:\n        if isinstance(entry, str):\n            entry = ast.literal_eval(entry)\n        counts.update(entry.keys())\n    return counts\n",
+    "experience_ids": [],
+    "family": "structured-data",
+    "job_id": "train-1090",
+    "lesson": "Use ast.literal_eval for Python dictionary literals and update Counter with dictionary keys rather than dictionary values.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import ast\nimport json\nfrom collections import Counter\n\n\ndef task_func(file_pointer):\n    \"\"\"\n    Reads from a given file pointer to a JSON file, evaluates strings that represent dictionaries to actual dictionaries,\n    and counts the frequency of each key across all dictionary entries in the JSON data.\n\n    \n    Parameters:\n    file_pointer (file object): An open file object pointing to the JSON file containing the data. This file should\n                                already be opened in the correct mode (e.g., 'r' for reading).\n\n    Returns:\n    collections.Counter: A Counter object representing the frequency of each key found in the dictionaries.\n\n    Requirements:\n    - ast\n    - json\n    - collections.Counter\n    \n    Note:\n    This function assumes the input JSON data is a list of dictionaries or strings that can be evaluated as dictionaries.\n    \n    Example:\n    >>> with open(\"data.json\", \"r\") as file:\n    >>>    key_frequency = task_func(file)\n    >>>    print(key_frequency)\n    Counter({'name': 5, 'age': 5, 'city': 3})\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "d2578fd486245dda42179936d8e12e323e6fff7283cc0d2fd3936d01e443dab1",
+    "replayed": false,
+    "source_sha256": "e7582a383c01a2480c053edc517d1b498273dfd174ba583c54c40dc29f1d8641",
+    "task_id": "BigCodeBench/1090",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "result = [{\"hi\": 7, \"http://google.com\": 0}, {\"https://google.com\": 0}, {\"http://www.cwi.nl\": 1}]\nassert task_func(result) == {0: 2}\nassert task_func([]) == {}\nassert task_func([{\"hi\": 7}]) == {}\nassert task_func([{\"https://a.com\": 2}, {\"http://b.com\": 3}]) == {2: 1, 3: 1}\n",
+          "code": "from collections import Counter\nimport re\n\n\ndef task_func(result):\n    \"\"\"Return the most frequent values of URL keys, with their counts.\"\"\"\n    url_pattern = re.compile(r\"^https?://\")\n    counts = Counter(\n        value\n        for item in result\n        for key, value in item.items()\n        if url_pattern.match(key)\n    )\n    if not counts:\n        return {}\n    highest_count = max(counts.values())\n    return {\n        value: count\n        for value, count in counts.items()\n        if count == highest_count\n    }\n",
+          "lesson": "Count values only after filtering URL keys, then retain every value tied for the highest frequency while preserving first-seen order."
+        },
+        "response_sha256": "b2649fc67e5fb48d4b4801e00d4bc738cb2fe4a50cb1f3840710f6d826e422fd",
+        "smoke": {
+          "checks_sha256": "8d3b0ec0011047d6f9f0be672d9aa41d5a2e918bbf499d6061db5714b63e8b74",
+          "code_sha256": "c964e7b46fb54bf75646b27f5dfe595cb8d4bda39ed40dd5afb66f62eaa02d69",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.072608
+        },
+        "usage": {
+          "completion_tokens": 428,
+          "prompt_tokens": 378,
+          "reasoning_tokens": 134,
+          "total_tokens": 806
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "b2e428cf2901a09df14377c0dbe44b4e128e61feafe1e801e6d932fd30068876",
+      "code_sha256": "c964e7b46fb54bf75646b27f5dfe595cb8d4bda39ed40dd5afb66f62eaa02d69",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.074235
+    },
+    "code": "from collections import Counter\nimport re\n\n\ndef task_func(result):\n    \"\"\"Return the most frequent values of URL keys, with their counts.\"\"\"\n    url_pattern = re.compile(r\"^https?://\")\n    counts = Counter(\n        value\n        for item in result\n        for key, value in item.items()\n        if url_pattern.match(key)\n    )\n    if not counts:\n        return {}\n    highest_count = max(counts.values())\n    return {\n        value: count\n        for value, count in counts.items()\n        if count == highest_count\n    }\n",
+    "experience_ids": [],
+    "family": "text",
+    "job_id": "train-1108",
+    "lesson": "Count values only after filtering URL keys, then retain every value tied for the highest frequency while preserving first-seen order.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "from collections import Counter\nimport re\n\ndef task_func(result):\n    \"\"\"\n    Get the most common values associated with the url key in the dictionary list \"result.\"\n\n    Parameters:\n    result (list): A list of dictionaries.\n\n    Returns:\n    dict: A dictionary with the most common values and their counts.\n\n    Requirements:\n    - collections\n    - re\n\n    Example:\n    >>> result = [{\"hi\": 7, \"http://google.com\": 0}, {\"https://google.com\": 0}, {\"http://www.cwi.nl\": 1}]\n    >>> task_func(result)\n    {0: 2}\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "2d4c78540af80fcaa82578a10d398b366c49558f9666c105b303c4a09e1f01d1",
+    "replayed": false,
+    "source_sha256": "ae2bea37581da910025d32c283f48af57c3f9f1987f1dbee7ba8132924a70e1e",
+    "task_id": "BigCodeBench/1108",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "from matplotlib.axes import Axes\n\nax = task_func([('a', 10), ('b', 15), ('a', 5), ('c', 20)])\nassert isinstance(ax, Axes)\nassert ax.get_xlabel() == 'Letter'\nassert ax.get_ylabel() == 'Count'\nassert ax.get_title() == 'Letter Counts with Max Value Letter Highlighted'\nassert [text.get_text() for text in ax.get_legend().get_texts()] == ['Letter Counts', 'Max Value Letter']\nassert [bar.get_height() for bar in ax.containers[0]] == [2, 1, 1]\nassert ax.containers[1][0].get_x() == ax.containers[0][2].get_x()\nplt.close(ax.figure)\n\nax = task_func([('z', -2), ('x', -5), ('z', -3)])\nassert [bar.get_height() for bar in ax.containers[0]] == [2, 1]\nassert ax.containers[1][0].get_height() == 2\nassert ax.containers[1][0].get_x() == ax.containers[0][0].get_x()\nplt.close(ax.figure)\n",
+          "code": "import collections\nfrom operator import itemgetter\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data):\n    \"\"\"Plot letter frequencies and highlight the letter with the maximum value.\"\"\"\n    counts = collections.Counter(letter for letter, value in data)\n    max_letter = max(data, key=itemgetter(1))[0]\n\n    fig, ax = plt.subplots()\n    ax.bar(list(counts), list(counts.values()), label='Letter Counts')\n    ax.bar([max_letter], [counts[max_letter]], color='red',\n           label='Max Value Letter')\n    ax.set_xlabel('Letter')\n    ax.set_ylabel('Count')\n    ax.set_title('Letter Counts with Max Value Letter Highlighted')\n    ax.legend()\n    return ax\n",
+          "lesson": "Keep frequency counting separate from maximum-value selection: the highlighted letter is chosen by its integer value, while its bar height remains its occurrence count."
+        },
+        "response_sha256": "356bbacc2a8b703c61d92035ed2795dbf691dade175804d07294fd31ff19c605",
+        "smoke": {
+          "checks_sha256": "b787e738905353faec0f9c00a5384bfcd1fdb9893da4927ecaae91ad40c182e1",
+          "code_sha256": "5c02ea2edc3a108a56bbece3747b10cacd2c57121692316552469a964fd5177f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.50204
+        },
+        "usage": {
+          "completion_tokens": 566,
+          "prompt_tokens": 462,
+          "reasoning_tokens": 74,
+          "total_tokens": 1028
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "ccf0d594d089495b146e5958cadfc700937835fd79ed646e53ed2938678b9c24",
+      "code_sha256": "5c02ea2edc3a108a56bbece3747b10cacd2c57121692316552469a964fd5177f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.023s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.565257
+    },
+    "code": "import collections\nfrom operator import itemgetter\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data):\n    \"\"\"Plot letter frequencies and highlight the letter with the maximum value.\"\"\"\n    counts = collections.Counter(letter for letter, value in data)\n    max_letter = max(data, key=itemgetter(1))[0]\n\n    fig, ax = plt.subplots()\n    ax.bar(list(counts), list(counts.values()), label='Letter Counts')\n    ax.bar([max_letter], [counts[max_letter]], color='red',\n           label='Max Value Letter')\n    ax.set_xlabel('Letter')\n    ax.set_ylabel('Count')\n    ax.set_title('Letter Counts with Max Value Letter Highlighted')\n    ax.legend()\n    return ax\n",
+    "experience_ids": [],
+    "family": "visualization",
+    "job_id": "train-210",
+    "lesson": "Keep frequency counting separate from maximum-value selection: the highlighted letter is chosen by its integer value, while its bar height remains its occurrence count.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import collections\nfrom operator import itemgetter\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data):\n    \"\"\"\n    Generate a bar plot showing the frequency of letters in the given dataset, \n    and highlight the letter associated with the maximum integer value.\n    \n    Parameters:\n    data (list of tuples): A list where each tuple contains a letter (str) and an integer.\n\n    Returns:\n    matplotlib.axes.Axes: The Axes object of the generated plot, with the x-axis labeled 'Letter', the y-axis labeled 'Count', the title 'Letter Counts with Max Value Letter Highlighted', and the labels 'Letter Counts' and 'Max Value Letter' in the legend.\n    \n    Requirements:\n    - collections\n    - operator\n    - matplotlib.pyplot\n\n    Example:\n    >>> dataset = [('a', 10), ('b', 15), ('a', 5), ('c', 20)]\n    >>> ax = task_func(dataset)\n    >>> type(ax)\n    <class 'matplotlib.axes._axes.Axes'>\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "d593a8303868ae5f655825047059d3416416d0db0093a1bcd4d45c3bfee69c4e",
+    "replayed": false,
+    "source_sha256": "c2779d18231d540e3a64dcfdfa0a4286a9aa4e81ebdb969b001445a6f1c8af4a",
+    "task_id": "BigCodeBench/210",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": false,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "from unittest.mock import Mock, patch, call\n\n# Exercise drawing without opening a graphical window or actually sleeping.\nnamespace = task_func.__globals__\nexample = ['red', 'blue', 'green', 'yellow', 'purple']\nfor colors in (example, ['red']):\n    fake_turtle = Mock()\n    fake_time = Mock()\n    selected = [colors[i % len(colors)] for i in range(5)]\n    fake_choice = Mock(side_effect=selected)\n    with patch.dict(namespace, turtle=fake_turtle, time=fake_time, choice=fake_choice):\n        assert task_func(colors) is None\n    fake_turtle.Screen.assert_called_once_with()\n    fake_turtle.Turtle.assert_called_once_with()\n    pen = fake_turtle.Turtle.return_value\n    assert pen.color.call_args_list == [call(color) for color in selected]\n    assert pen.forward.call_args_list == [call(100)] * 20\n    assert pen.right.call_args_list == [call(90)] * 20\n    assert fake_choice.call_args_list == [call(colors)] * 5\n    assert fake_time.sleep.call_args_list == [call(1)] * 4\n    fake_turtle.done.assert_called_once_with()\n\n# An empty palette retains random.choice's normal error behavior.\nfake_turtle = Mock()\nfake_time = Mock()\nwith patch.dict(namespace, turtle=fake_turtle, time=fake_time):\n    try:\n        task_func([])\n    except IndexError:\n        pass\n    else:\n        raise AssertionError('Expected IndexError for an empty palette')\nassert not fake_time.sleep.called\nassert not fake_turtle.done.called\n",
+          "code": "from random import choice\nimport turtle\nimport time\n\n\ndef task_func(colors):\n    \"\"\"Draw five randomly colored squares, pausing between squares.\n\n    Keep the Turtle Graphics window open until it is closed by the user.\n    \"\"\"\n    turtle.Screen()\n    pen = turtle.Turtle()\n    for index in range(5):\n        pen.color(choice(colors))\n        for _ in range(4):\n            pen.forward(100)\n            pen.right(90)\n        if index < 4:\n            time.sleep(1)\n    turtle.done()\n",
+          "lesson": "For graphical functions, mock the graphics and timing dependencies to check drawing operations without a display; interpret pauses between five actions as four pauses."
+        },
+        "response_sha256": "be3970438a9de0656ed66b63a231b5ad9aa4a3db4fcfd69da0cf84d57efda43f",
+        "smoke": {
+          "checks_sha256": "5c5e27be91079250bf0de0d6d61037ff50731e610d26c7773d0b87af7a29b0f7",
+          "code_sha256": "78ebfa6def77ef0e8cf573e54495d28471d06959105943824a0922cc082bde05",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 12, in <module>\n    exec(compile(open('program.py').read(),'program.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"program.py\", line 2, in <module>\n    import turtle\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/turtle.py\", line 101, in <module>\n    import tkinter as TK\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py\", line 38, in <module>\n    import _tkinter # If this fails your Python may not be configured for Tk\n    ^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named '_tkinter'\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.07751
+        },
+        "usage": {
+          "completion_tokens": 677,
+          "prompt_tokens": 442,
+          "reasoning_tokens": 121,
+          "total_tokens": 1119
+        }
+      },
+      {
+        "proposal": {
+          "checks": "import sys\nfrom unittest.mock import Mock, patch, call\n\n# Mock only the GUI dependency so these checks also run without Tk installed.\nfor colors in (['red', 'blue', 'green', 'yellow', 'purple'], ['red']):\n    graphics = Mock()\n    clock = Mock()\n    selected = [colors[i % len(colors)] for i in range(5)]\n    chooser = Mock(side_effect=selected)\n    with patch.dict(sys.modules, {'turtle': graphics}):\n        with patch.dict(task_func.__globals__, {'choice': chooser, 'time': clock}):\n            assert task_func(colors) is None\n    graphics.Screen.assert_called_once_with()\n    graphics.Turtle.assert_called_once_with()\n    pen = graphics.Turtle.return_value\n    assert pen.color.call_args_list == [call(c) for c in selected]\n    assert pen.forward.call_args_list == [call(100)] * 20\n    assert pen.right.call_args_list == [call(90)] * 20\n    assert chooser.call_args_list == [call(colors)] * 5\n    assert clock.sleep.call_args_list == [call(1)] * 4\n    graphics.done.assert_called_once_with()\n\n# Preserve random.choice's error for an empty palette.\ngraphics = Mock()\nclock = Mock()\nwith patch.dict(sys.modules, {'turtle': graphics}):\n    with patch.dict(task_func.__globals__, {'time': clock}):\n        try:\n            task_func([])\n        except IndexError:\n            pass\n        else:\n            raise AssertionError('Expected IndexError')\nassert not clock.sleep.called\nassert not graphics.done.called\n",
+          "code": "from random import choice\nimport time\n\n\ndef task_func(colors):\n    \"\"\"Draw five randomly colored squares and keep the window open.\n\n    Requires Python with Tk support and an available graphical display.\n    \"\"\"\n    import turtle\n\n    turtle.Screen()\n    pen = turtle.Turtle()\n    for index in range(5):\n        pen.color(choice(colors))\n        for _ in range(4):\n            pen.forward(100)\n            pen.right(90)\n        if index < 4:\n            time.sleep(1)\n    turtle.done()\n",
+          "lesson": "Import optional GUI dependencies when the function is called, and mock that dependency in smoke checks; actual drawing still requires Tk and a graphical display."
+        },
+        "response_sha256": "2d8155d23b0353082db10c84e108d827a788909ba347307f1d434071a0990e20",
+        "smoke": {
+          "checks_sha256": "46402765b492dee6cf4fa55d102f9543b6cf2c20b2ed88b8a0f373daa3ac8fe8",
+          "code_sha256": "38d455b8e8ec604235f5f78c54be1f44b27cca2a980608e82486e0c51e3532b7",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.078173
+        },
+        "usage": {
+          "completion_tokens": 548,
+          "prompt_tokens": 1357,
+          "reasoning_tokens": 0,
+          "total_tokens": 1905
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "596e144c073b596f9c7682ec4961c3061949331a7c05cd22a8bcca264f5d00f5",
+      "code_sha256": "38d455b8e8ec604235f5f78c54be1f44b27cca2a980608e82486e0c51e3532b7",
+      "exit_code": 1,
+      "passed": false,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 3, in <module>\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/turtle.py\", line 101, in <module>\n    import tkinter as TK\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py\", line 38, in <module>\n    import _tkinter # If this fails your Python may not be configured for Tk\n    ^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named '_tkinter'\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.075216
+    },
+    "code": "from random import choice\nimport time\n\n\ndef task_func(colors):\n    \"\"\"Draw five randomly colored squares and keep the window open.\n\n    Requires Python with Tk support and an available graphical display.\n    \"\"\"\n    import turtle\n\n    turtle.Screen()\n    pen = turtle.Turtle()\n    for index in range(5):\n        pen.color(choice(colors))\n        for _ in range(4):\n            pen.forward(100)\n            pen.right(90)\n        if index < 4:\n            time.sleep(1)\n    turtle.done()\n",
+    "experience_ids": [],
+    "family": "time",
+    "job_id": "train-220",
+    "lesson": "Import optional GUI dependencies when the function is called, and mock that dependency in smoke checks; actual drawing still requires Tk and a graphical display.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "from random import choice\nimport turtle\nimport time\n\ndef task_func(colors):\n    \"\"\"\n    Draws five squares of random colors using Turtle Graphics. Each square is drawn\n    sequentially with a 1-second pause between squares.\n    The function requires a list of colors as input and sets up a Turtle Graphics window, \n    creates a Turtle object, and uses it to draw the squares with colors from the provided list.\n    The window remains open after drawing.\n\n    Parameters:\n        colors (list): A list of color names (as strings) to use for drawing the squares.\n\n    Returns:\n        None.\n\n    Requirements:\n    - random.choice\n    - turtle\n    - time\n\n    Examples:\n    >>> task_func(['red', 'blue', 'green', 'yellow', 'purple'])  # This will open a Turtle Graphics window and draw squares\n    >>> turtle.TurtleScreen._RUNNING\n    True  # Check if the Turtle Graphics screen is running\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "c597a12f1f33209ee218bfb2e1f4b64844ac71ac6b2852fa3534b2359e195e21",
+    "replayed": false,
+    "source_sha256": "49be8cf543c80964a0fca776f3ec0ab8e1844cd9e10816e5a152b25ab157bee1",
+    "task_id": "BigCodeBench/220",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "import tempfile\nfrom pathlib import Path\n\nwith tempfile.TemporaryDirectory() as directory:\n    output = Path(directory) / \"means.json\"\n    data = [('a', 1, 2), ('b', 2, 3), ('c', 3, 4), ('d', 4, 5), ('e', 5, 6)]\n    expected = {'Position 1': 3.0, 'Position 2': 4.0}\n    result = task_func(data, output)\n    assert result == expected\n    assert list(result) == ['Position 1', 'Position 2']\n    with output.open(encoding=\"utf-8\") as stream:\n        assert json.load(stream) == expected\n\n    assert task_func([('only', -2, 0)], None) == {'Position 1': -2.0, 'Position 2': 0.0}\n",
+          "code": "import numpy as np\nimport itertools\nimport json\n\n\ndef task_func(data_list, json_file_name=\"mean_values.json\"):\n    \"\"\"Return positional numeric means, optionally exporting them as JSON.\"\"\"\n    numeric_columns = itertools.islice(zip(*data_list), 1, None)\n    results = {\n        f\"Position {i}\": float(np.mean(column))\n        for i, column in enumerate(numeric_columns, start=1)\n    }\n\n    if json_file_name:\n        with open(json_file_name, \"w\", encoding=\"utf-8\") as json_file:\n            json.dump(results, json_file)\n\n    return results\n",
+          "lesson": "Transpose rows to compute positional aggregates, and convert NumPy results to native Python floats before JSON serialization."
+        },
+        "response_sha256": "37fa47880b46c75ef7b6f002fd7e46899d7062266d2b90768271dedbf5216c1c",
+        "smoke": {
+          "checks_sha256": "eef27404d027283b74c337aad9874c10f967f4766713670187c6ef58738f827e",
+          "code_sha256": "e2de0151721139f186db767937137b016335eda89592d330c1001ccab4888b62",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.129931
+        },
+        "usage": {
+          "completion_tokens": 490,
+          "prompt_tokens": 518,
+          "reasoning_tokens": 96,
+          "total_tokens": 1008
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "162bd8bff1a12becd93cb20aa674b59a8e3dd2a390aa844922fd4f8e3b491b38",
+      "code_sha256": "e2de0151721139f186db767937137b016335eda89592d330c1001ccab4888b62",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.131169
+    },
+    "code": "import numpy as np\nimport itertools\nimport json\n\n\ndef task_func(data_list, json_file_name=\"mean_values.json\"):\n    \"\"\"Return positional numeric means, optionally exporting them as JSON.\"\"\"\n    numeric_columns = itertools.islice(zip(*data_list), 1, None)\n    results = {\n        f\"Position {i}\": float(np.mean(column))\n        for i, column in enumerate(numeric_columns, start=1)\n    }\n\n    if json_file_name:\n        with open(json_file_name, \"w\", encoding=\"utf-8\") as json_file:\n            json.dump(results, json_file)\n\n    return results\n",
+    "experience_ids": [],
+    "family": "numerical",
+    "job_id": "train-250",
+    "lesson": "Transpose rows to compute positional aggregates, and convert NumPy results to native Python floats before JSON serialization.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import numpy as np\nimport itertools\nimport json\n\n\ndef task_func(data_list, json_file_name=\"mean_values.json\"):\n    \"\"\"\n    Calculate the mean of the numeric values for each position in the provided data list \n    and return the results. Optionally, the results can be exported to a specified JSON file.\n    \n    Parameters:\n    - data_list (list of tuples): List of data tuples where each tuple contains a string followed by numeric values.\n    - json_file_name (str, optional): Name of the JSON file to export the results. Defaults to 'mean_values.json'.\n\n    Requirements:\n    - numpy\n    - itertools\n    - json\n\n    Returns:\n    - dict: A dictionary with keys in the format 'Position {i}' and values being the mean of the numeric values \n            at position i in the provided data list.\n\n    Example:\n    >>> import tempfile\n    >>> json_file = tempfile.NamedTemporaryFile(delete=False)\n    >>> task_func([('a', 1, 2), ('b', 2, 3), ('c', 3, 4), ('d', 4, 5), ('e', 5, 6)], json_file.name)\n    {'Position 1': 3.0, 'Position 2': 4.0}\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "fc47f6c90e7fe37b9d582a9862e4535b52dc8cb340efd9ff23bcc3f2f39fb557",
+    "replayed": false,
+    "source_sha256": "07dc4e85b2435a8e9a96f193693db6de76aa298dc410480cdb024b2b156bb9e4",
+    "task_id": "BigCodeBench/250",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "import matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\n\nfig, ax = plt.subplots(subplot_kw={'polar': True})\ntry:\n    assert task_func(ax, 3) is ax\n    assert ax.get_rlabel_position() == 135.0\n    assert len(ax.lines) == 1\n    theta, radius = ax.lines[0].get_data()\n    assert theta[0] == radius[0] == 0\n    assert np.isclose(theta[-1], 6 * math.pi)\n    assert np.all(np.diff(radius) >= 0)\nfinally:\n    plt.close(fig)\n\nfig, ax = plt.subplots(subplot_kw={'polar': True})\ntry:\n    assert task_func(ax, 0) is ax\n    assert ax.get_rlabel_position() == 0.0\n    theta, radius = ax.lines[0].get_data()\n    assert np.all(theta == 0)\n    assert np.all(radius == 0)\nfinally:\n    plt.close(fig)\n",
+          "code": "import numpy as np\nimport math\n\n\ndef task_func(ax, num_turns):\n    \"\"\"Draw an outward spiral on ax and return the modified Axes.\"\"\"\n    theta = np.linspace(0, 2 * math.pi * num_turns, 1000)\n    radius = theta\n    ax.plot(theta, radius)\n    ax.set_rlabel_position(num_turns * 45)\n    return ax\n",
+          "lesson": "Keep polar data angles in radians and radial-label positions in degrees, and return the original Axes after modifying it."
+        },
+        "response_sha256": "024cf2b51193e8337cdda455df81995dc6c667ff2d8f9e09c83500bc986f7d6e",
+        "smoke": {
+          "checks_sha256": "6c16b985762219dd6ed84e85d1162265e0342e9a885824dcfb91563b98dfe730",
+          "code_sha256": "d327f485be5254d20327e450049a57f11fadbe6f2bccbf380b5277470dcbfd21",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.508223
+        },
+        "usage": {
+          "completion_tokens": 432,
+          "prompt_tokens": 450,
+          "reasoning_tokens": 69,
+          "total_tokens": 882
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "42fb83e727841df681d0c0ddfe0b12fe6da3984e171afef38804a1c70d93e3c4",
+      "code_sha256": "d327f485be5254d20327e450049a57f11fadbe6f2bccbf380b5277470dcbfd21",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.031s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.507201
+    },
+    "code": "import numpy as np\nimport math\n\n\ndef task_func(ax, num_turns):\n    \"\"\"Draw an outward spiral on ax and return the modified Axes.\"\"\"\n    theta = np.linspace(0, 2 * math.pi * num_turns, 1000)\n    radius = theta\n    ax.plot(theta, radius)\n    ax.set_rlabel_position(num_turns * 45)\n    return ax\n",
+    "experience_ids": [],
+    "family": "numerical",
+    "job_id": "train-257",
+    "lesson": "Keep polar data angles in radians and radial-label positions in degrees, and return the original Axes after modifying it.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import numpy as np\nimport math\n\ndef task_func(ax, num_turns):\n    \"\"\"\n    Draws a spiral on the polar diagram 'ax' with the specified number of turns 'num_turns'.\n    The spiral starts at the center and expands outward with each turn.\n    The radial ticks on the plot are positioned at intervals corresponding to the number of turns multiplied by 45 degrees.\n\n    Parameters:\n    ax (matplotlib.axes._axes.Axes): The Axes object for plotting the spiral.\n    num_turns (int): The number of turns for the spiral.\n\n    Returns:\n    matplotlib.axes._axes.Axes: The modified Axes object with the spiral plot.\n\n    Requirements:\n    - numpy\n    - math\n\n    Example:\n    >>> import matplotlib.pyplot as plt\n    >>> fig, ax = plt.subplots(subplot_kw={'polar': True})\n    >>> ax = task_func(ax, 3)\n    >>> ax.get_rlabel_position()\n    135.0\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "e52f24fa00445c874b2e960a0765635c23779c1f21970aa29de99e85df82d0ef",
+    "replayed": false,
+    "source_sha256": "7f6c03fe9f9e7333c6b3cec2bd86b3b168c42c53976437f496bd82b571786c97",
+    "task_id": "BigCodeBench/257",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "data = {'key': 'value'}\nstart = time.time()\nresult = task_func(data)\nassert result is data\nassert result['key'] == '8691a011016e0fba3c2b0b8a26e4c9c722975f1defe42f580ab55a9c97dfccf8'\nassert start <= result['timestamp'] <= time.time()\nassert list(result) == ['key', 'a', 'timestamp']\n\nempty = {}\nresult = task_func(empty)\nassert result is empty\nassert list(result) == ['a', 'timestamp']\nassert result['a'] == hashlib.sha256(b'1vtkgn').hexdigest()\n",
+          "code": "import random\nimport string\nimport hashlib\nimport time\n\n\ndef task_func(data_dict: dict, seed=0) -> dict:\n    random.seed(seed)\n    data_dict['a'] = 1\n    salt = ''.join(random.choices(string.ascii_lowercase, k=5))\n    for key, value in data_dict.items():\n        data_dict[key] = hashlib.sha256(\n            (str(value) + salt).encode('utf-8')\n        ).hexdigest()\n    data_dict['timestamp'] = time.time()\n    return data_dict\n",
+          "lesson": "Preserve in-place mutation and operation order, and use a seeded salt consistently for every value before adding the unhashed timestamp."
+        },
+        "response_sha256": "2cfd28384a0649642f0d9cd1da1303fb1c95cdd26c756f0e558d040da1404e2c",
+        "smoke": {
+          "checks_sha256": "85c299a80b1b844848e6737737f7a22b58a07b0770f7338adb9df726f065fada",
+          "code_sha256": "36767ef83443496b5de81ed415388bcab2a54e781240cdb6cfe90c71c996d0b4",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 5, in <module>\nAssertionError\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.07951
+        },
+        "usage": {
+          "completion_tokens": 431,
+          "prompt_tokens": 526,
+          "reasoning_tokens": 107,
+          "total_tokens": 957
+        }
+      },
+      {
+        "proposal": {
+          "checks": "data = {'key': 'value'}\nstart = time.time()\nresult = task_func(data)\nassert result is data\nassert result['key'] == '8691a011016e0fba3c2b0b8a26e4c9c722975f1defe42f580ab55a9c97dfccf8'\nassert start <= result['timestamp'] <= time.time()\nassert list(result) == ['key', 'a', 'timestamp']\n\nempty = {}\nresult = task_func(empty)\nassert result is empty\nassert list(result) == ['a', 'timestamp']\nassert result['a'] == hashlib.sha256(b'1mynbi').hexdigest()\n",
+          "code": "import random\nimport string\nimport hashlib\nimport time\n\n\ndef task_func(data_dict: dict, seed=0) -> dict:\n    random.seed(seed)\n    data_dict['a'] = 1\n    salt = ''.join(random.choice(string.ascii_lowercase) for _ in range(5))\n    for key, value in data_dict.items():\n        data_dict[key] = hashlib.sha256(\n            (str(value) + salt).encode('utf-8')\n        ).hexdigest()\n    data_dict['timestamp'] = time.time()\n    return data_dict\n",
+          "lesson": "Seeded random.choice calls and random.choices produce different sequences; use the sampling method consistent with the documented example."
+        },
+        "response_sha256": "93dff7967a960005870d20ccde6a618cf15d89615d4c7b86e009e8d3336c4593",
+        "smoke": {
+          "checks_sha256": "a8dd0eddb7d965ec86214651ec8afcdd5eeae300906132e909f64ce7c5eff879",
+          "code_sha256": "979f7f3995fd21d78505007417d792f30ddf861b58cf2f677400266540f3c016",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.074418
+        },
+        "usage": {
+          "completion_tokens": 347,
+          "prompt_tokens": 1053,
+          "reasoning_tokens": 22,
+          "total_tokens": 1400
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "955ca56bcd678f1099099328dcae78e0335ade0c7ab55f0aed490f8006efee3a",
+      "code_sha256": "979f7f3995fd21d78505007417d792f30ddf861b58cf2f677400266540f3c016",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.13138
+    },
+    "code": "import random\nimport string\nimport hashlib\nimport time\n\n\ndef task_func(data_dict: dict, seed=0) -> dict:\n    random.seed(seed)\n    data_dict['a'] = 1\n    salt = ''.join(random.choice(string.ascii_lowercase) for _ in range(5))\n    for key, value in data_dict.items():\n        data_dict[key] = hashlib.sha256(\n            (str(value) + salt).encode('utf-8')\n        ).hexdigest()\n    data_dict['timestamp'] = time.time()\n    return data_dict\n",
+    "experience_ids": [],
+    "family": "time",
+    "job_id": "train-271",
+    "lesson": "Seeded random.choice calls and random.choices produce different sequences; use the sampling method consistent with the documented example.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import random\nimport string\nimport hashlib\nimport time\n\n\ndef task_func(data_dict: dict, seed=0) -> dict:\n    \"\"\"\n    Process the given dictionary by performing the following operations:\n    1. Add a key \"a\" with a value of 1.\n    2. Generate a random salt of length 5 using lowercase ASCII letters.\n    3. For each key-value pair in the dictionary, concatenate the value with the generated salt, \n       hash the concatenated string using SHA-256, and update the value with the hashed string.\n    4. Add a 'timestamp' key with the current UNIX timestamp as its value.\n\n    Parameters:\n    data_dict (dict): The dictionary to be processed. Values should be string-convertible.\n    seed (int, Optional): Seed value for the random number generator. Defaults to 0.\n\n    Returns:\n    dict: The processed dictionary with the hashed values and added keys.\n\n    Requirements:\n    - Uses the random, string, hashlib, and time libraries.\n\n    Example:\n    >>> task_func({'key': 'value'})[\"key\"]\n    '8691a011016e0fba3c2b0b8a26e4c9c722975f1defe42f580ab55a9c97dfccf8'\n\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "24140906ee584c58dc6e581f95c8af1aa1c86816e7ce10659f1939bc1d8e9b8d",
+    "replayed": false,
+    "source_sha256": "a4dd7b7a3ca061b4cb26463bc7ef7fde37afcd753f7953cb09218528046cfa4f",
+    "task_id": "BigCodeBench/271",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "fig, points = task_func(5)\nexpected = [(0.5488135039273248, 0.6458941130666561), (0.7151893663724195, 0.4375872112626925), (0.6027633760716439, 0.8917730007820798), (0.5448831829968969, 0.9636627605010293), (0.4236547993389047, 0.3834415188257777)]\nassert points == expected\nassert len(fig.axes) == 1\nax = fig.axes[0]\nassert ax.get_title() == \"Scatter plot of random points\"\nassert ax.get_xlabel() == \"X\"\nassert ax.get_ylabel() == \"Y\"\nnp.testing.assert_array_equal(ax.collections[0].get_offsets(), expected)\nplt.close(fig)\n\nfig, points = task_func(0)\nassert points == []\nassert fig.axes[0].collections[0].get_offsets().shape == (0, 2)\nplt.close(fig)\n",
+          "code": "import matplotlib.pyplot as plt\nimport numpy as np\n\n\ndef task_func(n, seed=0):\n    \"\"\"Return a scatter-plot Figure and a list of its random (x, y) points.\"\"\"\n    np.random.seed(seed)\n    x = np.random.rand(n)\n    y = np.random.rand(n)\n    fig, ax = plt.subplots()\n    ax.scatter(x, y)\n    ax.set_title(\"Scatter plot of random points\")\n    ax.set_xlabel(\"X\")\n    ax.set_ylabel(\"Y\")\n    points = list(zip(x, y))\n    return fig, points\n",
+          "lesson": "When an example fixes seeded random output, preserve both the random-number API and the order in which coordinate arrays are generated."
+        },
+        "response_sha256": "257a2ada6f5f825a353caf3ec77215a7c73d6f370d2da8f0f4cafb7ffb5ecd0d",
+        "smoke": {
+          "checks_sha256": "c541513bd409ffe1ebfe5946fd649b50018fd59a5c457a36b8035483389e12ca",
+          "code_sha256": "3a0a22fd0ba189af3ff5249b540a3b7b0c5efd35ea99d0cecea32e1ccbaaa1f8",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.561593
+        },
+        "usage": {
+          "completion_tokens": 413,
+          "prompt_tokens": 517,
+          "reasoning_tokens": 0,
+          "total_tokens": 930
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "f45c90f0cb0850801f7e9bc7d64cdb347df2cffbc108c76ba19a5df8a3fa4c5d",
+      "code_sha256": "3a0a22fd0ba189af3ff5249b540a3b7b0c5efd35ea99d0cecea32e1ccbaaa1f8",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.041s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.558879
+    },
+    "code": "import matplotlib.pyplot as plt\nimport numpy as np\n\n\ndef task_func(n, seed=0):\n    \"\"\"Return a scatter-plot Figure and a list of its random (x, y) points.\"\"\"\n    np.random.seed(seed)\n    x = np.random.rand(n)\n    y = np.random.rand(n)\n    fig, ax = plt.subplots()\n    ax.scatter(x, y)\n    ax.set_title(\"Scatter plot of random points\")\n    ax.set_xlabel(\"X\")\n    ax.set_ylabel(\"Y\")\n    points = list(zip(x, y))\n    return fig, points\n",
+    "experience_ids": [],
+    "family": "visualization",
+    "job_id": "train-467",
+    "lesson": "When an example fixes seeded random output, preserve both the random-number API and the order in which coordinate arrays are generated.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import matplotlib.pyplot as plt\nimport numpy as np\n\n\ndef task_func(n, seed=0):\n    \"\"\"\n    Generates a simple scatter plot with 'n' points.\n\n    Parameters:\n    - n (int): The number of points to be plotted.\n    - seed (int, optional): The seed for the random number generator. Defaults to None.\n\n    Returns:\n    - plot (matplotlib.figure.Figure): The generated plot titled \"Scatter plot of random points\", with x-axis labeled \"X\" and y-axis labeled \"Y\".\n    - points (list of tuples): List containing the (x, y) coordinates of the plotted points.\n\n    Requirements:\n    - numpy\n    - matplotlib.pyplot\n    \n    Example:\n    >>> task_func(5)\n    (<Figure size 640x480 with 1 Axes>, [(0.5488135039273248, 0.6458941130666561), (0.7151893663724195, 0.4375872112626925), (0.6027633760716439, 0.8917730007820798), (0.5448831829968969, 0.9636627605010293), (0.4236547993389047, 0.3834415188257777)])\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "f10118a6a8bf9b41c04c2f7cfbfa34ab158274bd09ac94e410c54bbe13fcfb8f",
+    "replayed": false,
+    "source_sha256": "8c79567b98a88b51e0182d80b567385fa794d496a76d590a7674d919c7038fec",
+    "task_id": "BigCodeBench/467",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "import os\nimport tempfile\n\nwith tempfile.TemporaryDirectory() as directory:\n    path1 = os.path.join(directory, 'file1.gz')\n    path2 = os.path.join(directory, 'file2.gz')\n    with gzip.open(path1, 'wt') as stream:\n        stream.write('hello\\nold\\n')\n    with gzip.open(path2, 'wt') as stream:\n        stream.write('hello\\nnew\\n')\n    result = task_func(path1, path2)\n    assert isinstance(result, str)\n    assert len(result) > 0\n    assert '-old\\n' in result and '+new\\n' in result\n    assert task_func(path1, path1) == ''\n\n    with gzip.open(path1, 'wt') as stream:\n        stream.write('')\n    with gzip.open(path2, 'wt') as stream:\n        stream.write('')\n    assert task_func(path1, path2) == ''\n",
+          "code": "import difflib\nimport gzip\n\n\ndef task_func(file_path1, file_path2):\n    \"\"\"Return a unified text diff of two gzip files, or '' if identical.\"\"\"\n    with gzip.open(file_path1, mode='rt') as file1:\n        lines1 = file1.readlines()\n    with gzip.open(file_path2, mode='rt') as file2:\n        lines2 = file2.readlines()\n\n    return ''.join(difflib.unified_diff(lines1, lines2))\n",
+          "lesson": "Use text-mode gzip reading and a diff generator that emits nothing for identical inputs; preserve line endings when constructing a readable diff."
+        },
+        "response_sha256": "c42ec9790220e40703bec01ce2f6d5c75dd4a15d815f26fdab9a56bc1b9363b7",
+        "smoke": {
+          "checks_sha256": "29e930e8d1050cf9a376eb01916ad4abe90dbdb015ca91ce1007cc23c909976e",
+          "code_sha256": "cf7bc7ea36fb05bf1dc1e77d33dff1cec595ab281bafe5889f3af67b7c2c7958",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.081198
+        },
+        "usage": {
+          "completion_tokens": 445,
+          "prompt_tokens": 476,
+          "reasoning_tokens": 66,
+          "total_tokens": 921
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "baaac03f81005be57b668ec4cd8f22535a47b2a047407320f387819d8d720429",
+      "code_sha256": "cf7bc7ea36fb05bf1dc1e77d33dff1cec595ab281bafe5889f3af67b7c2c7958",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.076614
+    },
+    "code": "import difflib\nimport gzip\n\n\ndef task_func(file_path1, file_path2):\n    \"\"\"Return a unified text diff of two gzip files, or '' if identical.\"\"\"\n    with gzip.open(file_path1, mode='rt') as file1:\n        lines1 = file1.readlines()\n    with gzip.open(file_path2, mode='rt') as file2:\n        lines2 = file2.readlines()\n\n    return ''.join(difflib.unified_diff(lines1, lines2))\n",
+    "experience_ids": [],
+    "family": "files-archives",
+    "job_id": "train-510",
+    "lesson": "Use text-mode gzip reading and a diff generator that emits nothing for identical inputs; preserve line endings when constructing a readable diff.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import difflib\nimport gzip\n\ndef task_func(file_path1, file_path2):\n    \"\"\"\n    Compares the contents of two gzip files and returns a string describing the differences between them.\n    It reads the contents of each file, then uses difflib to compute and return the differences. \n    Only differences are returned, with an empty string indicating no differences.\n\n    Parameters:\n    file_path1 (str): The file path of the first gzip file.\n    file_path2 (str): The file path of the second gzip file.\n\n    Returns:\n    str: A string describing the differences between the two files' contents.\n\n    Requirements:\n    - difflib\n    - gzip\n\n    Examples:\n    Assuming 'file1.gz' and 'file2.gz' contain slightly different text,\n    >>> result = task_func('file1.gz', 'file2.gz')\n    >>> len(result) > 0\n    True\n\n    Assuming 'file1.gz' and 'file1.gz' are identical,\n    >>> task_func('file1.gz', 'file1.gz')\n    ''\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "5f38624327a3a235f9a9ca369e2d7e07066c8ae5297be8134a25b5fc232de443",
+    "replayed": false,
+    "source_sha256": "15fd391d175124fd86f9d89820dd032fd7ff8cf931e1c58960931f57dcf101d9",
+    "task_id": "BigCodeBench/510",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "data = [\n    {'John': 5, 'Jane': 10, 'Joe': 7},\n    {'John': 6, 'Jane': 8, 'Joe': 10},\n    {'John': 5, 'Jane': 9, 'Joe': 8},\n    {'John': 7, 'Jane': 10, 'Joe': 9},\n]\nax = task_func(data)\nassert [label.get_text() for label in ax.get_xticklabels()] == ['Jane', 'Joe', 'John']\nassert [bar.get_height() for bar in ax.patches] == [9.25, 8.5, 5.75]\nassert ax.get_title() == 'Average Student Scores'\nassert ax.get_xlabel() == 'Student'\nassert ax.get_ylabel() == 'Average Score'\nplt.close(ax.figure)\n\nassert task_func([]) is None\nax = task_func([{'Amy': None, 'Ben': 0}, {'Amy': 8}, {'Amy': 4, 'Ben': None}])\nassert [label.get_text() for label in ax.get_xticklabels()] == ['Amy', 'Ben']\nassert [bar.get_height() for bar in ax.patches] == [6, 0]\nplt.close(ax.figure)\n\nfigures_before = plt.get_fignums()\ntry:\n    task_func([{'Amy': None}, {'Ben': -1}])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Negative scores must raise ValueError')\nassert plt.get_fignums() == figures_before\n",
+          "code": "import collections\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data):\n    \"\"\"Plot alphabetically ordered student averages, ignoring None scores.\"\"\"\n    if not data:\n        return None\n\n    scores = collections.defaultdict(list)\n    for record in data:\n        for student, score in record.items():\n            if score is None:\n                continue\n            if score < 0:\n                raise ValueError('Scores must not be negative')\n            scores[student].append(score)\n\n    students = sorted(scores)\n    averages = [sum(scores[student]) / len(scores[student]) for student in students]\n    palette = ['red', 'yellow', 'green', 'blue', 'purple']\n    colors = [palette[i % len(palette)] for i in range(len(students))]\n\n    _, ax = plt.subplots()\n    ax.bar(students, averages, color=colors)\n    ax.set_title('Average Student Scores')\n    ax.set_xlabel('Student')\n    ax.set_ylabel('Average Score')\n    return ax\n",
+          "lesson": "Validate scores before creating a figure, average only available non-None values, and sort categories explicitly when the example specifies their order."
+        },
+        "response_sha256": "65e5585dde9370b386208ca4d6e77b468724fced9b1374e2e83daf85545aa69d",
+        "smoke": {
+          "checks_sha256": "68c0e46ddf02557102b03780e0aca4d63474fa70e1ab15949f6ae143e73ae4bc",
+          "code_sha256": "7914faa4e461d3202d089ae758ce6036896a417e6b1c9ad17e154e74c480fa4f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.506115
+        },
+        "usage": {
+          "completion_tokens": 677,
+          "prompt_tokens": 628,
+          "reasoning_tokens": 29,
+          "total_tokens": 1305
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "6351c6ccd11714b73b6239f07b7d6a5f65f98412995355408f38c11d93f17d2a",
+      "code_sha256": "7914faa4e461d3202d089ae758ce6036896a417e6b1c9ad17e154e74c480fa4f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.031s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.560411
+    },
+    "code": "import collections\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data):\n    \"\"\"Plot alphabetically ordered student averages, ignoring None scores.\"\"\"\n    if not data:\n        return None\n\n    scores = collections.defaultdict(list)\n    for record in data:\n        for student, score in record.items():\n            if score is None:\n                continue\n            if score < 0:\n                raise ValueError('Scores must not be negative')\n            scores[student].append(score)\n\n    students = sorted(scores)\n    averages = [sum(scores[student]) / len(scores[student]) for student in students]\n    palette = ['red', 'yellow', 'green', 'blue', 'purple']\n    colors = [palette[i % len(palette)] for i in range(len(students))]\n\n    _, ax = plt.subplots()\n    ax.bar(students, averages, color=colors)\n    ax.set_title('Average Student Scores')\n    ax.set_xlabel('Student')\n    ax.set_ylabel('Average Score')\n    return ax\n",
+    "experience_ids": [],
+    "family": "visualization",
+    "job_id": "train-522",
+    "lesson": "Validate scores before creating a figure, average only available non-None values, and sort categories explicitly when the example specifies their order.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import collections\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data):\n    \"\"\"\n    Combine a list of dictionaries with possibly differing keys (student names) into a single dictionary,\n    calculate the average score for each student, and return a bar chart of average student scores with\n    student on the x-axis and average score on the y-axis.\n\n    This function handles data with varying dictionary lengths and missing keys by averaging available scores,\n    ignoring None. If there is any negative score, the function raises ValueError.\n    Bar colors can be: 'red', 'yellow', 'green', 'blue', 'purple'.\n\n    Parameters:\n    data (list): A list of dictionaries. The keys are student names and the values are scores.\n\n    Returns:\n    ax (matplotlib.axes._axes.Axes or None): A bar chart showing the 'Average Student Scores', with\n                                             'Student' on the x-axis and 'Average Score' on the y-axis.\n                                             If data is empty, return None.\n\n    Requirements:\n    - collections\n    - matplotlib.pyplot\n\n    Example:\n    >>> data = [{'John': 5, 'Jane': 10, 'Joe': 7},\\\n                {'John': 6, 'Jane': 8, 'Joe': 10},\\\n                {'John': 5, 'Jane': 9, 'Joe': 8},\\\n                {'John': 7, 'Jane': 10, 'Joe': 9}]\n    >>> ax = task_func(data)\n    >>> type(ax)\n    <class 'matplotlib.axes._axes.Axes'>\n    >>> ax.get_xticklabels()\n    [Text(0, 0, 'Jane'), Text(1, 0, 'Joe'), Text(2, 0, 'John')]\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "e1537482e31ee25bba6b05cf325a4f83d01aedbad3c1994a378236ab9182e119",
+    "replayed": false,
+    "source_sha256": "b042089318f97691c6bbb66d2112b6a507b6b148acd6b3e9ffc61149bc5379d6",
+    "task_id": "BigCodeBench/522",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "assert task_func(['1a2b3c4d', '5e6f7g8h']) == '426614caa490f2c185aebf58f1d4adac'\nassert task_func(['00000000']) == hashlib.md5(b'0.0').hexdigest()\ntry:\n    task_func(['not hexadecimal'])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError for an invalid selected key')\n",
+          "code": "import hashlib\nimport random\nimport struct\n\nKEYS = ['470FC614', '4A0FC614', '4B9FC614', '4C8FC614', '4D7FC614']\n\n\ndef task_func(hex_keys=KEYS, seed=42):\n    random.seed(seed)\n    key = random.choice(hex_keys)\n    number = struct.unpack('!f', bytes.fromhex(key))[0]\n    return hashlib.md5(str(number).encode('utf-8')).hexdigest()\n",
+          "lesson": "Make byte order and the hashed text representation explicit, and validate only the selected key rather than rejecting unused entries."
+        },
+        "response_sha256": "dca89774841727b66586683b047cec07efb510be253e85341c461faa47167eff",
+        "smoke": {
+          "checks_sha256": "5ec0e1ecb4775e2fd636f6ffab61230739c654a623926db94f05991511862bfc",
+          "code_sha256": "7c3d5b0b234d0ae786ca58adfeebeb54bbcc792864bc6f09d457a81e4d2fe7cd",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.078687
+        },
+        "usage": {
+          "completion_tokens": 474,
+          "prompt_tokens": 500,
+          "reasoning_tokens": 214,
+          "total_tokens": 974
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "267a9c1cae06af7bd3b9a509f1dafbe22869e435df88cb62207c1318a7b3b753",
+      "code_sha256": "7c3d5b0b234d0ae786ca58adfeebeb54bbcc792864bc6f09d457a81e4d2fe7cd",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.076338
+    },
+    "code": "import hashlib\nimport random\nimport struct\n\nKEYS = ['470FC614', '4A0FC614', '4B9FC614', '4C8FC614', '4D7FC614']\n\n\ndef task_func(hex_keys=KEYS, seed=42):\n    random.seed(seed)\n    key = random.choice(hex_keys)\n    number = struct.unpack('!f', bytes.fromhex(key))[0]\n    return hashlib.md5(str(number).encode('utf-8')).hexdigest()\n",
+    "experience_ids": [],
+    "family": "collections-algorithms",
+    "job_id": "train-542",
+    "lesson": "Make byte order and the hashed text representation explicit, and validate only the selected key rather than rejecting unused entries.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import hashlib\nimport random\nimport struct\n\nKEYS = ['470FC614', '4A0FC614', '4B9FC614', '4C8FC614', '4D7FC614']\n\n\ndef task_func(hex_keys=KEYS, seed=42):\n    \"\"\"\n    Given a list of hexadecimal string keys, this function selects one at random,\n    converts it into a floating-point number, and then computes its MD5 hash. An optional\n    seed parameter allows for deterministic random choices for testing purposes.\n\n    Parameters:\n    hex_keys (list of str): A list of hexadecimal strings to choose from.\n    seed (int, optional): A seed for the random number generator to ensure deterministic behavior.\n\n    Returns:\n    str: The MD5 hash of the floating-point number derived from the randomly selected hexadecimal string.\n\n    Raises:\n    ValueError: If contains invalid hexadecimal strings.\n\n    Requirements:\n    - struct\n    - hashlib\n    - random\n\n    Example:\n    >>> task_func(['1a2b3c4d', '5e6f7g8h'])\n    '426614caa490f2c185aebf58f1d4adac'\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "8dde16dbdb32daefbb35e699d48627a79831bc72f85055d902bac006b17f271d",
+    "replayed": false,
+    "source_sha256": "5db18e3dfd2f15f02dab2012ffed2726050690a872fd4fd80f96a8dd9c881f49",
+    "task_id": "BigCodeBench/542",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "result = task_func('my_password')\nassert isinstance(result, str)\nraw = base64.b64decode(result, validate=True)\nassert len(raw) == 8 + hashlib.sha256().digest_size\nassert raw[8:] == hashlib.sha256(raw[:8] + b'my_password').digest()\n\nresult = task_func('', 0)\nassert base64.b64decode(result, validate=True) == hashlib.sha256(b'').digest()\n\ntry:\n    task_func('password', -1)\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Negative salt length must raise ValueError')",
+          "code": "import hashlib\nimport os\nimport base64\n\n\ndef task_func(password: str, salt_length: int = 8) -> str:\n    \"\"\"Return base64-encoded random salt followed by the salted SHA-256 digest.\"\"\"\n    salt = os.urandom(salt_length)\n    digest = hashlib.sha256(salt + password.encode('utf-8')).digest()\n    return base64.b64encode(salt + digest).decode('ascii')\n",
+          "lesson": "Keep the generated salt alongside the digest so verification is possible, and validate randomized outputs by decoding and recomputing rather than comparing fixed strings."
+        },
+        "response_sha256": "a2ab4816b11b60c78cef8ec7561334411798a32044ff5635d87a4ff9c1d094b6",
+        "smoke": {
+          "checks_sha256": "9e705b65aec86b5cc05f0b9924501f10d0543dbdcb3ac64236ef9ee9948c2b52",
+          "code_sha256": "6d31c768b4e8c1bb8a3da72905cf97dd2e815cd3bde821f0e581110298d6182a",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.079022
+        },
+        "usage": {
+          "completion_tokens": 342,
+          "prompt_tokens": 373,
+          "reasoning_tokens": 59,
+          "total_tokens": 715
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "8a0dc1b5cb5d8d0930a5049346d137b4178d020cc290a48aac24438772246379",
+      "code_sha256": "6d31c768b4e8c1bb8a3da72905cf97dd2e815cd3bde821f0e581110298d6182a",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.077626
+    },
+    "code": "import hashlib\nimport os\nimport base64\n\n\ndef task_func(password: str, salt_length: int = 8) -> str:\n    \"\"\"Return base64-encoded random salt followed by the salted SHA-256 digest.\"\"\"\n    salt = os.urandom(salt_length)\n    digest = hashlib.sha256(salt + password.encode('utf-8')).digest()\n    return base64.b64encode(salt + digest).decode('ascii')\n",
+    "experience_ids": [],
+    "family": "files-archives",
+    "job_id": "train-547",
+    "lesson": "Keep the generated salt alongside the digest so verification is possible, and validate randomized outputs by decoding and recomputing rather than comparing fixed strings.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import hashlib\nimport os\nimport base64\n\n\ndef task_func(password: str, salt_length: int = 8) -> str:\n    \"\"\"\n    Encrypt a password using Salt and SHA-256, then encode the result in base64.\n\n    Parameters:\n    password (str): The password to be encrypted.\n    salt_length (int, optional): The length of the generated salt. Default is 8.\n\n    Returns:\n    str: The encrypted password in base64 format.\n\n    Requirements:\n    - base64\n    - hashlib\n    - os\n\n    Example:\n    >>> isinstance(task_func('my_password'), str)\n    True\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "79964eaf4e2c33b2843b18cd2404b834e8589aa64575de4f98930a5469e3bad9",
+    "replayed": false,
+    "source_sha256": "0cfdd675b266f31fc222bddb65b213bddfe25198fdc13c316a9a4ecd28a2de74",
+    "task_id": "BigCodeBench/547",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": false,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "from matplotlib.axes import Axes\n\nexample = '2022-01-100,2022-02-200,2022-03-150,2022-04-300,2022-05-250,2022-06-350,2022-07-400,2022-08-450,2022-09-500,2022-10-550,2022-11-600,2022-12-650'\nax = task_func(example)\nassert isinstance(ax, Axes)\nassert ax.get_title() == 'Monthly Data for 2022'\nassert ax.get_xlabel() == 'Month'\nassert ax.get_ylabel() == 'Value'\nassert [bar.get_height() for bar in ax.patches] == [100, 200, 150, 300, 250, 350, 400, 450, 500, 550, 600, 650]\nassert [tick.get_text() for tick in ax.get_xticklabels()] == [str(i) for i in range(1, 13)]\nplt.close(ax.figure)\n\nax = task_func('2024-12--2.5')\nassert len(ax.patches) == 1\nassert ax.patches[0].get_height() == -2.5\nassert ax.get_title() == 'Monthly Data for 2024'\nassert ax.get_xticklabels()[0].get_text() == '12'\nplt.close(ax.figure)\n",
+          "code": "from datetime import datetime\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n\ndef task_func(data):\n    \"\"\"Plot monthly values supplied as comma-separated yyyy-mm-value records.\"\"\"\n    records = []\n    for entry in data.split(','):\n        year, month, value = entry.split('-', 2)\n        date = datetime.strptime(f'{year}-{month}', '%Y-%m')\n        records.append((date.year, date.month, float(value)))\n\n    frame = pd.DataFrame(records, columns=['year', 'month', 'value'])\n    ax = frame.plot.bar(x='month', y='value', legend=False)\n    ax.set_title(f'Monthly Data for {records[0][0]:04d}')\n    ax.set_xlabel('Month')\n    ax.set_ylabel('Value')\n    return ax\n",
+          "lesson": "Limit delimiter splitting when numeric fields may contain a minus sign, and check plot metadata as well as bar heights."
+        },
+        "response_sha256": "106cfcf3a970d20780f9aca569ae92a54065bbd17102e18afd7b0b6bbc649544",
+        "smoke": {
+          "checks_sha256": "68b4c33e72d09eca98bdde1901ea619e9c552201d103e7416469948bea211037",
+          "code_sha256": "39ff924148c9444eb3def257c1bafedcba647564f54ba25252c23efa29ed4b93",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.832694
+        },
+        "usage": {
+          "completion_tokens": 619,
+          "prompt_tokens": 481,
+          "reasoning_tokens": 68,
+          "total_tokens": 1100
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "c5fa3cdbf6677acc6306f4da03c3709d80a7218fb16b6eaf416e6623dfd98782",
+      "code_sha256": "39ff924148c9444eb3def257c1bafedcba647564f54ba25252c23efa29ed4b93",
+      "exit_code": 1,
+      "passed": false,
+      "stderr": "...F.\n======================================================================\nFAIL: test_incorrect_data_format (__main__.TestCases.test_incorrect_data_format)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 20, in test_incorrect_data_format\nAssertionError: ValueError not raised : Function should raise ValueError for data from multiple years.\n\n----------------------------------------------------------------------\nRan 5 tests in 0.058s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 30, in <module>\nAssertionError: Independent checks failed\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.727757
+    },
+    "code": "from datetime import datetime\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n\ndef task_func(data):\n    \"\"\"Plot monthly values supplied as comma-separated yyyy-mm-value records.\"\"\"\n    records = []\n    for entry in data.split(','):\n        year, month, value = entry.split('-', 2)\n        date = datetime.strptime(f'{year}-{month}', '%Y-%m')\n        records.append((date.year, date.month, float(value)))\n\n    frame = pd.DataFrame(records, columns=['year', 'month', 'value'])\n    ax = frame.plot.bar(x='month', y='value', legend=False)\n    ax.set_title(f'Monthly Data for {records[0][0]:04d}')\n    ax.set_xlabel('Month')\n    ax.set_ylabel('Value')\n    return ax\n",
+    "experience_ids": [],
+    "family": "tabular",
+    "job_id": "train-560",
+    "lesson": "Limit delimiter splitting when numeric fields may contain a minus sign, and check plot metadata as well as bar heights.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "from datetime import datetime\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n\ndef task_func(data):\n    \"\"\"\n    This function plots a bar chart of monthly data values for a single year, with 'month' on the x-axis and 'value'\n    on the y-axis.\n\n    Parameters:\n    data (str): The data string in the format 'yyyy-mm-value'.\n\n    Returns:\n    Axes object: A matplotlib.axes.Axes object representing the plot, with the title formatted as 'Monthly Data for yyyy', x label as 'Month', and y label as 'Value'.\n\n    Requirements:\n    - pandas\n    - datetime\n    - matplotlib.pyplot\n\n    Example:\n    >>> data = '2022-01-100,2022-02-200,2022-03-150,2022-04-300,2022-05-250,2022-06-350,2022-07-400,2022-08-450,2022-09-500,2022-10-550,2022-11-600,2022-12-650'\n    >>> ax = task_func(data)\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "8deb98cf8a4c8347c67be61146d94b520d97be588535dc688755c52331e1ffd5",
+    "replayed": false,
+    "source_sha256": "5c0115f854c5fc8ff08adf580544094d9585c0d1c59f8935cb561a911dc4c73a",
+    "task_id": "BigCodeBench/560",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "assert task_func({'a': 1, 'b': 2, 'c': 3}, 2) == ['c', 'b']\nassert task_func({'a': 2, 'b': 2, 'c': 1}, 2) == ['a', 'b']\nassert task_func({}, 2) == []\nassert task_func({'a': 1}, 0) == []\nassert task_func({'a': 1}, 3) == ['a']\n",
+          "code": "import heapq\nimport collections\n\n\ndef task_func(x, n):\n    \"\"\"Return the n most frequent letters, preserving input order for ties.\"\"\"\n    frequencies = collections.Counter(x)\n    return heapq.nlargest(n, frequencies, key=frequencies.get)\n",
+          "lesson": "Use heapq.nlargest with a frequency lookup to rank keys directly while retaining insertion order for equal frequencies."
+        },
+        "response_sha256": "4938ebfb4797edb7feade356c9d0cf87d4da272ad0f1cecb81029e3a2e579c52",
+        "smoke": {
+          "checks_sha256": "53c41fd55bdd4b18d93b26b84484677ccc9519977fbef6241f47400fa161a29d",
+          "code_sha256": "1ba05f6ef384f2dfd33491aa22c4f377d19bdcf207bbb8dc7202d20a7233b54e",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.078988
+        },
+        "usage": {
+          "completion_tokens": 310,
+          "prompt_tokens": 375,
+          "reasoning_tokens": 98,
+          "total_tokens": 685
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "3fa86b327cf1e2ae7a0e6e82cb3442ec50dc4ee6320d0dbb8e46273854abc4ef",
+      "code_sha256": "1ba05f6ef384f2dfd33491aa22c4f377d19bdcf207bbb8dc7202d20a7233b54e",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.074419
+    },
+    "code": "import heapq\nimport collections\n\n\ndef task_func(x, n):\n    \"\"\"Return the n most frequent letters, preserving input order for ties.\"\"\"\n    frequencies = collections.Counter(x)\n    return heapq.nlargest(n, frequencies, key=frequencies.get)\n",
+    "experience_ids": [],
+    "family": "collections-algorithms",
+    "job_id": "train-667",
+    "lesson": "Use heapq.nlargest with a frequency lookup to rank keys directly while retaining insertion order for equal frequencies.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import heapq\nimport collections\n\ndef task_func(x, n):\n    \"\"\"\n    Find the n most common letters in a dictionary, x, where the key letters and the values are their frequencies.\n\n    Parameters:\n    - x (dict): The dictionary of letter frequencies.\n    - n (int): The number of most frequent letters to return.\n\n    Returns:\n    - list: The n most frequent letters.\n\n    Requirements:\n    - heapq\n    - collections\n\n    Example:\n    >>> task_func({'a': 1, 'b': 2, 'c': 3}, 2)\n    ['c', 'b']\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "da2d78fb5db4467b2d615767f0ca1613309d3ee9e2deb4383461e3d2df1d9e3a",
+    "replayed": false,
+    "source_sha256": "e33998f18dd175379e40ccf8b8e98f3bf2d48a7ba4797190062bd16b42297c6d",
+    "task_id": "BigCodeBench/667",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "assert task_func({'a': 1, 'b': 2, 'c': 3}) == ['a']\nassert task_func({'a': 1, 'b': -2, 'c': -5, 'd': 4}) == ['b', 'c']\nassert task_func({'a': 0}) == ['a']\nassert task_func({'a': 2, 'b': 2}) == ['a']\nassert task_func({}) == []\n",
+          "code": "import itertools\nimport math\n\n\ndef task_func(x):\n    \"\"\"Return a nonempty subsequence with minimum total length, or [] if empty.\"\"\"\n    minimum = math.inf\n    result = []\n    for size in range(1, len(x) + 1):\n        for subsequence in itertools.combinations(x, size):\n            total = sum(x[key] for key in subsequence)\n            if total < minimum:\n                minimum = total\n                result = list(subsequence)\n    return result\n",
+          "lesson": "Exclude the empty candidate when positive-valued examples require a nonempty result, and use stable enumeration with strict comparisons to preserve the first minimum."
+        },
+        "response_sha256": "156d0486de61ed295c5349212c492d7fec399d2279005ee347eb92f810dde956",
+        "smoke": {
+          "checks_sha256": "a7b9084b70d24dbccaa4ac3c151ccd010ec257dd075524aefe2d9bb94dbe0635",
+          "code_sha256": "b5905d1755f474df3025099a68fb9c51150b72b075c2df0905c7e3c6eb52616a",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.06962
+        },
+        "usage": {
+          "completion_tokens": 343,
+          "prompt_tokens": 398,
+          "reasoning_tokens": 63,
+          "total_tokens": 741
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "0e729e51b76811f2e3470b22badac5015640061e8c23d7a52653125d0dada0e0",
+      "code_sha256": "b5905d1755f474df3025099a68fb9c51150b72b075c2df0905c7e3c6eb52616a",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.077872
+    },
+    "code": "import itertools\nimport math\n\n\ndef task_func(x):\n    \"\"\"Return a nonempty subsequence with minimum total length, or [] if empty.\"\"\"\n    minimum = math.inf\n    result = []\n    for size in range(1, len(x) + 1):\n        for subsequence in itertools.combinations(x, size):\n            total = sum(x[key] for key in subsequence)\n            if total < minimum:\n                minimum = total\n                result = list(subsequence)\n    return result\n",
+    "experience_ids": [],
+    "family": "numerical",
+    "job_id": "train-668",
+    "lesson": "Exclude the empty candidate when positive-valued examples require a nonempty result, and use stable enumeration with strict comparisons to preserve the first minimum.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import itertools\nimport math\n\ndef task_func(x):\n    \"\"\"\n    Find the sub-sequence of a dictionary, x, with the minimum total length, where the keys are letters and the values are their lengths.\n\n    Parameters:\n    - x (dict): The dictionary of letter lengths.\n\n    Returns:\n    - list: The subsequence with the minimum total length.\n\n    Requirements:\n    - itertools\n    - math\n\n    Example:\n    >>> task_func({'a': 1, 'b': 2, 'c': 3})\n    ['a']\n    >>> task_func({'a': 1, 'b': -2, 'c': -5, 'd': 4})\n    ['b', 'c']\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "67e61aecf0e8a2cbb270c61826fef118637a4e0eb0b7f46f43cd1c5655fde446",
+    "replayed": false,
+    "source_sha256": "6b613abaa4706dd37dd34245f7336be8bc51415b5915e776843725de78ff5bc3",
+    "task_id": "BigCodeBench/668",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "import os\nimport tempfile\n\nwith tempfile.TemporaryDirectory() as directory:\n    path = os.path.join(directory, 'sales.csv')\n    with open(path, 'w', newline='') as stream:\n        writer = csv.writer(stream)\n        writer.writerow(['product', 'quantity'])\n        writer.writerows([['Product ABC', 4], ['Product XYZ', 6], ['Product ABC', 5]])\n    assert task_func(path) == 'Product ABC'\n\n    # A single product remains the winner even when its total is negative.\n    with open(path, 'w', newline='') as stream:\n        writer = csv.writer(stream)\n        writer.writerow(['product', 'quantity', 'notes'])\n        writer.writerows([['Only Product', -3, 'return'], ['Only Product', 1, 'sale']])\n    assert task_func(path) == 'Only Product'\n",
+          "code": "import csv\nimport collections\nimport operator\n\n\ndef task_func(csv_file_path):\n    \"\"\"Return the product with the highest cumulative quantity in a CSV file.\"\"\"\n    totals = collections.defaultdict(int)\n    with open(csv_file_path, newline='') as csv_file:\n        for row in csv.DictReader(csv_file):\n            totals[row['product']] += int(row['quantity'])\n    return max(totals.items(), key=operator.itemgetter(1))[0]\n",
+          "lesson": "Aggregate quantities by named CSV columns before selecting the maximum; avoid initializing a winning total to zero, since valid totals may be negative."
+        },
+        "response_sha256": "dbf3fb47510f8ecbb49c40b5449471355499a372cda4fc40c6af5f3013d57b15",
+        "smoke": {
+          "checks_sha256": "29da23a8ab79e927ba4d176f41c79a49cc24dcde3d27088285f7c667466ba38d",
+          "code_sha256": "84ff49f3b38a39ef1c0b8cfacdb13fff35d46357f48858bf153b8985c83cefd7",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.077261
+        },
+        "usage": {
+          "completion_tokens": 403,
+          "prompt_tokens": 443,
+          "reasoning_tokens": 44,
+          "total_tokens": 846
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "7fc8fb5c9d2f66fdc9521ca5fdf928f70d930e68cfbc922c0b178e24dff043d0",
+      "code_sha256": "84ff49f3b38a39ef1c0b8cfacdb13fff35d46357f48858bf153b8985c83cefd7",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.003s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.07082
+    },
+    "code": "import csv\nimport collections\nimport operator\n\n\ndef task_func(csv_file_path):\n    \"\"\"Return the product with the highest cumulative quantity in a CSV file.\"\"\"\n    totals = collections.defaultdict(int)\n    with open(csv_file_path, newline='') as csv_file:\n        for row in csv.DictReader(csv_file):\n            totals[row['product']] += int(row['quantity'])\n    return max(totals.items(), key=operator.itemgetter(1))[0]\n",
+    "experience_ids": [],
+    "family": "structured-data",
+    "job_id": "train-7",
+    "lesson": "Aggregate quantities by named CSV columns before selecting the maximum; avoid initializing a winning total to zero, since valid totals may be negative.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import csv\nimport collections\nimport operator\n\ndef task_func(csv_file_path):\n    \"\"\"\n    Find the best-selling product from a given CSV file with sales data.\n\n    This function parses a CSV file assumed to have a header followed by rows containing\n    two columns: 'product' and 'quantity'. It computes the total sales per product and\n    determines the product with the highest cumulative sales. The CSV file must include\n    at least these two columns, where 'product' is the name of the product as a string\n    and 'quantity' is the number of units sold as an integer.\n\n    Args:\n        csv_file_path (str): The file path to the CSV file containing sales data.\n\n    Returns:\n        str: The name of the top-selling product based on the total quantity sold.\n\n    Requirements:\n    - csv\n    - collections\n    - operator\n\n    Example:\n    >>> task_func(\"path/to/sales.csv\")\n    'Product ABC'\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "b362e1293cca239c4830d8f1153ac19c856a3ebdc3e20524c0e775d541e57a9e",
+    "replayed": false,
+    "source_sha256": "7b2462638f271ceaacae7075e8c17786d0bb372b264ce68ffd0de69ff72a2d49",
+    "task_id": "BigCodeBench/7",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "result = [{'hi': 7, 'bye': 4, 'from_user': 0}, {'from_user': 0}, {'from_user': 1}]\nstats = task_func(result)\nassert isinstance(stats, pd.Series)\nassert list(stats.index) == ['mean', 'median', 'min', 'max', 'std', 'current_time']\nassert np.allclose([stats[k] for k in ['mean', 'median', 'min', 'max', 'std']], [1 / 3, 0, 0, 1, 0.4714045207910317])\nassert datetime.strptime(stats['current_time'], DATE_FORMAT).strftime(DATE_FORMAT) == stats['current_time']\nfor items in ([], [{'other': 9}]):\n    empty = task_func(items)\n    assert all(np.isnan(empty[k]) for k in ['mean', 'median', 'min', 'max', 'std'])\nassert task_func([{'from_user': 5}])['std'] == 0\ntry:\n    task_func([{'from_user': 'not numeric'}])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError for nonnumeric values')\n",
+          "code": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime\n\nDATE_FORMAT = '%Y-%m-%d %H:%M:%S'\n\n\ndef task_func(result):\n    \"\"\"Summarize numeric from_user values and append the current local time.\"\"\"\n    values = [item['from_user'] for item in result if 'from_user' in item]\n    if not values:\n        summary = dict.fromkeys(('mean', 'median', 'min', 'max', 'std'), np.nan)\n    else:\n        try:\n            data = np.asarray(values)\n        except (TypeError, ValueError) as exc:\n            raise ValueError('from_user values must be numeric') from exc\n        if data.ndim != 1 or data.dtype.kind not in 'biufc':\n            raise ValueError('from_user values must be numeric')\n        summary = {\n            'mean': np.mean(data),\n            'median': np.median(data),\n            'min': np.min(data),\n            'max': np.max(data),\n            'std': np.std(data),\n        }\n    summary['current_time'] = datetime.now().strftime(DATE_FORMAT)\n    return pd.Series(summary)\n",
+          "lesson": "Use NumPy's population standard deviation for this summary, preserve the requested field order, and handle missing values separately from invalid numeric inputs."
+        },
+        "response_sha256": "32e2af45c6c2c630fed4e661871b5f4e16bbbd3f72160d62dd02e849ad3baba1",
+        "smoke": {
+          "checks_sha256": "149ae455c91c6ca59b67f4df99923fe943cb80bc6f2090a2f690eae07d3bf126",
+          "code_sha256": "4e26e7003b90ab0d05a729136f85741df67146bb1c2999302ed8689160670af1",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.296289
+        },
+        "usage": {
+          "completion_tokens": 747,
+          "prompt_tokens": 717,
+          "reasoning_tokens": 158,
+          "total_tokens": 1464
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "50b20560892fe7161ce2b899d997991e756f8d4c12061ab5aa84a1a8d4176774",
+      "code_sha256": "4e26e7003b90ab0d05a729136f85741df67146bb1c2999302ed8689160670af1",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.289054
+    },
+    "code": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime\n\nDATE_FORMAT = '%Y-%m-%d %H:%M:%S'\n\n\ndef task_func(result):\n    \"\"\"Summarize numeric from_user values and append the current local time.\"\"\"\n    values = [item['from_user'] for item in result if 'from_user' in item]\n    if not values:\n        summary = dict.fromkeys(('mean', 'median', 'min', 'max', 'std'), np.nan)\n    else:\n        try:\n            data = np.asarray(values)\n        except (TypeError, ValueError) as exc:\n            raise ValueError('from_user values must be numeric') from exc\n        if data.ndim != 1 or data.dtype.kind not in 'biufc':\n            raise ValueError('from_user values must be numeric')\n        summary = {\n            'mean': np.mean(data),\n            'median': np.median(data),\n            'min': np.min(data),\n            'max': np.max(data),\n            'std': np.std(data),\n        }\n    summary['current_time'] = datetime.now().strftime(DATE_FORMAT)\n    return pd.Series(summary)\n",
+    "experience_ids": [],
+    "family": "tabular",
+    "job_id": "train-754",
+    "lesson": "Use NumPy's population standard deviation for this summary, preserve the requested field order, and handle missing values separately from invalid numeric inputs.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime\n\n# Constants\nDATE_FORMAT = '%Y-%m-%d %H:%M:%S'\n\ndef task_func(result):\n    \"\"\"\n    Calculate the mean, median, min, max, and standard deviation of the \"from_user\" values in \"result\" \n    and add the current date and time in the format YYYY-mm-dd HHL:MM:SS to the summary.\n    The global constant DATE_FORMAT is used to transform the currnet date and time into this format.\n\n\n    Parameters:\n    result (list of dict): A list of dictionaries containing the key \"from_user\" whose numeric values are to be analyzed.\n\n    Returns:\n    Series: A pandas Series with the statistical summary, including 'mean', 'median', 'min', 'max', 'std', and 'current_time'.\n            If the input contains no \"from_user\" values all statistical values are set to np.nan\n\n    Data Structures:\n    - Uses numpy arrays for efficient statistical computations.\n\n    Raises:\n    - ValueError: If the \"from_user\" values are not numeric.\n\n    Requirements:\n    - numpy\n    - pandas\n    - datetime\n\n    Example:\n    >>> result = [{\"hi\": 7, \"bye\": 4, \"from_user\": 0}, {\"from_user\": 0}, {\"from_user\": 1}]\n    >>> stats = task_func(result)\n    >>> print(stats['mean'], stats['median'], stats['min'], stats['max'], stats['std'])\n    0.3333333333333333 0.0 0 1 0.4714045207910317\n    >>> result = [{\"test\": 7, \"hallo\": 4, \"from_user\": 1.3},\n    ...           {\"from_user\": 2},\n    ...           {\"from_user\": 4.6},\n    ...           {\"from_user\": -2.3, \"b\": 1},\n    ...           {\"a\": \"test\", \"from_user\": 12.12},\n    ...          ]\n    >>> summary = task_func(result)\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "76723ad58f2b1871763c544677f92497c771296fa52ecd2069551471abd8cbe4",
+    "replayed": false,
+    "source_sha256": "44dbd4347a35c83cfff769ca52ae67ffa08e76dec2958bd499c3d3a282846dff",
+    "task_id": "BigCodeBench/754",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": false,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "assert task_func(0.1, 3) == [\n    'Delay in thread 0 completed',\n    'Delay in thread 1 completed',\n    'Delay in thread 2 completed',\n]\nassert task_func(0, 0) == []\nassert task_func(0, 1) == ['Delay in thread 0 completed']\n",
+          "code": "import time\nimport threading\n\n\ndef task_func(delay_time: float = 1.0, num_threads: int = 5):\n    \"\"\"Delay in separate threads and return completion messages in thread order.\"\"\"\n    messages = [None for _ in range(num_threads)]\n\n    def worker(index):\n        time.sleep(delay_time)\n        messages[index] = f'Delay in thread {index} completed'\n\n    threads = [\n        threading.Thread(target=worker, args=(index,))\n        for index in range(num_threads)\n    ]\n    for thread in threads:\n        thread.start()\n    for thread in threads:\n        thread.join()\n\n    return messages\n",
+          "lesson": "Store results by thread index and join every worker to preserve deterministic return ordering without serializing the delays."
+        },
+        "response_sha256": "2f51c8a137b0852a4f23e5e2ac8071c979b7bad7d935e61caa69008686f39591",
+        "smoke": {
+          "checks_sha256": "d9ceb4fa17420d06a6708c01c4ab1f9b617ad0418a0bf4e70b905df74b0204e5",
+          "code_sha256": "4dc3cded0bdb48a289faeef38206ff7f2329c4017d85cd05318a83c2c4171f62",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.180979
+        },
+        "usage": {
+          "completion_tokens": 275,
+          "prompt_tokens": 533,
+          "reasoning_tokens": 0,
+          "total_tokens": 808
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "c16a9bf0bbb8af7c1cf4b8ddfb8544cb985b340f4065b91b5a2d305b411b19ae",
+      "code_sha256": "4dc3cded0bdb48a289faeef38206ff7f2329c4017d85cd05318a83c2c4171f62",
+      "exit_code": 1,
+      "passed": false,
+      "stderr": "F.F..\n======================================================================\nFAIL: test_case_1 (__main__.TestCases.test_case_1)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 9, in test_case_1\nAssertionError: 1.001758337020874 != 5 within 0 places (3.998241662979126 difference)\n\n======================================================================\nFAIL: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 25, in test_case_3\nAssertionError: 0.1051781177520752 != 1.0 within 0 places (0.8948218822479248 difference)\n\n----------------------------------------------------------------------\nRan 5 tests in 2.346s\n\nFAILED (failures=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 42, in <module>\nAssertionError: Independent checks failed\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 2.552854
+    },
+    "code": "import time\nimport threading\n\n\ndef task_func(delay_time: float = 1.0, num_threads: int = 5):\n    \"\"\"Delay in separate threads and return completion messages in thread order.\"\"\"\n    messages = [None for _ in range(num_threads)]\n\n    def worker(index):\n        time.sleep(delay_time)\n        messages[index] = f'Delay in thread {index} completed'\n\n    threads = [\n        threading.Thread(target=worker, args=(index,))\n        for index in range(num_threads)\n    ]\n    for thread in threads:\n        thread.start()\n    for thread in threads:\n        thread.join()\n\n    return messages\n",
+    "experience_ids": [],
+    "family": "time",
+    "job_id": "train-821",
+    "lesson": "Store results by thread index and join every worker to preserve deterministic return ordering without serializing the delays.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import time\nimport threading\n\n\ndef task_func(delay_time: float = 1.0, num_threads: int = 5):\n    '''\n    Introduces a delay of 'delay_time' seconds in a specified number of separate threads and \n    returns the thread completion messages.\n\n    Parameters:\n    - delay_time (float): Amounf of delay time in seconds. Defalut is 1.\n    - num_threads (int): Number of threads in which the delay should be introduced. Default is 5.\n\n    Returns:\n    - list: A list of strings containing the completion messages of the threads.\n            The completion message looks as follow:\n            'Delay in thread x completed'\n\n    Requirements:\n    - time\n    - threading\n\n    Example:\n    >>> task_func(0.1, 3)\n    ['Delay in thread 0 completed', 'Delay in thread 1 completed', 'Delay in thread 2 completed']\n\n    >>> task_func(1, 10)\n    ['Delay in thread 0 completed', 'Delay in thread 1 completed', 'Delay in thread 2 completed', 'Delay in thread 3 completed', 'Delay in thread 4 completed', 'Delay in thread 5 completed', 'Delay in thread 6 completed', 'Delay in thread 7 completed', 'Delay in thread 8 completed', 'Delay in thread 9 completed']\n    '''\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "11c726ad6d3366d3d7f66370fc8a7227a6a1472bf4ebf739ad24361595d64314",
+    "replayed": false,
+    "source_sha256": "61ec36b6be767df15c5136d7b03f1d94b54b4b7524e452f70a935b0641a5e069",
+    "task_id": "BigCodeBench/821",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "import os\nimport tempfile\n\nwith tempfile.TemporaryDirectory() as directory:\n    path = os.path.join(directory, 'data.csv')\n    assert task_func(path, 100, seed=12) == path\n    with open(path, newline='') as stream:\n        rows = list(csv.reader(stream))\n    assert rows[0] == ['Name', 'Age', 'Gender', 'Country']\n    assert len(rows) == 101\n    for name, age, selected_gender, country in rows[1:]:\n        assert len(name) == 5 and all('A' <= char <= 'Z' for char in name)\n        assert 20 <= int(age) <= 60\n        assert selected_gender in ['Male', 'Female', 'Non-Binary']\n        assert country in ['USA', 'UK', 'Canada', 'Australia', 'India']\n    task_func(path, 100, seed=12)\n    with open(path, newline='') as stream:\n        assert list(csv.reader(stream)) == rows\n    task_func(path, 1, gender=['test'], countries=['Albania'], seed=12)\n    with open(path, newline='') as stream:\n        assert list(csv.reader(stream))[1][2:] == ['test', 'Albania']\n    for count in (0, -3):\n        task_func(path, count, gender=[], countries=[], seed=12)\n        with open(path, newline='') as stream:\n            assert list(csv.reader(stream)) == [['Name', 'Age', 'Gender', 'Country']]\n",
+          "code": "import csv\nimport random\n\n\ndef task_func(file_path,\n              num_rows,\n              gender=['Male', 'Female', 'Non-Binary'],\n              countries=['USA', 'UK', 'Canada', 'Australia', 'India'],\n              seed=None):\n    \"\"\"Write random Name, Age, Gender, and Country data to a CSV file.\"\"\"\n    random.seed(seed)\n    with open(file_path, 'w', newline='') as csv_file:\n        writer = csv.writer(csv_file)\n        writer.writerow(['Name', 'Age', 'Gender', 'Country'])\n        for _ in range(num_rows):\n            name = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=5))\n            age = random.randint(20, 60)\n            selected_gender = random.choice(gender)\n            country = random.choice(countries)\n            writer.writerow([name, age, selected_gender, country])\n    return file_path\n",
+          "lesson": "Write headers before iterating over rows so nonpositive row counts naturally produce header-only files without sampling empty option lists."
+        },
+        "response_sha256": "fc9d8db18042c2cf3f0586489e99b9ffae2b56146db1f9ac182cd5a5e08724fc",
+        "smoke": {
+          "checks_sha256": "44c20e038c3db19a727cd72925a8ccb97d3b92bf743ca91c90ec9601f8480996",
+          "code_sha256": "1ae2a858fb9e3f94086b691f3e872236d13bf4c07115bfe47e2ce98f72b65e90",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.074938
+        },
+        "usage": {
+          "completion_tokens": 594,
+          "prompt_tokens": 620,
+          "reasoning_tokens": 0,
+          "total_tokens": 1214
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "5482490e7e02856ab782f1ccb2d681b0c61b0904ee48fb5f132eaefe33f35161",
+      "code_sha256": "1ae2a858fb9e3f94086b691f3e872236d13bf4c07115bfe47e2ce98f72b65e90",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.231909
+    },
+    "code": "import csv\nimport random\n\n\ndef task_func(file_path,\n              num_rows,\n              gender=['Male', 'Female', 'Non-Binary'],\n              countries=['USA', 'UK', 'Canada', 'Australia', 'India'],\n              seed=None):\n    \"\"\"Write random Name, Age, Gender, and Country data to a CSV file.\"\"\"\n    random.seed(seed)\n    with open(file_path, 'w', newline='') as csv_file:\n        writer = csv.writer(csv_file)\n        writer.writerow(['Name', 'Age', 'Gender', 'Country'])\n        for _ in range(num_rows):\n            name = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=5))\n            age = random.randint(20, 60)\n            selected_gender = random.choice(gender)\n            country = random.choice(countries)\n            writer.writerow([name, age, selected_gender, country])\n    return file_path\n",
+    "experience_ids": [],
+    "family": "structured-data",
+    "job_id": "train-839",
+    "lesson": "Write headers before iterating over rows so nonpositive row counts naturally produce header-only files without sampling empty option lists.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import csv\nimport random\n\ndef task_func(file_path,\n          num_rows,\n          gender=['Male', 'Female', 'Non-Binary'],\n          countries=['USA', 'UK', 'Canada', 'Australia', 'India'],\n          seed=None):\n    \"\"\"\n    Generates a CSV file with random data for the fields ['Name', 'Age', 'Gender', 'Country'].\n    The number of rows in the CSV file is determined by the 'num_rows' parameter.\n\n    The Ages are randomly sampled integers in the range [20, 60].\n    The names are generated by randomly choosing 5 uppercase characters from the english alphabet.\n\n    \n    If num_rows <= 0 a csv containing only the headers is generated.\n\n    Parameters:\n    file_path (str): The file path where the CSV file should be created.\n    num_rows (int): The number of rows of random data to generate.\n    gender (list of str, optional): The list of genders to sample from.\n        Defaults to ['Male', 'Female', 'Non-Binary'].\n    countries (list of str, optional): The list of countries to sample from.\n        Defaults to ['USA', 'UK', 'Canada', 'Australia', 'India'].\n    seed (int, optional): The seed used for random sampling.\n        Defaults to None.\n\n    Returns:\n    str: The file path of the generated CSV file.\n\n    Requirements:\n    - csv\n    - random\n\n    Example:\n    >>> task_func('/tmp/data.csv', 100)\n    '/tmp/data.csv'\n\n    >>> task_func('/test.csv', 100, gender=['test'], countries['Albania', 'Germany', 'Austria'], seed=12)\n    'test.csv'\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "d6292711230d9c667b059df18fb0518ea86ec0917943df0a9080e2f872a1a264",
+    "replayed": false,
+    "source_sha256": "dbc9636761409a424ba360e56432fd8d5743b127597568e72f1019693bc69e14",
+    "task_id": "BigCodeBench/839",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "import matplotlib.pyplot as plt\nfrom matplotlib.axes import Axes\n\nstart = datetime(2021, 1, 1)\nend = datetime(2021, 12, 31)\ndata, plot = task_func(start, end)\nassert list(data.columns) == ['Date', 'Temperature', 'Humidity', 'Wind Speed']\nassert len(data) == 365\nassert data['Date'].iloc[0] == start\nassert data['Date'].iloc[-1] == end\nnp.testing.assert_allclose(\n    data.iloc[:3, 1:].to_numpy(dtype=float),\n    [[8.727006, 96.057145, 14.639879],\n     [19.932924, 32.481491, 3.119890],\n     [-7.095819, 89.294092, 12.022300]],\n    atol=1e-6,\n)\nassert isinstance(plot, Axes)\nassert len(plot.lines) == 3\nplt.close(plot.get_figure())\n\nsingle, single_plot = task_func(start, start)\nassert len(single) == 1\nnp.testing.assert_allclose(single.iloc[0, 1:].to_numpy(dtype=float), data.iloc[0, 1:].to_numpy(dtype=float))\nplt.close(single_plot.get_figure())\n\ntry:\n    task_func(end, start)\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Reversed dates must raise ValueError')\n",
+          "code": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime, timedelta\n\n\ndef task_func(start_date, end_date, random_seed=42):\n    \"\"\"Generate daily simulated weather data and return its DataFrame and plot.\"\"\"\n    if end_date < start_date:\n        raise ValueError(\"end_date must not be before start_date\")\n\n    np.random.seed(random_seed)\n    rows = []\n    current_date = start_date\n    while current_date <= end_date:\n        rows.append([\n            current_date,\n            np.random.uniform(-10, 40),\n            np.random.uniform(20, 100),\n            np.random.uniform(0, 20),\n        ])\n        current_date += timedelta(days=1)\n\n    data = pd.DataFrame(\n        rows, columns=['Date', 'Temperature', 'Humidity', 'Wind Speed']\n    )\n    plot = data.plot(\n        x='Date', y=['Temperature', 'Humidity', 'Wind Speed']\n    )\n    return data, plot\n",
+          "lesson": "When seeded examples specify exact random values, preserve both the random generator API and the order in which samples are drawn."
+        },
+        "response_sha256": "03e017a0d0a61f91f6a7cb741ab99ee93625031239d4b41fa5b2821cec9f24aa",
+        "smoke": {
+          "checks_sha256": "2257543edfe68cae6131142fa77e2f847f1507e62d0eabaa54515a31319a0ed5",
+          "code_sha256": "b110af9c4994858695f71a2c2e66c76c4a788f0b05dd7589bef828277f59f98f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.725602
+        },
+        "usage": {
+          "completion_tokens": 658,
+          "prompt_tokens": 851,
+          "reasoning_tokens": 42,
+          "total_tokens": 1509
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "48b3a03683981cf4c3041c0b6d7e98a99e5e91fbfcf7b9a70f1b8b1b54b57a53",
+      "code_sha256": "b110af9c4994858695f71a2c2e66c76c4a788f0b05dd7589bef828277f59f98f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.457s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.771998
+    },
+    "code": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime, timedelta\n\n\ndef task_func(start_date, end_date, random_seed=42):\n    \"\"\"Generate daily simulated weather data and return its DataFrame and plot.\"\"\"\n    if end_date < start_date:\n        raise ValueError(\"end_date must not be before start_date\")\n\n    np.random.seed(random_seed)\n    rows = []\n    current_date = start_date\n    while current_date <= end_date:\n        rows.append([\n            current_date,\n            np.random.uniform(-10, 40),\n            np.random.uniform(20, 100),\n            np.random.uniform(0, 20),\n        ])\n        current_date += timedelta(days=1)\n\n    data = pd.DataFrame(\n        rows, columns=['Date', 'Temperature', 'Humidity', 'Wind Speed']\n    )\n    plot = data.plot(\n        x='Date', y=['Temperature', 'Humidity', 'Wind Speed']\n    )\n    return data, plot\n",
+    "experience_ids": [],
+    "family": "tabular",
+    "job_id": "train-85",
+    "lesson": "When seeded examples specify exact random values, preserve both the random generator API and the order in which samples are drawn.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import numpy as np\nimport pandas as pd\nfrom datetime import timedelta\n\ndef task_func(start_date, end_date, random_seed=42):\n    \"\"\"\n    Generate and plot weather data for a specified date range.\n    \n    This function creates a DataFrame containing simulated daily weather data \n    within the specified date range. It generates random values for temperature, \n    humidity, and wind speed for each day. The function also plots these parameters \n    over the date range and returns both the DataFrame and the plot object.\n    \n    Parameters:\n    - start_date (datetime): The start date for the data generation.\n    - end_date (datetime): The end date for the data generation.\n    - random_seed (int, optional): Seed for the random number generator to ensure reproducibility. Defaults to 42.\n    \n    The generated weather data ranges are as follows:\n    - Temperature: Between -10\u00b0C and 40\u00b0C.\n    - Humidity: Between 20% and 100%.\n    - Wind Speed: Between 0 and 20 meters per second.\n    \n    Returns:\n    - DataFrame: A pandas DataFrame with columns ['Date', 'Temperature', 'Humidity', 'Wind Speed'], containing the generated weather data for each day within the specified range.\n    - Axes: A matplotlib Axes object of the plot showing the generated weather data.\n    \n    Raises:\n    - ValueError: If 'end_date' is before 'start_date', indicating an invalid date range.\n\n    Requirements:\n    - numpy\n    - pandas\n    - datetime\n\n    Example:\n    >>> start_date = datetime(2021, 1, 1)\n    >>> end_date = datetime(2021, 12, 31)\n    >>> data, plot = task_func(start_date, end_date)\n    >>> print(data.head())  # Display the first few rows of the DataFrame \n            Date  Temperature   Humidity  Wind Speed\n    0 2021-01-01     8.727006  96.057145   14.639879\n    1 2021-01-02    19.932924  32.481491    3.119890\n    2 2021-01-03    -7.095819  89.294092   12.022300\n    3 2021-01-04    25.403629  21.646760   19.398197\n    4 2021-01-05    31.622132  36.987129    3.636499\n    >>> plot.get_figure().savefig(\"weather_data_plot.png\")  # Save the plot to a file\n    >>> os.remove(\"weather_data_plot.png\")\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "e5985df136d1e96b08a519b9f7f1c2d0ddb9e6447a09298912b6d7a65cd74681",
+    "replayed": false,
+    "source_sha256": "987adfb48f9d69507b74951ee6cf2e789593263632d183d1cd98ea2fc489d22e",
+    "task_id": "BigCodeBench/85",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "state = random.getstate()\ntry:\n    random.seed(42)\n    result = task_func(2, 3)\n    assert isinstance(result, dict)\n    assert list(result.items()) == [('O', 1), ('h', 1), ('b', 1), ('V', 1), ('r', 1), ('p', 1)]\n    assert task_func(0, 3) == {}\n    assert task_func(3, 0) == {}\n    result = task_func(10, 20)\n    assert sum(result.values()) == 200\n    assert set(result).issubset(VALID_CHARACTERS)\nfinally:\n    random.setstate(state)\n",
+          "code": "import random\nimport string\nimport collections\n\nVALID_CHARACTERS = string.ascii_letters + string.digits\n\n\ndef task_func(n_strings, string_length):\n    \"\"\"Generate random strings and return their combined character counts.\"\"\"\n    counts = collections.Counter()\n    for _ in range(n_strings):\n        generated = ''.join(\n            random.choice(VALID_CHARACTERS) for _ in range(string_length)\n        )\n        counts.update(generated)\n    return dict(counts)\n",
+          "lesson": "For seeded random examples, preserve the sampling primitive and draw order: repeated random.choice calls need not match random.choices."
+        },
+        "response_sha256": "9fb34ec55afa95c6b3343775c86470ba463bf8e098dcf5e0947cc47a58149f18",
+        "smoke": {
+          "checks_sha256": "b5d519ee416bca8a040521e17cfe065b4a8ce24b7aed236a5d0383a76ea27a19",
+          "code_sha256": "8d397b813bbdd950486b1ab29556c069cf234977ce481e0175000010b5ce314a",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.074905
+        },
+        "usage": {
+          "completion_tokens": 306,
+          "prompt_tokens": 471,
+          "reasoning_tokens": 0,
+          "total_tokens": 777
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "ed76ba89644f63f458eb659e07202458ab78dea671da4c972e14fd81f92695f6",
+      "code_sha256": "8d397b813bbdd950486b1ab29556c069cf234977ce481e0175000010b5ce314a",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.073961
+    },
+    "code": "import random\nimport string\nimport collections\n\nVALID_CHARACTERS = string.ascii_letters + string.digits\n\n\ndef task_func(n_strings, string_length):\n    \"\"\"Generate random strings and return their combined character counts.\"\"\"\n    counts = collections.Counter()\n    for _ in range(n_strings):\n        generated = ''.join(\n            random.choice(VALID_CHARACTERS) for _ in range(string_length)\n        )\n        counts.update(generated)\n    return dict(counts)\n",
+    "experience_ids": [],
+    "family": "text",
+    "job_id": "train-855",
+    "lesson": "For seeded random examples, preserve the sampling primitive and draw order: repeated random.choice calls need not match random.choices.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import random\nimport string\nimport collections\n\n# Constants\nVALID_CHARACTERS = string.ascii_letters + string.digits\n\ndef task_func(n_strings, string_length):\n    \"\"\"\n    Generate n random strings of a specified length, count the frequency of each character across all strings, and return the result as a dictionary.\n\n    Parameters:\n    - n_strings (int): The number of random strings to generate.\n    - string_length (int): The length of each random string.\n\n    Returns:\n    - dict: A dictionary containing character counts with characters as keys and their frequencies as values.\n\n    Requirements:\n    - random\n    - string\n    - collections\n\n    Constants:\n    - VALID_CHARACTERS: A string containing all valid characters (ASCII letters and digits) that can be used in the random strings.\n\n    Example:\n    >>> random.seed(42)\n    >>> task_func(2, 3)\n    {'O': 1, 'h': 1, 'b': 1, 'V': 1, 'r': 1, 'p': 1}\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "067b60f21e37c1e031b9766ba0d5a145bc69197147cbd8792b274b60e0c72668",
+    "replayed": false,
+    "source_sha256": "65a1ce23134d0334729a41a7f541a9d26368a76a30ded793e5df7631d2312822",
+    "task_id": "BigCodeBench/855",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "assert task_func(4, rng_seed=123) == ['Red', 'Red', 'Green', 'Blue']\nassert task_func(12, colors=['Brown', 'Green', 'Black'], rng_seed=42) == [\n    'Brown', 'Black', 'Green', 'Brown', 'Black', 'Brown',\n    'Brown', 'Black', 'Green', 'Green', 'Black', 'Brown'\n]\nassert task_func(0, colors=[], rng_seed=42) == []\nassert task_func(-3, rng_seed=42) == []\nassert task_func(5, colors=['Red'], rng_seed=42) == ['Red'] * 5\n",
+          "code": "from itertools import cycle\nfrom random import choice, seed\n\n\ndef task_func(n_colors, colors=['Red', 'Green', 'Blue', 'Yellow', 'Purple'], rng_seed=None):\n    \"\"\"Return alternating cyclic and random colors, starting with a cyclic color.\"\"\"\n    if n_colors <= 0:\n        return []\n\n    seed(rng_seed)\n    cyclic_colors = cycle(colors)\n    return [\n        next(cyclic_colors) if i % 2 == 0 else choice(colors)\n        for i in range(n_colors)\n    ]\n",
+          "lesson": "Advance the cyclic iterator only on cyclic positions, and draw random choices only on random positions to preserve seeded results."
+        },
+        "response_sha256": "ae0e3138bd8ddcc1c6b3d40fcf78af0a17de4c8fa4c998b7315e0a8c304cb64a",
+        "smoke": {
+          "checks_sha256": "e94867e298fa853359259fabfedfc65de11e4b1dcf31502fafe1e54489d9aa4e",
+          "code_sha256": "bc6417fdbb27be66c77a0df48b3a2c1f1e365142dcad3d117a6d7bb41697ce0c",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.077967
+        },
+        "usage": {
+          "completion_tokens": 428,
+          "prompt_tokens": 685,
+          "reasoning_tokens": 103,
+          "total_tokens": 1113
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "fc088fb90cebbdd297b96a56ec060d1f27a4e4066550472539b3dcf1e8cfef7c",
+      "code_sha256": "bc6417fdbb27be66c77a0df48b3a2c1f1e365142dcad3d117a6d7bb41697ce0c",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.07735
+    },
+    "code": "from itertools import cycle\nfrom random import choice, seed\n\n\ndef task_func(n_colors, colors=['Red', 'Green', 'Blue', 'Yellow', 'Purple'], rng_seed=None):\n    \"\"\"Return alternating cyclic and random colors, starting with a cyclic color.\"\"\"\n    if n_colors <= 0:\n        return []\n\n    seed(rng_seed)\n    cyclic_colors = cycle(colors)\n    return [\n        next(cyclic_colors) if i % 2 == 0 else choice(colors)\n        for i in range(n_colors)\n    ]\n",
+    "experience_ids": [],
+    "family": "collections-algorithms",
+    "job_id": "train-868",
+    "lesson": "Advance the cyclic iterator only on cyclic positions, and draw random choices only on random positions to preserve seeded results.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "from itertools import cycle\nfrom random import choice, seed\n\n\ndef task_func(n_colors, colors=['Red', 'Green', 'Blue', 'Yellow', 'Purple'], rng_seed=None):\n    \"\"\"\n    Generates a list representing a color pattern. The pattern consists of 'n_colors' elements \n    and alternates between a cyclic sequence of colors as defined in the parameter 'colors',\n    and random colors from the same list.\n    Optionally, a seed for the random number generator can be provided for repeatable randomness.\n\n    If n_colors is smaller than or equal to zero an empty list is returned.\n\n    Parameters:\n    n_colors (int): The number of colors to include in the pattern. This number indicates the total \n                    elements in the returned list, alternating between cyclic and random colors.\n    colors (list of str, optional): The list of colors to generate from. \n                Defaults to  ['Red', 'Green', 'Blue', 'Yellow', 'Purple'].\n    rng_seed (int, optional): A seed for the random number generator to ensure repeatability of the color selection. \n                              If 'None', the randomness is based on system time or other sources of entropy.\n\n    Returns:\n    list: A list representing the color pattern. Each element of the list is a string indicating \n          the color. For example, with n_colors=4 and a specific seed, the result could be consistent \n          across calls with the same seed.\n\n    Requirements:\n    - itertools\n    - random\n\n    Examples:\n    >>> color_pattern = task_func(4, rng_seed=123)\n    >>> print(color_pattern)\n    ['Red', 'Red', 'Green', 'Blue']\n\n    >>> colors = ['Brown', 'Green', 'Black']\n    >>> color_pattern = task_func(12, colors=colors, rng_seed=42)\n    >>> print(color_pattern)\n    ['Brown', 'Black', 'Green', 'Brown', 'Black', 'Brown', 'Brown', 'Black', 'Green', 'Green', 'Black', 'Brown']\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "4c462821793eda2681487cd01776cae2350cf5b946669ae1b10512e4b3a3fb0b",
+    "replayed": false,
+    "source_sha256": "8e142919d964f995bf53082948ab2b37ea378562e80b1a02e4b55a2d81cbb6ff",
+    "task_id": "BigCodeBench/868",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "assert task_func(\"aaBBcc\") == [('aa', 1)]\nassert task_func(\"abc!abc\") == [('ab', 2)]\nassert task_func(\"a\") == []\nassert task_func(\"abcd\") == [('ab', 1)]\nassert task_func(\"a1b2c3\") == [('ab', 1)]\nassert task_func(\"\") == []\nassert task_func(\"1!a2?\") == []\nassert task_func(\"aaaa\") == [('aa', 3)]\nassert task_func(\"A!B\") == [('ab', 1)]",
+          "code": "from collections import Counter\nimport re\n\n\ndef task_func(word: str) -> list:\n    \"\"\"Return the most frequent adjacent letter pair after cleaning the input.\"\"\"\n    cleaned = re.sub(r\"[^a-z]\", \"\", word.lower())\n    if len(cleaned) < 2:\n        return []\n\n    pairs = Counter(cleaned[i:i + 2] for i in range(len(cleaned) - 1))\n    return pairs.most_common(1)\n",
+          "lesson": "Clean before forming overlapping pairs, and use Counter.most_common(1) to preserve first-occurrence ordering when frequencies tie."
+        },
+        "response_sha256": "9ac2173194f8769684c0bde9d1a7205e5c254b7e8a188ffe33d5a1f501f1967d",
+        "smoke": {
+          "checks_sha256": "ea7593c73d34de08a2eb57819bb74c37db24363e06959b0d58944186049ed5e7",
+          "code_sha256": "b8172ecf2b5919eae1d6bb4afa27cf3c25bfd7cbcdfd027f39c54b4a0f833452",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.078806
+        },
+        "usage": {
+          "completion_tokens": 338,
+          "prompt_tokens": 524,
+          "reasoning_tokens": 52,
+          "total_tokens": 862
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "ca5e64f12a43a4ddf4997ecb8bc48e895005df42aa1e1f07565228d6637e9c37",
+      "code_sha256": "b8172ecf2b5919eae1d6bb4afa27cf3c25bfd7cbcdfd027f39c54b4a0f833452",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.078778
+    },
+    "code": "from collections import Counter\nimport re\n\n\ndef task_func(word: str) -> list:\n    \"\"\"Return the most frequent adjacent letter pair after cleaning the input.\"\"\"\n    cleaned = re.sub(r\"[^a-z]\", \"\", word.lower())\n    if len(cleaned) < 2:\n        return []\n\n    pairs = Counter(cleaned[i:i + 2] for i in range(len(cleaned) - 1))\n    return pairs.most_common(1)\n",
+    "experience_ids": [],
+    "family": "text",
+    "job_id": "train-932",
+    "lesson": "Clean before forming overlapping pairs, and use Counter.most_common(1) to preserve first-occurrence ordering when frequencies tie.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "from collections import Counter\nimport re\n\ndef task_func(word: str) -> list:\n    \"\"\"\n    Finds the most common two-letter combination in a given, cleaned word (lowercased and alphabetic characters only) \n    and returns its frequency. The search is case-insensitive and ignores non-alphabetic characters.\n    \n    Requirements:\n    - collections.Counter\n    - re\n    \n    Parameters:\n    - word (str): The input string containing the word to analyze. The word should have a length of at least 2 to form pairs.\n    \n    Returns:\n    - list: A list containing a single tuple. The tuple consists of the most frequent two-letter combination (str) \n      and its frequency (int). Returns an empty list if the word has fewer than 2 letters, or after cleaning, \n      the word has fewer than 2 alphabetic characters.\n    \n    Examples:\n    >>> task_func(\"aaBBcc\")\n    [('aa', 1)]\n    >>> task_func(\"abc!abc\")\n    [('ab', 2)]\n    >>> task_func(\"a\")\n    []\n    >>> task_func(\"abcd\")\n    [('ab', 1)]\n    >>> task_func(\"a1b2c3\")\n    [('ab', 1)]\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "f5722ae2914d6afa9f16f685ce6e9d58498435775f6b64d3db44bc094a20af6a",
+    "replayed": false,
+    "source_sha256": "07d990d25e3530c241c01ac870759bacba834e32aae6e023ec7af167b41d904d",
+    "task_id": "BigCodeBench/932",
+    "version": "nuria.outcome-worker.v1"
+  },
+  {
+    "accepted": true,
+    "attempts": [
+      {
+        "proposal": {
+          "checks": "from tempfile import TemporaryDirectory\n\nwith TemporaryDirectory() as temporary:\n    root = Path(temporary)\n    source = root / 'source_folder'\n    target = root / 'target_folder'\n    (source / 'nested').mkdir(parents=True)\n    target.mkdir()\n    (target / 'report.txt').write_text('existing')\n    (source / 'report.txt').write_text('new')\n    (source / 'nested' / 'data.csv').write_text('a,b')\n    (source / 'notes.docx').write_bytes(b'document')\n    (source / 'keep.png').write_bytes(b'image')\n    assert task_func(str(source), str(target)) == 3\n    assert (target / 'report.txt').read_text() == 'existing'\n    assert (target / 'report-1.txt').read_text() == 'new'\n    assert (target / 'data.csv').read_text() == 'a,b'\n    assert (target / 'notes.docx').exists()\n    assert not (source / 'report.txt').exists()\n    assert (source / 'keep.png').exists()\n\n    empty = root / 'empty_folder'\n    empty.mkdir()\n    new_target = root / 'new_target'\n    assert task_func(str(empty), str(new_target)) == 0\n    assert new_target.is_dir()\n\n    missing_target = root / 'missing_target'\n    try:\n        task_func(str(root / 'missing_source'), str(missing_target))\n    except FileNotFoundError:\n        pass\n    else:\n        raise AssertionError('Expected FileNotFoundError')\n    assert not missing_target.exists()\n",
+          "code": "import os\nfrom pathlib import Path\nimport glob\nimport shutil\n\n\ndef task_func(source_directory: str, target_directory: str):\n    \"\"\"Move supported files recursively, renaming destination conflicts.\"\"\"\n    if not os.path.exists(source_directory):\n        raise FileNotFoundError(source_directory)\n\n    os.makedirs(target_directory, exist_ok=True)\n    extensions = {'.txt', '.docx', '.xlsx', '.csv'}\n    files = [\n        Path(name)\n        for name in glob.glob(\n            os.path.join(glob.escape(os.fspath(source_directory)), '**', '*'),\n            recursive=True,\n            include_hidden=True,\n        )\n        if os.path.isfile(name) and Path(name).suffix in extensions\n    ]\n\n    moved = 0\n    target = Path(target_directory)\n    for source in files:\n        destination = target / source.name\n        number = 1\n        while os.path.lexists(destination):\n            destination = target / f'{source.stem}-{number}{source.suffix}'\n            number += 1\n        shutil.move(str(source), str(destination))\n        moved += 1\n\n    return moved\n",
+          "lesson": "Snapshot recursive file matches before moving files, and resolve each destination conflict against the current filesystem so earlier moves cannot cause overwrites."
+        },
+        "response_sha256": "0dcbcaa37bed7adff8575945044737e6a20bbb15bf45408c038f77045b63f2dd",
+        "smoke": {
+          "checks_sha256": "5c2f6c2b6e57d9d27b7109b00ff27a40d7674b71ff9e125c75e3a805a2467d32",
+          "code_sha256": "a9225900b9a0651e9c502f675500e64fc67ad310a122554f955766893c84b376",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.078586
+        },
+        "usage": {
+          "completion_tokens": 812,
+          "prompt_tokens": 509,
+          "reasoning_tokens": 138,
+          "total_tokens": 1321
+        }
+      }
+    ],
+    "checker": {
+      "checks_sha256": "1f41648fdb23ae034519e8b273aa6d7cb26ddeecec3e3c4a7b34b44800670677",
+      "code_sha256": "a9225900b9a0651e9c502f675500e64fc67ad310a122554f955766893c84b376",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.011s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.075392
+    },
+    "code": "import os\nfrom pathlib import Path\nimport glob\nimport shutil\n\n\ndef task_func(source_directory: str, target_directory: str):\n    \"\"\"Move supported files recursively, renaming destination conflicts.\"\"\"\n    if not os.path.exists(source_directory):\n        raise FileNotFoundError(source_directory)\n\n    os.makedirs(target_directory, exist_ok=True)\n    extensions = {'.txt', '.docx', '.xlsx', '.csv'}\n    files = [\n        Path(name)\n        for name in glob.glob(\n            os.path.join(glob.escape(os.fspath(source_directory)), '**', '*'),\n            recursive=True,\n            include_hidden=True,\n        )\n        if os.path.isfile(name) and Path(name).suffix in extensions\n    ]\n\n    moved = 0\n    target = Path(target_directory)\n    for source in files:\n        destination = target / source.name\n        number = 1\n        while os.path.lexists(destination):\n            destination = target / f'{source.stem}-{number}{source.suffix}'\n            number += 1\n        shutil.move(str(source), str(destination))\n        moved += 1\n\n    return moved\n",
+    "experience_ids": [],
+    "family": "files-archives",
+    "job_id": "train-962",
+    "lesson": "Snapshot recursive file matches before moving files, and resolve each destination conflict against the current filesystem so earlier moves cannot cause overwrites.",
+    "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+    "prompt": "import os\nfrom pathlib import Path\nimport glob\nimport shutil\n\n\ndef task_func(source_directory: str, target_directory: str):\n    \"\"\"\n    Moves files with specific extensions from a source directory to a target directory,\n    handling naming conflicts by renaming duplicates.\n\n    Parameters:\n    - source_directory (str): The absolute or relative path of the source directory.\n    - target_directory (str): The absolute or relative path of the target directory.\n                              This function will create it if it does not exist.\n\n    Returns:\n    - int: The number of files successfully moved.\n\n    Raises:\n    - FileNotFoundError: If source_directory does not exist.\n\n    Requirements:\n    - os\n    - pathlib\n    - glob\n    - shutil\n\n    Notes:\n    - This function scans the source directory recursively to find files.\n    - Files are filtered by the extensions: \".txt\", \".docx\", \".xlsx\", \".csv\".\n    - Renaming of files due to naming conflicts follows the pattern '<original_name>-n.<extension>'.\n\n    Examples:\n    >>> task_func('./source_folder', './target_folder')\n    3\n    >>> task_func('./empty_folder', './target_folder')\n    0\n    \"\"\"\n",
+    "proposal_error": null,
+    "proposed_code_sha256": "0a766c022d5dbb4d6b0331bf1b00923264283d588aed6b2f999bcaefa1079902",
+    "replayed": false,
+    "source_sha256": "345ee5e4b3c023769521d1b856e993b519aaf88b68d76b66d6c798ed189c5259",
+    "task_id": "BigCodeBench/962",
+    "version": "nuria.outcome-worker.v1"
+  }
+]
