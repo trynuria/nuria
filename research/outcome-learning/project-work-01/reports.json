@@ -1,0 +1,63 @@
+{
+  "nuria-release-identity": {
+    "deployed_utc": "2026-10-24T15:46:15.063347+00:00",
+    "direct_service_health": "unknown",
+    "evidence": "public_endpoint_identity_only",
+    "live_commit": "8028c3a14ff0e33ba17f9bf48ca4df438e327446",
+    "live_release": "nuria-observatory-0.11.0",
+    "published_commit": "0370e01ae31a38ae85738175d73e5a8e44ae79f4",
+    "source_vs_live": "different"
+  },
+  "nuria-reported-work-audit": {
+    "evidence": "reported_public_projection_not_independent_payment_verification",
+    "financial_execution": false,
+    "providers": {
+      "local-composed-records-v1": {
+        "accepted": 20,
+        "failed": 5,
+        "reported_cost_micro_usd": 0,
+        "unknown": 0,
+        "unknown_costs": 0
+      },
+      "local-record-audit-v1": {
+        "accepted": 14,
+        "failed": 1,
+        "reported_cost_micro_usd": 0,
+        "unknown": 0,
+        "unknown_costs": 0
+      }
+    },
+    "reported_actions": 40
+  },
+  "nuria-source-drift": {
+    "added": [
+      "cognition/outcome_learning.py",
+      "cognition/outcome_worker.py",
+      "docs/outcome-learning.md",
+      "research/outcome-learning/BIGCODEBENCH-LICENSE.txt",
+      "research/outcome-learning/course-01/cohort-before-task-bodies.json",
+      "research/outcome-learning/course-01/protocol.json",
+      "research/outcome-learning/course-01/selection-rules-before-cohort.json",
+      "research/outcome-learning/course-01/sources.json",
+      "research/outcome-learning/course-02/input-mode.json",
+      "research/outcome-learning/course-02/optimization-amendment.json",
+      "research/outcome-learning/course-02/optimization-plan.json",
+      "research/outcome-learning/course-02/protocol.json",
+      "research/outcome-learning/requirements.txt",
+      "scripts/evaluate_outcome_loop.py",
+      "scripts/learn_outcome_policy.py",
+      "scripts/package_outcome_course.py",
+      "scripts/run_outcome_work.py",
+      "scripts/verify_outcome_course.py",
+      "tests/test_outcome_learning.py",
+      "tests/test_outcome_worker.py"
+    ],
+    "changed": [
+      ".github/workflows/quality.yml",
+      ".prettierignore"
+    ],
+    "inventory_files": 1676,
+    "manifest_files": 1656,
+    "missing": []
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "budget": {
+    "accounted_cost_and_liability_micro_usd": 9084204,
+    "blocked": false,
+    "charged_ceiling_requests": 1,
+    "conservative_charged_ceiling_micro_usd": 136390,
+    "maximum_cost_micro_usd": 10000000,
+    "maximum_requests": 700,
+    "provider_usage_unknown": true,
+    "remaining_headroom_micro_usd": 915796,
+    "requests": 650,
+    "settled_cost_micro_usd": 8947814,
+    "unknown_usage_requests": 1,
+    "unresolved_liability_micro_usd": 0
+  },
+  "configured_cost_and_liability_added_micro_usd": 0,
+  "enrollment_sha256": "7891db486fc9124bea9c327d289a81477053a78c47a51b19e12b287924757881",
+  "journal": {
+    "events": 6,
+    "tail_sha256": "44322ea2af7fa9a7895c213cb4d638c3c88ff12bcc5ce25f1615bfd3d169b674"
+  },
+  "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+  "provider_requests_added": 0,
+  "results": [
+    {
+      "accepted": true,
+      "attempts": [
+        {
+          "proposal": {
+            "checks": "import os\nimport tempfile\n\n\ndef check_snapshot(data, expected):\n    previous_directory = os.getcwd()\n    with tempfile.TemporaryDirectory() as directory:\n        try:\n            os.chdir(directory)\n            os.mkdir('inputs')\n            payload = base64.b64encode(zlib.compress(json.dumps(data).encode('utf-8'))).decode('ascii')\n            with open('inputs/source-snapshot.json', 'w', encoding='utf-8') as source:\n                json.dump({'payload': payload}, source)\n            assert task_func() == expected\n            with open('report.json', 'r', encoding='utf-8') as report:\n                assert json.load(report) == expected\n        finally:\n            os.chdir(previous_directory)\n\n\ncheck_snapshot(\n    {\n        'manifest': [\n            {'path': 'same.py', 'published_sha256': 'a'},\n            {'path': 'changed.py', 'published_sha256': 'b'},\n            {'path': 'z.py', 'published_sha256': 'c'},\n            {'path': 'A.py', 'published_sha256': 'd'},\n        ],\n        'inventory': [\n            {'path': 'same.py', 'actual_sha256': 'a'},\n            {'path': 'changed.py', 'actual_sha256': 'B'},\n            {'path': './same.py', 'actual_sha256': 'a'},\n        ],\n    },\n    {'manifest_files': 4, 'inventory_files': 3, 'missing': ['A.py', 'z.py'], 'changed': ['changed.py'], 'added': ['./same.py']},\n)\ncheck_snapshot(\n    {'manifest': [], 'inventory': []},\n    {'manifest_files': 0, 'inventory_files': 0, 'missing': [], 'changed': [], 'added': []},\n)\n",
+            "code": "import base64\nimport json\nimport zlib\n\n\ndef task_func():\n    with open('inputs/source-snapshot.json', 'r', encoding='utf-8') as source:\n        snapshot = json.load(source)\n\n    decoded = zlib.decompress(base64.b64decode(snapshot['payload'])).decode('utf-8')\n    data = json.loads(decoded)\n    manifest_entries = data['manifest']\n    inventory_entries = data['inventory']\n    manifest = {entry['path']: entry['published_sha256'] for entry in manifest_entries}\n    inventory = {entry['path']: entry['actual_sha256'] for entry in inventory_entries}\n\n    result = {\n        'manifest_files': len(manifest_entries),\n        'inventory_files': len(inventory_entries),\n        'missing': sorted(manifest.keys() - inventory.keys()),\n        'changed': sorted(\n            path for path in manifest.keys() & inventory.keys()\n            if manifest[path] != inventory[path]\n        ),\n        'added': sorted(inventory.keys() - manifest.keys()),\n    }\n    with open('report.json', 'w', encoding='utf-8') as report:\n        json.dump(result, report, ensure_ascii=False)\n    return result\n",
+            "lesson": "Decode the snapshot in the specified order, compare paths and hashes without normalization, and persist exactly the returned report object."
+          },
+          "response_sha256": "32626ac20cc532800763ae11d63d413c7ee99d8f6f0f0c498fff0495d9f12896",
+          "smoke": {
+            "checks_sha256": "2f03c04d6426bcfef05e67a63385a504c20f28d392f1d7a9c32ce58c1b003a5d",
+            "code_sha256": "5a941dc638df32b669ca11be6bb394a4e4fd4818792cbc05f124f5840429ce74",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "",
+            "timed_out": false,
+            "wall_seconds": 0.071491
+          },
+          "usage": {
+            "completion_tokens": 837,
+            "prompt_tokens": 352,
+            "reasoning_tokens": 92,
+            "total_tokens": 1189
+          }
+        }
+      ],
+      "checker": {
+        "checks_sha256": "614524397bd858804e976b8950b26da07f6a80e4516fab7d884fd3cac2823b91",
+        "code_sha256": "5a941dc638df32b669ca11be6bb394a4e4fd4818792cbc05f124f5840429ce74",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "{\"added\": [\"cognition/outcome_learning.py\", \"cognition/outcome_worker.py\", \"docs/outcome-learning.md\", \"research/outcome-learning/BIGCODEBENCH-LICENSE.txt\", \"research/outcome-learning/course-01/cohort-before-task-bodies.json\", \"research/outcome-learning/course-01/protocol.json\", \"research/outcome-learning/course-01/selection-rules-before-cohort.json\", \"research/outcome-learning/course-01/sources.json\", \"research/outcome-learning/course-02/input-mode.json\", \"research/outcome-learning/course-02/optimization-amendment.json\", \"research/outcome-learning/course-02/optimization-plan.json\", \"research/outcome-learning/course-02/protocol.json\", \"research/outcome-learning/requirements.txt\", \"scripts/evaluate_outcome_loop.py\", \"scripts/learn_outcome_policy.py\", \"scripts/package_outcome_course.py\", \"scripts/run_outcome_work.py\", \"scripts/verify_outcome_course.py\", \"tests/test_outcome_learning.py\", \"tests/test_outcome_worker.py\"], \"changed\": [\".github/workflows/quality.yml\", \".prettierignore\"], \"inventory_files\": 1676, \"manifest_files\": 1656, \"missing\": []}\n",
+        "timed_out": false,
+        "wall_seconds": 0.074641
+      },
+      "code": "import base64\nimport json\nimport zlib\n\n\ndef task_func():\n    with open('inputs/source-snapshot.json', 'r', encoding='utf-8') as source:\n        snapshot = json.load(source)\n\n    decoded = zlib.decompress(base64.b64decode(snapshot['payload'])).decode('utf-8')\n    data = json.loads(decoded)\n    manifest_entries = data['manifest']\n    inventory_entries = data['inventory']\n    manifest = {entry['path']: entry['published_sha256'] for entry in manifest_entries}\n    inventory = {entry['path']: entry['actual_sha256'] for entry in inventory_entries}\n\n    result = {\n        'manifest_files': len(manifest_entries),\n        'inventory_files': len(inventory_entries),\n        'missing': sorted(manifest.keys() - inventory.keys()),\n        'changed': sorted(\n            path for path in manifest.keys() & inventory.keys()\n            if manifest[path] != inventory[path]\n        ),\n        'added': sorted(inventory.keys() - manifest.keys()),\n    }\n    with open('report.json', 'w', encoding='utf-8') as report:\n        json.dump(result, report, ensure_ascii=False)\n    return result\n",
+      "experience_ids": [],
+      "family": "actual-project-work",
+      "job_id": "nuria-source-drift",
+      "lesson": "Decode the snapshot in the specified order, compare paths and hashes without normalization, and persist exactly the returned report object.",
+      "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+      "prompt": "Implement task_func() to read inputs/source-snapshot.json. It is JSON with a payload encoded as base64 then zlib-compressed UTF-8 JSON. Decode it. The inner manifest array has path/published_sha256; the inventory array has path/actual_sha256. Return a dict with manifest_files and inventory_files counts and sorted missing, changed and added path lists, comparing exact path and hash. Write that same object to report.json. Use every enrolled entry; no source files outside the input may be read. Missing means absent from inventory, changed means in both with different hashes, added means inventory-only. These are source differences, not service-health judgments.",
+      "proposal_error": null,
+      "proposed_code_sha256": "258bbc26ca4070cc5cc0a8b7df584c56ebe0b85ec7d6c3f38a4f32f70f1d35f2",
+      "replayed": true,
+      "source_sha256": "bac4c9f77aec5e9f9165dbd3f55136601718d81d66e8ed88c4e1b74b17036d7b",
+      "task_id": "nuria/source-drift",
+      "version": "nuria.outcome-worker.v1"
+    },
+    {
+      "accepted": true,
+      "attempts": [
+        {
+          "proposal": {
+            "checks": "import os\nimport tempfile\nfrom pathlib import Path\n\noriginal_directory = os.getcwd()\nwith tempfile.TemporaryDirectory() as directory:\n    try:\n        os.chdir(directory)\n        Path('inputs').mkdir()\n        source = Path('inputs/reported-work-projection.json')\n        fixture = {\n            'financial_execution': {'status': 'projected'},\n            'action_tasks': [\n                {'provider': 'a', 'acceptance': {'passed': True}, 'settlement': {'total_micro_usd': 12}},\n                {'provider': 'a', 'acceptance': {'passed': False}, 'settlement': {'total_micro_usd': -2}},\n                {'provider': 'a', 'acceptance': {'passed': 1}, 'settlement': {'total_micro_usd': True}},\n                {'provider': 'b', 'status': 'included_capacity'},\n                {'provider': 'b', 'acceptance': None, 'settlement': {'total_micro_usd': '5'}},\n            ],\n        }\n        source.write_text(json.dumps(fixture), encoding='utf-8')\n        result = task_func()\n        assert result == {\n            'reported_actions': 5,\n            'financial_execution': {'status': 'projected'},\n            'evidence': 'reported_public_projection_not_independent_payment_verification',\n            'providers': {\n                'a': {'accepted': 1, 'failed': 1, 'unknown': 1, 'reported_cost_micro_usd': 10, 'unknown_costs': 1},\n                'b': {'accepted': 0, 'failed': 0, 'unknown': 2, 'reported_cost_micro_usd': 0, 'unknown_costs': 2},\n            },\n        }\n        assert json.loads(Path('report.json').read_text(encoding='utf-8')) == result\n        source.write_text(json.dumps({'action_tasks': [], 'financial_execution': None}), encoding='utf-8')\n        empty = task_func()\n        assert empty['reported_actions'] == 0\n        assert empty['providers'] == {}\n        assert empty['financial_execution'] is None\n        assert json.loads(Path('report.json').read_text(encoding='utf-8')) == empty\n    finally:\n        os.chdir(original_directory)\n",
+            "code": "import json\n\n\ndef task_func():\n    with open('inputs/reported-work-projection.json', 'r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    tasks = data['action_tasks']\n    providers = {}\n    for task in tasks:\n        provider = task['provider']\n        if provider not in providers:\n            providers[provider] = {\n                'accepted': 0,\n                'failed': 0,\n                'unknown': 0,\n                'reported_cost_micro_usd': 0,\n                'unknown_costs': 0,\n            }\n        counts = providers[provider]\n        acceptance = task.get('acceptance')\n        passed = acceptance.get('passed') if isinstance(acceptance, dict) else None\n        if passed is True:\n            counts['accepted'] += 1\n        elif passed is False:\n            counts['failed'] += 1\n        else:\n            counts['unknown'] += 1\n\n        settlement = task.get('settlement')\n        amount = settlement.get('total_micro_usd') if isinstance(settlement, dict) else None\n        if type(amount) is int:\n            counts['reported_cost_micro_usd'] += amount\n        else:\n            counts['unknown_costs'] += 1\n\n    result = {\n        'reported_actions': len(tasks),\n        'financial_execution': data['financial_execution'],\n        'evidence': 'reported_public_projection_not_independent_payment_verification',\n        'providers': providers,\n    }\n    with open('report.json', 'w', encoding='utf-8') as report:\n        json.dump(result, report, ensure_ascii=False)\n    return result\n",
+            "lesson": "Use identity checks for exact boolean outcomes and exact type checks for integer amounts; aggregate all records without treating projected statuses as proof of payment."
+          },
+          "response_sha256": "0794cb3014a3e606e13b7ab8ec9ca513bafa423ad06d10d047667d7380159d9c",
+          "smoke": {
+            "checks_sha256": "e7f1f8fc5d810bf2326f19f8c6323195b2c02b126d5e622de29cec0ad74a8ca3",
+            "code_sha256": "f8549a73f895f6902d717db05f10966119f60af401ed581ea268f3811a390d10",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "",
+            "timed_out": false,
+            "wall_seconds": 0.074023
+          },
+          "usage": {
+            "completion_tokens": 988,
+            "prompt_tokens": 1205,
+            "reasoning_tokens": 34,
+            "total_tokens": 2193
+          }
+        }
+      ],
+      "checker": {
+        "checks_sha256": "51c7c9db6c1030c2955356b887282a05b69b67c655b5828dfe549af24cbb22ca",
+        "code_sha256": "f8549a73f895f6902d717db05f10966119f60af401ed581ea268f3811a390d10",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "{\"evidence\": \"reported_public_projection_not_independent_payment_verification\", \"financial_execution\": false, \"providers\": {\"local-composed-records-v1\": {\"accepted\": 20, \"failed\": 5, \"reported_cost_micro_usd\": 0, \"unknown\": 0, \"unknown_costs\": 0}, \"local-record-audit-v1\": {\"accepted\": 14, \"failed\": 1, \"reported_cost_micro_usd\": 0, \"unknown\": 0, \"unknown_costs\": 0}}, \"reported_actions\": 40}\n",
+        "timed_out": false,
+        "wall_seconds": 0.083614
+      },
+      "code": "import json\n\n\ndef task_func():\n    with open('inputs/reported-work-projection.json', 'r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    tasks = data['action_tasks']\n    providers = {}\n    for task in tasks:\n        provider = task['provider']\n        if provider not in providers:\n            providers[provider] = {\n                'accepted': 0,\n                'failed': 0,\n                'unknown': 0,\n                'reported_cost_micro_usd': 0,\n                'unknown_costs': 0,\n            }\n        counts = providers[provider]\n        acceptance = task.get('acceptance')\n        passed = acceptance.get('passed') if isinstance(acceptance, dict) else None\n        if passed is True:\n            counts['accepted'] += 1\n        elif passed is False:\n            counts['failed'] += 1\n        else:\n            counts['unknown'] += 1\n\n        settlement = task.get('settlement')\n        amount = settlement.get('total_micro_usd') if isinstance(settlement, dict) else None\n        if type(amount) is int:\n            counts['reported_cost_micro_usd'] += amount\n        else:\n            counts['unknown_costs'] += 1\n\n    result = {\n        'reported_actions': len(tasks),\n        'financial_execution': data['financial_execution'],\n        'evidence': 'reported_public_projection_not_independent_payment_verification',\n        'providers': providers,\n    }\n    with open('report.json', 'w', encoding='utf-8') as report:\n        json.dump(result, report, ensure_ascii=False)\n    return result\n",
+      "experience_ids": [
+        "nuria-source-drift"
+      ],
+      "family": "actual-project-work",
+      "job_id": "nuria-reported-work-audit",
+      "lesson": "Use identity checks for exact boolean outcomes and exact type checks for integer amounts; aggregate all records without treating projected statuses as proof of payment.",
+      "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+      "prompt": "Implement task_func() to read inputs/reported-work-projection.json and write/return the same dict as report.json. Include reported_actions as len(action_tasks), financial_execution from the input, and evidence as 'reported_public_projection_not_independent_payment_verification'. Group ALL action_tasks by provider. Each provider has accepted, failed and unknown counts from acceptance.passed using exact True, exact False, otherwise unknown. Sum settlement.total_micro_usd only when its type is int (not bool) as reported_cost_micro_usd; count every other amount as unknown_costs. Missing acceptance/settlement objects count as unknown. Do not infer a real payment from a projected status or included-capacity entry.",
+      "proposal_error": null,
+      "proposed_code_sha256": "26fafde3813daf9e7cfbe50ca6f24b44398bd8037e03f8aa8f71a51db353940a",
+      "replayed": true,
+      "source_sha256": "8ec6cc8a0cd572ce6b5c14c3a6873596153683a8b31ac0c2579eac87b68ab629",
+      "task_id": "nuria/reported-work-audit",
+      "version": "nuria.outcome-worker.v1"
+    },
+    {
+      "accepted": true,
+      "attempts": [
+        {
+          "proposal": {
+            "checks": "import os\nimport tempfile\nfrom pathlib import Path\n\noriginal_directory = os.getcwd()\nwith tempfile.TemporaryDirectory() as directory:\n    try:\n        os.chdir(directory)\n        Path('inputs').mkdir()\n        input_path = Path('inputs/release-projection.json')\n        input_path.write_text(json.dumps({\n            'live': {'deployment': {\n                'commit': 'abc', 'deployed_utc': '2026-01-01T00:00:00Z',\n                'release': 'live-v1'\n            }},\n            'published_main': {'sha': 'def', 'release': 'source-v2'}\n        }), encoding='utf-8')\n        result = task_func()\n        assert result == {\n            'live_commit': 'abc', 'published_commit': 'def',\n            'deployed_utc': '2026-01-01T00:00:00Z',\n            'live_release': 'live-v1', 'source_vs_live': 'different',\n            'direct_service_health': 'unknown',\n            'evidence': 'public_endpoint_identity_only'\n        }\n        assert json.loads(Path('report.json').read_text(encoding='utf-8')) == result\n        input_path.write_text('{}', encoding='utf-8')\n        result = task_func()\n        assert result['source_vs_live'] == 'unknown'\n        assert all(result[key] is None for key in (\n            'live_commit', 'published_commit', 'deployed_utc', 'live_release'))\n        input_path.write_text(json.dumps({\n            'live': {'deployment': {'commit': 'abc'}},\n            'published_main': {'sha': 'abc'}\n        }), encoding='utf-8')\n        result = task_func()\n        assert result['source_vs_live'] == 'same'\n        assert result['direct_service_health'] == 'unknown'\n    finally:\n        os.chdir(original_directory)\n",
+            "code": "import json\n\n\ndef task_func():\n    with open('inputs/release-projection.json', 'r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    live = data.get('live')\n    deployment = live.get('deployment') if isinstance(live, dict) else None\n    deployment = deployment if isinstance(deployment, dict) else {}\n    published = data.get('published_main')\n    published = published if isinstance(published, dict) else {}\n\n    live_commit = deployment.get('commit')\n    published_commit = published.get('sha')\n    if live_commit is None or published_commit is None:\n        comparison = 'unknown'\n    else:\n        comparison = 'same' if live_commit == published_commit else 'different'\n\n    result = {\n        'live_commit': live_commit,\n        'published_commit': published_commit,\n        'deployed_utc': deployment.get('deployed_utc'),\n        'live_release': deployment.get('release'),\n        'source_vs_live': comparison,\n        'direct_service_health': 'unknown',\n        'evidence': 'public_endpoint_identity_only',\n    }\n    with open('report.json', 'w', encoding='utf-8') as report:\n        json.dump(result, report, ensure_ascii=False)\n    return result\n",
+            "lesson": "Compare reported identities explicitly, preserve missing values, and keep public endpoint evidence separate from direct service-health claims."
+          },
+          "response_sha256": "f531de98744d0efccac842f50d9d6543cfe17cb4b7b0b36b8807558f29a45132",
+          "smoke": {
+            "checks_sha256": "1bed2ea96b0e83b073f5fd6dcb0423f332ead8334457ec7eb33037ac005a03fd",
+            "code_sha256": "b7412857149b77dabe9c3c3261f2b514ae8a5fd371383b93d7f874f2777a4692",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "",
+            "timed_out": false,
+            "wall_seconds": 0.075888
+          },
+          "usage": {
+            "completion_tokens": 775,
+            "prompt_tokens": 2027,
+            "reasoning_tokens": 0,
+            "total_tokens": 2802
+          }
+        }
+      ],
+      "checker": {
+        "checks_sha256": "f57a33bcb335a2e975997f5ba935b9446a537fb73cde9dff6fc6e5463292c22d",
+        "code_sha256": "b7412857149b77dabe9c3c3261f2b514ae8a5fd371383b93d7f874f2777a4692",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "{\"deployed_utc\": \"2026-10-24T15:46:15.063347+00:00\", \"direct_service_health\": \"unknown\", \"evidence\": \"public_endpoint_identity_only\", \"live_commit\": \"8028c3a14ff0e33ba17f9bf48ca4df438e327446\", \"live_release\": \"nuria-observatory-0.11.0\", \"published_commit\": \"0370e01ae31a38ae85738175d73e5a8e44ae79f4\", \"source_vs_live\": \"different\"}\n",
+        "timed_out": false,
+        "wall_seconds": 0.072318
+      },
+      "code": "import json\n\n\ndef task_func():\n    with open('inputs/release-projection.json', 'r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    live = data.get('live')\n    deployment = live.get('deployment') if isinstance(live, dict) else None\n    deployment = deployment if isinstance(deployment, dict) else {}\n    published = data.get('published_main')\n    published = published if isinstance(published, dict) else {}\n\n    live_commit = deployment.get('commit')\n    published_commit = published.get('sha')\n    if live_commit is None or published_commit is None:\n        comparison = 'unknown'\n    else:\n        comparison = 'same' if live_commit == published_commit else 'different'\n\n    result = {\n        'live_commit': live_commit,\n        'published_commit': published_commit,\n        'deployed_utc': deployment.get('deployed_utc'),\n        'live_release': deployment.get('release'),\n        'source_vs_live': comparison,\n        'direct_service_health': 'unknown',\n        'evidence': 'public_endpoint_identity_only',\n    }\n    with open('report.json', 'w', encoding='utf-8') as report:\n        json.dump(result, report, ensure_ascii=False)\n    return result\n",
+      "experience_ids": [
+        "nuria-reported-work-audit",
+        "nuria-source-drift"
+      ],
+      "family": "actual-project-work",
+      "job_id": "nuria-release-identity",
+      "lesson": "Compare reported identities explicitly, preserve missing values, and keep public endpoint evidence separate from direct service-health claims.",
+      "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+      "prompt": "Implement task_func() to read inputs/release-projection.json and write/return a dict as report.json. Read live_commit from live.deployment.commit, published_commit from published_main.sha, deployed_utc from live.deployment.deployed_utc and live_release from live.deployment.release, with missing fields as None. source_vs_live is 'unknown' if either commit is missing, otherwise 'same' if equal, else 'different'. direct_service_health must remain 'unknown': this input is a public endpoint report, not direct service inspection. evidence is 'public_endpoint_identity_only'. Do not present a source release as running unless the identities match.",
+      "proposal_error": null,
+      "proposed_code_sha256": "e8e0b6156e74c24bba15963f91feafb500854db316bbf1334b2da99d3f8c1f6c",
+      "replayed": true,
+      "source_sha256": "cff6af217b87ce6e2d0259084cd21f9bc24207744576ee6dce3ac8799cd0e011",
+      "task_id": "nuria/release-identity",
+      "version": "nuria.outcome-worker.v1"
+    }
+  ],
+  "version": "nuria.outcome-course.v1"
+}
