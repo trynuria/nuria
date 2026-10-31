@@ -1,0 +1,84 @@
+{
+  "dataset": "bigcode/bigcodebench",
+  "revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a",
+  "split": "v0.1.4",
+  "metadata_only_selection": true,
+  "exclude_already_previewed": [
+    "BigCodeBench/0"
+  ],
+  "extras": [
+    "numpy",
+    "pandas",
+    "matplotlib"
+  ],
+  "exclude_libraries": [
+    "subprocess",
+    "requests",
+    "urllib",
+    "socket",
+    "http",
+    "ftplib",
+    "smtplib",
+    "webbrowser",
+    "multiprocessing",
+    "ctypes",
+    "sys",
+    "psutil",
+    "platform",
+    "tkinter"
+  ],
+  "families_in_priority_order": {
+    "tabular": [
+      "pandas"
+    ],
+    "visualization": [
+      "matplotlib"
+    ],
+    "numerical": [
+      "numpy",
+      "math",
+      "statistics",
+      "decimal",
+      "fractions"
+    ],
+    "structured-data": [
+      "csv",
+      "json",
+      "xml",
+      "configparser",
+      "sqlite3"
+    ],
+    "files-archives": [
+      "os",
+      "pathlib",
+      "shutil",
+      "glob",
+      "tarfile",
+      "zipfile",
+      "tempfile",
+      "gzip"
+    ],
+    "time": [
+      "datetime",
+      "time",
+      "calendar",
+      "zoneinfo"
+    ],
+    "text": [
+      "re",
+      "string",
+      "unicodedata",
+      "textwrap"
+    ],
+    "collections-algorithms": []
+  },
+  "sort": "sha256(nuria-outcome-loop-01 + task_id)",
+  "per_family": {
+    "train": 3,
+    "validation": 2,
+    "test": 8
+  },
+  "undersubscribed_family": "retain all sorted, allocate train then validation then test; report actual counts",
+  "separation": "selection reads only task_id/libs; prompts/test/solutions are not inspected for selection; test feedback withheld until all method proposals finish",
+  "created_utc": "2026-10-31T21:10:45.505589+00:00"
+}

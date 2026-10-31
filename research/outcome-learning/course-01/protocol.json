@@ -1,0 +1,28 @@
+{
+  "version": "nuria.external-outcomes.01",
+  "created_utc": "2026-10-31T21:13:08.317154+00:00",
+  "cohort_sha256": "8c57ed32af4c85f1a72fbf81a71e28839b824f589f4acb78b0b9b6c62d4f9dcd",
+  "methods": [
+    "simple_retrieval",
+    "simple_reflection",
+    "nuria_gepa"
+  ],
+  "training": "24 independent checked programs; identical frozen corpus available through identical deterministic retrieval to all methods. GEPA extra policy-search compute reported separately, not disguised as free. One-reflection strong simpler control also sees whole corpus.",
+  "gepa": {
+    "version": "0.1.4",
+    "wheel_sha256": "12b971039599625c156d2231f6d72a29c31a22e9c237689459b5f1a3c353f532",
+    "max_metric_calls": 72,
+    "max_candidate_proposals": 3,
+    "seed": 0,
+    "acceptance": "strict improvement",
+    "validation": "16 frozen tasks; ties retain seed"
+  },
+  "test": "56 previously uninspected tasks across seven library-based families. The time-only family has 5 eligible tasks and no remaining held-out members; no broad temporal-skill claim.",
+  "per_job": "same hosted model, 2 calls at most, 2400 output tokens each, same smoke-check executor and same training evidence; terminal test hidden until ALL methods commit proposals",
+  "primary": "all upstream unit tests pass, unexecuted/model/sandbox/runtime failures count as not passed; preflight oracle problems retained and separately identified, no resampling",
+  "success_rule": "positive accuracy difference and one-sided exact paired p <= .025 against BOTH controls; no family loses more than one task",
+  "no_selection_after_test": true,
+  "public_benchmark_limit": "Externally authored tasks, freshly held out from this experiment, not necessarily unseen during model pretraining; performance is not proof of novel algorithmic or neural superiority.",
+  "runtime": "Python3.14, enrolled installed packages only, native macOS sandbox no network/home files and fresh writes; no unsandboxed fallback",
+  "reproducibility": "retain exact code, checks, source and prompt hashes, attempts, outcome journal, policy lineage and configured-rate costs; independent executable replay without a model"
+}
