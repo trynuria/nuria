@@ -86,6 +86,14 @@ controls; the full negative result and original binning discrepancy are retained
 This recorded-data path requires no FinalSpark allocation and grants no tissue
 control.
 
+The [follow-up attention experiment](acquisition-01) learns which records to
+acquire after reading four fixed sentinel counts. In the later recorded minute,
+the validation-selected memory policy acquires 1,046/1,632 entries (64.1%) while
+requesting 16/49 records per window (32.7%). Static training-rate selection gets
+938/1,632 (57.5%) with the same budget. The spiking alternative gets 63.5% and
+is not selected. This is finite offline record selection, separate from tissue
+control, general intelligence and measured physical or CPU savings.
+
 The v2 database query boundary is tested with a substitute controller. No granted
 SDK session, culture recording, live stimulation or tissue adaptation was tested.
 The optional HDF5 importer has no FinalSpark-file validation yet. JSON and numeric
