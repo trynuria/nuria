@@ -83,6 +83,24 @@ control. This is an event-count representation, separate from waveform samples;
 it never labels counts as voltages. The current real-data result favours the
 simple history model. No booked biological hardware or live feedback is involved.
 
+The later [acquisition experiment](../research/biology/acquisition-01) makes a
+resource-limited decision from that source. After four fixed sentinel reads, a
+learned policy chooses twelve additional unit records from the same completed
+window. It captures 64.1% of later-minute spike entries while selecting 32.7% of
+records, versus 57.5% for a fixed most-active selection at the identical budget.
+The validation-selected method uses nearest-neighbour memory; the measured
+spiking alternative is weaker. This is offline two-stage selection, not future
+prediction, physical electrode switching or a measured CPU/bandwidth saving.
+
+```sh
+python -m scripts.active_observation verify research/biology/acquisition-01
+```
+
+The finite streaming `RecordPicker` reproduces every recorded test acquisition
+from four-count observations alone. Its contract, source attribution, complete
+selection and failed alternatives are included in the experiment record. It is
+not enrolled in the public application.
+
 A labelled course is a JSON object containing `schema: 1`, `target_definition` and
 12–128 `rows`. Each row supplies a complete `recording`, a scalar `target`,
 `start_utc` and `stop_utc`. Windows must be chronological, non-overlapping, have

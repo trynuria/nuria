@@ -101,4 +101,5 @@ jobs:
         run: |
           python -m scripts.dandi_replay download "$RUNNER_TEMP/nuria-dandi"
           NURIA_DANDI_NWB="$RUNNER_TEMP/nuria-dandi/human-HO3.nwb" python -m unittest tests.test_nwb_spikes -v
+          NURIA_DANDI_NWB="$RUNNER_TEMP/nuria-dandi/human-HO3.nwb" python -m unittest tests.test_active_observation -v
           python -m scripts.dandi_replay verify research/biology/dandi-01/binned.json research/biology/dandi-01/result.json
