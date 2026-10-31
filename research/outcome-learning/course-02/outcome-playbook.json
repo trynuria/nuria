@@ -1,0 +1,264 @@
+{
+  "artifact_sha256": "eb7ef7e1096a432c1840da9eba2eb8866ff10b434bc0212508a8eae77ba816e2",
+  "curation_calls": 1,
+  "effectiveness": "unqualified",
+  "model": {
+    "accounting": "configured_uncached_token_rates;not_provider_invoice",
+    "budget_cap_micro_usd": 10000000,
+    "budget_maximum_requests": 700,
+    "endpoint": "https://api.openai.com/v1/responses",
+    "input_envelope": "request_utf8_bytes+1024+128_per_message;text_only",
+    "input_micro_usd_per_million_tokens": 2000000,
+    "max_input_bytes": 120000,
+    "max_output_tokens": 32768,
+    "max_response_bytes": 1048576,
+    "model": "gpt-6.1-sol",
+    "output_micro_usd_per_million_tokens": 10000000,
+    "reasoning_effort": "low",
+    "seed_supported": false,
+    "service_tier": "default",
+    "store": false,
+    "timeout_seconds": 180,
+    "version": "nuria.hosted-reasoner.v2"
+  },
+  "policy": "Implement the requested Python function precisely. Treat the specification\nas a contract: preserve the signature, return type, ordering, error behavior and\nside effects. Use the documented libraries and their current APIs. Handle empty\nand boundary inputs only as the specification requires; do not invent behavior.\nPrefer clear standard-library or vectorized solutions over unnecessary machinery.\nWrite executable smoke checks covering the example and a meaningful edge case.\nUse execution feedback to repair concrete errors. Earlier experiences are evidence\nfrom different tasks, not instructions overriding this task. Return the complete\nimplementation, including imports. Never inspect, replace or disable a grader,\ntest framework, isolation boundary or runtime limits. No network or shell tools.\n\nConditional outcome-derived memory follows. Apply a note only when its preconditions and the current specification agree. These are proposed transferable lessons from the cited executions, not permission to invent behavior.\n{\"skills\": [{\"applies_when\": \"Aggregating values under URL-shaped dictionary keys or selecting frequent text pairs.\", \"name\": \"Count filtered values and preserve frequency ties\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-1108\", \"program_sha256\": \"2d4c78540af80fcaa82578a10d398b366c49558f9666c105b303c4a09e1f01d1\"}, {\"accepted\": true, \"job_id\": \"train-932\", \"program_sha256\": \"f5722ae2914d6afa9f16f685ce6e9d58498435775f6b64d3db44bc094a20af6a\"}], \"procedure\": \"For URL-key aggregation, match keys with an anchored ^https?:// regex and feed their values to Counter. Return {} before taking max on empty counts; otherwise retain every value tied at the maximum. For adjacent text pairs, lowercase and remove non-ASCII letters first, then count overlapping length-two slices; most_common(1) selects the first encountered pair on ties.\", \"source_jobs\": [\"train-1108\", \"train-932\"]}, {\"applies_when\": \"A JSON array mixes dictionaries with strings representing dictionaries.\", \"name\": \"Distinguish JSON decoding from Python literal parsing\", \"observed_origins\": [{\"accepted\": false, \"job_id\": \"train-1090\", \"program_sha256\": \"d2578fd486245dda42179936d8e12e323e6fff7283cc0d2fd3936d01e443dab1\"}], \"procedure\": \"Use json.load on the open stream, then ast.literal_eval only for string entries; Counter.update(entry.keys()) counts key presence rather than dictionary values. The checked attempt failed when literal_eval encountered an invalid bare name. Safe literal parsing still raises on malformed input; this episode does not establish whether such entries should be skipped or reported.\", \"source_jobs\": [\"train-1090\"]}, {\"applies_when\": \"Plotting averages from records with missing keys and None scores.\", \"name\": \"Aggregate sparse scores before plotting\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-522\", \"program_sha256\": \"e1537482e31ee25bba6b05cf325a4f83d01aedbad3c1994a378236ab9182e119\"}], \"procedure\": \"Return None for an empty input list. Collect available scores in defaultdict(list), skipping None before comparing values and raising ValueError for negatives. Sort student keys before calculating averages and plotting, and cycle a finite palette with index modulo palette length. Create and return the Axes with explicit title and axis labels.\", \"source_jobs\": [\"train-522\"]}, {\"applies_when\": \"A chart counts category occurrences but highlights a category selected by another measurement.\", \"name\": \"Separate plot frequencies from highlight criteria\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-210\", \"program_sha256\": \"d593a8303868ae5f655825047059d3416416d0db0093a1bcd4d45c3bfee69c4e\"}], \"procedure\": \"Build Counter(category for category, value in data) for bar heights. Select the highlighted category using max(data, key=itemgetter(1)), not the largest frequency. Draw the base bars, then overlay that category at its counted height in a distinct color. Label both bar calls before ax.legend(), and return the Axes rather than the Figure.\", \"source_jobs\": [\"train-210\"]}, {\"applies_when\": \"Summarizing numeric tuple columns or numeric fields extracted from dictionaries.\", \"name\": \"Compute positional means and numeric summaries explicitly\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-250\", \"program_sha256\": \"fc47f6c90e7fe37b9d582a9862e4535b52dc8cb340efd9ff23bcc3f2f39fb557\"}, {\"accepted\": true, \"job_id\": \"train-754\", \"program_sha256\": \"76723ad58f2b1871763c544677f92497c771296fa52ecd2069551471abd8cbe4\"}], \"procedure\": \"Transpose tuple rows with zip(*rows), skip the label column using islice, enumerate numeric positions from one, and convert np.mean outputs to float for JSON. For extracted fields, reject non-1D or nonnumeric NumPy arrays rather than coercing strings. Use np.std's population convention; when no values exist, populate all statistics with np.nan before adding a formatted timestamp.\", \"source_jobs\": [\"train-250\", \"train-754\"]}, {\"applies_when\": \"Generating reproducible random coordinates, daily measurements, or alternating patterns.\", \"name\": \"Preserve seeded random draw order\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-467\", \"program_sha256\": \"f10118a6a8bf9b41c04c2f7cfbfa34ab158274bd09ac94e410c54bbe13fcfb8f\"}, {\"accepted\": true, \"job_id\": \"train-85\", \"program_sha256\": \"e5985df136d1e96b08a519b9f7f1c2d0ddb9e6447a09298912b6d7a65cd74681\"}, {\"accepted\": true, \"job_id\": \"train-868\", \"program_sha256\": \"4c462821793eda2681487cd01776cae2350cf5b946669ae1b10512e4b3a3fb0b\"}], \"procedure\": \"Seed the same RNG API used by the checked implementation and preserve draw order. Scatter generation draws the full x array before y; daily weather generation draws each day's measurements together and includes both date endpoints after rejecting reversed ranges. For alternating patterns, advance cycle(colors) only on cyclic slots and call choice only on random slots; return early for nonpositive length.\", \"source_jobs\": [\"train-467\", \"train-85\", \"train-868\"]}, {\"applies_when\": \"Implementing a required hash representation rather than choosing a new cryptographic design.\", \"name\": \"Specify bytes and operation order for hashing\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-271\", \"program_sha256\": \"24140906ee584c58dc6e581f95c8af1aa1c86816e7ce10659f1939bc1d8e9b8d\"}, {\"accepted\": true, \"job_id\": \"train-547\", \"program_sha256\": \"79964eaf4e2c33b2843b18cd2404b834e8589aa64575de4f98930a5469e3bad9\"}, {\"accepted\": true, \"job_id\": \"train-542\", \"program_sha256\": \"8dde16dbdb32daefbb35e699d48627a79831bc72f85055d902bac006b17f271d\"}], \"procedure\": \"For dictionary transformation, insert the added field before hashing str(value)+one shared seeded salt, mutate values without changing keys, and append the timestamp afterward. For salted password encoding, hash salt bytes followed by UTF-8 password bytes, then base64-encode salt plus raw digest. For hex-derived floats, unpack bytes.fromhex with '!f' and MD5 the UTF-8 str(number), not its binary representation.\", \"source_jobs\": [\"train-271\", \"train-547\", \"train-542\"]}, {\"applies_when\": \"Ranking dictionary frequencies or finding a minimum-weight nonempty subset.\", \"name\": \"Choose ranking and exhaustive-search tie behavior\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-667\", \"program_sha256\": \"da2d78fb5db4467b2d615767f0ca1613309d3ee9e2deb4383461e3d2df1d9e3a\"}, {\"accepted\": true, \"job_id\": \"train-668\", \"program_sha256\": \"67e61aecf0e8a2cbb270c61826fef118637a4e0eb0b7f46f43cd1c5655fde446\"}], \"procedure\": \"For top frequencies, Counter(mapping) retains supplied counts; heapq.nlargest(n, counter, key=counter.get) returns keys and preserves input order for equal frequencies. For exhaustive minimum subsets, enumerate combinations by increasing size in dictionary order, initialize the minimum to math.inf, and replace only on strict improvement. This retains the earliest equal-cost candidate and yields [] for empty input.\", \"source_jobs\": [\"train-667\", \"train-668\"]}, {\"applies_when\": \"Aggregating CSV quantities or comparing compressed text.\", \"name\": \"Read structured files with format-aware libraries\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-7\", \"program_sha256\": \"b362e1293cca239c4830d8f1153ac19c856a3ebdc3e20524c0e775d541e57a9e\"}, {\"accepted\": true, \"job_id\": \"train-510\", \"program_sha256\": \"5f38624327a3a235f9a9ca369e2d7e07066c8ae5297be8134a25b5fc232de443\"}], \"procedure\": \"Open CSV files with newline='' and use DictReader to select named columns even when additional columns exist. Convert quantities with int, accumulate per product, and select max totals with itemgetter(1). For gzip comparisons, open each file in 'rt', retain line endings with readlines(), and join difflib.unified_diff output; identical content produces an empty string.\", \"source_jobs\": [\"train-7\", \"train-510\"]}, {\"applies_when\": \"Flattening selected file types into a destination directory.\", \"name\": \"Move recursive matches without overwriting collisions\", \"observed_origins\": [{\"accepted\": true, \"job_id\": \"train-962\", \"program_sha256\": \"0a766c022d5dbb4d6b0331bf1b00923264283d588aed6b2f999bcaefa1079902\"}], \"procedure\": \"Check source existence before creating the target. Escape the source path for glob, recursively collect matching regular files including hidden entries, and filter suffixes against the exact extension set. Snapshot paths before moving. For each basename, use lexists to detect conflicts, increment stem-n+suffix until free, then shutil.move and increment the successful-move count.\", \"source_jobs\": [\"train-962\"]}, {\"applies_when\": \"Parsing monthly records intended to describe one year.\", \"name\": \"Validate cross-record temporal invariants\", \"observed_origins\": [{\"accepted\": false, \"job_id\": \"train-560\", \"program_sha256\": \"8deb98cf8a4c8347c67be61146d94b520d97be588535dc688755c52331e1ffd5\"}], \"procedure\": \"Split records on commas and each record with split('-', 2), preserving a possible negative value; parse year-month with datetime.strptime and values with float. Parsing each record alone does not enforce the single-year invariant: the observed attempt plotted mixed years under the first year's title and failed because ValueError was required. Check the set of parsed years before constructing the plot.\", \"source_jobs\": [\"train-560\"]}, {\"applies_when\": \"GUI drawing or threaded delay tasks are assessed operationally.\", \"name\": \"Check runtime prerequisites and concurrency timing separately\", \"observed_origins\": [{\"accepted\": false, \"job_id\": \"train-220\", \"program_sha256\": \"c597a12f1f33209ee218bfb2e1f4b64844ac71ac6b2852fa3534b2359e195e21\"}, {\"accepted\": false, \"job_id\": \"train-821\", \"program_sha256\": \"11c726ad6d3366d3d7f66370fc8a7227a6a1472bf4ebf739ad24361595d64314\"}], \"procedure\": \"Turtle requires an installed Tk binding and graphical environment; moving its import inside a function does not fix a harness that imports turtle first. For threaded delays, starting all workers before joining overlaps sleeps, so elapsed time is near one delay, not their sum. The checked implementation returned indexed messages but failed timing checks expecting cumulative delay; it does not establish a corrected scheduling implementation.\", \"source_jobs\": [\"train-220\", \"train-821\"]}]}",
+  "policy_sha256": "e651efe82a70400f508cd4264f8055c9a3719af9749c6325c46649b0e1f93f3c",
+  "skills": [
+    {
+      "applies_when": "Aggregating values under URL-shaped dictionary keys or selecting frequent text pairs.",
+      "name": "Count filtered values and preserve frequency ties",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-1108",
+          "program_sha256": "2d4c78540af80fcaa82578a10d398b366c49558f9666c105b303c4a09e1f01d1"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-932",
+          "program_sha256": "f5722ae2914d6afa9f16f685ce6e9d58498435775f6b64d3db44bc094a20af6a"
+        }
+      ],
+      "procedure": "For URL-key aggregation, match keys with an anchored ^https?:// regex and feed their values to Counter. Return {} before taking max on empty counts; otherwise retain every value tied at the maximum. For adjacent text pairs, lowercase and remove non-ASCII letters first, then count overlapping length-two slices; most_common(1) selects the first encountered pair on ties.",
+      "source_jobs": [
+        "train-1108",
+        "train-932"
+      ]
+    },
+    {
+      "applies_when": "A JSON array mixes dictionaries with strings representing dictionaries.",
+      "name": "Distinguish JSON decoding from Python literal parsing",
+      "observed_origins": [
+        {
+          "accepted": false,
+          "job_id": "train-1090",
+          "program_sha256": "d2578fd486245dda42179936d8e12e323e6fff7283cc0d2fd3936d01e443dab1"
+        }
+      ],
+      "procedure": "Use json.load on the open stream, then ast.literal_eval only for string entries; Counter.update(entry.keys()) counts key presence rather than dictionary values. The checked attempt failed when literal_eval encountered an invalid bare name. Safe literal parsing still raises on malformed input; this episode does not establish whether such entries should be skipped or reported.",
+      "source_jobs": [
+        "train-1090"
+      ]
+    },
+    {
+      "applies_when": "Plotting averages from records with missing keys and None scores.",
+      "name": "Aggregate sparse scores before plotting",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-522",
+          "program_sha256": "e1537482e31ee25bba6b05cf325a4f83d01aedbad3c1994a378236ab9182e119"
+        }
+      ],
+      "procedure": "Return None for an empty input list. Collect available scores in defaultdict(list), skipping None before comparing values and raising ValueError for negatives. Sort student keys before calculating averages and plotting, and cycle a finite palette with index modulo palette length. Create and return the Axes with explicit title and axis labels.",
+      "source_jobs": [
+        "train-522"
+      ]
+    },
+    {
+      "applies_when": "A chart counts category occurrences but highlights a category selected by another measurement.",
+      "name": "Separate plot frequencies from highlight criteria",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-210",
+          "program_sha256": "d593a8303868ae5f655825047059d3416416d0db0093a1bcd4d45c3bfee69c4e"
+        }
+      ],
+      "procedure": "Build Counter(category for category, value in data) for bar heights. Select the highlighted category using max(data, key=itemgetter(1)), not the largest frequency. Draw the base bars, then overlay that category at its counted height in a distinct color. Label both bar calls before ax.legend(), and return the Axes rather than the Figure.",
+      "source_jobs": [
+        "train-210"
+      ]
+    },
+    {
+      "applies_when": "Summarizing numeric tuple columns or numeric fields extracted from dictionaries.",
+      "name": "Compute positional means and numeric summaries explicitly",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-250",
+          "program_sha256": "fc47f6c90e7fe37b9d582a9862e4535b52dc8cb340efd9ff23bcc3f2f39fb557"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-754",
+          "program_sha256": "76723ad58f2b1871763c544677f92497c771296fa52ecd2069551471abd8cbe4"
+        }
+      ],
+      "procedure": "Transpose tuple rows with zip(*rows), skip the label column using islice, enumerate numeric positions from one, and convert np.mean outputs to float for JSON. For extracted fields, reject non-1D or nonnumeric NumPy arrays rather than coercing strings. Use np.std's population convention; when no values exist, populate all statistics with np.nan before adding a formatted timestamp.",
+      "source_jobs": [
+        "train-250",
+        "train-754"
+      ]
+    },
+    {
+      "applies_when": "Generating reproducible random coordinates, daily measurements, or alternating patterns.",
+      "name": "Preserve seeded random draw order",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-467",
+          "program_sha256": "f10118a6a8bf9b41c04c2f7cfbfa34ab158274bd09ac94e410c54bbe13fcfb8f"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-85",
+          "program_sha256": "e5985df136d1e96b08a519b9f7f1c2d0ddb9e6447a09298912b6d7a65cd74681"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-868",
+          "program_sha256": "4c462821793eda2681487cd01776cae2350cf5b946669ae1b10512e4b3a3fb0b"
+        }
+      ],
+      "procedure": "Seed the same RNG API used by the checked implementation and preserve draw order. Scatter generation draws the full x array before y; daily weather generation draws each day's measurements together and includes both date endpoints after rejecting reversed ranges. For alternating patterns, advance cycle(colors) only on cyclic slots and call choice only on random slots; return early for nonpositive length.",
+      "source_jobs": [
+        "train-467",
+        "train-85",
+        "train-868"
+      ]
+    },
+    {
+      "applies_when": "Implementing a required hash representation rather than choosing a new cryptographic design.",
+      "name": "Specify bytes and operation order for hashing",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-271",
+          "program_sha256": "24140906ee584c58dc6e581f95c8af1aa1c86816e7ce10659f1939bc1d8e9b8d"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-547",
+          "program_sha256": "79964eaf4e2c33b2843b18cd2404b834e8589aa64575de4f98930a5469e3bad9"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-542",
+          "program_sha256": "8dde16dbdb32daefbb35e699d48627a79831bc72f85055d902bac006b17f271d"
+        }
+      ],
+      "procedure": "For dictionary transformation, insert the added field before hashing str(value)+one shared seeded salt, mutate values without changing keys, and append the timestamp afterward. For salted password encoding, hash salt bytes followed by UTF-8 password bytes, then base64-encode salt plus raw digest. For hex-derived floats, unpack bytes.fromhex with '!f' and MD5 the UTF-8 str(number), not its binary representation.",
+      "source_jobs": [
+        "train-271",
+        "train-547",
+        "train-542"
+      ]
+    },
+    {
+      "applies_when": "Ranking dictionary frequencies or finding a minimum-weight nonempty subset.",
+      "name": "Choose ranking and exhaustive-search tie behavior",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-667",
+          "program_sha256": "da2d78fb5db4467b2d615767f0ca1613309d3ee9e2deb4383461e3d2df1d9e3a"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-668",
+          "program_sha256": "67e61aecf0e8a2cbb270c61826fef118637a4e0eb0b7f46f43cd1c5655fde446"
+        }
+      ],
+      "procedure": "For top frequencies, Counter(mapping) retains supplied counts; heapq.nlargest(n, counter, key=counter.get) returns keys and preserves input order for equal frequencies. For exhaustive minimum subsets, enumerate combinations by increasing size in dictionary order, initialize the minimum to math.inf, and replace only on strict improvement. This retains the earliest equal-cost candidate and yields [] for empty input.",
+      "source_jobs": [
+        "train-667",
+        "train-668"
+      ]
+    },
+    {
+      "applies_when": "Aggregating CSV quantities or comparing compressed text.",
+      "name": "Read structured files with format-aware libraries",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-7",
+          "program_sha256": "b362e1293cca239c4830d8f1153ac19c856a3ebdc3e20524c0e775d541e57a9e"
+        },
+        {
+          "accepted": true,
+          "job_id": "train-510",
+          "program_sha256": "5f38624327a3a235f9a9ca369e2d7e07066c8ae5297be8134a25b5fc232de443"
+        }
+      ],
+      "procedure": "Open CSV files with newline='' and use DictReader to select named columns even when additional columns exist. Convert quantities with int, accumulate per product, and select max totals with itemgetter(1). For gzip comparisons, open each file in 'rt', retain line endings with readlines(), and join difflib.unified_diff output; identical content produces an empty string.",
+      "source_jobs": [
+        "train-7",
+        "train-510"
+      ]
+    },
+    {
+      "applies_when": "Flattening selected file types into a destination directory.",
+      "name": "Move recursive matches without overwriting collisions",
+      "observed_origins": [
+        {
+          "accepted": true,
+          "job_id": "train-962",
+          "program_sha256": "0a766c022d5dbb4d6b0331bf1b00923264283d588aed6b2f999bcaefa1079902"
+        }
+      ],
+      "procedure": "Check source existence before creating the target. Escape the source path for glob, recursively collect matching regular files including hidden entries, and filter suffixes against the exact extension set. Snapshot paths before moving. For each basename, use lexists to detect conflicts, increment stem-n+suffix until free, then shutil.move and increment the successful-move count.",
+      "source_jobs": [
+        "train-962"
+      ]
+    },
+    {
+      "applies_when": "Parsing monthly records intended to describe one year.",
+      "name": "Validate cross-record temporal invariants",
+      "observed_origins": [
+        {
+          "accepted": false,
+          "job_id": "train-560",
+          "program_sha256": "8deb98cf8a4c8347c67be61146d94b520d97be588535dc688755c52331e1ffd5"
+        }
+      ],
+      "procedure": "Split records on commas and each record with split('-', 2), preserving a possible negative value; parse year-month with datetime.strptime and values with float. Parsing each record alone does not enforce the single-year invariant: the observed attempt plotted mixed years under the first year's title and failed because ValueError was required. Check the set of parsed years before constructing the plot.",
+      "source_jobs": [
+        "train-560"
+      ]
+    },
+    {
+      "applies_when": "GUI drawing or threaded delay tasks are assessed operationally.",
+      "name": "Check runtime prerequisites and concurrency timing separately",
+      "observed_origins": [
+        {
+          "accepted": false,
+          "job_id": "train-220",
+          "program_sha256": "c597a12f1f33209ee218bfb2e1f4b64844ac71ac6b2852fa3534b2359e195e21"
+        },
+        {
+          "accepted": false,
+          "job_id": "train-821",
+          "program_sha256": "11c726ad6d3366d3d7f66370fc8a7227a6a1472bf4ebf739ad24361595d64314"
+        }
+      ],
+      "procedure": "Turtle requires an installed Tk binding and graphical environment; moving its import inside a function does not fix a harness that imports turtle first. For threaded delays, starting all workers before joining overlaps sleeps, so elapsed time is near one delay, not their sum. The checked implementation returned indexed messages but failed timing checks expecting cumulative delay; it does not establish a corrected scheduling implementation.",
+      "source_jobs": [
+        "train-220",
+        "train-821"
+      ]
+    }
+  ],
+  "training_experience_sha256": "dc59361d0d2a30c521f3b751cb664851b3fae082988e5320cb7c4c4c16953528",
+  "version": "nuria.conditional-skills.v1"
+}

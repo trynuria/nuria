@@ -1,0 +1,9 @@
+{
+  "created_utc": "2026-10-31T21:46:05.644224+00:00",
+  "before_fresh_test_proposals": true,
+  "qualification": "Run the one-reflection policy once on all 16 validation tasks, using identical common training experience and per-job limits. Compare its score with the already retained base/GEPA validation results.",
+  "runtime_choice": "Highest validation acceptance; exact ties prefer ordinary retrieval, then single reflection, then GEPA. Freeze the chosen policy before the first test proposal.",
+  "gepa_primary_gate": "The original two-control improvement rule remains unchanged; no update means no learned-policy advantage.",
+  "runtime_learning_comparison": "Evaluate the validation-chosen policy versus the ordinary strong retrieval/self-check agent. Report exact paired one-sided p and a conservative three-comparison correction; claim supported improvement only with positive difference and adjusted p<=.05. All three method comparisons remain visible.",
+  "identical_policy_execution": "GEPA retained the identical base policy. Reuse and explicitly label that exact execution instead of purchasing duplicate inference; this condition must tie the base, not produce an apparent learning gain."
+}
