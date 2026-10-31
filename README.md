@@ -216,6 +216,14 @@ history forecasting outperforms the neural-augmented readouts; complete evidence
 and a publisher-binning discrepancy remain public. This is recorded-data research,
 separate from live tissue, production inputs and the original neural history.
 
+The subsequent [learned-attention experiment](research/biology/acquisition-01)
+turns those signals into a checked acquisition decision. With the same budget of
+16 out of 49 records per window, a validation-selected memory policy captures
+64.1% of spike entries in the later minute versus 57.5% for a fixed most-active
+selection. The spiking condition captures 63.5% and is not promoted. Complete
+fits, all controls and a streaming policy replay are published. This is a finite
+recorded-data attention result, not a neural-superiority or live-tissue claim.
+
 Run a bounded evaluation without RPC access:
 
 ```sh
