@@ -1,0 +1,9 @@
+{
+  "max_metric_calls": 72,
+  "max_candidate_proposals": 2,
+  "reflection_minibatch_size": 6,
+  "acceptance_criterion": "improvement_or_equal",
+  "final_validation": "original retained on a validation tie; prospective held-out success rule unchanged",
+  "reason": "Short-instruction exploration discarded all three policies on ties in tiny training minibatches without full validation. Permit tied proposals to reach the separate validation set, which still selects strictly; use a broader minibatch. No held-out proposals have run.",
+  "created_utc": "2026-10-31T21:25:50.715230+00:00"
+}
