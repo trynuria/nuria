@@ -1,0 +1,80 @@
+{
+  "accepted": {
+    "interactive": 2,
+    "retrieval": 2
+  },
+  "comparison": {
+    "accuracy_delta": 0.0,
+    "losses": 0,
+    "one_sided_exact_p": 1.0,
+    "wins": 0
+  },
+  "development": {
+    "accepted": 1,
+    "calls": 45,
+    "configured_micro_usd": 516464,
+    "tasks": 21
+  },
+  "families": {
+    "inference": {
+      "interactive": 1,
+      "retrieval": 1
+    },
+    "recording": {
+      "interactive": 1,
+      "retrieval": 1
+    }
+  },
+  "neural_advantage_established": false,
+  "new_phase_total": {
+    "configured_micro_usd": 716142,
+    "pending_liability_micro_usd": 0,
+    "requests": 55
+  },
+  "qualification": {
+    "corrected_oracle": {
+      "accepted": 18,
+      "executions": 18
+    },
+    "correction": "qualification-correction.json",
+    "model_programs_unchanged": true,
+    "original_oracle": {
+      "accepted": 16,
+      "executions": 18
+    }
+  },
+  "real_transfer": {
+    "accepted": {
+      "interactive": 3,
+      "retrieval": 3
+    },
+    "delivered": {
+      "interactive": 3,
+      "retrieval": 3
+    },
+    "identical_replay_executions_added": 0,
+    "neural_or_general_intelligence_advantage": false,
+    "new_model_calls": 0,
+    "real_cases_per_condition": 3,
+    "scope": "Exact accepted programs, later intervals of the same published recording, and a later actual inference/outcome snapshot including pending labels. Not unseen subjects or open-ended task transfer."
+  },
+  "runtime_promoted": false,
+  "superiority_supported": false,
+  "tasks": 2,
+  "usage": {
+    "interactive": {
+      "calls": 4,
+      "completion_tokens": 3937,
+      "configured_micro_usd": 73272,
+      "program_probes": 4,
+      "prompt_tokens": 16951
+    },
+    "retrieval": {
+      "calls": 6,
+      "completion_tokens": 8156,
+      "configured_micro_usd": 126406,
+      "program_probes": 4,
+      "prompt_tokens": 22423
+    }
+  }
+}

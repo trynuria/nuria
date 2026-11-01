@@ -1,0 +1,190 @@
+{
+  "interactive": {
+    "inference": {
+      "code": "import json\nfrom collections import Counter\n\n\ndef task_func(input_path='inputs/source.json'):\n    with open(input_path, encoding='utf-8') as source:\n        data = json.load(source)\n    calls = data['calls']\n    outcomes = data['outcomes']\n    rates = data['rates']\n    prompt_tokens = completion_tokens = configured_cost = unknown_usage = 0\n    for call in calls:\n        usage = call.get('usage')\n        if usage is None:\n            unknown_usage += 1\n            continue\n        prompt = usage.get('prompt_tokens', 0)\n        completion = usage.get('completion_tokens', 0)\n        prompt_tokens += prompt\n        completion_tokens += completion\n        numerator = (prompt * rates['input_micro_usd_per_million_tokens']\n                     + completion * rates['output_micro_usd_per_million_tokens'])\n        configured_cost += -(-numerator // 1000000)\n    hashes = Counter(call.get('response_sha256') for call in calls\n                     if isinstance(call.get('response_sha256'), str)\n                     and call['response_sha256'])\n    accepted = sum(outcome.get('accepted') is True for outcome in outcomes)\n    rejected = sum(outcome.get('accepted') is False for outcome in outcomes)\n    report = {\n        'schema': 'nuria.inference-report.v1',\n        'calls': len(calls),\n        'completed_calls': sum(call.get('state') == 'completed' for call in calls),\n        'failed_calls': sum(call.get('state') == 'failed' for call in calls),\n        'usage_unknown_calls': unknown_usage,\n        'prompt_tokens': prompt_tokens,\n        'completion_tokens': completion_tokens,\n        'configured_micro_usd': configured_cost,\n        'cost_scope': 'Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.',\n        'repeated_response_hashes': sorted(h for h, count in hashes.items() if count > 1),\n        'outcomes': len(outcomes),\n        'accepted': accepted,\n        'rejected': rejected,\n        'unknown': len(outcomes) - accepted - rejected,\n        'tasks': sorted(outcome['task_id'] for outcome in outcomes),\n    }\n    with open('report.json', 'w', encoding='utf-8') as target:\n        json.dump(report, target, indent=2)\n    return report\n",
+      "origin": {
+        "checker_sha256": "a9b3bed2d6c124e41d997d0a50ce852dc4be2b5a2853f58dd6a530be9167e377",
+        "job_id": "interactive-test-interactive-inference",
+        "journal_head_at_acquisition": "b5085840bfe4d64ef1db3cce0bed0bd5ade030c0a59e500e5b1a3160d896c76e",
+        "program_sha256": "086c81072f15ef7bea2c31be1c08565c2927c80304c53fc82a1b5bab2cc34050",
+        "result_sha256": "87b0c0216367809ca04faf52264bc5a9fe5ef056dec64534d9efe29882714673",
+        "source_sha256": "871b334be4790037862f4c68b81fc564539755648e384cb1e1b256a42dccba91",
+        "task_sha256": "d4efd110ceaa853c493b52510bc31ce08b5a9e874752ba49d4899c33c1d1be89"
+      },
+      "origin_delivery": {
+        "binding": {
+          "enrollment_sha256": "06a018a42b8035a85862fd06370a3a3e40285d5911e4182472ff56f63b578fe6",
+          "result_sha256": "87b0c0216367809ca04faf52264bc5a9fe5ef056dec64534d9efe29882714673",
+          "task_sha256": "d4efd110ceaa853c493b52510bc31ce08b5a9e874752ba49d4899c33c1d1be89"
+        },
+        "checker_sha256": "a9b3bed2d6c124e41d997d0a50ce852dc4be2b5a2853f58dd6a530be9167e377",
+        "files": [
+          {
+            "bytes": 973,
+            "name": "report.json",
+            "semantic_sha256": "8ecb56f4139951a39a7ff6badb1ee2fd0bac704467ff14335c00909be2d9ea9e",
+            "sha256": "1fbd92683c928f30727f893d203dba09a7d08917e0a06c84d97e315b8361c364"
+          }
+        ],
+        "financial_activity": false,
+        "job_id": "interactive-test-interactive-inference",
+        "journal_at_collection": {
+          "events": 6,
+          "tail_sha256": "b5085840bfe4d64ef1db3cce0bed0bd5ade030c0a59e500e5b1a3160d896c76e"
+        },
+        "model_calls": 0,
+        "program_executions": 0,
+        "program_sha256": "086c81072f15ef7bea2c31be1c08565c2927c80304c53fc82a1b5bab2cc34050",
+        "receipt_sha256": "301c36fe10192c050fa9e5269a7a18a4a8b0a008db3fdf11628b23b68a67e57f",
+        "schema": "nuria.program-delivery.v1",
+        "source_sha256": "871b334be4790037862f4c68b81fc564539755648e384cb1e1b256a42dccba91"
+      },
+      "profile": {
+        "function_contract": "Implement task_func(input_path='inputs/source.json') that reads JSON containing calls (actual provider receipts), outcomes (actual terminal job labels), rates (integer microUSD per million tokens). Compute and write report.json and return exactly that dictionary. The program must handle different call/outcome counts including empty lists. Output schema='nuria.inference-report.v1'; calls=len(calls); completed_calls and failed_calls count each exact state; usage_unknown_calls count calls whose usage is absent or null. Sum prompt_tokens and completion_tokens from all nonnull usage, missing numeric fields count0. configured_micro_usd is the sum over each call of ceil((prompt_tokens*input_micro_usd_per_million_tokens + completion_tokens*output_micro_usd_per_million_tokens)/1000000), using the supplied rates; this excludes missing usage rather than inventing it. cost_scope must equal 'Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.'. repeated_response_hashes is the sorted list of nonempty response_sha256 strings occurring more than once; do not deduplicate actual calls when totaling usage. outcomes=len(outcomes); accepted counts labels that are exactly booleanTrue, rejected exactly booleanFalse, unknown everything else; tasks is sorted task_id values from outcomes, retaining duplicates. Inputs are read-only under inputs/. Inspect actual source values when needed. Do not hardcode results.",
+        "profile_id": "actual-inference-v1"
+      },
+      "schema": "nuria.retained-program.v1",
+      "skill_sha256": "a0fb3fd15daf3874bb730b315bc80c370c1e01105d640f6bb60477290e78187f"
+    },
+    "recording": {
+      "code": "import json\n\n\ndef task_func(input_path='inputs/source.json'):\n    with open(input_path, encoding='utf-8') as source:\n        data = json.load(source)\n    counts = data['counts']\n    unit_ids = data['unit_ids']\n    population = [sum(row) for row in counts]\n    totals = [sum(row[j] for row in counts) for j in range(len(unit_ids))]\n    episodes = []\n    i = 0\n    while i < len(counts):\n        if population[i] == 0:\n            i += 1\n            continue\n        start = i\n        spikes = 0\n        active = set()\n        while i < len(counts) and population[i] != 0:\n            spikes += population[i]\n            active.update(j for j, value in enumerate(counts[i]) if value > 0)\n            i += 1\n        episodes.append({'start_bin': start, 'stop_bin': i,\n                         'spikes': spikes, 'active_units': len(active)})\n    report = {\n        'schema': 'nuria.recording-report.v1',\n        'bins': len(counts),\n        'units': len(unit_ids),\n        'bin_microseconds': round(data['bin_seconds'] * 1000000),\n        'total_spikes': sum(population),\n        'population_by_bin': population,\n        'unit_totals': [{'unit_id': unit_id, 'spikes': total}\n                        for unit_id, total in zip(unit_ids, totals)],\n        'active_units': [unit_id for unit_id, total in zip(unit_ids, totals) if total > 0],\n        'episodes': episodes,\n        'recording_id': data['nwb_identifier'],\n        'interpretation': 'Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.'\n    }\n    with open('report.json', 'w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n    return report\n",
+      "origin": {
+        "checker_sha256": "91e7931ca72e35b067a8879fd294e7f9d04e2fdcb3ca96c8b417f88518d319cd",
+        "job_id": "interactive-test-interactive-recording",
+        "journal_head_at_acquisition": "b5085840bfe4d64ef1db3cce0bed0bd5ade030c0a59e500e5b1a3160d896c76e",
+        "program_sha256": "c99969972251148835729311ce683dae50950e3bbe33f2601dae40b4a59d5a9b",
+        "result_sha256": "4fee92778026eccbd6d99f83b3587410841f6523f17ba56cd3d6866bc2c04ed4",
+        "source_sha256": "c9caeaad276f554e1e21c2f2188349aa17eccf2b030f955df0e8b4ea8867f11a",
+        "task_sha256": "433154e4d436738d50ba80425574ce2d6e11182cebb2de69835de80b4e6eacc2"
+      },
+      "origin_delivery": {
+        "binding": {
+          "enrollment_sha256": "13f155e16cd51cd088e8897f94df5f899a968e9b182965db2071d55e12f5bcc9",
+          "result_sha256": "4fee92778026eccbd6d99f83b3587410841f6523f17ba56cd3d6866bc2c04ed4",
+          "task_sha256": "433154e4d436738d50ba80425574ce2d6e11182cebb2de69835de80b4e6eacc2"
+        },
+        "checker_sha256": "91e7931ca72e35b067a8879fd294e7f9d04e2fdcb3ca96c8b417f88518d319cd",
+        "files": [
+          {
+            "bytes": 6211,
+            "name": "report.json",
+            "semantic_sha256": "3eab85f4a32bca27b10c2249f79c82c0f98bfd8151df93cb653312d1ba6c0340",
+            "sha256": "02e28fabb7d87ac3ae10119bc69184776d2499a9e1745bdb7f0b4f3853d6bc1c"
+          }
+        ],
+        "financial_activity": false,
+        "job_id": "interactive-test-interactive-recording",
+        "journal_at_collection": {
+          "events": 6,
+          "tail_sha256": "b5085840bfe4d64ef1db3cce0bed0bd5ade030c0a59e500e5b1a3160d896c76e"
+        },
+        "model_calls": 0,
+        "program_executions": 0,
+        "program_sha256": "c99969972251148835729311ce683dae50950e3bbe33f2601dae40b4a59d5a9b",
+        "receipt_sha256": "b3cd4fbe81a7819de3d1882c0386938269799a448829e3cb36b73e7ae57cf998",
+        "schema": "nuria.program-delivery.v1",
+        "source_sha256": "c9caeaad276f554e1e21c2f2188349aa17eccf2b030f955df0e8b4ea8867f11a"
+      },
+      "profile": {
+        "function_contract": "Implement task_func(input_path='inputs/source.json') for valid JSON recording data with counts (time-bin rows by unit columns), unit_ids, bin_seconds, nwb_identifier. It must compute a fresh report from all input values and write report.json. Return exactly the same dictionary. This program must work for different nonempty recording lengths and values, including allzero counts. Output keys: schema='nuria.recording-report.v1'; bins=row count; units=unit count; bin_microseconds=round(bin_seconds*1000000); total_spikes=allcounts sum; population_by_bin=row sums; unit_totals=list in supplied unit order of {unit_id,spikes} with column totals; active_units=supplied unit IDs whose total is positive. episodes is a list of maximal consecutive nonempty population-bin runs: each has start_bin inclusive, stop_bin exclusive, spikes=sum in that run, active_units=number of columns with any spike in that run. Exclude zero bins, retain a run reaching the final bin, and use indices relative to this input. recording_id=nwb_identifier. interpretation must equal 'Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.'. Do not invent unprovided biological labels or infer consciousness. All inputs are read-only under inputs/. Use real execution output to check dimensions and boundaries. Do not hardcode report values.",
+        "profile_id": "actual-recording-v1"
+      },
+      "schema": "nuria.retained-program.v1",
+      "skill_sha256": "c6c0760d0a84d7dd20ea472b75113ed37484d13247a1c4f0d567681f2bbe5455"
+    }
+  },
+  "retrieval": {
+    "inference": {
+      "code": "import json\nfrom collections import Counter\n\n\ndef task_func(input_path='inputs/source.json'):\n    with open(input_path, 'r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    calls = data['calls']\n    outcomes = data['outcomes']\n    rates = data['rates']\n    input_rate = rates['input_micro_usd_per_million_tokens']\n    output_rate = rates['output_micro_usd_per_million_tokens']\n\n    prompt_tokens = 0\n    completion_tokens = 0\n    configured_micro_usd = 0\n    usage_unknown_calls = 0\n    hashes = Counter()\n\n    for call in calls:\n        response_hash = call.get('response_sha256')\n        if isinstance(response_hash, str) and response_hash:\n            hashes[response_hash] += 1\n\n        usage = call.get('usage')\n        if usage is None:\n            usage_unknown_calls += 1\n            continue\n        prompt = usage.get('prompt_tokens', 0)\n        completion = usage.get('completion_tokens', 0)\n        prompt_tokens += prompt\n        completion_tokens += completion\n        numerator = prompt * input_rate + completion * output_rate\n        configured_micro_usd += -(-numerator // 1_000_000)\n\n    accepted = sum(outcome.get('accepted') is True for outcome in outcomes)\n    rejected = sum(outcome.get('accepted') is False for outcome in outcomes)\n    report = {\n        'schema': 'nuria.inference-report.v1',\n        'calls': len(calls),\n        'completed_calls': sum(call.get('state') == 'completed' for call in calls),\n        'failed_calls': sum(call.get('state') == 'failed' for call in calls),\n        'usage_unknown_calls': usage_unknown_calls,\n        'prompt_tokens': prompt_tokens,\n        'completion_tokens': completion_tokens,\n        'configured_micro_usd': configured_micro_usd,\n        'cost_scope': 'Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.',\n        'repeated_response_hashes': sorted(h for h, count in hashes.items() if count > 1),\n        'outcomes': len(outcomes),\n        'accepted': accepted,\n        'rejected': rejected,\n        'unknown': len(outcomes) - accepted - rejected,\n        'tasks': sorted(outcome['task_id'] for outcome in outcomes),\n    }\n    with open('report.json', 'w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n    return report\n",
+      "origin": {
+        "checker_sha256": "a9b3bed2d6c124e41d997d0a50ce852dc4be2b5a2853f58dd6a530be9167e377",
+        "job_id": "interactive-test-retrieval-inference",
+        "journal_head_at_acquisition": "2699db3773a82c6df89f5bd2acd768dce005406720f117e35929eb5d5585aa7d",
+        "program_sha256": "baa193cbfc2dac336e70fb84d22f8d85c1807d14ccc19aed747a15900b7c79e8",
+        "result_sha256": "1a3bab05b06ce6062856645c6fbc4fa10e93cd7cb46d6ff16d6b2adbbb63ab93",
+        "source_sha256": "871b334be4790037862f4c68b81fc564539755648e384cb1e1b256a42dccba91",
+        "task_sha256": "d4efd110ceaa853c493b52510bc31ce08b5a9e874752ba49d4899c33c1d1be89"
+      },
+      "origin_delivery": {
+        "binding": {
+          "enrollment_sha256": "595e21ac9557d7b1c7a5c8133ebb9408877b87291533f7a32835b0ee7edd74d5",
+          "result_sha256": "1a3bab05b06ce6062856645c6fbc4fa10e93cd7cb46d6ff16d6b2adbbb63ab93",
+          "task_sha256": "d4efd110ceaa853c493b52510bc31ce08b5a9e874752ba49d4899c33c1d1be89"
+        },
+        "checker_sha256": "a9b3bed2d6c124e41d997d0a50ce852dc4be2b5a2853f58dd6a530be9167e377",
+        "files": [
+          {
+            "bytes": 973,
+            "name": "report.json",
+            "semantic_sha256": "8ecb56f4139951a39a7ff6badb1ee2fd0bac704467ff14335c00909be2d9ea9e",
+            "sha256": "1fbd92683c928f30727f893d203dba09a7d08917e0a06c84d97e315b8361c364"
+          }
+        ],
+        "financial_activity": false,
+        "job_id": "interactive-test-retrieval-inference",
+        "journal_at_collection": {
+          "events": 6,
+          "tail_sha256": "2699db3773a82c6df89f5bd2acd768dce005406720f117e35929eb5d5585aa7d"
+        },
+        "model_calls": 0,
+        "program_executions": 0,
+        "program_sha256": "baa193cbfc2dac336e70fb84d22f8d85c1807d14ccc19aed747a15900b7c79e8",
+        "receipt_sha256": "de5a79db8c165f54d826e3fdb256921ce2975d3c387ad66d61701c9da2054b28",
+        "schema": "nuria.program-delivery.v1",
+        "source_sha256": "871b334be4790037862f4c68b81fc564539755648e384cb1e1b256a42dccba91"
+      },
+      "profile": {
+        "function_contract": "Implement task_func(input_path='inputs/source.json') that reads JSON containing calls (actual provider receipts), outcomes (actual terminal job labels), rates (integer microUSD per million tokens). Compute and write report.json and return exactly that dictionary. The program must handle different call/outcome counts including empty lists. Output schema='nuria.inference-report.v1'; calls=len(calls); completed_calls and failed_calls count each exact state; usage_unknown_calls count calls whose usage is absent or null. Sum prompt_tokens and completion_tokens from all nonnull usage, missing numeric fields count0. configured_micro_usd is the sum over each call of ceil((prompt_tokens*input_micro_usd_per_million_tokens + completion_tokens*output_micro_usd_per_million_tokens)/1000000), using the supplied rates; this excludes missing usage rather than inventing it. cost_scope must equal 'Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.'. repeated_response_hashes is the sorted list of nonempty response_sha256 strings occurring more than once; do not deduplicate actual calls when totaling usage. outcomes=len(outcomes); accepted counts labels that are exactly booleanTrue, rejected exactly booleanFalse, unknown everything else; tasks is sorted task_id values from outcomes, retaining duplicates. Inputs are read-only under inputs/. Inspect actual source values when needed. Do not hardcode results.",
+        "profile_id": "actual-inference-v1"
+      },
+      "schema": "nuria.retained-program.v1",
+      "skill_sha256": "165a3502864b4b3d6495db4ef9087d929b5fa1ef72b5fe4ce48803b3647d2a7c"
+    },
+    "recording": {
+      "code": "import json\n\n\ndef task_func(input_path='inputs/source.json'):\n    \"\"\"Compute a fresh recording report and write it to report.json.\"\"\"\n    with open(input_path, 'r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    counts = data['counts']\n    unit_ids = data['unit_ids']\n    bins = len(counts)\n    units = len(unit_ids)\n    population = [sum(row) for row in counts]\n    totals = [sum(row[column] for row in counts) for column in range(units)]\n\n    episodes = []\n    index = 0\n    while index < bins:\n        if population[index] == 0:\n            index += 1\n            continue\n        start = index\n        spikes = 0\n        active_columns = set()\n        while index < bins and population[index] != 0:\n            spikes += population[index]\n            active_columns.update(\n                column for column, value in enumerate(counts[index])\n                if value > 0\n            )\n            index += 1\n        episodes.append({\n            'start_bin': start,\n            'stop_bin': index,\n            'spikes': spikes,\n            'active_units': len(active_columns),\n        })\n\n    report = {\n        'schema': 'nuria.recording-report.v1',\n        'bins': bins,\n        'units': units,\n        'bin_microseconds': round(data['bin_seconds'] * 1000000),\n        'total_spikes': sum(population),\n        'population_by_bin': population,\n        'unit_totals': [\n            {'unit_id': unit_id, 'spikes': total}\n            for unit_id, total in zip(unit_ids, totals)\n        ],\n        'active_units': [\n            unit_id for unit_id, total in zip(unit_ids, totals) if total > 0\n        ],\n        'episodes': episodes,\n        'recording_id': data['nwb_identifier'],\n        'interpretation': 'Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.',\n    }\n    with open('report.json', 'w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n    return report\n",
+      "origin": {
+        "checker_sha256": "91e7931ca72e35b067a8879fd294e7f9d04e2fdcb3ca96c8b417f88518d319cd",
+        "job_id": "interactive-test-retrieval-recording",
+        "journal_head_at_acquisition": "2699db3773a82c6df89f5bd2acd768dce005406720f117e35929eb5d5585aa7d",
+        "program_sha256": "54a68e43d888268b9f5932b4560390577a0a9894bc55fd97a1986b82bd100613",
+        "result_sha256": "e5298dc20cf125178b35cba520f5a69f048c5492a2203057a9880f21dca8159e",
+        "source_sha256": "c9caeaad276f554e1e21c2f2188349aa17eccf2b030f955df0e8b4ea8867f11a",
+        "task_sha256": "433154e4d436738d50ba80425574ce2d6e11182cebb2de69835de80b4e6eacc2"
+      },
+      "origin_delivery": {
+        "binding": {
+          "enrollment_sha256": "9235c6e8050bf8883a38837bbe76880a26e13e4ae5bae70bde5d89fa962cc361",
+          "result_sha256": "e5298dc20cf125178b35cba520f5a69f048c5492a2203057a9880f21dca8159e",
+          "task_sha256": "433154e4d436738d50ba80425574ce2d6e11182cebb2de69835de80b4e6eacc2"
+        },
+        "checker_sha256": "91e7931ca72e35b067a8879fd294e7f9d04e2fdcb3ca96c8b417f88518d319cd",
+        "files": [
+          {
+            "bytes": 6211,
+            "name": "report.json",
+            "semantic_sha256": "3eab85f4a32bca27b10c2249f79c82c0f98bfd8151df93cb653312d1ba6c0340",
+            "sha256": "02e28fabb7d87ac3ae10119bc69184776d2499a9e1745bdb7f0b4f3853d6bc1c"
+          }
+        ],
+        "financial_activity": false,
+        "job_id": "interactive-test-retrieval-recording",
+        "journal_at_collection": {
+          "events": 6,
+          "tail_sha256": "2699db3773a82c6df89f5bd2acd768dce005406720f117e35929eb5d5585aa7d"
+        },
+        "model_calls": 0,
+        "program_executions": 0,
+        "program_sha256": "54a68e43d888268b9f5932b4560390577a0a9894bc55fd97a1986b82bd100613",
+        "receipt_sha256": "8030373b17d1a3542f96ad518e2a576acc7a00baa58ad09ecba22a7c048d7015",
+        "schema": "nuria.program-delivery.v1",
+        "source_sha256": "c9caeaad276f554e1e21c2f2188349aa17eccf2b030f955df0e8b4ea8867f11a"
+      },
+      "profile": {
+        "function_contract": "Implement task_func(input_path='inputs/source.json') for valid JSON recording data with counts (time-bin rows by unit columns), unit_ids, bin_seconds, nwb_identifier. It must compute a fresh report from all input values and write report.json. Return exactly the same dictionary. This program must work for different nonempty recording lengths and values, including allzero counts. Output keys: schema='nuria.recording-report.v1'; bins=row count; units=unit count; bin_microseconds=round(bin_seconds*1000000); total_spikes=allcounts sum; population_by_bin=row sums; unit_totals=list in supplied unit order of {unit_id,spikes} with column totals; active_units=supplied unit IDs whose total is positive. episodes is a list of maximal consecutive nonempty population-bin runs: each has start_bin inclusive, stop_bin exclusive, spikes=sum in that run, active_units=number of columns with any spike in that run. Exclude zero bins, retain a run reaching the final bin, and use indices relative to this input. recording_id=nwb_identifier. interpretation must equal 'Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.'. Do not invent unprovided biological labels or infer consciousness. All inputs are read-only under inputs/. Use real execution output to check dimensions and boundaries. Do not hardcode report values.",
+        "profile_id": "actual-recording-v1"
+      },
+      "schema": "nuria.retained-program.v1",
+      "skill_sha256": "186f3b400fceb0ef774f872e36b253166f76fdf8645554536ba917a858623e60"
+    }
+  }
+}

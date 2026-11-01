@@ -1,0 +1,268 @@
+{
+  "before_qualification_outcomes": true,
+  "cases": [
+    {
+      "case_id": "recording-zero",
+      "data": {
+        "bin_seconds": 0.125,
+        "counts": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "nwb_identifier": "authored-validation-not-recorded-data",
+        "unit_ids": [
+          7,
+          9,
+          11
+        ]
+      },
+      "expected": {
+        "active_units": [],
+        "bin_microseconds": 125000,
+        "bins": 5,
+        "episodes": [],
+        "interpretation": "Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.",
+        "population_by_bin": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "recording_id": "authored-validation-not-recorded-data",
+        "schema": "nuria.recording-report.v1",
+        "total_spikes": 0,
+        "unit_totals": [
+          {
+            "spikes": 0,
+            "unit_id": 7
+          },
+          {
+            "spikes": 0,
+            "unit_id": 9
+          },
+          {
+            "spikes": 0,
+            "unit_id": 11
+          }
+        ],
+        "units": 3
+      },
+      "profile": "recording",
+      "scope": "authored software qualification; not biological activity",
+      "source_sha256": "8fc75934d8d0c0166646b9dbfc064978f1fadbcad6c8150066a735dfb3d40bc6"
+    },
+    {
+      "case_id": "recording-boundaries",
+      "data": {
+        "bin_seconds": 0.125,
+        "counts": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "nwb_identifier": "authored-validation-not-recorded-data",
+        "unit_ids": [
+          9,
+          400
+        ]
+      },
+      "expected": {
+        "active_units": [
+          9,
+          400
+        ],
+        "bin_microseconds": 125000,
+        "bins": 4,
+        "episodes": [
+          {
+            "active_units": 1,
+            "spikes": 1,
+            "start_bin": 0,
+            "stop_bin": 1
+          },
+          {
+            "active_units": 2,
+            "spikes": 6,
+            "start_bin": 2,
+            "stop_bin": 4
+          }
+        ],
+        "interpretation": "Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.",
+        "population_by_bin": [
+          1,
+          0,
+          2,
+          4
+        ],
+        "recording_id": "authored-validation-not-recorded-data",
+        "schema": "nuria.recording-report.v1",
+        "total_spikes": 7,
+        "unit_totals": [
+          {
+            "spikes": 4,
+            "unit_id": 9
+          },
+          {
+            "spikes": 3,
+            "unit_id": 400
+          }
+        ],
+        "units": 2
+      },
+      "profile": "recording",
+      "scope": "authored software qualification; not biological activity",
+      "source_sha256": "3d69d44ad34d124941ad86bf6e3c7b3bdf7ad79f3404e50e2fc4f0cc16e45673"
+    },
+    {
+      "case_id": "inference-empty",
+      "data": {
+        "calls": [],
+        "outcomes": [],
+        "rates": {
+          "input_micro_usd_per_million_tokens": 1000001,
+          "output_micro_usd_per_million_tokens": 1000003
+        }
+      },
+      "expected": {
+        "accepted": 0,
+        "calls": 0,
+        "completed_calls": 0,
+        "completion_tokens": 0,
+        "configured_micro_usd": 0,
+        "cost_scope": "Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.",
+        "failed_calls": 0,
+        "outcomes": 0,
+        "prompt_tokens": 0,
+        "rejected": 0,
+        "repeated_response_hashes": [],
+        "schema": "nuria.inference-report.v1",
+        "tasks": [],
+        "unknown": 0,
+        "usage_unknown_calls": 0
+      },
+      "profile": "inference",
+      "scope": "authored software qualification; not paid or token activity",
+      "source_sha256": "8aae52a336eb05756f671bca8c94647ed0b09521831c0e6ded6be963c8d08895"
+    },
+    {
+      "case_id": "inference-missing-usage",
+      "data": {
+        "calls": [
+          {
+            "state": "failed",
+            "usage": null
+          },
+          {
+            "response_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "state": "completed",
+            "usage": {
+              "completion_tokens": 2,
+              "prompt_tokens": 1
+            }
+          },
+          {
+            "response_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "state": "completed",
+            "usage": {
+              "completion_tokens": 1,
+              "prompt_tokens": 1
+            }
+          }
+        ],
+        "outcomes": [
+          {
+            "accepted": true,
+            "task_id": "qualification/0"
+          },
+          {
+            "accepted": false,
+            "task_id": "qualification/1"
+          },
+          {
+            "accepted": null,
+            "task_id": "qualification/2"
+          },
+          {
+            "accepted": 0,
+            "task_id": "qualification/3"
+          },
+          {
+            "accepted": "False",
+            "task_id": "qualification/4"
+          }
+        ],
+        "rates": {
+          "input_micro_usd_per_million_tokens": 1000001,
+          "output_micro_usd_per_million_tokens": 1000003
+        }
+      },
+      "expected": {
+        "accepted": 1,
+        "calls": 3,
+        "completed_calls": 2,
+        "completion_tokens": 3,
+        "configured_micro_usd": 7,
+        "cost_scope": "Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.",
+        "failed_calls": 1,
+        "outcomes": 5,
+        "prompt_tokens": 2,
+        "rejected": 1,
+        "repeated_response_hashes": [
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "schema": "nuria.inference-report.v1",
+        "tasks": [
+          "qualification/0",
+          "qualification/1",
+          "qualification/2",
+          "qualification/3",
+          "qualification/4"
+        ],
+        "unknown": 3,
+        "usage_unknown_calls": 1
+      },
+      "profile": "inference",
+      "scope": "authored software qualification; not paid or token activity",
+      "source_sha256": "88f934c7fbb69c1f569b15a78487ece232b09e98158c3aa3e5a65cd9585186ca"
+    }
+  ],
+  "schema": "nuria.explicit-program-qualification.v1",
+  "scope": "Declared software boundaries, qualified equally for both retained programs; preserve every outcome, no change to the original acceptance labels."
+}
