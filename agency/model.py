@@ -6,7 +6,7 @@ from pathlib import Path
 from minisweagent.agents.default import DefaultAgent
 
 from studio.store import atomic, digest
-from studio.worker import parse
+from studio.worker import BudgetExhausted, parse
 
 
 def working_context(messages, maximum=36000):
@@ -49,6 +49,9 @@ class Gateway:
         else:
             request = {"messages": messages, "tokens": tokens}
             atomic(path, request)
+        denied = path.with_name(path.stem + "-not-issued.json")
+        if denied.exists():
+            return self.ask(name + "-compact", request["messages"], 1024)
         try:
             result = self.store.call(
                 self.client,
@@ -56,6 +59,23 @@ class Gateway:
                 request["messages"],
                 request["tokens"],
             )
+        except BudgetExhausted:
+            if request["tokens"] <= 1024:
+                raise
+            # The enrolled gateway returns HTTP 402 BEFORE inserting a pending
+            # call or contacting the provider. Retain that known-unissued request
+            # and try the identical evidence with a smaller response allowance.
+            # Unknown settlement/transport errors never enter this branch.
+            atomic(
+                denied,
+                {
+                    "status": 402,
+                    "provider_dispatched": False,
+                    "original_request_sha256": digest(request),
+                    "retry_max_tokens": 1024,
+                },
+            )
+            return self.ask(name + "-compact", request["messages"], 1024)
         except OSError as error:
             # A transport failure is not a tool failure. Keep this exact request
             # pending; never advance to a fresh paid decision after uncertainty.

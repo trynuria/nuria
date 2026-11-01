@@ -14,6 +14,7 @@ from agency.policy import SYSTEM
 from agency.runner import Mission, run
 from agency.sandbox import ShellWorkspace, files_under, public_url
 from studio.store import Store, atomic
+from studio.worker import BudgetExhausted
 
 
 class AgencyTests(unittest.TestCase):
@@ -83,6 +84,23 @@ class AgencyTests(unittest.TestCase):
         )
         self.assertEqual(first, second)
         self.assertEqual(self.client.complete.call_count, 1)
+
+    def test_known_unissued_budget_denial_can_reduce_response_without_losing_evidence(
+        self,
+    ):
+        evidence = [{"role": "user", "content": "Complete unchanged evidence"}]
+        self.client.complete.side_effect = [
+            BudgetExhausted(),
+            {"content": '{"approved":true}', "usage": {}},
+        ]
+        result = self.gateway.ask("limited", evidence, 4096)
+        self.assertEqual(self.client.complete.call_count, 2)
+        first, second = self.client.complete.call_args_list
+        self.assertEqual(first.kwargs["messages"], second.kwargs["messages"])
+        self.assertEqual(second.kwargs["max_tokens"], 1024)
+        self.assertNotEqual(first.args[0], second.args[0])
+        self.assertEqual(self.gateway.ask("limited", evidence), result)
+        self.assertEqual(self.client.complete.call_count, 2)
 
     def test_uncertain_shell_action_is_not_repeated(self):
         action = {

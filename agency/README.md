@@ -47,6 +47,12 @@ is reported as uncertain and is never blindly repeated. The agent can inspect
 its workspace to recover. Full trajectories, outputs and failed submissions stay
 on the server, outside the writable model workspace.
 
+If the gateway explicitly rejects a request before dispatch because its response
+reservation cannot fit, the adapter records that denial and retries the exact
+same evidence with a 1,024-token response cap and a separate durable identity.
+It never uses this fallback for transport failures or uncertain settlement. Tests
+and review inputs are not shortened to manufacture affordability or a pass.
+
 All inference, including goal and delivery review, uses the same original
 allowance. A new mission requires a small completion reserve. No request can
 increase the ledger or provision funds. The timer remains installed when the
