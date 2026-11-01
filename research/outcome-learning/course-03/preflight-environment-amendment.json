@@ -1,0 +1,10 @@
+{
+  "observed_utc": "2026-11-01T00:47:00.867648+00:00",
+  "before_any_model_inference": true,
+  "reason": "Three canonical checks require upstream test dependencies absent from the enrolled runtime. Add openpyxl3.1.5 and pyfakefs6.2.0 from official PyPI. Preserve original preflight and rerun only its seven failed references; no task replacement, oracle change or isolation weakening.",
+  "test_dependencies": [
+    "openpyxl==3.1.5",
+    "pyfakefs==6.2.0"
+  ],
+  "original_preflight": "preflight.json"
+}
