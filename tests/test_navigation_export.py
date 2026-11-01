@@ -18,7 +18,10 @@ from scripts.package_experience_navigation import (
     compressed_rows,
     package,
     read_store,
+    redact_terminal_paths,
+    seal_proposals,
     transcripts,
+    verify_proposals,
 )
 
 
@@ -76,8 +79,8 @@ class NavigationExportTests(unittest.TestCase):
                     "navigation": {"view": []},
                     "code": code,
                     "proposed_code_sha256": identity(code),
-                    "accepted": None if deferred else True,
-                    "checker": None if deferred else checked,
+                    "accepted": None,
+                    "checker": None,
                     "attempts": [
                         {
                             "content": "fixture",
@@ -92,6 +95,15 @@ class NavigationExportTests(unittest.TestCase):
         (root / "test-experience.json").write_text("[]")
         (root / "tasks.jsonl.gz").write_bytes(compressed_rows([task]))
         (root / "upstream-tasks.jsonl.gz").write_bytes(compressed_rows([original]))
+        (root / "proposal-commitment-before-grading.json").write_text(
+            json.dumps(seal_proposals(root))
+        )
+        if deferred:
+            return root
+        for method in METHODS:
+            OutcomeStore(root / ("test-" + method + ".sqlite")).accept(
+                "test-" + method + "-fixture", checked
+            )
         (root / "held-out-results.json").write_text(
             json.dumps(
                 {
@@ -103,6 +115,52 @@ class NavigationExportTests(unittest.TestCase):
             )
         )
         return root
+
+    def test_proposal_seal_refuses_late_creation_and_detects_changed_code(self):
+        root = self.course()
+        with self.assertRaisesRegex(ValueError, "already exist"):
+            seal_proposals(root)
+        output = self.directory / "public"
+        package(root, output)
+        self.assertEqual(verify_proposals(output)["sealed_proposals_verified"], 3)
+        from scripts.evaluate_experience_navigation import read_rows
+
+        rows = read_rows(output / "executions.jsonl.gz")
+        rows[0]["code"] = "def task_func(): return 999"
+        (output / "executions.jsonl.gz").write_bytes(compressed_rows(rows))
+        with self.assertRaisesRegex(ValueError, "public proposal seal"):
+            verify_proposals(output)
+
+    def test_only_terminal_operator_paths_are_redacted_with_exact_hashes(self):
+        original = [
+            {
+                "method": "navigation",
+                "job_id": "fixture",
+                "code": "pass",
+                "accepted": False,
+                "checker": {
+                    "passed": False,
+                    "stderr": "File '/Users/operator/private.py', line 7: ValueError",
+                },
+            }
+        ]
+        before = json.dumps(original, sort_keys=True)
+        public, receipt = redact_terminal_paths(original)
+        self.assertEqual(before, json.dumps(original, sort_keys=True))
+        check_public(json.dumps(public))
+        self.assertEqual(public[0]["code"], original[0]["code"])
+        self.assertFalse(public[0]["accepted"])
+        self.assertIn("ValueError", public[0]["checker"]["stderr"])
+        self.assertEqual(
+            public[0]["checker"]["stderr_original_sha256"],
+            hashlib.sha256(original[0]["checker"]["stderr"].encode()).hexdigest(),
+        )
+        self.assertEqual(receipt[0]["original_result_sha256"], identity(original[0]))
+        self.assertEqual(receipt[0]["public_result_sha256"], identity(public[0]))
+        a, b = dict(original[0]), dict(public[0])
+        a.update({"accepted": None, "checker": None})
+        b.update({"accepted": None, "checker": None})
+        self.assertEqual(identity(a), identity(b))
 
     def test_complete_export_preserves_exact_records_and_is_reproducible(self):
         root = self.course()
