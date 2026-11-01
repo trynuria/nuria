@@ -57,8 +57,8 @@ accuracy delta zero and exact paired p-value 1.0. The preregistered superiority
 gate failed. Continuity remains optional; the visible route remains the default.
 Neither route is promoted to production by this result.
 
-All 140 programs were independently replayed once. Every native verdict agrees
-with the original observation. Programs, source checkers and original grades
+All 140 programs were independently replayed once on macOS. Every native verdict agrees
+with the original observation on that host. Programs, source checkers and original grades
 remain unchanged. The request audit verifies 70 equal first-request pairs and
 82 subsequent continuity transitions; no opaque contents are published.
 
@@ -96,3 +96,24 @@ are the reproducibility claim.
 [all native observations](independent-replay.json.gz) retain the negative result
 and its supporting evidence. Provider usage and transport records are host
 observations, not independent provider invoices or remote attestations.
+
+## Linux filesystem qualification
+
+The first complete Linux CI replay matches 138 of 140 original verdicts. Both
+programs for `BigCodeBench/832` pass on macOS and fail on Linux. The upstream
+checker expects a write under `/non/existent/path` to fail, although the task
+requires creating missing parent directories. That expectation depends on the
+host filesystem: Linux runs inside a fresh private namespace, while macOS denies
+that absolute location. The original 50/70 scores remain published; Linux's
+observed scores are 49/70 for both routes. This is not exact cross-platform
+reproduction, and no model output or checker is edited to remove the discrepancy.
+
+[The post-hoc characterization](filesystem-832.json) records that discovery and
+fixes three physical rounds for the unchanged reference and both committed
+programs. CI's explicit `--qualify-filesystem` option requires all nine
+observations to agree on its host, rejects every other changed verdict and
+checks all four possible label assignments for this single case. The original
+failed superiority decision must hold for every assignment. Complete mismatch
+and control records are emitted; the default replay remains strict. This follows
+the existing [negative timing qualification](../../../scripts/characterize_timing_contract.py),
+without changing enrollment, scores or the original promotion gate.
