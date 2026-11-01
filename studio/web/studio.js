@@ -74,11 +74,15 @@
       iframe.hidden = false;
       byId("experience-placeholder").hidden = true;
       byId("restart").hidden = false;
+      byId("open-creation").href = url;
+      byId("open-creation").hidden = false;
     } else {
       iframe.removeAttribute("src");
       iframe.hidden = true;
       byId("experience-placeholder").hidden = false;
       byId("restart").hidden = true;
+      byId("open-creation").hidden = true;
+      byId("open-creation").removeAttribute("href");
     }
   }
   function selectProject(id, scroll = false) {
@@ -128,7 +132,7 @@
       button.append(
         top,
         element("h3", "", text(project.title, "Untitled project")),
-        element("p", "", text(project.brief)),
+        element("p", "", text(project.brief).split(/(?<=[.!?])\s/)[0]),
         element("span", "project-card-arrow", "↗"),
       );
       button.addEventListener("click", () => selectProject(project.id, true));
@@ -231,7 +235,8 @@
     byId("project-kicker").textContent =
       `SELECTED PROJECT / ${label(project.status).toUpperCase()}`;
     byId("project-title").textContent = text(project.title, "Untitled project");
-    byId("project-brief").textContent = text(project.brief);
+    byId("project-brief").textContent = text(project.brief).split(/(?<=[.!?])\s/)[0];
+    byId("full-project-brief").textContent = text(project.brief);
     byId("selection-reason").textContent =
       text(project.selection_reason) ||
       text(project.review?.rationale) ||

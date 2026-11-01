@@ -45,6 +45,8 @@ that reveals a mechanism. Explain which parts are simulation and which inputs
 come from the real snapshot. Do not invent live readings or scientific findings.
 The engine receives the enrolled source object, which can be embedded as a
 literal in app.js; no fetch is allowed in artifacts.
+If you offer exports, provide an attached download link and a visible selectable
+text fallback so visitors can keep their work even when a browser blocks downloads.
 If a toolkit is supplied, load toolkit.js and toolkit-bridge.js before engine.js.
 NuriaToolkit exposes the prior engine's create/step/metrics. Use its actual methods
 to build the new work; the host independently counts reuse. Keep the toolkit files

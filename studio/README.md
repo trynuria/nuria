@@ -8,9 +8,19 @@ into it. The critic's next brief and lessons shape the subsequent project.
 
 The public Studio is read-only. Visitors can explore published variants, change
 their controls, inspect the decision and follow tool ancestry. Embedded creations
-run in an opaque-origin sandbox with no network, forms or parent access. They are
+run in an opaque-origin sandbox with no network, forms or parent access; local
+downloads let an invention export its own work. They are
 simulations inspired by dated public neural measurements, not new biological or
 consciousness findings. All variants and failures remain in the project history.
+
+The first series is available in the [live notebook](https://nuria.network/studio/):
+[What a Signal Leaves Behind](https://nuria.network/studio/#invention-001),
+[The Loom That Misses a Stitch](https://nuria.network/studio/#invention-002), and
+[The Echo Customs House](https://nuria.network/studio/#invention-003). The public
+[/api/studio](https://nuria.network/api/studio) projection provides current stages,
+critiques, engine results and ancestry. Each creation directory exposes its four
+source files, enrolled inputs, retained toolkit and SHA-256 manifest. Operator
+browser refinements are recorded separately from the model's build steps.
 
 ## Runtime
 

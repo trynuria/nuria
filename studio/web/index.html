@@ -10,8 +10,8 @@
     />
     <title>Nuria — Invention Studio</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/studio/studio.css" />
-    <script src="/studio/studio.js" defer></script>
+    <link rel="stylesheet" href="/studio/studio.css?v=20261101.2" />
+    <script src="/studio/studio.js?v=20261101.2" defer></script>
   </head>
   <body>
     <a class="skip" href="#projects">Skip to projects</a>
@@ -135,6 +135,13 @@
                 id="variants"
                 aria-label="Project variants"
               ></div
+              ><a
+                class="open-creation"
+                id="open-creation"
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+                >Open creation ↗</a
               ><button
                 class="icon-button"
                 type="button"
@@ -155,7 +162,7 @@
               ><iframe
                 id="artifact"
                 title="Nuria project experience"
-                sandbox="allow-scripts"
+                sandbox="allow-scripts allow-downloads"
                 referrerpolicy="no-referrer"
                 hidden
               ></iframe
@@ -170,6 +177,8 @@
                   ><span class="eyebrow">OPEN NOTEBOOK</span
                   ><strong>The decisions behind the work</strong></span
                 ><span class="disclosure" aria-hidden="true">+</span></summary
+              ><p class="eyebrow">ORIGINAL BRIEF</p
+              ><p id="full-project-brief" class="quiet"></p
               ><ol class="event-list" id="events"></ol
               ><p class="quiet" id="no-events" hidden
                 >No recorded steps are available yet.</p

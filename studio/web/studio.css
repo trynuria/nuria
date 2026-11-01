@@ -465,6 +465,16 @@ main {
   gap: 0;
   min-width: 0;
 }
+.open-creation {
+  margin-left: auto;
+  padding: 12px;
+  color: var(--green);
+  font: 10px/1.5 var(--mono);
+  flex-shrink: 0;
+}
+#full-project-brief {
+  margin: 12px 0 28px;
+}
 .variant-button {
   max-width: 100%;
   overflow-wrap: anywhere;
