@@ -14,6 +14,7 @@ import json
 import re
 import sqlite3
 import zipfile
+from contextlib import closing
 from pathlib import Path
 
 from cognition.experience_navigation import METHODS
@@ -33,7 +34,7 @@ PRIVATE_TEXT = re.compile(
 def read_store(path, *, require_terminal=True):
     """Take one consistent read-only snapshot and check its original journal."""
     uri = Path(path).resolve().as_uri() + "?mode=ro"
-    with sqlite3.connect(uri, uri=True) as database:
+    with closing(sqlite3.connect(uri, uri=True)) as database:
         database.execute("BEGIN")
         jobs = database.execute("SELECT id,contract,state,body FROM jobs").fetchall()
         events = database.execute(
