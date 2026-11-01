@@ -31,24 +31,38 @@ function verify(engine, spec, input) {
     if (!s || s.length > 64000) throw Error("Acceptance state exceeds 64 KB");
     return s;
   };
-  const read = (root, path) => {
+  const missing = Symbol("field not created yet");
+  const read = (root, path, allowMissing) => {
     let value = root;
     for (const key of path.split(".")) {
-      if (value == null || !Object.prototype.hasOwnProperty.call(value, key))
+      if (value == null || !Object.prototype.hasOwnProperty.call(value, key)) {
+        if (allowMissing) return missing;
         throw Error("Missing asserted field: " + path);
+      }
       value = value[key];
     }
     return value;
   };
-  function assertions(state, expected) {
+  function assertions(state, expected, allowMissing = false) {
     const observed = { state, metrics: engine.metrics(copy(state)) };
     return expected.map((a) => {
-      const values = a.sum ? a.sum.map((p) => read(observed, p)) : null;
+      const values = a.sum ? a.sum.map((p) => read(observed, p, allowMissing)) : null;
+      const field = values ? null : read(observed, a.path, allowMissing);
+      // Reachability checks include the initial state. A later action may
+      // create the asserted field; its absence is never evidence for any
+      // operator, including "ne". Cases and invariants stay strict.
+      if (field === missing || (values && values.includes(missing)))
+        return {
+          path: a.path,
+          sum: a.sum,
+          op: a.op,
+          expected: a.value,
+          missing: true,
+          pass: false,
+        };
       if (values && values.some((v) => typeof v !== "number" || !Number.isFinite(v)))
         throw Error("Sum requires finite numeric fields");
-      const actual = values
-        ? values.reduce((a, b) => a + b, 0)
-        : read(observed, a.path);
+      const actual = values ? values.reduce((a, b) => a + b, 0) : field;
       const equal =
         JSON.stringify(canonical(actual)) === JSON.stringify(canonical(a.value));
       let pass = false;
@@ -104,7 +118,7 @@ function verify(engine, spec, input) {
       for (let cursor = 0; cursor < queue.length; cursor++) {
         const item = queue[cursor];
         visited++;
-        last = assertions(item.state, claim.expect);
+        last = assertions(item.state, claim.expect, claim.kind === "reachable");
         const holds = last.every((x) => x.pass);
         if (claim.kind === "reachable" && holds)
           return {

@@ -127,6 +127,11 @@ twelve-action bound and existing state/depth limits.
 
 ## Outcome acceptance and repair
 
+Reachability searches treat a not-yet-created output field as an unmet goal and
+continue exploring actions. Missing fields never satisfy an assertion (including
+inequality); fixed action cases and invariant checks still report missing fields
+as specification errors.
+
 A selected browser-tested prototype now enters a separate examination before its
 project can complete or its engine can enter the reusable repertoire. The examiner
 receives the actual engine, the visitor promise and specific critique. It authors

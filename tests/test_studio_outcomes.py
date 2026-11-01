@@ -118,7 +118,7 @@ class OutcomeTests(unittest.TestCase):
                 report["results"][0]["outcome"], "no witness within search bounds"
             )
 
-    def test_missing_asserted_field_is_a_test_error_not_a_pass(self):
+    def test_missing_asserted_field_cannot_pass_and_cases_remain_strict(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             atomic(root / "inputs.json", {})
@@ -135,7 +135,58 @@ class OutcomeTests(unittest.TestCase):
                 )
             )
             self.assertFalse(report["passed"])
-            self.assertIn("Missing asserted field", report["results"][0]["error"])
+            self.assertEqual(
+                report["results"][0]["outcome"], "unreachable under declared actions"
+            )
+            self.assertTrue(report["results"][0]["last_checks"][0]["missing"])
+            self.assertIn("Missing asserted field", report["results"][1]["error"])
+
+    @unittest.skipUnless(shutil.which("node"), "Node required")
+    def test_reachable_goal_can_be_created_by_an_action(self):
+        checker = Path(__file__).resolve().parents[1] / "studio/check_outcomes.cjs"
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            atomic(root / "inputs.json", {})
+            atomic(
+                root / "challenge.json",
+                {
+                    "claims": [
+                        {
+                            "name": "Export is created after teaching",
+                            "kind": "reachable",
+                            "actions": [{"type": "teach"}, {"type": "export"}],
+                            "expect": [
+                                {"path": "state.export.text", "op": "ne", "value": ""},
+                                {"sum": ["state.export.rows"], "op": "eq", "value": 2},
+                            ],
+                        },
+                        {
+                            "name": "Missing is not unequal",
+                            "kind": "reachable",
+                            "actions": [{"type": "noop"}],
+                            "expect": [{"path": "state.never", "op": "ne", "value": 0}],
+                        },
+                    ]
+                },
+            )
+            (root / "engine.js").write_text(
+                "globalThis.NuriaEngine={create:()=>({}),metrics:()=>({}),"
+                "act(s,a){if(a.type==='teach')s.ready=true;"
+                "if(a.type==='export'&&s.ready)s.export={text:'learned',rows:2};return s}};"
+            )
+            report = json.loads(
+                subprocess.check_output(
+                    [shutil.which("node"), str(checker)], cwd=root, text=True
+                )
+            )
+            reached, absent = report["results"]
+            self.assertTrue(reached["passed"])
+            self.assertEqual(
+                reached["witness"], [{"type": "teach"}, {"type": "export"}]
+            )
+            self.assertFalse(absent["passed"])
+            self.assertNotIn("error", absent)
+            self.assertTrue(absent["last_checks"][0]["missing"])
 
     def test_repair_keeps_original_and_cannot_retain_a_failed_check(self):
         with tempfile.TemporaryDirectory() as temp:
