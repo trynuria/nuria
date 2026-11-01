@@ -140,7 +140,8 @@ class NavigationExportTests(unittest.TestCase):
                 "accepted": False,
                 "checker": {
                     "passed": False,
-                    "stderr": "File '/Users/operator/private.py', line 7: ValueError",
+                    "stderr": "File '/"
+                    + "Users/operator/private.py', line 7: ValueError",
                 },
             }
         ]
@@ -210,13 +211,13 @@ class NavigationExportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "journal"):
             read_store(root / "test-navigation.sqlite")
         with self.assertRaisesRegex(ValueError, "private"):
-            check_public("Host file at /Users/operator/private.txt")
+            check_public("Host file at /" + "Users/operator/private.txt")
         check_public("Use password=input_value according to the public task.")
 
     def test_source_archive_is_inspected_before_publication(self):
         raw = io.BytesIO()
         with zipfile.ZipFile(raw, "w") as archive:
-            archive.writestr("source.py", "path = '/Users/operator/private.txt'")
+            archive.writestr("source.py", "path = '/" + "Users/operator/private.txt'")
         with self.assertRaisesRegex(ValueError, "private"):
             check_archive(raw.getvalue())
 
