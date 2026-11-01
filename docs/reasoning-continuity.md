@@ -35,8 +35,12 @@ calls are wiring evidence. The frozen comparison completed 70 valid task pairs:
 both conditions accepted 50, with the same 20 failures. The exact paired p-value
 is 1.0. Continuity used 152 calls and 2.140305 configured conservative USD; the
 visible control used 146 calls and 2.013094 USD. The superiority gate failed.
-All 140 independent native verdicts match the original observations. The visible
-route remains the default, and the optional adapter is not production activated.
+All 140 independent macOS verdicts match the original observations. Linux matches
+138/140: an upstream filesystem-sensitive case fails for both routes, giving
+49/70 on that host. The explicit reference-repeat and label-sensitivity
+qualification retains every discrepancy; the original scores and failed
+promotion gate stay unchanged. The visible route remains the default, and the
+optional adapter is not production activated.
 No neural or consciousness advantage is established.
 
 ## Checked work
