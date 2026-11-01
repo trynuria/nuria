@@ -25,10 +25,10 @@ class CachedReplayTests(unittest.TestCase):
         target.write_bytes(original)
         Executor, _ = module.cached_executor(cache)
         result = Executor(root / "executions").run(
-            "from pathlib import Path\nindex=Path('mplconfig/fontlist-vfixture.json')",
+            "import errno\nfrom pathlib import Path\nindex=Path('mplconfig/fontlist-vfixture.json')",
             "assert index.read_bytes()==" + repr(original) + "\n"
             "try:\n index.write_bytes(b'forbidden')\n"
-            "except PermissionError:\n pass\n"
+            "except OSError as error:\n assert error.errno in (errno.EACCES,errno.EPERM,errno.EROFS)\n"
             "else:\n raise AssertionError('Shared cache was writable')\n",
             label="readonly",
         )
