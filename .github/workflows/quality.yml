@@ -6,8 +6,10 @@ permissions:
   contents: read
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
+    env:
+      NURIA_TEST_LINUX_ISOLATION: "1"
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -18,6 +20,8 @@ jobs:
           node-version: "24"
       - name: Install dependencies
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install --yes bubblewrap
           python -m pip install -r requirements.txt ruff==0.16.10
           npm ci
       - name: Check Python
