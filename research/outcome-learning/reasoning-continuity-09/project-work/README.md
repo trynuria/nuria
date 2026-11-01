@@ -1,8 +1,8 @@
 # Actual project maintenance work
 
-Two finite jobs use Nuria data created after the provider model was released:
+Two finite jobs use current Nuria project data:
 a new returned version of the archived reporter fixes its already diagnosed
-unknown-label defect, and a reusable accountant audits an actual mixed-pricing
+unknown-label defect using a supplied exact replacement, and a reusable accountant audits an actual mixed-pricing
 inference ledger snapshot. No original archive or provider ledger is edited.
 
 The snapshot includes an in-flight reservation. Missing charges remain reserved
