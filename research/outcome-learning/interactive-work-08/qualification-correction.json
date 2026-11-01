@@ -1,0 +1,51 @@
+{
+  "case_id": "inference-missing-usage",
+  "corrected_expected": 3,
+  "field": "unknown",
+  "model_programs_unchanged": true,
+  "native_diagnosis": [
+    {
+      "checker": {
+        "checks_sha256": "bf9ccd218be32db65d27996d2a926f02bcfb828b75f45e721434c6364d643d70",
+        "code_sha256": "086c81072f15ef7bea2c31be1c08565c2927c80304c53fc82a1b5bab2cc34050",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "{\"accepted\": 1, \"calls\": 3, \"completed_calls\": 2, \"completion_tokens\": 3, \"configured_micro_usd\": 7, \"cost_scope\": \"Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.\", \"failed_calls\": 1, \"outcomes\": 5, \"prompt_tokens\": 2, \"rejected\": 1, \"repeated_response_hashes\": [\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], \"schema\": \"nuria.inference-report.v1\", \"tasks\": [\"qualification/0\", \"qualification/1\", \"qualification/2\", \"qualification/3\", \"qualification/4\"], \"unknown\": 3, \"usage_unknown_calls\": 1}\n",
+        "timed_out": false,
+        "wall_seconds": 0.048677
+      },
+      "condition": "interactive",
+      "diagnosis": {
+        "unknown": {
+          "actual": 3,
+          "original_expected": 1
+        }
+      }
+    },
+    {
+      "checker": {
+        "checks_sha256": "bf9ccd218be32db65d27996d2a926f02bcfb828b75f45e721434c6364d643d70",
+        "code_sha256": "baa193cbfc2dac336e70fb84d22f8d85c1807d14ccc19aed747a15900b7c79e8",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "{\"accepted\": 1, \"calls\": 3, \"completed_calls\": 2, \"completion_tokens\": 3, \"configured_micro_usd\": 7, \"cost_scope\": \"Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.\", \"failed_calls\": 1, \"outcomes\": 5, \"prompt_tokens\": 2, \"rejected\": 1, \"repeated_response_hashes\": [\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"], \"schema\": \"nuria.inference-report.v1\", \"tasks\": [\"qualification/0\", \"qualification/1\", \"qualification/2\", \"qualification/3\", \"qualification/4\"], \"unknown\": 3, \"usage_unknown_calls\": 1}\n",
+        "timed_out": false,
+        "wall_seconds": 0.047497
+      },
+      "condition": "retrieval",
+      "diagnosis": {
+        "unknown": {
+          "actual": 3,
+          "original_expected": 1
+        }
+      }
+    }
+  ],
+  "original_expected": 1,
+  "original_outcomes_preserved": true,
+  "original_qualification_sha256": "02d0439e5d7f8a6b3f1230a7e1bac460f075de7d0dc205735e29aeee233fce5c",
+  "reason": "The written contract treats every label other than exact booleanTrue/False as unknown. The original host oracle counted only null, incorrectly rejecting both correct model programs.",
+  "version": "nuria.explicit-oracle-correction.v1"
+}

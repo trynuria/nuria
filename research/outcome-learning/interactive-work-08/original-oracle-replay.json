@@ -1,0 +1,278 @@
+{
+  "accepted": 16,
+  "executions": 18,
+  "model_calls": 0,
+  "results": [
+    {
+      "case_id": "origin",
+      "checker": {
+        "checks_sha256": "a9b3bed2d6c124e41d997d0a50ce852dc4be2b5a2853f58dd6a530be9167e377",
+        "code_sha256": "086c81072f15ef7bea2c31be1c08565c2927c80304c53fc82a1b5bab2cc34050",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.081734
+      },
+      "condition": "interactive",
+      "profile": "inference"
+    },
+    {
+      "case_id": "inference-later-pending",
+      "checker": {
+        "checks_sha256": "ceac32abaa48fc57aee08017aeb494034d40e6c8ac30a90463dda4928fc36d60",
+        "code_sha256": "086c81072f15ef7bea2c31be1c08565c2927c80304c53fc82a1b5bab2cc34050",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.048008
+      },
+      "condition": "interactive",
+      "profile": "inference"
+    },
+    {
+      "case_id": "inference-empty",
+      "checker": {
+        "checks_sha256": "f0c186484cb844da42f5b985a3cad9275b0367609906482100a2bdba19ee6339",
+        "code_sha256": "086c81072f15ef7bea2c31be1c08565c2927c80304c53fc82a1b5bab2cc34050",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.046631
+      },
+      "condition": "interactive",
+      "profile": "inference"
+    },
+    {
+      "case_id": "inference-missing-usage",
+      "checker": {
+        "checks_sha256": "573094c78983536c032f46e00679739754d1abb7ace95242dc4975aad566ee0d",
+        "code_sha256": "086c81072f15ef7bea2c31be1c08565c2927c80304c53fc82a1b5bab2cc34050",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 1, in <module>\nAssertionError\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.044483
+      },
+      "condition": "interactive",
+      "profile": "inference"
+    },
+    {
+      "case_id": "origin",
+      "checker": {
+        "checks_sha256": "91e7931ca72e35b067a8879fd294e7f9d04e2fdcb3ca96c8b417f88518d319cd",
+        "code_sha256": "c99969972251148835729311ce683dae50950e3bbe33f2601dae40b4a59d5a9b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.082551
+      },
+      "condition": "interactive",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-later30",
+      "checker": {
+        "checks_sha256": "3c9abff0e100259bbbc80272eed4f79fdc78665e01a579c088f3892dc248efcb",
+        "code_sha256": "c99969972251148835729311ce683dae50950e3bbe33f2601dae40b4a59d5a9b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.04746
+      },
+      "condition": "interactive",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-later60",
+      "checker": {
+        "checks_sha256": "76646a8e7acffb2bfb85e1e7d80052560be335815c05da75a26b1613da640034",
+        "code_sha256": "c99969972251148835729311ce683dae50950e3bbe33f2601dae40b4a59d5a9b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.048177
+      },
+      "condition": "interactive",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-zero",
+      "checker": {
+        "checks_sha256": "57fe723457d1f070f858c671cb554778a2a425a582e5ed3d22f87c3f7001396a",
+        "code_sha256": "c99969972251148835729311ce683dae50950e3bbe33f2601dae40b4a59d5a9b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.04824
+      },
+      "condition": "interactive",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-boundaries",
+      "checker": {
+        "checks_sha256": "e4b0efbcb9f013b19da0b4df5b8c204cb457f3e1d676163a085456c604042183",
+        "code_sha256": "c99969972251148835729311ce683dae50950e3bbe33f2601dae40b4a59d5a9b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.085548
+      },
+      "condition": "interactive",
+      "profile": "recording"
+    },
+    {
+      "case_id": "origin",
+      "checker": {
+        "checks_sha256": "a9b3bed2d6c124e41d997d0a50ce852dc4be2b5a2853f58dd6a530be9167e377",
+        "code_sha256": "baa193cbfc2dac336e70fb84d22f8d85c1807d14ccc19aed747a15900b7c79e8",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.082275
+      },
+      "condition": "retrieval",
+      "profile": "inference"
+    },
+    {
+      "case_id": "inference-later-pending",
+      "checker": {
+        "checks_sha256": "ceac32abaa48fc57aee08017aeb494034d40e6c8ac30a90463dda4928fc36d60",
+        "code_sha256": "baa193cbfc2dac336e70fb84d22f8d85c1807d14ccc19aed747a15900b7c79e8",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.075371
+      },
+      "condition": "retrieval",
+      "profile": "inference"
+    },
+    {
+      "case_id": "inference-empty",
+      "checker": {
+        "checks_sha256": "f0c186484cb844da42f5b985a3cad9275b0367609906482100a2bdba19ee6339",
+        "code_sha256": "baa193cbfc2dac336e70fb84d22f8d85c1807d14ccc19aed747a15900b7c79e8",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.048151
+      },
+      "condition": "retrieval",
+      "profile": "inference"
+    },
+    {
+      "case_id": "inference-missing-usage",
+      "checker": {
+        "checks_sha256": "573094c78983536c032f46e00679739754d1abb7ace95242dc4975aad566ee0d",
+        "code_sha256": "baa193cbfc2dac336e70fb84d22f8d85c1807d14ccc19aed747a15900b7c79e8",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 1, in <module>\nAssertionError\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.041489
+      },
+      "condition": "retrieval",
+      "profile": "inference"
+    },
+    {
+      "case_id": "origin",
+      "checker": {
+        "checks_sha256": "91e7931ca72e35b067a8879fd294e7f9d04e2fdcb3ca96c8b417f88518d319cd",
+        "code_sha256": "54a68e43d888268b9f5932b4560390577a0a9894bc55fd97a1986b82bd100613",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.045048
+      },
+      "condition": "retrieval",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-later30",
+      "checker": {
+        "checks_sha256": "3c9abff0e100259bbbc80272eed4f79fdc78665e01a579c088f3892dc248efcb",
+        "code_sha256": "54a68e43d888268b9f5932b4560390577a0a9894bc55fd97a1986b82bd100613",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.044652
+      },
+      "condition": "retrieval",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-later60",
+      "checker": {
+        "checks_sha256": "76646a8e7acffb2bfb85e1e7d80052560be335815c05da75a26b1613da640034",
+        "code_sha256": "54a68e43d888268b9f5932b4560390577a0a9894bc55fd97a1986b82bd100613",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.082655
+      },
+      "condition": "retrieval",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-zero",
+      "checker": {
+        "checks_sha256": "57fe723457d1f070f858c671cb554778a2a425a582e5ed3d22f87c3f7001396a",
+        "code_sha256": "54a68e43d888268b9f5932b4560390577a0a9894bc55fd97a1986b82bd100613",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.045177
+      },
+      "condition": "retrieval",
+      "profile": "recording"
+    },
+    {
+      "case_id": "recording-boundaries",
+      "checker": {
+        "checks_sha256": "e4b0efbcb9f013b19da0b4df5b8c204cb457f3e1d676163a085456c604042183",
+        "code_sha256": "54a68e43d888268b9f5932b4560390577a0a9894bc55fd97a1986b82bd100613",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.045062
+      },
+      "condition": "retrieval",
+      "profile": "recording"
+    }
+  ],
+  "scope": "Native reproduction and explicit boundary qualification; no new model-effectiveness claim."
+}

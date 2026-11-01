@@ -1,0 +1,42 @@
+{
+  "accepted": {
+    "interactive": 2,
+    "retrieval": 2
+  },
+  "comparison": {
+    "accuracy_delta": 0.0,
+    "losses": 0,
+    "one_sided_exact_p": 1.0,
+    "wins": 0
+  },
+  "families": {
+    "inference": {
+      "interactive": 1,
+      "retrieval": 1
+    },
+    "recording": {
+      "interactive": 1,
+      "retrieval": 1
+    }
+  },
+  "neural_advantage_established": false,
+  "runtime_promoted": false,
+  "superiority_supported": false,
+  "tasks": 2,
+  "usage": {
+    "interactive": {
+      "calls": 4,
+      "completion_tokens": 3937,
+      "configured_micro_usd": 73272,
+      "program_probes": 4,
+      "prompt_tokens": 16951
+    },
+    "retrieval": {
+      "calls": 6,
+      "completion_tokens": 8156,
+      "configured_micro_usd": 126406,
+      "program_probes": 4,
+      "prompt_tokens": 22423
+    }
+  }
+}

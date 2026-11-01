@@ -130,7 +130,8 @@ jobs:
           tests.test_navigation_export tests.test_program_delivery
           tests.test_delivered_course tests.test_input_observations
           tests.test_retained_work tests.test_recovery_options
-          tests.test_reasoner_transfer tests.test_reasoner_evidence tests.test_timing_qualification tests.test_outcome_consistency -v
+          tests.test_reasoner_transfer tests.test_reasoner_evidence tests.test_timing_qualification tests.test_outcome_consistency
+          tests.test_interactive_work -v
       - name: Reconstruct and independently execute held-out work
         run: |
           python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"
@@ -150,3 +151,5 @@ jobs:
         run: python -m scripts.characterize_timing_contract negative research/outcome-learning/reasoner-transfer-06 "$RUNNER_TEMP/nuria-reasoner-transfer"
       - name: Check durable learning eligibility against every recorded native observation
         run: python -m scripts.reconcile_learning_feedback research/outcome-learning/reasoner-transfer-06 "$RUNNER_TEMP/nuria-feedback-consistency" --expected research/outcome-learning/feedback-consistency-07/report.json
+      - name: Reproduce actual interactive work and explicit boundary checks
+        run: python research/outcome-learning/interactive-work-08/replay.py "$RUNNER_TEMP/nuria-interactive-replay" --corrected-qualification

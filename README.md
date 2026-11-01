@@ -105,6 +105,8 @@ grades, admits 168 additional observations and withholds the two uncertain jobs.
 Duplicate observations add no events, and the raw-record hash stays unchanged.
 This improves feedback handling; fresh-task accuracy improvement is unproved.
 
+The optional [interactive program worker](docs/interactive-work.md) chooses its next probe from actual execution output, then independently checks and delivers the final artifact. A publicly committed actual-data course delivered two reports for both the adaptive and retrieved routes, then reused both sets of programs successfully on three later-data jobs without another model call. All corrected native and boundary checks pass; the original oracle error and negative development results remain in the [complete record](research/outcome-learning/interactive-work-08). This adds a usable execution route, without establishing a reasoning or neural accuracy advantage.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the
