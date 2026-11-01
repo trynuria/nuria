@@ -1,0 +1,86 @@
+{
+  "additional_observations": 168,
+  "duplicate_observation_journal_unchanged": true,
+  "eligible_future_experiences": 154,
+  "implementation_sha256": {
+    "cognition/outcome_consistency.py": "ef6bf077a894b7c4c6b3d80a659b95cfc33a779e0f97723109c023789e4de923",
+    "scripts/reconcile_learning_feedback.py": "eda21b44701f705e729088f7d2cde88d7a59abe4182a129e28ac26795bf485da",
+    "scripts/run_consistent_course.py": "0df300eb39c9bb986a63443c6b8c4ce4bb59f17a431cde601d464fc2acc86d8a"
+  },
+  "journal": {
+    "events": 480,
+    "tail_sha256": "d867b8a2ab5a1d29a405d3363b6a94fefc59e0a0bf5adc7d6a03dbb8e1de3889"
+  },
+  "model_calls": 0,
+  "new_program_executions": 0,
+  "original_comparison": {
+    "accepted": {
+      "astra-medium": 56,
+      "sol-low": 56
+    },
+    "comparison": {
+      "accuracy_delta": 0.0,
+      "losses": 2,
+      "one_sided_exact_p": 0.6875,
+      "wins": 2
+    },
+    "families": {
+      "collections-algorithms": {
+        "astra-medium": 9,
+        "sol-low": 9
+      },
+      "files-archives": {
+        "astra-medium": 4,
+        "sol-low": 4
+      },
+      "numerical": {
+        "astra-medium": 11,
+        "sol-low": 11
+      },
+      "structured-data": {
+        "astra-medium": 7,
+        "sol-low": 6
+      },
+      "tabular": {
+        "astra-medium": 8,
+        "sol-low": 8
+      },
+      "text": {
+        "astra-medium": 9,
+        "sol-low": 9
+      },
+      "visualization": {
+        "astra-medium": 8,
+        "sol-low": 9
+      }
+    },
+    "neural_advantage_established": false,
+    "runtime_promoted": false,
+    "superiority_supported": false,
+    "tasks": 78
+  },
+  "original_grades_changed": false,
+  "raw_history_sha256_after": "52c6fa4ab7cb3af46ed3276133c538fd375708eac2c4a71c7d2ae9e3d87bdd20",
+  "raw_history_sha256_before": "52c6fa4ab7cb3af46ed3276133c538fd375708eac2c4a71c7d2ae9e3d87bdd20",
+  "raw_jobs": 156,
+  "scope": "Revealed native evidence; finite per-job learning eligibility, no accuracy, neural or AGI claim",
+  "sources_sha256": {
+    "executions.jsonl.gz": "78045f3a5a5286348811a9552defe90cafc7b9efde677021bd3d67e8fa80f6f2",
+    "independent-replay.json": "344a0b376a2d6fb0034a32b8299219ba403f8fe3d5e4c61e1bbc81a2e94c6b49",
+    "negative-qualification.json": "6b5df0399ec38c9bf992446ae89fdc818e998172c6c715f3f89a53c412d7741b",
+    "timing-823/characterization.json": "4715baa073f5a73357d7891bc87afcffe875802cf071658d428221ceb82ebaa3"
+  },
+  "version": "nuria.feedback-reconciliation.v1",
+  "withheld": [
+    {
+      "condition": "astra-medium",
+      "job_id": "transfer-astra-medium-823",
+      "task_id": "BigCodeBench/823"
+    },
+    {
+      "condition": "sol-low",
+      "job_id": "transfer-sol-low-823",
+      "task_id": "BigCodeBench/823"
+    }
+  ]
+}
