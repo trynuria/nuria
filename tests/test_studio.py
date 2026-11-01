@@ -336,8 +336,18 @@ class StudioTests(unittest.TestCase):
 
     def test_json_protocol(self):
         self.assertEqual(parse('```json\n{"a":1}\n```'), {"a": 1})
+        self.assertEqual(parse('I am building the instrument.\n\n{"a":1}'), {"a": 1})
+        self.assertEqual(parse('I am building the instrument.{"a":1}'), {"a": 1})
+        self.assertEqual(parse('I will test this.\n```json\n{"a":1}\n```'), {"a": 1})
         with self.assertRaises(ValueError):
             parse("[]")
+        for text in (
+            '{"a":1}\n{"b":2}',
+            'I am building.\n{"files":',
+            'I am building.\n{"a":1}\nUnparsed tail',
+        ):
+            with self.assertRaises(ValueError):
+                parse(text)
 
     @unittest.skipUnless(
         shutil.which("node"), "Node is required for executable tool composition"

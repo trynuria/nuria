@@ -59,7 +59,24 @@ def parse(text):
     text = text.strip()
     if text.startswith("```"):
         text = text.split("\n", 1)[1].rsplit("```", 1)[0]
-    value = json.loads(text)
+    try:
+        value = json.loads(text)
+    except json.JSONDecodeError:
+        # Responses may contain a commentary message before the final JSON.
+        # Recover one complete object, never partial code or multiple objects.
+        decoded = []
+        decoder = json.JSONDecoder()
+        position = text.find("{")
+        while position >= 0:
+            try:
+                candidate, end = decoder.raw_decode(text, position)
+                decoded.append((candidate, end))
+                position = text.find("{", end)
+            except json.JSONDecodeError:
+                position = text.find("{", position + 1)
+        if len(decoded) != 1 or text[decoded[0][1] :].strip() not in ("", "```"):
+            raise ValueError("Expected one complete JSON object") from None
+        value = decoded[0][0]
     if type(value) is not dict:
         raise ValueError("Expected a JSON object")
     return value
