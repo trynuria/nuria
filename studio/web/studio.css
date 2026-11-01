@@ -343,6 +343,46 @@ main {
   background: var(--line);
   border: 1px solid var(--line);
 }
+.frontier-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.frontier-button,
+.more-projects {
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 12px 14px;
+  color: var(--muted);
+  font: 10px/1.4 var(--mono);
+}
+.frontier-button[aria-pressed="true"],
+.frontier-button:hover,
+.more-projects:hover {
+  color: var(--green);
+  border-color: var(--green);
+  background: var(--surface);
+}
+.gallery-summary {
+  color: var(--dim);
+  font: 10px/1.7 var(--mono);
+  margin: 0 0 15px;
+}
+.more-projects {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+}
+.project-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  margin-top: 18px;
+  border: 1px solid var(--line);
+}
 .project-list:empty {
   display: none;
 }

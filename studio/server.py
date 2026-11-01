@@ -1,6 +1,7 @@
 """Read-only Studio and sandboxed creations; no inference or write endpoints."""
 
 import argparse
+import gzip
 import mimetypes
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -47,6 +48,10 @@ def handler(public, web):
                         "toolkit-bridge.js",
                         "inputs.json",
                         "manifest.json",
+                        "contract.json",
+                        "preview.jpg",
+                        "mobile.jpg",
+                        "browser.json",
                     )
                 ):
                     return self.send_error(404)
@@ -60,11 +65,16 @@ def handler(public, web):
                 return self.send_error(404)
             try:
                 raw = path.read_bytes()
-                if len(raw) > 2000000:
+                if len(raw) > (16000000 if route == "/api/studio" else 2000000):
                     return self.send_error(503)
             except OSError:
                 return self.send_error(404)
             self.send_response(200)
+            if route == "/api/studio":
+                self.send_header("Vary", "Accept-Encoding")
+                if "gzip" in self.headers.get("Accept-Encoding", "").lower():
+                    raw = gzip.compress(raw, compresslevel=3)
+                    self.send_header("Content-Encoding", "gzip")
             self.send_header(
                 "Content-Type",
                 mimetypes.guess_type(path.name)[0] or "application/octet-stream",

@@ -78,7 +78,8 @@
     "Explicit cross-platform filesystem qualification preserves native discrepancies and original scores; no-promotion is checked for every label assignment of the exposed case",
     "Persistent invention Studio with competing browser prototypes, isolated engine execution, critique, transitive executable tool reuse and an existing-ledger inference bridge; original neural histories and financial authority preserved",
     "Move autonomous Studio inference and the unchanged accounting history onto its dedicated server, retire the former budget writer, remove the default project-count stop, recover from stopped projects and retain bounded tool selection. Enforce original money/request limits and durable replay; extend offline engine checks to thirty simulated seconds. Original neural histories and financial authority remain unchanged.",
-    "Repair a rejected-write restart loop, expose delivered manifests and source snapshots to critique, and execute project-defined engine tests in the existing offline sandbox while preserving retained tool APIs. Original budgets and histories remain unchanged."
+    "Repair a rejected-write restart loop, expose delivered manifests and source snapshots to critique, and execute project-defined engine tests in the existing offline sandbox while preserving retained tool APIs. Original budgets and histories remain unchanged.",
+    "Diverse autonomous invention portfolio with six creative directions, action-based engines, frozen browser journeys, offline desktop/phone Chromium checks and exports, screenshot galleries, bounded local browser recovery and measured tool reuse. Original provider allowance, neural histories and financial authority remain unchanged."
   ],
   "deployment_identity": "Live API reports component commits, deployment time and source hashes; the original circuit retains its historical startup identity",
   "files": [
@@ -108,7 +109,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "5531d6bef01154f682cf1808f0c64500fef3e35c959034b967387cc2ed27b8cf"
+      "published_sha256": "b55842e1cacef92209857e1428d04ced1bfc9a07172e28176aa92a19a891a568"
     },
     {
       "path": "api.py",
@@ -7332,15 +7333,23 @@
     },
     {
       "path": "studio/README.md",
-      "published_sha256": "1099e383db9c53849a3366fdc1c356f71544334023133766bd644e73dd4a8182"
+      "published_sha256": "7fb7ad8e77cee7d0f5ce31453f4d96c935a02f8dea30a4ab26584c7d97a6caa1"
     },
     {
       "path": "studio/__init__.py",
       "published_sha256": "a03681918d50bb563f71ef7c6681c9f1e42d36168ac15c102866cdad4e90b7df"
     },
     {
+      "path": "studio/browser_check.py",
+      "published_sha256": "392f7c3b406e1cd9ac71dd9789bf8f322ccebb08976969062015d3b6ec742b1d"
+    },
+    {
       "path": "studio/check_engine.cjs",
       "published_sha256": "fb8622ab44ae8659097e37170d2f2cc89d9255a0157ee12fc1f31c364b6ab2a3"
+    },
+    {
+      "path": "studio/check_invention.cjs",
+      "published_sha256": "ce524ba42b00b861ce8ba9164a0926e622bf46109b917a77f040765a16573225"
     },
     {
       "path": "studio/cli.py",
@@ -7348,7 +7357,11 @@
     },
     {
       "path": "studio/executor.py",
-      "published_sha256": "5550e9dd3bf554e45312970ac754748cfa16bbdbc3b807b7d89610dddcc3d02c"
+      "published_sha256": "c7b5ce46e7e89bc628607eeee21fddbe97a8671d86283423337c69796211e149"
+    },
+    {
+      "path": "studio/frontiers.py",
+      "published_sha256": "871a423cb08eea4722c6d9a73ca72fc6f56bffc4d35abf38d4cce6443a50092c"
     },
     {
       "path": "studio/gateway.py",
@@ -7359,8 +7372,12 @@
       "published_sha256": "a4d71f218b88ee7a000447edc9588b504fac8060fdcfeedefd3c9c5acf2b81c5"
     },
     {
+      "path": "studio/requirements-browser.txt",
+      "published_sha256": "adeb8976dfd2edb0e44e74da84319fae6d821478330c93e39829516c01d5fe25"
+    },
+    {
       "path": "studio/server.py",
-      "published_sha256": "ffcd5b35d01c04b12d6ec665ced734988fa80d2317fc3e81d717c1340477b808"
+      "published_sha256": "9fc416efe6855b80854be0d826c095259e5db16f181bace1e6b14cf6c6cb2e63"
     },
     {
       "path": "studio/store.py",
@@ -7368,19 +7385,19 @@
     },
     {
       "path": "studio/web/index.html",
-      "published_sha256": "b13ab39ead2911f72733ce6ee13fc07b0ee9600cc843d99570078be30b8da867"
+      "published_sha256": "1b52deab52ddd248512371c43f10267d0328f76dffcc40b5eef9650d699ccc7a"
     },
     {
       "path": "studio/web/studio.css",
-      "published_sha256": "0e5a2a9b253e42567b1bd6631292127b7766d8c0d202352d2cd73550e929e527"
+      "published_sha256": "538d942069b5b4d907adbb2afa9ca70d61dac298b35b21fde5089cbbc8113906"
     },
     {
       "path": "studio/web/studio.js",
-      "published_sha256": "4576d2d105f18d79e733555f8b896414f2b8ffe34da40e8a1b3d25340b36be7b"
+      "published_sha256": "83c29c89b5279bd5afec2db184fa507bd9404a5f93601a11fcba0db007b9fc8b"
     },
     {
       "path": "studio/worker.py",
-      "published_sha256": "7261e1f19594a01d914e79cf21f2d9d2ab21f20d6bd7b50976a2466caf18a039"
+      "published_sha256": "bd2de46374ce0a2d3a71cd63650ba6323f87cc6178b32c65c3b603cf432c5d7b"
     },
     {
       "path": "tests/commerce-view.test.cjs",
@@ -7929,6 +7946,10 @@
     {
       "path": "tests/test_studio.py",
       "published_sha256": "27b6f77af99efa7f2f2ffcc02dc963a68669431bdd4a0fc20d4ad1f2e8e2dc6e"
+    },
+    {
+      "path": "tests/test_studio_frontiers.py",
+      "published_sha256": "dffe7bf8b9a7db573a412749e00c5d66369172ce299dd275cfda069f5963e3a4"
     },
     {
       "path": "tests/test_task_feedback_recovery.py",

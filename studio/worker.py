@@ -14,12 +14,14 @@ from pathlib import Path
 from studio.executor import (
     ALLOWED,
     BRIDGE,
+    browser_check,
     check,
     publish,
     retained_engine,
     write_files,
 )
-from studio.store import Store, atomic, now
+from studio.frontiers import ARTIFACT, next_direction, portfolio, validate_concept
+from studio.store import Store, atomic, digest, now
 
 SYSTEM = """You are Nuria, a persistent experimental inventor. Make memorable, useful,
 interactive creations. Your taste: visible causality, surprising emergent behavior,
@@ -192,16 +194,17 @@ def capture():
 
 
 class Campaign:
-    def __init__(self, root, client, node, max_projects=0):
+    def __init__(self, root, client, node, max_projects=0, browser_runtime=None):
         self.store = Store(root)
         self.root, self.client, self.node = Path(root), client, node
         self.max_projects = max_projects
+        self.browser_runtime = browser_runtime
         self.public = self.root / "public"
         self.public.mkdir(exist_ok=True)
         self.status = "starting"
         self.budget = {}
 
-    def project(self, brief, parent=None, requested=False):
+    def project(self, brief, parent=None, requested=False, direction=None):
         projects = self.store.all("projects")
         if self.max_projects and len(projects) >= self.max_projects and not requested:
             raise ValueError("Campaign project allowance reached")
@@ -221,7 +224,11 @@ class Campaign:
             "skills_created": [],
             "planning_attempt": 0,
             "runtime_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "contract_version": 2 if direction else 1,
         }
+        if direction:
+            project["frontier"] = {k: direction[0][k] for k in ("id", "name")}
+            project["mode"] = direction[1]
         self.store.save(
             project,
             "began",
@@ -259,10 +266,14 @@ class Campaign:
                 "skills": skills,
                 "interests": memory["interests"],
                 "lessons": memory.get("lessons", []),
+                "portfolio": portfolio(projects),
                 "campaign": {
                     "maximum_projects": self.max_projects or None,
                     "mode": "autonomous" if not self.max_projects else "finite",
                     "inference": "budgeted server-local service",
+                    "creative_policy": "diverse portfolio with browser-tested outcomes"
+                    if self.browser_runtime
+                    else "legacy engine exploration",
                     "learning_scope": "Executable tools, project memory and critique; foundation-model weights are unchanged.",
                 },
             },
@@ -292,8 +303,12 @@ class Campaign:
             return {"error": "The model response was not complete JSON"}
 
     def plan(self, p):
+        modern = p.get("contract_version") == 2
         eligible = [
-            s for s in self.store.all("skills") if len(s["code"].encode()) <= 32000
+            s
+            for s in self.store.all("skills")
+            if len(s["code"].encode()) <= 32000
+            and (not modern or s.get("contract_version") == 2)
         ]
         # Retain the whole archive; present a bounded working set that can fit
         # alongside two prototype sources inside the existing provider envelope.
@@ -305,6 +320,15 @@ class Campaign:
             for s in eligible
         ]
         taste = self.store.get("meta", "taste")
+        if modern:
+            taste = {
+                "lessons": self.lessons(p),
+                "direction": p["frontier"],
+                "mode": p["mode"],
+            }
+        request = 'Choose a striking title and exactly two genuinely different concepts. Return {title, concepts:[{id:"a",title,thesis,interaction},{id:"b",title,thesis,interaction}], use_skill: available tool ID or null, reason}. The concepts must each support the engine contract below. Reuse an acquired tool when it helps; choose null and make a new foundation when the next idea needs one. Avoid merely reskinning the last project. Do not claim originality beyond this portfolio.'
+        if modern:
+            request = 'Invent exactly two different approaches to this frontier. Return {title,reason,use_skill:available ID or null,concepts:[{id:"a",title,thesis,interaction,mechanism,payoff,engine_actions:[{type:"...",...}],alternate_actions:[{type:"...",...}],journey:{steps:[{action:"click"|"fill"|"select"|"press",selector:"#specific-control",value:"optional fixture input"}],result:"#visible-result-region",download:"#export-control or omit"}},{id:"b",...}]}. Choose concrete selectors and action schemas now; these become the frozen acceptance journey before implementation. Each concept must give a visitor a useful or delightful payoff in twenty seconds, with a distinct primary mechanic. Surprise through the idea and interaction, not a grandiose title. The first action should change the result; an export should be an actual reusable file. Do not turn tests, provenance, evidence or receipts into the product. Fresh mechanisms are welcome; no obligation to reuse an engine. Keep the scope buildable in four compact files. Explain how these ideas differ from the recent portfolio.'
         messages = [
             {"role": "system", "content": SYSTEM},
             {
@@ -316,31 +340,57 @@ class Campaign:
                         "available_tools": skills,
                         "tool_scope": "Up to eight retained engines that fit the source budget; the full archive remains retained.",
                         "prior_taste": taste,
-                        "request": 'Choose a striking title and exactly two genuinely different concepts. Return {title, concepts:[{id:"a",title,thesis,interaction},{id:"b",title,thesis,interaction}], use_skill: available tool ID or null, reason}. The concepts must each support the engine contract below. Reuse an acquired tool when it helps; choose null and make a new foundation when the next idea needs one. Avoid merely reskinning the last project. Do not claim originality beyond this portfolio.',
-                        "contract": ENGINE,
+                        "planning_feedback": p.get("planning_error"),
+                        "recent_portfolio": [
+                            {
+                                "title": x["title"],
+                                "frontier": x.get("frontier"),
+                                "mechanisms": [
+                                    c.get("mechanism", c.get("thesis", ""))[:350]
+                                    for c in x.get("concepts", [])
+                                ],
+                            }
+                            for x in self.store.all("projects")[-12:]
+                        ],
+                        "request": request,
+                        "contract": ARTIFACT if modern else ENGINE,
                     }
                 ),
             },
         ]
         value = self.ask(p, f"plan-{p['planning_attempt']}", messages, 4000)
-        if (
+        invalid = (
             not isinstance(value.get("concepts"), list)
             or len(value["concepts"]) != 2
             or any(
-                not all(
+                not isinstance(c, dict)
+                or not all(
                     isinstance(c.get(k), str)
                     for k in ("title", "thesis", "interaction")
                 )
                 for c in value.get("concepts", [])
             )
-        ):
+        )
+        reason = (
+            "The proposal did not meet the two-concept format; retained for diagnosis."
+        )
+        if modern and not invalid:
+            try:
+                for concept in value["concepts"]:
+                    validate_concept(concept)
+                if len(json.dumps(value).encode()) > 20000:
+                    raise ValueError("Keep the plan under 20 KB")
+            except (ValueError, TypeError, AttributeError) as error:
+                invalid, reason = True, str(error)
+        if invalid:
             p["planning_attempt"] += 1
+            p["planning_error"] = reason
             if p["planning_attempt"] >= 3:
                 p["status"] = "stopped"
             self.store.save(
                 p,
                 "planning_feedback",
-                "The proposal did not meet the two-concept format; retained for diagnosis.",
+                reason,
             )
             return
         p["title"] = str(value.get("title", "Untitled invention"))[:120]
@@ -364,6 +414,17 @@ class Campaign:
             directory = self.directory(p, c["id"])
             directory.mkdir(parents=True, exist_ok=True)
             atomic(directory / "inputs.json", p["source"])
+            if modern:
+                atomic(
+                    directory / "contract.json",
+                    {
+                        "version": 2,
+                        "engine_actions": c["engine_actions"],
+                        "alternate_actions": c["alternate_actions"],
+                        "journey": c["journey"],
+                        "payoff": c["payoff"],
+                    },
+                )
             if skill:
                 (directory / "toolkit.js").write_text(skill["code"])
                 (directory / "toolkit-bridge.js").write_text(BRIDGE)
@@ -378,9 +439,21 @@ class Campaign:
     def directory(self, p, candidate):
         return self.root / "projects" / p["id"] / candidate
 
+    def lessons(self, project):
+        lessons = (self.store.get("meta", "taste") or {}).get("lessons", [])
+        if project.get("contract_version") == 2:
+            relevant = {
+                p["id"]
+                for p in self.store.all("projects")
+                if p.get("contract_version") == 2
+            }
+            lessons = [x for x in lessons if x.get("project") in relevant]
+        return lessons[-4:]
+
     def build(self, p, c):
         directory = self.directory(p, c["id"])
         concept = next(x for x in p["concepts"] if x["id"] == c["id"])
+        modern = p.get("contract_version") == 2
         files = {
             f.name: f.read_text()
             for f in directory.iterdir()
@@ -392,10 +465,9 @@ class Campaign:
             "source": p["source"],
             "files": files,
             "latest_host_check": c.get("checks"),
+            "latest_browser_check": c.get("browser"),
             "prior_lesson": c.get("note"),
-            "recent_lessons": (self.store.get("meta", "taste") or {}).get(
-                "lessons", []
-            )[-4:],
+            "recent_lessons": self.lessons(p),
             "remaining_steps": 6 - c["attempt"],
             "request": 'Build or improve this concept. The workspace persists. Return {action:"write"|"test"|"finish", files:{filename:complete replacement text only for changed files}, note:short rationale}. Write the full usable creation first. Host checks run after each write. Fix concrete failures before calling it finished. You may refine aesthetics after checks pass. A finish action is only accepted after the current files pass.',
         }
@@ -403,7 +475,10 @@ class Campaign:
             p,
             f"{c['id']}-build-{c['attempt']}",
             [
-                {"role": "system", "content": SYSTEM + "\n" + ENGINE},
+                {
+                    "role": "system",
+                    "content": SYSTEM + "\n" + (ARTIFACT if modern else ENGINE),
+                },
                 {"role": "user", "content": json.dumps(context)},
             ],
             10000,
@@ -423,7 +498,26 @@ class Campaign:
                     directory, {k: v for k, v in changes.items() if k in ALLOWED}
                 )
                 c["revision"] += 1
-            c["checks"] = check(directory, self.node)
+            source_identity = digest(
+                {
+                    f.name: hashlib.sha256(f.read_bytes()).hexdigest()
+                    for f in directory.iterdir()
+                    if f.is_file()
+                }
+            )
+            if not modern or c.get("checked_source") != source_identity:
+                c["checks"] = check(directory, self.node)
+                if modern and c["checks"]["passed"]:
+                    c["browser"] = browser_check(directory, self.browser_runtime)
+                    c["checks"]["engine_passed"] = True
+                    c["checks"]["browser_passed"] = c["browser"]["passed"]
+                    c["checks"]["passed"] = c["browser"]["passed"]
+                    c["checks"]["details"].append(
+                        "Desktop and phone browser journey passed"
+                        if c["browser"]["passed"]
+                        else "Browser journey failed; repair the actual browser feedback"
+                    )
+                c["checked_source"] = source_identity
             c["note"] = str(
                 value.get("note", value.get("error", "Execution feedback received."))
             )[:1500]
@@ -437,14 +531,21 @@ class Campaign:
         except ValueError as error:
             c["checks"] = {"passed": False, "details": [str(error)]}
             c["note"] = str(error)[:1500]
-        if c["checks"]["passed"] and (
-            value.get("action") == "finish" or c["attempt"] >= 3
+        if c.get("browser", {}).get("unavailable"):
+            c["status"] = "failed"
+            c["note"] += (
+                " Browser unavailable after two local attempts. Preserved the candidate without spending model calls on an infrastructure failure."
+            )
+        elif c["checks"]["passed"] and (
+            value.get("action") == "finish" or c["attempt"] >= (2 if modern else 3)
         ):
             c["status"] = "tested"
             c["manifest"] = publish(
                 directory, self.public / "creations" / p["id"] / c["id"]
             )
             c["artifact_url"] = f"/creations/{p['id']}/{c['id']}/index.html"
+            if modern:
+                c["preview_url"] = f"/creations/{p['id']}/{c['id']}/preview.jpg"
         elif c["attempt"] >= 6:
             c["status"] = "failed"
         self.store.save(p, "prototype", f"{c['title']}: {c['note']}")
@@ -471,17 +572,21 @@ class Campaign:
                     "checks": c["checks"],
                     "delivered_files": c["manifest"],
                     "host_evidence": "These checks ran on this workspace before publication. engine_sha256 binds the checked engine to delivered_files. The manifest includes host-supplied dependencies; a file absent from the code excerpt is not absent from the artifact.",
+                    "browser": c.get("browser"),
                     "code": {
-                        name: (d / name).read_text()
+                        name: (d / name).read_text()[
+                            : 12000 if name.endswith(".js") else 5000
+                        ]
                         for name in ("index.html", "style.css", "app.js", "engine.js")
                     },
+                    "excerpt_notice": "Code excerpts may be shortened; delivered_files is the complete package manifest. Do not infer missing dependencies from omitted excerpts.",
                 }
             )
         messages = [
             {
                 "role": "system",
                 "content": SYSTEM
-                + "\nYou are now the critic. Inspect code and host results; no browser observation is supplied. Admit visual uncertainty. Prefer meaningful interventions and understandable behavior. Do not invent user preference or scientific findings.",
+                + "\nYou are now the critic. Inspect code and actual host/browser evidence. Browser reports contain executed interactions and DOM observations, not human visual judgment; no screenshot vision is supplied. Prefer a memorable useful payoff, clarity and meaningful user control. Do not confuse a simulation's test passing with broad utility or intelligence. Do not invent user preference or scientific findings.",
             },
             {
                 "role": "user",
@@ -490,7 +595,8 @@ class Campaign:
                         "brief": p["brief"],
                         "source_snapshot": p["source"],
                         "candidates": evidence,
-                        "request": "Select one candidate. Return {selected: candidate ID, reason, strengths:[strings], limitations:[strings], lesson, tool_name, tool_description, next_brief, interests:[three themes]}. The next brief should address a concrete weakness or explore a different kind of interactive invention. Reuse or combine acquired engines where useful; a new foundation is allowed. It must remain an offline browser artifact. Be critical and specific; explain actual tradeoffs and use the longer-horizon results.",
+                        "frontier": p.get("frontier"),
+                        "request": "Select one candidate. Return {selected: candidate ID, reason, strengths:[strings], limitations:[strings], lesson, tool_name, tool_description, next_brief, interests:[three themes], novelty:number 0..5, usefulness:number 0..5, craft:number 0..5}. Scores are your judgments, not measured facts. Reward a different mechanism and useful or delightful visitor payoff. Cite actual browser action outcomes and engine measurements. Explain the weakest behavior and one specific improvement. The next brief is a suggestion for a later improvement slot, not a command to keep refining this one idea indefinitely. Avoid turning internal audits into the next product. Be critical, concise and specific.",
                     }
                 ),
             },
@@ -511,6 +617,17 @@ class Campaign:
             result,
         )
         winner = next(c for c in valid if c["id"] == p["selected"])
+        for key in ("novelty", "usefulness", "craft"):
+            try:
+                result[key] = max(0, min(5, float(result.get(key, 0))))
+            except (ValueError, TypeError):
+                result[key] = 0
+        result["portfolio_score"] = round(
+            0.35 * result["novelty"]
+            + 0.4 * result["usefulness"]
+            + 0.25 * result["craft"],
+            2,
+        )
         code = retained_engine(self.directory(p, p["selected"]))
         sid = "tool-" + hashlib.sha256(code.encode()).hexdigest()[:16]
         existing = self.store.get("skills", sid)
@@ -529,6 +646,8 @@ class Campaign:
                 "checks": winner["checks"],
                 "reuses": 0,
                 "parent_tools": [s["id"] for s in p["skills_used"]],
+                "contract_version": p.get("contract_version", 1),
+                "frontier": p.get("frontier"),
             }
             self.store.put("skills", sid, skill)
             p["skills_created"] = [{"id": sid, "name": skill["name"]}]
@@ -582,8 +701,18 @@ class Campaign:
         if not active:
             queue = self.store.get("meta", "queue") or []
             if queue:
-                active = self.project(queue[0]["brief"], requested=True)
+                direction = next_direction(projects) if self.browser_runtime else None
+                active = self.project(
+                    queue[0]["brief"], requested=True, direction=direction
+                )
                 self.store.put("meta", "queue", queue[1:])
+            elif self.browser_runtime and (
+                not self.max_projects or len(projects) < self.max_projects
+            ):
+                direction = next_direction(projects)
+                active = self.project(
+                    direction[2], parent=direction[3], direction=direction
+                )
             elif not projects:
                 active = self.project(
                     "Invent a surprising, beautiful interactive experience that reveals an interesting mechanism inspired by Nuria’s real neural activity. Choose the concept yourself. Make cause and effect legible, let visitors meaningfully intervene, and create an engine that can become a tool for another invention. Go beyond a dashboard or a decorative particle background."
@@ -641,6 +770,10 @@ def main():
     parser.add_argument("--token-file", required=True)
     parser.add_argument("--node", required=True)
     parser.add_argument(
+        "--browser-runtime",
+        help="Enable diverse invention directions and offline Chromium acceptance",
+    )
+    parser.add_argument(
         "--max-projects",
         type=int,
         default=0,
@@ -655,7 +788,11 @@ def main():
     lock = open(Path(args.root) / "worker.lock", "a")
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     campaign = Campaign(
-        args.root, Client(args.gateway, args.token_file), args.node, args.max_projects
+        args.root,
+        Client(args.gateway, args.token_file),
+        args.node,
+        args.max_projects,
+        args.browser_runtime,
     )
     while True:
         try:

@@ -95,7 +95,17 @@ def check(directory, node):
     for root in ("/usr", "/lib", "/lib64"):
         if Path(root).exists():
             command += ["--ro-bind", root, root]
-    checker = Path(__file__).with_name("check_engine.cjs").resolve()
+    contract_file = directory / "contract.json"
+    version = (
+        json.loads(contract_file.read_text()).get("version")
+        if contract_file.exists()
+        else 1
+    )
+    checker = (
+        Path(__file__)
+        .with_name("check_invention.cjs" if version == 2 else "check_engine.cjs")
+        .resolve()
+    )
     command += [
         "--dir",
         "/runtime",
@@ -143,15 +153,137 @@ def check(directory, node):
         }
 
 
+def browser_limits():
+    resource.setrlimit(resource.RLIMIT_CPU, (25, 25))
+    resource.setrlimit(resource.RLIMIT_FSIZE, (4 * 1024 * 1024,) * 2)
+    resource.setrlimit(resource.RLIMIT_NOFILE, (512, 512))
+
+
+def browser_check(directory, runtime):
+    """Retry a crashed browser once locally, without another inference request."""
+    retries = []
+    for attempt in range(2):
+        value = _browser_check_once(directory, runtime)
+        errors = value.get("errors", [])
+        unavailable = (
+            not value.get("passed")
+            and bool(errors)
+            and all(
+                "browser has been closed" in error
+                or "Browser could not start" in error
+                or "BrowserType.launch" in error
+                for error in errors
+            )
+        )
+        value["unavailable"] = unavailable
+        value["attempts"] = attempt + 1
+        value["retry_errors"] = retries.copy()
+        if not unavailable or attempt == 1:
+            break
+        retries.extend(errors)
+    (Path(directory) / "browser-proof" / "browser.json").write_text(
+        json.dumps(value, indent=2) + "\n"
+    )
+    return value
+
+
+def _browser_check_once(directory, runtime):
+    """Real Chromium interaction with no host networking or private mounts."""
+    directory, runtime = Path(directory).resolve(), Path(runtime).resolve()
+    output = directory / "browser-proof"
+    output.mkdir(exist_ok=True)
+    sandbox = shutil.which("bwrap")
+    if not sandbox or not (runtime / "bin/python").is_file():
+        raise RuntimeError(
+            "The offline browser runtime must be provisioned before work"
+        )
+    command = [
+        sandbox,
+        "--unshare-all",
+        "--die-with-parent",
+        "--new-session",
+        "--clearenv",
+    ]
+    for root in ("/usr", "/lib", "/lib64", "/etc/fonts", "/etc/ld.so.cache"):
+        if Path(root).exists():
+            command += ["--ro-bind", root, root]
+    command += [
+        "--ro-bind",
+        str(runtime),
+        str(runtime),
+        "--ro-bind",
+        str(directory),
+        "/workspace",
+        "--bind",
+        str(output),
+        "/results",
+        "--ro-bind",
+        str(Path(__file__).with_name("browser_check.py").resolve()),
+        "/browser_check.py",
+        "--tmpfs",
+        "/tmp",
+        "--dir",
+        "/tmp/home",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--setenv",
+        "HOME",
+        "/tmp/home",
+        "--setenv",
+        "PLAYWRIGHT_BROWSERS_PATH",
+        str(runtime / "browsers"),
+        "--setenv",
+        "PATH",
+        "/usr/bin:/bin",
+        "--chdir",
+        "/workspace",
+        str(runtime / "bin/python"),
+        "/browser_check.py",
+    ]
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            timeout=40,
+            preexec_fn=browser_limits,
+            env={"PATH": "/usr/bin:/bin"},
+        )
+        lines = result.stdout.strip().splitlines()
+        value = json.loads(lines[-1]) if lines else None
+        if type(value) is not dict or type(value.get("passed")) is not bool:
+            raise ValueError("Browser could not start: " + result.stderr[-800:])
+        value["passed"] = value["passed"] and result.returncode == 0
+        value["source_sha256"] = {
+            p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in directory.iterdir()
+            if p.is_file() and p.name in ALLOWED
+        }
+        return value
+    except (ValueError, subprocess.TimeoutExpired) as error:
+        return {"passed": False, "errors": [str(error)[:1000]], "views": []}
+
+
 def publish(directory, destination):
     directory, destination = Path(directory), Path(destination)
     destination.mkdir(parents=True, exist_ok=True)
     for folder in (destination, destination.parent, destination.parent.parent):
         folder.chmod(0o755)
     manifest = {}
-    for name in sorted(ALLOWED | {"toolkit.js", "toolkit-bridge.js", "inputs.json"}):
+    for name in sorted(
+        ALLOWED | {"toolkit.js", "toolkit-bridge.js", "inputs.json", "contract.json"}
+    ):
         path = directory / name
         if path.is_file() and not path.is_symlink():
+            data = path.read_bytes()
+            (destination / name).write_bytes(data)
+            (destination / name).chmod(0o644)
+            manifest[name] = hashlib.sha256(data).hexdigest()
+    for name in ("preview.jpg", "mobile.jpg", "browser.json"):
+        path = directory / "browser-proof" / name
+        if path.is_file():
             data = path.read_bytes()
             (destination / name).write_bytes(data)
             (destination / name).chmod(0o644)

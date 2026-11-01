@@ -9,6 +9,8 @@
     frameUrl: null,
     fetching: false,
     signatures: {},
+    frontier: "all",
+    galleryLimit: 6,
   };
   const finished = new Set([
     "complete",
@@ -103,36 +105,94 @@
       });
   }
   function renderProjects() {
-    const projects = array(state.data?.projects);
+    const all = array(state.data?.projects).slice().reverse();
+    const matching = all.filter(
+      (project) =>
+        state.frontier === "all" ||
+        project.frontier?.id === state.frontier ||
+        (state.frontier === "archive" && !project.frontier),
+    );
+    const projects = matching.slice(0, state.galleryLimit);
     const list = byId("project-list");
+    const directions = [
+      { id: "all", name: "All work" },
+      ...array(state.data?.portfolio),
+      { id: "archive", name: "First experiments" },
+    ];
+    if (changed("frontiers", [directions, state.frontier])) {
+      const focused = document.activeElement?.dataset?.frontier;
+      byId("frontier-list").replaceChildren(
+        ...directions.map((direction) => {
+          const button = element("button", "frontier-button", direction.name);
+          button.type = "button";
+          button.dataset.frontier = direction.id;
+          button.setAttribute("aria-pressed", String(state.frontier === direction.id));
+          button.addEventListener("click", () => {
+            state.frontier = direction.id;
+            state.galleryLimit = 6;
+            renderProjects();
+          });
+          return button;
+        }),
+      );
+      if (focused)
+        [...byId("frontier-list").children]
+          .find((button) => button.dataset.frontier === focused)
+          ?.focus({ preventScroll: true });
+    }
+    byId("gallery-summary").textContent =
+      `${matching.length} projects · newest first · ${all.filter((p) => finished.has(p.status) && p.contract_version === 2).length} browser-tested selections across ${array(state.data?.portfolio).filter((p) => p.completed > 0).length} directions`;
+    byId("more-projects").hidden = projects.length >= matching.length;
     const summary = projects.map((project) => ({
       id: project.id,
       title: project.title,
       brief: project.brief,
       status: project.status,
       created_at: project.created_at,
+      selected: project.selected,
+      candidates: project.candidates?.map((c) => [c.id, c.title, c.preview_url]),
     }));
     if (!changed("project-list", [summary, state.project])) return;
     const focused = document.activeElement?.dataset?.project;
     list.replaceChildren();
-    projects.forEach((project, index) => {
+    projects.forEach((project) => {
+      const winner = array(project.candidates).find((c) => c.id === project.selected);
+      const concept = array(project.concepts).find((c) => c.id === winner?.id);
       const button = element("button", "project-card");
       button.type = "button";
       button.dataset.project = project.id;
       button.setAttribute("aria-pressed", String(project.id === state.project));
       const top = element("div", "project-card-top");
       top.append(
-        element("span", "", `PROJECT ${String(index + 1).padStart(2, "0")}`),
+        element(
+          "span",
+          "",
+          project.frontier?.name || `PROJECT ${project.id.replace("invention-", "")}`,
+        ),
         element(
           "span",
           `state-label${finished.has(project.status) ? " finished" : ""}`,
           label(project.status),
         ),
       );
+      button.append(top);
+      const preview = artifactUrl(winner?.preview_url);
+      if (preview) {
+        const img = element("img", "project-preview");
+        img.src = preview;
+        img.alt = "";
+        img.loading = "lazy";
+        img.width = 1280;
+        img.height = 800;
+        button.append(img);
+      }
       button.append(
-        top,
-        element("h3", "", text(project.title, "Untitled project")),
-        element("p", "", text(project.brief).split(/(?<=[.!?])\s/)[0]),
+        element("h3", "", text(winner?.title, text(project.title, "Untitled project"))),
+        element(
+          "p",
+          "",
+          text(concept?.payoff, text(project.brief).split(/(?<=[.!?])\s/)[0]),
+        ),
         element("span", "project-card-arrow", "↗"),
       );
       button.addEventListener("click", () => selectProject(project.id, true));
@@ -203,7 +263,9 @@
       : "Waiting for a first prototype";
     byId("candidate-checks").textContent = checked
       ? checks.passed
-        ? "Execution checks passed"
+        ? checks.browser_passed
+          ? "Desktop + phone interactions passed"
+          : "Engine checks passed"
         : "Execution checks need attention"
       : candidate
         ? "Checks pending"
@@ -233,7 +295,7 @@
       return;
     }
     byId("project-kicker").textContent =
-      `SELECTED PROJECT / ${label(project.status).toUpperCase()}`;
+      `${project.frontier?.name || "SELECTED PROJECT"} / ${project.mode === "improve" ? "IMPROVEMENT / " : ""}${label(project.status).toUpperCase()}`;
     byId("project-title").textContent = text(project.title, "Untitled project");
     byId("project-brief").textContent = text(project.brief).split(/(?<=[.!?])\s/)[0];
     byId("full-project-brief").textContent = text(project.brief);
@@ -444,7 +506,11 @@
         }
         state.project =
           data.projects.find((project) => project.id === hash)?.id ??
-          data.projects[0]?.id ??
+          data.projects
+            .slice()
+            .reverse()
+            .find((project) => finished.has(project.status))?.id ??
+          data.projects.at(-1)?.id ??
           null;
         state.candidate = null;
       }
@@ -474,6 +540,10 @@
     }
   }
   byId("retry").addEventListener("click", refresh);
+  byId("more-projects").addEventListener("click", () => {
+    state.galleryLimit += 6;
+    renderProjects();
+  });
   byId("restart").addEventListener("click", () => {
     if (state.frameUrl) {
       const iframe = byId("artifact");

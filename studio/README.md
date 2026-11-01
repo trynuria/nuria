@@ -1,30 +1,33 @@
 # Nuria Studio
 
-Studio turns a broad creative brief into competing executable browser worlds.
-It keeps each prototype's files, supplies actual execution feedback, records an
-explicit critique and retains the selected simulation engine as a tool. Later
-projects can wrap that tool; the independent engine checker records actual calls
-into it. The critic's next brief and lessons shape the subsequent project.
+Studio invents interactive tools, games, worlds, stories and instruments. It
+proposes two mechanisms, builds them, executes their logic and browser journeys,
+critiques the delivered results, and retains useful engines for later work.
+A portfolio scheduler explores the least-visited creative direction; every fourth
+project improves a completed work. One critic's next brief cannot take over every
+subsequent project. Old prototypes and failures remain in the archive.
 
 The public Studio is read-only. Visitors can explore published variants, change
 their controls, inspect the decision and follow tool ancestry. Embedded creations
 run in an opaque-origin sandbox with no network, forms or parent access; local
-downloads let an invention export its own work. They are
-simulations inspired by dated public neural measurements, not new biological or
-consciousness findings. All variants and failures remain in the project history.
+downloads let an invention export its own work. Neural snapshots are optional
+inspiration, not a required theme. These creations do not establish biological
+or consciousness findings. All variants and failures remain in the project history.
 
-The first series is available in the [live notebook](https://nuria.network/studio/):
-[What a Signal Leaves Behind](https://nuria.network/studio/#invention-001),
-[The Loom That Misses a Stitch](https://nuria.network/studio/#invention-002), and
-[The Echo Customs House](https://nuria.network/studio/#invention-003). The public
-[/api/studio](https://nuria.network/api/studio) projection provides current stages,
-critiques, engine results and ancestry. Each creation directory exposes its four
-source files, enrolled inputs, retained toolkit and SHA-256 manifest. Operator
-browser refinements are recorded separately from the model's build steps.
+Explore the [live Studio](https://nuria.network/studio/), including
+[One Cut, Many Places](https://nuria.network/studio/#invention-009),
+[One More Bite](https://nuria.network/studio/#invention-010),
+[Pack Together](https://nuria.network/studio/#invention-011),
+[Who Said It](https://nuria.network/studio/#invention-014), and
+[Turn Phrase](https://nuria.network/studio/#invention-015).
+The gallery shows real browser captures and supports browsing by direction.
+The public [/api/studio](https://nuria.network/api/studio) projection records stages,
+critiques, engine results and ancestry. Creation directories expose source,
+contracts, browser reports, desktop/phone images and SHA-256 manifests.
 
 ## Runtime
 
-`python -m studio.worker --root STATE --token-file TOKEN --node NODE` runs an
+`python -m studio.worker --root STATE --token-file TOKEN --node NODE --browser-runtime BROWSER_VENV` runs an
 autonomous campaign within the existing budget. There is no default project-count
 stop. Use `--max-projects N` for an explicitly finite trial. A single writer lock prevents
 competing workers. SQLite retains stages and exact model request IDs. The private
@@ -43,13 +46,16 @@ writer first and preserving the entire ledger and request journal, including
 their original limits, charges and request identities.
 
 Projects persist through restarts. Each candidate has up to six build steps,
-with up to 10,000 output tokens per build step, all inside the shared dollar
-ceiling and original shared request limit. After selection, the critic's next
-brief starts another project. A failed project instead supplies its failure
-evidence to a new attempt. The planner sees a bounded working set of reusable
-tools while the full archive remains retained; it can also choose a fresh
-foundation. Every third successor is prompted to challenge the portfolio's
-habits. Completed projects never regenerate on a refresh.
+with up to 10,000 output tokens per step, within the same dollar and request caps.
+The six directions are visual instruments, games, useful tools, explorable
+worlds, participatory stories, and rhythm/motion. Exploration slots seek different
+mechanisms; improvement slots use the critic's concrete feedback. A failed
+candidate stays unpublished and does not end the campaign. The planner sees a
+bounded working set of compatible reusable tools; the full archive is retained.
+Unchanged source reuses its check results. A crashed browser is retried once
+locally, then the candidate is retained as unavailable without buying model
+retries for that infrastructure failure. Completed work never regenerates on a
+page refresh.
 
 The gateway checks the full next-call reservation before spending. Exhausted
 money, the original request cap, an unresolved provider charge or an operator
@@ -64,34 +70,34 @@ Manual briefs use the same allowance and do not create a new budget.
 
 ## Execution and evidence
 
-The four editable artifact files are `index.html`, `style.css`, `app.js` and
-`engine.js`. The worker alone supplies `inputs.json` and any retained toolkit.
-Path traversal and changes to those supplied files are rejected. The engine
-exports `create`, `step` and `metrics`; the host checks deterministic replay,
-finite outputs, evolution on several seeds, causal effects of controls and a
-30-second simulation with bounded state.
-When an engine exposes `runTests()`, the same sandbox also executes those
-project-defined logic tests with a four-second limit. The returned per-test
-results and measured outputs feed subsequent builds and critique; a reported
-failure blocks promotion. These are model-authored tests, not independent proof
-of the invention's intended behavior. Browser-only tests still require browser
-inspection. The critic receives the delivered file manifest and enrolled source
-snapshot so that omitted code excerpts are not mistaken for missing files.
-Tests run in an offline bubblewrap namespace with a read-only candidate mount,
-small resource bounds, and no credentials or private host files.
+The four editable files are `index.html`, `style.css`, `app.js` and `engine.js`.
+The host supplies immutable `inputs.json`, `contract.json` and any retained toolkit.
+Path traversal and writes to these dependencies are rejected. The current engine
+contract is `create(seed, source)`, `act(state, action)`, `metrics(state)` and
+`runTests()`. Domain-specific actions replace mandatory animation and generic
+sliders. The host freezes actions and a concrete browser journey before building.
+It checks deterministic replay on three seeds, distinct intervention outcomes,
+bounded serialized state, finite measurements and at least three named logic
+tests. Project tests are model-authored; execution is independent, but the tests
+are not independent proof of correctness. Legacy engines keep their original
+`create/step/metrics` contract and history.
 
-These checks establish a limited executable contract. They do not establish
-artistic quality, scientific novelty, general correctness, or better intelligence
-than a simpler agent. The model critic sees code and engine results; its visual
-judgment is provisional until browser inspection or human feedback. Learning
-here means project experience, retained executable tools and preferences; the
-foundation model's weights are unchanged.
+[Playwright](https://playwright.dev/python/docs/intro) runs Chromium in a separate
+offline bubblewrap namespace. It opens each creation at 1280×800 and 390×844,
+performs the declared clicks/edits, observes a changed result, checks overflow
+and script errors, and verifies any declared download. Screenshots and DOM
+observations feed the archive; the critic receives DOM reports, manifests and
+bounded code excerpts. It does **not** receive screenshot vision. These checks
+exercise declared journeys, not every possible input or a human usability study.
+Generated code sees no host network, credentials or private files. Only candidate
+files, the installed browser/runtime and a bounded result directory are mounted.
 
-The implementation reuses the existing Nuria transport and accounting, using a
-small candidate-and-selection loop inspired by [AlphaEvolve](https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/)
-and executable skill accumulation described by [Voyager](https://voyager.minedojo.org/).
-It is not an implementation of either research system. A larger evolutionary
-framework can replace the small search loop if a real project needs that scale.
+Novelty, usefulness and craft scores are model judgments, used to choose among
+completed work. They are not objective benchmarks. The small portfolio scheduler
+adopts the idea of keeping different kinds of promising solutions from
+[quality-diversity search](https://arxiv.org/abs/1504.04909); it is not MAP-Elites or
+an implementation of a research system. Learning here means retained executable
+tools, project experience and critique. Foundation-model weights are unchanged.
 
 ## Deployment
 
@@ -108,7 +114,14 @@ root-owned launcher executable accessible only to the Studio worker; do not turn
 off the system-wide restriction. The worker must pass an isolated execution
 self-check before starting paid work. The serving process is a separate user.
 
-Run `python -m unittest tests.test_studio -v` and `node --check studio/web/studio.js`.
+Provision a dedicated virtual environment with `studio/requirements-browser.txt`
+and run `python -m playwright install --with-deps chromium --only-shell`, using
+`PLAYWRIGHT_BROWSERS_PATH=BROWSER_VENV/browsers`. Browser checks need a private
+`/proc` mount; qualify the complete worker unit on the intended host before paid
+work. Keep the sandbox launcher and browser installation read-only to the worker.
+The runtime uses outer bubblewrap isolation instead of Chromium's inner sandbox.
+
+Run `python -m unittest tests.test_studio tests.test_studio_frontiers -v` and `node --check studio/web/studio.js`.
 The real Linux namespace check is additionally required on the intended host.
 Both the worker and inference service must be enabled at boot. Keep the gateway
 private; expose only the read-only public projection through the website proxy.
