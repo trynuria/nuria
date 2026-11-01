@@ -79,6 +79,8 @@ Use `python -m studio.cli --root STATE status`, `pause`, `resume`,
 `submit "creative brief"` or `feedback PROJECT "specific feedback"` through
 existing private operator access. Pause applies after the current bounded step.
 Manual briefs use the same allowance and do not create a new budget.
+The critic also receives the two latest operator observations on that project,
+so a selection can account for concrete user feedback alongside execution evidence.
 
 `focus "a sustained creative brief" --frontier world` switches subsequent automatic
 work to one continuing invention. Each round develops two competing improvements

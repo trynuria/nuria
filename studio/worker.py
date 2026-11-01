@@ -666,6 +666,11 @@ class Campaign:
                 "content": json.dumps(
                     {
                         "brief": p["brief"],
+                        "operator_feedback": [
+                            event["summary"]
+                            for event in p.get("events", [])
+                            if event.get("kind") == "operator_feedback"
+                        ][-2:],
                         "source_snapshot": p["source"],
                         "candidates": evidence,
                         "frontier": p.get("frontier"),
