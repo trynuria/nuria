@@ -2,16 +2,21 @@
 
 import json
 import shutil
+import sqlite3
 import subprocess
 import tempfile
 import threading
 import unittest
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from http.server import ThreadingHTTPServer
 from pathlib import Path
+from unittest.mock import patch
 
 from studio.executor import retained_engine, write_files
+from studio.gateway import create_server
+from studio.provider import load_reasoner
 from studio.server import handler
 from studio.store import Store
 from studio.worker import Campaign, parse
@@ -150,6 +155,184 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(campaign.store.all("projects"), [])
         self.assertEqual(client.calls, 0)
         campaign.store.db.close()
+
+    def test_autonomous_campaign_continues_after_three_and_after_failure(self):
+        campaign = Campaign(self.root, Client(), "/usr/bin/node")
+        self.addCleanup(campaign.store.db.close)
+        with (
+            patch("studio.worker.capture", return_value={}),
+            patch.object(campaign, "plan"),
+        ):
+            for _ in range(3):
+                p = campaign.project("original brief")
+                p.update(
+                    status="complete",
+                    review={"next_brief": "Make a playable instrument"},
+                )
+                campaign.store.save(p)
+            self.assertTrue(campaign.tick())
+            fourth = campaign.store.all("projects")[-1]
+            self.assertEqual(fourth["id"], "invention-004")
+            self.assertEqual(fourth["parent"], "invention-003")
+            self.assertIn("Make a playable instrument", fourth["brief"])
+            fourth.update(
+                status="stopped",
+                title="A failed mechanism",
+                candidates=[
+                    {"checks": {"passed": False, "details": ["State is unbounded"]}}
+                ],
+            )
+            campaign.store.save(fourth)
+            self.assertTrue(campaign.tick())
+            fifth = campaign.store.all("projects")[-1]
+            self.assertEqual(fifth["id"], "invention-005")
+            self.assertIn("State is unbounded", fifth["brief"])
+            self.assertEqual(fifth["parent"], fourth["id"])
+
+    def test_explicit_project_and_original_request_caps_still_stop(self):
+        client = Client()
+        campaign = Campaign(self.root, client, "/usr/bin/node", max_projects=1)
+        self.addCleanup(campaign.store.db.close)
+        with patch("studio.worker.capture", return_value={}):
+            p = campaign.project("finite trial")
+        p["status"] = "complete"
+        campaign.store.save(p)
+        self.assertFalse(campaign.tick())
+        self.assertEqual(campaign.status, "campaign_complete")
+        campaign.max_projects = 0
+        client.budget = lambda: {
+            "remaining_micro_usd": 1000000,
+            "blocked": False,
+            "remaining_requests": 0,
+        }
+        self.assertFalse(campaign.tick())
+        self.assertEqual(campaign.status, "budget_paused")
+        self.assertEqual(len(campaign.store.all("projects")), 1)
+        self.assertEqual(client.calls, 0)
+
+    def test_missing_authoritative_ledger_cannot_be_recreated(self):
+        config = {
+            "key_file": str(self.root / "provider.key"),
+            "budget_file": str(self.root / "missing.sqlite"),
+            "max_cost_micro_usd": 20000000,
+            "max_requests": 800,
+            "model": "test-model",
+            "reasoning_effort": "low",
+            "input_micro_usd_per_million_tokens": 2000000,
+            "output_micro_usd_per_million_tokens": 10000000,
+        }
+        path = self.root / "config.json"
+        path.write_text(json.dumps(config))
+        path.chmod(0o600)
+        with self.assertRaises(FileNotFoundError):
+            load_reasoner(path, require_existing_budget=True)
+        self.assertFalse(Path(config["budget_file"]).exists())
+
+    def test_gateway_replay_preflight_and_original_caps(self):
+        class Budget:
+            value = {
+                "accounted_cost_and_liability_micro_usd": 5000000,
+                "remaining_headroom_micro_usd": 15000000,
+                "maximum_requests": 800,
+                "requests": 386,
+                "blocked": False,
+            }
+
+            def snapshot(self):
+                return dict(self.value)
+
+        class Reasoner:
+            budget = Budget()
+            model = "test-model"
+            max_input_bytes = 120000
+            input_rate, output_rate = 2000000, 10000000
+            calls = 0
+
+            def complete(self, messages, *, max_tokens):
+                self.calls += 1
+                self.budget.value["requests"] += 1
+                return {"content": "{}", "usage": {"output_tokens": 1}}
+
+        token, journal = self.root / "token", self.root / "gateway.sqlite"
+        token.write_text("fixture-token")
+        reasoner = Reasoner()
+        with patch("studio.gateway.load_reasoner", return_value=reasoner):
+            with self.assertRaises(sqlite3.OperationalError):
+                create_server(
+                    "unused", token, journal, 0, 14000000, require_existing_state=True
+                )
+            self.assertFalse(journal.exists())
+            server = create_server("unused", token, journal, 0, 14000000)
+
+            def request(payload=None):
+                url = f"http://127.0.0.1:{server.server_port}"
+                req = urllib.request.Request(
+                    url + ("/complete" if payload else "/budget"),
+                    data=json.dumps(payload).encode() if payload else None,
+                    headers={"Authorization": "Bearer fixture-token"},
+                )
+
+                def send():
+                    try:
+                        with urllib.request.urlopen(req, timeout=3) as response:
+                            return response.status, json.load(response)
+                    except urllib.error.HTTPError as error:
+                        code = error.code
+                        error.close()
+                        return code, None
+
+                with ThreadPoolExecutor(max_workers=1) as pool:
+                    result = pool.submit(send)
+                    server.handle_request()
+                    return result.result()
+
+            payload = {
+                "id": "first",
+                "messages": [{"role": "user", "content": "Make something"}],
+                "max_tokens": 1000,
+            }
+            try:
+                self.assertEqual(request()[1]["remaining_requests"], 414)
+                self.assertEqual(
+                    request(
+                        {**payload, "messages": [{"role": "tool", "content": "bad"}]}
+                    )[0],
+                    400,
+                )
+                large = {
+                    **payload,
+                    "messages": [{"role": "user", "content": "x" * 118000}],
+                }
+                self.assertEqual(request(large)[0], 413)
+                self.assertEqual(
+                    server.journal.execute("SELECT COUNT(*) FROM calls").fetchone()[0],
+                    0,
+                )
+                first = request(payload)
+                self.assertEqual(first[0], 200)
+            finally:
+                server.server_close()
+                server.journal.close()
+            server = create_server(
+                "unused", token, journal, 0, 14000000, require_existing_state=True
+            )
+            try:
+                self.assertEqual(request(payload), first)
+                self.assertEqual(reasoner.calls, 1)
+                reasoner.budget.value["requests"] = 800
+                self.assertEqual(request({**payload, "id": "second"})[0], 402)
+                reasoner.budget.value.update(
+                    requests=387, remaining_headroom_micro_usd=1
+                )
+                self.assertEqual(request({**payload, "id": "third"})[0], 402)
+                reasoner.budget.value.update(
+                    remaining_headroom_micro_usd=15000000, blocked=True
+                )
+                self.assertEqual(request({**payload, "id": "fourth"})[0], 409)
+                self.assertEqual(reasoner.calls, 1)
+            finally:
+                server.server_close()
+                server.journal.close()
 
     def test_json_protocol(self):
         self.assertEqual(parse('```json\n{"a":1}\n```'), {"a": 1})

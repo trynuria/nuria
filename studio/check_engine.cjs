@@ -39,14 +39,15 @@ function load() {
   context.source = source;
   return context;
 }
-function simulate(seed, energy, curiosity) {
+function simulate(seed, energy, curiosity, steps = 120) {
   const c = load();
   c.seed = seed;
   c.params = { energy, curiosity };
+  c.steps = steps;
   vm.runInContext("state = NuriaEngine.create(seed, source)", c, { timeout: 800 });
   const initial = hash(c.state);
   vm.runInContext(
-    "for (let i=0; i<120; i++) state=NuriaEngine.step(state, 1/60, params); metrics=NuriaEngine.metrics(state)",
+    "for (let i=0; i<steps; i++) state=NuriaEngine.step(state, 1/60, params); metrics=NuriaEngine.metrics(state)",
     c,
     { timeout: 2000 },
   );
@@ -73,6 +74,7 @@ try {
   if (low.hash === high.hash)
     throw Error("Energy and curiosity controls have no causal effect");
   const probes = [1, 104729].map((seed) => simulate(seed, 0.5, 0.5));
+  const sustained = simulate(17, 0.6, 0.6, 1800);
   console.log(
     JSON.stringify({
       passed: true,
@@ -82,9 +84,11 @@ try {
         "120-step dynamics on three seeds",
         "Control intervention changes the state",
         "Finite measured outputs",
+        "30-second simulation remains finite with bounded state",
       ],
       metrics: a.metrics,
       probes: probes.map((x) => x.metrics),
+      sustained_metrics: sustained.metrics,
       reused_calls: reused,
     }),
   );

@@ -384,8 +384,8 @@
     const phaseNames = {
       creating: "Creating a new work",
       campaign_complete: "Current series complete",
-      bridge_offline: "Reasoning connection paused",
-      budget_paused: "Allocated work complete",
+      bridge_offline: "Reconnecting to inference",
+      budget_paused: "Paused at the inference allowance",
       needs_attention: "Work needs attention",
       running: "At work",
       working: "At work",
@@ -398,7 +398,7 @@
       paused: "Work paused",
       complete: "Current work complete",
       completed: "Current work complete",
-      budget_exhausted: "Allocated work complete",
+      budget_exhausted: "Inference allowance exhausted",
       waiting_for_reasoner: "Reasoning connection paused",
     };
     byId("worker-status").textContent = stale
@@ -409,7 +409,8 @@
     const skills = array(data.skills).length;
     byId("studio-counts").textContent =
       `${projects} ${projects === 1 ? "project" : "projects"} / ${skills} retained ${skills === 1 ? "technique" : "techniques"}`;
-    byId("updated").textContent = `Updated ${date(data.updated_at, true)}`;
+    byId("updated").textContent =
+      `${data.campaign?.mode === "autonomous" ? "Autonomous · " : ""}Updated ${date(data.updated_at, true)}`;
   }
   async function refresh() {
     if (state.fetching) return;

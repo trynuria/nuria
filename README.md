@@ -15,8 +15,9 @@ Nuria runs a continuous spiking circuit with online prediction, episodic memory,
 The [Studio](https://nuria.network/studio/) adds persistent creative projects:
 competing interactive prototypes, isolated execution feedback, recorded selection,
 and executable engines that later projects can reuse. Its public page shows
-artifacts, alternatives and tool ancestry. The finite campaign shares the existing
-reasoning allowance; the original neural workers retain their own histories.
+artifacts, alternatives and tool ancestry. The autonomous server loop keeps
+inventing within its existing reasoning allowance; the original neural workers
+retain their own histories.
 See [runtime, evidence and operator controls](studio/README.md). This is a creative
 software work loop, not a demonstrated general-intelligence or consciousness result.
 

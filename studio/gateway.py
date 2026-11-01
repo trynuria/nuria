@@ -1,7 +1,7 @@
-"""Loopback-only inference bridge sharing the existing durable allowance.
+"""Loopback-only inference service sharing the existing durable allowance.
 
-The operator's provider key and allowance database stay in their original
-location. SSH forwards this private interface to the isolated project worker.
+The provider key and authoritative ledger belong to a separate service user.
+The isolated project worker receives only a private loopback capability.
 Request IDs survive lost responses; ambiguous provider calls are never retried.
 """
 
@@ -17,10 +17,23 @@ from studio.provider import load_reasoner
 from studio.store import digest
 
 
-def serve(config, token_file, journal, port, ceiling):
-    reasoner = load_reasoner(config)
+def create_server(
+    config, token_file, journal, port, ceiling, *, require_existing_state=False
+):
+    reasoner = load_reasoner(config, require_existing_budget=require_existing_state)
     token = Path(token_file).read_text().strip()
-    db = sqlite3.connect(journal)
+    if not token:
+        raise ValueError("A private inference token is required")
+    if require_existing_state:
+        db = sqlite3.connect(Path(journal).absolute().as_uri() + "?mode=rw", uri=True)
+        if (
+            db.execute("SELECT origin,ceiling FROM policy WHERE id=1").fetchone()
+            is None
+        ):
+            raise ValueError("The existing inference journal must be preserved")
+        db.execute("SELECT id,hash,state,response FROM calls").fetchall()
+    else:
+        db = sqlite3.connect(journal)
     db.execute(
         "CREATE TABLE IF NOT EXISTS calls(id TEXT PRIMARY KEY, hash TEXT, state TEXT, response TEXT)"
     )
@@ -35,6 +48,17 @@ def serve(config, token_file, journal, port, ceiling):
     ).fetchone()
     if saved_ceiling != ceiling:
         raise ValueError("The campaign allowance cannot change on restart")
+    if origin < saved_origin:
+        raise ValueError("The shared ledger predates this inference journal")
+
+    def blocked(budget):
+        return (
+            budget["blocked"]
+            or db.execute(
+                "SELECT 1 FROM calls WHERE state != 'settled' LIMIT 1"
+            ).fetchone()
+            is not None
+        )
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_):
@@ -71,7 +95,10 @@ def serve(config, token_file, journal, port, ceiling):
                         ),
                     ),
                     "spent_micro_usd": used,
-                    "blocked": budget["blocked"],
+                    "blocked": blocked(budget),
+                    "remaining_requests": max(
+                        0, budget["maximum_requests"] - budget["requests"]
+                    ),
                     "model": reasoner.model,
                 },
             )
@@ -85,9 +112,10 @@ def serve(config, token_file, journal, port, ceiling):
                     raise ValueError("request_limit")
                 req = json.loads(self.rfile.read(size))
                 if (
-                    set(req) != {"id", "messages", "max_tokens"}
+                    type(req) is not dict
+                    or set(req) != {"id", "messages", "max_tokens"}
                     or not isinstance(req["id"], str)
-                    or len(req["id"]) > 128
+                    or not 1 <= len(req["id"]) <= 128
                 ):
                     raise ValueError("invalid_request")
                 identity = digest(req)
@@ -103,7 +131,22 @@ def serve(config, token_file, journal, port, ceiling):
                 limit = req["max_tokens"]
                 if type(limit) is not int or not 256 <= limit <= 12000:
                     raise ValueError("output_limit")
+                messages = req["messages"]
+                if type(messages) is not list or not 1 <= len(messages) <= 64:
+                    raise ValueError("message_limit")
+                for message in messages:
+                    if (
+                        type(message) is not dict
+                        or set(message) != {"role", "content"}
+                        or message["role"] not in ("system", "user", "assistant")
+                        or type(message["content"]) is not str
+                    ):
+                        raise ValueError("invalid_message")
+                if size + 2048 > reasoner.max_input_bytes:
+                    return self.reply(413, {"error": "input_limit"})
                 budget = reasoner.budget.snapshot()
+                if blocked(budget):
+                    return self.reply(409, {"error": "prior_request_unresolved"})
                 # Match the existing client's conservative UTF-8 input envelope.
                 bound = (
                     (size + 2048 + len(req["messages"]) * 128)
@@ -117,6 +160,8 @@ def serve(config, token_file, journal, port, ceiling):
                     - saved_origin
                     + bound
                     > saved_ceiling
+                    or bound > budget["remaining_headroom_micro_usd"]
+                    or budget["requests"] >= budget["maximum_requests"]
                 ):
                     return self.reply(402, {"error": "campaign_budget_exhausted"})
                 db.execute(
@@ -142,7 +187,9 @@ def serve(config, token_file, journal, port, ceiling):
             except (ValueError, KeyError, TypeError, json.JSONDecodeError):
                 return self.reply(400, {"error": "invalid_request"})
 
-    HTTPServer(("127.0.0.1", port), Handler).serve_forever()
+    server = HTTPServer(("127.0.0.1", port), Handler)
+    server.journal = db
+    return server
 
 
 if __name__ == "__main__":
@@ -152,6 +199,19 @@ if __name__ == "__main__":
     parser.add_argument("--journal", required=True)
     parser.add_argument("--port", type=int, default=19441)
     parser.add_argument("--ceiling", type=int, required=True)
+    parser.add_argument("--require-existing-state", action="store_true")
     args = parser.parse_args()
     os.umask(0o077)
-    serve(args.config, args.token_file, args.journal, args.port, args.ceiling)
+    server = create_server(
+        args.config,
+        args.token_file,
+        args.journal,
+        args.port,
+        args.ceiling,
+        require_existing_state=args.require_existing_state,
+    )
+    try:
+        server.serve_forever()
+    finally:
+        server.server_close()
+        server.journal.close()

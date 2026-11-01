@@ -24,8 +24,9 @@ browser refinements are recorded separately from the model's build steps.
 
 ## Runtime
 
-`python -m studio.worker --root STATE --token-file TOKEN --node NODE` runs a finite
-three-project automatic campaign by default. A single writer lock prevents
+`python -m studio.worker --root STATE --token-file TOKEN --node NODE` runs an
+autonomous campaign within the existing budget. There is no default project-count
+stop. Use `--max-projects N` for an explicitly finite trial. A single writer lock prevents
 competing workers. SQLite retains stages and exact model request IDs. The private
 inference gateway also retains request IDs, so a lost response cannot cause a
 second paid request. Unknown provider settlement stops subsequent spending.
@@ -33,14 +34,28 @@ second paid request. Unknown provider settlement stops subsequent spending.
 The gateway uses Nuria's existing hosted reasoner and its existing allowance
 ledger. It does not renew that allowance. A separate campaign ceiling also
 preserves the conservative remaining amount recorded at enrollment. The gateway
-listens only on loopback and requires a private token; SSH carries the connection
-to the worker. The original provider credential and shared ledger remain at
-their original location. The worker pauses when that connection is unavailable.
+listens only on loopback and requires a private token. It runs on the same server
+under a separate service account; the worker cannot read the provider credential
+or modify accounting. No owner's computer or SSH tunnel is required. Production
+starts with `--require-existing-state`: missing accounting fails closed rather
+than creating a fresh allowance. Migrating accounting requires freezing the old
+writer first and preserving the entire ledger and request journal, including
+their original limits, charges and request identities.
 
 Projects persist through restarts. Each candidate has up to six build steps,
 with up to 10,000 output tokens per build step, all inside the shared dollar
-ceiling. The bounded campaign and explicit operator queue prevent an unbounded
-background spending loop. Completed projects never regenerate on a refresh.
+ceiling and original shared request limit. After selection, the critic's next
+brief starts another project. A failed project instead supplies its failure
+evidence to a new attempt. The planner sees a bounded working set of reusable
+tools while the full archive remains retained; it can also choose a fresh
+foundation. Every third successor is prompted to challenge the portfolio's
+habits. Completed projects never regenerate on a refresh.
+
+The gateway checks the full next-call reservation before spending. Exhausted
+money, the original request cap, an unresolved provider charge or an operator
+pause stops further paid calls. These limits survive service and machine
+restarts; restarting never grants another allowance. Known malformed or oversized
+inputs are rejected before a request reservation and can feed a repair attempt.
 
 Use `python -m studio.cli --root STATE status`, `pause`, `resume`,
 `submit "creative brief"` or `feedback PROJECT "specific feedback"` through
@@ -53,7 +68,8 @@ The four editable artifact files are `index.html`, `style.css`, `app.js` and
 `engine.js`. The worker alone supplies `inputs.json` and any retained toolkit.
 Path traversal and changes to those supplied files are rejected. The engine
 exports `create`, `step` and `metrics`; the host checks deterministic replay,
-finite outputs, evolution on several seeds, and causal effects of controls.
+finite outputs, evolution on several seeds, causal effects of controls and a
+30-second simulation with bounded state.
 Tests run in an offline bubblewrap namespace with a read-only candidate mount,
 small resource bounds, and no credentials or private host files.
 
@@ -87,3 +103,5 @@ self-check before starting paid work. The serving process is a separate user.
 
 Run `python -m unittest tests.test_studio -v` and `node --check studio/web/studio.js`.
 The real Linux namespace check is additionally required on the intended host.
+Both the worker and inference service must be enabled at boot. Keep the gateway
+private; expose only the read-only public projection through the website proxy.

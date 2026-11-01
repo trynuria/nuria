@@ -1,4 +1,4 @@
-"""A persistent, finite invention campaign: propose, build, compare, reuse."""
+"""Budget-limited autonomous invention: propose, build, compare, reuse."""
 
 import argparse
 import fcntl
@@ -45,6 +45,8 @@ that reveals a mechanism. Explain which parts are simulation and which inputs
 come from the real snapshot. Do not invent live readings or scientific findings.
 The engine receives the enrolled source object, which can be embedded as a
 literal in app.js; no fetch is allowed in artifacts.
+The host also runs a 30-second simulation and checks bounded state and finite
+measurements. Explain the natural timescale of the mechanism you want tested.
 If you offer exports, provide an attached download link and a visible selectable
 text fallback so visitors can keep their work even when a browser blocks downloads.
 If a toolkit is supplied, load toolkit.js and toolkit-bridge.js before engine.js.
@@ -93,6 +95,12 @@ class Client:
                 raise RuntimeError(
                     "Prior inference request requires reconciliation"
                 ) from None
+            if error.code in (400, 413, 422):
+                error.close()
+                return {
+                    "error": "Request exceeded the inference input contract; simplify the workspace or choose a smaller tool.",
+                    "usage": {},
+                }
             raise
 
     def complete(self, call_id, messages, max_tokens):
@@ -154,7 +162,7 @@ def capture():
 
 
 class Campaign:
-    def __init__(self, root, client, node, max_projects=3):
+    def __init__(self, root, client, node, max_projects=0):
         self.store = Store(root)
         self.root, self.client, self.node = Path(root), client, node
         self.max_projects = max_projects
@@ -165,7 +173,7 @@ class Campaign:
 
     def project(self, brief, parent=None, requested=False):
         projects = self.store.all("projects")
-        if len(projects) >= self.max_projects and not requested:
+        if self.max_projects and len(projects) >= self.max_projects and not requested:
             raise ValueError("Campaign project allowance reached")
         pid = f"invention-{len(projects) + 1:03d}"
         project = {
@@ -222,8 +230,9 @@ class Campaign:
                 "interests": memory["interests"],
                 "lessons": memory.get("lessons", []),
                 "campaign": {
-                    "maximum_projects": self.max_projects,
-                    "inference": "private budgeted bridge",
+                    "maximum_projects": self.max_projects or None,
+                    "mode": "autonomous" if not self.max_projects else "finite",
+                    "inference": "budgeted server-local service",
                     "learning_scope": "Executable tools, project memory and critique; foundation-model weights are unchanged.",
                 },
             },
@@ -253,9 +262,17 @@ class Campaign:
             return {"error": "The model response was not complete JSON"}
 
     def plan(self, p):
+        eligible = [
+            s for s in self.store.all("skills") if len(s["code"].encode()) <= 32000
+        ]
+        # Retain the whole archive; present a bounded working set that can fit
+        # alongside two prototype sources inside the existing provider envelope.
+        eligible = sorted(
+            eligible, key=lambda s: (s.get("reuses", 0), s["project_id"]), reverse=True
+        )[:8]
         skills = [
-            {k: v for k, v in s.items() if k != "code"}
-            for s in self.store.all("skills")
+            {k: s[k] for k in ("id", "name", "description", "project_id", "reuses")}
+            for s in eligible
         ]
         taste = self.store.get("meta", "taste")
         messages = [
@@ -267,8 +284,9 @@ class Campaign:
                         "brief": p["brief"],
                         "source": p["source"],
                         "available_tools": skills,
+                        "tool_scope": "Up to eight retained engines that fit the source budget; the full archive remains retained.",
                         "prior_taste": taste,
-                        "request": 'Choose a striking title and exactly two genuinely different concepts. Return {title, concepts:[{id:"a",title,thesis,interaction},{id:"b",title,thesis,interaction}], use_skill: existing tool ID or null, reason}. The concepts must each support the engine contract below. A follow-up should use an acquired tool to create a meaningfully different experience. Do not claim originality beyond this portfolio.',
+                        "request": 'Choose a striking title and exactly two genuinely different concepts. Return {title, concepts:[{id:"a",title,thesis,interaction},{id:"b",title,thesis,interaction}], use_skill: available tool ID or null, reason}. The concepts must each support the engine contract below. Reuse an acquired tool when it helps; choose null and make a new foundation when the next idea needs one. Avoid merely reskinning the last project. Do not claim originality beyond this portfolio.',
                         "contract": ENGINE,
                     }
                 ),
@@ -299,11 +317,7 @@ class Campaign:
         p["concepts"] = [
             {**c, "id": ident} for c, ident in zip(value["concepts"], ("a", "b"))
         ]
-        skill = (
-            self.store.get("skills", value.get("use_skill"))
-            if isinstance(value.get("use_skill"), str)
-            else None
-        )
+        skill = next((s for s in eligible if s["id"] == value.get("use_skill")), None)
         if skill:
             p["skills_used"] = [{"id": skill["id"], "name": skill["name"]}]
         p["status"] = "building"
@@ -422,7 +436,7 @@ class Campaign:
                     {
                         "brief": p["brief"],
                         "candidates": evidence,
-                        "request": "Select one candidate. Return {selected: candidate ID, reason, strengths:[strings], limitations:[strings], lesson, tool_name, tool_description, next_brief, interests:[three themes]}. The next brief should be a different interactive invention that composes the acquired engine. It must remain an offline browser artifact. Be critical and specific; explain actual tradeoffs.",
+                        "request": "Select one candidate. Return {selected: candidate ID, reason, strengths:[strings], limitations:[strings], lesson, tool_name, tool_description, next_brief, interests:[three themes]}. The next brief should address a concrete weakness or explore a different kind of interactive invention. Reuse or combine acquired engines where useful; a new foundation is allowed. It must remain an offline browser artifact. Be critical and specific; explain actual tradeoffs and use the longer-horizon results.",
                     }
                 ),
             },
@@ -499,7 +513,11 @@ class Campaign:
             self.export()
             return False
         self.budget = self.client.budget()
-        if self.budget["blocked"] or self.budget["remaining_micro_usd"] < 400000:
+        if (
+            self.budget["blocked"]
+            or self.budget["remaining_micro_usd"] <= 0
+            or self.budget.get("remaining_requests", 1) <= 0
+        ):
             self.status = "budget_paused"
             self.export()
             return False
@@ -516,18 +534,35 @@ class Campaign:
                 active = self.project(
                     "Invent a surprising, beautiful interactive experience that reveals an interesting mechanism inspired by Nuria’s real neural activity. Choose the concept yourself. Make cause and effect legible, let visitors meaningfully intervene, and create an engine that can become a tool for another invention. Go beyond a dashboard or a decorative particle background."
                 )
-            elif (
-                len(projects) < self.max_projects
-                and projects[-1]["status"] == "complete"
-            ):
+            elif not self.max_projects or len(projects) < self.max_projects:
                 last = projects[-1]
-                active = self.project(
-                    last["review"].get(
+                if last["status"] == "complete":
+                    brief = last["review"].get(
                         "next_brief",
-                        "Create a different interactive world using a retained engine.",
-                    ),
-                    parent=last["id"],
-                )
+                        "Create a different interactive invention using what you have learned.",
+                    )
+                else:
+                    failures = [
+                        {
+                            "title": c.get("title"),
+                            "checks": c.get("checks"),
+                            "note": c.get("note"),
+                        }
+                        for c in last.get("candidates", [])
+                    ]
+                    brief = (
+                        "Learn from this stopped project and invent a simpler, different approach that can actually pass. Avoid repeating its failure. Use a smaller proven tool or a fresh foundation. Previous work: "
+                        + json.dumps(
+                            {
+                                "title": last["title"],
+                                "failures": failures,
+                                "events": last.get("events", [])[-3:],
+                            }
+                        )[:10000]
+                    )
+                if len(projects) % 3 == 0:
+                    brief += " Also challenge the portfolio's current habits: consider a game, useful creative instrument or explorable system with a different interaction. Keep only what serves the new idea."
+                active = self.project(brief, parent=last["id"])
             else:
                 self.status = "campaign_complete"
                 self.export()
@@ -551,9 +586,16 @@ def main():
     parser.add_argument("--gateway", default="http://127.0.0.1:4041")
     parser.add_argument("--token-file", required=True)
     parser.add_argument("--node", required=True)
-    parser.add_argument("--max-projects", type=int, default=3)
+    parser.add_argument(
+        "--max-projects",
+        type=int,
+        default=0,
+        help="0 continues within the existing allowance; positive values limit a campaign",
+    )
     parser.add_argument("--once", action="store_true")
     args = parser.parse_args()
+    if args.max_projects < 0:
+        parser.error("--max-projects must be nonnegative")
     os.umask(0o077)
     Path(args.root).mkdir(parents=True, exist_ok=True)
     lock = open(Path(args.root) / "worker.lock", "a")
