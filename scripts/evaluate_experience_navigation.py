@@ -79,14 +79,40 @@ def run(root, config, dependencies, split, maximum=None):
         "initial-experience.json" if split == "development" else "test-experience.json"
     )
     experience = json.loads(history_path.read_text())
+    catalog_path = root / "corrections.json"
+    corrections = (
+        json.loads(catalog_path.read_text()) if catalog_path.exists() else None
+    )
     executor = runtime(root / split, dependencies)
     stores = {m: OutcomeStore(root / (split + "-" + m + ".sqlite")) for m in METHODS}
+    retained = (
+        {
+            method: {
+                row["job_id"]: row
+                for row in store.experiences()
+                if type(row.get("accepted")) is bool
+            }
+            for method, store in stores.items()
+        }
+        if split == "development"
+        else {}
+    )
+    resume_file = root / "development-resume.json"
+    resumed = (
+        json.loads(resume_file.read_text())["job_ids"]
+        if split == "development" and resume_file.exists()
+        else {}
+    )
     tasks = valid_tasks(root, split)
     enrollment = root / "test-enrollment.json"
     if split == "test":
         enrolled = json.loads(enrollment.read_text())
         if identity(experience) != enrolled["experience_sha256"]:
             raise ValueError("Test history differs from its prospective enrollment")
+        if enrolled.get("correction_catalog_sha256") != (
+            corrections["artifact_sha256"] if corrections else None
+        ):
+            raise ValueError("Correction catalog differs from the test enrollment")
         ids = set(enrolled["task_ids"])
         tasks = [x for x in tasks if x["task_id"] in ids]
         for name, expected in enrolled["source_files"].items():
@@ -99,16 +125,34 @@ def run(root, config, dependencies, split, maximum=None):
         ) % len(METHODS)
         methods = METHODS[rotation:] + METHODS[:rotation]
         for method in methods:
-            result = run_navigation_work(
-                client,
-                executor,
-                stores[method],
-                task,
-                job_id=split + "-" + method + "-" + task["task_id"].split("/")[1],
-                method=method,
-                experience=experience,
-                grade=split == "development",
-            )
+            job_id = split + "-" + method + "-" + task["task_id"].split("/")[1]
+            if split == "development" and job_id in retained[method]:
+                result = retained[method][job_id]
+                if (
+                    result["source_sha256"] != task["source_sha256"]
+                    or result["checker"].get("checks_sha256")
+                    != hashlib.sha256(task["checker"].encode()).hexdigest()
+                ):
+                    raise ValueError(
+                        "Retained development outcome belongs to another task"
+                    )
+                result = {
+                    **result,
+                    "replayed": True,
+                    "retained_previous_implementation": True,
+                }
+            else:
+                result = run_navigation_work(
+                    client,
+                    executor,
+                    stores[method],
+                    task,
+                    job_id=resumed.get(job_id, job_id),
+                    method=method,
+                    experience=experience,
+                    grade=split == "development",
+                    corrections=corrections,
+                )
             print(
                 json.dumps(
                     {
@@ -138,22 +182,40 @@ def freeze_test(root):
     development = []
     for method in METHODS:
         development.extend(
-            OutcomeStore(root / ("development-" + method + ".sqlite")).experiences()
+            row
+            for row in OutcomeStore(
+                root / ("development-" + method + ".sqlite")
+            ).experiences()
+            if type(row.get("accepted")) is bool
         )
     if len(development) != len(valid_tasks(root, "development")) * len(METHODS):
         raise ValueError("Every enrolled development outcome must finish")
     history += development
+    if {x["task_id"] for x in history} & {
+        x["task_id"] for x in valid_tasks(root, "test")
+    }:
+        raise ValueError("Held-out tasks cannot enter learning history")
     save(root / "test-experience.json", history)
     files = [
         "cognition/experience_navigation.py",
         "cognition/outcome_worker.py",
+        "cognition/checked_repairs.py",
         "scripts/evaluate_experience_navigation.py",
+        "scripts/acquire_checked_repairs.py",
     ]
     value = {
         "version": "nuria.navigation-test-seal.v1",
         "before_any_test_inference": True,
         "experience_sha256": identity(history),
         "history_records": len(history),
+        "implementation_sha256": identity(
+            Path("cognition/experience_navigation.py").read_text()
+        ),
+        "correction_catalog_sha256": json.loads(
+            (root / "corrections.json").read_text()
+        )["artifact_sha256"]
+        if (root / "corrections.json").exists()
+        else None,
         "task_ids": [x["task_id"] for x in valid_tasks(root, "test")],
         "source_files": {
             name: hashlib.sha256(Path(name).read_bytes()).hexdigest() for name in files
