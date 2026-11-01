@@ -17,6 +17,10 @@ inspiration, not a required theme. These creations do not establish biological
 or consciousness findings. All variants and failures remain in the project history.
 
 Explore the [live Studio](https://nuria.network/studio/), including
+[Borrow the Bounce](https://nuria.network/studio/#invention-033), a garden where
+moving three conserved laws builds a rescue route and then a second passenger
+journey. Three successive verified versions carry forward the actual source;
+the latest catches and releases the ferry by relocating Grip. Earlier explorations include
 [One Cut, Many Places](https://nuria.network/studio/#invention-009),
 [One More Bite](https://nuria.network/studio/#invention-010),
 [Pack Together](https://nuria.network/studio/#invention-011),
@@ -58,6 +62,12 @@ Unchanged source reuses its check results. A crashed browser is retried once
 locally, then the candidate is retained as unavailable without buying model
 retries for that infrastructure failure. Completed work never regenerates on a
 page refresh.
+
+Planning has at most three attempts. Development plans may use up to 6,000 output
+tokens while requesting compact descriptions and retaining the 20 KB plan limit.
+Truncated replies preserve the actual provider error in subsequent feedback;
+they are not silently retried as generic format failures. Original paid requests
+and charges remain recorded, including failed attempts.
 
 The gateway checks the full next-call reservation before spending. Exhausted
 money, the original request cap, an unresolved provider charge or an operator

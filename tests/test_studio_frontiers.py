@@ -19,6 +19,22 @@ from studio.worker import Campaign
 
 
 class FrontierTests(unittest.TestCase):
+    def test_incomplete_plan_retains_real_feedback_and_attempt_bound(self):
+        with tempfile.TemporaryDirectory() as temp:
+            campaign = Campaign(temp, None, "/unused", browser_runtime="/unused")
+            self.addCleanup(campaign.store.db.close)
+            with patch("studio.worker.capture", return_value={}):
+                project = campaign.project("Build an expressive small world")
+            with patch.object(
+                campaign, "ask", return_value={"error": "model_output_incomplete"}
+            ):
+                for _ in range(3):
+                    campaign.plan(project)
+            self.assertEqual(project["status"], "stopped")
+            self.assertEqual(project["planning_attempt"], 3)
+            self.assertIn("output limit", project["planning_error"])
+            self.assertIn("Shorten descriptions", project["planning_error"])
+
     def test_focus_keeps_verified_lineage_and_reports_failed_attempt(self):
         focus = {"id": "laws", "frontier": "world", "brief": "Make laws tangible"}
         projects = [

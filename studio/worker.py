@@ -358,6 +358,8 @@ class Campaign:
             request = 'Invent exactly two different approaches to this frontier. Return {title,reason,use_skill:available ID or null,concepts:[{id:"a",title,thesis,interaction,mechanism,payoff,engine_actions:[{type:"...",...}],alternate_actions:[{type:"...",...}],journey:{steps:[{action:"click"|"fill"|"select"|"press",selector:"#specific-control",value:"optional fixture input"}],result:"#visible-result-region",download:"#export-control or omit"}},{id:"b",...}]}. Choose concrete selectors and action schemas now; these become the frozen acceptance journey before implementation. Each concept must give a visitor a useful or delightful payoff in twenty seconds, with a distinct primary mechanic. Surprise through the idea and interaction, not a grandiose title. The first action should change the result; an export should be an actual reusable file. Do not turn tests, provenance, evidence or receipts into the product. Fresh mechanisms are welcome; no obligation to reuse an engine. Keep the scope buildable in four compact files. Explain how these ideas differ from the recent portfolio.'
         if base:
             request += " For this development round, the two concepts are competing extensions of the supplied verified work, not replacements with unrelated central mechanics. Preserve its identity and working controls. Describe the specific new capability and a journey that reaches it."
+        if modern:
+            request += " Keep the entire response below 16 KB. Use compact action objects and at most 1000 characters per mechanism. Do not repeat the supplied implementation or add implementation essays; the builder already receives the complete parent source."
         messages = [
             {"role": "system", "content": SYSTEM},
             {
@@ -399,7 +401,9 @@ class Campaign:
                 ),
             },
         ]
-        value = self.ask(p, f"plan-{p['planning_attempt']}", messages, 4000)
+        value = self.ask(
+            p, f"plan-{p['planning_attempt']}", messages, 6000 if base else 4000
+        )
         invalid = (
             not isinstance(value.get("concepts"), list)
             or len(value["concepts"]) != 2
@@ -413,8 +417,14 @@ class Campaign:
             )
         )
         reason = (
-            "The proposal did not meet the two-concept format; retained for diagnosis."
+            str(value.get("error"))
+            if value.get("error")
+            else (
+                "The proposal did not meet the two-concept format; retained for diagnosis."
+            )
         )
+        if reason == "model_output_incomplete":
+            reason += ": the reply exceeded its output limit. Shorten descriptions and omit extra fields; return both complete concepts with compact actions."
         if modern and not invalid:
             try:
                 for concept in value["concepts"]:
