@@ -1,8 +1,10 @@
 """Private operator controls; invoke over the project's existing SSH access."""
 
 import argparse
+import hashlib
 import json
 
+from studio.frontiers import FRONTIERS
 from studio.store import Store, now
 
 
@@ -10,8 +12,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", required=True)
     sub = parser.add_subparsers(dest="action", required=True)
-    for name in ("status", "pause", "resume"):
+    for name in ("status", "pause", "resume", "clear-focus"):
         sub.add_parser(name)
+    focus = sub.add_parser("focus")
+    focus.add_argument("brief")
+    focus.add_argument(
+        "--frontier", choices=[f["id"] for f in FRONTIERS], default="world"
+    )
     submit = sub.add_parser("submit")
     submit.add_argument("brief")
     feedback = sub.add_parser("feedback")
@@ -28,6 +35,7 @@ def main():
                         for p in store.all("projects")
                     ],
                     "control": store.get("meta", "control"),
+                    "focus": store.get("meta", "focus"),
                 },
                 indent=2,
             )
@@ -38,6 +46,27 @@ def main():
             "Pause applies after the current bounded step."
             if args.action == "pause"
             else "Campaign resumed within its existing allowance."
+        )
+    elif args.action == "clear-focus":
+        store.put("meta", "focus", None)
+        print("Diverse exploration resumes after the active project.")
+    elif args.action == "focus":
+        if not 10 <= len(args.brief) <= 6000:
+            raise ValueError("A focused brief must contain 10–6000 characters")
+        store.put(
+            "meta",
+            "focus",
+            {
+                "id": hashlib.sha256((args.frontier + args.brief).encode()).hexdigest()[
+                    :16
+                ],
+                "brief": args.brief,
+                "frontier": args.frontier,
+                "at": now(),
+            },
+        )
+        print(
+            "Focused development begins after the active project, within the existing allowance."
         )
     elif args.action == "submit":
         if not 10 <= len(args.brief) <= 6000:

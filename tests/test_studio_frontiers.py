@@ -9,10 +9,130 @@ from pathlib import Path
 from unittest.mock import patch
 
 from studio.executor import browser_check
-from studio.frontiers import next_direction, portfolio, validate_concept
+from studio.frontiers import (
+    focused_direction,
+    next_direction,
+    portfolio,
+    validate_concept,
+)
+from studio.worker import Campaign
 
 
 class FrontierTests(unittest.TestCase):
+    def test_focus_keeps_verified_lineage_and_reports_failed_attempt(self):
+        focus = {"id": "laws", "frontier": "world", "brief": "Make laws tangible"}
+        projects = [
+            {
+                "id": "one",
+                "title": "Law Garden",
+                "focus_id": "laws",
+                "status": "complete",
+                "verification": {"status": "verified"},
+                "review": {
+                    "limitations": ["No reversal"],
+                    "next_brief": "Make interventions reversible",
+                },
+            },
+            {
+                "id": "two",
+                "title": "Other",
+                "focus_id": "other",
+                "status": "complete",
+                "verification": {"status": "verified"},
+            },
+            {
+                "id": "three",
+                "focus_id": "laws",
+                "status": "stopped",
+                "verification": {
+                    "status": "unresolved",
+                    "summary": "Undo lost a resident",
+                },
+            },
+        ]
+        frontier, mode, brief, parent = focused_direction(projects, focus)
+        self.assertEqual((frontier["id"], mode, parent), ("world", "develop", "one"))
+        self.assertIn("Make interventions reversible", brief)
+        self.assertIn("Undo lost a resident", brief)
+        self.assertIsNone(focused_direction(projects, {**focus, "id": "fresh"})[3])
+
+    def test_development_inherits_real_source_and_dependencies_without_mutating_parent(
+        self,
+    ):
+        with tempfile.TemporaryDirectory() as temp:
+            campaign = Campaign(temp, None, "/unused", browser_runtime="/unused")
+            self.addCleanup(campaign.store.db.close)
+            focus = {"id": "laws", "frontier": "world", "brief": "Make laws tangible"}
+            concept = {
+                "title": "Law Garden",
+                "thesis": "Move gravity",
+                "interaction": "Move a law",
+                "mechanism": "Conserved laws",
+                "payoff": "Save residents",
+                "engine_actions": [{"type": "move", "to": 1}],
+                "alternate_actions": [{"type": "move", "to": 2}],
+                "journey": {
+                    "steps": [{"action": "click", "selector": "#move"}],
+                    "result": "#world",
+                },
+            }
+            parent = {
+                "id": "invention-001",
+                "title": "Law Garden",
+                "focus_id": "laws",
+                "selected": "a",
+                "concepts": [{**concept, "id": "a"}],
+                "candidates": [],
+                "status": "complete",
+                "verification": {"status": "verified"},
+            }
+            campaign.store.put("projects", parent["id"], parent)
+            original = campaign.directory(parent, "a")
+            original.mkdir(parents=True)
+            contents = {
+                name: "retained " + name
+                for name in (
+                    "engine.js",
+                    "app.js",
+                    "style.css",
+                    "index.html",
+                    "toolkit.js",
+                    "toolkit-bridge.js",
+                )
+            }
+            for name, body in contents.items():
+                (original / name).write_text(body)
+            direction = focused_direction([parent], focus)
+            with patch("studio.worker.capture", return_value={}):
+                child = campaign.project(
+                    direction[2],
+                    parent=parent["id"],
+                    direction=direction,
+                    focus_id=focus["id"],
+                )
+            with patch.object(
+                campaign,
+                "ask",
+                return_value={
+                    "title": "Deeper Law Garden",
+                    "concepts": [concept, concept],
+                    "use_skill": None,
+                },
+            ):
+                campaign.plan(child)
+            for candidate in ("a", "b"):
+                directory = campaign.directory(child, candidate)
+                for name, body in contents.items():
+                    self.assertEqual((directory / name).read_text(), body)
+                    self.assertEqual((original / name).read_text(), body)
+                self.assertEqual(
+                    json.loads((directory / "contract.json").read_text())["journey"],
+                    concept["journey"],
+                )
+            self.assertEqual(child["development_base"]["project"], parent["id"])
+            self.assertEqual(len(child["development_base"]["source_sha256"]), 6)
+            self.assertTrue(child["acceptance_required"])
+
     def test_browser_crashes_retry_locally_but_application_failures_do_not(self):
         crash = {
             "passed": False,

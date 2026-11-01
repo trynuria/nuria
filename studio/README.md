@@ -70,6 +70,15 @@ Use `python -m studio.cli --root STATE status`, `pause`, `resume`,
 existing private operator access. Pause applies after the current bounded step.
 Manual briefs use the same allowance and do not create a new budget.
 
+`focus "a sustained creative brief" --frontier world` switches subsequent automatic
+work to one continuing invention. Each round develops two competing improvements
+from the latest outcome-verified version's actual source and dependency closure.
+Source hashes and parent links preserve that lineage. Failed rounds do not replace
+the verified starting point. Criticism feeds the next round, with an explicit demand
+for a visible new capability rather than cosmetic variations. `clear-focus` restores
+the diverse portfolio after the active project. Both modes retain all existing
+allowance, execution and acceptance limits; focus persists on the server.
+
 ## Execution and evidence
 
 The four editable files are `index.html`, `style.css`, `app.js` and `engine.js`.

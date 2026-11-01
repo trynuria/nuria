@@ -114,6 +114,53 @@ def next_direction(projects):
     )
 
 
+def focused_direction(projects, focus):
+    """Develop one persistent brief from its latest verified source, not a reskin."""
+    frontier = next(f for f in FRONTIERS if f["id"] == focus["frontier"])
+    lineage = [p for p in projects if p.get("focus_id") == focus["id"]]
+    completed = [
+        p
+        for p in lineage
+        if p["status"] == "complete"
+        and p.get("verification", {}).get("status") == "verified"
+    ]
+    parent = completed[-1] if completed else None
+    brief = focus["brief"] + (
+        "\nDEVELOPMENT RULE: Stay with this one flagship. Invent two substantially "
+        "different approaches to its central mechanism initially. Once a verified "
+        "version exists, develop two competing improvements of that SAME work, "
+        "preserving its working core and recognizable identity. The whole previous "
+        "source is supplied as a starting point. Seek one ambitious, visible leap "
+        "in what a visitor can DO, then finish its interaction, visual craft and "
+        "onboarding. A renamed page, cosmetic reskin, extra counter or longer "
+        "explanation is not an advance. Keep the first twenty seconds clear, but "
+        "make the experience reward several minutes of exploration. Preserve "
+        "working controls, existing logic tests and previously reachable outcomes. "
+        "The engine and offline limits still apply. Do not claim untested novelty."
+    )
+    if parent:
+        brief += "\nLatest verified work: " + parent["title"]
+        brief += (
+            "\nSpecific criticism: "
+            + str(parent.get("review", {}).get("limitations", []))[:2000]
+        )
+        brief += (
+            "\nPossible next leap: "
+            + parent.get("review", {}).get(
+                "next_brief", "Deepen its central mechanism."
+            )[:1800]
+        )
+    if lineage and lineage[-1]["status"] == "stopped":
+        brief += (
+            "\nLatest unsuccessful attempt: "
+            + str(lineage[-1].get("verification", lineage[-1].get("events", [])[-2:]))[
+                :1600
+            ]
+        )
+        brief += " Resolve that failure or change approach; do not repeat it unchanged."
+    return frontier, "develop", brief, parent["id"] if parent else None
+
+
 def validate_concept(concept):
     if not isinstance(concept, dict) or any(
         not isinstance(concept.get(k), str) or not concept[k].strip()

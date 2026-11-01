@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import time
 import urllib.error
 import urllib.request
@@ -21,7 +22,13 @@ from studio.executor import (
     retained_engine,
     write_files,
 )
-from studio.frontiers import ARTIFACT, next_direction, portfolio, validate_concept
+from studio.frontiers import (
+    ARTIFACT,
+    focused_direction,
+    next_direction,
+    portfolio,
+    validate_concept,
+)
 from studio.store import Store, atomic, digest, now
 
 SYSTEM = """You are Nuria, a persistent experimental inventor. Make memorable, useful,
@@ -205,7 +212,9 @@ class Campaign:
         self.status = "starting"
         self.budget = {}
 
-    def project(self, brief, parent=None, requested=False, direction=None):
+    def project(
+        self, brief, parent=None, requested=False, direction=None, focus_id=None
+    ):
         projects = self.store.all("projects")
         if self.max_projects and len(projects) >= self.max_projects and not requested:
             raise ValueError("Campaign project allowance reached")
@@ -228,6 +237,8 @@ class Campaign:
             "contract_version": 2 if direction else 1,
             "acceptance_required": bool(direction and self.browser_runtime),
         }
+        if focus_id:
+            project["focus_id"] = focus_id
         if direction:
             project["frontier"] = {k: direction[0][k] for k in ("id", "name")}
             project["mode"] = direction[1]
@@ -273,6 +284,7 @@ class Campaign:
                     "maximum_projects": self.max_projects or None,
                     "mode": "autonomous" if not self.max_projects else "finite",
                     "inference": "budgeted server-local service",
+                    "focus": self.store.get("meta", "focus"),
                     "creative_policy": "diverse portfolio, frozen outcome checks and bounded repairs"
                     if self.browser_runtime
                     else "legacy engine exploration",
@@ -306,6 +318,16 @@ class Campaign:
 
     def plan(self, p):
         modern = p.get("contract_version") == 2
+        base = (
+            self.store.get("projects", p["parent"])
+            if p.get("focus_id") and p.get("parent")
+            else None
+        )
+        if base and (
+            base["status"] != "complete"
+            or base.get("verification", {}).get("status") != "verified"
+        ):
+            raise ValueError("Focused development requires a verified parent")
         eligible = [
             s
             for s in self.store.all("skills")
@@ -318,6 +340,8 @@ class Campaign:
         eligible = sorted(
             eligible, key=lambda s: (s.get("reuses", 0), s["project_id"]), reverse=True
         )[:8]
+        if base:
+            eligible = []  # The starting source brings its own immutable dependencies.
         skills = [
             {k: s[k] for k in ("id", "name", "description", "project_id", "reuses")}
             for s in eligible
@@ -332,6 +356,8 @@ class Campaign:
         request = 'Choose a striking title and exactly two genuinely different concepts. Return {title, concepts:[{id:"a",title,thesis,interaction},{id:"b",title,thesis,interaction}], use_skill: available tool ID or null, reason}. The concepts must each support the engine contract below. Reuse an acquired tool when it helps; choose null and make a new foundation when the next idea needs one. Avoid merely reskinning the last project. Do not claim originality beyond this portfolio.'
         if modern:
             request = 'Invent exactly two different approaches to this frontier. Return {title,reason,use_skill:available ID or null,concepts:[{id:"a",title,thesis,interaction,mechanism,payoff,engine_actions:[{type:"...",...}],alternate_actions:[{type:"...",...}],journey:{steps:[{action:"click"|"fill"|"select"|"press",selector:"#specific-control",value:"optional fixture input"}],result:"#visible-result-region",download:"#export-control or omit"}},{id:"b",...}]}. Choose concrete selectors and action schemas now; these become the frozen acceptance journey before implementation. Each concept must give a visitor a useful or delightful payoff in twenty seconds, with a distinct primary mechanic. Surprise through the idea and interaction, not a grandiose title. The first action should change the result; an export should be an actual reusable file. Do not turn tests, provenance, evidence or receipts into the product. Fresh mechanisms are welcome; no obligation to reuse an engine. Keep the scope buildable in four compact files. Explain how these ideas differ from the recent portfolio.'
+        if base:
+            request += " For this development round, the two concepts are competing extensions of the supplied verified work, not replacements with unrelated central mechanics. Preserve its identity and working controls. Describe the specific new capability and a journey that reaches it."
         messages = [
             {"role": "system", "content": SYSTEM},
             {
@@ -339,6 +365,18 @@ class Campaign:
                 "content": json.dumps(
                     {
                         "brief": p["brief"],
+                        "development_base": {
+                            "project": base["id"],
+                            "concept": next(
+                                c
+                                for c in base["concepts"]
+                                if c["id"] == base["selected"]
+                            ),
+                            "verified_outcomes": base["verification"],
+                            "source_policy": "Both approaches start from this complete source. Preserve existing controls and tests; extend the mechanism rather than starting over. Choose use_skill:null; existing toolkit dependencies are inherited unchanged.",
+                        }
+                        if base
+                        else None,
                         "source": p["source"],
                         "available_tools": skills,
                         "tool_scope": "Up to eight retained engines that fit the source budget; the full archive remains retained.",
@@ -416,6 +454,19 @@ class Campaign:
             )
             directory = self.directory(p, c["id"])
             directory.mkdir(parents=True, exist_ok=True)
+            if base:
+                original = self.directory(base, base["selected"])
+                inherited = {}
+                for name in sorted(ALLOWED | {"toolkit.js", "toolkit-bridge.js"}):
+                    path = original / name
+                    if path.exists():
+                        shutil.copy2(path, directory / name)
+                        inherited[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+                p["development_base"] = {
+                    "project": base["id"],
+                    "candidate": base["selected"],
+                    "source_sha256": inherited,
+                }
             atomic(directory / "inputs.json", p["source"])
             if modern:
                 atomic(
@@ -757,9 +808,17 @@ class Campaign:
             elif self.browser_runtime and (
                 not self.max_projects or len(projects) < self.max_projects
             ):
-                direction = next_direction(projects)
+                focus = self.store.get("meta", "focus")
+                direction = (
+                    focused_direction(projects, focus)
+                    if focus
+                    else next_direction(projects)
+                )
                 active = self.project(
-                    direction[2], parent=direction[3], direction=direction
+                    direction[2],
+                    parent=direction[3],
+                    direction=direction,
+                    focus_id=focus["id"] if focus else None,
                 )
             elif not projects:
                 active = self.project(
