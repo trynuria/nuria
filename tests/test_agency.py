@@ -6,11 +6,12 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import Mock
+from types import SimpleNamespace
+from unittest.mock import Mock, patch
 
 from agency.model import BridgeModel, Gateway, PersistentAgent
 from agency.policy import SYSTEM
-from agency.runner import Mission
+from agency.runner import Mission, run
 from agency.sandbox import ShellWorkspace, files_under, public_url
 from studio.store import Store, atomic
 
@@ -190,6 +191,33 @@ class AgencyTests(unittest.TestCase):
             }
         )
         self.assertIn("error", result)
+
+    def test_budget_pause_does_not_repeat_an_unaffordable_model_request(self):
+        budget = {
+            "remaining_micro_usd": 1000,
+            "remaining_requests": 10,
+            "blocked": False,
+        }
+        atomic(
+            self.base / "state.json",
+            {
+                "active": None,
+                "next_mission": 2,
+                "phase": "budget_paused",
+                "budget": budget,
+            },
+        )
+        self.client.budget.return_value = budget
+        with patch("agency.runner.Client", return_value=self.client):
+            run(
+                SimpleNamespace(
+                    root=str(self.base),
+                    studio_root=str(self.base / "state"),
+                    gateway="unused",
+                    token_file="unused",
+                )
+            )
+        self.client.complete.assert_not_called()
 
     @unittest.skipUnless(
         os.environ.get("NURIA_TEST_LINUX_ISOLATION") == "1", "Requires Linux namespaces"

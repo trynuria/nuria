@@ -362,7 +362,17 @@ def run(args):
         def publish(phase, mission=None, detail=None):
             state.update(phase=phase, updated_at=now(), budget=client.budget())
             atomic(root / "state.json", state)
-            data = mission.data if mission else {}
+            data = (
+                mission.data
+                if mission
+                else read(
+                    root
+                    / "missions"
+                    / (state.get("active") or state.get("last_mission") or "none")
+                    / "mission.json",
+                    {},
+                )
+            )
             title = data.get("goal", {}).get(
                 "title", "Choosing a useful problem from real evidence"
             )
@@ -405,6 +415,14 @@ def run(args):
             )
 
         budget = client.budget()
+        if state.get("phase") == "budget_paused" and budget[
+            "remaining_micro_usd"
+        ] <= state.get("budget", {}).get("remaining_micro_usd", 0):
+            publish(
+                "budget_paused",
+                detail="Checkpoint retained at the original allowance; no new inference requested",
+            )
+            return
         if (
             budget["blocked"]
             or budget["remaining_micro_usd"] <= 0
@@ -534,6 +552,7 @@ def run(args):
                     }
                     memory = [m for m in memory if m["id"] != outcome["id"]] + [outcome]
                     atomic(library / "memory.json", memory)
+                    state["last_mission"] = mission.data["id"]
                     state["active"] = mission.data.get("resume_mission")
                     if state["active"]:
                         state["resume_from"] = mission.data["id"]
