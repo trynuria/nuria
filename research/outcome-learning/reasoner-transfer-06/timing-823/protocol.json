@@ -1,0 +1,42 @@
+{
+  "characterization_source_sha256": "b4b3a7d2cfe72dd9c1ebc415136f996cc6b1300d23ad76daf5e369ab8c3799d1",
+  "checker_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+  "controlled_checker": "import math\nfrom unittest.mock import patch\n\nfor samples, delay, jitter in [(3, 0.1, [0.0, 0.0, 0.0]), (3, 0.1, [0.0, 0.02, 0.1]), (1, 0.0, [0.0]), (2, 0.2, [0.06, 0.0])]:\n    state = {'now': 0.0, 'requests': []}\n    def clock():\n        return state['now']\n    def sleep(requested):\n        index = len(state['requests'])\n        state['requests'].append(requested)\n        state['now'] += requested + jitter[index]\n    with patch('time.time', clock), patch('time.sleep', sleep):\n        actual_mean, actual_std = task_func(samples=samples, delay=delay)\n    durations = [delay + item for item in jitter]\n    expected_mean = math.fsum(durations) / samples\n    expected_std = math.sqrt(math.fsum((item - expected_mean)**2 for item in durations) / samples)\n    assert state['requests'] == [delay] * samples, 'Every sample must request its delay'\n    assert abs(actual_mean - expected_mean) < 1e-9, (actual_mean, expected_mean)\n    assert abs(actual_std - expected_std) < 1e-9, (actual_std, expected_std)\nprint('Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound')\n",
+  "created_utc": "2026-11-01T09:05:41.762206+00:00",
+  "executor_wall_limit_seconds": 12,
+  "limited_ci_claim": "All original programs/checkers run. Only this hash-bound wall-clock case can remain uncertain; every other native outcome must match. Both algorithms must pass fixed independent clock calculations, the constant-answer control must fail, and the no-promotion conclusion must hold under ALL four timing-label assignments. This does not claim exact binary reproduction.",
+  "max_executions": 13,
+  "negative_control_code": "def task_func(samples=10, delay=0.1):\n    return delay, 0.0\n",
+  "new_provider_calls": 0,
+  "original_grades_unchanged": true,
+  "physical_rounds": [
+    [
+      "reference",
+      "sol-low",
+      "astra-medium"
+    ],
+    [
+      "sol-low",
+      "astra-medium",
+      "reference"
+    ],
+    [
+      "astra-medium",
+      "reference",
+      "sol-low"
+    ]
+  ],
+  "program_sha256": {
+    "astra-medium": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+    "constant-control": "cdd799d33458cbfb03a1236a11e775b21454a5c12eed1c45e91a758022adef73",
+    "reference": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+    "sol-low": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1"
+  },
+  "rule": "Run every predeclared physical observation, regardless of prior outcomes; no retries or seed selection. Controlled-clock fixtures validate calculation separately. Original model scores remain 56/78 each.",
+  "sources": [
+    "https://docs.python.org/3.14/library/time.html#time.sleep",
+    "https://docs.python.org/3.14/library/unittest.mock.html#patch"
+  ],
+  "task_id": "BigCodeBench/823",
+  "version": "nuria.timing-characterization.v1"
+}

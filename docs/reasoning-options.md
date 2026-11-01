@@ -64,12 +64,48 @@ the current isolated environment; it remains unsupported and is not replaced.
 The 78 reference-valid tasks were enrolled before any model request. Public
 benchmark pretraining contamination remains unknown.
 
-All final proposals must be publicly committed before any independent terminal
-result is revealed. The prospective secondary gate requires a gain of at least
-four percentage points, paired one-sided exact p at most 0.0125, at least 70
-valid tasks and no family losing more than two tasks. Both full arms and all
-failures are required. Generation and terminal evaluation are pending; no result
-or runtime promotion is claimed.
+All 156 programs were [publicly committed before any terminal grading](https://github.com/trynuria/nuria/commit/5f2f2cf8741a3bab2b3fe7842fe8e569b636311a).
+The [complete result](../research/outcome-learning/reasoner-transfer-06/results.json)
+retains both conditions and every rejected program:
+
+| Configuration           | Original unit-check passes | Requests | Configured token cost |
+| ----------------------- | -------------------------- | -------- | --------------------- |
+| Sol, low reasoning      | 56 / 78                    | 234      | $2.659978             |
+| Astra, medium reasoning | 56 / 78                    | 234      | $15.499610            |
+
+Astra wins two paired tasks and loses two: zero accuracy difference, paired
+one-sided exact p = 0.6875. The prospectively frozen improvement gate failed.
+The premium configuration cost about 5.83 times as much without improving the
+original pass count. Sol remains the cheaper research route; no runtime model
+or neural policy was promoted.
+
+All 468 retained provider responses match their work records. The request audit
+identifies the configured and reported models and verifies all 156 pairs of
+initial-proposal and blind-challenge inputs as identical across conditions.
+This is host-retained execution evidence, not independent provider billing.
+
+### Wall-clock uncertainty remains explicit
+
+The first independent native replay matched 155 of 156 outcomes. Astra's
+`BigCodeBench/823` changed from rejection to acceptance; its task measures actual
+`time.sleep` intervals. Nine predeclared physical repetitions then included a
+rejection of the benchmark's own unchanged reference implementation. Both model
+programs and the reference passed four fixed scripted-clock calculation cases;
+a deliberately incorrect constant-answer control failed.
+
+The original checker and all original labels remain unchanged. The
+[complete timing record](../research/outcome-learning/reasoner-transfer-06/timing-823/)
+retains every physical result and labels clock controls as fixtures. This is
+**not exact binary reproduction**. The exact cause of the first scheduling
+observation was not captured; the controls establish wall-clock sensitivity.
+Python documents that [sleep can exceed its requested interval](https://docs.python.org/3.14/library/time.html#time.sleep)
+because of system scheduling.
+
+Treating this one physical measurement as unknown for both conditions, all four
+possible label assignments still fail the original superiority gate. The largest
+possible accuracy difference is 1.28 percentage points, below the frozen four-point
+minimum. The negative conclusion is robust to this uncertainty; the program
+labels are not silently replaced or excluded.
 
 Both experiments share the existing cumulative inference allowance. Their
 sub-envelopes do not create new budgets, release old provisions or permit
@@ -81,3 +117,32 @@ Model and API choices follow the official [reasoning guide](https://developers.o
 [Sol reference](https://developers.openai.com/api/docs/models/gpt-6.1-sol) and
 [pricing](https://developers.openai.com/api/docs/pricing). Documented capability
 is not a measured outcome in this experiment.
+
+## Independent comparison verification
+
+The comparison verifier reconstructs each job's original model configuration,
+source, common experience, three-call limit and hidden-grading contract from its
+append-only journal. It checks the complete pre-grading program commitment,
+unchanged provider output hashes and exact paired outcomes. Deterministic test
+fixtures check these integrity boundaries; they are not intelligence results.
+
+Host-retained provider transcripts also identify the configured and reported
+model, actual token usage and request interface. The audit checks that initial
+proposals and blind challenges receive identical information in both conditions.
+Known provider errors without retained response transcripts remain explicit
+evidence gaps; missing information is not reported as verified equality.
+
+After the complete result package is published, its programs can be replayed
+without a provider credential:
+
+```sh
+python -m scripts.verify_reasoner_transfer verify \
+  research/outcome-learning/reasoner-transfer-06 \
+  --workspace .test-state/reasoner-transfer-replay
+```
+
+Replay requires a new retained workspace. It executes every committed program
+against the original independent checker and reports all mismatches. Configured
+token costs are reconstructed for both complete conditions; they remain separate
+from independently verified provider invoices. Native diagnostic path redactions,
+when needed, retain their original hashes and do not change programs or outcomes.

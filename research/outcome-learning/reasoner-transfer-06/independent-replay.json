@@ -1,0 +1,2588 @@
+{
+  "programs": [
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "47da7f951885f5f4b22b3756897f6e3fd7f5623769f314240ed610e3db289d6d",
+        "code_sha256": "93b4c6eb58fb566e3d050f7bc2ef2bfc498805b3b42e74061eabb3b741efaca4",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.152683
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/10"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "674c6a003e97eb4c6325b5eaaa3b1f34b45f3c62b6868d4fa650cda91a1eeba6",
+        "code_sha256": "88946a05b3bd07fc3c9d549f833e6f391001b24f2a248ad1c33988357b0cffc4",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.046s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.686888
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/1002"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "1aac069696d9e0d84e60e7b3dda484dde7390a27eba3f58b92310f21779b52fd",
+        "code_sha256": "fea7c360b02af8d4f94f48e0b7e4cc1eda949aeadc94cb7d6e2b5016597a4bb8",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "FFF..\n======================================================================\nFAIL: test_exception_handling (__main__.TestCases.test_exception_handling)\nTest that the function handles exceptions properly.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 88, in test_exception_handling\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'close' to have been called.\n\n======================================================================\nFAIL: test_file_found (__main__.TestCases.test_file_found)\nTest that the function returns the correct SHA256 hash when the file exists.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 40, in test_file_found\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'send' to have been called.\n\n======================================================================\nFAIL: test_file_not_found (__main__.TestCases.test_file_not_found)\nTest that the function returns 'File not found' if the requested file does not exist.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 65, in test_file_not_found\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 977, in assert_called_with\n    raise AssertionError(error_message)\nAssertionError: expected call not found.\nExpected: send(b'File not found')\n  Actual: not called.\n\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nFAILED (failures=3)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 146, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.082681
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/1039"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "efd8a4ffadec0a80bc40d64fc54c8d010e4b2407941e89d9512bdf9f493243eb",
+        "code_sha256": "a4b580258f882f63a305aa95e41f3e45bf9df7b71d8a12529dfcc2a9feba1aa1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.500796
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/1051"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "66b473e5fa39d53795b94c11b5da433c7d3ed73d156452d40c4a5a2b1188af5d",
+        "code_sha256": "49eae901886c270926d1b3a07e7954fd8edf7daea177a3ab46deb8532046ef3e",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....F\n======================================================================\nFAIL: test_y_values (__main__.TestCases.test_y_values)\nCheck that the y-values are shuffled.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 49, in test_y_values\nAssertionError: False is not true : The y-values should be shuffled numbers from the range [1, len(list)].\n\n----------------------------------------------------------------------\nRan 5 tests in 0.018s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 66, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.502983
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/1071"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "175e8749c548c7b82576604df47b0c35f5365a98ea1d35a97c56096d996405c8",
+        "code_sha256": "4d18b493fe5685f5892f50575106f6808fcd8439dcee5a8252b9b370feb0bced",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.024s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.497423
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/1073"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "e0c8165bff3489301ccd92dca45adfd3c511b5427b7280c9970c42ed3b8b8a01",
+        "code_sha256": "8768cf5110b8931cbb88aaa9d67b37bf1d2eedca93ac67407589a17a754759d7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.084313
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/1089"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "c38b6cfe539cd2756c7a8c4ca12754ecbc43eec5d21e5bbeac3e8f877288f08a",
+        "code_sha256": "b9ef5e8c921dd0538c8f85a307c4fccd45cd4b3e8a51fcd39e4799308ce7931c",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....F\n======================================================================\nFAIL: test_value (__main__.TestCases.test_value)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 28, in test_value\nAssertionError: Lists differ: [[np.int64(2), np.int64(0), np.int64(0), np[287 chars](1)]] != [[2.0, 0.0, 0.0, 0.0, 0.0], [0.0, 1.0, 1.0,[87 chars]1.0]]\n\nFirst differing element 1:\n[np.int64(0), np.int64(1), np.int64(0), np.int64(1), np.int64(0)]\n[0.0, 1.0, 1.0, 0.0, 0.0]\n\n- [[np.int64(2), np.int64(0), np.int64(0), np.int64(0), np.int64(0)],\n-  [np.int64(0), np.int64(1), np.int64(0), np.int64(1), np.int64(0)],\n-  [np.int64(0), np.int64(1), np.int64(0), np.int64(1), np.int64(0)],\n-  [np.int64(0), np.int64(0), np.int64(1), np.int64(0), np.int64(0)],\n-  [np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(1)]]\n+ [[2.0, 0.0, 0.0, 0.0, 0.0],\n+  [0.0, 1.0, 1.0, 0.0, 0.0],\n+  [0.0, 0.0, 0.0, 1.0, 0.0],\n+  [0.0, 1.0, 1.0, 0.0, 0.0],\n+  [0.0, 0.0, 0.0, 0.0, 1.0]] : DataFrame contents should match the expected output\n\n----------------------------------------------------------------------\nRan 5 tests in 0.073s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 50, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.69854
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/109"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "36b953f8cc489ce0dd1fd6a3876d56ab6e303807c29b65f45f4ddfa06e4a74b1",
+        "code_sha256": "cb5f7dd9af6b36380b9ac563a43d9a1a1385e5c805398b472a7a8a21ddf003fa",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.08402
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/1112"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "b9f975ca77b6c087ebeaac1ff145fea2ba25db41bb2ad2b2565447fcb6b44e5a",
+        "code_sha256": "e98512fb5931b7fcefbd5a2c5eff004c16addbfd9f8f2039b48b9b196b321429",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "..E..\n======================================================================\nERROR: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 49, in test_case_3\n  File \"program.py\", line 8, in task_func\n    with open(csv_file, newline='') as file:\n         ~~~~^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/path/to/non_existent_file.csv'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nFAILED (errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 67, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.093819
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/1113"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d93f00e9a20e19b04bd89537f679161ecf5e9d10883f6eaf3a374fcfe2f21be2",
+        "code_sha256": "4e00f276ab1c227acbb79e01eeaf8cdb252f00294e5bfe7d2bfbbbb47e00bd53",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092895
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/113"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "ce50556ead27aa99b436e0d3638909bf5f2d6c61da549189a02e8d196c25767d",
+        "code_sha256": "2b67da57eee6596ab8d45ecb39f8a8b9674544a1aee0e23c85df722a9132f4eb",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F.F.\n======================================================================\nFAIL: test_plot_shown (__main__.TestCases.test_plot_shown)\nTest that plt.show() is called.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 55, in test_plot_shown\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 965, in assert_called_once\n    raise AssertionError(msg)\nAssertionError: Expected 'show' to have been called once. Called 0 times.\n\n======================================================================\nFAIL: test_step_direction (__main__.TestCases.test_step_direction)\nTest that each step moves in a valid direction according to the trigonometric calculation.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 49, in test_step_direction\nAssertionError: np.False_ is not true : Step from (-0.9455185755993168, 0.3255681544571566) to (-0.05451205141094906, -0.12842234528239038) is not valid.\n\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nFAILED (failures=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 60, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.4731
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/128"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "9b8c7ec1e9bfbe98a02047f72a96b5ecda692ae1999483914d0b32d2b963523e",
+        "code_sha256": "510155870587eec0e2e527911008d44da4ec290db6ff846999d41ba28dd48f87",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.267545
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/141"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "4aab12c3ad55b019ec25cdceb65c52a2988ce139d9974d1dca2c8091c681f318",
+        "code_sha256": "a67655b0b2ada56c1aa543217e9f22f03758b4ee02521ec3d0852c8ce865be24",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.120s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.609648
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/142"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "a4c8d454a8f1472c412349fa0d540276c33fc3fde33e34675d1571f8f073fb63",
+        "code_sha256": "b4b4df169082eb00c58480feab2e9f0b04dd59408df6f8d98c3c268d49ba430c",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".FF..\n======================================================================\nFAIL: test_csv_writer_usage (__main__.TestCases.test_csv_writer_usage)\nTest that csv.DictWriter is used correctly.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 29, in test_csv_writer_usage\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'DictWriter' to have been called.\n\n======================================================================\nFAIL: test_csv_writing (__main__.TestCases.test_csv_writing)\nTest that the CSV writer writes the expected number of rows.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 42, in test_csv_writing\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 965, in assert_called_once\n    raise AssertionError(msg)\nAssertionError: Expected 'writeheader' to have been called once. Called 0 times.\n\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nFAILED (failures=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 49, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.086185
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/145"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "8613405a1eb024b650c1a04c434e119e24e3123d992ce089a7c0cdc795f7cef4",
+        "code_sha256": "8ec86ec851a6d254478fe793f0c029324693435e23dca9f923be8220464c4b3b",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "F.EF..\n======================================================================\nERROR: test_file_type_identification (__main__.TestCases.test_file_type_identification)\nTest correct file type identification.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 23, in test_file_type_identification\nKeyError: 'file_suff.txt'\n\n======================================================================\nFAIL: test_dictionary_content (__main__.TestCases.test_dictionary_content)\nTest the content of the dictionary.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 15, in test_dictionary_content\nAssertionError: 'file_suff.txt' not found in {}\n\n======================================================================\nFAIL: test_re_search_called_with_suffix (__main__.TestCases.test_re_search_called_with_suffix)\nTest that re.search is correctly used to filter files by suffix.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 36, in test_re_search_called_with_suffix\nAssertionError: 'test_suff' not found in {}\n\n----------------------------------------------------------------------\nRan 6 tests in 0.002s\n\nFAILED (failures=2, errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 51, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.082829
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/154"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "c5ff374553552ce6c12c25beabedd8a2481f4a120d77a15967ac8eee1f83e255",
+        "code_sha256": "f1d1071c3720496b9d02ea9e5d2acd3cf763bc5b43b004ef7cf236e645dd55cd",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.075s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.684717
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/167"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "26490a9016fd763fb6681408a07291becae1a005480d3d12db3921d7d7359018",
+        "code_sha256": "aabbdf387184966426c014223aebfbc78c3ef36231e3d222d50a10d401f2b017",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049113
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/172"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "ef1769f3dd78c8947cdc80964370b6fd3db44b93575c37ed16997876c0a8252f",
+        "code_sha256": "f6665d5b9133eed684308171465f4183ce3ec51314f9d273ff28fc5df6830a63",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F...\n======================================================================\nFAIL: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 13, in test_case_2\nAssertionError: 'Invalid IP address received' != '500.500.500.500'\n- Invalid IP address received\n+ 500.500.500.500\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 33, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050015
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/178"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "03566cda7fa5a3c9e91f15bcede39820de8f56b0d89840b9b114e20226b6e47e",
+        "code_sha256": "c6c7a0bcb491747c2f1b1429d8d05077ed7dc57b382635a8384b3af8ad6f56cf",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "program.py:20: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.......\n----------------------------------------------------------------------\nRan 7 tests in 0.017s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.498362
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/198"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "7ea8b0b840052d9c8afe338cddf8ceda45658f94e460bbef9823e1d8788b90c0",
+        "code_sha256": "0ee408ce86803b992b1a3d74909105704e1e84e83a9fad968ceed7c6e9129ddc",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050087
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/22"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "286a1daaaadf4ee176c25f5102022f2a93b06dc89df288c4aa0663e605149181",
+        "code_sha256": "3bb32d02b19a39643bdce6d2b0ab82863d27a05a190923b89411c04c0641324a",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.079369
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/3"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "4753ea632c0e09a441371328fa5f1dfed78e4ee43d95c8788a10cc4525c9a91a",
+        "code_sha256": "a2982e4d73f8ee456b2d1a4e2c7ad90a03881623918e40888f9617cc17e2fc92",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F.F.FF\n======================================================================\nFAIL: test_logging (__main__.TestCases.test_logging)\nTest if logging works as expected.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 55, in test_logging\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'info' to have been called.\n\n======================================================================\nFAIL: test_remove_jquery_files (__main__.TestCases.test_remove_jquery_files)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 11, in test_remove_jquery_files\nAssertionError: 0 != 3\n\n======================================================================\nFAIL: test_remove_jquery_files_not_js (__main__.TestCases.test_remove_jquery_files_not_js)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 31, in test_remove_jquery_files_not_js\nAssertionError: 0 != 2\n\n======================================================================\nFAIL: test_remove_jquery_files_subdirectory (__main__.TestCases.test_remove_jquery_files_subdirectory)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 38, in test_remove_jquery_files_subdirectory\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 7 tests in 0.003s\n\nFAILED (failures=4)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 67, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.084759
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/306"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "a30ae7ceae12b85f0bf158028bd487904f2fe0896667ee22b774c05dcf33da47",
+        "code_sha256": "5bbe3b5eea510bf1e50465eae6045d7ff2c8f3b8cdd5b98edc3cc53754956334",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049882
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/310"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "859cb9eeea7969fd7689791f3430bb438cbc876c65bf2bd373269595b0b07340",
+        "code_sha256": "9269da89c5e998ad9eefcd5252fa6e78c7f965dd2399509b7bde2c9e37331738",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.053s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.512081
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/312"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "eff1cc5d38b91c39b08b0f16167e8fff231829e4a978f5d0214cac40b33f2071",
+        "code_sha256": "3bc001d5fed3fcad4afcdb5275062b288e9da1b407f0cbdfef4dff1f71a8ecf7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "[360] [360]\n",
+        "timed_out": false,
+        "wall_seconds": 0.092464
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/33"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "f2e78edb3fe40c9029aa2174ca6dbc85e480fac2a7ddb179de916e6e8c988c59",
+        "code_sha256": "161c98e3a2e28025756d80ddb27d5d840917551b5aa80c5ca5453363b89eb399",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.089419
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/384"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "11d2f4e37ed483169e1e3440a75d2262fd2e45ae32eb7d388b1cbd03fec65938",
+        "code_sha256": "33a7f41ec5f66bf9761051381e0efd8820513057656a3df62254476fd09a64c0",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".EEEE\n======================================================================\nERROR: test_invalid_json_format (__main__.TestCases.test_invalid_json_format)\nTest with invalid JSON format files.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 78, in test_invalid_json_format\n  File \"program.py\", line 15, in task_func\n    data = json.load(source)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n======================================================================\nERROR: test_nested_directories (__main__.TestCases.test_nested_directories)\nTest with nested directories.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 66, in test_nested_directories\n  File \"program.py\", line 15, in task_func\n    data = json.load(source)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n======================================================================\nERROR: test_with_target_string (__main__.TestCases.test_with_target_string)\nTest with files containing the target string.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 55, in test_with_target_string\n  File \"program.py\", line 15, in task_func\n    data = json.load(source)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n======================================================================\nERROR: test_without_target_string (__main__.TestCases.test_without_target_string)\nTest with files not containing the target string.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 60, in test_without_target_string\n  File \"program.py\", line 15, in task_func\n    data = json.load(source)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nFAILED (errors=4)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 85, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.1376
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/400"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "bc2b461c764d13d440ff8db542b4c8f7e7d328d52ffd39bb3a504f768cfa5ac9",
+        "code_sha256": "3b994149bb639e869a9cf16c310365a4cbee7caa7ebf435171d67c3a3eafea84",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092138
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/412"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "a8a38008d8a6c5480a84a06c195e6dc50de7e865ff6e4ebac740f158d03c66f6",
+        "code_sha256": "011bf2e5b2b71076656b87c0451b4898b9dc2b728760f8d5c1c9801087b3f8b2",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.007s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.087505
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/453"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "8e6c9c4d1ccebda4fe5f990de0ec6aec0296d71fedd969502da62f1cc8fc019a",
+        "code_sha256": "5461829b7469ce5f23e8fe857fc654f4ae526d150b0ed2c36a476917348480a1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.003s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.305325
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/483"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "dcbe23e135d5d0f145b2693c81a52607ee37225de2c1e5c192808422c3006cf2",
+        "code_sha256": "0fe3f0356312e0ccc0754fee5bed0d47681d4f30b42036744a52acb3d53e9b87",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".....F.\n======================================================================\nFAIL: test_case_6 (__main__.TestCases.test_case_6)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 51, in test_case_6\nAssertionError: 'count' != 'Count'\n- count\n? ^\n+ Count\n? ^\n : Y-axis label is incorrect\n\n----------------------------------------------------------------------\nRan 7 tests in 0.084s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 69, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.55348
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/529"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "74ebe01b61c43524fa920afd80bba82b33d38929c106e03a8a10b3d32f583010",
+        "code_sha256": "4e57d0536f3cd1ae0903a084fd204c173fca85a7a927bcf4c116d94c46ef296e",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".....F\n======================================================================\nFAIL: test_case_6 (__main__.TestCases.test_case_6)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 50, in test_case_6\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 6 tests in 0.022s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 68, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.449714
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/540"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "37de9ddfa2ee9038ed3e3a50cf4c077e9dbbdfd150833755b6b4534ed08c0afc",
+        "code_sha256": "3d7a54cd7a09d787bb73c39263e818edb7285457ba7f901ab454f906a1538225",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.025s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.447349
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/581"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "eaac3ded88d19497b4c16252aa958000d2c2c945151aeb430265e6365a518cde",
+        "code_sha256": "7035e377d8317ecf1f984a5fcc603faf5862c88297be4e06f444940204d82305",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.058s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.66831
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/607"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "151638521ae7515b39dba309294f01fe2f1d681c6ae27fcdac770be1392c576f",
+        "code_sha256": "cac4cb165b4e1df1b44641d6d0d12051f5e410930a5f28fc0b5a117b30c0bfb8",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.421s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.71581
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/609"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "f6a943fa31a58b4fa796e88fc39a611eb2d50c94528854ae0529b6fff05ec59b",
+        "code_sha256": "74af441355cfc1e5bd862a4c11b884c3e010516fdba8637b51fd5af85c6a2741",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".E...\n======================================================================\nERROR: test_negative_input (__main__.TestCases.test_negative_input)\nEnsure negative inputs are treated as positive.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 18, in test_negative_input\n  File \"program.py\", line 17, in task_func\n    team_goals = randint(0, goals)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/random.py\", line 341, in randint\n    raise ValueError(f\"empty range in randint({a}, {b})\")\nValueError: empty range in randint(0, -5)\n\n----------------------------------------------------------------------\nRan 5 tests in 0.052s\n\nFAILED (errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 38, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.669803
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/616"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "f456dcbf84b2e9cc18911115acd2c455cfc746105d427c6f3a82e2af30930b15",
+        "code_sha256": "ffe0458bc25fa08a09efb4987c7a1d157abc309aca16ecea228a28c3bbe2b276",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.015s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.479511
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/628"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "3203a636ccfc76b5bd001f15ac520cae5e1efe8cd4e7b2a0efb39f29ba6f7ba6",
+        "code_sha256": "d8d52f64f14e2fe1e3cd6b67905d850790ec89bcd372b52f2a399695c397ff75",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.266449
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/629"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "39c8eea9007598243c3a256a7bb91a621c8dc57b52e7efb2b057e530173e8eab",
+        "code_sha256": "3c205eec0f92a0627a98ba219ebcefb6b8dffefb229f3005ddde0480e3a9f08d",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.266493
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/631"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "1b94f36bb9ac8f188af59e9901cb11fd3323e48ecb3c18b37d52d22a2bf717ad",
+        "code_sha256": "f78f85c9f1866a4f65f0364cb99333d1088de48295921b876801be9fed9d2ea6",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "host_check.py:44: SyntaxWarning: \"\\.\" is an invalid escape sequence. Such sequences will not work in the future. Did you mean \"\\\\.\"? A raw string is also an option.\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091126
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/642"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "1ce9d01b3db5f41257e67acb1a67fdec6dd745b3f1d1d331126daeb98272545c",
+        "code_sha256": "512b8b0fa82d64914c204b64a840871b462b7caaa5eb131520afedd4af478f4a",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050762
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/666"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "dd9419759950e9664d159b2e9d4a06d5e886cc471a54cf5b4d09c293c6554f0c",
+        "code_sha256": "b011931ba0ee44c0d9fb66a5d83818ba8eba9cc01388080ad6eab79bab1ea60c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.04354
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/670"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "53adbe3d9b4d09b9e463c2e8b95d027b5ec7c2553de24a1c1f97a6c5e77ca3e4",
+        "code_sha256": "05445d9a7c39bc823d80877f10f218da4ea54e7b25c09967829b59b60e938c6e",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.253581
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/674"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "758b2211e0bc593b3623fcd73b08860976644f152cf8745de1cf4b848f39753c",
+        "code_sha256": "24d4a9fc265601f6bdb495456b800d2e43431f6b9db54ffdcdfaafcd5ac01b7e",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.045794
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/685"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "2c8fdb957d928cb9433a6a0f4f3714eb6ceb097187aed1ac9008dc9e87e4445e",
+        "code_sha256": "456badd63ec4e70f4d7134747f086d05f2b9c300a1ce52c23df75ce965d3884c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.495507
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/69"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "c6f72180831efcbaa9cebebb6682e45dcee97b7cf0cd09cb685bf87f164d2224",
+        "code_sha256": "fcb73f03e3304d5ce693cc7d22e31d1b9b774eb3a709352e2787582e220fa486",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".host_check.py:8: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\nprogram.py:16: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n  with codecs.open(filename, 'r', encoding=from_encoding) as source:\nprogram.py:18: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n  with codecs.open(filename, 'w', encoding=to_encoding) as destination:\nhost_check.py:31: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\nhost_check.py:33: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n...host_check.py:46: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n.\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.093764
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/725"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "aa4556c8c0664f7f3e89d13459ea58bc876351b4dbf1f632b03b8734e53a74a4",
+        "code_sha256": "c21153c96d9d775fd2d3f97f3023a9ce621fb1bdc975ada7e618723a7ef9d024",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091215
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/735"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "5d5af69af29a2c30d16e57ecd8c1af43ab0d0c67f8ff265651fc72aec338e7df",
+        "code_sha256": "932a1134bd11590bbe1afd5c276bcba0fa60ff458b7f3e88abb6ddec050e9ca9",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.085469
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/739"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "236d82ee226867eb243edada6544575939c0445a6e00c01e13fa56d941f5263b",
+        "code_sha256": "4c12b1ff1651575a14bf75d2fde56c0016715f4e8fc2a58af35bfa5b336b921b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050244
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/741"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "c61bc0b62fbea395416b3511e01111defe56b5052134fbde970a8f250a588bce",
+        "code_sha256": "592748c429ceb041d481a08cea95f3b4b88061b626db46faa0778ea83b2594f6",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049466
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/753"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "e5db6c7c36a78ab8c4ec87d21cdc4663afb358478b4e97fb67e62c49f6173deb",
+        "code_sha256": "7fb206adcef943ed8b95ddeb81bd8e2d2420fb25529e67335e241603920109d1",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....F\n======================================================================\nFAIL: test_permission_error (__main__.TestCases.test_permission_error)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 44, in test_permission_error\nAssertionError: 'Permission denied' not found in \"[Errno 2] No such file or directory: 'fakepath/file.txt'\"\n\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 53, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.09192
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/781"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "2174768b27f33e5d42fe304fb75b1541b88f89f923775552cfc50993dade04fc",
+        "code_sha256": "cb045a3e18282f2354c0d809c980bafb6f2946dbc717d10b14946aa7a49ecf2d",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092015
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/783"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "c70e07f4eb6261b6822b60708a568cfb92f32b952ee703b351663c5df423cdae",
+        "code_sha256": "44f19c13c81baf73e7256ef0e6ae0a173b90a698b3668d51dcb0d235e670395d",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092171
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/787"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "af4388c2abeae0f917c8bdbe235e50d94e34c1cf65e37dc63944a746b34e8940",
+        "code_sha256": "496fc7f713a67581e78806dd7c1859516c5f5c68b436a08762f1df6767be7264",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F.F.\n======================================================================\nFAIL: test_erroneous_backup_content (__main__.TestCases.test_erroneous_backup_content)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 47, in test_erroneous_backup_content\nAssertionError: Exception not raised\n\n======================================================================\nFAIL: test_no_backups_in_backup_directory (__main__.TestCases.test_no_backups_in_backup_directory)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 28, in test_no_backups_in_backup_directory\nAssertionError: \"Error rolling back update: [Errno 2] No such file or directory: '/tmp/my_data'\" != 'No backups found in /tmp/backup. Cannot rollback update.'\n- Error rolling back update: [Errno 2] No such file or directory: '/tmp/my_data'\n+ No backups found in /tmp/backup. Cannot rollback update.\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nFAILED (failures=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 54, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091877
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/798"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d7e7d2428d8c36c52393b4b96f276e5475400754aa60b54445af6f35274c753c",
+        "code_sha256": "f68fe5beb2eab631705f4b3ea214f42474d8924dc463d0d818358d205e37ee24",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.087619
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/801"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "96b68bea8669b6bcea710dae859f23b0dad0f11e9b567dc55b9251a77c6d098a",
+        "code_sha256": "0f011d089daff0dd3ce1e3bc6a7909667c9cca0176bec09210c4d0bb128e9057",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049727
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/817"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "2162bbb82742c0b479803f1fd6590d7f4856e8bff8b03b7b35fa9da9cba995fd",
+        "code_sha256": "64c763079a3090f0bbc2a6991c6d6526ca5a0bcaedab42cb04d5846a0c2389eb",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "F...FF\n======================================================================\nFAIL: test_empty_string (__main__.TestCases.test_empty_string)\nTest with an empty string\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 12, in test_empty_string\nAssertionError: Lists differ: [] != ['']\n\nSecond list contains 1 additional elements.\nFirst extra element 0:\n''\n\n- []\n+ ['']\n\n======================================================================\nFAIL: test_string_with_special_characters (__main__.TestCases.test_string_with_special_characters)\nTest with a string that includes special characters\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 27, in test_string_with_special_characters\nAssertionError: Lists differ: ['special', 'chars'] != ['special', 'chars', '']\n\nSecond list contains 1 additional elements.\nFirst extra element 2:\n''\n\n- ['special', 'chars']\n+ ['special', 'chars', '']\n?                    ++++\n\n\n======================================================================\nFAIL: test_string_with_whitespaces (__main__.TestCases.test_string_with_whitespaces)\nTest with a string that includes extra whitespaces between words\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 32, in test_string_with_whitespaces\nAssertionError: Lists differ: ['extra', 'whitespaces'] != ['', 'extra', 'whitespaces', '']\n\nFirst differing element 0:\n'extra'\n''\n\nSecond list contains 2 additional elements.\nFirst extra element 2:\n'whitespaces'\n\n- ['extra', 'whitespaces']\n+ ['', 'extra', 'whitespaces', '']\n?  ++++                      ++++\n\n\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nFAILED (failures=3)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 37, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.048286
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/818"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "6dd8102d30c32a6f0db2a426101044a244fa7bb09f45e593f63d6d51753e556e",
+        "code_sha256": "d141a9b452edb8451fa5dd112977aec8d934cfc4279e94906206f2e9f34d6f57",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049884
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/820"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.688s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.773301
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/823"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "649f481b53baf01ff30a3db847eae025692baebdafbedf63b4a1e9b78b42aa5d",
+        "code_sha256": "8175db5cc925d551b3e35fca0601e02ecd40ef7e49a6c0d8878c0e0cb863c62f",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....E\n======================================================================\nERROR: test_target_directory_creation (__main__.TestCases.test_target_directory_creation)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/shutil.py\", line 922, in move\n    os.rename(src, real_dst)\n    ~~~~~~~~~^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '<execution>/tmpe0ecroao/source/file1.txt' -> '<execution>/tmpe0ecroao/target/file1.txt'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"host_check.py\", line 54, in test_target_directory_creation\n  File \"program.py\", line 13, in task_func\n    shutil.move(source_path, target_path)\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/shutil.py\", line 942, in move\n    copy_function(src, real_dst)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/shutil.py\", line 529, in copy2\n    copyfile(src, dst, follow_symlinks=follow_symlinks)\n    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/shutil.py\", line 315, in copyfile\n    with open(dst, 'wb') as fdst:\n         ~~~~^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '<execution>/tmpe0ecroao/target/file1.txt'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nFAILED (errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 61, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.262022
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/826"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "4e3c17b905905fae5c30bf4f4934f0977c983e4723ceb32bc0fc375584c97538",
+        "code_sha256": "1463e85f496db9eaf53255a0d4d7103c213f3e17644a3fa4e3e3ec94c24929af",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.264784
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/830"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "93db60912385c80c01030bacbdf89c1e306921f82f882947b68d7bf0a9b88fa0",
+        "code_sha256": "e7a8a4b8c3cbae728e2bde42df3bfa3292ae9ab23fcd5c8b37b773479216c451",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050049
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/834"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d695857ca2381227b2fd9b65adb394d9e1bb389cbd2449d7ba785edf3f8635d1",
+        "code_sha256": "b8e0f4af3e8ee630df4bf08f3295c2c1751f00890590b9d5f54482e8f42b5b0c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.255813
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/835"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "eab232cbb0b6996c238fb5bda0af3ca879cd5bf96bfabce38db995c80e471d80",
+        "code_sha256": "88c45005c48fb10f9d52c2e34187936a671b060fee887e080da1a7be47e3b304",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "host_check.py:55: UserWarning: Could not transfer 'file1.txt': \nhost_check.py:55: UserWarning: Could not transfer 'file2.csv': \nhost_check.py:55: UserWarning: Could not transfer 'file3.xlsx': \nhost_check.py:55: UserWarning: Could not transfer 'file4.jpg': \n..F.host_check.py:27: UserWarning: Could not transfer 'file1.txt': \nhost_check.py:27: UserWarning: Could not transfer 'file2.csv': \n.\n======================================================================\nFAIL: test_exception_handling (__main__.TestCases.test_exception_handling)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 50, in test_exception_handling\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 61, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.085231
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/857"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "0bef98191d02a87db268aef0174fb1f228946783c2112b97ac049df35ef3a78a",
+        "code_sha256": "6206e935dde418042c7a1c4e8a565e43fb2056e3b29253151bbf75061ffe105a",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049847
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/858"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "63bc6d7781c079c66baafc7b3807c6b92c2d3a020e5f6fb6ce1c37673004fbc3",
+        "code_sha256": "bf27af8cac26c00b4d53353fdc82cec2faa9a4110ab4c2c3d8a813f5b759d628",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "...F..\n======================================================================\nFAIL: test_plot_labels (__main__.TestCases.test_plot_labels)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 18, in test_plot_labels\nAssertionError: '' != 'Score'\n+ Score\n\n\n----------------------------------------------------------------------\nRan 6 tests in 0.394s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 36, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.68548
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/86"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "b5ef9ce826e8b54b4a925f990fd6a863a81584c95c0fc5abe35d14bac4b32e49",
+        "code_sha256": "b9dab0da7270985cfe3d06f7b8a17b4db1f997cb98869dec05f402e95849b566",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.089937
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/896"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "05e924739f49ef8c7474da7b5c94f0b8fb779732fe23e144bd2597396b7011f1",
+        "code_sha256": "d72f2f80bd8a7f64a7611e7c4266e4ee7e9956234105938fbd59c7d6c230dd80",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.270283
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/900"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "be0fc797600dd0613ef51ee4ff5c5be46cd2cb6a4ffb9dd87ac2d7fe475a03b2",
+        "code_sha256": "20e8817ccca1da9546af34e835ec90655925d10b53713968190301f2d29a03aa",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.005s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092157
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/905"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "b95dd3b085c0ebe205133e61c241ed7e68d075acc256ca9d2cf6c82f0c6de961",
+        "code_sha256": "2c40db947fed55c2f3475c7753110889c0e86682c1e53f0e6faa600474356e62",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049577
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/911"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "4e1b07ae9eacaba386aebef6f01510d15af8ebaedc44531924390ce5614bd26e",
+        "code_sha256": "f699691ce38dca1ffad729a68baa6ac24ecbd1ceb26c6fa737822fa95b57082c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.047532
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/912"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "475bc69e3440ac09b1b4fd8ba2fccddad73aeeac15b34e687154a91e281c90d4",
+        "code_sha256": "e52f6f2076da3cb335d2153480abb55bafae35fbd45ff16514d87f22040bac1a",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.047068
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/937"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "7f261355a81bf614db5dbc2893e1c547a1800dba2d71c1fe08a095da2cf40e47",
+        "code_sha256": "82c11664cffee15145d3d265de761760a6e5ff7aa3bdd1d7dc02695ae0579954",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F...\n======================================================================\nFAIL: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 13, in test_case_2\nAssertionError: Lists differ: [49, 33, 100, 74, 36] != [49, 33, 38, 27, 17]\n\nFirst differing element 2:\n100\n38\n\n- [49, 33, 100, 74, 36]\n+ [49, 33, 38, 27, 17]\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 32, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.264342
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/946"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "6b9a99768bd5cbd40d4a526e749f4e11388d6c6bcae3ceae9dea23845f12d08d",
+        "code_sha256": "182b98ea4764431d541b2c0ce562b3ca4484369adc5d8d4ca06e8cc232bc38fb",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.052355
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/956"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d33c2eedb6ad8d9f1fe2850038b8d8b577551096293b0a2d6bde555e3a0e2101",
+        "code_sha256": "c1f268c30fc2c4b200209f1fa14ec1d5f5a74cd51fc07af6d44fef2635fb36f6",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049853
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/958"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "3045fb9c1f4ac6509e972b394d4e7e0889bd17f7a4c6427f62e65619ec0c6a88",
+        "code_sha256": "aaba13986b8318c1a14751ff539e1b411ade8c3251e9597be173a38b4653cfb3",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "...EEF.\n======================================================================\nERROR: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 20, in test_case_4\n  File \"program.py\", line 14, in task_func\n    raise ValueError(\"Path contains invalid characters.\")\nValueError: Path contains invalid characters.\n\n======================================================================\nERROR: test_case_5 (__main__.TestCases.test_case_5)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 23, in test_case_5\n  File \"program.py\", line 14, in task_func\n    raise ValueError(\"Path contains invalid characters.\")\nValueError: Path contains invalid characters.\n\n======================================================================\nFAIL: test_case_6 (__main__.TestCases.test_case_6)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 26, in test_case_6\nAssertionError: Lists differ: ['', 'Docs', 'src', 'Scripts', ''] != ['Docs', 'src', 'Scripts']\n\nFirst differing element 0:\n''\n'Docs'\n\nFirst list contains 2 additional elements.\nFirst extra element 3:\n'Scripts'\n\n- ['', 'Docs', 'src', 'Scripts', '']\n?  ----                        ----\n\n+ ['Docs', 'src', 'Scripts']\n\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nFAILED (failures=1, errors=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 39, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.043817
+      },
+      "condition": "astra-medium",
+      "recorded": false,
+      "task_id": "BigCodeBench/972"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "db686b61f2dba22a081ce2dd410c220f91f983c6fc09a48cbea1282546068306",
+        "code_sha256": "a7a0ec41d4dd1043c03248418164d56ca56ff1c434d10190ab1039d4963ebd27",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.009s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092005
+      },
+      "condition": "astra-medium",
+      "recorded": true,
+      "task_id": "BigCodeBench/989"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "47da7f951885f5f4b22b3756897f6e3fd7f5623769f314240ed610e3db289d6d",
+        "code_sha256": "eeb3482d81e333682091fb5dbe8835c4288cef8130837bd322b05954577e4296",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.14902
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/10"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "674c6a003e97eb4c6325b5eaaa3b1f34b45f3c62b6868d4fa650cda91a1eeba6",
+        "code_sha256": "e4535755ff988d8305c94c02a6985388595527ff2ddbb2b8874f31b4dd81a70b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.045s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.656911
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/1002"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "1aac069696d9e0d84e60e7b3dda484dde7390a27eba3f58b92310f21779b52fd",
+        "code_sha256": "835f3cc4e8aa2c5b8d35221050519afb359f7259f1915cb5ee0183a33245419d",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "FFF..\n======================================================================\nFAIL: test_exception_handling (__main__.TestCases.test_exception_handling)\nTest that the function handles exceptions properly.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 88, in test_exception_handling\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'close' to have been called.\n\n======================================================================\nFAIL: test_file_found (__main__.TestCases.test_file_found)\nTest that the function returns the correct SHA256 hash when the file exists.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 40, in test_file_found\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'send' to have been called.\n\n======================================================================\nFAIL: test_file_not_found (__main__.TestCases.test_file_not_found)\nTest that the function returns 'File not found' if the requested file does not exist.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 65, in test_file_not_found\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 977, in assert_called_with\n    raise AssertionError(error_message)\nAssertionError: expected call not found.\nExpected: send(b'File not found')\n  Actual: not called.\n\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nFAILED (failures=3)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 146, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.094328
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/1039"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "efd8a4ffadec0a80bc40d64fc54c8d010e4b2407941e89d9512bdf9f493243eb",
+        "code_sha256": "f1d4325c355d9bf6b27085c4f34227d6e8ea86bd92bdd05a52f23142e851ea19",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.498123
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/1051"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "66b473e5fa39d53795b94c11b5da433c7d3ed73d156452d40c4a5a2b1188af5d",
+        "code_sha256": "f3160e23471a112597f89de9339dbe821b1b72601bd6e051184cd151f9a508ab",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....F\n======================================================================\nFAIL: test_y_values (__main__.TestCases.test_y_values)\nCheck that the y-values are shuffled.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 49, in test_y_values\nAssertionError: False is not true : The y-values should be shuffled numbers from the range [1, len(list)].\n\n----------------------------------------------------------------------\nRan 5 tests in 0.018s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 66, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.487481
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/1071"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "175e8749c548c7b82576604df47b0c35f5365a98ea1d35a97c56096d996405c8",
+        "code_sha256": "4154392b245e1246a6e0386b0e6f097fcab7b759ced42221f94341e30279551b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.023s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.451663
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/1073"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "e0c8165bff3489301ccd92dca45adfd3c511b5427b7280c9970c42ed3b8b8a01",
+        "code_sha256": "cb114a815aef29477ea1c48a3a266836e7ec32d27492b205e7c7d72ef9c8ac85",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091879
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/1089"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "c38b6cfe539cd2756c7a8c4ca12754ecbc43eec5d21e5bbeac3e8f877288f08a",
+        "code_sha256": "cbb05f0029fb9bfbfb79fd754e79d754aef314cf6e8fa86689fb81de9f65b45d",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....F\n======================================================================\nFAIL: test_value (__main__.TestCases.test_value)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 28, in test_value\nAssertionError: Lists differ: [[np.int64(2), np.int64(0), np.int64(0), np[287 chars](1)]] != [[2.0, 0.0, 0.0, 0.0, 0.0], [0.0, 1.0, 1.0,[87 chars]1.0]]\n\nFirst differing element 1:\n[np.int64(0), np.int64(1), np.int64(0), np.int64(1), np.int64(0)]\n[0.0, 1.0, 1.0, 0.0, 0.0]\n\n- [[np.int64(2), np.int64(0), np.int64(0), np.int64(0), np.int64(0)],\n-  [np.int64(0), np.int64(1), np.int64(0), np.int64(1), np.int64(0)],\n-  [np.int64(0), np.int64(1), np.int64(0), np.int64(1), np.int64(0)],\n-  [np.int64(0), np.int64(0), np.int64(1), np.int64(0), np.int64(0)],\n-  [np.int64(0), np.int64(0), np.int64(0), np.int64(0), np.int64(1)]]\n+ [[2.0, 0.0, 0.0, 0.0, 0.0],\n+  [0.0, 1.0, 1.0, 0.0, 0.0],\n+  [0.0, 0.0, 0.0, 1.0, 0.0],\n+  [0.0, 1.0, 1.0, 0.0, 0.0],\n+  [0.0, 0.0, 0.0, 0.0, 1.0]] : DataFrame contents should match the expected output\n\n----------------------------------------------------------------------\nRan 5 tests in 0.065s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 50, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.688355
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/109"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "36b953f8cc489ce0dd1fd6a3876d56ab6e303807c29b65f45f4ddfa06e4a74b1",
+        "code_sha256": "d489a5762ef33ab86ee07b03dab31afcdddb2d93e2434016e42c38091b325037",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.085991
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/1112"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "b9f975ca77b6c087ebeaac1ff145fea2ba25db41bb2ad2b2565447fcb6b44e5a",
+        "code_sha256": "3756ef13c6e26127c1a4744239200b5c37bfe8642a1dfb8bae77ceadbe09ac6f",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "..E..\n======================================================================\nERROR: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 49, in test_case_3\n  File \"program.py\", line 8, in task_func\n    with open(csv_file, newline='') as file:\n         ~~~~^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/path/to/non_existent_file.csv'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nFAILED (errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 67, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.093877
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/1113"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "d93f00e9a20e19b04bd89537f679161ecf5e9d10883f6eaf3a374fcfe2f21be2",
+        "code_sha256": "ad67633e8a8f897eb75c38ec4b6b00eccabf4d3f38d1ff2591debf5bcd8c9554",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "F.EF....\n======================================================================\nERROR: test_mock_random (__main__.TestCases.test_mock_random)\nTest the function with a mock of the random.randint function.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 58, in test_mock_random\nKeyError: 'a'\n\n======================================================================\nFAIL: test_dictionary_length_update (__main__.TestCases.test_dictionary_length_update)\nTest that the dictionary length is correctly updated.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 42, in test_dictionary_length_update\nAssertionError: 8 != 12\n\n======================================================================\nFAIL: test_new_keys_added (__main__.TestCases.test_new_keys_added)\nTest that new keys are added to the dictionary.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 25, in test_new_keys_added\nAssertionError: 'f' not found in {'c': 13, 'd': 64, 'b': 54, 'e': 75, 'a': 92, 'h': 61}\n\n----------------------------------------------------------------------\nRan 8 tests in 0.003s\n\nFAILED (failures=2, errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 63, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092239
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/113"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "ce50556ead27aa99b436e0d3638909bf5f2d6c61da549189a02e8d196c25767d",
+        "code_sha256": "baacb53e9f146e1dce719f98e194ea0e57299deaeb15982f00ca65ba9063707d",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F.F.\n======================================================================\nFAIL: test_plot_shown (__main__.TestCases.test_plot_shown)\nTest that plt.show() is called.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 55, in test_plot_shown\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 965, in assert_called_once\n    raise AssertionError(msg)\nAssertionError: Expected 'show' to have been called once. Called 0 times.\n\n======================================================================\nFAIL: test_step_direction (__main__.TestCases.test_step_direction)\nTest that each step moves in a valid direction according to the trigonometric calculation.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 49, in test_step_direction\nAssertionError: np.False_ is not true : Step from (0.0, 0.0) to (0.8480480961564258, -0.529919264233205) is not valid.\n\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nFAILED (failures=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 60, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.452144
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/128"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "9b8c7ec1e9bfbe98a02047f72a96b5ecda692ae1999483914d0b32d2b963523e",
+        "code_sha256": "6c3da0c1f0e8bdf8142803e91672156d7a2c0658c2c1bdcaaeff7cc204e8b74b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.248799
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/141"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "4aab12c3ad55b019ec25cdceb65c52a2988ce139d9974d1dca2c8091c681f318",
+        "code_sha256": "a67655b0b2ada56c1aa543217e9f22f03758b4ee02521ec3d0852c8ce865be24",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.118s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.554035
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/142"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "a4c8d454a8f1472c412349fa0d540276c33fc3fde33e34675d1571f8f073fb63",
+        "code_sha256": "56c81e69de74054988b2c24deb12353c3a708f0bf4f2afc33f1660bdf0763722",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".FF..\n======================================================================\nFAIL: test_csv_writer_usage (__main__.TestCases.test_csv_writer_usage)\nTest that csv.DictWriter is used correctly.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 29, in test_csv_writer_usage\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'DictWriter' to have been called.\n\n======================================================================\nFAIL: test_csv_writing (__main__.TestCases.test_csv_writing)\nTest that the CSV writer writes the expected number of rows.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 42, in test_csv_writing\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 965, in assert_called_once\n    raise AssertionError(msg)\nAssertionError: Expected 'writeheader' to have been called once. Called 0 times.\n\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nFAILED (failures=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 49, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.083933
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/145"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "8613405a1eb024b650c1a04c434e119e24e3123d992ce089a7c0cdc795f7cef4",
+        "code_sha256": "e3d983d8113ffc0aa6f5a4e5851860334376b11cffa34ba73252b13cd167b6e8",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "F.EF..\n======================================================================\nERROR: test_file_type_identification (__main__.TestCases.test_file_type_identification)\nTest correct file type identification.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 23, in test_file_type_identification\nKeyError: 'file_suff.txt'\n\n======================================================================\nFAIL: test_dictionary_content (__main__.TestCases.test_dictionary_content)\nTest the content of the dictionary.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 15, in test_dictionary_content\nAssertionError: 'file_suff.txt' not found in {}\n\n======================================================================\nFAIL: test_re_search_called_with_suffix (__main__.TestCases.test_re_search_called_with_suffix)\nTest that re.search is correctly used to filter files by suffix.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 36, in test_re_search_called_with_suffix\nAssertionError: 'test_suff' not found in {}\n\n----------------------------------------------------------------------\nRan 6 tests in 0.002s\n\nFAILED (failures=2, errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 51, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.080074
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/154"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "c5ff374553552ce6c12c25beabedd8a2481f4a120d77a15967ac8eee1f83e255",
+        "code_sha256": "526b7f6727fc8d01603eeae2fd291ab8d8d2635fc2016616a0651889ed534254",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".FFFF\n======================================================================\nFAIL: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 10, in test_case_2\nAssertionError: 15 != 9\n\n======================================================================\nFAIL: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 13, in test_case_3\nAssertionError: 50 != 100\n\n======================================================================\nFAIL: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 16, in test_case_4\nAssertionError: 5 != 1\n\n======================================================================\nFAIL: test_case_5 (__main__.TestCases.test_case_5)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 19, in test_case_5\nAssertionError: 10 != 4\n\n----------------------------------------------------------------------\nRan 5 tests in 0.070s\n\nFAILED (failures=4)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 24, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.694169
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/167"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "26490a9016fd763fb6681408a07291becae1a005480d3d12db3921d7d7359018",
+        "code_sha256": "a87c34558d0177d4cc9a6360896f2f0b9bcf3c2cddfc71ed0e99ad921e4d4ee3",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.082794
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/172"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "ef1769f3dd78c8947cdc80964370b6fd3db44b93575c37ed16997876c0a8252f",
+        "code_sha256": "24f57dfe3f1cd5771af4fcdfd44e061dbb192c432e644a237b13c8a6a48f49df",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F...\n======================================================================\nFAIL: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 13, in test_case_2\nAssertionError: 'Invalid IP address received' != '500.500.500.500'\n- Invalid IP address received\n+ 500.500.500.500\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 33, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050902
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/178"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "03566cda7fa5a3c9e91f15bcede39820de8f56b0d89840b9b114e20226b6e47e",
+        "code_sha256": "3cfcd8b146f562fa5fab3b84ff1f6055ac71d8bd6709bf2702b628af871aaa84",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "program.py:20: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.......\n----------------------------------------------------------------------\nRan 7 tests in 0.017s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.490886
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/198"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "7ea8b0b840052d9c8afe338cddf8ceda45658f94e460bbef9823e1d8788b90c0",
+        "code_sha256": "9a119f5c8bb9e412530a5a3f03864a62af4a3d935121e87af857940a2fbe5b49",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050197
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/22"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "286a1daaaadf4ee176c25f5102022f2a93b06dc89df288c4aa0663e605149181",
+        "code_sha256": "26fdf4a016ac76daab079503cafc41be928c36761521ec55cf4c01829be1921f",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.07739
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/3"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "4753ea632c0e09a441371328fa5f1dfed78e4ee43d95c8788a10cc4525c9a91a",
+        "code_sha256": "dd2d48343515a74b7a2a284d18d792c4620d7f0e89405eb3418c8e6e3eaedbd3",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F.F.FF\n======================================================================\nFAIL: test_logging (__main__.TestCases.test_logging)\nTest if logging works as expected.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 55, in test_logging\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 955, in assert_called\n    raise AssertionError(msg)\nAssertionError: Expected 'info' to have been called.\n\n======================================================================\nFAIL: test_remove_jquery_files (__main__.TestCases.test_remove_jquery_files)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 11, in test_remove_jquery_files\nAssertionError: 0 != 3\n\n======================================================================\nFAIL: test_remove_jquery_files_not_js (__main__.TestCases.test_remove_jquery_files_not_js)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 31, in test_remove_jquery_files_not_js\nAssertionError: 0 != 2\n\n======================================================================\nFAIL: test_remove_jquery_files_subdirectory (__main__.TestCases.test_remove_jquery_files_subdirectory)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 38, in test_remove_jquery_files_subdirectory\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 7 tests in 0.003s\n\nFAILED (failures=4)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 67, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.089536
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/306"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "a30ae7ceae12b85f0bf158028bd487904f2fe0896667ee22b774c05dcf33da47",
+        "code_sha256": "e865d83eaca10646a6e8a38ba2e7693ddb8e7c980936d505a13fcbd83b0e2b7c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049264
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/310"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "859cb9eeea7969fd7689791f3430bb438cbc876c65bf2bd373269595b0b07340",
+        "code_sha256": "9269da89c5e998ad9eefcd5252fa6e78c7f965dd2399509b7bde2c9e37331738",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.053s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.476868
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/312"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "eff1cc5d38b91c39b08b0f16167e8fff231829e4a978f5d0214cac40b33f2071",
+        "code_sha256": "6aa83c9875277b59417ddc397eb5c3183fdae434b846682beaad90ef8e0e2644",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "[360] [360]\n",
+        "timed_out": false,
+        "wall_seconds": 0.085288
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/33"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "f2e78edb3fe40c9029aa2174ca6dbc85e480fac2a7ddb179de916e6e8c988c59",
+        "code_sha256": "202c6d428053c7f004b3bab91cd2166d788d0548de74edab8686406b44e25185",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.084642
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/384"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "11d2f4e37ed483169e1e3440a75d2262fd2e45ae32eb7d388b1cbd03fec65938",
+        "code_sha256": "54f35ebc8c3279fd06480562e6b415fcbaf623c4c1b859960568e566d52d9d30",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".EEEE\n======================================================================\nERROR: test_invalid_json_format (__main__.TestCases.test_invalid_json_format)\nTest with invalid JSON format files.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 78, in test_invalid_json_format\n  File \"program.py\", line 11, in task_func\n    data = json.load(file)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n======================================================================\nERROR: test_nested_directories (__main__.TestCases.test_nested_directories)\nTest with nested directories.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 66, in test_nested_directories\n  File \"program.py\", line 11, in task_func\n    data = json.load(file)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n======================================================================\nERROR: test_with_target_string (__main__.TestCases.test_with_target_string)\nTest with files containing the target string.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 55, in test_with_target_string\n  File \"program.py\", line 11, in task_func\n    data = json.load(file)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n======================================================================\nERROR: test_without_target_string (__main__.TestCases.test_without_target_string)\nTest with files not containing the target string.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 60, in test_without_target_string\n  File \"program.py\", line 11, in task_func\n    data = json.load(file)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 298, in load\n    return loads(fp.read(),\n        cls=cls, object_hook=object_hook,\n        parse_float=parse_float, parse_int=parse_int,\n        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nFAILED (errors=4)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 85, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091981
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/400"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "bc2b461c764d13d440ff8db542b4c8f7e7d328d52ffd39bb3a504f768cfa5ac9",
+        "code_sha256": "d717488c5f204d5b5e64bf4b8e311190d7da9b659de7ed2e4e2456601ac11133",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091944
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/412"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "a8a38008d8a6c5480a84a06c195e6dc50de7e865ff6e4ebac740f158d03c66f6",
+        "code_sha256": "011bf2e5b2b71076656b87c0451b4898b9dc2b728760f8d5c1c9801087b3f8b2",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.090163
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/453"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "8e6c9c4d1ccebda4fe5f990de0ec6aec0296d71fedd969502da62f1cc8fc019a",
+        "code_sha256": "e0f1d412fa7e9ab645869de16783272fd2106d5d7bbc136d56859275039fefb1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.003s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.26085
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/483"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "dcbe23e135d5d0f145b2693c81a52607ee37225de2c1e5c192808422c3006cf2",
+        "code_sha256": "c3bd8c62649c73464925072477a82c6007a860657cc522e3f127181d9b373e84",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.081s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.541458
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/529"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "74ebe01b61c43524fa920afd80bba82b33d38929c106e03a8a10b3d32f583010",
+        "code_sha256": "90c70c4cebc2aeef44ac0ded8bf72fcd3ea70a1bf37064fbcdeac8ff6644a304",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".....F\n======================================================================\nFAIL: test_case_6 (__main__.TestCases.test_case_6)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 50, in test_case_6\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 6 tests in 0.022s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 68, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.451562
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/540"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "37de9ddfa2ee9038ed3e3a50cf4c077e9dbbdfd150833755b6b4534ed08c0afc",
+        "code_sha256": "96eb6f277b13a8e8966697e5e2e08d0f078e09afa11509c77685511fb2f33a38",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.025s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.474564
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/581"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "eaac3ded88d19497b4c16252aa958000d2c2c945151aeb430265e6365a518cde",
+        "code_sha256": "5bc81e0911c8a8020afb0b4cdec0bacda7f932edcf36c63048a51105938265fc",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.063s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.727973
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/607"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "151638521ae7515b39dba309294f01fe2f1d681c6ae27fcdac770be1392c576f",
+        "code_sha256": "e3f8ba4d2055f9d9286d61779c8f260ec3a99ecb3e61e98c49bb04cecbcf962c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.422s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.726306
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/609"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "f6a943fa31a58b4fa796e88fc39a611eb2d50c94528854ae0529b6fff05ec59b",
+        "code_sha256": "d7ba17cacecf1428b1dc40045c311360cc18940df6ecf12f363355b07c456fa4",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".E...\n======================================================================\nERROR: test_negative_input (__main__.TestCases.test_negative_input)\nEnsure negative inputs are treated as positive.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 18, in test_negative_input\n  File \"program.py\", line 17, in task_func\n    team_goals = randint(0, goals)\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/random.py\", line 341, in randint\n    raise ValueError(f\"empty range in randint({a}, {b})\")\nValueError: empty range in randint(0, -5)\n\n----------------------------------------------------------------------\nRan 5 tests in 0.053s\n\nFAILED (errors=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 38, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.673215
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/616"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "f456dcbf84b2e9cc18911115acd2c455cfc746105d427c6f3a82e2af30930b15",
+        "code_sha256": "40b119b0527f732715ed807bd2b15d0365e7c81fd81bdeb5d7d07f5244d443eb",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.016s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.482577
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/628"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "3203a636ccfc76b5bd001f15ac520cae5e1efe8cd4e7b2a0efb39f29ba6f7ba6",
+        "code_sha256": "d5f42b9ae258c3d87cbc658bfb9e9b9e5234ed1b8d1f840bd94af5c96070d1fc",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.252843
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/629"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "39c8eea9007598243c3a256a7bb91a621c8dc57b52e7efb2b057e530173e8eab",
+        "code_sha256": "b5863b55ef09b8729b28bd3806aced39c3612e7e769640e94baedd21e98c8fe1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.261954
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/631"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "1b94f36bb9ac8f188af59e9901cb11fd3323e48ecb3c18b37d52d22a2bf717ad",
+        "code_sha256": "2423fe6d8b36d6b14bca51b90b3730b38edd436bf8ef53fdf17a4361d47d3fc3",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "host_check.py:44: SyntaxWarning: \"\\.\" is an invalid escape sequence. Such sequences will not work in the future. Did you mean \"\\\\.\"? A raw string is also an option.\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092816
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/642"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "1ce9d01b3db5f41257e67acb1a67fdec6dd745b3f1d1d331126daeb98272545c",
+        "code_sha256": "045b8dfef430e7e668fd7ed46f56c4e04c92eac4cfa911e5863bfc2eb52b0443",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.046615
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/666"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "dd9419759950e9664d159b2e9d4a06d5e886cc471a54cf5b4d09c293c6554f0c",
+        "code_sha256": "f032f2f638f767c2cb4bb739abe59a5f3bd9147ec83dc721f6005d42960b7405",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.04707
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/670"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "53adbe3d9b4d09b9e463c2e8b95d027b5ec7c2553de24a1c1f97a6c5e77ca3e4",
+        "code_sha256": "aa35404f56873db62176541837e4639c58f6d0b242a5733ad8048026fc088fd5",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.269601
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/674"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "758b2211e0bc593b3623fcd73b08860976644f152cf8745de1cf4b848f39753c",
+        "code_sha256": "6217ccc89e54a5d350b67e1259ca0fc027595d5fe802e05984b68a0161d08390",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.04826
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/685"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "2c8fdb957d928cb9433a6a0f4f3714eb6ceb097187aed1ac9008dc9e87e4445e",
+        "code_sha256": "1c08c80de0d1e92c40ddd6c1a38f61baaa13ea91de390428032fc2e46adc6756",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.023s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.491324
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/69"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "c6f72180831efcbaa9cebebb6682e45dcee97b7cf0cd09cb685bf87f164d2224",
+        "code_sha256": "eb32689690d5b68d613d21365c209049e1ab3f96d8a98c27a61009f0f23657bb",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".host_check.py:8: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\nprogram.py:11: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n  with codecs.open(filename, 'r', encoding=from_encoding) as source:\nprogram.py:13: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n  with codecs.open(filename, 'w', encoding=to_encoding) as destination:\nhost_check.py:31: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\nhost_check.py:33: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n...host_check.py:46: DeprecationWarning: codecs.open() is deprecated. Use open() instead.\n.\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.09186
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/725"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "aa4556c8c0664f7f3e89d13459ea58bc876351b4dbf1f632b03b8734e53a74a4",
+        "code_sha256": "f4d353a82bb1265dedd2fc845b23c498d449f80ffb09ca466d470d20634dc1f4",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092046
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/735"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "5d5af69af29a2c30d16e57ecd8c1af43ab0d0c67f8ff265651fc72aec338e7df",
+        "code_sha256": "578a06c684f71c8b02ebd65bf7f4a0e80dfbf71e8ab5dae7a989b24f449cee4b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049837
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/739"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "236d82ee226867eb243edada6544575939c0445a6e00c01e13fa56d941f5263b",
+        "code_sha256": "18fc5b98f143fbcac14f357dffd3a0d26641cef1d4786e3f96b5e9184cd0a493",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049789
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/741"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "c61bc0b62fbea395416b3511e01111defe56b5052134fbde970a8f250a588bce",
+        "code_sha256": "9eb3b54f693c4ecf15bfb4f6ce4954d581bf8a972ba672dae4ec0255fed62d7e",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049776
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/753"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "e5db6c7c36a78ab8c4ec87d21cdc4663afb358478b4e97fb67e62c49f6173deb",
+        "code_sha256": "02f1cef34c21f4ce0a5a79272e8257c0cdcfe4b482edf97a2779c4d5e78173bf",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....F\n======================================================================\nFAIL: test_permission_error (__main__.TestCases.test_permission_error)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 44, in test_permission_error\nAssertionError: 'Permission denied' not found in \"[Errno 2] No such file or directory: 'fakepath/file.txt'\"\n\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 53, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.09169
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/781"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "2174768b27f33e5d42fe304fb75b1541b88f89f923775552cfc50993dade04fc",
+        "code_sha256": "0e76cc1acc7bd8a451ca4ba519232f51b840c5cb0364c017197a3365bbd80fa8",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091935
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/783"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "c70e07f4eb6261b6822b60708a568cfb92f32b952ee703b351663c5df423cdae",
+        "code_sha256": "a28c156710d54cada886ff9ebbea1880862a4da220bdb84518d62f0e8021d07a",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092037
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/787"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "af4388c2abeae0f917c8bdbe235e50d94e34c1cf65e37dc63944a746b34e8940",
+        "code_sha256": "37782241f1fc29d6c5b7ad92ceb974a14ed0e2507c6c6109700efbcc2bf53512",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F.F.\n======================================================================\nFAIL: test_erroneous_backup_content (__main__.TestCases.test_erroneous_backup_content)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 47, in test_erroneous_backup_content\nAssertionError: Exception not raised\n\n======================================================================\nFAIL: test_no_backups_in_backup_directory (__main__.TestCases.test_no_backups_in_backup_directory)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 28, in test_no_backups_in_backup_directory\nAssertionError: \"Error during rollback: [Errno 2] No such file or directory: '/tmp/my_data'\" != 'No backups found in /tmp/backup. Cannot rollback update.'\n- Error during rollback: [Errno 2] No such file or directory: '/tmp/my_data'\n+ No backups found in /tmp/backup. Cannot rollback update.\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nFAILED (failures=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 54, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091817
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/798"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d7e7d2428d8c36c52393b4b96f276e5475400754aa60b54445af6f35274c753c",
+        "code_sha256": "7250ad69a172a8e0c1e0f28fc80bd6c2b8e46a2fb92d0cdd15d2f54653d92255",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.09187
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/801"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "96b68bea8669b6bcea710dae859f23b0dad0f11e9b567dc55b9251a77c6d098a",
+        "code_sha256": "f1a4f3b2d6994b807697b6349a4ddb04cc84515fbca9ab10b195903095739ceb",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.091784
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/817"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "2162bbb82742c0b479803f1fd6590d7f4856e8bff8b03b7b35fa9da9cba995fd",
+        "code_sha256": "518d582d4f32359c4fe51db8d730842fc8e1bbdc8ad00c31fa02f67575d2051b",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "F...FF\n======================================================================\nFAIL: test_empty_string (__main__.TestCases.test_empty_string)\nTest with an empty string\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 12, in test_empty_string\nAssertionError: Lists differ: [] != ['']\n\nSecond list contains 1 additional elements.\nFirst extra element 0:\n''\n\n- []\n+ ['']\n\n======================================================================\nFAIL: test_string_with_special_characters (__main__.TestCases.test_string_with_special_characters)\nTest with a string that includes special characters\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 27, in test_string_with_special_characters\nAssertionError: Lists differ: ['special', 'chars'] != ['special', 'chars', '']\n\nSecond list contains 1 additional elements.\nFirst extra element 2:\n''\n\n- ['special', 'chars']\n+ ['special', 'chars', '']\n?                    ++++\n\n\n======================================================================\nFAIL: test_string_with_whitespaces (__main__.TestCases.test_string_with_whitespaces)\nTest with a string that includes extra whitespaces between words\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 32, in test_string_with_whitespaces\nAssertionError: Lists differ: ['extra', 'whitespaces'] != ['', 'extra', 'whitespaces', '']\n\nFirst differing element 0:\n'extra'\n''\n\nSecond list contains 2 additional elements.\nFirst extra element 2:\n'whitespaces'\n\n- ['extra', 'whitespaces']\n+ ['', 'extra', 'whitespaces', '']\n?  ++++                      ++++\n\n\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nFAILED (failures=3)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 37, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049834
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/818"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "6dd8102d30c32a6f0db2a426101044a244fa7bb09f45e593f63d6d51753e556e",
+        "code_sha256": "173f9eaf30f509e9e43407f6ddd21457fb9bc516d958fa5cef75d8f2e9be36fd",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049797
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/820"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "..F..\n======================================================================\nFAIL: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 25, in test_case_3\nAssertionError: np.False_ is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 7.593s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 45, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.706878
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/823"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "649f481b53baf01ff30a3db847eae025692baebdafbedf63b4a1e9b78b42aa5d",
+        "code_sha256": "60323e544951283923861d04a964a2a141076c1df603b46231374ae1b30b41f5",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "....F\n======================================================================\nFAIL: test_target_directory_creation (__main__.TestCases.test_target_directory_creation)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 56, in test_target_directory_creation\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 61, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.250714
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/826"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "4e3c17b905905fae5c30bf4f4934f0977c983e4723ceb32bc0fc375584c97538",
+        "code_sha256": "8cce7e1853473ea879665ab29c91dcb646e97962b367bafccd368612a908f34d",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.272133
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/830"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "93db60912385c80c01030bacbdf89c1e306921f82f882947b68d7bf0a9b88fa0",
+        "code_sha256": "4d8265f4788821ece7ce8e30a1509b1542d2cef93e3a8ca37d623288197ae7eb",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.090114
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/834"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d695857ca2381227b2fd9b65adb394d9e1bb389cbd2449d7ba785edf3f8635d1",
+        "code_sha256": "54b74716a5cf409fd5f651916eb9d9ddee0512d48b721ee870d187c634418561",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.272999
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/835"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "eab232cbb0b6996c238fb5bda0af3ca879cd5bf96bfabce38db995c80e471d80",
+        "code_sha256": "a2543ba9be2ced7b7773b9f051c4ab9c8017198cfe098ca9ad196a0ea01eedff",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "host_check.py:55: UserWarning: Could not transfer file1.txt: \nhost_check.py:55: UserWarning: Could not transfer file2.csv: \nhost_check.py:55: UserWarning: Could not transfer file3.xlsx: \nhost_check.py:55: UserWarning: Could not transfer file4.jpg: \n..F.host_check.py:27: UserWarning: Could not transfer file1.txt: \nhost_check.py:27: UserWarning: Could not transfer file2.csv: \n.\n======================================================================\nFAIL: test_exception_handling (__main__.TestCases.test_exception_handling)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py\", line 1439, in patched\n    return func(*newargs, **newkeywargs)\n  File \"host_check.py\", line 50, in test_exception_handling\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 61, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.092601
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/857"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "0bef98191d02a87db268aef0174fb1f228946783c2112b97ac049df35ef3a78a",
+        "code_sha256": "793a7bfc103164bad4da451e171a0841a3e4bfa14b3b9f5710000fc00892cde4",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049838
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/858"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "63bc6d7781c079c66baafc7b3807c6b92c2d3a020e5f6fb6ce1c37673004fbc3",
+        "code_sha256": "dc5bd693a0b0f203a8c39f71c611086debc081d35eea9fd31ffa3c470087cff5",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.038s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.659771
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/86"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "b5ef9ce826e8b54b4a925f990fd6a863a81584c95c0fc5abe35d14bac4b32e49",
+        "code_sha256": "92b4b773d58b33faa16292df69d562cd08a3892b3c5b9a459c402964c0478827",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.094156
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/896"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "05e924739f49ef8c7474da7b5c94f0b8fb779732fe23e144bd2597396b7011f1",
+        "code_sha256": "8dd79dcf69b63f824447909aa6f3878b63228e161dc3c029e93f84c07a33db7c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.268209
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/900"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "be0fc797600dd0613ef51ee4ff5c5be46cd2cb6a4ffb9dd87ac2d7fe475a03b2",
+        "code_sha256": "4a7444281310d1487125188ab4822a18a8668d088f488815344d13d641af2901",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.088437
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/905"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "b95dd3b085c0ebe205133e61c241ed7e68d075acc256ca9d2cf6c82f0c6de961",
+        "code_sha256": "0c710cbda74d61b68737ccb593f5602bdada4abfea25acc044bcd5c2179a5dca",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050205
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/911"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "4e1b07ae9eacaba386aebef6f01510d15af8ebaedc44531924390ce5614bd26e",
+        "code_sha256": "53c48114d3e5b729347f2258ac184901d226a27706e9e63e76cc2625ab95050d",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.042501
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/912"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "475bc69e3440ac09b1b4fd8ba2fccddad73aeeac15b34e687154a91e281c90d4",
+        "code_sha256": "7fa7fc1446825978cb1a78c3b22b30bbe23705fb5223a1872c872793388a1225",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.081063
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/937"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "7f261355a81bf614db5dbc2893e1c547a1800dba2d71c1fe08a095da2cf40e47",
+        "code_sha256": "137d713c604609f47bf3393bef4a4e448808e6ccb796f3cde4a920e6bc5bc631",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": ".F...\n======================================================================\nFAIL: test_case_2 (__main__.TestCases.test_case_2)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 13, in test_case_2\nAssertionError: Lists differ: [49, 33, 100, 74, 36] != [49, 33, 38, 27, 17]\n\nFirst differing element 2:\n100\n38\n\n- [49, 33, 100, 74, 36]\n+ [49, 33, 38, 27, 17]\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 32, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.264755
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/946"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "6b9a99768bd5cbd40d4a526e749f4e11388d6c6bcae3ceae9dea23845f12d08d",
+        "code_sha256": "17b45510001fdcae97de4997421221865e66f7f6670b6df05be5e912655ae4cb",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.050827
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/956"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "d33c2eedb6ad8d9f1fe2850038b8d8b577551096293b0a2d6bde555e3a0e2101",
+        "code_sha256": "e1adbfb82ef9e2b47161c796ccb6ee2658b9ab5cc46cde93e77c93ae7121cc5c",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.000s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049931
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/958"
+    },
+    {
+      "actual": false,
+      "checker": {
+        "checks_sha256": "3045fb9c1f4ac6509e972b394d4e7e0889bd17f7a4c6427f62e65619ec0c6a88",
+        "code_sha256": "3770b8e434e07db8b26731e20491959a17384b272fd7e077fe94ba3c4dac0c9e",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "...EEF.\n======================================================================\nERROR: test_case_4 (__main__.TestCases.test_case_4)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 20, in test_case_4\n  File \"program.py\", line 11, in task_func\n    raise ValueError('Path contains invalid characters')\nValueError: Path contains invalid characters\n\n======================================================================\nERROR: test_case_5 (__main__.TestCases.test_case_5)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 23, in test_case_5\n  File \"program.py\", line 11, in task_func\n    raise ValueError('Path contains invalid characters')\nValueError: Path contains invalid characters\n\n======================================================================\nFAIL: test_case_6 (__main__.TestCases.test_case_6)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 26, in test_case_6\nAssertionError: Lists differ: ['', 'Docs', 'src', 'Scripts', ''] != ['Docs', 'src', 'Scripts']\n\nFirst differing element 0:\n''\n'Docs'\n\nFirst list contains 2 additional elements.\nFirst extra element 3:\n'Scripts'\n\n- ['', 'Docs', 'src', 'Scripts', '']\n?  ----                        ----\n\n+ ['Docs', 'src', 'Scripts']\n\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nFAILED (failures=1, errors=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 39, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.049836
+      },
+      "condition": "sol-low",
+      "recorded": false,
+      "task_id": "BigCodeBench/972"
+    },
+    {
+      "actual": true,
+      "checker": {
+        "checks_sha256": "db686b61f2dba22a081ce2dd410c220f91f983c6fc09a48cbea1282546068306",
+        "code_sha256": "81e570ff09cf15d21d3d0d13e9ddd7ac0bed2ee43b85b6dbf593bf8f438e135a",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.009s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.09192
+      },
+      "condition": "sol-low",
+      "recorded": true,
+      "task_id": "BigCodeBench/989"
+    }
+  ],
+  "summary": {
+    "configured_usage": {
+      "astra-medium": {
+        "completion_tokens": 169383,
+        "configured_micro_usd": 15499610,
+        "prompt_tokens": 703046,
+        "requests": 234
+      },
+      "sol-low": {
+        "completion_tokens": 127115,
+        "configured_micro_usd": 2659978,
+        "prompt_tokens": 694414,
+        "requests": 234
+      }
+    },
+    "mismatches": [
+      {
+        "actual": true,
+        "condition": "astra-medium",
+        "recorded": false,
+        "task_id": "BigCodeBench/823"
+      }
+    ],
+    "model_calls": 0,
+    "replayed_programs": 156,
+    "request_audit": {
+      "initial_and_blind_information_equal": true,
+      "known_error_responses_unavailable": [],
+      "reported_models": {
+        "astra-medium": [
+          "gpt-6-astra"
+        ],
+        "sol-low": [
+          "gpt-6.1-sol"
+        ]
+      },
+      "scope": "Host-retained provider responses; not independent provider billing or execution attestation",
+      "unknown_information_pairs": 0,
+      "verified_information_pairs": 156,
+      "verified_response_transcripts": 468
+    },
+    "result": {
+      "accepted": {
+        "astra-medium": 56,
+        "sol-low": 56
+      },
+      "comparison": {
+        "accuracy_delta": 0.0,
+        "losses": 2,
+        "one_sided_exact_p": 0.6875,
+        "wins": 2
+      },
+      "families": {
+        "collections-algorithms": {
+          "astra-medium": 9,
+          "sol-low": 9
+        },
+        "files-archives": {
+          "astra-medium": 4,
+          "sol-low": 4
+        },
+        "numerical": {
+          "astra-medium": 11,
+          "sol-low": 11
+        },
+        "structured-data": {
+          "astra-medium": 7,
+          "sol-low": 6
+        },
+        "tabular": {
+          "astra-medium": 8,
+          "sol-low": 8
+        },
+        "text": {
+          "astra-medium": 9,
+          "sol-low": 9
+        },
+        "visualization": {
+          "astra-medium": 8,
+          "sol-low": 9
+        }
+      },
+      "neural_advantage_established": false,
+      "runtime_promoted": false,
+      "superiority_supported": false,
+      "tasks": 78
+    }
+  }
+}

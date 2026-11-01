@@ -1,0 +1,591 @@
+{
+  "complete_native_replay": {
+    "configured_usage": {
+      "astra-medium": {
+        "completion_tokens": 169383,
+        "configured_micro_usd": 15499610,
+        "prompt_tokens": 703046,
+        "requests": 234
+      },
+      "sol-low": {
+        "completion_tokens": 127115,
+        "configured_micro_usd": 2659978,
+        "prompt_tokens": 694414,
+        "requests": 234
+      }
+    },
+    "mismatches": [
+      {
+        "actual": true,
+        "condition": "astra-medium",
+        "recorded": false,
+        "task_id": "BigCodeBench/823"
+      },
+      {
+        "actual": true,
+        "condition": "sol-low",
+        "recorded": false,
+        "task_id": "BigCodeBench/823"
+      }
+    ],
+    "model_calls": 0,
+    "replayed_programs": 156,
+    "request_audit": {
+      "initial_and_blind_information_equal": true,
+      "known_error_responses_unavailable": [],
+      "reported_models": {
+        "astra-medium": [
+          "gpt-6-astra"
+        ],
+        "sol-low": [
+          "gpt-6.1-sol"
+        ]
+      },
+      "scope": "Host-retained provider responses; not independent provider billing or execution attestation",
+      "unknown_information_pairs": 0,
+      "verified_information_pairs": 156,
+      "verified_response_transcripts": 468
+    },
+    "result": {
+      "accepted": {
+        "astra-medium": 56,
+        "sol-low": 56
+      },
+      "comparison": {
+        "accuracy_delta": 0.0,
+        "losses": 2,
+        "one_sided_exact_p": 0.6875,
+        "wins": 2
+      },
+      "families": {
+        "collections-algorithms": {
+          "astra-medium": 9,
+          "sol-low": 9
+        },
+        "files-archives": {
+          "astra-medium": 4,
+          "sol-low": 4
+        },
+        "numerical": {
+          "astra-medium": 11,
+          "sol-low": 11
+        },
+        "structured-data": {
+          "astra-medium": 7,
+          "sol-low": 6
+        },
+        "tabular": {
+          "astra-medium": 8,
+          "sol-low": 8
+        },
+        "text": {
+          "astra-medium": 9,
+          "sol-low": 9
+        },
+        "visualization": {
+          "astra-medium": 8,
+          "sol-low": 9
+        }
+      },
+      "neural_advantage_established": false,
+      "runtime_promoted": false,
+      "superiority_supported": false,
+      "tasks": 78
+    }
+  },
+  "exact_reproduction_supported": false,
+  "negative_conclusion_robust_to_all_timing_labels": true,
+  "original_comparison": {
+    "accepted": {
+      "astra-medium": 56,
+      "sol-low": 56
+    },
+    "comparison": {
+      "accuracy_delta": 0.0,
+      "losses": 2,
+      "one_sided_exact_p": 0.6875,
+      "wins": 2
+    },
+    "families": {
+      "collections-algorithms": {
+        "astra-medium": 9,
+        "sol-low": 9
+      },
+      "files-archives": {
+        "astra-medium": 4,
+        "sol-low": 4
+      },
+      "numerical": {
+        "astra-medium": 11,
+        "sol-low": 11
+      },
+      "structured-data": {
+        "astra-medium": 7,
+        "sol-low": 6
+      },
+      "tabular": {
+        "astra-medium": 8,
+        "sol-low": 8
+      },
+      "text": {
+        "astra-medium": 9,
+        "sol-low": 9
+      },
+      "visualization": {
+        "astra-medium": 8,
+        "sol-low": 9
+      }
+    },
+    "neural_advantage_established": false,
+    "runtime_promoted": false,
+    "superiority_supported": false,
+    "tasks": 78
+  },
+  "original_grades_changed": false,
+  "registered_timing_sensitive_task": "BigCodeBench/823",
+  "runtime_promoted": false,
+  "scope": "All programs and original checkers run. Wall-clock uncertainty remains explicit; the failed superiority decision is robust, not an exact-reproduction claim.",
+  "this_run_matches_recorded_labels": false,
+  "timing_characterization": {
+    "model_calls": 0,
+    "original_grades_changed": false,
+    "protocol": {
+      "characterization_source_sha256": "b4b3a7d2cfe72dd9c1ebc415136f996cc6b1300d23ad76daf5e369ab8c3799d1",
+      "checker_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+      "controlled_checker": "import math\nfrom unittest.mock import patch\n\nfor samples, delay, jitter in [(3, 0.1, [0.0, 0.0, 0.0]), (3, 0.1, [0.0, 0.02, 0.1]), (1, 0.0, [0.0]), (2, 0.2, [0.06, 0.0])]:\n    state = {'now': 0.0, 'requests': []}\n    def clock():\n        return state['now']\n    def sleep(requested):\n        index = len(state['requests'])\n        state['requests'].append(requested)\n        state['now'] += requested + jitter[index]\n    with patch('time.time', clock), patch('time.sleep', sleep):\n        actual_mean, actual_std = task_func(samples=samples, delay=delay)\n    durations = [delay + item for item in jitter]\n    expected_mean = math.fsum(durations) / samples\n    expected_std = math.sqrt(math.fsum((item - expected_mean)**2 for item in durations) / samples)\n    assert state['requests'] == [delay] * samples, 'Every sample must request its delay'\n    assert abs(actual_mean - expected_mean) < 1e-9, (actual_mean, expected_mean)\n    assert abs(actual_std - expected_std) < 1e-9, (actual_std, expected_std)\nprint('Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound')\n",
+      "created_utc": "2026-11-01T09:05:41.762206+00:00",
+      "executor_wall_limit_seconds": 12,
+      "limited_ci_claim": "All original programs/checkers run. Only this hash-bound wall-clock case can remain uncertain; every other native outcome must match. Both algorithms must pass fixed independent clock calculations, the constant-answer control must fail, and the no-promotion conclusion must hold under ALL four timing-label assignments. This does not claim exact binary reproduction.",
+      "max_executions": 13,
+      "negative_control_code": "def task_func(samples=10, delay=0.1):\n    return delay, 0.0\n",
+      "new_provider_calls": 0,
+      "original_grades_unchanged": true,
+      "physical_rounds": [
+        [
+          "reference",
+          "sol-low",
+          "astra-medium"
+        ],
+        [
+          "sol-low",
+          "astra-medium",
+          "reference"
+        ],
+        [
+          "astra-medium",
+          "reference",
+          "sol-low"
+        ]
+      ],
+      "program_sha256": {
+        "astra-medium": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+        "constant-control": "cdd799d33458cbfb03a1236a11e775b21454a5c12eed1c45e91a758022adef73",
+        "reference": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+        "sol-low": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1"
+      },
+      "rule": "Run every predeclared physical observation, regardless of prior outcomes; no retries or seed selection. Controlled-clock fixtures validate calculation separately. Original model scores remain 56/78 each.",
+      "sources": [
+        "https://docs.python.org/3.14/library/time.html#time.sleep",
+        "https://docs.python.org/3.14/library/unittest.mock.html#patch"
+      ],
+      "task_id": "BigCodeBench/823",
+      "version": "nuria.timing-characterization.v1"
+    },
+    "rows": [
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.618s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.745253
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "reference",
+        "round": 0
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.679s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.799923
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "sol-low",
+        "round": 0
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.597s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.697093
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "astra-medium",
+        "round": 0
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.545s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.6861
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "sol-low",
+        "round": 1
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.594s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.702768
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "astra-medium",
+        "round": 1
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.595s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.719401
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "reference",
+        "round": 1
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "..F..\n======================================================================\nFAIL: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 25, in test_case_3\nAssertionError: np.False_ is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 7.553s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 45, in <module>\nAssertionError: Independent checks failed\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.656141
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "astra-medium",
+        "round": 2
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "..F..\n======================================================================\nFAIL: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 25, in test_case_3\nAssertionError: np.False_ is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 7.641s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 45, in <module>\nAssertionError: Independent checks failed\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.7632
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "reference",
+        "round": 2
+      },
+      {
+        "checker": {
+          "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+          "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.615s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 7.716515
+        },
+        "kind": "unchanged_wall_clock",
+        "program": "sol-low",
+        "round": 2
+      },
+      {
+        "checker": {
+          "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+          "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound\n",
+          "timed_out": false,
+          "wall_seconds": 0.147034
+        },
+        "kind": "scripted_clock_calculation",
+        "program": "astra-medium"
+      },
+      {
+        "checker": {
+          "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+          "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound\n",
+          "timed_out": false,
+          "wall_seconds": 0.092509
+        },
+        "kind": "scripted_clock_calculation",
+        "program": "sol-low"
+      },
+      {
+        "checker": {
+          "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+          "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound\n",
+          "timed_out": false,
+          "wall_seconds": 0.085772
+        },
+        "kind": "scripted_clock_calculation",
+        "program": "reference"
+      },
+      {
+        "checker": {
+          "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+          "code_sha256": "cdd799d33458cbfb03a1236a11e775b21454a5c12eed1c45e91a758022adef73",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 17, in <module>\nAssertionError: Every sample must request its delay\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.081235
+        },
+        "kind": "scripted_clock_calculation",
+        "program": "constant-control"
+      }
+    ],
+    "scope": "Physical repeatability plus supplemental scripted-clock semantics; no model or neural advantage claim"
+  },
+  "timing_sensitivity": [
+    {
+      "astra_timing_label": false,
+      "result": {
+        "accepted": {
+          "astra-medium": 56,
+          "sol-low": 56
+        },
+        "comparison": {
+          "accuracy_delta": 0.0,
+          "losses": 2,
+          "one_sided_exact_p": 0.6875,
+          "wins": 2
+        },
+        "families": {
+          "collections-algorithms": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "files-archives": {
+            "astra-medium": 4,
+            "sol-low": 4
+          },
+          "numerical": {
+            "astra-medium": 11,
+            "sol-low": 11
+          },
+          "structured-data": {
+            "astra-medium": 7,
+            "sol-low": 6
+          },
+          "tabular": {
+            "astra-medium": 8,
+            "sol-low": 8
+          },
+          "text": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "visualization": {
+            "astra-medium": 8,
+            "sol-low": 9
+          }
+        },
+        "neural_advantage_established": false,
+        "runtime_promoted": false,
+        "superiority_supported": false,
+        "tasks": 78
+      },
+      "sol_timing_label": false
+    },
+    {
+      "astra_timing_label": false,
+      "result": {
+        "accepted": {
+          "astra-medium": 56,
+          "sol-low": 57
+        },
+        "comparison": {
+          "accuracy_delta": -0.01282051282051282,
+          "losses": 3,
+          "one_sided_exact_p": 0.8125,
+          "wins": 2
+        },
+        "families": {
+          "collections-algorithms": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "files-archives": {
+            "astra-medium": 4,
+            "sol-low": 4
+          },
+          "numerical": {
+            "astra-medium": 11,
+            "sol-low": 12
+          },
+          "structured-data": {
+            "astra-medium": 7,
+            "sol-low": 6
+          },
+          "tabular": {
+            "astra-medium": 8,
+            "sol-low": 8
+          },
+          "text": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "visualization": {
+            "astra-medium": 8,
+            "sol-low": 9
+          }
+        },
+        "neural_advantage_established": false,
+        "runtime_promoted": false,
+        "superiority_supported": false,
+        "tasks": 78
+      },
+      "sol_timing_label": true
+    },
+    {
+      "astra_timing_label": true,
+      "result": {
+        "accepted": {
+          "astra-medium": 57,
+          "sol-low": 56
+        },
+        "comparison": {
+          "accuracy_delta": 0.01282051282051282,
+          "losses": 2,
+          "one_sided_exact_p": 0.5,
+          "wins": 3
+        },
+        "families": {
+          "collections-algorithms": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "files-archives": {
+            "astra-medium": 4,
+            "sol-low": 4
+          },
+          "numerical": {
+            "astra-medium": 12,
+            "sol-low": 11
+          },
+          "structured-data": {
+            "astra-medium": 7,
+            "sol-low": 6
+          },
+          "tabular": {
+            "astra-medium": 8,
+            "sol-low": 8
+          },
+          "text": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "visualization": {
+            "astra-medium": 8,
+            "sol-low": 9
+          }
+        },
+        "neural_advantage_established": false,
+        "runtime_promoted": false,
+        "superiority_supported": false,
+        "tasks": 78
+      },
+      "sol_timing_label": false
+    },
+    {
+      "astra_timing_label": true,
+      "result": {
+        "accepted": {
+          "astra-medium": 57,
+          "sol-low": 57
+        },
+        "comparison": {
+          "accuracy_delta": 0.0,
+          "losses": 2,
+          "one_sided_exact_p": 0.6875,
+          "wins": 2
+        },
+        "families": {
+          "collections-algorithms": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "files-archives": {
+            "astra-medium": 4,
+            "sol-low": 4
+          },
+          "numerical": {
+            "astra-medium": 12,
+            "sol-low": 12
+          },
+          "structured-data": {
+            "astra-medium": 7,
+            "sol-low": 6
+          },
+          "tabular": {
+            "astra-medium": 8,
+            "sol-low": 8
+          },
+          "text": {
+            "astra-medium": 9,
+            "sol-low": 9
+          },
+          "visualization": {
+            "astra-medium": 8,
+            "sol-low": 9
+          }
+        },
+        "neural_advantage_established": false,
+        "runtime_promoted": false,
+        "superiority_supported": false,
+        "tasks": 78
+      },
+      "sol_timing_label": true
+    }
+  ]
+}
