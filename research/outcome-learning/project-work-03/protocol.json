@@ -1,0 +1,28 @@
+{
+  "schema": "nuria.input-grounded-qualification.v1",
+  "routes": {
+    "direct": {
+      "maximum_calls_per_job": 2,
+      "completion_tokens_per_call": 2400
+    },
+    "challenged": {
+      "maximum_calls_per_job": 3,
+      "completion_tokens_per_call": 2400
+    }
+  },
+  "run_order": [
+    "direct",
+    "challenged"
+  ],
+  "same_input_facts_and_sources": true,
+  "qualification": "All four default reports and their withheld actual-source checks must pass. If both qualify,choose lower configured token cost,then fewer requests. No statistical superiority claim and no production activation.",
+  "additional_maximum_requests": 20,
+  "additional_maximum_completion_tokens": 48000,
+  "conservative_additional_cost_ceiling_micro_usd": 5280000,
+  "shared_cumulative_cap_micro_usd": 50000000,
+  "per_job_maximum_completion_tokens": 7200,
+  "provider_wall_seconds_maximum": 3600,
+  "existing_phase_origin_preserved": true,
+  "resource_root": "existing shared phase plan; no renewed quota",
+  "models_started": false
+}

@@ -1,0 +1,117 @@
+{
+  "fresh-proposed-source-audit": {
+    "published_files": 1728,
+    "proposed_files": 1760,
+    "removed": [],
+    "added": [
+      "cognition/checked_repairs.py",
+      "cognition/experience_navigation.py",
+      "cognition/program_delivery.py",
+      "docs/experience-navigation.md",
+      "docs/program-delivery.md",
+      "research/outcome-learning/course-03/budget-amendment-50.json",
+      "research/outcome-learning/course-03/cohort-before-bodies.json",
+      "research/outcome-learning/course-03/corrections.json",
+      "research/outcome-learning/course-03/execution-source-before-test.json",
+      "research/outcome-learning/course-03/execution-source-before-test.zip",
+      "research/outcome-learning/course-03/history-freeze.json",
+      "research/outcome-learning/course-03/method-amendment-v3.json",
+      "research/outcome-learning/course-03/preflight-environment-amendment.json",
+      "research/outcome-learning/course-03/protocol.json",
+      "research/outcome-learning/course-03/reference-validity-before-models.json",
+      "research/outcome-learning/course-03/test-enrollment.json",
+      "research/outcome-learning/project-work-01/delivery/README.md",
+      "research/outcome-learning/project-work-01/delivery/artifact-bundles.zip",
+      "research/outcome-learning/project-work-01/delivery/collection.json",
+      "research/outcome-learning/project-work-01/delivery/enrollment.json",
+      "scripts/acquire_checked_repairs.py",
+      "scripts/collect_program_delivery.py",
+      "scripts/evaluate_experience_navigation.py",
+      "scripts/package_experience_navigation.py",
+      "scripts/run_delivered_course.py",
+      "scripts/run_experience_course.py",
+      "scripts/verify_experience_navigation.py",
+      "tests/test_checked_repairs.py",
+      "tests/test_delivered_course.py",
+      "tests/test_experience_navigation.py",
+      "tests/test_navigation_export.py",
+      "tests/test_program_delivery.py"
+    ],
+    "changed": [
+      ".github/workflows/quality.yml",
+      "research/outcome-learning/requirements.txt"
+    ],
+    "unchanged": 1726,
+    "evidence": "public_git_blob_identities_not_live_service_health"
+  },
+  "fresh-reusable-experiment-audit": {
+    "tasks": 108,
+    "accepted": {
+      "navigation": 87,
+      "retrieval": 87,
+      "no_memory": 83
+    },
+    "ungraded_programs": 0,
+    "comparisons": {
+      "retrieval": {
+        "wins": 0,
+        "losses": 0,
+        "p_numerator": "1",
+        "p_denominator": "1",
+        "gain_numerator": 0,
+        "gain_denominator": 108,
+        "passes_gain": false,
+        "passes_significance": false
+      },
+      "no_memory": {
+        "wins": 5,
+        "losses": 1,
+        "p_numerator": "7",
+        "p_denominator": "64",
+        "gain_numerator": 4,
+        "gain_denominator": 108,
+        "passes_gain": false,
+        "passes_significance": false
+      }
+    },
+    "families": {
+      "tabular": {
+        "navigation": 15,
+        "retrieval": 15,
+        "no_memory": 14
+      },
+      "visualization": {
+        "navigation": 11,
+        "retrieval": 11,
+        "no_memory": 9
+      },
+      "numerical": {
+        "navigation": 12,
+        "retrieval": 12,
+        "no_memory": 11
+      },
+      "structured-data": {
+        "navigation": 12,
+        "retrieval": 12,
+        "no_memory": 11
+      },
+      "files-archives": {
+        "navigation": 9,
+        "retrieval": 9,
+        "no_memory": 9
+      },
+      "text": {
+        "navigation": 14,
+        "retrieval": 14,
+        "no_memory": 14
+      },
+      "collections-algorithms": {
+        "navigation": 14,
+        "retrieval": 14,
+        "no_memory": 15
+      }
+    },
+    "superiority_supported": false,
+    "evidence": "recorded_checked_program_outcomes"
+  }
+}

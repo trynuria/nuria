@@ -1,0 +1,15 @@
+{
+  "observed_utc": "2026-11-01T00:48:11.880487+00:00",
+  "before_primary_test_inference": true,
+  "selected": 119,
+  "valid_development": 7,
+  "valid_test": 108,
+  "invalid_task_ids": [
+    "BigCodeBench/219",
+    "BigCodeBench/14",
+    "BigCodeBench/971",
+    "BigCodeBench/1127"
+  ],
+  "replacement_tasks": 0,
+  "reason": "Unchanged upstream reference programs fail under the enrolled isolated runtime; these tasks remain unknown across methods, not zero-score agent failures. Original and corrected preflights are retained."
+}

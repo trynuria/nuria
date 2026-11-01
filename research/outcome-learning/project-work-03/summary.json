@@ -1,0 +1,36 @@
+{
+  "model_or_neural_superiority_established": false,
+  "pre_inference_commit": "a887934c2af5dadd92c4d8bc0165dd5ba6bd7018",
+  "qualification_only": true,
+  "reason": "Both routes qualified4/4 with the same enrolled inputs and withheld actual-source checks; direct used less configured token cost and fewer requests.",
+  "results": {
+    "challenged": {
+      "accepted": 4,
+      "completed_utc": "2026-11-01T05:24:54.719542+00:00",
+      "configured_cost_micro_usd": 190770,
+      "delivered": 4,
+      "jobs": 4,
+      "provider_requests": 12,
+      "rejected_jobs": [],
+      "route": "challenged",
+      "started_utc": "2026-11-01T05:23:09.302296+00:00",
+      "unknown_jobs": []
+    },
+    "direct": {
+      "accepted": 4,
+      "completed_utc": "2026-11-01T05:23:09.300188+00:00",
+      "configured_cost_micro_usd": 55066,
+      "delivered": 4,
+      "jobs": 4,
+      "provider_requests": 4,
+      "rejected_jobs": [],
+      "route": "direct",
+      "started_utc": "2026-11-01T05:22:37.163375+00:00",
+      "unknown_jobs": []
+    }
+  },
+  "runtime_promoted": false,
+  "selected_route": "direct",
+  "total_configured_micro_usd": 245836,
+  "total_requests": 16
+}

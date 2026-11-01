@@ -1,0 +1,63 @@
+{
+  "files": {
+    "corrections.json": "2d4adbe9663b3138d51cce81588e0a77f9004b20a579aa6756961eec88b2ea61",
+    "development-results.json": "98834724e15034d99fa12e5cab00dfcb831280fe678a2282d6d23c82c831a335",
+    "execution-source-before-test.json": "bf8c3192fb9d6987d2e663e43cc9d2ea40a82516c39f029ae9058849cf69f87b",
+    "execution-source-before-test.zip": "0ab209fd48f003d9f6880b11e136fb3d98e70b3c8c1459f52651e7af6deb8e14",
+    "executions.jsonl.gz": "60a690fb8501f8c8915b9add1614e6ad092240ed3f9439021d5763fe5558c8a2",
+    "held-out-results.json": "dcc756e6b45c06362041eda8fea13c42a6b2e6535ed5f74ffbe22bb15cecf1ef",
+    "journal-events.jsonl.gz": "42470fdf31ebe9ab23e067ba349de97e1d01dc26640da4116a7fad0cabc89eb1",
+    "method-amendment-v3.json": "0da5a6cbb05b86539564694b2949729a87432978d8b64462374cc8e7619ada72",
+    "preflight-environment-amendment.json": "9b393343fe69df0ab19133f0b8077bbd11aef82ff3704cb4eb91e54fb5bea92a",
+    "proposal-commitment-before-grading.json": "2ffb7d691b4acf57ec3430e468a5e725a24aef1868f389d8e780a6a310db12b7",
+    "protocol.json": "9a37adc330e20911e534f3821c0940c2d09ed39976b2bace767efeeedb2cbee3",
+    "provider-text.jsonl.gz": "3d46481a1e00560543857d981a4b46a515222fd95b6d58716b7713bbacd2f0fb",
+    "public-primary-freeze.json": "b6750ef70d4d5206b7c43814b818940b951c9b0908d8002eac51aa7c7243a7e9",
+    "reference-validity-before-models.json": "37472589e009a1e46a7757b12d5c32fdd6a2dba6b5d7d64ac878cb0b7efd8136",
+    "tasks.jsonl.gz": "0a2b8986fb4e49cd1cc70a1e3c8d5fac43473e004e7d8d430d1d8b12650e6a34",
+    "terminal-diagnostic-redactions.json": "28a49ccef581abce5359e38f4dd5347588474c2e509387d14d5c9bb13d937b3c",
+    "test-enrollment.json": "b187c504e61d38d7c67b8a55005c29ed0b5410b62d990fb0ef2a94fac2025d25",
+    "test-experience.jsonl.gz": "ad0806bd9ee46d1fb2054c34a8552fc480572cc23a856510abce9df23add2a93",
+    "upstream-tasks.jsonl.gz": "ee11d09e18a7640ba755808f40a2b1fe0a9b066b0002fa242aed215ad82ca006"
+  },
+  "journal_events": 972,
+  "model_calls": 0,
+  "native_program_replays": 0,
+  "payload_bytes": 3391974,
+  "programs": 324,
+  "proposal_commitments": {
+    "sealed_proposals_verified": 324
+  },
+  "provider_cost_basis": "Configured token accounting, not an independently reconciled provider invoice",
+  "rejected_programs": 67,
+  "schema": "nuria.navigation-export.v1",
+  "tasks_per_method": 108,
+  "terminal_diagnostics": {
+    "original_acceptance_event_hashes": "Refer to private exact records; original diagnostic hashes and changed public record hashes are disclosed. Proposal commitments and native acceptance remain independently verifiable.",
+    "path_redacted_records": 4
+  },
+  "verification": {
+    "accepted": {
+      "navigation": 87,
+      "no_memory": 83,
+      "retrieval": 87
+    },
+    "comparisons": {
+      "no_memory": {
+        "accuracy_delta": 0.037037037037037035,
+        "losses": 1,
+        "one_sided_exact_p": 0.109375,
+        "wins": 5
+      },
+      "retrieval": {
+        "accuracy_delta": 0.0,
+        "losses": 0,
+        "one_sided_exact_p": 1.0,
+        "wins": 0
+      }
+    },
+    "mismatches": [],
+    "replayed_programs": 0,
+    "tasks_per_method": 108
+  }
+}

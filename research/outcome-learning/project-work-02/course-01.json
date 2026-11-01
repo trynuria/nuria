@@ -1,0 +1,651 @@
+{
+  "delivery": {
+    "deliveries": [
+      {
+        "binding": {
+          "enrollment_sha256": "ff6e25bb623a9035a6c9b1f97a1e87220ca3a7d8ac2ab6bfcdea0940d4188b1d",
+          "result_sha256": "52008d9f5d3bf90fe6dc6f89c64105e815ed8e6043b71d524327c1e143153a97",
+          "task_sha256": "ac094b1f0ba69bc9d8faf05793d94a4847be35f0f630e6d5e170795f4538d204"
+        },
+        "checker_sha256": "1746456e3681188d39372d1ac46f5bb68e109ebfcdd20261ed4a1b7da3fe67b2",
+        "files": [
+          {
+            "bytes": 2030,
+            "name": "report.json",
+            "semantic_sha256": "99e4b860255d99486f091c32ed8b755e87e63123d6a6bbdf0723f881ad2f8bd0",
+            "sha256": "54b0f5d8c3fc2979af0658552f65439f2a81e4ea3323c8fd0567e331f556961d"
+          }
+        ],
+        "financial_activity": false,
+        "job_id": "fresh-proposed-source-audit",
+        "journal_at_collection": {
+          "events": 8,
+          "tail_sha256": "bdf2d59656435303267a7e7f5a7880dd98edea926615ec9e3dda2515de515864"
+        },
+        "model_calls": 0,
+        "program_executions": 0,
+        "program_sha256": "0a29cc6fe3479c8ccb2806e53d713becb952362c30795decb418fd7264349700",
+        "receipt_sha256": "84d5b6bf5b80bcac70da7f1a905160b5024d957627feb832af169a375626e66e",
+        "replayed": false,
+        "schema": "nuria.program-delivery.v1",
+        "source_sha256": "befafad5b4e313f5219b2ac607340d4956fbc2c5f630d1f6b0656ced5f3323c9"
+      },
+      {
+        "binding": {
+          "enrollment_sha256": "d51e97b08587ece6b1186eefaa5df50a23a8b7de8a0ca1b81f809819d5f04502",
+          "result_sha256": "8e0e673f227af67953bf2aa0900fbe32e3519563f8a79a209d57714ed0069214",
+          "task_sha256": "9e2589f21822b237d50b9e859cfc7a75f0bdb902b247e3e1fa102dd1044e4d78"
+        },
+        "checker_sha256": "d2b9d557c2377d5824d2cd1870273cf01c86ddcb4e195a08c92182551f096146",
+        "files": [
+          {
+            "bytes": 1413,
+            "name": "report.json",
+            "semantic_sha256": "4738db9db126ca03cabba45308797f6f166bec94514587e1802b8fecdc362aed",
+            "sha256": "0abd1c8b828916b424d080f0620e70d5f968d9cb3b5077bcdac0fa516d92f709"
+          }
+        ],
+        "financial_activity": false,
+        "job_id": "fresh-reusable-experiment-audit",
+        "journal_at_collection": {
+          "events": 8,
+          "tail_sha256": "bdf2d59656435303267a7e7f5a7880dd98edea926615ec9e3dda2515de515864"
+        },
+        "model_calls": 0,
+        "program_executions": 0,
+        "program_sha256": "9ad307a1167d23bdd03e45303ce372c87fd2cbcff8dff11b24930c26f17b2f52",
+        "receipt_sha256": "a0b5694ed8727c5ad47653b05c0e37bb293b6b48d5cc4959329f4a3933ffd92c",
+        "replayed": false,
+        "schema": "nuria.program-delivery.v1",
+        "source_sha256": "d15c15d9e371297fa3b1ab716addd3bed9b25437460dc550e50d1ad67869c34c"
+      }
+    ],
+    "replayed": 0
+  },
+  "original_enrollment_sha256": "3e5ded7faa9a794db97b868e0de173001adf4ef57b4de86a663f8e0efb6dbe61",
+  "prepared_enrollment_sha256": "223f8aa3abb644f1a67d59bd8603682426bc58da50f4293811bad9fb30ee87b0",
+  "rejected_jobs": [
+    "fresh-reported-components",
+    "fresh-reported-delivery-audit"
+  ],
+  "unknown_jobs": [],
+  "version": "nuria.delivered-course.v1",
+  "work": {
+    "accepted": 2,
+    "jobs": [
+      {
+        "accepted": true,
+        "attempts": [
+          {
+            "content": "{\n  \"code\": \"import base64\\nimport json\\nimport zlib\\nfrom collections.abc import Mapping\\nfrom pathlib import Path\\n\\n\\ndef _blob_identities(files):\\n    if isinstance(files, Mapping):\\n        return dict(files)\\n    return {entry['path']: entry['blob'] for entry in files}\\n\\n\\ndef task_func():\\n    with Path('inputs/source.json').open('r', encoding='utf-8') as source_file:\\n        source = json.load(source_file)\\n    payload = json.loads(zlib.decompress(base64.b64decode(source['payload'])))\\n\\n    published = _blob_identities(payload['published_files'])\\n    proposed = _blob_identities(payload['proposed_files'])\\n    published_paths = set(published)\\n    proposed_paths = set(proposed)\\n    shared_paths = published_paths & proposed_paths\\n\\n    report = {\\n        'published_files': len(published),\\n        'proposed_files': len(proposed),\\n        'removed': sorted(published_paths - proposed_paths),\\n        'added': sorted(proposed_paths - published_paths),\\n        'changed': sorted(\\n            path for path in shared_paths\\n            if published[path] != proposed[path]\\n        ),\\n        'unchanged': sum(\\n            published[path] == proposed[path] for path in shared_paths\\n        ),\\n        'evidence': 'public_git_blob_identities_not_live_service_health',\\n    }\\n    with Path('report.json').open('w', encoding='utf-8') as report_file:\\n        json.dump(report, report_file, indent=2)\\n        report_file.write('\\\\n')\\n    return report\\n\",\n  \"checks\": \"import os\\nimport tempfile\\n\\n\\ndef _write_source(payload):\\n    Path('inputs').mkdir(exist_ok=True)\\n    encoded = base64.b64encode(zlib.compress(json.dumps(payload).encode('utf-8'))).decode('ascii')\\n    Path('inputs/source.json').write_text(json.dumps({'payload': encoded}), encoding='utf-8')\\n\\n\\n_original_directory = Path.cwd()\\nwith tempfile.TemporaryDirectory() as directory:\\n    try:\\n        os.chdir(directory)\\n        _write_source({\\n            'published_files': {'main.py': 'ABC', 'evidence.txt': 'old', 'z.txt': 'gone', 'a.txt': 'gone'},\\n            'proposed_files': {'main.py': 'ABC', 'evidence.txt': 'OLD', 'new.txt': 'new'},\\n        })\\n        expected = {\\n            'published_files': 4,\\n            'proposed_files': 3,\\n            'removed': ['a.txt', 'z.txt'],\\n            'added': ['new.txt'],\\n            'changed': ['evidence.txt'],\\n            'unchanged': 1,\\n            'evidence': 'public_git_blob_identities_not_live_service_health',\\n        }\\n        assert task_func() == expected\\n        assert json.loads(Path('report.json').read_text(encoding='utf-8')) == expected\\n\\n        _write_source({'published_files': {}, 'proposed_files': {}})\\n        empty = task_func()\\n        assert empty['published_files'] == empty['proposed_files'] == empty['unchanged'] == 0\\n        assert empty['removed'] == empty['added'] == empty['changed'] == []\\n        assert json.loads(Path('report.json').read_text(encoding='utf-8')) == empty\\n    finally:\\n        os.chdir(_original_directory)\\n\",\n  \"lesson\": \"Compare opaque blob strings exactly and include every path, including evidence files; repository identities do not establish live service health.\",\n  \"queries\": [\n    \"inputs/source.json payload envelope schema\",\n    \"published_files proposed_files mapping versus path/blob entry schema\"\n  ]\n}",
+            "response_sha256": "f69b2da4ce10aafb31b997a4d6767f3f36402b4378d25c87f92d773be0377707",
+            "stage": "proposal",
+            "usage": {
+              "completion_tokens": 1027,
+              "prompt_tokens": 340,
+              "reasoning_tokens": 177,
+              "total_tokens": 1367
+            }
+          },
+          {
+            "content": "{\n  \"checks\": [\n    \"import json\\n\\nresult = task_func()\\nassert isinstance(result, dict)\\nrequired = {'published_files', 'proposed_files', 'removed', 'added', 'changed', 'unchanged', 'evidence'}\\nassert required <= result.keys()\\nassert result['evidence'] == 'public_git_blob_identities_not_live_service_health'\\n\\nfor key in ('published_files', 'proposed_files', 'unchanged'):\\n    assert type(result[key]) is int\\n    assert result[key] >= 0\\n\\nfor key in ('removed', 'added', 'changed'):\\n    paths = result[key]\\n    assert isinstance(paths, list)\\n    assert all(isinstance(path, str) for path in paths)\\n    assert paths == sorted(paths)\\n    assert len(paths) == len(set(paths))\\n\\nremoved = set(result['removed'])\\nadded = set(result['added'])\\nchanged = set(result['changed'])\\nassert removed.isdisjoint(added)\\nassert removed.isdisjoint(changed)\\nassert added.isdisjoint(changed)\\nassert result['published_files'] == len(removed) + len(changed) + result['unchanged']\\nassert result['proposed_files'] == len(added) + len(changed) + result['unchanged']\\n\\nwith open('report.json', 'r', encoding='utf-8') as report_file:\\n    saved = json.load(report_file)\\nassert saved == result\"\n  ],\n  \"evidence_ids\": [],\n  \"hypotheses\": [\n    \"The returned report may omit required fields or use incorrect count types.\",\n    \"Path classifications may be unsorted, duplicated, overlapping, or inconsistent with the reported counts.\",\n    \"The required public-Git-identity evidence label may be missing or altered.\",\n    \"report.json may be missing or differ from the returned object.\"\n  ]\n}",
+            "response_sha256": "ecdade2a17dca92723f37ae4939445e372c1459cf2c37fa42d94408b01bff30d",
+            "stage": "blind_challenge",
+            "usage": {
+              "completion_tokens": 723,
+              "prompt_tokens": 261,
+              "reasoning_tokens": 310,
+              "total_tokens": 984
+            }
+          },
+          {
+            "content": "{\n  \"code\": \"import base64\\nimport json\\nimport zlib\\nfrom collections.abc import Mapping\\nfrom pathlib import Path\\n\\n\\ndef _blob_identities(files):\\n    if isinstance(files, Mapping):\\n        return dict(files)\\n    return {entry['path']: entry['blob'] for entry in files}\\n\\n\\ndef task_func():\\n    with Path('inputs/source.json').open('r', encoding='utf-8') as source_file:\\n        source = json.load(source_file)\\n    payload = json.loads(zlib.decompress(base64.b64decode(source['payload'])))\\n\\n    published = _blob_identities(payload['published_files'])\\n    proposed = _blob_identities(payload['proposed_files'])\\n    published_paths = set(published)\\n    proposed_paths = set(proposed)\\n    shared_paths = published_paths & proposed_paths\\n\\n    report = {\\n        'published_files': len(published),\\n        'proposed_files': len(proposed),\\n        'removed': sorted(published_paths - proposed_paths),\\n        'added': sorted(proposed_paths - published_paths),\\n        'changed': sorted(\\n            path for path in shared_paths\\n            if published[path] != proposed[path]\\n        ),\\n        'unchanged': sum(\\n            published[path] == proposed[path] for path in shared_paths\\n        ),\\n        'evidence': 'public_git_blob_identities_not_live_service_health',\\n    }\\n    with Path('report.json').open('w', encoding='utf-8') as report_file:\\n        json.dump(report, report_file, indent=2)\\n        report_file.write('\\\\n')\\n    return report\\n\",\n  \"checks\": \"import os\\nimport tempfile\\n\\n\\ndef _write_source(payload):\\n    Path('inputs').mkdir(exist_ok=True)\\n    encoded = base64.b64encode(\\n        zlib.compress(json.dumps(payload).encode('utf-8'))\\n    ).decode('ascii')\\n    Path('inputs/source.json').write_text(\\n        json.dumps({'payload': encoded}), encoding='utf-8'\\n    )\\n\\n\\ndef _assert_report(payload, expected):\\n    _write_source(payload)\\n    assert task_func() == expected\\n    assert json.loads(Path('report.json').read_text(encoding='utf-8')) == expected\\n\\n\\n_original_directory = Path.cwd()\\nwith tempfile.TemporaryDirectory() as directory:\\n    try:\\n        os.chdir(directory)\\n        _assert_report(\\n            {\\n                'published_files': {\\n                    'main.py': 'ABC', 'evidence.txt': 'old',\\n                    'z.txt': 'gone', 'a.txt': 'gone',\\n                },\\n                'proposed_files': {\\n                    'main.py': 'ABC', 'evidence.txt': 'OLD', 'new.txt': 'new',\\n                },\\n            },\\n            {\\n                'published_files': 4,\\n                'proposed_files': 3,\\n                'removed': ['a.txt', 'z.txt'],\\n                'added': ['new.txt'],\\n                'changed': ['evidence.txt'],\\n                'unchanged': 1,\\n                'evidence': 'public_git_blob_identities_not_live_service_health',\\n            },\\n        )\\n        _assert_report(\\n            {'published_files': {}, 'proposed_files': {}},\\n            {\\n                'published_files': 0, 'proposed_files': 0,\\n                'removed': [], 'added': [], 'changed': [], 'unchanged': 0,\\n                'evidence': 'public_git_blob_identities_not_live_service_health',\\n            },\\n        )\\n        _assert_report(\\n            {\\n                'published_files': [\\n                    {'path': 'status.json', 'blob': ' opaque '},\\n                    {'path': 'notes.txt', 'blob': 'same'},\\n                ],\\n                'proposed_files': [\\n                    {'path': 'status.json', 'blob': 'opaque'},\\n                    {'path': 'notes.txt', 'blob': 'same'},\\n                ],\\n            },\\n            {\\n                'published_files': 2, 'proposed_files': 2,\\n                'removed': [], 'added': [], 'changed': ['status.json'],\\n                'unchanged': 1,\\n                'evidence': 'public_git_blob_identities_not_live_service_health',\\n            },\\n        )\\n    finally:\\n        os.chdir(_original_directory)\\n\",\n  \"lesson\": \"Reviewed decoding, exact identity comparison, path ordering, counts, and report persistence. Include non-code evidence files and never normalize opaque blob strings or infer live service health. An unspecified challenge ValueError does not justify changing the input contract or suppressing decoding errors.\"\n}",
+            "response_sha256": "5b46ac65c9bc8aa2516e35ac119e3a06207b0ede2245a63474094840d39c32c4",
+            "stage": "revision",
+            "usage": {
+              "completion_tokens": 1108,
+              "prompt_tokens": 1302,
+              "reasoning_tokens": 33,
+              "total_tokens": 2410
+            }
+          }
+        ],
+        "blind_challenge": null,
+        "challenge_execution": {
+          "challenge_error": "ValueError",
+          "passed": false
+        },
+        "checked_correction": null,
+        "checker": {
+          "checks_sha256": "1746456e3681188d39372d1ac46f5bb68e109ebfcdd20261ed4a1b7da3fe67b2",
+          "code_sha256": "0a29cc6fe3479c8ccb2806e53d713becb952362c30795decb418fd7264349700",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.084799
+        },
+        "code": "import base64\nimport json\nimport zlib\nfrom collections.abc import Mapping\nfrom pathlib import Path\n\n\ndef _blob_identities(files):\n    if isinstance(files, Mapping):\n        return dict(files)\n    return {entry['path']: entry['blob'] for entry in files}\n\n\ndef task_func():\n    with Path('inputs/source.json').open('r', encoding='utf-8') as source_file:\n        source = json.load(source_file)\n    payload = json.loads(zlib.decompress(base64.b64decode(source['payload'])))\n\n    published = _blob_identities(payload['published_files'])\n    proposed = _blob_identities(payload['proposed_files'])\n    published_paths = set(published)\n    proposed_paths = set(proposed)\n    shared_paths = published_paths & proposed_paths\n\n    report = {\n        'published_files': len(published),\n        'proposed_files': len(proposed),\n        'removed': sorted(published_paths - proposed_paths),\n        'added': sorted(proposed_paths - published_paths),\n        'changed': sorted(\n            path for path in shared_paths\n            if published[path] != proposed[path]\n        ),\n        'unchanged': sum(\n            published[path] == proposed[path] for path in shared_paths\n        ),\n        'evidence': 'public_git_blob_identities_not_live_service_health',\n    }\n    with Path('report.json').open('w', encoding='utf-8') as report_file:\n        json.dump(report, report_file, indent=2)\n        report_file.write('\\n')\n    return report\n",
+        "correction_catalog_sha256": null,
+        "experience_ids": [],
+        "experience_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "family": "fresh-project-work",
+        "implementation_sha256": "3a1ce22f28f853b08ff43cccc6e6d90a3d92bd28159dcc1841bd84150836b63a",
+        "initial_smoke": {
+          "checks_sha256": "a047d721ab7772150745f8c1e06eb22efb5991ffe3e951133419971f06591bae",
+          "code_sha256": "0a29cc6fe3479c8ccb2806e53d713becb952362c30795decb418fd7264349700",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.090867
+        },
+        "job_id": "fresh-proposed-source-audit",
+        "lesson": "Reviewed decoding, exact identity comparison, path ordering, counts, and report persistence. Include non-code evidence files and never normalize opaque blob strings or infer live service health. An unspecified challenge ValueError does not justify changing the input contract or suppressing decoding errors.",
+        "method": "retrieval",
+        "navigation": {
+          "initial_ids": [],
+          "queries": [],
+          "selected_ids": [],
+          "view": []
+        },
+        "prompt": "Implement task_func() to read inputs/source.json, decode its base64+zlib+json payload, and compare every published_files path/blob identity against proposed_files. Return a dict with published_files and proposed_files counts, sorted removed/added/changed path lists, and unchanged as the count of shared paths with equal blob identities. Include evidence=\"public_git_blob_identities_not_live_service_health\". Write the same object to report.json. Use every entry, including non-code evidence files; Git blob identities are opaque exact strings, not service-health evidence.",
+        "proposal_error": null,
+        "proposed_code_sha256": "b00b41490a8e463a514a8fb58afb2a28fb7ac083359a535fc77c1b6f4e5425f2",
+        "replayed": false,
+        "revised_smoke": {
+          "checks_sha256": "462fc34b6f0d1b60e345597520e8797fd046ba21e9b01bb28e2cf4ad9e6a0f73",
+          "code_sha256": "0a29cc6fe3479c8ccb2806e53d713becb952362c30795decb418fd7264349700",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.092282
+        },
+        "source_sha256": "befafad5b4e313f5219b2ac607340d4956fbc2c5f630d1f6b0656ced5f3323c9",
+        "task_id": "nuria/proposed-source-audit",
+        "version": "nuria.experience-navigation.v3"
+      },
+      {
+        "accepted": false,
+        "attempts": [
+          {
+            "content": "{\n  \"code\": \"import json\\nfrom pathlib import Path\\n\\n\\ndef _named_entries(entries):\\n    if isinstance(entries, dict):\\n        return entries.items()\\n    return ((entry['name'], entry) for entry in entries)\\n\\n\\ndef _commit(value):\\n    if isinstance(value, dict):\\n        return value.get('commit')\\n    return value\\n\\n\\ndef _compare(component_commit, comparison_commit):\\n    if component_commit is None or component_commit == '':\\n        return 'unknown'\\n    if comparison_commit is None or comparison_commit == '':\\n        return 'unknown'\\n    return 'same' if component_commit == comparison_commit else 'different'\\n\\n\\ndef task_func():\\n    with Path('inputs/components.json').open('r', encoding='utf-8') as source:\\n        data = json.load(source)\\n\\n    published = dict(_named_entries(data.get('published_main', {})))\\n    proposed = dict(_named_entries(data.get('proposed_branch', {})))\\n    components = []\\n    for name, component in _named_entries(data['reported_components']):\\n        commit = _commit(component)\\n        deployed_utc = (\\n            component.get('deployed_utc')\\n            if isinstance(component, dict) else None\\n        )\\n        components.append({\\n            'name': name,\\n            'reported_commit': commit,\\n            'reported_deployed_utc': deployed_utc,\\n            'versus_published_main': _compare(commit, _commit(published.get(name))),\\n            'versus_proposed_branch': _compare(commit, _commit(proposed.get(name))),\\n        })\\n\\n    report = {\\n        'reported_phase': data.get('reported_phase'),\\n        'reported_error': data.get('reported_error'),\\n        'direct_service_health': 'unknown',\\n        'evidence': 'public_endpoint_report_only',\\n        'components': sorted(components, key=lambda component: component['name']),\\n    }\\n    with Path('report.json').open('w', encoding='utf-8') as destination:\\n        json.dump(report, destination, indent=2)\\n        destination.write('\\\\n')\\n    return report\\n\",\n  \"checks\": \"import os\\nimport tempfile\\nfrom pathlib import Path\\n\\nwith tempfile.TemporaryDirectory() as directory:\\n    previous = os.getcwd()\\n    try:\\n        os.chdir(directory)\\n        Path('inputs').mkdir()\\n        sample = {\\n            'reported_phase': 'deployed',\\n            'reported_error': None,\\n            'reported_components': {\\n                'worker': {'commit': '', 'deployed_utc': None},\\n                'api': {'commit': 'AbC', 'deployed_utc': '2026-01-01T00:00:00Z'},\\n            },\\n            'published_main': {'api': 'AbC', 'worker': 'xyz'},\\n            'proposed_branch': {'api': 'abc'},\\n        }\\n        Path('inputs/components.json').write_text(json.dumps(sample), encoding='utf-8')\\n        report = task_func()\\n        assert report == json.loads(Path('report.json').read_text(encoding='utf-8'))\\n        assert report['reported_phase'] == 'deployed'\\n        assert report['reported_error'] is None\\n        assert report['direct_service_health'] == 'unknown'\\n        assert report['evidence'] == 'public_endpoint_report_only'\\n        assert [entry['name'] for entry in report['components']] == ['api', 'worker']\\n        assert report['components'][0]['versus_published_main'] == 'same'\\n        assert report['components'][0]['versus_proposed_branch'] == 'different'\\n        assert report['components'][1]['versus_published_main'] == 'unknown'\\n        assert report['components'][1]['versus_proposed_branch'] == 'unknown'\\n        sample['reported_components'] = []\\n        Path('inputs/components.json').write_text(json.dumps(sample), encoding='utf-8')\\n        assert task_func()['components'] == []\\n        assert _compare('abc', '') == 'unknown'\\n        assert _compare('abc', None) == 'unknown'\\n        assert _compare('abc ', 'abc') == 'different'\\n    finally:\\n        os.chdir(previous)\\n\",\n  \"lesson\": \"Compare commit strings without normalization, retain every reported component, and do not infer direct service health from endpoint reports.\",\n  \"queries\": [\n    \"components.json reported_components published_main proposed_branch schema\",\n    \"component report commit deployed_utc input example\"\n  ]\n}",
+            "response_sha256": "a8114c051718b7070fc482aa14291db9771e142544d8e789f15cf49c93976096",
+            "stage": "proposal",
+            "usage": {
+              "completion_tokens": 1178,
+              "prompt_tokens": 1055,
+              "reasoning_tokens": 149,
+              "total_tokens": 2233
+            }
+          },
+          {
+            "content": "{\n  \"checks\": [\n    \"import json\\nimport os\\nimport tempfile\\nfrom pathlib import Path\\n\\n# task_func must be available in the execution namespace.\\nsource = json.loads(Path('inputs/components.json').read_text(encoding='utf-8'))\\n\\ndef run_case(payload):\\n    previous = Path.cwd()\\n    with tempfile.TemporaryDirectory() as directory:\\n        root = Path(directory)\\n        (root / 'inputs').mkdir()\\n        (root / 'inputs' / 'components.json').write_text(json.dumps(payload), encoding='utf-8')\\n        try:\\n            os.chdir(root)\\n            result = task_func()\\n            assert isinstance(result, dict)\\n            assert Path('report.json').is_file()\\n            persisted = json.loads(Path('report.json').read_text(encoding='utf-8'))\\n            assert persisted == result\\n            assert result['reported_phase'] == payload['reported_phase']\\n            assert result['reported_error'] == payload['reported_error']\\n            assert result['direct_service_health'] == 'unknown'\\n            assert result['evidence'] == 'public_endpoint_report_only'\\n            components = result['components']\\n            assert isinstance(components, list)\\n            assert len(components) == len(payload['reported_components'])\\n            names = [entry['name'] for entry in components]\\n            assert names == sorted(names)\\n            for entry in components:\\n                assert {'name', 'reported_commit', 'reported_deployed_utc', 'versus_published_main', 'versus_proposed_branch'} <= entry.keys()\\n                for field in ('versus_published_main', 'versus_proposed_branch'):\\n                    assert entry[field] in ('unknown', 'same', 'different')\\n                    if entry['reported_commit'] is None or entry['reported_commit'] == '':\\n                        assert entry[field] == 'unknown'\\n            return result\\n        finally:\\n            os.chdir(previous)\\n\\nbaseline = run_case(source)\\nreported = source['reported_components']\\nif isinstance(reported, dict):\\n    assert [entry['name'] for entry in baseline['components']] == sorted(reported)\\nelif isinstance(reported, list) and all(isinstance(entry, dict) and 'name' in entry for entry in reported):\\n    assert [entry['name'] for entry in baseline['components']] == sorted(entry['name'] for entry in reported)\\n\\n# Exercise the empty collection without changing the fixture's collection representation.\\nempty_source = json.loads(json.dumps(source))\\nif isinstance(reported, (dict, list)):\\n    empty_source['reported_components'] = {} if isinstance(reported, dict) else []\\n    empty_report = run_case(empty_source)\\n    assert empty_report['components'] == []\"\n  ],\n  \"evidence_ids\": [],\n  \"hypotheses\": [\n    \"The returned report and persisted JSON may diverge.\",\n    \"Endpoint status may incorrectly be treated as direct service-health evidence.\",\n    \"Reported phase or error may be discarded or rewritten.\",\n    \"Components may be omitted, unsorted, or mishandled when the collection is empty.\",\n    \"An empty reported commit may incorrectly produce a definitive comparison.\"\n  ]\n}",
+            "response_sha256": "aeff044d25c76ed5eb8c913d3d66d14ebc174d325a4854d67b940412fe74a2f9",
+            "stage": "blind_challenge",
+            "usage": {
+              "completion_tokens": 959,
+              "prompt_tokens": 976,
+              "reasoning_tokens": 261,
+              "total_tokens": 1935
+            }
+          },
+          {
+            "content": "{\n  \"code\": \"import json\\nfrom pathlib import Path\\n\\n\\ndef _named_entries(entries):\\n    if isinstance(entries, dict):\\n        return entries.items()\\n    return ((entry['name'], entry) for entry in entries)\\n\\n\\ndef _commit(value):\\n    if isinstance(value, dict):\\n        return value.get('commit')\\n    return value\\n\\n\\ndef _compare(component_commit, comparison_commit):\\n    if component_commit is None or component_commit == '':\\n        return 'unknown'\\n    if comparison_commit is None or comparison_commit == '':\\n        return 'unknown'\\n    return 'same' if component_commit == comparison_commit else 'different'\\n\\n\\ndef task_func():\\n    with Path('inputs/components.json').open('r', encoding='utf-8') as source:\\n        data = json.load(source)\\n\\n    published = dict(_named_entries(data.get('published_main', {})))\\n    proposed = dict(_named_entries(data.get('proposed_branch', {})))\\n    components = []\\n    for name, component in _named_entries(data['reported_components']):\\n        commit = _commit(component)\\n        deployed_utc = (\\n            component.get('deployed_utc')\\n            if isinstance(component, dict) else None\\n        )\\n        components.append({\\n            'name': name,\\n            'reported_commit': commit,\\n            'reported_deployed_utc': deployed_utc,\\n            'versus_published_main': _compare(commit, _commit(published.get(name))),\\n            'versus_proposed_branch': _compare(commit, _commit(proposed.get(name))),\\n        })\\n\\n    report = {\\n        'reported_phase': data.get('reported_phase'),\\n        'reported_error': data.get('reported_error'),\\n        'direct_service_health': 'unknown',\\n        'evidence': 'public_endpoint_report_only',\\n        'components': sorted(components, key=lambda component: component['name']),\\n    }\\n    with Path('report.json').open('w', encoding='utf-8') as destination:\\n        json.dump(report, destination, indent=2)\\n        destination.write('\\\\n')\\n    return report\\n\",\n  \"checks\": \"import json\\nimport os\\nimport tempfile\\nfrom pathlib import Path\\n\\n\\ndef check_report(sample):\\n    Path('inputs/components.json').write_text(json.dumps(sample), encoding='utf-8')\\n    result = task_func()\\n    assert result == json.loads(Path('report.json').read_text(encoding='utf-8'))\\n    assert result['reported_phase'] == sample.get('reported_phase')\\n    assert result['reported_error'] == sample.get('reported_error')\\n    assert result['direct_service_health'] == 'unknown'\\n    assert result['evidence'] == 'public_endpoint_report_only'\\n    return result\\n\\n\\nwith tempfile.TemporaryDirectory() as directory:\\n    previous = os.getcwd()\\n    try:\\n        os.chdir(directory)\\n        Path('inputs').mkdir()\\n        sample = {\\n            'reported_phase': 'deployed',\\n            'reported_error': None,\\n            'reported_components': {\\n                'worker': {'commit': '', 'deployed_utc': None},\\n                'api': {'commit': 'AbC', 'deployed_utc': '2026-01-01T00:00:00Z'},\\n            },\\n            'published_main': {'api': 'AbC', 'worker': 'xyz'},\\n            'proposed_branch': {'api': 'abc'},\\n        }\\n        result = check_report(sample)\\n        assert result['components'] == [\\n            {'name': 'api', 'reported_commit': 'AbC',\\n             'reported_deployed_utc': '2026-01-01T00:00:00Z',\\n             'versus_published_main': 'same', 'versus_proposed_branch': 'different'},\\n            {'name': 'worker', 'reported_commit': '',\\n             'reported_deployed_utc': None,\\n             'versus_published_main': 'unknown', 'versus_proposed_branch': 'unknown'},\\n        ]\\n        sample['reported_components'] = [\\n            {'name': 'z', 'commit': 'abc '},\\n            {'name': 'a'},\\n            {'name': 'z', 'commit': 'abc'},\\n        ]\\n        sample['published_main'] = {'z': 'abc'}\\n        sample['proposed_branch'] = {'z': ''}\\n        sample['reported_error'] = 'endpoint error'\\n        result = check_report(sample)\\n        assert [c['name'] for c in result['components']] == ['a', 'z', 'z']\\n        assert [c['versus_published_main'] for c in result['components']] == ['unknown', 'different', 'same']\\n        assert all(c['versus_proposed_branch'] == 'unknown' for c in result['components'])\\n        sample['reported_components'] = []\\n        assert check_report(sample)['components'] == []\\n    finally:\\n        os.chdir(previous)\\n\",\n  \"lesson\": \"Independently reviewed ordering, preservation of every reported entry, missing and empty commits, exact string comparison, and persisted report equality. Endpoint reports cannot establish direct service health. An unexplained challenge ValueError does not justify suppressing errors or changing the contract.\"\n}",
+            "response_sha256": "10cfadd81c108d231d8f2519a174dc8fce5e094fd1186bbc5785f6cde1f5f206",
+            "stage": "revision",
+            "usage": {
+              "completion_tokens": 1249,
+              "prompt_tokens": 2202,
+              "reasoning_tokens": 38,
+              "total_tokens": 3451
+            }
+          }
+        ],
+        "blind_challenge": null,
+        "challenge_execution": {
+          "challenge_error": "ValueError",
+          "passed": false
+        },
+        "checked_correction": null,
+        "checker": {
+          "checks_sha256": "54834dc7401ba85d77617c4966bcb97c2ec9ff810becd9571bf3745d5861a364",
+          "code_sha256": "238ea620bb86c4f3e2c77108958652d7790db17fdb0901edcf0e17168a4ef86b",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 4, in <module>\n  File \"program.py\", line 29, in task_func\n    published = dict(_named_entries(data.get('published_main', {})))\n  File \"program.py\", line 8, in <genexpr>\n    return ((entry['name'], entry) for entry in entries)\n             ~~~~~^^^^^^^^\nTypeError: string indices must be integers, not 'str'\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.045204
+        },
+        "code": "import json\nfrom pathlib import Path\n\n\ndef _named_entries(entries):\n    if isinstance(entries, dict):\n        return entries.items()\n    return ((entry['name'], entry) for entry in entries)\n\n\ndef _commit(value):\n    if isinstance(value, dict):\n        return value.get('commit')\n    return value\n\n\ndef _compare(component_commit, comparison_commit):\n    if component_commit is None or component_commit == '':\n        return 'unknown'\n    if comparison_commit is None or comparison_commit == '':\n        return 'unknown'\n    return 'same' if component_commit == comparison_commit else 'different'\n\n\ndef task_func():\n    with Path('inputs/components.json').open('r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    published = dict(_named_entries(data.get('published_main', {})))\n    proposed = dict(_named_entries(data.get('proposed_branch', {})))\n    components = []\n    for name, component in _named_entries(data['reported_components']):\n        commit = _commit(component)\n        deployed_utc = (\n            component.get('deployed_utc')\n            if isinstance(component, dict) else None\n        )\n        components.append({\n            'name': name,\n            'reported_commit': commit,\n            'reported_deployed_utc': deployed_utc,\n            'versus_published_main': _compare(commit, _commit(published.get(name))),\n            'versus_proposed_branch': _compare(commit, _commit(proposed.get(name))),\n        })\n\n    report = {\n        'reported_phase': data.get('reported_phase'),\n        'reported_error': data.get('reported_error'),\n        'direct_service_health': 'unknown',\n        'evidence': 'public_endpoint_report_only',\n        'components': sorted(components, key=lambda component: component['name']),\n    }\n    with Path('report.json').open('w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n        destination.write('\\n')\n    return report\n",
+        "correction_catalog_sha256": null,
+        "experience_ids": [
+          "fresh-proposed-source-audit"
+        ],
+        "experience_sha256": "d39784e33c792b8c7ece2f7f6a1d0147ad552c86ee3ed2f273a68b698deb02a4",
+        "family": "fresh-project-work",
+        "implementation_sha256": "3a1ce22f28f853b08ff43cccc6e6d90a3d92bd28159dcc1841bd84150836b63a",
+        "initial_smoke": {
+          "checks_sha256": "a4560d3339023a55f0d370d019cde230f812abac598ecc824e6612918a7e6ca8",
+          "code_sha256": "238ea620bb86c4f3e2c77108958652d7790db17fdb0901edcf0e17168a4ef86b",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.094454
+        },
+        "job_id": "fresh-reported-components",
+        "lesson": "Independently reviewed ordering, preservation of every reported entry, missing and empty commits, exact string comparison, and persisted report equality. Endpoint reports cannot establish direct service health. An unexplained challenge ValueError does not justify suppressing errors or changing the contract.",
+        "method": "retrieval",
+        "navigation": {
+          "initial_ids": [
+            "fresh-proposed-source-audit"
+          ],
+          "queries": [],
+          "selected_ids": [
+            "fresh-proposed-source-audit"
+          ],
+          "view": [
+            {
+              "accepted": true,
+              "code": "import base64\nimport json\nimport zlib\nfrom collections.abc import Mapping\nfrom pathlib import Path\n\n\ndef _blob_identities(files):\n    if isinstance(files, Mapping):\n        return dict(files)\n    return {entry['path']: entry['blob'] for entry in files}\n\n\ndef task_func():\n    with Path('inputs/source.json').open('r', encoding='utf-8') as source_file:\n        source = json.load(source_file)\n    payload = json.loads(zlib.decompress(base64.b64decode(source['payload'])))\n\n    published = _blob_identities(payload['published_files'])\n    proposed = _blob_identities(payload['proposed_files'])\n    published_paths = set(published)\n    proposed_paths = set(proposed)\n    shared_paths = published_paths & proposed_paths\n\n    report = {\n        'published_files': len(published),\n        'proposed_files': len(proposed),\n        'removed': sorted(published_paths - proposed_paths),\n        'added': sorted(proposed_paths - published_paths),\n        'changed': sorted(\n            path for path in shared_paths\n            if published[path] != proposed[path]\n        ),\n        'unchanged': sum(\n            published[path] == proposed[path] for path in shared_paths\n        ),\n        'evidence': 'public_git_blob_identities_not_live_service_health',\n    }\n    with Path('report.json').open('w', encoding='utf-8') as report_file:\n        json.dump(report, report_file, indent=2)\n        report_file.write('\\n')\n    return report\n",
+              "failure": "",
+              "job_id": "fresh-proposed-source-audit",
+              "lesson_scope": "Proposed by the model; general validity is unverified",
+              "prompt": "Implement task_func() to read inputs/source.json, decode its base64+zlib+json payload, and compare every published_files path/blob identity against proposed_files. Return a dict with published_files and proposed_files counts, sorted removed/added/changed path lists, and unchanged as the count of shared paths with equal blob identities. Include evidence=\"public_git_blob_identities_not_live_service_health\". Write the same object to report.json. Use every entry, including non-code evidence files; Git blob identities are opaque exact strings, not service-health evidence.",
+              "proposed_lesson": "Reviewed decoding, exact identity comparison, path ordering, counts, and report persistence. Include non-code evidence files and never normalize opaque blob strings or infer live service health. An unspecified challenge ValueError does not justify changing the input contract or suppressing decoding errors.",
+              "record_sha256": "52008d9f5d3bf90fe6dc6f89c64105e815ed8e6043b71d524327c1e143153a97",
+              "source_sha256": "befafad5b4e313f5219b2ac607340d4956fbc2c5f630d1f6b0656ced5f3323c9",
+              "task_id": "nuria/proposed-source-audit",
+              "truncated_fields": [],
+              "variant_outcomes": {
+                "accepted": 1,
+                "rejected": 0
+              }
+            }
+          ]
+        },
+        "prompt": "Implement task_func() to read inputs/components.json and write/return the same object as report.json. Keep reported_phase and reported_error; direct_service_health must be \"unknown\" and evidence \"public_endpoint_report_only\". components is a list sorted by name containing every reported_components entry, with name, reported_commit, reported_deployed_utc, versus_published_main and versus_proposed_branch. Compare exact commit strings: a missing/empty component or comparison commit means \"unknown\", equal means \"same\", otherwise \"different\". An endpoint report cannot establish direct service health.",
+        "proposal_error": null,
+        "proposed_code_sha256": "e0aaf461982bf404132fd575e35e2cbb223e16c421bc82e38b0107759d57046e",
+        "replayed": false,
+        "revised_smoke": {
+          "checks_sha256": "3ee77bb9cf5e18b2b464f1ad4e3907f415a167f187607e54682ad46b7e9d2b0f",
+          "code_sha256": "238ea620bb86c4f3e2c77108958652d7790db17fdb0901edcf0e17168a4ef86b",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.083696
+        },
+        "source_sha256": "54bac8fc77744a301bae8d2f464f2ae127066b0a3bfc66ad4cdf2960b5d38174",
+        "task_id": "nuria/reported-components",
+        "version": "nuria.experience-navigation.v3"
+      },
+      {
+        "accepted": false,
+        "attempts": [
+          {
+            "content": "{\n  \"code\": \"import json\\nfrom pathlib import Path\\n\\n\\ndef task_func():\\n    with Path('inputs/actions.json').open('r', encoding='utf-8') as source:\\n        data = json.load(source)\\n\\n    providers = {}\\n    for row in data['action_tasks']:\\n        provider = row['provider']\\n        if provider not in providers:\\n            providers[provider] = {\\n                'accepted': 0,\\n                'failed': 0,\\n                'unknown_acceptance': 0,\\n                'known_reported_micro_usd': 0,\\n                'unknown_costs': 0,\\n                'positive_utility': 0,\\n                'unknown_utility': 0,\\n            }\\n        counts = providers[provider]\\n\\n        acceptance = row.get('acceptance_passed')\\n        if acceptance is True:\\n            counts['accepted'] += 1\\n        elif acceptance is False:\\n            counts['failed'] += 1\\n        else:\\n            counts['unknown_acceptance'] += 1\\n\\n        cost = row.get('settled_micro_usd')\\n        if type(cost) is int:\\n            counts['known_reported_micro_usd'] += cost\\n        else:\\n            counts['unknown_costs'] += 1\\n\\n        utility = row.get('utility')\\n        if type(utility) in (int, float):\\n            if utility > 0:\\n                counts['positive_utility'] += 1\\n        else:\\n            counts['unknown_utility'] += 1\\n\\n    report = {\\n        'reported_actions': len(data['action_tasks']),\\n        'financial_execution': data['financial_execution'],\\n        'payment_attestation': 'unknown',\\n        'evidence': 'reported_public_projection_only',\\n        'providers': providers,\\n    }\\n    with Path('report.json').open('w', encoding='utf-8') as destination:\\n        json.dump(report, destination, indent=2)\\n        destination.write('\\\\n')\\n    return report\\n\",\n  \"checks\": \"import os\\nimport tempfile\\n\\n\\nwith tempfile.TemporaryDirectory() as directory:\\n    previous_directory = os.getcwd()\\n    try:\\n        os.chdir(directory)\\n        Path('inputs').mkdir()\\n        sample = {\\n            'financial_execution': {'status': 'reported'},\\n            'action_tasks': [\\n                {'provider': 'a', 'acceptance_passed': True, 'settled_micro_usd': 12, 'utility': 1.5},\\n                {'provider': 'a', 'acceptance_passed': False, 'settled_micro_usd': -2, 'utility': 0},\\n                {'provider': 'a', 'acceptance_passed': 1, 'settled_micro_usd': True, 'utility': True},\\n                {'provider': 'b'},\\n            ],\\n        }\\n        Path('inputs/actions.json').write_text(json.dumps(sample), encoding='utf-8')\\n        result = task_func()\\n        assert result == json.loads(Path('report.json').read_text(encoding='utf-8'))\\n        assert result['reported_actions'] == 4\\n        assert result['financial_execution'] == sample['financial_execution']\\n        assert result['payment_attestation'] == 'unknown'\\n        assert result['evidence'] == 'reported_public_projection_only'\\n        assert result['providers']['a'] == {\\n            'accepted': 1, 'failed': 1, 'unknown_acceptance': 1,\\n            'known_reported_micro_usd': 10, 'unknown_costs': 1,\\n            'positive_utility': 1, 'unknown_utility': 1,\\n        }\\n        assert result['providers']['b'] == {\\n            'accepted': 0, 'failed': 0, 'unknown_acceptance': 1,\\n            'known_reported_micro_usd': 0, 'unknown_costs': 1,\\n            'positive_utility': 0, 'unknown_utility': 1,\\n        }\\n        Path('inputs/actions.json').write_text(json.dumps({\\n            'financial_execution': None, 'action_tasks': []\\n        }), encoding='utf-8')\\n        empty = task_func()\\n        assert empty['reported_actions'] == 0\\n        assert empty['providers'] == {}\\n        assert empty['financial_execution'] is None\\n        assert empty == json.loads(Path('report.json').read_text(encoding='utf-8'))\\n    finally:\\n        os.chdir(previous_directory)\\n\",\n  \"lesson\": \"Use identity checks for acceptance and exact numeric types to exclude booleans. Preserve every row and distinguish reported costs from verified payment settlement.\",\n  \"queries\": [\n    \"actions.json action_tasks provider utility input schema\",\n    \"reported_actions providers expected report keys\"\n  ]\n}",
+            "response_sha256": "5dfb2a5744909bd6099ed0b952e5d03b9305ea08f5712a7151ea4108d96dd1f6",
+            "stage": "proposal",
+            "usage": {
+              "completion_tokens": 1226,
+              "prompt_tokens": 2068,
+              "reasoning_tokens": 149,
+              "total_tokens": 3294
+            }
+          },
+          {
+            "content": "{\n  \"checks\": \"import json\\nimport os\\nimport tempfile\\nfrom pathlib import Path\\nfrom program import task_func\\n\\n\\ndef provider_groups(report):\\n    groups = report['providers']\\n    if isinstance(groups, dict):\\n        return groups\\n    return {group['provider']: group for group in groups}\\n\\n\\nrows = [\\n    {'provider': 'alpha', 'acceptance_passed': True, 'settled_micro_usd': 100, 'utility': 2},\\n    {'provider': 'alpha', 'acceptance_passed': False, 'settled_micro_usd': -7, 'utility': 0},\\n    {'provider': 'alpha', 'acceptance_passed': 1, 'settled_micro_usd': True, 'utility': True},\\n    {'provider': 'alpha', 'acceptance_passed': 0, 'settled_micro_usd': 3.5, 'utility': '4'},\\n    {'provider': 'alpha', 'acceptance_passed': None, 'settled_micro_usd': '12', 'utility': -1.5},\\n    {'provider': 'beta', 'acceptance_passed': True, 'settled_micro_usd': 0, 'utility': 0.25},\\n    {'provider': 'beta', 'acceptance_passed': False, 'settled_micro_usd': None, 'utility': None},\\n    {'provider': 'beta', 'acceptance_passed': 'true', 'settled_micro_usd': False, 'utility': False},\\n]\\n# Repeated rows must contribute again, rather than being deduplicated.\\nrows.append(dict(rows[0]))\\n\\nold_cwd = os.getcwd()\\ntry:\\n    with tempfile.TemporaryDirectory() as directory:\\n        os.chdir(directory)\\n        Path('inputs').mkdir()\\n        financial_execution = {'status': 'reported', 'settled': False}\\n        Path('inputs/actions.json').write_text(json.dumps({\\n            'action_tasks': rows,\\n            'financial_execution': financial_execution,\\n        }), encoding='utf-8')\\n        report = task_func()\\n        assert isinstance(report, dict)\\n        assert json.loads(Path('report.json').read_text(encoding='utf-8')) == report\\n        assert report['reported_actions'] == 9\\n        assert report['financial_execution'] == financial_execution\\n        assert report['payment_attestation'] == 'unknown'\\n        assert report['evidence'] == 'reported_public_projection_only'\\n        groups = provider_groups(report)\\n        assert set(groups) == {'alpha', 'beta'}\\n        expected = {\\n            'alpha': {\\n                'accepted': 2, 'failed': 1, 'unknown_acceptance': 3,\\n                'known_reported_micro_usd': 193, 'unknown_costs': 3,\\n                'positive_utility': 2, 'unknown_utility': 2,\\n            },\\n            'beta': {\\n                'accepted': 1, 'failed': 1, 'unknown_acceptance': 1,\\n                'known_reported_micro_usd': 0, 'unknown_costs': 2,\\n                'positive_utility': 1, 'unknown_utility': 2,\\n            },\\n        }\\n        for provider, counts in expected.items():\\n            for key, value in counts.items():\\n                assert groups[provider][key] == value, (provider, key, groups[provider])\\nfinally:\\n    os.chdir(old_cwd)\\n\",\n  \"evidence_ids\": [],\n  \"hypotheses\": [\n    \"Acceptance classification may use truthiness or equality instead of exact boolean identity.\",\n    \"Boolean, float, or string costs may incorrectly enter the integer cost sum.\",\n    \"Boolean or string utilities may be treated as numeric positive utility.\",\n    \"Repeated rows may be dropped or provider aggregates may leak across groups.\",\n    \"The returned and persisted reports may diverge or imply payment settlement.\"\n  ]\n}",
+            "response_sha256": "55e9317c88bdb043b3d612b36a4a91be8b401cf818ea3524c17dec8239223ab3",
+            "stage": "blind_challenge",
+            "usage": {
+              "completion_tokens": 942,
+              "prompt_tokens": 1988,
+              "reasoning_tokens": 61,
+              "total_tokens": 2930
+            }
+          },
+          {
+            "content": "{\n  \"code\": \"import json\\nfrom pathlib import Path\\n\\n\\ndef task_func():\\n    with Path('inputs/actions.json').open('r', encoding='utf-8') as source:\\n        data = json.load(source)\\n\\n    providers = {}\\n    for row in data['action_tasks']:\\n        provider = row['provider']\\n        if provider not in providers:\\n            providers[provider] = {\\n                'accepted': 0,\\n                'failed': 0,\\n                'unknown_acceptance': 0,\\n                'known_reported_micro_usd': 0,\\n                'unknown_costs': 0,\\n                'positive_utility': 0,\\n                'unknown_utility': 0,\\n            }\\n        counts = providers[provider]\\n\\n        acceptance = row.get('acceptance_passed')\\n        if acceptance is True:\\n            counts['accepted'] += 1\\n        elif acceptance is False:\\n            counts['failed'] += 1\\n        else:\\n            counts['unknown_acceptance'] += 1\\n\\n        cost = row.get('settled_micro_usd')\\n        if type(cost) is int:\\n            counts['known_reported_micro_usd'] += cost\\n        else:\\n            counts['unknown_costs'] += 1\\n\\n        utility = row.get('utility')\\n        if type(utility) in (int, float):\\n            if utility > 0:\\n                counts['positive_utility'] += 1\\n        else:\\n            counts['unknown_utility'] += 1\\n\\n    report = {\\n        'reported_actions': len(data['action_tasks']),\\n        'financial_execution': data['financial_execution'],\\n        'payment_attestation': 'unknown',\\n        'evidence': 'reported_public_projection_only',\\n        'providers': providers,\\n    }\\n    with Path('report.json').open('w', encoding='utf-8') as destination:\\n        json.dump(report, destination, indent=2)\\n        destination.write('\\\\n')\\n    return report\\n\",\n  \"checks\": \"import json\\nimport os\\nimport tempfile\\nfrom pathlib import Path\\n\\n\\ndef check_report(data, expected):\\n    Path('inputs/actions.json').write_text(json.dumps(data), encoding='utf-8')\\n    actual = task_func()\\n    assert actual == expected, actual\\n    assert json.loads(Path('report.json').read_text(encoding='utf-8')) == actual\\n\\n\\nprevious_directory = os.getcwd()\\ntry:\\n    with tempfile.TemporaryDirectory() as directory:\\n        os.chdir(directory)\\n        Path('inputs').mkdir()\\n        first = {'provider': 'a', 'acceptance_passed': True,\\n                 'settled_micro_usd': 12, 'utility': 1.5}\\n        check_report({\\n            'financial_execution': {'status': 'reported'},\\n            'action_tasks': [\\n                first,\\n                {'provider': 'a', 'acceptance_passed': False,\\n                 'settled_micro_usd': -2, 'utility': 0},\\n                {'provider': 'a', 'acceptance_passed': 1,\\n                 'settled_micro_usd': True, 'utility': True},\\n                {'provider': 'a', 'acceptance_passed': 0,\\n                 'settled_micro_usd': 2.5, 'utility': -1},\\n                {'provider': 'a', 'acceptance_passed': 'true',\\n                 'settled_micro_usd': '5', 'utility': '3'},\\n                {'provider': 'b'},\\n                dict(first),\\n            ],\\n        }, {\\n            'reported_actions': 7,\\n            'financial_execution': {'status': 'reported'},\\n            'payment_attestation': 'unknown',\\n            'evidence': 'reported_public_projection_only',\\n            'providers': {\\n                'a': {\\n                    'accepted': 2, 'failed': 1, 'unknown_acceptance': 3,\\n                    'known_reported_micro_usd': 22, 'unknown_costs': 3,\\n                    'positive_utility': 2, 'unknown_utility': 2,\\n                },\\n                'b': {\\n                    'accepted': 0, 'failed': 0, 'unknown_acceptance': 1,\\n                    'known_reported_micro_usd': 0, 'unknown_costs': 1,\\n                    'positive_utility': 0, 'unknown_utility': 1,\\n                },\\n            },\\n        })\\n        check_report({'financial_execution': None, 'action_tasks': []}, {\\n            'reported_actions': 0,\\n            'financial_execution': None,\\n            'payment_attestation': 'unknown',\\n            'evidence': 'reported_public_projection_only',\\n            'providers': {},\\n        })\\nfinally:\\n    os.chdir(previous_directory)\\n\",\n  \"lesson\": \"Independent review confirmed exact boolean identity for acceptance, exact integer costs, and numeric utility classification excluding booleans. Zero and negative numeric utilities are known but not positive. Count duplicate rows, preserve financial_execution, and never infer payment settlement from reported costs.\"\n}",
+            "response_sha256": "6b7adad1662f9ad509132ef478a218185a3ee44bc7f578b3eb81e141bad08ec3",
+            "stage": "revision",
+            "usage": {
+              "completion_tokens": 1159,
+              "prompt_tokens": 4252,
+              "reasoning_tokens": 0,
+              "total_tokens": 5411
+            }
+          }
+        ],
+        "blind_challenge": {
+          "checks": "import json\nimport os\nimport tempfile\nfrom pathlib import Path\nfrom program import task_func\n\n\ndef provider_groups(report):\n    groups = report['providers']\n    if isinstance(groups, dict):\n        return groups\n    return {group['provider']: group for group in groups}\n\n\nrows = [\n    {'provider': 'alpha', 'acceptance_passed': True, 'settled_micro_usd': 100, 'utility': 2},\n    {'provider': 'alpha', 'acceptance_passed': False, 'settled_micro_usd': -7, 'utility': 0},\n    {'provider': 'alpha', 'acceptance_passed': 1, 'settled_micro_usd': True, 'utility': True},\n    {'provider': 'alpha', 'acceptance_passed': 0, 'settled_micro_usd': 3.5, 'utility': '4'},\n    {'provider': 'alpha', 'acceptance_passed': None, 'settled_micro_usd': '12', 'utility': -1.5},\n    {'provider': 'beta', 'acceptance_passed': True, 'settled_micro_usd': 0, 'utility': 0.25},\n    {'provider': 'beta', 'acceptance_passed': False, 'settled_micro_usd': None, 'utility': None},\n    {'provider': 'beta', 'acceptance_passed': 'true', 'settled_micro_usd': False, 'utility': False},\n]\n# Repeated rows must contribute again, rather than being deduplicated.\nrows.append(dict(rows[0]))\n\nold_cwd = os.getcwd()\ntry:\n    with tempfile.TemporaryDirectory() as directory:\n        os.chdir(directory)\n        Path('inputs').mkdir()\n        financial_execution = {'status': 'reported', 'settled': False}\n        Path('inputs/actions.json').write_text(json.dumps({\n            'action_tasks': rows,\n            'financial_execution': financial_execution,\n        }), encoding='utf-8')\n        report = task_func()\n        assert isinstance(report, dict)\n        assert json.loads(Path('report.json').read_text(encoding='utf-8')) == report\n        assert report['reported_actions'] == 9\n        assert report['financial_execution'] == financial_execution\n        assert report['payment_attestation'] == 'unknown'\n        assert report['evidence'] == 'reported_public_projection_only'\n        groups = provider_groups(report)\n        assert set(groups) == {'alpha', 'beta'}\n        expected = {\n            'alpha': {\n                'accepted': 2, 'failed': 1, 'unknown_acceptance': 3,\n                'known_reported_micro_usd': 193, 'unknown_costs': 3,\n                'positive_utility': 2, 'unknown_utility': 2,\n            },\n            'beta': {\n                'accepted': 1, 'failed': 1, 'unknown_acceptance': 1,\n                'known_reported_micro_usd': 0, 'unknown_costs': 2,\n                'positive_utility': 1, 'unknown_utility': 2,\n            },\n        }\n        for provider, counts in expected.items():\n            for key, value in counts.items():\n                assert groups[provider][key] == value, (provider, key, groups[provider])\nfinally:\n    os.chdir(old_cwd)\n",
+          "evidence_ids": [],
+          "hypotheses": [
+            "Acceptance classification may use truthiness or equality instead of exact boolean identity.",
+            "Boolean, float, or string costs may incorrectly enter the integer cost sum.",
+            "Boolean or string utilities may be treated as numeric positive utility.",
+            "Repeated rows may be dropped or provider aggregates may leak across groups.",
+            "The returned and persisted reports may diverge or imply payment settlement."
+          ]
+        },
+        "challenge_execution": {
+          "checks_sha256": "0415e8ddc8f92c0cf449c2269954aa37015724922f5c071d250a3db41028a501",
+          "code_sha256": "be6c81d5b3e09bf2b3cd588a0fcbb0408eb5f0aff8d8dac8c7c241b1afbbc24f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.091236
+        },
+        "checked_correction": null,
+        "checker": {
+          "checks_sha256": "78c4168be8ffb307eeba0b61c52850f1c49da35eff195307f18f830f19fda7c8",
+          "code_sha256": "be6c81d5b3e09bf2b3cd588a0fcbb0408eb5f0aff8d8dac8c7c241b1afbbc24f",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 5, in <module>\nAssertionError: ({'reported_actions': 40, 'financial_execution': False, 'payment_attestation': 'unknown', 'evidence': 'reported_public_projection_only', 'providers': {'local-composed-records-v1': {'accepted': 20, 'failed': 5, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 0, 'unknown_utility': 25}, 'local-record-audit-v1': {'accepted': 14, 'failed': 1, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 0, 'unknown_utility': 15}}}, {'reported_actions': 40, 'financial_execution': False, 'providers': {'local-composed-records-v1': {'accepted': 20, 'failed': 5, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 20, 'unknown_utility': 0}, 'local-record-audit-v1': {'accepted': 14, 'failed': 1, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 14, 'unknown_utility': 0}}, 'payment_attestation': 'unknown', 'evidence': 'reported_public_projection_only'})\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.090957
+        },
+        "code": "import json\nfrom pathlib import Path\n\n\ndef task_func():\n    with Path('inputs/actions.json').open('r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    providers = {}\n    for row in data['action_tasks']:\n        provider = row['provider']\n        if provider not in providers:\n            providers[provider] = {\n                'accepted': 0,\n                'failed': 0,\n                'unknown_acceptance': 0,\n                'known_reported_micro_usd': 0,\n                'unknown_costs': 0,\n                'positive_utility': 0,\n                'unknown_utility': 0,\n            }\n        counts = providers[provider]\n\n        acceptance = row.get('acceptance_passed')\n        if acceptance is True:\n            counts['accepted'] += 1\n        elif acceptance is False:\n            counts['failed'] += 1\n        else:\n            counts['unknown_acceptance'] += 1\n\n        cost = row.get('settled_micro_usd')\n        if type(cost) is int:\n            counts['known_reported_micro_usd'] += cost\n        else:\n            counts['unknown_costs'] += 1\n\n        utility = row.get('utility')\n        if type(utility) in (int, float):\n            if utility > 0:\n                counts['positive_utility'] += 1\n        else:\n            counts['unknown_utility'] += 1\n\n    report = {\n        'reported_actions': len(data['action_tasks']),\n        'financial_execution': data['financial_execution'],\n        'payment_attestation': 'unknown',\n        'evidence': 'reported_public_projection_only',\n        'providers': providers,\n    }\n    with Path('report.json').open('w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n        destination.write('\\n')\n    return report\n",
+        "correction_catalog_sha256": null,
+        "experience_ids": [
+          "fresh-proposed-source-audit",
+          "fresh-reported-components"
+        ],
+        "experience_sha256": "db9f814e39048ad009b1c75e615f3f92b8b38559b64a22703defcd17d4e7e907",
+        "family": "fresh-project-work",
+        "implementation_sha256": "3a1ce22f28f853b08ff43cccc6e6d90a3d92bd28159dcc1841bd84150836b63a",
+        "initial_smoke": {
+          "checks_sha256": "3b039e20caf872a6b18c6331c6519f4885174a0b3a4ede7864fa18ae35843b34",
+          "code_sha256": "be6c81d5b3e09bf2b3cd588a0fcbb0408eb5f0aff8d8dac8c7c241b1afbbc24f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.086901
+        },
+        "job_id": "fresh-reported-delivery-audit",
+        "lesson": "Independent review confirmed exact boolean identity for acceptance, exact integer costs, and numeric utility classification excluding booleans. Zero and negative numeric utilities are known but not positive. Count duplicate rows, preserve financial_execution, and never infer payment settlement from reported costs.",
+        "method": "retrieval",
+        "navigation": {
+          "initial_ids": [
+            "fresh-proposed-source-audit",
+            "fresh-reported-components"
+          ],
+          "queries": [],
+          "selected_ids": [
+            "fresh-proposed-source-audit",
+            "fresh-reported-components"
+          ],
+          "view": [
+            {
+              "accepted": true,
+              "code": "import base64\nimport json\nimport zlib\nfrom collections.abc import Mapping\nfrom pathlib import Path\n\n\ndef _blob_identities(files):\n    if isinstance(files, Mapping):\n        return dict(files)\n    return {entry['path']: entry['blob'] for entry in files}\n\n\ndef task_func():\n    with Path('inputs/source.json').open('r', encoding='utf-8') as source_file:\n        source = json.load(source_file)\n    payload = json.loads(zlib.decompress(base64.b64decode(source['payload'])))\n\n    published = _blob_identities(payload['published_files'])\n    proposed = _blob_identities(payload['proposed_files'])\n    published_paths = set(published)\n    proposed_paths = set(proposed)\n    shared_paths = published_paths & proposed_paths\n\n    report = {\n        'published_files': len(published),\n        'proposed_files': len(proposed),\n        'removed': sorted(published_paths - proposed_paths),\n        'added': sorted(proposed_paths - published_paths),\n        'changed': sorted(\n            path for path in shared_paths\n            if published[path] != proposed[path]\n        ),\n        'unchanged': sum(\n            published[path] == proposed[path] for path in shared_paths\n        ),\n        'evidence': 'public_git_blob_identities_not_live_service_health',\n    }\n    with Path('report.json').open('w', encoding='utf-8') as report_file:\n        json.dump(report, report_file, indent=2)\n        report_file.write('\\n')\n    return report\n",
+              "failure": "",
+              "job_id": "fresh-proposed-source-audit",
+              "lesson_scope": "Proposed by the model; general validity is unverified",
+              "prompt": "Implement task_func() to read inputs/source.json, decode its base64+zlib+json payload, and compare every published_files path/blob identity against proposed_files. Return a dict with published_files and proposed_files counts, sorted removed/added/changed path lists, and unchanged as the count of shared paths with equal blob identities. Include evidence=\"public_git_blob_identities_not_live_service_health\". Write the same object to report.json. Use every entry, including non-code evidence files; Git blob identities are opaque exact strings, not service-health evidence.",
+              "proposed_lesson": "Reviewed decoding, exact identity comparison, path ordering, counts, and report persistence. Include non-code evidence files and never normalize opaque blob strings or infer live service health. An unspecified challenge ValueError does not justify changing the input c",
+              "record_sha256": "52008d9f5d3bf90fe6dc6f89c64105e815ed8e6043b71d524327c1e143153a97",
+              "source_sha256": "befafad5b4e313f5219b2ac607340d4956fbc2c5f630d1f6b0656ced5f3323c9",
+              "task_id": "nuria/proposed-source-audit",
+              "truncated_fields": [
+                "proposed_lesson"
+              ],
+              "variant_outcomes": {
+                "accepted": 1,
+                "rejected": 0
+              }
+            },
+            {
+              "accepted": false,
+              "code": "import json\nfrom pathlib import Path\n\n\ndef _named_entries(entries):\n    if isinstance(entries, dict):\n        return entries.items()\n    return ((entry['name'], entry) for entry in entries)\n\n\ndef _commit(value):\n    if isinstance(value, dict):\n        return value.get('commit')\n    return value\n\n\ndef _compare(component_commit, comparison_commit):\n    if component_commit is None or component_commit == '':\n        return 'unknown'\n    if comparison_commit is None or comparison_commit == '':\n        return 'unknown'\n    return 'same' if component_commit == comparison_commit else 'different'\n\n\ndef task_func():\n    with Path('inputs/components.json').open('r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    published = dict(_named_entries(data.get('published_main', {})))\n    proposed = dict(_named_entries(data.get('proposed_branch', {})))\n    components = []\n    for name, component in _named_entries(data['reported_components']):\n        commit = _commit(component)\n        deployed_utc = (\n            component.get('deployed_utc')\n            if isinstance(component, dict) else None\n        )\n        components.append({\n            'name': name,\n            'reported_commit': commit,\n            'reported_deployed_utc': deployed_utc,\n            'versus_published_main': _compare(commit, _commit(published.get(name))),\n            'versus_proposed_branch': _compare(commit, _commit(proposed.get(name))),\n        })\n\n    report = {\n        'reported_phase': data.get('reported_phase'),\n        'reported_error': data.get('reported_error'),\n        'direct_service_health': 'unknown',\n        'evidence': 'public_endpoint_report_only',\n        'components': sorted(components, key=lambda component: component['name']),\n    }\n    with Path('report.json').open('w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n        destination.write('\\n')\n    return report\n",
+              "failure": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 4, in <module>\n  File \"program.py\", line 29, in task_func\n    published = dict(_named_entries(data.get('published_main', {})))\n  File \"program.py\", line 8, in <genexpr>\n    return ((entry['name'], entry) for entry in entries)\n             ~~~~~^^^^^^^^\nTypeError: string indices must be integers, not 'str'\n",
+              "job_id": "fresh-reported-components",
+              "lesson_scope": "Proposed by the model; general validity is unverified",
+              "prompt": "Implement task_func() to read inputs/components.json and write/return the same object as report.json. Keep reported_phase and reported_error; direct_service_health must be \"unknown\" and evidence \"public_endpoint_report_only\". components is a list sorted by name containing every reported_components entry, with name, reported_commit, reported_deployed_utc, versus_published_main and versus_proposed_branch. Compare exact commit strings: a missing/empty component or comparison commit means \"unknown\", equal means \"same\", otherwise \"different\". An endpoint report cannot establish direct service health.",
+              "proposed_lesson": "Independently reviewed ordering, preservation of every reported entry, missing and empty commits, exact string comparison, and persisted report equality. Endpoint reports cannot establish direct service health. An unexplained challenge ValueError does not justify supp",
+              "record_sha256": "bbae9ff7ce36d214a2dcf744e428367a1578de8d5d4ae47810514c9b4db9fcdf",
+              "source_sha256": "54bac8fc77744a301bae8d2f464f2ae127066b0a3bfc66ad4cdf2960b5d38174",
+              "task_id": "nuria/reported-components",
+              "truncated_fields": [
+                "proposed_lesson"
+              ],
+              "variant_outcomes": {
+                "accepted": 0,
+                "rejected": 1
+              }
+            }
+          ]
+        },
+        "prompt": "Implement task_func() to read inputs/actions.json and write/return the same dict as report.json. Include reported_actions as the total action_tasks count, financial_execution from the input, payment_attestation=\"unknown\", evidence=\"reported_public_projection_only\" and providers grouped by provider. Per provider count accepted only when acceptance_passed is exactly True, failed only exactly False, otherwise unknown_acceptance. Sum settled_micro_usd only when type(value) is int excluding bool as known_reported_micro_usd, otherwise increment unknown_costs. Count positive_utility only for int/float (excluding bool) greater than zero; all non-int/float (including bool) are unknown_utility. Use every row; this projection does not establish payment settlement.",
+        "proposal_error": null,
+        "proposed_code_sha256": "aa934cbb9d76ee5b73339fc77d61fad67296b8fdebfee92b8093eaaaf09ef9e2",
+        "replayed": false,
+        "revised_smoke": {
+          "checks_sha256": "c98cbdee27acafc4e277bca4ee5d1b9edcb29ebce86aa27a6b8a82a2f3c8143d",
+          "code_sha256": "be6c81d5b3e09bf2b3cd588a0fcbb0408eb5f0aff8d8dac8c7c241b1afbbc24f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.091436
+        },
+        "source_sha256": "0227bc9c9d68d4290f6756313435f76efa4dda2aef711240fb5963e58267bafd",
+        "task_id": "nuria/reported-delivery-audit",
+        "version": "nuria.experience-navigation.v3"
+      },
+      {
+        "accepted": true,
+        "attempts": [
+          {
+            "content": "{\n  \"code\": \"import json\\nfrom math import comb\\n\\n\\ndef task_func(data=None):\\n    if data is None:\\n        with open('inputs/experiment.json', 'r', encoding='utf-8') as source:\\n            data = json.load(source)\\n\\n    candidate = data['candidate']\\n    controls = data['controls']\\n    rows = data['rows']\\n    methods = dict.fromkeys([candidate, *controls])\\n    for row in rows:\\n        methods.setdefault(row['method'], None)\\n\\n    accepted = dict.fromkeys(methods, 0)\\n    families = {}\\n    outcomes = {method: {} for method in methods}\\n    task_ids = set()\\n    ungraded_programs = 0\\n\\n    for row in rows:\\n        method = row['method']\\n        task_id = row['task_id']\\n        family = row['family']\\n        value = row['accepted']\\n        task_ids.add(task_id)\\n        outcomes[method][task_id] = value\\n        if family not in families:\\n            families[family] = dict.fromkeys(methods, 0)\\n        if value is True:\\n            accepted[method] += 1\\n            families[family][method] += 1\\n        if type(value) is not bool:\\n            ungraded_programs += 1\\n\\n    tasks = len(task_ids)\\n    comparisons = {}\\n    for control in controls:\\n        wins = 0\\n        losses = 0\\n        for task_id in task_ids:\\n            candidate_value = outcomes[candidate][task_id]\\n            control_value = outcomes[control][task_id]\\n            if candidate_value is True and control_value is False:\\n                wins += 1\\n            elif candidate_value is False and control_value is True:\\n                losses += 1\\n        n = wins + losses\\n        numerator = sum(comb(n, k) for k in range(wins, n + 1))\\n        denominator = 2 ** n\\n        gain = accepted[candidate] - accepted[control]\\n        comparisons[control] = {\\n            'wins': wins,\\n            'losses': losses,\\n            'p_numerator': str(numerator),\\n            'p_denominator': str(denominator),\\n            'gain_numerator': gain,\\n            'gain_denominator': tasks,\\n            'passes_gain': 25 * gain >= tasks,\\n            'passes_significance': 80 * numerator <= denominator,\\n        }\\n\\n    superiority_supported = (\\n        tasks >= 98\\n        and ungraded_programs == 0\\n        and all(\\n            comparison['passes_gain'] and comparison['passes_significance']\\n            for comparison in comparisons.values()\\n        )\\n        and all(\\n            counts[candidate] >= counts[control] - 2\\n            for counts in families.values()\\n            for control in controls\\n        )\\n    )\\n    report = {\\n        'tasks': tasks,\\n        'accepted': accepted,\\n        'ungraded_programs': ungraded_programs,\\n        'comparisons': comparisons,\\n        'families': families,\\n        'superiority_supported': superiority_supported,\\n        'evidence': 'recorded_checked_program_outcomes',\\n    }\\n    with open('report.json', 'w', encoding='utf-8') as destination:\\n        json.dump(report, destination, indent=2)\\n    return report\\n\",\n  \"checks\": \"import os\\nimport tempfile\\nfrom pathlib import Path\\n\\n_original_directory = os.getcwd()\\nwith tempfile.TemporaryDirectory() as directory:\\n    try:\\n        os.chdir(directory)\\n        data = {'candidate': 'new', 'controls': ['baseline', 'other'], 'rows': []}\\n        for task_id in range(100):\\n            for method in ['new', 'baseline', 'other']:\\n                data['rows'].append({\\n                    'method': method, 'task_id': task_id,\\n                    'family': 'course', 'accepted': method == 'new'\\n                })\\n        report = task_func(data)\\n        assert report['tasks'] == 100\\n        assert report['accepted'] == {'new': 100, 'baseline': 0, 'other': 0}\\n        assert report['superiority_supported'] is True\\n        assert report['comparisons']['baseline']['p_numerator'] == '1'\\n        assert report['comparisons']['baseline']['p_denominator'] == str(2 ** 100)\\n        assert json.loads(Path('report.json').read_text()) == report\\n\\n        # Numeric 1 is ungraded, not an exact True or a discordant win.\\n        edge = {'candidate': 'new', 'controls': ['baseline', 'other'], 'rows': [\\n            {'method': 'new', 'task_id': 0, 'family': 'course', 'accepted': 1},\\n            {'method': 'baseline', 'task_id': 0, 'family': 'course', 'accepted': False},\\n            {'method': 'other', 'task_id': 0, 'family': 'course', 'accepted': True}\\n        ]}\\n        Path('inputs').mkdir()\\n        Path('inputs/experiment.json').write_text(json.dumps(edge))\\n        report = task_func()\\n        assert report['ungraded_programs'] == 1\\n        assert report['accepted']['new'] == 0\\n        assert report['comparisons']['baseline']['wins'] == 0\\n        assert report['comparisons']['baseline']['p_numerator'] == '1'\\n        assert report['comparisons']['baseline']['p_denominator'] == '1'\\n        assert report['comparisons']['baseline']['passes_significance'] is False\\n        assert report['superiority_supported'] is False\\n        assert json.loads(Path('report.json').read_text()) == report\\n    finally:\\n        os.chdir(_original_directory)\\n\",\n  \"lesson\": \"Use boolean identity for recorded outcomes, preserve the unreduced exact binomial tail, and evaluate every required gate independently of the numerical lead.\",\n  \"queries\": [\n    \"experiment report comparison schema and exact binomial tail checks\",\n    \"recorded course family noninferiority and ungraded boolean edge cases\"\n  ]\n}",
+            "response_sha256": "657153eb68fbf1e76166943219c90b1bbb855b4a0665d57282e91975bfa3de26",
+            "stage": "proposal",
+            "usage": {
+              "completion_tokens": 1453,
+              "prompt_tokens": 3042,
+              "reasoning_tokens": 75,
+              "total_tokens": 4495
+            }
+          },
+          {
+            "content": "{\n  \"checks\": \"import json\\nimport math\\nimport os\\nimport tempfile\\nfrom pathlib import Path\\n\\n\\ndef cohort(n, wins, losses=0, names=('candidate-X', 'control-Y', 'control-Z')):\\n    c, a, b = names\\n    rows = []\\n    for i in range(n):\\n        cv = i < wins or i >= wins + losses\\n        av = i >= wins\\n        for method, value in ((c, cv), (a, av), (b, av)):\\n            rows.append({'method': method, 'task_id': 'task-' + str(i), 'family': 'main', 'accepted': value})\\n    return {'candidate': c, 'controls': [a, b], 'rows': rows}\\n\\n\\ndef verify(data, use_file=False):\\n    if use_file:\\n        Path('inputs').mkdir(exist_ok=True)\\n        Path('inputs/experiment.json').write_text(json.dumps(data), encoding='utf-8')\\n        report = task_func()\\n    else:\\n        report = task_func(data)\\n    assert isinstance(report, dict)\\n    assert json.loads(Path('report.json').read_text(encoding='utf-8')) == report\\n    rows = data['rows']\\n    methods = [data['candidate']] + data['controls']\\n    ids = {r['task_id'] for r in rows}\\n    counts = {m: sum(r['accepted'] is True for r in rows if r['method'] == m) for m in methods}\\n    ungraded = sum(type(r['accepted']) is not bool for r in rows)\\n    families = {f: {m: sum(r['accepted'] is True for r in rows if r['family'] == f and r['method'] == m) for m in methods} for f in {r['family'] for r in rows}}\\n    assert report['tasks'] == len(ids)\\n    assert report['accepted'] == counts\\n    assert report['ungraded_programs'] == ungraded\\n    assert report['families'] == families\\n    assert report['evidence'] == 'recorded_checked_program_outcomes'\\n    by_method = {m: {r['task_id']: r['accepted'] for r in rows if r['method'] == m} for m in methods}\\n    candidate = data['candidate']\\n    gates = []\\n    for control in data['controls']:\\n        wins = sum(by_method[candidate][t] is True and by_method[control][t] is False for t in ids)\\n        losses = sum(by_method[candidate][t] is False and by_method[control][t] is True for t in ids)\\n        n = wins + losses\\n        numerator = sum(math.comb(n, k) for k in range(wins, n + 1))\\n        denominator = 2 ** n\\n        gain = counts[candidate] - counts[control]\\n        expected = {'wins': wins, 'losses': losses, 'p_numerator': str(numerator), 'p_denominator': str(denominator), 'gain_numerator': gain, 'gain_denominator': len(ids), 'passes_gain': 25 * gain >= len(ids), 'passes_significance': 80 * numerator <= denominator}\\n        comparison = report['comparisons'][control]\\n        for key, value in expected.items():\\n            assert comparison[key] == value, (control, key, comparison[key], value)\\n        assert type(comparison['p_numerator']) is str\\n        assert type(comparison['p_denominator']) is str\\n        gates.append(expected['passes_gain'] and expected['passes_significance'])\\n    family_gate = all(counts_by_family[candidate] >= counts_by_family[control] - 2 for counts_by_family in families.values() for control in data['controls'])\\n    expected_superiority = len(ids) >= 98 and ungraded == 0 and all(gates) and family_gate\\n    assert report['superiority_supported'] == expected_superiority\\n\\n\\nold_cwd = os.getcwd()\\nwith tempfile.TemporaryDirectory() as directory:\\n    try:\\n        os.chdir(directory)\\n        verify(cohort(98, 7), use_file=True)\\n        verify(cohort(97, 7))\\n        verify(cohort(100, 4))\\n        verify(cohort(1000, 10))\\n        verify(cohort(101, 0))\\n        verify(cohort(150, 80, 20, ('new-method', 'baseline-1', 'baseline-2')))\\n\\n        # Strong overall evidence must not override a three-task family deficit.\\n        data = cohort(120, 30, 3)\\n        for row in data['rows']:\\n            i = int(row['task_id'].split('-')[1])\\n            row['family'] = 'deficit' if 30 <= i < 33 else 'remainder'\\n        verify(data)\\n        # The allowed deficit is inclusive at two.\\n        data = cohort(120, 30, 2)\\n        for row in data['rows']:\\n            i = int(row['task_id'].split('-')[1])\\n            row['family'] = 'deficit' if 30 <= i < 32 else 'remainder'\\n        verify(data)\\n\\n        # Non-booleans are neither exact successes nor exact failures.\\n        data = cohort(110, 20)\\n        replacements = [1, 0, None, 'true', '', 1.0]\\n        for row, value in zip(data['rows'][-6:], replacements):\\n            row['accepted'] = value\\n        data['rows'].reverse()\\n        verify(data)\\n\\n        # Distinct controls need independent pairing and independent gates.\\n        data = cohort(100, 20)\\n        for row in data['rows']:\\n            if row['method'] == data['controls'][1]:\\n                row['accepted'] = True\\n        verify(data)\\n    finally:\\n        os.chdir(old_cwd)\\n\",\n  \"evidence_ids\": [\n    \"fresh-reported-delivery-audit\",\n    \"fresh-proposed-source-audit\"\n  ],\n  \"hypotheses\": [\n    \"Truthy non-booleans may be miscounted as accepted or used as discordant boolean outcomes.\",\n    \"Binomial tails may be rounded, reduced, or computed with the wrong direction.\",\n    \"A numerical lead may incorrectly substitute for either statistical gate.\",\n    \"Task-count, ungraded-program, or family-deficit constraints may be omitted.\",\n    \"Controls or method names may be hard-coded, and pairing may depend on row order.\",\n    \"Default input loading or report persistence may fail across repeated calls.\"\n  ]\n}",
+            "response_sha256": "084fd3390920ce060aec6da8594aba9df64e081cd46c1ac54a55d8de74199f58",
+            "stage": "blind_challenge",
+            "usage": {
+              "completion_tokens": 1558,
+              "prompt_tokens": 2962,
+              "reasoning_tokens": 80,
+              "total_tokens": 4520
+            }
+          },
+          {
+            "content": "{\n  \"code\": \"import json\\nfrom math import comb\\n\\n\\ndef task_func(data=None):\\n    if data is None:\\n        with open('inputs/experiment.json', 'r', encoding='utf-8') as source:\\n            data = json.load(source)\\n\\n    candidate = data['candidate']\\n    controls = data['controls']\\n    rows = data['rows']\\n    methods = dict.fromkeys([candidate, *controls])\\n    for row in rows:\\n        methods.setdefault(row['method'], None)\\n\\n    accepted = dict.fromkeys(methods, 0)\\n    families = {}\\n    outcomes = {method: {} for method in methods}\\n    task_ids = set()\\n    ungraded_programs = 0\\n\\n    for row in rows:\\n        method = row['method']\\n        task_id = row['task_id']\\n        family = row['family']\\n        value = row['accepted']\\n        task_ids.add(task_id)\\n        outcomes[method][task_id] = value\\n        if family not in families:\\n            families[family] = dict.fromkeys(methods, 0)\\n        if value is True:\\n            accepted[method] += 1\\n            families[family][method] += 1\\n        if type(value) is not bool:\\n            ungraded_programs += 1\\n\\n    tasks = len(task_ids)\\n    comparisons = {}\\n    for control in controls:\\n        wins = 0\\n        losses = 0\\n        for task_id in task_ids:\\n            candidate_value = outcomes[candidate][task_id]\\n            control_value = outcomes[control][task_id]\\n            if candidate_value is True and control_value is False:\\n                wins += 1\\n            elif candidate_value is False and control_value is True:\\n                losses += 1\\n        n = wins + losses\\n        numerator = sum(comb(n, k) for k in range(wins, n + 1))\\n        denominator = 2 ** n\\n        gain = accepted[candidate] - accepted[control]\\n        comparisons[control] = {\\n            'wins': wins,\\n            'losses': losses,\\n            'p_numerator': str(numerator),\\n            'p_denominator': str(denominator),\\n            'gain_numerator': gain,\\n            'gain_denominator': tasks,\\n            'passes_gain': 25 * gain >= tasks,\\n            'passes_significance': 80 * numerator <= denominator,\\n        }\\n\\n    superiority_supported = (\\n        tasks >= 98\\n        and ungraded_programs == 0\\n        and all(\\n            comparison['passes_gain'] and comparison['passes_significance']\\n            for comparison in comparisons.values()\\n        )\\n        and all(\\n            counts[candidate] >= counts[control] - 2\\n            for counts in families.values()\\n            for control in controls\\n        )\\n    )\\n    report = {\\n        'tasks': tasks,\\n        'accepted': accepted,\\n        'ungraded_programs': ungraded_programs,\\n        'comparisons': comparisons,\\n        'families': families,\\n        'superiority_supported': superiority_supported,\\n        'evidence': 'recorded_checked_program_outcomes',\\n    }\\n    with open('report.json', 'w', encoding='utf-8') as destination:\\n        json.dump(report, destination, indent=2)\\n    return report\\n\",\n  \"checks\": \"import json\\nimport os\\nimport tempfile\\nfrom pathlib import Path\\n\\n\\ndef make_cohort(n, wins, losses=0):\\n    data = {'candidate': 'new', 'controls': ['baseline', 'other'], 'rows': []}\\n    for i in range(n):\\n        candidate_value = i < wins or i >= wins + losses\\n        control_value = i >= wins\\n        for method, value in [('new', candidate_value), ('baseline', control_value), ('other', control_value)]:\\n            data['rows'].append({'method': method, 'task_id': i, 'family': 'deficit' if wins <= i < wins + losses else 'main', 'accepted': value})\\n    return data\\n\\n\\ndef check_saved(report):\\n    assert json.loads(Path('report.json').read_text(encoding='utf-8')) == report\\n\\n\\noriginal_directory = os.getcwd()\\nwith tempfile.TemporaryDirectory() as directory:\\n    try:\\n        os.chdir(directory)\\n        report = task_func(make_cohort(100, 100))\\n        assert report['tasks'] == 100\\n        assert report['accepted'] == {'new': 100, 'baseline': 0, 'other': 0}\\n        assert report['superiority_supported'] is True\\n        assert report['comparisons']['baseline']['p_numerator'] == '1'\\n        assert report['comparisons']['baseline']['p_denominator'] == str(2 ** 100)\\n        check_saved(report)\\n\\n        # A positive gain can pass the gain gate but fail significance.\\n        report = task_func(make_cohort(100, 4))\\n        comparison = report['comparisons']['baseline']\\n        assert comparison['passes_gain'] is True\\n        assert comparison['passes_significance'] is False\\n        assert report['superiority_supported'] is False\\n        check_saved(report)\\n\\n        # Family deficits of two are permitted; deficits of three are not.\\n        assert task_func(make_cohort(120, 30, 2))['superiority_supported'] is True\\n        report = task_func(make_cohort(120, 30, 3))\\n        assert all(c['passes_gain'] and c['passes_significance'] for c in report['comparisons'].values())\\n        assert report['superiority_supported'] is False\\n        check_saved(report)\\n\\n        # Numeric 1 is ungraded, not an exact True or a discordant win.\\n        edge = {'candidate': 'new', 'controls': ['baseline', 'other'], 'rows': [\\n            {'method': 'new', 'task_id': 0, 'family': 'course', 'accepted': 1},\\n            {'method': 'baseline', 'task_id': 0, 'family': 'course', 'accepted': False},\\n            {'method': 'other', 'task_id': 0, 'family': 'course', 'accepted': True}\\n        ]}\\n        Path('inputs').mkdir()\\n        Path('inputs/experiment.json').write_text(json.dumps(edge), encoding='utf-8')\\n        report = task_func()\\n        assert report['ungraded_programs'] == 1\\n        assert report['accepted']['new'] == 0\\n        comparison = report['comparisons']['baseline']\\n        assert comparison['wins'] == comparison['losses'] == 0\\n        assert comparison['p_numerator'] == comparison['p_denominator'] == '1'\\n        assert comparison['passes_significance'] is False\\n        assert report['superiority_supported'] is False\\n        check_saved(report)\\n    finally:\\n        os.chdir(original_directory)\\n\",\n  \"lesson\": \"Independent review confirmed exact boolean classification, task-ID pairing, unreduced integer binomial tails, independent control gates, and inclusive family-deficit limits. A numerical lead alone does not establish superiority; every required gate must pass, and every call must persist the returned report.\"\n}",
+            "response_sha256": "cd7fb7565aad503d6bc928defbc510d838c07af7cf67ada976d93816309c34e8",
+            "stage": "revision",
+            "usage": {
+              "completion_tokens": 1625,
+              "prompt_tokens": 6097,
+              "reasoning_tokens": 0,
+              "total_tokens": 7722
+            }
+          }
+        ],
+        "blind_challenge": {
+          "checks": "import json\nimport math\nimport os\nimport tempfile\nfrom pathlib import Path\n\n\ndef cohort(n, wins, losses=0, names=('candidate-X', 'control-Y', 'control-Z')):\n    c, a, b = names\n    rows = []\n    for i in range(n):\n        cv = i < wins or i >= wins + losses\n        av = i >= wins\n        for method, value in ((c, cv), (a, av), (b, av)):\n            rows.append({'method': method, 'task_id': 'task-' + str(i), 'family': 'main', 'accepted': value})\n    return {'candidate': c, 'controls': [a, b], 'rows': rows}\n\n\ndef verify(data, use_file=False):\n    if use_file:\n        Path('inputs').mkdir(exist_ok=True)\n        Path('inputs/experiment.json').write_text(json.dumps(data), encoding='utf-8')\n        report = task_func()\n    else:\n        report = task_func(data)\n    assert isinstance(report, dict)\n    assert json.loads(Path('report.json').read_text(encoding='utf-8')) == report\n    rows = data['rows']\n    methods = [data['candidate']] + data['controls']\n    ids = {r['task_id'] for r in rows}\n    counts = {m: sum(r['accepted'] is True for r in rows if r['method'] == m) for m in methods}\n    ungraded = sum(type(r['accepted']) is not bool for r in rows)\n    families = {f: {m: sum(r['accepted'] is True for r in rows if r['family'] == f and r['method'] == m) for m in methods} for f in {r['family'] for r in rows}}\n    assert report['tasks'] == len(ids)\n    assert report['accepted'] == counts\n    assert report['ungraded_programs'] == ungraded\n    assert report['families'] == families\n    assert report['evidence'] == 'recorded_checked_program_outcomes'\n    by_method = {m: {r['task_id']: r['accepted'] for r in rows if r['method'] == m} for m in methods}\n    candidate = data['candidate']\n    gates = []\n    for control in data['controls']:\n        wins = sum(by_method[candidate][t] is True and by_method[control][t] is False for t in ids)\n        losses = sum(by_method[candidate][t] is False and by_method[control][t] is True for t in ids)\n        n = wins + losses\n        numerator = sum(math.comb(n, k) for k in range(wins, n + 1))\n        denominator = 2 ** n\n        gain = counts[candidate] - counts[control]\n        expected = {'wins': wins, 'losses': losses, 'p_numerator': str(numerator), 'p_denominator': str(denominator), 'gain_numerator': gain, 'gain_denominator': len(ids), 'passes_gain': 25 * gain >= len(ids), 'passes_significance': 80 * numerator <= denominator}\n        comparison = report['comparisons'][control]\n        for key, value in expected.items():\n            assert comparison[key] == value, (control, key, comparison[key], value)\n        assert type(comparison['p_numerator']) is str\n        assert type(comparison['p_denominator']) is str\n        gates.append(expected['passes_gain'] and expected['passes_significance'])\n    family_gate = all(counts_by_family[candidate] >= counts_by_family[control] - 2 for counts_by_family in families.values() for control in data['controls'])\n    expected_superiority = len(ids) >= 98 and ungraded == 0 and all(gates) and family_gate\n    assert report['superiority_supported'] == expected_superiority\n\n\nold_cwd = os.getcwd()\nwith tempfile.TemporaryDirectory() as directory:\n    try:\n        os.chdir(directory)\n        verify(cohort(98, 7), use_file=True)\n        verify(cohort(97, 7))\n        verify(cohort(100, 4))\n        verify(cohort(1000, 10))\n        verify(cohort(101, 0))\n        verify(cohort(150, 80, 20, ('new-method', 'baseline-1', 'baseline-2')))\n\n        # Strong overall evidence must not override a three-task family deficit.\n        data = cohort(120, 30, 3)\n        for row in data['rows']:\n            i = int(row['task_id'].split('-')[1])\n            row['family'] = 'deficit' if 30 <= i < 33 else 'remainder'\n        verify(data)\n        # The allowed deficit is inclusive at two.\n        data = cohort(120, 30, 2)\n        for row in data['rows']:\n            i = int(row['task_id'].split('-')[1])\n            row['family'] = 'deficit' if 30 <= i < 32 else 'remainder'\n        verify(data)\n\n        # Non-booleans are neither exact successes nor exact failures.\n        data = cohort(110, 20)\n        replacements = [1, 0, None, 'true', '', 1.0]\n        for row, value in zip(data['rows'][-6:], replacements):\n            row['accepted'] = value\n        data['rows'].reverse()\n        verify(data)\n\n        # Distinct controls need independent pairing and independent gates.\n        data = cohort(100, 20)\n        for row in data['rows']:\n            if row['method'] == data['controls'][1]:\n                row['accepted'] = True\n        verify(data)\n    finally:\n        os.chdir(old_cwd)\n",
+          "evidence_ids": [
+            "fresh-reported-delivery-audit",
+            "fresh-proposed-source-audit"
+          ],
+          "hypotheses": [
+            "Truthy non-booleans may be miscounted as accepted or used as discordant boolean outcomes.",
+            "Binomial tails may be rounded, reduced, or computed with the wrong direction.",
+            "A numerical lead may incorrectly substitute for either statistical gate.",
+            "Task-count, ungraded-program, or family-deficit constraints may be omitted.",
+            "Controls or method names may be hard-coded, and pairing may depend on row order.",
+            "Default input loading or report persistence may fail across repeated calls."
+          ]
+        },
+        "challenge_execution": {
+          "checks_sha256": "6c977d83de798b3a6828730439cc54925f8b8c2b61c59ad70f824ec09aa8fe84",
+          "code_sha256": "9ad307a1167d23bdd03e45303ce372c87fd2cbcff8dff11b24930c26f17b2f52",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.09379
+        },
+        "checked_correction": null,
+        "checker": {
+          "checks_sha256": "d2b9d557c2377d5824d2cd1870273cf01c86ddcb4e195a08c92182551f096146",
+          "code_sha256": "9ad307a1167d23bdd03e45303ce372c87fd2cbcff8dff11b24930c26f17b2f52",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.05746
+        },
+        "code": "import json\nfrom math import comb\n\n\ndef task_func(data=None):\n    if data is None:\n        with open('inputs/experiment.json', 'r', encoding='utf-8') as source:\n            data = json.load(source)\n\n    candidate = data['candidate']\n    controls = data['controls']\n    rows = data['rows']\n    methods = dict.fromkeys([candidate, *controls])\n    for row in rows:\n        methods.setdefault(row['method'], None)\n\n    accepted = dict.fromkeys(methods, 0)\n    families = {}\n    outcomes = {method: {} for method in methods}\n    task_ids = set()\n    ungraded_programs = 0\n\n    for row in rows:\n        method = row['method']\n        task_id = row['task_id']\n        family = row['family']\n        value = row['accepted']\n        task_ids.add(task_id)\n        outcomes[method][task_id] = value\n        if family not in families:\n            families[family] = dict.fromkeys(methods, 0)\n        if value is True:\n            accepted[method] += 1\n            families[family][method] += 1\n        if type(value) is not bool:\n            ungraded_programs += 1\n\n    tasks = len(task_ids)\n    comparisons = {}\n    for control in controls:\n        wins = 0\n        losses = 0\n        for task_id in task_ids:\n            candidate_value = outcomes[candidate][task_id]\n            control_value = outcomes[control][task_id]\n            if candidate_value is True and control_value is False:\n                wins += 1\n            elif candidate_value is False and control_value is True:\n                losses += 1\n        n = wins + losses\n        numerator = sum(comb(n, k) for k in range(wins, n + 1))\n        denominator = 2 ** n\n        gain = accepted[candidate] - accepted[control]\n        comparisons[control] = {\n            'wins': wins,\n            'losses': losses,\n            'p_numerator': str(numerator),\n            'p_denominator': str(denominator),\n            'gain_numerator': gain,\n            'gain_denominator': tasks,\n            'passes_gain': 25 * gain >= tasks,\n            'passes_significance': 80 * numerator <= denominator,\n        }\n\n    superiority_supported = (\n        tasks >= 98\n        and ungraded_programs == 0\n        and all(\n            comparison['passes_gain'] and comparison['passes_significance']\n            for comparison in comparisons.values()\n        )\n        and all(\n            counts[candidate] >= counts[control] - 2\n            for counts in families.values()\n            for control in controls\n        )\n    )\n    report = {\n        'tasks': tasks,\n        'accepted': accepted,\n        'ungraded_programs': ungraded_programs,\n        'comparisons': comparisons,\n        'families': families,\n        'superiority_supported': superiority_supported,\n        'evidence': 'recorded_checked_program_outcomes',\n    }\n    with open('report.json', 'w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n    return report\n",
+        "correction_catalog_sha256": null,
+        "experience_ids": [
+          "fresh-reported-delivery-audit",
+          "fresh-reported-components",
+          "fresh-proposed-source-audit"
+        ],
+        "experience_sha256": "a9b14490556ce1efef7ae6c70ad645a5e21d6ca56c4d45649df31c7ac3593b4c",
+        "family": "fresh-project-work",
+        "implementation_sha256": "3a1ce22f28f853b08ff43cccc6e6d90a3d92bd28159dcc1841bd84150836b63a",
+        "initial_smoke": {
+          "checks_sha256": "5d0c55feee05315729dcb3435d97644c80918d35c436521b39077d6d8523dacd",
+          "code_sha256": "9ad307a1167d23bdd03e45303ce372c87fd2cbcff8dff11b24930c26f17b2f52",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.089651
+        },
+        "job_id": "fresh-reusable-experiment-audit",
+        "lesson": "Independent review confirmed exact boolean classification, task-ID pairing, unreduced integer binomial tails, independent control gates, and inclusive family-deficit limits. A numerical lead alone does not establish superiority; every required gate must pass, and every call must persist the returned report.",
+        "method": "retrieval",
+        "navigation": {
+          "initial_ids": [
+            "fresh-reported-delivery-audit",
+            "fresh-reported-components",
+            "fresh-proposed-source-audit"
+          ],
+          "queries": [],
+          "selected_ids": [
+            "fresh-reported-delivery-audit",
+            "fresh-reported-components",
+            "fresh-proposed-source-audit"
+          ],
+          "view": [
+            {
+              "accepted": false,
+              "code": "import json\nfrom pathlib import Path\n\n\ndef task_func():\n    with Path('inputs/actions.json').open('r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    providers = {}\n    for row in data['action_tasks']:\n        provider = row['provider']\n        if provider not in providers:\n            providers[provider] = {\n                'accepted': 0,\n                'failed': 0,\n                'unknown_acceptance': 0,\n                'known_reported_micro_usd': 0,\n                'unknown_costs': 0,\n                'positive_utility': 0,\n                'unknown_utility': 0,\n            }\n        counts = providers[provider]\n\n        acceptance = row.get('acceptance_passed')\n        if acceptance is True:\n            counts['accepted'] += 1\n        elif acceptance is False:\n            counts['failed'] += 1\n        else:\n            counts['unknown_acceptance'] += 1\n\n        cost = row.get('settled_micro_usd')\n        if type(cost) is int:\n            counts['known_reported_micro_usd'] += cost\n        else:\n            counts['unknown_costs'] += 1\n\n        utility = row.get('utility')\n        if type(utility) in (int, float):\n            if utility > 0:\n                counts['positive_utility'] += 1\n        else:\n            counts['unknown_utility'] += 1\n\n    report = {\n        'reported_act",
+              "failure": "rds-v1': {'accepted': 20, 'failed': 5, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 0, 'unknown_utility': 25}, 'local-record-audit-v1': {'accepted': 14, 'failed': 1, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 0, 'unknown_utility': 15}}}, {'reported_actions': 40, 'financial_execution': False, 'providers': {'local-composed-records-v1': {'accepted': 20, 'failed': 5, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 20, 'unknown_utility': 0}, 'local-record-audit-v1': {'accepted': 14, 'failed': 1, 'unknown_acceptance': 0, 'known_reported_micro_usd': 0, 'unknown_costs': 0, 'positive_utility': 14, 'unknown_utility': 0}}, 'payment_attestation': 'unknown', 'evidence': 'reported_public_projection_only'})\n",
+              "job_id": "fresh-reported-delivery-audit",
+              "lesson_scope": "Proposed by the model; general validity is unverified",
+              "prompt": "Implement task_func() to read inputs/actions.json and write/return the same dict as report.json. Include reported_actions as the total action_tasks count, financial_execution from the input, payment_attestation=\"unknown\", evidence=\"reported_public_projection_only\" and providers grouped by provider. Per provider count accepted only when acceptance_passed is exactly True, failed only exactly False, otherwise unknown_acceptance. Sum settled_micro_usd only when type(value) is int excluding bool as known_reported_micro_usd, otherwise increment unknown_costs. Count positive_utility only for int/float (excluding bool) greater than zero; all non-int/float (including bool) are unknown_utility. Use every row; this projection does not establish payment settlement.",
+              "proposed_lesson": "Independent review confirmed exact boolean identity for acceptance, exact integer costs, and numeric utility classification excluding booleans. Zero and negative numeric",
+              "record_sha256": "2d22c0134704a7feadd91b4ad73041d4b921d7c9d9141e9a31095bdcf1d9bf49",
+              "source_sha256": "0227bc9c9d68d4290f6756313435f76efa4dda2aef711240fb5963e58267bafd",
+              "task_id": "nuria/reported-delivery-audit",
+              "truncated_fields": [
+                "code",
+                "failure",
+                "proposed_lesson"
+              ],
+              "variant_outcomes": {
+                "accepted": 0,
+                "rejected": 1
+              }
+            },
+            {
+              "accepted": false,
+              "code": "import json\nfrom pathlib import Path\n\n\ndef _named_entries(entries):\n    if isinstance(entries, dict):\n        return entries.items()\n    return ((entry['name'], entry) for entry in entries)\n\n\ndef _commit(value):\n    if isinstance(value, dict):\n        return value.get('commit')\n    return value\n\n\ndef _compare(component_commit, comparison_commit):\n    if component_commit is None or component_commit == '':\n        return 'unknown'\n    if comparison_commit is None or comparison_commit == '':\n        return 'unknown'\n    return 'same' if component_commit == comparison_commit else 'different'\n\n\ndef task_func():\n    with Path('inputs/components.json').open('r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    published = dict(_named_entries(data.get('published_main', {})))\n    proposed = dict(_named_entries(data.get('proposed_branch', {})))\n    components = []\n    for name, component in _named_entries(data['reported_components']):\n        commit = _commit(component)\n        deployed_utc = (\n            component.get('deployed_utc')\n            if isinstance(component, dict) else None\n        )\n        components.append({\n            'name': name,\n            'reported_commit': commit,\n            'reported_deployed_utc': deployed_utc,\n            'versus_published_main': _compare(commit, _commit(pu",
+              "failure": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 4, in <module>\n  File \"program.py\", line 29, in task_func\n    published = dict(_named_entries(data.get('published_main', {})))\n  File \"program.py\", line 8, in <genexpr>\n    return ((entry['name'], entry) for entry in entries)\n             ~~~~~^^^^^^^^\nTypeError: string indices must be integers, not 'str'\n",
+              "job_id": "fresh-reported-components",
+              "lesson_scope": "Proposed by the model; general validity is unverified",
+              "prompt": "Implement task_func() to read inputs/components.json and write/return the same object as report.json. Keep reported_phase and reported_error; direct_service_health must be \"unknown\" and evidence \"public_endpoint_report_only\". components is a list sorted by name containing every reported_components entry, with name, reported_commit, reported_deployed_utc, versus_published_main and versus_proposed_branch. Compare exact commit strings: a missing/empty component or comparison commit means \"unknown\", equal means \"same\", otherwise \"different\". An endpoint report cannot establish direct service health.",
+              "proposed_lesson": "Independently reviewed ordering, preservation of every reported entry, missing and empty commits, exact string comparison, and persisted report equality. Endpoint report",
+              "record_sha256": "bbae9ff7ce36d214a2dcf744e428367a1578de8d5d4ae47810514c9b4db9fcdf",
+              "source_sha256": "54bac8fc77744a301bae8d2f464f2ae127066b0a3bfc66ad4cdf2960b5d38174",
+              "task_id": "nuria/reported-components",
+              "truncated_fields": [
+                "code",
+                "proposed_lesson"
+              ],
+              "variant_outcomes": {
+                "accepted": 0,
+                "rejected": 1
+              }
+            },
+            {
+              "accepted": true,
+              "code": "import base64\nimport json\nimport zlib\nfrom collections.abc import Mapping\nfrom pathlib import Path\n\n\ndef _blob_identities(files):\n    if isinstance(files, Mapping):\n        return dict(files)\n    return {entry['path']: entry['blob'] for entry in files}\n\n\ndef task_func():\n    with Path('inputs/source.json').open('r', encoding='utf-8') as source_file:\n        source = json.load(source_file)\n    payload = json.loads(zlib.decompress(base64.b64decode(source['payload'])))\n\n    published = _blob_identities(payload['published_files'])\n    proposed = _blob_identities(payload['proposed_files'])\n    published_paths = set(published)\n    proposed_paths = set(proposed)\n    shared_paths = published_paths & proposed_paths\n\n    report = {\n        'published_files': len(published),\n        'proposed_files': len(proposed),\n        'removed': sorted(published_paths - proposed_paths),\n        'added': sorted(proposed_paths - published_paths),\n        'changed': sorted(\n            path for path in shared_paths\n            if published[path] != proposed[path]\n        ),\n        'unchanged': sum(\n            published[path] == proposed[path] for path in shared_paths\n        ),\n        'evidence': 'public_git_blob_identities_not_live_service_health',\n    }\n    with Path('report.json').open('w', encoding='utf-8') as report_file:\n      ",
+              "failure": "",
+              "job_id": "fresh-proposed-source-audit",
+              "lesson_scope": "Proposed by the model; general validity is unverified",
+              "prompt": "Implement task_func() to read inputs/source.json, decode its base64+zlib+json payload, and compare every published_files path/blob identity against proposed_files. Return a dict with published_files and proposed_files counts, sorted removed/added/changed path lists, and unchanged as the count of shared paths with equal blob identities. Include evidence=\"public_git_blob_identities_not_live_service_health\". Write the same object to report.json. Use every entry, including non-code evidence files; Git blob identities are opaque exact strings, not service-health evidence.",
+              "proposed_lesson": "Reviewed decoding, exact identity comparison, path ordering, counts, and report persistence. Include non-code evidence files and never normalize opaque blob strings or i",
+              "record_sha256": "52008d9f5d3bf90fe6dc6f89c64105e815ed8e6043b71d524327c1e143153a97",
+              "source_sha256": "befafad5b4e313f5219b2ac607340d4956fbc2c5f630d1f6b0656ced5f3323c9",
+              "task_id": "nuria/proposed-source-audit",
+              "truncated_fields": [
+                "code",
+                "proposed_lesson"
+              ],
+              "variant_outcomes": {
+                "accepted": 1,
+                "rejected": 0
+              }
+            }
+          ]
+        },
+        "prompt": "Implement task_func(data=None). With no argument, load inputs/experiment.json; otherwise process the supplied data mapping. It contains candidate, controls (two method names) and rows, each with method, task_id, family and accepted. Each method has one row for every task. Return a report and write that same object to report.json on every call. Required keys: tasks (distinct task IDs), accepted (exact True counts by method), ungraded_programs (accepted values whose type is not bool), comparisons, families, superiority_supported, evidence=\"recorded_checked_program_outcomes\". families maps each family to exact True counts by method. For each control, comparisons contains wins (candidate True/control False), losses (candidate False/control True), p_numerator and p_denominator as DECIMAL STRINGS, gain_numerator (candidate accepted minus control accepted), gain_denominator (tasks), passes_gain, passes_significance. For n=wins+losses use the exact one-sided binomial tail: numerator=sum(comb(n,k) for k from wins through n), denominator=2**n, without fraction reduction. passes_gain is 25*gain_numerator >= tasks, passes_significance is 80*numerator <= denominator. Overall superiority_supported requires at least98 tasks, zero ungraded programs, both comparison gates for both controls, and candidate accepted count no more than2 below either control in every family. Do not equate a numerical lead with a passed gate. The function must handle different real cohorts and different method names; it will also be checked on a separate actual recorded course.",
+        "proposal_error": null,
+        "proposed_code_sha256": "e91df5eb1c3cc93de939af1a89fa9be7213b07b650fce566ad1429a4288729c5",
+        "replayed": false,
+        "revised_smoke": {
+          "checks_sha256": "2c361fad73fdebedc9efccba508c1037668c1763f53ae8217195ff122b8daf81",
+          "code_sha256": "9ad307a1167d23bdd03e45303ce372c87fd2cbcff8dff11b24930c26f17b2f52",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.093951
+        },
+        "source_sha256": "d15c15d9e371297fa3b1ab716addd3bed9b25437460dc550e50d1ad67869c34c",
+        "task_id": "nuria/reusable-experiment-audit",
+        "version": "nuria.experience-navigation.v3"
+      }
+    ],
+    "journal": {
+      "events": 8,
+      "tail_sha256": "bdf2d59656435303267a7e7f5a7880dd98edea926615ec9e3dda2515de515864"
+    },
+    "method": "retrieval",
+    "replayed": 0,
+    "version": "nuria.experience-course.v1"
+  }
+}

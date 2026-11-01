@@ -1,0 +1,62 @@
+{
+  "accepted": {
+    "navigation": 87,
+    "no_memory": 83,
+    "retrieval": 87
+  },
+  "comparisons": {
+    "no_memory": {
+      "accuracy_delta": 0.037037037037037035,
+      "losses": 1,
+      "one_sided_exact_p": 0.109375,
+      "wins": 5
+    },
+    "retrieval": {
+      "accuracy_delta": 0.0,
+      "losses": 0,
+      "one_sided_exact_p": 1.0,
+      "wins": 0
+    }
+  },
+  "families": {
+    "collections-algorithms": {
+      "navigation": 14,
+      "no_memory": 15,
+      "retrieval": 14
+    },
+    "files-archives": {
+      "navigation": 9,
+      "no_memory": 9,
+      "retrieval": 9
+    },
+    "numerical": {
+      "navigation": 12,
+      "no_memory": 11,
+      "retrieval": 12
+    },
+    "structured-data": {
+      "navigation": 12,
+      "no_memory": 11,
+      "retrieval": 12
+    },
+    "tabular": {
+      "navigation": 15,
+      "no_memory": 14,
+      "retrieval": 15
+    },
+    "text": {
+      "navigation": 14,
+      "no_memory": 14,
+      "retrieval": 14
+    },
+    "visualization": {
+      "navigation": 11,
+      "no_memory": 9,
+      "retrieval": 11
+    }
+  },
+  "reason": "Production activation is separate; no promotion is performed by this evaluation.",
+  "runtime_promoted": false,
+  "superiority_supported": false,
+  "tasks": 108
+}

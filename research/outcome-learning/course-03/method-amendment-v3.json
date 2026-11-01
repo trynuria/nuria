@@ -1,0 +1,27 @@
+{
+  "version": "nuria.navigation-method-amendment.v3",
+  "created_utc": "2026-11-01T02:20:30.700350+00:00",
+  "before_primary_inference": true,
+  "basis": "Pilot navigation4/7 versus5/7 controls did not establish improvement. Raw retrieval repeated source variants and the first navigation proposal received only summaries.",
+  "changes": [
+    "Group variants by source so repeated attempts cannot crowd out different tasks; prefer a checked accepted representative for BOTH memory-enabled methods",
+    "Give navigation and retrieval identical initial evidence and model request structure",
+    "Acquire source-bound before/after corrections by independently replaying actual rejected and accepted programs; retain every selected pair",
+    "Expose checked corrections during navigation; label every proposed lesson and cross-task generalization as unverified",
+    "After actual-work acceptance,check the initial program without another model request and retain a correction only if it failed the same checker"
+  ],
+  "historical_corrections": {
+    "selected": 8,
+    "reproduced": 8,
+    "native_executions": 16,
+    "model_calls": 0,
+    "artifact_sha256": "4acee4326cff3ddb58ff1936512f866a97558bf37ed31a4a0c9f6dcf79bae91f"
+  },
+  "unchanged": [
+    "All108 valid fresh tasks; four original unsupported references remain unknown,no replacements",
+    "Same gpt-6.1-sol low model,three requests/job,2400 completion tokens/call",
+    "Same hidden terminal checks,all-proposals-before-grading rule and frozen superiority threshold",
+    "USD50 total cumulative allowance including all prior charges"
+  ],
+  "activation": "Experimental branch only; no production activation or demonstrated transfer yet"
+}

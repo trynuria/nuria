@@ -1,0 +1,35 @@
+{
+  "version": "nuria.experience-navigation-course.v1",
+  "created_utc": "2026-11-01T00:43:25.221314+00:00",
+  "cohort_sha256": "82b25387dc84b56b40737139b8533e632ec17056312685d8592f63f5a60aef83",
+  "hypothesis": "Targeted raw-experience navigation improves fresh executed work beyond strong static retrieval and beyond the identical workflow without experience.",
+  "methods": [
+    "navigation",
+    "retrieval",
+    "no_memory"
+  ],
+  "same_across_methods": [
+    "gpt-6.1-sol, low effort",
+    "task and enrolled libraries/runtime",
+    "three requests/job,2400 completion tokens/request,7200/job",
+    "OS isolation, execution feedback, blind challenge and independent hidden checker"
+  ],
+  "differences": "Navigation proposes targeted searches and supplies raw experience to challenge/revision. Retrieval uses three static BM25 records. No-memory cannot access the corpus. Memory-enabled methods have the same corpus.",
+  "training": "All checked non-alias course02 records, without success selection; all development outcomes become common history. No fresh-test outcomes enter prompts.",
+  "development": "Seven tasks,one/family,for engineering/cost estimation. Preserve all attempts.",
+  "fresh_test": "112 tasks,16/family. Commit all method proposals before terminal feedback. A cost-only reduction to12/family may be frozen before any fresh-test call if necessary; no outcome-based subsampling.",
+  "scoring": "Unchanged upstream tests. Record canonical-preflight failures as invalid/unknown for every method, never replace them. Require at least98 valid tasks for112-task claim,or74 for prospective84-task course.",
+  "success": "Navigation gain>=.04 and one-sided exact paired p<=.0125 against BOTH controls; no family loses more than two tasks. Four-way alpha allowance covers at most two prospective comparisons under the shared budget. Report every attempt.",
+  "budget": "One cumulative USD30 ceiling,including all priorUSD9.084204; input/output and ambiguous liabilities count; no per-run renewal.",
+  "activation": "No production activation. Failed qualification retains simpler runtime. Model challenge probes are fallible and never decide final acceptance.",
+  "limits": [
+    "Public-benchmark pretraining contamination unknown; fresh means held out of this learning run",
+    "Context/retrieval learning,not foundation-weight/biological learning",
+    "No network jobs,wallets,hiring or commerce"
+  ],
+  "references": [
+    "https://arxiv.org/abs/2609.32630",
+    "https://voyager.minedojo.org/",
+    "https://developers.openai.com/cookbook/examples/partners/temporal_agents_with_knowledge_graphs/temporal_agents"
+  ]
+}

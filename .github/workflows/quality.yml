@@ -6,8 +6,10 @@ permissions:
   contents: read
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
+    env:
+      NURIA_TEST_LINUX_ISOLATION: "1"
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -18,6 +20,8 @@ jobs:
           node-version: "24"
       - name: Install dependencies
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install --yes bubblewrap
           python -m pip install -r requirements.txt ruff==0.16.10
           npm ci
       - name: Check Python
@@ -119,7 +123,19 @@ jobs:
           sudo apt-get install --yes bubblewrap
           python -m pip install -r research/outcome-learning/requirements.txt
       - name: Check outcome learning, isolation and recovery
-        run: python -m unittest tests.test_outcome_worker tests.test_outcome_learning -v
+        run: >-
+          python -m unittest
+          tests.test_outcome_worker tests.test_outcome_learning
+          tests.test_experience_navigation tests.test_checked_repairs
+          tests.test_navigation_export tests.test_program_delivery
+          tests.test_delivered_course tests.test_input_observations -v
       - name: Reconstruct and independently execute held-out work
         run: |
           python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"
+      - name: Replay the prospectively committed experience comparison
+        run: |
+          python -m scripts.package_experience_navigation research/outcome-learning/course-03 --verify-proposals
+          python -m scripts.verify_experience_navigation research/outcome-learning/course-03 --workspace "$RUNNER_TEMP/nuria-navigation-replay" --output "$RUNNER_TEMP/nuria-navigation.json"
+      - name: Reproduce input-grounded actual project work
+        run: |
+          python -m scripts.verify_inspected_work research/outcome-learning/project-work-03 --workspace "$RUNNER_TEMP/nuria-grounded-replay" --output "$RUNNER_TEMP/nuria-grounded.json"
