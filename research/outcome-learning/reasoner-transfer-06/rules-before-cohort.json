@@ -1,0 +1,74 @@
+{
+  "created_utc": "2026-11-01T07:09:04.743673+00:00",
+  "dataset": "bigcode/bigcodebench",
+  "revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a",
+  "split": "v0.1.4",
+  "metadata_only_selection": true,
+  "excluded_cohort_files": [
+    "outcome-loop/cohort-before-task-bodies.json",
+    "outcome-loop/complete-spec/cohort-before-task-bodies.json",
+    "experience-navigation/cohort-before-bodies.json"
+  ],
+  "exclude_prior_experience_task_ids": true,
+  "exclude_task_zero": true,
+  "exclude_libraries": [
+    "subprocess",
+    "requests",
+    "urllib",
+    "socket",
+    "http",
+    "ftplib",
+    "smtplib",
+    "webbrowser",
+    "multiprocessing",
+    "ctypes",
+    "sys",
+    "psutil",
+    "platform",
+    "tkinter"
+  ],
+  "allowed_roots": "Pythonstdlib plus numpy,pandas,matplotlib; no new dependency installs",
+  "families_in_priority_order": {
+    "tabular": [
+      "pandas"
+    ],
+    "visualization": [
+      "matplotlib"
+    ],
+    "numerical": [
+      "numpy",
+      "math",
+      "statistics",
+      "decimal",
+      "fractions"
+    ],
+    "structured-data": [
+      "csv",
+      "json",
+      "xml",
+      "configparser",
+      "sqlite3"
+    ],
+    "files-archives": [
+      "os",
+      "pathlib",
+      "shutil",
+      "glob",
+      "tarfile",
+      "zipfile",
+      "tempfile",
+      "gzip"
+    ],
+    "text": [
+      "re",
+      "string",
+      "unicodedata",
+      "textwrap"
+    ],
+    "collections-algorithms": []
+  },
+  "sort": "sha256(nuria-reasoner-transfer-06 + task_id)",
+  "per_family": 12,
+  "undersubscribed": "retain all available without replacement",
+  "freshness": "Not enrolled in earlier outcome-learning courses or prior experience. Public-benchmark pretraining contamination remains unknown. Never access reserved Duet task bodies."
+}

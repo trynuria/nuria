@@ -1,0 +1,10 @@
+{
+  "recovery-fresh-reported-components": {
+    "function_contract": "task_func() reads inputs/components.json, writes and returns report.json; comparison commits are optional strings, reported_components maps names to reported commit/deployment fields. Missing evidence remains unknown; public reports do not establish direct health.",
+    "profile_id": "reported-component-commits-v1"
+  },
+  "recovery-fresh-reported-delivery-audit": {
+    "function_contract": "task_func() reads inputs/actions.json, writes and returns report.json; group every action_tasks row by provider, classify exact acceptance booleans, exact integer reported costs and numeric outcome_utility excluding booleans. Payment attestation stays unknown.",
+    "profile_id": "reported-provider-outcomes-v1"
+  }
+}

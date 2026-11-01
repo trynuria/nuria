@@ -85,6 +85,14 @@ passed 4/4; reusing the previous answer passed 0/4. The complete
 [transfer record and provider-free replay](research/outcome-learning/retained-work-04/)
 preserve all outcomes, source identities and immutable receipt replay.
 
+The reasoning-configuration study repaired two actual rejected reports under three
+frozen configurations, with all six programs independently accepted and delivered.
+Sol-low remains the cheaper qualified route for those two profiles. A separate
+78-task fresh comparison against Astra-medium is enrolled and generation is
+pending; no broader reasoning or neural gain is claimed. The [methods, costs and
+complete recovery programs](docs/reasoning-options.md) retain the original failures
+and distinguish revealed recovery from fresh evaluation.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the

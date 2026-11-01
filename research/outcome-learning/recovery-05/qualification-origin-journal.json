@@ -1,0 +1,42 @@
+[
+  {
+    "event": {
+      "contract_sha256": "3c8cc58c63385b7e6d17d070a261d9ce0b96878519e80a04ccd61b02364d84b4",
+      "event": "begin",
+      "job": "recovery-fresh-reported-components"
+    },
+    "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+    "seq": 1,
+    "sha256": "268c6695f85f3670bd185d08b9e0f0b421c047c39170270af3c2119eaf9c65b4"
+  },
+  {
+    "event": {
+      "event": "outcome",
+      "job": "recovery-fresh-reported-components",
+      "result_sha256": "fa557d8242a457d2fe28723046517120d09c6fc83207745a9788f09ae3f49688"
+    },
+    "previous": "268c6695f85f3670bd185d08b9e0f0b421c047c39170270af3c2119eaf9c65b4",
+    "seq": 2,
+    "sha256": "bcc181ad39b5db77a16375527105408aa5be62ccfe605a1eb2559e74c616ae1e"
+  },
+  {
+    "event": {
+      "contract_sha256": "a72cbb39871dae99c676b9e716d1ce93178694e6ef5de39cbc9616b9183b80a3",
+      "event": "begin",
+      "job": "recovery-fresh-reported-delivery-audit"
+    },
+    "previous": "bcc181ad39b5db77a16375527105408aa5be62ccfe605a1eb2559e74c616ae1e",
+    "seq": 3,
+    "sha256": "ab29e0317f07f38a193a79c0d2c6ca234105448eafc4c6a1d15700fd552be740"
+  },
+  {
+    "event": {
+      "event": "outcome",
+      "job": "recovery-fresh-reported-delivery-audit",
+      "result_sha256": "fb1259d5f4fd769913aed6b104ffcd13d836d9130ffee7567fac0ffa0efccacc"
+    },
+    "previous": "ab29e0317f07f38a193a79c0d2c6ca234105448eafc4c6a1d15700fd552be740",
+    "seq": 4,
+    "sha256": "ed70325bb4670dd7ed79eec4302873f19b3041de4930d22d050ca93f493a8b84"
+  }
+]
