@@ -1,0 +1,1082 @@
+[
+  {
+    "checker": {
+      "checks_sha256": "ade65d35af21ecbd5c0608b3fc2a7ffba3f77b687d88d117e8a45848fd017f7d",
+      "code_sha256": "512d0baf690ede46db91c4249824266db667baefd040a6c46c05c614dfd4f32b",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.550665
+    },
+    "source_sha256": "0cb35d73167e6801ac41f3b7bff7056eef27898a3f63a0c042dacd030932938e",
+    "split": "test",
+    "task_id": "BigCodeBench/829"
+  },
+  {
+    "checker": {
+      "checks_sha256": "f273f59c1f525b4d998493ff6bede27321ad5bcd4532e4b9a7d1eb0dd4709fbe",
+      "code_sha256": "130a6cbfeae592855ef7a0f5f75f389ccbe9b0f1bd481ed27bd962d7318ff50e",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.112s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 1.034775
+    },
+    "source_sha256": "e5908b368c62c3c4660967c5ccb52f5919fa9f16f02df44a0550d220743a7318",
+    "split": "test",
+    "task_id": "BigCodeBench/1033"
+  },
+  {
+    "checker": {
+      "checks_sha256": "8854d002c59e15fc85e368d4f9b8cb837dab4d346b5cda0f7969a5ffd9405325",
+      "code_sha256": "152f4786dac901dfe2c62570dd52783ad62a83fcafa044ebc73b1607185e9899",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.058s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.659318
+    },
+    "source_sha256": "414a27ced4cace83fe1101a9642bad30c0d1944363eb306aa3191b1d5dd1d957",
+    "split": "test",
+    "task_id": "BigCodeBench/121"
+  },
+  {
+    "checker": {
+      "checks_sha256": "b2f166036b8a98562df83fd13b5393d7b2e0ae34de4b6c0525407913e5f90188",
+      "code_sha256": "4ebf501285e5941011e1b0642f3137072b0251559b034b491a60f267c1b82de4",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.043s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.671966
+    },
+    "source_sha256": "d95a2ed860a66d832939ece6b5b315e57aa102ba68f31dd4d9fd1ac7a23f3a18",
+    "split": "test",
+    "task_id": "BigCodeBench/343"
+  },
+  {
+    "checker": {
+      "checks_sha256": "803828da52b5a2d3561dc0b2765cda99ae7eb89e4664da5587e35065c58dda71",
+      "code_sha256": "030ad2f19f4a50f9724dcac78138b05c12b8b4c4e4a456032725c76db951deb8",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.263274
+    },
+    "source_sha256": "7f806c1dfbf32a8f60fa17eb44d0c39a108c9c7e6bb666a5e908b8089ecacd07",
+    "split": "test",
+    "task_id": "BigCodeBench/232"
+  },
+  {
+    "checker": {
+      "checks_sha256": "53353a9ad4f428f9aa327e6d6cc73f1c0830cc01ebaf8fa3f620e6ae28a60c9b",
+      "code_sha256": "f7bac1b5327f12c82e85e98b694917eb44f36158665b69e00ef6f58f1df46fc2",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.252255
+    },
+    "source_sha256": "9758d141d8619fd784012f167fd49d9589bb82faf796a6c64d3f99c6b50973ee",
+    "split": "test",
+    "task_id": "BigCodeBench/1046"
+  },
+  {
+    "checker": {
+      "checks_sha256": "ff20ee39ad13612a0692ee4fb4e587e492494f060fd679691f4520875a4f4b1a",
+      "code_sha256": "dfeb1652cdb429537d79f66bb9a69b1c78a245bc8cdf7711a1a5e8641891a02b",
+      "exit_code": 1,
+      "passed": false,
+      "stderr": "..E.E\n======================================================================\nERROR: test_monthly_forecast (__main__.TestCases.test_monthly_forecast)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7998, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7863, in pandas._libs.tslibs.offsets._validate_to_offset_alias\nValueError: 'M' is no longer supported for offsets. Please use 'ME' instead.\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"host_check.py\", line 12, in test_monthly_forecast\n  File \"program.py\", line 6, in task_func\n    date_range = pd.date_range(start_date, periods=periods, freq=freq)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8048, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7809, in pandas._libs.tslibs.offsets.raise_invalid_freq\nValueError: Invalid frequency: M. Failed to parse with error message: ValueError(\"'M' is no longer supported for offsets. Please use 'ME' instead.\")\n\n======================================================================\nERROR: test_quarterly_forecast (__main__.TestCases.test_quarterly_forecast)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7998, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7863, in pandas._libs.tslibs.offsets._validate_to_offset_alias\nValueError: 'Q' is no longer supported for offsets. Please use 'QE' instead.\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"host_check.py\", line 16, in test_quarterly_forecast\n  File \"program.py\", line 6, in task_func\n    date_range = pd.date_range(start_date, periods=periods, freq=freq)\n  File \"<execution>/pandas/core/indexes/datetimes.py\", line 2727, in date_range\n    freq = to_offset(freq)\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7903, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 8048, in pandas._libs.tslibs.offsets.to_offset\n  File \"pandas/_libs/tslibs/offsets.pyx\", line 7809, in pandas._libs.tslibs.offsets.raise_invalid_freq\nValueError: Invalid frequency: Q. Failed to parse with error message: ValueError(\"'Q' is no longer supported for offsets. Please use 'QE' instead.\")\n\n----------------------------------------------------------------------\nRan 5 tests in 0.044s\n\nFAILED (errors=2)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 29, in <module>\nAssertionError: Independent checks failed\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.670987
+    },
+    "source_sha256": "76ff2d6d1208a86d378cf67fe09f210cec602290380feb76d170ab7f21a28667",
+    "split": "test",
+    "task_id": "BigCodeBench/941"
+  },
+  {
+    "checker": {
+      "checks_sha256": "3e5a0fc6e73090fd8e3e71be4cbe5da739907c21f431f32697e36fbab02402f2",
+      "code_sha256": "d3e25b90495440400e461e5e6f23d890e025f3ebc3d5a28be962a81f09ea92d4",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.026s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.666942
+    },
+    "source_sha256": "03f015048eb85cf21d2b107cf24e4ee7fc6a56f1dabc7c7b7351734bd446213e",
+    "split": "test",
+    "task_id": "BigCodeBench/1001"
+  },
+  {
+    "checker": {
+      "checks_sha256": "b85c5086c9d58ffd20f17b983a534e3f6c366f7da0df71d86788a445f7d72137",
+      "code_sha256": "7b8780c6d9292040c1b17fcdda447cf1c513cdc5fed6a519191851ed50a17099",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "..program.py:20: RuntimeWarning: Mean of empty slice\n  k: {\"mean\": np.nanmean(v), \"median\": np.nanmedian(v)} for k, v in stats.items()\nprogram.py:20: RuntimeWarning: All-NaN slice encountered\n  k: {\"mean\": np.nanmean(v), \"median\": np.nanmedian(v)} for k, v in stats.items()\n..program.py:20: RuntimeWarning: Mean of empty slice\n  k: {\"mean\": np.nanmean(v), \"median\": np.nanmedian(v)} for k, v in stats.items()\nprogram.py:20: RuntimeWarning: All-NaN slice encountered\n  k: {\"mean\": np.nanmean(v), \"median\": np.nanmedian(v)} for k, v in stats.items()\n...program.py:20: RuntimeWarning: Mean of empty slice\n  k: {\"mean\": np.nanmean(v), \"median\": np.nanmedian(v)} for k, v in stats.items()\nprogram.py:20: RuntimeWarning: All-NaN slice encountered\n  k: {\"mean\": np.nanmean(v), \"median\": np.nanmedian(v)} for k, v in stats.items()\n..\n----------------------------------------------------------------------\nRan 9 tests in 0.014s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.26008
+    },
+    "source_sha256": "4b7c4598c88dd6647288bc432719943c1231c2fcd943e276da30e6da36b5f045",
+    "split": "test",
+    "task_id": "BigCodeBench/526"
+  },
+  {
+    "checker": {
+      "checks_sha256": "9365cd98645f4072adad3cebd9ff14d2a7d09f8262bd10c61f0f4eade10e5ca3",
+      "code_sha256": "ff7df95c0a9810bdfd5b1ed18337012ae206a485a150ca733d86df522bfe3e62",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "stdout": "{('b', 'c', 'c', 'd', 'e'): 1, ('b', 'c', 'd', 'e', 'f'): 1, ('a', 'b', 'c', 'd', 'e'): 1}\n",
+      "timed_out": false,
+      "wall_seconds": 0.25961
+    },
+    "source_sha256": "4f144a00741d4155949e4921e60eb162e73451a0a9ffd8b166a0871350d19cfc",
+    "split": "test",
+    "task_id": "BigCodeBench/679"
+  },
+  {
+    "checker": {
+      "checks_sha256": "97f1c1f3a2e28ec8b09c1234ffe2a9b2c97c2644b099d60067030e24b430042d",
+      "code_sha256": "00075832b22f15082158c7359e0b565570b6530e58a820ddc7e2fadea80ec2cf",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.041s\n\nOK\n",
+      "stdout": "<class 'str'>\n<class 'matplotlib.projections.polar.PolarAxes'>\n<class 'matplotlib.projections.polar.PolarAxes'>\n<class 'matplotlib.projections.polar.PolarAxes'>\n<class 'matplotlib.projections.polar.PolarAxes'>\n<class 'matplotlib.projections.polar.PolarAxes'>\n",
+      "timed_out": false,
+      "wall_seconds": 0.501936
+    },
+    "source_sha256": "d011c178e696b7586bcbafd3d146bde687919944f7034904b2ef903200211f7e",
+    "split": "test",
+    "task_id": "BigCodeBench/255"
+  },
+  {
+    "checker": {
+      "checks_sha256": "6314f412f3c6cf535d0fde66577dcc0a394069b2fde95f4fbf4f75e6395b9b3a",
+      "code_sha256": "da24493cf5dd96ed579debc8145a4d6b7f2d96a67709d8ece7bd1007448c2954",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.019s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.481665
+    },
+    "source_sha256": "72bb82bb1255c6ab290c9513a491983ffc32f187de64c4f9f3e3bec0a2da47ab",
+    "split": "test",
+    "task_id": "BigCodeBench/1047"
+  },
+  {
+    "checker": {
+      "checks_sha256": "1f0a4051a9ec60fb72e7e1c81bd508239d2cd548f6fcbe9d7db5b420e9663f23",
+      "code_sha256": "685204166eb782cbf39580964c1f8b3984e8695e2d1fbc8b5d3166f0200b630f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.485626
+    },
+    "source_sha256": "f7315d78c8873b680b8c98925cd4d7d55174db754998c2a211d5fbbaccc432be",
+    "split": "test",
+    "task_id": "BigCodeBench/222"
+  },
+  {
+    "checker": {
+      "checks_sha256": "b3df664b464a2f2fa1d119df305a1abb6a115372e724edad456e4fd20f9e06f5",
+      "code_sha256": "343af9ab0c201c62bbba6007df7926a4253eaabb045df6a228dee53a94a69b7f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.036s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.486821
+    },
+    "source_sha256": "ffa36143bc580b2364a38b491341b42f5e8b7fb34e3d5a352497e7a95cca0b4a",
+    "split": "test",
+    "task_id": "BigCodeBench/524"
+  },
+  {
+    "checker": {
+      "checks_sha256": "f86f174e91be685766a315c4f16da89a9f277db1a84d120c722cbcf1d96f93a2",
+      "code_sha256": "2e476daf2b2bdb7c1d608f6d3dff9c661cd0d2bf8acfef95f2a70a57a5a66c24",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "program.py:12: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n......\n----------------------------------------------------------------------\nRan 6 tests in 0.064s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.531437
+    },
+    "source_sha256": "0ec9588bc976c3207e938b50d15b99ecc7f5adf0863217af38ef0d91cc4a63f8",
+    "split": "test",
+    "task_id": "BigCodeBench/116"
+  },
+  {
+    "checker": {
+      "checks_sha256": "1d04a071d8c852245d6cf07ce0bcdbb07b9ffaf77f4235eca014098480e0aa80",
+      "code_sha256": "c65b65dbf7900314432eaf94ca6ce2f571e6aa795a2ae5e72de586e3e45bd4c0",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.042s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.48879
+    },
+    "source_sha256": "3a2940ce14a249a37836a6dbc1d804ac64b26a16fae37d534f254b220dfd1277",
+    "split": "test",
+    "task_id": "BigCodeBench/444"
+  },
+  {
+    "checker": {
+      "checks_sha256": "dc7cc0ac0453e105ab43ac90dc8225e2c8bd6635a0c9992a62a497fe7fcf91e1",
+      "code_sha256": "8f859df33dca4a33663eec71bfc23589d1632eae50fe0860c5386f60a9e6d817",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.017s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.492741
+    },
+    "source_sha256": "b6808b7cc861416021b4cd3351497c6016d3c109bf047da2d02c952464a80c58",
+    "split": "test",
+    "task_id": "BigCodeBench/572"
+  },
+  {
+    "checker": {
+      "checks_sha256": "cd0ce55ff2b868df3999b4638155b08c4372cfe40273ea1b19b4a86b066931b6",
+      "code_sha256": "9c049cb16f0fc75882bae8e1d17f92a272ce3778792ddb95b69fe93e62c71d90",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.009s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.474217
+    },
+    "source_sha256": "13bc722c410d6ba89bdc2ab309359dc84506290e092edec16a638bbda74167e7",
+    "split": "test",
+    "task_id": "BigCodeBench/385"
+  },
+  {
+    "checker": {
+      "checks_sha256": "db8f1318c618913ea7addd4a37ed1266e8f9bc46e495982aee76b1890f4c2851",
+      "code_sha256": "dfeb618c217b2d3348e1b0981aa5aebdc9433e446e76d9d9edf212d3dc923d81",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.039s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.495841
+    },
+    "source_sha256": "f34086093ef753b1b12420973ba0bfffd266b6276842f21e9fa2611477fc57e5",
+    "split": "test",
+    "task_id": "BigCodeBench/1066"
+  },
+  {
+    "checker": {
+      "checks_sha256": "58a6e02892b663bc55d78f22374b991f9ec82cab06dc5aa6ce331a3e736355ce",
+      "code_sha256": "e6d47f4556a20a690f996e88366701e75705a27807fc39d9ac2024bc2dca7aa4",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.030s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.501403
+    },
+    "source_sha256": "c48796a11db6b45bc18db22879fc09f41f18d78e4a7d013140540d446dd28373",
+    "split": "test",
+    "task_id": "BigCodeBench/162"
+  },
+  {
+    "checker": {
+      "checks_sha256": "12ee15da7cd3f4994c9a53b240352c9e1f20daef604a94367fcbcb4d1b8d22cf",
+      "code_sha256": "8500085a64ad0a6576dc92c23635ac81785fe24ccf2cb2973c05eec19ea533de",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.048092
+    },
+    "source_sha256": "6929277f0cba0db2e33008214d4e5ef69503159083e42b3a8d37ada0e56e2739",
+    "split": "test",
+    "task_id": "BigCodeBench/854"
+  },
+  {
+    "checker": {
+      "checks_sha256": "bcfcf78e37a3507bc761937fb25d726a9965d9600825c04ea7d2494ad3455b01",
+      "code_sha256": "f3c909108e22c111759df261e0777a977c1499fd49820e10063e63d3bb6d231b",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.046318
+    },
+    "source_sha256": "ff36bfcfa0a0d3f8044526043728b71a9ded1192317bbbc21344a703248aff5c",
+    "split": "test",
+    "task_id": "BigCodeBench/833"
+  },
+  {
+    "checker": {
+      "checks_sha256": "aa6f1266650b879faa86f8309d125ea9b0176da1ce380d1c73672dc62343d63e",
+      "code_sha256": "6af56ee73b6fb18060681884d3c7e8af1eb1a6416196b2b34130fd39eeb4b39d",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.08426
+    },
+    "source_sha256": "371b48ebe3f8fb5e51951f88e3cab8010479a314060b904f6afee50906af7c01",
+    "split": "test",
+    "task_id": "BigCodeBench/947"
+  },
+  {
+    "checker": {
+      "checks_sha256": "64a8dbb873dc87667570e3f90d6cc3d66f199aa85ad5e43af7138ef8e4dcd6af",
+      "code_sha256": "662862b9d825b762913c63ffd0cb76fa7076dbb6ae6e134d29c051b013f6f4a7",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.082469
+    },
+    "source_sha256": "e9e7ef67f18b60029282c0fd0cbab9cef9341bd775122c03bec09dcd9cdffb93",
+    "split": "test",
+    "task_id": "BigCodeBench/856"
+  },
+  {
+    "checker": {
+      "checks_sha256": "6fe76ab748eb7a7714d5d238ad2a81966518e2f210fda29c7e8f0b4f941b343d",
+      "code_sha256": "54943533ee819c7b579883da480aef98bbbbf9a8ee953eb42fb5a23fe1151025",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.090202
+    },
+    "source_sha256": "bf3247689af4db385f0efcd452ea513b64776e7b29ce9d0e70bd580d2c3fad12",
+    "split": "test",
+    "task_id": "BigCodeBench/275"
+  },
+  {
+    "checker": {
+      "checks_sha256": "d74ee586c3f321bf697c30bc5824fea1aee590c4dc697ff951ec0a5a1c88a8e8",
+      "code_sha256": "dbf10c985a1e169d16f93732ce2ee39806b5ababd2a499a34100605a7cd2550f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.090312
+    },
+    "source_sha256": "7d42658a6c2c84ff6053c2058ec0ec3f6ecbe09864fb877d3953a4721967951e",
+    "split": "test",
+    "task_id": "BigCodeBench/793"
+  },
+  {
+    "checker": {
+      "checks_sha256": "6306d5602526cd96141703dbaf445b2be6ff976d9d94b4dfa8d45a10b62350f6",
+      "code_sha256": "3241dc0ed256b0afb75e363fd36aa9ea09d616a511e8d6cb5ec130bb125f7121",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.259507
+    },
+    "source_sha256": "ec07c61052a9539193cf889ad5d33bf150a5c9dd22a77485288698756fb36a32",
+    "split": "test",
+    "task_id": "BigCodeBench/831"
+  },
+  {
+    "checker": {
+      "checks_sha256": "cbfe3c08a7518925e40a3074b05f1dfbce7d7b8528ac6cda08e2d45bfb2de779",
+      "code_sha256": "28eb554f111b2e949797c9ec11de1ea675aaaead0d9128fafae49807ed09d849",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "program.py:11: RuntimeWarning: Mean of empty slice\n  mean_values.append(np.nanmean(numeric_values))\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.090816
+    },
+    "source_sha256": "0aabe8b67ec1c75b19acd25ebb83e5ea2a1f62ae98dea7dfd84bf4a3f9bd8eb9",
+    "split": "test",
+    "task_id": "BigCodeBench/871"
+  },
+  {
+    "checker": {
+      "checks_sha256": "e2f84b990fa04c0d102b1a2bcab8278c88ff9459c8c89232e9030595115e104d",
+      "code_sha256": "286aed76081c2ea5688b602ceec3203a4652939e2bf14785a9ab75eb35fe64d7",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.09057
+    },
+    "source_sha256": "72dd0d4e7eff037bb193cfb4b09d781689409b96ea9f7b53cd46e9667a838442",
+    "split": "test",
+    "task_id": "BigCodeBench/229"
+  },
+  {
+    "checker": {
+      "checks_sha256": "12280e86ce64e766b14707aad4566974d76019ab65dd081ca6cb98d867ed69e4",
+      "code_sha256": "febb409d4989761c7cb1eead83e7aa165af13065f786c0a310dc30ee4f9bd31a",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.041s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.330892
+    },
+    "source_sha256": "1d993d603c946071481330c89e475605aa6017d0e3862c10a84fd5eac882540a",
+    "split": "test",
+    "task_id": "BigCodeBench/286"
+  },
+  {
+    "checker": {
+      "checks_sha256": "78c70d3f2d8fa5b432c94cf74ba275e64468ca238f6ecbd8929b88c9140bf1fb",
+      "code_sha256": "e674701bc12e3653668f538278fd78a88847e4180d1d14d9f03b20405906cab7",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.150808
+    },
+    "source_sha256": "7405f708c45d4be2cc0170ba38a4cfcbec4a414ba79b8847979e6d8bedf9f527",
+    "split": "test",
+    "task_id": "BigCodeBench/288"
+  },
+  {
+    "checker": {
+      "checks_sha256": "99e9bed7c1d2ecad397ebcd88a6d66b28ddbf3223e49a1e31c4a0dbe65cd9417",
+      "code_sha256": "5e15077d441ce9eb7c13e2f07dc08988fd5b1450975f8ef081da0ae1a9b25d27",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.020s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.083631
+    },
+    "source_sha256": "233c6f3aa1431fd643971de210ae3a5488f6cbc042dba7679c8c16c43a8d60ed",
+    "split": "test",
+    "task_id": "BigCodeBench/671"
+  },
+  {
+    "checker": {
+      "checks_sha256": "d2c5b4ea5aff5f7fc0abfcac38a671c89b8dbc3ca45bee6d5838b9da5c52eb3b",
+      "code_sha256": "a159690094916105607af0a9ac1bb1607c47c2106cf37d26f782b8548fba8a34",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.005s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.082322
+    },
+    "source_sha256": "3959d17c1adefd7012582a99cf3caa19883b1c206246346a7e8e5e6a14648a55",
+    "split": "test",
+    "task_id": "BigCodeBench/1009"
+  },
+  {
+    "checker": {
+      "checks_sha256": "d98d8b5a72b6cb56643843d020e456aca1517cd20f2de2e3eee7935d59aef00e",
+      "code_sha256": "4e9689c7e1c8b3eaa7d546e187dda5c04d550b0cc5a3383680682acadaafcac1",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.090621
+    },
+    "source_sha256": "738dd6f27366d3a4ce25acc6a9bd682d414949aa2021df33fec63bd23cd850a9",
+    "split": "test",
+    "task_id": "BigCodeBench/260"
+  },
+  {
+    "checker": {
+      "checks_sha256": "ecd351c4986f1baedd7ebf97559603c12df1659736d45b15468e95f6ee2eafbb",
+      "code_sha256": "2cfd5d73abeaa8c74da757b7adc98977b0459a1307c666f53e100aa1876ba5dd",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.090528
+    },
+    "source_sha256": "0878f7c12be36ac7bba241feccfcf8a12f7e0854f57b3bd481d2cdf0f7226252",
+    "split": "test",
+    "task_id": "BigCodeBench/728"
+  },
+  {
+    "checker": {
+      "checks_sha256": "d6a3209d43466dbc20fb5c4738a410b93fe5f7fe5dcc9237266acd47974c13ee",
+      "code_sha256": "96e9a6173b2b8e89834fabaeba68b198e1bad95114a19ff1a2baf4e40828fa4b",
+      "exit_code": 1,
+      "passed": false,
+      "stderr": "EEEEE\n======================================================================\nERROR: test_handle_json_request (__main__.TestCases.test_handle_json_request)\nTest how the function handles a JSON-formatted request.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 11, in setUp\nPermissionError: [Errno 1] Operation not permitted\n\n======================================================================\nERROR: test_handle_large_request (__main__.TestCases.test_handle_large_request)\nTest how the function handles a request larger than the buffer size.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 11, in setUp\nPermissionError: [Errno 1] Operation not permitted\n\n======================================================================\nERROR: test_handle_special_characters_request (__main__.TestCases.test_handle_special_characters_request)\nTest how the function handles a request with special characters.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 11, in setUp\nPermissionError: [Errno 1] Operation not permitted\n\n======================================================================\nERROR: test_response_contains_greeting (__main__.TestCases.test_response_contains_greeting)\nTest if the response from the server contains a greeting.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 11, in setUp\nPermissionError: [Errno 1] Operation not permitted\n\n======================================================================\nERROR: test_response_format (__main__.TestCases.test_response_format)\nTest if the response format from the server is correct.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 11, in setUp\nPermissionError: [Errno 1] Operation not permitted\n\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nFAILED (errors=5)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 101, in <module>\nAssertionError: Independent checks failed\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.048225
+    },
+    "source_sha256": "1ccb062e07aa39482f0cb25c4c1eeb20b7b96d7a5fb95eee099585778400a3d3",
+    "split": "test",
+    "task_id": "BigCodeBench/1038"
+  },
+  {
+    "checker": {
+      "checks_sha256": "18d543bfc6535fd4eacf34cca11daf4a4d3ea9bdbf7c0f49e251bab931ff604e",
+      "code_sha256": "3e404ffc6cded57c5c5823186a268c11609a9b1cbe4f8c6ed6b692700dafaeaf",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.048203
+    },
+    "source_sha256": "fa108b9bf8cc18d38b5552b4e2f4c52f0d976fa1e09051654b5350284c230cc8",
+    "split": "test",
+    "task_id": "BigCodeBench/721"
+  },
+  {
+    "checker": {
+      "checks_sha256": "0bcc5121688b37fe8938dfbd8caeb3d157a15e32f11d38d1181cea2a35df37b7",
+      "code_sha256": "40d293f99b6ab4e74e96c34dc81763cfe48f9677691ad085939296a38f2fe243",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.027s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.263359
+    },
+    "source_sha256": "120d3129dbfc2d54260bb76b8273a2bbf68aac032e71682422fdd165336f2218",
+    "split": "test",
+    "task_id": "BigCodeBench/873"
+  },
+  {
+    "checker": {
+      "checks_sha256": "76934906768e4df55b02746b9005ede1bd868c2ccb2fba371036542163846f1f",
+      "code_sha256": "3d8d3f689529c970240ffec07f0359c3313e172cfc4828585e7032db2840a23a",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.089846
+    },
+    "source_sha256": "5b25590e811c8c5d5dd3e70e670eb08f22d29a927e215988aaf790440bb7d5c6",
+    "split": "test",
+    "task_id": "BigCodeBench/325"
+  },
+  {
+    "checker": {
+      "checks_sha256": "736aaf988d1f4ec34ea38237f74395e6f9babfab21a43aff7a6e1bd79891c683",
+      "code_sha256": "ea53e2249f07cb0ddb4d723e33f53e117c9d756c5b4d9b2de9753fa5fa0574d3",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.005s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.082491
+    },
+    "source_sha256": "7c4bc0ca30546cbe1c9d842d2259ca803385427bbcfdb49fb976127c985c1341",
+    "split": "test",
+    "task_id": "BigCodeBench/965"
+  },
+  {
+    "checker": {
+      "checks_sha256": "959126cb2b7db6e884ca4dc64ecfca454605fd9e78e68e6e2447c3837c8eabb7",
+      "code_sha256": "2d3dac883728ab6272ea3680e213eafd81e0da9b83db41c589690c6f509db8d0",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.012s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.082864
+    },
+    "source_sha256": "ea5beed96516aaa9dad401d4e8c54db8a3d982fade0b22f54c5122497e932c59",
+    "split": "test",
+    "task_id": "BigCodeBench/665"
+  },
+  {
+    "checker": {
+      "checks_sha256": "13b23198a66232c312d4dd153e294ef986a13134642e8b1196394c40d66385b4",
+      "code_sha256": "bdc9e123920c3a3a86f26548098798aca7c6da10bbcfeea44644f4e562279340",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.090236
+    },
+    "source_sha256": "6207ee408f611673ce38f87bc4406a28befbb4f773c5154f2e1512c3a92549c0",
+    "split": "test",
+    "task_id": "BigCodeBench/1132"
+  },
+  {
+    "checker": {
+      "checks_sha256": "6571be53f505f79483dadd161e85974dbaf89a7de4b8a528aeaa51215e37063e",
+      "code_sha256": "ed4e2e211d01206ca68f46e1aaa92f1d29c2d1a6729f78a434c6ff07614b7f98",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.048107
+    },
+    "source_sha256": "ce0515fc187dca17777bf90a1cac8f091eca5e2a2a2435012d0908777c8b281e",
+    "split": "test",
+    "task_id": "BigCodeBench/543"
+  },
+  {
+    "checker": {
+      "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+      "code_sha256": "111cd340c908e74207a510a4eb46b83132087041bceffb6c1eeafdec9efb7016",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+      "stdout": "An error occurred: [Errno 1] Operation not permitted: '/non'\n",
+      "timed_out": false,
+      "wall_seconds": 0.047969
+    },
+    "source_sha256": "c636f646d224b56b7ca3bfecb6452c18aae4351d8ff7ea8245aae2199ecf83a5",
+    "split": "test",
+    "task_id": "BigCodeBench/832"
+  },
+  {
+    "checker": {
+      "checks_sha256": "43b3be16b3dd5e42a6926054e6b102ec104cce67e6b8f91dfbe9d5fec93622db",
+      "code_sha256": "e2ff2aedd59c5950546198442abcb0e6877b52a29c002556314065d572fa5447",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.002s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.078018
+    },
+    "source_sha256": "ad1235d57d707118a1d6a0304e69200aacb50b20d727c6f6a6ceaca8442bfe7c",
+    "split": "test",
+    "task_id": "BigCodeBench/973"
+  },
+  {
+    "checker": {
+      "checks_sha256": "ebf43727ec3ae76a62764faf216f9f6c8734530b3742ae4624abb00249667fd2",
+      "code_sha256": "78ab4632927b320260b7d349d810032748c20f836970940c8172764362a94bb6",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.074652
+    },
+    "source_sha256": "ffe101c5162a3b5cc299bfb54a8c8df49720de5edbf98b05094a266c6e801623",
+    "split": "test",
+    "task_id": "BigCodeBench/876"
+  },
+  {
+    "checker": {
+      "checks_sha256": "c1b1db06d05ba12d980dcfa1257401990d0bc198368be8b55309c9c1d838d21d",
+      "code_sha256": "56cdb2febdd215c99739c9a0dc0acdfb14bdacf1071778770a36ce9302199842",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.085669
+    },
+    "source_sha256": "ccb4fdbebf3194f3ac5715bb4cd5031be1f52281a39ae6ac128c9b41ff23f344",
+    "split": "test",
+    "task_id": "BigCodeBench/1050"
+  },
+  {
+    "checker": {
+      "checks_sha256": "e71cb2811d2679a632a6dee9082b5f38a52c20da34cee03ac6d04bbde9ea4671",
+      "code_sha256": "4c17fc0040be1a907ec93c9bcc6f6836446cf3d5ddc7c7e525d704d897ddedd1",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.024s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.148328
+    },
+    "source_sha256": "8da12283191dd3e0e5680a0b3e866c058b9fca1900a776e494963e07132381e1",
+    "split": "test",
+    "task_id": "BigCodeBench/368"
+  },
+  {
+    "checker": {
+      "checks_sha256": "0862f5a9978c8315885b55569fa160213b4b1f579bff6efc560ac317865f7695",
+      "code_sha256": "59a180389a19d30ad30c6106fb41edfed1b5f2ac6d1f7bfa5f29baf5e3c3a9a3",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.264378
+    },
+    "source_sha256": "395e3023d237b70044d5d67773f3493004139d09a3eda255f71d8428b72b0bb2",
+    "split": "test",
+    "task_id": "BigCodeBench/922"
+  },
+  {
+    "checker": {
+      "checks_sha256": "8c4090f465a1d11eb5b2b0f03eb2f2c1aeb5e611be49c88bd14dcd71298ecb6d",
+      "code_sha256": "e024837af575d70ef8980b4fd3dfacd7307341609a99945f9fc0375c9ed78938",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.002s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.263187
+    },
+    "source_sha256": "e7989706b3bd82c433e75b230051da655b912503f29aaf832faf9fb0ef2575e8",
+    "split": "test",
+    "task_id": "BigCodeBench/869"
+  },
+  {
+    "checker": {
+      "checks_sha256": "20bb4dfafbdcdd437c59ae10f5e601812401b429ec526508b44c80b4a98de7c7",
+      "code_sha256": "774dcb4e4392a7fa81461f49c32bce72522244470b54bf2af48b185f656bbce4",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.25248
+    },
+    "source_sha256": "2e4fa1b0a5c17fd4033318ae4d0e8e6db2dd4b508b77b41422d2fcdac803aaea",
+    "split": "test",
+    "task_id": "BigCodeBench/349"
+  },
+  {
+    "checker": {
+      "checks_sha256": "6a7f9d6b948b61d7018a4dec4d2e54d9e70acb6d99442d5770989628cb648899",
+      "code_sha256": "e279756cc8863f5aca4f03d1d4faf872addf4163034304201e976d70cfb47867",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "...<execution>/pandas/plotting/_matplotlib/core.py:1680: UserWarning: Attempting to set identical low and high xlims makes transformation singular; automatically expanding.\n  ax.set_xlim(left, right)\n..\n----------------------------------------------------------------------\nRan 5 tests in 0.056s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.669566
+    },
+    "source_sha256": "b1a47bbe459baf358fe5fb572231c71fe8e410da08006630a11ac69fc7538eda",
+    "split": "test",
+    "task_id": "BigCodeBench/1062"
+  },
+  {
+    "checker": {
+      "checks_sha256": "3e9e18df8ded903b6e31f0668c7720a3b57410808a0fe57c737e2afb19d607cf",
+      "code_sha256": "510eaaa9de2362ccc9664490117fb173d6a19e3544689472f697aaea482bab10",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.256279
+    },
+    "source_sha256": "50fd42c3aaa4a0ab56cf19559e8887dab67b2a76f8e3ccbf66143081330ab616",
+    "split": "test",
+    "task_id": "BigCodeBench/630"
+  },
+  {
+    "checker": {
+      "checks_sha256": "52d719c745678082190abbe56f339864e45d2d7a5d960a546a58fac87fc6f325",
+      "code_sha256": "42248d44a40e85601edb34ff891b03efbeca11606608a32639d0bcebd11ad4fd",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "program.py:24: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.099s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.742487
+    },
+    "source_sha256": "25ae8ec638c253995a69c433262fb1f9a00983da7a8167e20a0c3010e553608e",
+    "split": "test",
+    "task_id": "BigCodeBench/580"
+  },
+  {
+    "checker": {
+      "checks_sha256": "5daca62a87a58997cf192b71bc58e6fa466537d8b949f26ee4d9bde944669b80",
+      "code_sha256": "718bf360bd2eebcc79e3554f448a62bab980e8d23ab9d052d4409d93482c0a7f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.025s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.644298
+    },
+    "source_sha256": "854bd4c3b18cdf2b5aa3613841a37b0c948cb377847026313cd363f087812025",
+    "split": "test",
+    "task_id": "BigCodeBench/104"
+  },
+  {
+    "checker": {
+      "checks_sha256": "36b9fef1ff9eec8ad6084024cc604c6c31c4cf336814d4d235ef6e4b2b9974aa",
+      "code_sha256": "8765f7bd1976147510c3e15567c6bcf65f79360b9038a0ce075acd3654af8267",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.005s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.262246
+    },
+    "source_sha256": "c94e07c4052fa1f96c743da819a2896db69d721fad6923f6f252eae394e28355",
+    "split": "test",
+    "task_id": "BigCodeBench/886"
+  },
+  {
+    "checker": {
+      "checks_sha256": "e9dd9dd9859bb7c6fa20d0e8fd4767c3039770ab7c0c88f44f5727f69763a5db",
+      "code_sha256": "e77dd346b101cd269f7f5af93ff67b3af198197573fd73b24a223cc08d5aabb8",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.049s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.666374
+    },
+    "source_sha256": "b9ee967b1fce122cd30bef9021f284674f3b960da16cfd16bc65f5dd73f1356f",
+    "split": "test",
+    "task_id": "BigCodeBench/636"
+  },
+  {
+    "checker": {
+      "checks_sha256": "8188df9a0ab53c4df005331fdbc8734215dca7c30a4647a27cbc5a7244ef8c8c",
+      "code_sha256": "a97304c5dbb46957d57b09d29c687135c29d4a74cee1a6418ae0913292084113",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.066s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.656042
+    },
+    "source_sha256": "8305edcaf9e1a2e7dadc82b436b64af68eeee021bad343bda92e7e32e20bb171",
+    "split": "test",
+    "task_id": "BigCodeBench/163"
+  },
+  {
+    "checker": {
+      "checks_sha256": "19bddfa490b6d97579ab5fc47721ccac48d4b5b683d29f540aed1364e3e41a3f",
+      "code_sha256": "15b9c17d8bd4dfc16ad6dad16c950f410e5774fdc21327a612128d1e04e4bb3a",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "program.py:8: Pandas4Warning: The inplace keyword in DataFrame.drop is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.drop(key, axis=1, inplace=True)\n.program.py:8: Pandas4Warning: The inplace keyword in DataFrame.drop is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.drop(key, axis=1, inplace=True)\n.program.py:8: Pandas4Warning: The inplace keyword in DataFrame.drop is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.drop(key, axis=1, inplace=True)\n.program.py:8: Pandas4Warning: The inplace keyword in DataFrame.drop is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.drop(key, axis=1, inplace=True)\n.program.py:8: Pandas4Warning: The inplace keyword in DataFrame.drop is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.drop(key, axis=1, inplace=True)\n.\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.264501
+    },
+    "source_sha256": "9e0bc75472c1a2f75f4ab22458346f81fe43268ed1b48b2b7c86a1e30f5decee",
+    "split": "test",
+    "task_id": "BigCodeBench/681"
+  },
+  {
+    "checker": {
+      "checks_sha256": "5565541e265f383c5bb5c9489f190c7d27616a0697458040856fce54f6840532",
+      "code_sha256": "5977ebab180f472b90efa223f9e4c4d6315f36747c5a4ef9d08e3488ae335c94",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.262731
+    },
+    "source_sha256": "1403a46baff3b1844526979090e8c8154ff81766a835fd80bc1f31ea1330221c",
+    "split": "test",
+    "task_id": "BigCodeBench/1055"
+  },
+  {
+    "checker": {
+      "checks_sha256": "f1cf95579f4c2901719a522fe9a0d2d0eea094dd942a075e2e1a0421978952ec",
+      "code_sha256": "fa12521a51c0ecce36bc10c661e7e96ac8add437d0dcc5150b1ccdf9271f2d4f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.122s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.771264
+    },
+    "source_sha256": "b4fc2a3db6c58b8e240094dcc76ff95fda6c12f280d18cd4c1809741dd414196",
+    "split": "test",
+    "task_id": "BigCodeBench/469"
+  },
+  {
+    "checker": {
+      "checks_sha256": "498046e1655fe9d1f33281a8a3072a545519403c0b4792c411617ec75193944e",
+      "code_sha256": "d55aa930bd6230974b2af2cdb39cc12a09e84a98aef75deeb2cb6ad392c25736",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "program.py:25: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.program.py:25: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.program.py:25: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.program.py:25: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.program.py:25: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\n.\n----------------------------------------------------------------------\nRan 5 tests in 0.061s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.672545
+    },
+    "source_sha256": "c5e890e89aef39d7d5206f8eab77afba181dd0224d42824a20ae764546c2e066",
+    "split": "test",
+    "task_id": "BigCodeBench/591"
+  },
+  {
+    "checker": {
+      "checks_sha256": "e9b36adccb034c8d375e07ef5ba18aa6c66143aa8a91ec4887ffa09450b174c8",
+      "code_sha256": "44e0a5a4d5ade0b582ce6403f20e2526b994acc7d36376a93f989929f9cfb37b",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.432613
+    },
+    "source_sha256": "6b882bf0afdd3471e29280d9b3d98ac8880ba9f30c6dbda64797147322ebba2a",
+    "split": "test",
+    "task_id": "BigCodeBench/815"
+  },
+  {
+    "checker": {
+      "checks_sha256": "8b9cfa90d6f154fb9b87cb39bfd52a5ac75afde22b62ac2f5ebda80fe4852308",
+      "code_sha256": "40ab9837c0e0785f41c211e296f50bc96cec3e9977cb055f33090823868efa7f",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.307726
+    },
+    "source_sha256": "228d00bf75b073d15328a24e5e578ad15703c4acdd7cffe63bfc6feeff15093e",
+    "split": "test",
+    "task_id": "BigCodeBench/704"
+  },
+  {
+    "checker": {
+      "checks_sha256": "0307c136c34fcbe284395e0948d837655f64a7385ca1913ebcb78220081b8e7b",
+      "code_sha256": "c02038a56186efcbd33ce3cd7fbc5d1a982f015d7ddc40ceec7d999cf7aa30b8",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.253783
+    },
+    "source_sha256": "233d860ea72c6fa14f22a5af5e3d2f0903190b54f1bd2f9f939b609bcd1edca1",
+    "split": "test",
+    "task_id": "BigCodeBench/951"
+  },
+  {
+    "checker": {
+      "checks_sha256": "71e2c88ab149f2302485bd68b01e3148f0466ba29f1c41abddbeb25159c5438a",
+      "code_sha256": "611d9e880819fb341bf5fcae15c37a591c6fd3baa0950e308f8649c2a2854b5c",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "....program.py:5: Pandas4Warning: 'int' is not supported as a fill value for str dtype. In a future version, calling fillna with an incompatible value will raise. Explicitly cast to a common dtype before filling.\n  df.fillna(0, inplace=True)\n.\n----------------------------------------------------------------------\nRan 5 tests in 0.023s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.655016
+    },
+    "source_sha256": "5f080594d16920491d7ae14522261c94e985cbff30c27cc93a596103509a8eb0",
+    "split": "test",
+    "task_id": "BigCodeBench/519"
+  },
+  {
+    "checker": {
+      "checks_sha256": "007b2905b173207c0ca8caa613bdb0f5c68271161f1926f9ec6e2f3ca962604d",
+      "code_sha256": "7c82d241115bb01d725abad791ece7cb98f92c1b6f78d03fd1fe5729a05be6ba",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.247789
+    },
+    "source_sha256": "eee979bba0f2df524f7221da3717b82dbeda610b0fd530e568c977dee6510222",
+    "split": "test",
+    "task_id": "BigCodeBench/1022"
+  },
+  {
+    "checker": {
+      "checks_sha256": "399ce6f0ca86b6f17c51619e1ae49c787ca50ba480911cc449c6c17d5ffd8c3e",
+      "code_sha256": "b0a4ff73f76205cf71cb166fa85f5dd9a251d6074ad6937303d40e5066eb9bff",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.079s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.703881
+    },
+    "source_sha256": "8bb7e539f01fc3fd392d602045ade0db768f5b183ae3d2762d05ab185c2dbc62",
+    "split": "test",
+    "task_id": "BigCodeBench/514"
+  },
+  {
+    "checker": {
+      "checks_sha256": "231635034eb5b9e612a02ab75183d1cef30afa7b9eb3ab2cd607f2de26b8c0f4",
+      "code_sha256": "0e3c453b5585bb04975ea430bf9c2d1ae229ead4cb5eaeacfd72bb505d076c25",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.253162
+    },
+    "source_sha256": "9e4cfaf03aa773c81f8af5cf90c986fd1740711c60801881ca6668bf19eacb7c",
+    "split": "test",
+    "task_id": "BigCodeBench/935"
+  },
+  {
+    "checker": {
+      "checks_sha256": "0626eea6f5d5ae993dfd4a27f6cef18837448048caae099c46a63a4853e57d4d",
+      "code_sha256": "1cbbf7fd80e3a80dbb65521aec501d1e9514676013a1416fa74eabca6a079b5c",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.261125
+    },
+    "source_sha256": "a2ba0b535606b96fc7e392c217d1649131e1322682d0e18b7155eafbf5949e20",
+    "split": "test",
+    "task_id": "BigCodeBench/676"
+  },
+  {
+    "checker": {
+      "checks_sha256": "e20b3d7d747dc3ece211c4f2e7baab1139702a45a7b5cdd9a5da38f4d6e9e52a",
+      "code_sha256": "80ce12782aa6eb4f27f42a681d4368804954d0c01bbe452cfdfefd5a40db87fb",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.082s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.704446
+    },
+    "source_sha256": "032ba00700f5a8bc5ed511dd56bd66bf8bdf4f032d134bb5df5532d3be170964",
+    "split": "test",
+    "task_id": "BigCodeBench/513"
+  },
+  {
+    "checker": {
+      "checks_sha256": "425cdd46a01383b47743fb7205284f28064e9ebaae476176735a28249540f2d5",
+      "code_sha256": "60108765b0fb15fdccc9e6c0003659cad6e795521fa30e42f7fd8ac586a0f9d5",
+      "exit_code": 0,
+      "passed": true,
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.020s\n\nOK\n",
+      "stdout": "",
+      "timed_out": false,
+      "wall_seconds": 0.640828
+    },
+    "source_sha256": "5f1fbf2c2e08d047dbf29d7405b29d74fa09bd43acf72fdf32c772e3569db7c9",
+    "split": "test",
+    "task_id": "BigCodeBench/296"
+  }
+]
