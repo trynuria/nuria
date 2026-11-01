@@ -1,0 +1,186 @@
+{
+  "commit-activity": {
+    "code": "import json\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/commits.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    seen = set()\n    days = {}\n    different_times = 0\n    for commit in data[\"commits\"]:\n        sha = commit[\"sha\"]\n        if sha in seen:\n            continue\n        seen.add(sha)\n\n        day = commit[\"committed_at\"][:10]\n        if day not in days:\n            days[day] = {\"day\": day, \"commits\": 0, \"merges\": 0}\n        days[day][\"commits\"] += 1\n        if len(commit[\"parent_shas\"]) > 1:\n            days[day][\"merges\"] += 1\n        if commit[\"authored_at\"] != commit[\"committed_at\"]:\n            different_times += 1\n\n    report = {\n        \"head\": data[\"head\"],\n        \"unique_commits\": len(seen),\n        \"committer_days\": [days[day] for day in sorted(days)],\n        \"different_author_and_committer_times\": different_times,\n        \"evidence\": \"captured_git_commit_metadata\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+    "origin": {
+      "checker_sha256": "911a909b8a3fd53ae05767f0a1954b6d3db90606ea631637f959dce95a47b910",
+      "job_id": "grounded-commit-activity",
+      "journal_head_at_acquisition": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773",
+      "program_sha256": "65dcf9e356062bdf5744e8354bc6cb942a7b2489ac42c7236dfd3daec19c0af3",
+      "result_sha256": "cf501428e53c7b01af30dbc50b4d4f8bc5acf18e9719efe94121e762fd777fde",
+      "source_sha256": "ddbee434714780aeb67bae3af7a34ef7c6caacbffe8f186a77da6751b273ebf5",
+      "task_sha256": "101b0623ddf1a2d3aad8bee09c05a808b81d13f0796c4b12ece9883e1acdbaa1"
+    },
+    "origin_delivery": {
+      "binding": {
+        "enrollment_sha256": "a54d7dfc4e45ceba2fe60ed7bec97f263a3aa6b035fa2e3470573815670dc712",
+        "result_sha256": "cf501428e53c7b01af30dbc50b4d4f8bc5acf18e9719efe94121e762fd777fde",
+        "task_sha256": "101b0623ddf1a2d3aad8bee09c05a808b81d13f0796c4b12ece9883e1acdbaa1"
+      },
+      "checker_sha256": "911a909b8a3fd53ae05767f0a1954b6d3db90606ea631637f959dce95a47b910",
+      "files": [
+        {
+          "bytes": 637,
+          "name": "report.json",
+          "semantic_sha256": "373039a636c582f0b91be18792e80018991dde8a59c125c9462bdbb968e512bb",
+          "sha256": "6da4c8e0ad9a9dba88a316a85d6a30bdacbe6f7dcfc8a1a6a330c59dc8b51a5f"
+        }
+      ],
+      "financial_activity": false,
+      "job_id": "grounded-commit-activity",
+      "journal_at_collection": {
+        "events": 8,
+        "tail_sha256": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773"
+      },
+      "model_calls": 0,
+      "program_executions": 0,
+      "program_sha256": "65dcf9e356062bdf5744e8354bc6cb942a7b2489ac42c7236dfd3daec19c0af3",
+      "receipt_sha256": "dbc2aee5c5a38b558543bcb9b36f7fdffafcfc9a58a6d4971c35a3b3e4d2bd87",
+      "schema": "nuria.program-delivery.v1",
+      "source_sha256": "ddbee434714780aeb67bae3af7a34ef7c6caacbffe8f186a77da6751b273ebf5"
+    },
+    "profile": {
+      "function_contract": "Implement task_func(data=None). With no argument load inputs/commits.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Deduplicate commit records by SHA. Return head, unique_commits, committer_days sorted by UTC day, different_author_and_committer_times and evidence=\"captured_git_commit_metadata\". Each committer_days entry has day, commits and merges. Use the committer timestamp (UTC ISO date prefix), not author time, for each day. A merge has more than one parent. Count author/committer timestamp strings that differ exactly.",
+      "profile_id": "commit-activity"
+    },
+    "schema": "nuria.retained-program.v1",
+    "skill_sha256": "20690650ced814bd4b1be90be692b059b5e01ec2831b8062054229aa2c86d3f3"
+  },
+  "component-ancestry": {
+    "code": "import json\nfrom collections import deque\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/ancestry.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    graph = {commit[\"sha\"]: commit[\"parent_shas\"] for commit in data[\"commits\"]}\n    head = data[\"head\"]\n    distances = {head: 0}\n    queue = deque([head])\n    unobserved = set()\n\n    while queue:\n        sha = queue.popleft()\n        if sha not in graph:\n            unobserved.add(sha)\n            continue\n        for parent in graph[sha]:\n            if parent not in distances:\n                distances[parent] = distances[sha] + 1\n                queue.append(parent)\n\n    components = []\n    for component, commit in sorted(data[\"reported_components\"].items()):\n        if commit is None:\n            reachable = None\n            hops = None\n        elif commit in distances:\n            reachable = True\n            hops = distances[commit]\n        else:\n            reachable = None if unobserved else False\n            hops = None\n        components.append({\n            \"component\": component,\n            \"reported_commit\": commit,\n            \"reachable\": reachable,\n            \"minimum_parent_hops\": hops,\n        })\n\n    report = {\n        \"head\": head,\n        \"graph_nodes\": len(graph),\n        \"unobserved_parent_ids\": sorted(unobserved),\n        \"components\": components,\n        \"direct_service_health\": \"unknown\",\n        \"evidence\": \"observed_git_ancestry_only\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+    "origin": {
+      "checker_sha256": "296b4db759b366a5cb203f88b25faa46108b5d18ec61c4dc69134f7f24df61a7",
+      "job_id": "grounded-component-ancestry",
+      "journal_head_at_acquisition": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773",
+      "program_sha256": "fc28817e084d6707cb83628874c81483f7da62797030c4e86c83d6dad83783eb",
+      "result_sha256": "3c1b89f566e82790466b41f06ab9608d4dbf66d9d4f5c1e3f39d7dbad6ad5ac1",
+      "source_sha256": "0d518259ae7ff4ff1c5edc0383c167365a6830cb0b7d62d8f75b29801fba1cef",
+      "task_sha256": "9cddd467a7426a3da2c107d8d8062dd5f9654f41bf2aa476db30db62b0e123f4"
+    },
+    "origin_delivery": {
+      "binding": {
+        "enrollment_sha256": "112fc018684bff6e99a95b48f79f89903cab0c7a5a07a98f7b7606f515787f53",
+        "result_sha256": "3c1b89f566e82790466b41f06ab9608d4dbf66d9d4f5c1e3f39d7dbad6ad5ac1",
+        "task_sha256": "9cddd467a7426a3da2c107d8d8062dd5f9654f41bf2aa476db30db62b0e123f4"
+      },
+      "checker_sha256": "296b4db759b366a5cb203f88b25faa46108b5d18ec61c4dc69134f7f24df61a7",
+      "files": [
+        {
+          "bytes": 1829,
+          "name": "report.json",
+          "semantic_sha256": "89538c7e9f2a9f9e2e245d248450398c540356c84fba3c137b55aa5aff0f0e5a",
+          "sha256": "0d4b749350a63d2d7d2dfe15c7577c3ceccb7eb8616964885d3bf70129ed3213"
+        }
+      ],
+      "financial_activity": false,
+      "job_id": "grounded-component-ancestry",
+      "journal_at_collection": {
+        "events": 8,
+        "tail_sha256": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773"
+      },
+      "model_calls": 0,
+      "program_executions": 0,
+      "program_sha256": "fc28817e084d6707cb83628874c81483f7da62797030c4e86c83d6dad83783eb",
+      "receipt_sha256": "a4db04766726fc6ae1ea857a13047a4d7108acba86d29e0615dc9d6c98c3476e",
+      "schema": "nuria.program-delivery.v1",
+      "source_sha256": "0d518259ae7ff4ff1c5edc0383c167365a6830cb0b7d62d8f75b29801fba1cef"
+    },
+    "profile": {
+      "function_contract": "Implement task_func(data=None). With no argument load inputs/ancestry.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Follow Git parent links from head. Return head, graph_nodes, sorted unobserved_parent_ids, components sorted by component name, direct_service_health=\"unknown\" and evidence=\"observed_git_ancestry_only\". Each component result has component, reported_commit, reachable and minimum_parent_hops. A missing component commit means reachable=None and hops=None. If a commit is reached, reachable=True with the minimum observed parent hops. An unreached commit is False only if the entire reachable graph has no missing parent records; otherwise it is None. A reached parent ID can prove ancestry even if its own record is absent. Git ancestry is not service health.",
+      "profile_id": "component-ancestry"
+    },
+    "schema": "nuria.retained-program.v1",
+    "skill_sha256": "46b4abd1a946a64eda33e5faafdff4a7c433e01c80c966fc93473b362ab24118"
+  },
+  "pull-requests": {
+    "code": "import json\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/pulls.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    requests = data[\"pull_requests\"]\n    report = {\n        \"total\": len(requests),\n        \"merged\": [],\n        \"open\": [],\n        \"closed_unmerged\": [],\n        \"open_drafts\": [],\n        \"evidence\": \"captured_public_pull_requests\",\n    }\n\n    for request in requests:\n        number = request[\"number\"]\n        if request[\"merged_at\"] is not None:\n            report[\"merged\"].append(number)\n        elif request[\"state\"] == \"open\":\n            report[\"open\"].append(number)\n        elif request[\"state\"] == \"closed\":\n            report[\"closed_unmerged\"].append(number)\n\n        if request[\"state\"] == \"open\" and request[\"draft\"] is True:\n            report[\"open_drafts\"].append(number)\n\n    for key in (\"merged\", \"open\", \"closed_unmerged\", \"open_drafts\"):\n        report[key].sort()\n\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n\n    return report\n",
+    "origin": {
+      "checker_sha256": "3474204afe5b4135d6e2273eb161856e41719aaca4c34e359a6281cfbc817354",
+      "job_id": "grounded-pull-requests",
+      "journal_head_at_acquisition": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773",
+      "program_sha256": "1cba358423cd2980e73ce4bfae6b5f2c1c0492abd3b683c2dd611216b36d3b5b",
+      "result_sha256": "939f577b009044a64f210b9456e879aaa7ed1a40d1df101d7a0acf099da2de01",
+      "source_sha256": "ab9e04ee5814a0525bfe15560eac157703b2d2a70f806c23e7f8aad0c3d4eddf",
+      "task_sha256": "2e8e15576cbf0b02193448f2e90d504ab5a672923f5ce8b1faf1dc6b7900b4c0"
+    },
+    "origin_delivery": {
+      "binding": {
+        "enrollment_sha256": "ebfee3762d68055de07d9553114f8e8f4dfe304e3c1a2c469e9ab98407589c0d",
+        "result_sha256": "939f577b009044a64f210b9456e879aaa7ed1a40d1df101d7a0acf099da2de01",
+        "task_sha256": "2e8e15576cbf0b02193448f2e90d504ab5a672923f5ce8b1faf1dc6b7900b4c0"
+      },
+      "checker_sha256": "3474204afe5b4135d6e2273eb161856e41719aaca4c34e359a6281cfbc817354",
+      "files": [
+        {
+          "bytes": 211,
+          "name": "report.json",
+          "semantic_sha256": "4307b419df1155b81885981b0c31c655eed3f91ff8debef586ec6607bbcf2ce9",
+          "sha256": "5e6bc635cad2b804cf34865c6ddacc4771d6c4a1a2d3fa2e6f319bc0a1194511"
+        }
+      ],
+      "financial_activity": false,
+      "job_id": "grounded-pull-requests",
+      "journal_at_collection": {
+        "events": 8,
+        "tail_sha256": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773"
+      },
+      "model_calls": 0,
+      "program_executions": 0,
+      "program_sha256": "1cba358423cd2980e73ce4bfae6b5f2c1c0492abd3b683c2dd611216b36d3b5b",
+      "receipt_sha256": "7e6a0fafb6c21929e671f9da97fc878613d773fc3675a2e6bbcb77e296ca2222",
+      "schema": "nuria.program-delivery.v1",
+      "source_sha256": "ab9e04ee5814a0525bfe15560eac157703b2d2a70f806c23e7f8aad0c3d4eddf"
+    },
+    "profile": {
+      "function_contract": "Implement task_func(data=None). With no argument load inputs/pulls.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Summarize all pull_requests as total and sorted PR-number lists merged, open, closed_unmerged, open_drafts. A non-null merge timestamp means merged. Otherwise use the open/closed state. open_drafts contains only open requests with draft exactly True. Include evidence=\"captured_public_pull_requests\". Do not infer merged status merely from closed state.",
+      "profile_id": "pull-requests"
+    },
+    "schema": "nuria.retained-program.v1",
+    "skill_sha256": "a55f7f05d53980eb911e0451baa974471eaf724ee632ea2a35803fc010f58a6f"
+  },
+  "reported-ci": {
+    "code": "import json\nfrom datetime import datetime\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/checks.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    runs = data[\"workflow_runs\"]\n    latest = {}\n    latest_keys = {}\n    for run in runs:\n        sha = run[\"head_sha\"]\n        key = (datetime.fromisoformat(run[\"updated_at\"]), int(run[\"id\"]))\n        if sha not in latest_keys or key > latest_keys[sha]:\n            latest[sha] = run\n            latest_keys[sha] = key\n\n    heads = {}\n    for label, sha in data[\"heads\"].items():\n        run = latest.get(sha)\n        reported_ci = \"unknown\"\n        if run is not None and run[\"status\"] == \"completed\":\n            conclusion = run.get(\"conclusion\")\n            if conclusion == \"success\":\n                reported_ci = \"passed\"\n            elif conclusion in (\"failure\", \"timed_out\", \"action_required\"):\n                reported_ci = \"failed\"\n        heads[label] = {\n            \"head\": sha,\n            \"latest_observed_run_id\": run[\"id\"] if run is not None else None,\n            \"reported_ci\": reported_ci,\n        }\n\n    report = {\n        \"heads\": heads,\n        \"observed_runs\": len(runs),\n        \"total_reported_runs\": data[\"total_reported_runs\"],\n        \"coverage\": \"observed_runs_only\",\n        \"direct_service_health\": \"unknown\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+    "origin": {
+      "checker_sha256": "2180df65f03f7c24db13607ca2a048cc83e8896fc91985870f6586417ddd78d4",
+      "job_id": "grounded-reported-ci",
+      "journal_head_at_acquisition": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773",
+      "program_sha256": "72ba93501c1e9b25132c7dad23ee0907b8017a8174c09c2f3b3de6a2208995b7",
+      "result_sha256": "7f43e5857ccde0a02ca4d8afae24d7713ec4fe8381e683c651f23b8368f74b00",
+      "source_sha256": "e6451e197166aa49978969ea553a6209f0ed6d0dad174d915cbfc13ce5a1c88e",
+      "task_sha256": "85d6d79ecfef87d19e32f9ddf542c0122621f566a7dbedfcbb571371de4c8e4c"
+    },
+    "origin_delivery": {
+      "binding": {
+        "enrollment_sha256": "6d4deca0bb523887dfacbe4caf32cb92dc0d41605cd9f9b9865b597b2b7d9d97",
+        "result_sha256": "7f43e5857ccde0a02ca4d8afae24d7713ec4fe8381e683c651f23b8368f74b00",
+        "task_sha256": "85d6d79ecfef87d19e32f9ddf542c0122621f566a7dbedfcbb571371de4c8e4c"
+      },
+      "checker_sha256": "2180df65f03f7c24db13607ca2a048cc83e8896fc91985870f6586417ddd78d4",
+      "files": [
+        {
+          "bytes": 380,
+          "name": "report.json",
+          "semantic_sha256": "4ac932addb6cff94d5cf4bc85cf377a0726c3378a61410e44d40e51a2ddd4cbe",
+          "sha256": "48ea1bfe0bfbd375042434a2915c47e035ad3147eafc7be86de5ab5bc38df7a1"
+        }
+      ],
+      "financial_activity": false,
+      "job_id": "grounded-reported-ci",
+      "journal_at_collection": {
+        "events": 8,
+        "tail_sha256": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773"
+      },
+      "model_calls": 0,
+      "program_executions": 0,
+      "program_sha256": "72ba93501c1e9b25132c7dad23ee0907b8017a8174c09c2f3b3de6a2208995b7",
+      "receipt_sha256": "175ed0b0314911533296e2f381924a84d4dc768d8c196fcb4decc1223264d64d",
+      "schema": "nuria.program-delivery.v1",
+      "source_sha256": "e6451e197166aa49978969ea553a6209f0ed6d0dad174d915cbfc13ce5a1c88e"
+    },
+    "profile": {
+      "function_contract": "Implement task_func(data=None). With no argument load inputs/checks.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. For each labelled head choose the latest observed workflow run matching that exact SHA by updated timestamp then numeric run ID. Return heads (mapping labels to head, latest_observed_run_id or None, reported_ci), observed_runs, total_reported_runs, coverage=\"observed_runs_only\", direct_service_health=\"unknown\". reported_ci is passed only for a completed success; failed only for completed failure, timed_out or action_required; all other or missing evidence is unknown. Do not infer a result from a different commit or from records outside this observed snapshot.",
+      "profile_id": "reported-ci"
+    },
+    "schema": "nuria.retained-program.v1",
+    "skill_sha256": "f989c142a790e9308f7f5ddcd5d2e9ffeedf19ad9e0aac811d27352f7eb51502"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "nuria.retained-work-transfer.v1",
+  "frozen_utc": "2026-11-01T06:08:31.682812+00:00",
+  "profiles": [
+    "pull-requests",
+    "commit-activity",
+    "component-ancestry",
+    "reported-ci"
+  ],
+  "origin_acquisition_completed_utc": "2026-11-01T05:23:09.300188+00:00",
+  "origin_qualification_public_commit": "a887934c2af5dadd92c4d8bc0165dd5ba6bd7018",
+  "immutable_fresh_graph_head": "4a0b33fec98321c889c1cb28b3aead3674a2c452",
+  "observations": [
+    "all public pull requests,one page of100;keep coverage count",
+    "up to two100-record pages reachable from exact graph head;incomplete ancestry staysunknown",
+    "30mostrecentworkflowruns andtotal_reported_runs;limited observedcoverage",
+    "main-head metadata at capture"
+  ],
+  "components": "The12reportedcomponentidentitiesfromtheoriginobservation;historicalreportedvaluesarelabelledasretained,notfreshservicehealth.",
+  "arms": [
+    "retained_accepted_program",
+    "independent_conventional_exact_program",
+    "stale_answer_diagnostic"
+  ],
+  "same_inputs_contracts_and_executor": true,
+  "oracle": "Frozen expected() functions independently authored; ancestry uses repeatedrelaxation versusconventionalBFS. No outcomes inspected before freeze.",
+  "success_scope": "Record all4new-sourcejobs for all3arms. No statistical/neural/AGI superiority gate. Reuse must deliver freshcorrectartifacts and exactrepeat adds0executions. Conventionaltiesmustremainexplicit.",
+  "models_allowed": false,
+  "new_paid_calls": 0,
+  "no_production_activation": true,
+  "no_task_replacement": true
+}

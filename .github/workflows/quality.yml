@@ -128,7 +128,8 @@ jobs:
           tests.test_outcome_worker tests.test_outcome_learning
           tests.test_experience_navigation tests.test_checked_repairs
           tests.test_navigation_export tests.test_program_delivery
-          tests.test_delivered_course tests.test_input_observations -v
+          tests.test_delivered_course tests.test_input_observations
+          tests.test_retained_work -v
       - name: Reconstruct and independently execute held-out work
         run: |
           python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"
@@ -139,3 +140,6 @@ jobs:
       - name: Reproduce input-grounded actual project work
         run: |
           python -m scripts.verify_inspected_work research/outcome-learning/project-work-03 --workspace "$RUNNER_TEMP/nuria-grounded-replay" --output "$RUNNER_TEMP/nuria-grounded.json"
+      - name: Reconstruct acquired tools and replay later-source transfer
+        run: |
+          python research/outcome-learning/retained-work-04/replay.py --workspace "$RUNNER_TEMP/nuria-retained-replay" --output "$RUNNER_TEMP/nuria-retained.json"
