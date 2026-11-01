@@ -64,6 +64,28 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(client.calls, 1)
         campaign.store.db.close()
 
+    def test_feedback_cannot_change_project_or_tool_order(self):
+        store = Store(self.root)
+        for index in (1, 2, 3):
+            pid = f"invention-{index:03d}"
+            store.put("projects", pid, {"id": pid})
+            store.put(
+                "skills", f"tool-{index}", {"id": f"tool-{index}", "project_id": pid}
+            )
+        for table, key in (("projects", "invention-001"), ("skills", "tool-1")):
+            value = store.get(table, key)
+            value["feedback"] = "A later observation on earlier work"
+            store.put(table, key, value)
+        self.assertEqual(
+            [p["id"] for p in store.all("projects")],
+            [f"invention-{i:03d}" for i in (1, 2, 3)],
+        )
+        self.assertEqual(
+            [s["project_id"] for s in store.all("skills")],
+            [f"invention-{i:03d}" for i in (1, 2, 3)],
+        )
+        store.db.close()
+
     def test_artifact_cannot_write_outside_workspace(self):
         for name in ("../outside", "/etc/anything", "toolkit.js", "inputs.json"):
             with self.assertRaises(ValueError):

@@ -57,10 +57,19 @@ class Store:
     def all(self, table):
         if table not in ("projects", "skills"):
             raise ValueError("Unknown record type")
-        return [
+        values = [
             json.loads(r[0])
             for r in self.db.execute(f"SELECT data FROM {table} ORDER BY rowid")
         ]
+        # Replacing an edited record changes its SQLite rowid. Feedback must
+        # not reorder projects or change which completed brief comes next.
+        return sorted(
+            values,
+            key=lambda value: (
+                value["id"] if table == "projects" else value.get("project_id", ""),
+                value["id"],
+            ),
+        )
 
     def save(self, project, kind=None, summary=None):
         project["updated_at"] = now()
