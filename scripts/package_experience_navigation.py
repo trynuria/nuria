@@ -29,7 +29,7 @@ PRIVATE_TEXT = re.compile(
 )
 
 
-def read_store(path):
+def read_store(path, *, require_terminal=True):
     """Take one consistent read-only snapshot and check its original journal."""
     uri = Path(path).resolve().as_uri() + "?mode=ro"
     with sqlite3.connect(uri, uri=True) as database:
@@ -57,10 +57,109 @@ def read_store(path):
         record = json.loads(body)
         if expected.get(job) != identity(record) or contracts.get(job) != contract:
             raise ValueError("Stored outcome differs from its original journal")
-        if record.get("job_id") != job or type(record.get("accepted")) is not bool:
+        if record.get("job_id") != job or (
+            require_terminal and type(record.get("accepted")) is not bool
+        ):
             raise ValueError("Settle every terminal outcome before export")
         records.append(record)
     return sorted(records, key=lambda row: row["job_id"]), journal
+
+
+def seal_proposals(root):
+    """Commit every proposal and journal head before any terminal feedback."""
+    root = Path(root)
+    if (root / "held-out-results.json").exists():
+        raise ValueError(
+            "Terminal results already exist; a prior seal cannot be invented"
+        )
+    enrollment = json.loads((root / "test-enrollment.json").read_text())
+    expected, methods = set(enrollment["task_ids"]), {}
+    for method in METHODS:
+        records, events = read_store(
+            root / ("test-" + method + ".sqlite"), require_terminal=False
+        )
+        if (
+            len(records) != len(expected)
+            or {row["task_id"] for row in records} != expected
+        ):
+            raise ValueError("Commit the complete enrolled cohort before sealing")
+        if any(
+            row.get("accepted") is not None or row.get("checker") is not None
+            for row in records
+        ) or any(event["event"]["event"] == "acceptance" for event in events):
+            raise ValueError("Terminal feedback was exposed before the proposal seal")
+        methods[method] = {
+            "journal_events": len(events),
+            "journal_head": events[-1]["sha256"],
+            "proposals": [
+                {
+                    "job_id": row["job_id"],
+                    "task_id": row["task_id"],
+                    "ungraded_record_sha256": identity(row),
+                    "code_sha256": hashlib.sha256(row["code"].encode()).hexdigest(),
+                }
+                for row in records
+            ],
+        }
+    return {
+        "schema": "nuria.navigation-proposal-commitment.v1",
+        "enrollment_sha256": identity(enrollment),
+        "methods": methods,
+        "before_terminal_feedback": True,
+    }
+
+
+def verify_proposals(package):
+    package = Path(package)
+    seal = json.loads((package / "proposal-commitment-before-grading.json").read_text())
+    enrollment = json.loads((package / "test-enrollment.json").read_text())
+    if identity(enrollment) != seal["enrollment_sha256"] or set(seal["methods"]) != set(
+        METHODS
+    ):
+        raise ValueError("Proposal seal belongs to another enrollment")
+    records = read_rows(package / "executions.jsonl.gz")
+    events = read_rows(package / "journal-events.jsonl.gz")
+    total = 0
+    for method in METHODS:
+        fixed = seal["methods"][method]
+        actual = {row["job_id"]: row for row in records if row["method"] == method}
+        if len(actual) != len(fixed["proposals"]) or set(actual) != {
+            row["job_id"] for row in fixed["proposals"]
+        }:
+            raise ValueError("Proposal seal omits or duplicates work")
+        for item in fixed["proposals"]:
+            row = dict(actual[item["job_id"]])
+            row.update({"accepted": None, "checker": None})
+            if (
+                identity(row) != item["ungraded_record_sha256"]
+                or hashlib.sha256(row["code"].encode()).hexdigest()
+                != item["code_sha256"]
+            ):
+                raise ValueError(
+                    "A program or its evidence changed after the public proposal seal"
+                )
+            total += 1
+        prefix = sorted(
+            (
+                event
+                for event in events
+                if event["method"] == method and event["seq"] <= fixed["journal_events"]
+            ),
+            key=lambda event: event["seq"],
+        )
+        previous = "0" * 64
+        for expected_seq, event in enumerate(prefix, 1):
+            if (
+                event["seq"] != expected_seq
+                or event["previous"] != previous
+                or event["sha256"]
+                != identity({"previous": previous, "event": event["event"]})
+            ):
+                raise ValueError("The pre-feedback proposal journal changed")
+            previous = event["sha256"]
+        if len(prefix) != fixed["journal_events"] or previous != fixed["journal_head"]:
+            raise ValueError("The pre-feedback proposal journal is incomplete")
+    return {"sealed_proposals_verified": total}
 
 
 def check_public(text):
@@ -89,6 +188,36 @@ def json_bytes(value):
 def compressed_rows(rows):
     text = "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows)
     return gzip.compress(text.encode(), mtime=0)
+
+
+def redact_terminal_paths(records):
+    """Keep private exact records; disclose path-only changes to terminal logs.
+
+    Terminal diagnostics are outside the pre-feedback proposal commitment. Code,
+    model requests, outcomes and enrolled acceptance checks remain unchanged.
+    """
+    public = json.loads(json.dumps(records))
+    redactions = []
+    for original, row in zip(records, public, strict=True):
+        checker = row.get("checker") or {}
+        text = checker.get("stderr", "")
+        changed, count = re.subn(r"/Users/[^\s\"'<>]+", "<private-path>", text)
+        if count:
+            checker["stderr"] = changed
+            checker["stderr_original_sha256"] = hashlib.sha256(
+                text.encode()
+            ).hexdigest()
+            redactions.append(
+                {
+                    "method": row["method"],
+                    "job_id": row["job_id"],
+                    "original_result_sha256": identity(original),
+                    "public_result_sha256": identity(row),
+                    "field": "checker.stderr",
+                    "operator_paths_redacted": count,
+                }
+            )
+    return public, redactions
 
 
 def transcripts(root):
@@ -137,7 +266,8 @@ def package(root, output, *, maximum_bytes=16 * 1024 * 1024):
             raise ValueError("A method omits or duplicates an enrolled task")
         records.extend(rows)
         journal.extend({"method": method, **event} for event in events)
-    files = {}
+    records, redactions = redact_terminal_paths(records)
+    files = {"terminal-diagnostic-redactions.json": json_bytes(redactions)}
     for name in ("tasks.jsonl.gz", "upstream-tasks.jsonl.gz"):
         rows = read_rows(root / name)
         files[name] = compressed_rows(rows)
@@ -158,6 +288,7 @@ def package(root, output, *, maximum_bytes=16 * 1024 * 1024):
         "execution-source-before-test.json",
         "execution-source-before-test.zip",
         "public-primary-freeze.json",
+        "proposal-commitment-before-grading.json",
     ):
         path = root / name
         if path.exists():
@@ -179,6 +310,7 @@ def package(root, output, *, maximum_bytes=16 * 1024 * 1024):
     for name, data in files.items():
         (output / name).write_bytes(data)
     checked = verify(output)
+    commitments = verify_proposals(output)
     report = {
         "schema": "nuria.navigation-export.v1",
         "tasks_per_method": len(expected),
@@ -187,6 +319,7 @@ def package(root, output, *, maximum_bytes=16 * 1024 * 1024):
         "journal_events": len(journal),
         "payload_bytes": total,
         "verification": checked,
+        "proposal_commitments": commitments,
         "files": {
             name: hashlib.sha256(data).hexdigest()
             for name, data in sorted(files.items())
@@ -194,6 +327,10 @@ def package(root, output, *, maximum_bytes=16 * 1024 * 1024):
         "model_calls": 0,
         "native_program_replays": 0,
         "provider_cost_basis": "Configured token accounting, not an independently reconciled provider invoice",
+        "terminal_diagnostics": {
+            "path_redacted_records": len(redactions),
+            "original_acceptance_event_hashes": "Refer to private exact records; original diagnostic hashes and changed public record hashes are disclosed. Proposal commitments and native acceptance remain independently verifiable.",
+        },
     }
     (output / "export.json").write_bytes(json_bytes(report))
     return report
@@ -202,9 +339,30 @@ def package(root, output, *, maximum_bytes=16 * 1024 * 1024):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path)
-    parser.add_argument("output", type=Path)
+    parser.add_argument("output", type=Path, nargs="?")
+    action = parser.add_mutually_exclusive_group()
+    action.add_argument("--seal-proposals", action="store_true")
+    action.add_argument("--verify-proposals", action="store_true")
     args = parser.parse_args()
-    print(json.dumps(package(args.root, args.output), sort_keys=True))
+    if args.verify_proposals:
+        print(json.dumps(verify_proposals(args.root), sort_keys=True))
+    elif args.output is None:
+        parser.error("Sealing or exporting needs an explicit output path")
+    elif args.seal_proposals:
+        result = seal_proposals(args.root)
+        with args.output.open("xb") as stream:
+            stream.write(json_bytes(result))
+        print(
+            json.dumps(
+                {
+                    "sealed_proposals": sum(
+                        len(value["proposals"]) for value in result["methods"].values()
+                    )
+                }
+            )
+        )
+    else:
+        print(json.dumps(package(args.root, args.output), sort_keys=True))
 
 
 if __name__ == "__main__":

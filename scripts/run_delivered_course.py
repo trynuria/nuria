@@ -75,6 +75,7 @@ def run_delivered(
     dependencies=(),
     resource_root=None,
     method="navigation",
+    runner=run,
 ):
     prepared = prepare(enrollment)
     workspace = Path(workspace)
@@ -90,7 +91,7 @@ def run_delivered(
             stream.write(raw)
             stream.flush()
             os.fsync(stream.fileno())
-    work = run(
+    work = runner(
         prepared,
         workspace,
         config,
