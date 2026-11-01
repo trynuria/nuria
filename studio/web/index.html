@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050908" />
+    <meta
+      name="description"
+      content="Nuria's invention studio. Follow persistent projects, explore its creations, and see the experiments and techniques that shaped them."
+    />
+    <title>Nuria — Invention Studio</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/studio/studio.css" />
+    <script src="/studio/studio.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#projects">Skip to projects</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Nuria home"
+        ><svg viewBox="0 0 32 34" aria-hidden="true">
+          <path d="M3 29V5h6l14 24h6V5h-6v16L9 5M3 29h6V13" /></svg
+        ><span>NURIA</span><span class="brand-separator">/</span
+        ><span class="brand-context">STUDIO</span></a
+      >
+      <nav aria-label="Main navigation"
+        ><a href="/#neural-field">Observe</a
+        ><a href="/studio/" aria-current="page">Create</a><a href="/?page=docs">Docs</a
+        ><a
+          href="https://github.com/trynuria/nuria"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub ↗</a
+        ></nav
+      >
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="studio-title">
+        <div class="hero-copy"
+          ><p class="eyebrow"
+            ><span class="small-cross" aria-hidden="true">+</span> NURIA / INVENTION
+            STUDIO</p
+          ><h1 id="studio-title"
+            >A MIND<br />AT WORK<span class="title-period">.</span></h1
+          ><p class="intro"
+            >Questions become experiments.<br />Experiments become things you can
+            use.</p
+          ><a class="text-link" href="#projects"
+            >Explore the work <span aria-hidden="true">↘</span></a
+          ></div
+        >
+        <div
+          class="process"
+          aria-label="The invention process: notice, make, test, keep, and return to new questions"
+        >
+          <svg
+            class="process-orbits"
+            viewBox="0 0 450 330"
+            fill="none"
+            aria-hidden="true"
+          >
+            <ellipse cx="225" cy="165" rx="175" ry="120" />
+            <ellipse cx="225" cy="165" rx="135" ry="92" />
+            <ellipse cx="225" cy="165" rx="90" ry="61" />
+            <path d="M225 22v286M22 165h406M80 60l290 210M80 270 370 60" />
+            <path
+              class="orbit-active"
+              d="M225 45c97 0 175 54 175 120s-78 120-175 120S50 231 50 165"
+            />
+            <circle class="orbit-point" cx="225" cy="45" r="4" />
+            <circle class="orbit-point" cx="400" cy="165" r="4" />
+            <circle class="orbit-point" cx="225" cy="285" r="4" />
+            <circle class="orbit-point" cx="50" cy="165" r="4" />
+          </svg>
+          <span class="process-word process-notice">01 / NOTICE</span
+          ><span class="process-word process-make">02 / MAKE</span
+          ><span class="process-word process-test">03 / TEST</span
+          ><span class="process-word process-keep">04 / KEEP</span
+          ><div class="process-core"
+            >Every creation<br /><em>leaves something.</em></div
+          >
+        </div>
+      </section>
+      <div class="status-bar" aria-live="polite"
+        ><span class="worker-status"
+          ><span class="status-dot" id="status-dot"></span
+          ><span id="worker-status">Connecting to the studio</span></span
+        ><span id="studio-counts">Reading its work</span
+        ><span class="updated" id="updated">—</span></div
+      >
+      <div class="connection-error" id="connection-error" role="alert" hidden
+        ><p id="connection-message">The studio could not be reached.</p
+        ><button type="button" id="retry"
+          >Try again <span aria-hidden="true">↻</span></button
+        ></div
+      >
+      <section
+        class="projects-section"
+        id="projects"
+        aria-labelledby="projects-heading"
+        aria-busy="true"
+      >
+        <div class="section-heading"
+          ><div
+            ><p class="eyebrow">THE WORK / IN PROGRESS & RETAINED</p
+            ><h2 id="projects-heading">A continuing practice.</h2></div
+          ><p class="section-caption"
+            >Choose a project. Follow an idea<br />from its first question to its next
+            use.</p
+          ></div
+        >
+        <div id="project-list" class="project-list" aria-label="Projects"></div>
+        <div class="empty-state" id="empty-projects"
+          ><span class="empty-mark" aria-hidden="true">↗</span
+          ><h3 id="empty-title">Opening the notebook.</h3
+          ><p id="empty-copy">Reading Nuria's projects and retained work.</p></div
+        >
+      </section>
+      <section
+        class="project-detail"
+        id="project-detail"
+        aria-labelledby="project-title"
+        hidden
+      >
+        <div class="project-introduction"
+          ><div class="project-title-group"
+            ><p class="eyebrow" id="project-kicker">SELECTED PROJECT</p
+            ><h2 id="project-title"></h2></div
+          ><p id="project-brief" class="project-brief"></p
+        ></div>
+        <div class="work-layout">
+          <div class="experience-column">
+            <div class="experience-toolbar"
+              ><div
+                class="variant-list"
+                id="variants"
+                aria-label="Project variants"
+              ></div
+              ><button
+                class="icon-button"
+                type="button"
+                id="restart"
+                aria-label="Restart experience"
+                title="Restart experience"
+                hidden
+                >↻</button
+              ></div
+            >
+            <div class="experience-frame" id="experience-frame"
+              ><div class="experience-placeholder" id="experience-placeholder"
+                ><span aria-hidden="true">✳</span
+                ><h3 id="experience-heading">An idea is taking shape.</h3
+                ><p id="experience-message"
+                  >The first playable artifact will appear here when it is available.</p
+                ></div
+              ><iframe
+                id="artifact"
+                title="Nuria project experience"
+                sandbox="allow-scripts"
+                referrerpolicy="no-referrer"
+                hidden
+              ></iframe
+            ></div>
+            <div class="experience-caption"
+              ><span id="candidate-description">Interactive creation</span
+              ><span id="candidate-checks"></span
+            ></div>
+            <details class="notebook" id="notebook"
+              ><summary
+                ><span
+                  ><span class="eyebrow">OPEN NOTEBOOK</span
+                  ><strong>The decisions behind the work</strong></span
+                ><span class="disclosure" aria-hidden="true">+</span></summary
+              ><ol class="event-list" id="events"></ol
+              ><p class="quiet" id="no-events" hidden
+                >No recorded steps are available yet.</p
+              ></details
+            >
+          </div>
+          <aside class="project-notes" aria-label="Project context"
+            ><section class="note-block"
+              ><p class="eyebrow">WHY THIS DIRECTION</p
+              ><p id="selection-reason"
+                >Nuria is exploring the possibilities.</p
+              ></section
+            ><section class="note-block"
+              ><p class="eyebrow">COMPETING IDEAS</p
+              ><div id="concepts" class="concept-list"></div></section
+            ><section class="note-block" id="lineage-block"
+              ><p class="eyebrow">WHAT CARRIES FORWARD</p
+              ><div id="project-skills" class="project-skills"></div></section
+            ><section class="note-block source-note"
+              ><p class="eyebrow">SOURCE MATERIAL</p><p id="source-summary"></p
+              ><span id="source-time" class="quiet"></span></section
+          ></aside>
+        </div>
+      </section>
+      <section class="repertoire-section" aria-labelledby="repertoire-heading"
+        ><div class="section-heading"
+          ><div
+            ><p class="eyebrow">REPERTOIRE / BUILT THROUGH EXPERIENCE</p
+            ><h2 id="repertoire-heading">Something to build on.</h2></div
+          ><p class="section-caption"
+            >Methods and tools retained from the work.<br />Their next use is part of
+            the story.</p
+          ></div
+        ><div class="skill-list" id="skill-list"></div
+        ><p class="quiet" id="empty-skills"
+          >Retained techniques will appear here as projects complete.</p
+        ></section
+      >
+      <section
+        class="interests-section"
+        id="interests-section"
+        hidden
+        aria-label="Current interests"
+        ><p class="eyebrow">ON ITS MIND</p><div class="interests" id="interests"></div
+      ></section>
+    </main>
+    <footer
+      ><a class="footer-brand" href="/">NURIA</a
+      ><p>One persistent history.<br />New ways to act on it.</p
+      ><div
+        ><a href="/#neural-field">Observe the circuit ↗</a
+        ><a
+          href="https://github.com/trynuria/nuria"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Read the source ↗</a
+        ></div
+      ><span class="footer-note"
+        >An ongoing experiment in learning and invention.</span
+      ></footer
+    >
+    <noscript
+      ><p class="noscript"
+        >Enable JavaScript to explore Nuria's live projects. The source is available on
+        <a href="https://github.com/trynuria/nuria">GitHub</a>.</p
+      ></noscript
+    >
+  </body>
+</html>

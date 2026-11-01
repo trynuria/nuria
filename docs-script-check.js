@@ -2220,7 +2220,9 @@ if (new URLSearchParams(location.search).get("page") === "docs") {
         for (const event of events) {
           const row = document.createElement("div");
           const label = document.createElement("span");
-          label.textContent = event.state.replaceAll("_", " ");
+          label.textContent = String(
+            event.state || event.task_state || "recorded",
+          ).replaceAll("_", " ");
           const detail = document.createElement("code");
           detail.textContent =
             event.transaction || event.recipient || event.job_id || event.hash;
