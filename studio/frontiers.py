@@ -57,6 +57,10 @@ The host executes them, including failures, with a four-second bound. Test an ed
 case and a round trip or reset; do not write self-fulfilling assertions.
 
 The frozen browser journey is exercised in Chromium at desktop and phone widths.
+Engine sequences and browser journeys may each contain up to 24 actions. Browser
+actions wait up to ten seconds for their actual control to become visible/enabled;
+expose the next action when animation has reached its prerequisite. Do not teleport
+actors or skip promised physics just to satisfy an early observation.
 Its controls and result selector must exist and be visible. Clicking/filling must
 change the rendered result. A requested download must yield nonempty bytes.
 The browser reports JavaScript errors, missing resources, overflow, before/after
@@ -173,19 +177,19 @@ def validate_concept(concept):
         values = concept.get(field)
         if (
             not isinstance(values, list)
-            or not 1 <= len(values) <= 12
+            or not 1 <= len(values) <= 24
             or any(
                 not isinstance(v, dict) or not isinstance(v.get("type"), str)
                 for v in values
             )
         ):
-            raise ValueError("Declare bounded, typed engine action sequences")
+            raise ValueError("Declare one to 24 typed engine actions per sequence")
     if concept["engine_actions"] == concept["alternate_actions"]:
         raise ValueError("The alternate action sequence must differ")
     journey = concept.get("journey", {})
     steps = journey.get("steps")
-    if not isinstance(steps, list) or not 1 <= len(steps) <= 8:
-        raise ValueError("Declare one to eight browser actions")
+    if not isinstance(steps, list) or not 1 <= len(steps) <= 24:
+        raise ValueError("Declare one to 24 browser actions")
     for step in steps:
         if (
             step.get("action") not in ("click", "fill", "select", "press")

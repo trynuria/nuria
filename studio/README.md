@@ -105,6 +105,13 @@ files, the installed browser/runtime and a bounded result directory are mounted.
 Chromium has a 32 MB per-file ceiling for its disposable profile; exports remain
 limited to 2 MB. A 4 MB ceiling caused reproducible SIGXFSZ startup failures on
 an SVG world even though the same artifact passed under the bounded 32 MB ceiling.
+Engine cases and browser journeys allow at most 24 actions, so a complete later
+challenge can be exercised without replacing real gameplay with a shortcut.
+Browser actions wait for their actual control to become ready, and an extra
+acceptance journey waits for its expected visible text. Each wait is bounded to
+ten seconds and the whole offline browser check to ninety seconds; CPU, memory,
+task, source and export limits remain separate. State-search palettes retain the
+twelve-action bound and existing state/depth limits.
 
 ## Outcome acceptance and repair
 

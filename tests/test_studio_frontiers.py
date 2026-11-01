@@ -232,6 +232,30 @@ class FrontierTests(unittest.TestCase):
             },
         }
         validate_concept(concept)
+        # A complete second voyage needs more actions than a single demo.
+        extended = {
+            **concept,
+            "engine_actions": [{"type": "step", "value": i} for i in range(24)],
+            "journey": {
+                "steps": [{"action": "click", "selector": "#make"}] * 24,
+                "result": "#result",
+            },
+        }
+        validate_concept(extended)
+        for field in ("engine_actions", "journey"):
+            excessive = (
+                {**extended, field: extended[field] + [{"type": "step"}]}
+                if field == "engine_actions"
+                else {
+                    **extended,
+                    "journey": {
+                        **extended["journey"],
+                        "steps": extended["journey"]["steps"] * 2,
+                    },
+                }
+            )
+            with self.assertRaises(ValueError):
+                validate_concept(excessive)
         for change in (
             {"engine_actions": []},
             {"alternate_actions": concept["engine_actions"]},

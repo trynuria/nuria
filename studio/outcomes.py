@@ -24,7 +24,8 @@ Use 2–6 claims, each with 1–8 assertions. 'case' executes its action sequenc
 Search is bounded to 8 depth / 256 states and never proves facts outside that bound.
 Every assertion uses a path starting state. or metrics. (or sum:[paths] for a sum),
 op eq/ne/gt/gte/lt/lte/includes/finite, and a JSON value except for finite.
-Actions are bounded to 12; use at most one search claim to keep checks cheap.
+Case sequences allow up to 24 actions. Search palettes allow at most 12 actions;
+use at most one search claim to keep checks cheap.
 The optional extra browser journey must verify a meaningful additional outcome
 using actual DOM selectors and literal displayed text; omit it if unnecessary.
 These criteria are frozen before repair; the builder cannot rewrite them.
@@ -53,13 +54,13 @@ def validate_challenge(value):
         actions, expected = claim.get("actions"), claim.get("expect")
         if (
             not isinstance(actions, list)
-            or not 1 <= len(actions) <= 12
+            or not 1 <= len(actions) <= (24 if claim["kind"] == "case" else 12)
             or any(
                 not isinstance(a, dict) or not isinstance(a.get("type"), str)
                 for a in actions
             )
         ):
-            raise ValueError("Declare one to twelve typed actions")
+            raise ValueError("Declare up to 24 typed case actions or 12 search actions")
         if not isinstance(expected, list) or not 1 <= len(expected) <= 8:
             raise ValueError("Each claim needs one to eight assertions")
         for assertion in expected:

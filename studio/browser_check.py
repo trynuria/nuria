@@ -106,7 +106,7 @@ def main():
 
                 context.route("**/*", route)
                 page = context.new_page()
-                page.set_default_timeout(2500)
+                page.set_default_timeout(10000)
                 page.on(
                     "pageerror", lambda error: report["errors"].append(str(error)[:700])
                 )
@@ -124,7 +124,8 @@ def main():
                 actions = []
                 for step in journey["steps"]:
                     target = page.locator(step["selector"])
-                    if target.count() != 1 or not target.is_visible():
+                    target.wait_for(state="visible")
+                    if target.count() != 1:
                         raise ValueError(
                             "Action needs one visible control: " + step["selector"]
                         )
@@ -147,9 +148,18 @@ def main():
                             "completed": True,
                         }
                     )
+                expected = journey.get("contains")
+                if expected is not None:
+                    page.wait_for_function(
+                        """({selector,text}) => {
+                            const nodes=document.querySelectorAll(selector);
+                            const normalize=s=>s.replace(/\\s+/g,' ').trim().toLowerCase();
+                            return nodes.length===1 && normalize(nodes[0].innerText||'').includes(normalize(text));
+                        }""",
+                        arg={"selector": journey["result"], "text": expected},
+                    )
                 after = observation(page, journey["result"])
                 changed = before != after
-                expected = journey.get("contains")
                 matched = expected is None or " ".join(
                     expected.casefold().split()
                 ) in " ".join(after["text"].casefold().split())

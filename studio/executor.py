@@ -257,7 +257,7 @@ def _browser_check_once(directory, runtime):
             command,
             capture_output=True,
             text=True,
-            timeout=40,
+            timeout=90,
             preexec_fn=browser_limits,
             env={"PATH": "/usr/bin:/bin"},
         )
