@@ -115,7 +115,10 @@ class FrontierTests(unittest.TestCase):
                 "ask",
                 return_value={
                     "title": "Deeper Law Garden",
-                    "concepts": [concept, concept],
+                    "concepts": [
+                        {**concept, "mechanism": {"laws": ["conserved", "reversible"]}},
+                        concept,
+                    ],
                     "use_skill": None,
                 },
             ):
@@ -130,6 +133,10 @@ class FrontierTests(unittest.TestCase):
                     concept["journey"],
                 )
             self.assertEqual(child["development_base"]["project"], parent["id"])
+            self.assertEqual(
+                json.loads(child["concepts"][0]["mechanism"]),
+                {"laws": ["conserved", "reversible"]},
+            )
             self.assertEqual(len(child["development_base"]["source_sha256"]), 6)
             self.assertTrue(child["acceptance_required"])
 

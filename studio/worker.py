@@ -418,6 +418,15 @@ class Campaign:
         if modern and not invalid:
             try:
                 for concept in value["concepts"]:
+                    # Rich rule descriptions are prose data, not executable
+                    # contract fields. Preserve them without buying a rewrite.
+                    if (
+                        isinstance(concept.get("mechanism"), (dict, list))
+                        and concept["mechanism"]
+                    ):
+                        concept["mechanism"] = json.dumps(
+                            concept["mechanism"], ensure_ascii=False
+                        )
                     validate_concept(concept)
                 if len(json.dumps(value).encode()) > 20000:
                     raise ValueError("Keep the plan under 20 KB")
