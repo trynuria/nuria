@@ -2,9 +2,11 @@
 
 import copy
 import json
+import sqlite3
 import unittest
 import uuid
 from pathlib import Path
+from unittest.mock import patch
 
 from cognition.experience_navigation import VERSION
 from cognition.outcome_worker import OutcomeStore, identity
@@ -108,6 +110,36 @@ class ReasonerEvidenceTests(unittest.TestCase):
             self.events,
             [],
         )
+
+    def test_read_only_snapshot_closes_on_success_and_query_failure(self):
+        original_connect = sqlite3.connect
+        opened = []
+
+        class TrackedConnection(sqlite3.Connection):
+            closed = False
+
+            def close(self):
+                self.closed = True
+                super().close()
+
+        def connect(*args, **kwargs):
+            database = original_connect(*args, **kwargs, factory=TrackedConnection)
+            opened.append(database)
+            return database
+
+        empty = self.root / "empty.sqlite"
+        empty.touch()
+        with patch(
+            "scripts.package_experience_navigation.sqlite3.connect", side_effect=connect
+        ):
+            read_store(self.root / "sol-low.sqlite")
+            with self.assertRaises(sqlite3.OperationalError):
+                read_store(empty)
+        self.assertEqual(len(opened), 2)
+        self.assertTrue(all(database.closed for database in opened))
+        for database in opened:
+            with self.assertRaises(sqlite3.ProgrammingError):
+                database.execute("SELECT 1")
 
     def test_changed_program_and_missing_arm_refuse(self):
         changed = copy.deepcopy(self.records)
