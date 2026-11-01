@@ -777,7 +777,11 @@ class Campaign:
                 + p["verification"]["summary"]
             )[:1500]
         memory["lessons"] = (
-            [x for x in memory["lessons"] if x["project"] != p["id"]]
+            [
+                x
+                for x in memory["lessons"]
+                if x["project"] != p["id"] or x.get("source") == "operator"
+            ]
             + [{"project": p["id"], "lesson": lesson}]
         )[-12:]
         self.store.put("meta", "taste", memory)

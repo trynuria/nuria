@@ -100,6 +100,52 @@ class StudioTests(unittest.TestCase):
         write_files(self.root / "work", {"engine.js": "const a=1;"})
         self.assertTrue((self.root / "work/engine.js").exists())
 
+    def test_feedback_survives_a_worker_step_and_cannot_rewind_progress(self):
+        worker, operator = Store(self.root), Store(self.root)
+        self.addCleanup(worker.db.close)
+        self.addCleanup(operator.db.close)
+        project = {"id": "invention-001", "status": "building"}
+        worker.save(project, "began", "Starting work")
+        stale_operator = operator.get("projects", project["id"])
+        project["status"] = "reviewing"
+        worker.save(project, "prototype", "Built the tool")
+        operator.save(stale_operator, "operator_feedback", "Test a new real input")
+        self.assertEqual(stale_operator["status"], "reviewing")
+        project["status"] = "challenging"
+        worker.save(project, "selected", "Ready for acceptance")
+        worker.save(project)
+        final = operator.get("projects", project["id"])
+        self.assertEqual(final["status"], "challenging")
+        feedback = [e for e in final["events"] if e["kind"] == "operator_feedback"]
+        self.assertEqual(len(feedback), 1)
+        self.assertEqual(feedback[0]["summary"], "Test a new real input")
+        self.assertEqual(
+            json.loads((self.root / "projects/invention-001/project.json").read_text()),
+            final,
+        )
+
+    def test_retention_preserves_owner_lessons(self):
+        campaign = Campaign(self.root, Client(), "/usr/bin/node")
+        self.addCleanup(campaign.store.db.close)
+        with patch("studio.worker.capture", return_value={}):
+            project = campaign.project("Build a useful tool")
+        directory = campaign.directory(project, "a")
+        directory.mkdir(parents=True, exist_ok=True)
+        (directory / "engine.js").write_text("retained tool")
+        project.update(
+            candidates=[{"id": "a", "status": "tested", "checks": {"passed": True}}],
+            selected="a",
+            review={"lesson": "Critic observation"},
+        )
+        owner_lesson = {
+            "project": project["id"],
+            "lesson": "Owner observation",
+            "source": "operator",
+        }
+        campaign.store.put("meta", "taste", {"lessons": [owner_lesson]})
+        campaign.retain(project)
+        self.assertIn(owner_lesson, campaign.store.get("meta", "taste")["lessons"])
+
     def test_rejected_model_write_is_feedback_instead_of_restart_loop(self):
         campaign = Campaign(self.root, Client(), "/usr/bin/node")
         self.addCleanup(campaign.store.db.close)

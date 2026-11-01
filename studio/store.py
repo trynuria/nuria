@@ -72,13 +72,34 @@ class Store:
         )
 
     def save(self, project, kind=None, summary=None):
-        project["updated_at"] = now()
-        if kind:
-            project.setdefault("events", []).append(
-                {"at": now(), "kind": kind, "summary": summary}
+        # An inference step can hold an old project while the operator adds
+        # feedback. Serialize the merge so neither writer erases the other.
+        with self.db:
+            self.db.execute("BEGIN IMMEDIATE")
+            current = self.get("projects", project["id"])
+            if current:
+                if kind == "operator_feedback":
+                    project.clear()
+                    project.update(current)
+                else:
+                    events = project.setdefault("events", [])
+                    for event in current.get("events", []):
+                        if (
+                            event.get("kind") == "operator_feedback"
+                            and event not in events
+                        ):
+                            events.append(event)
+                    events.sort(key=lambda event: event["at"])
+            project["updated_at"] = now()
+            if kind:
+                project.setdefault("events", []).append(
+                    {"at": now(), "kind": kind, "summary": summary}
+                )
+            self.db.execute(
+                "INSERT OR REPLACE INTO projects VALUES (?,?)",
+                (project["id"], json.dumps(project)),
             )
-        self.put("projects", project["id"], project)
-        atomic(self.root / "projects" / project["id"] / "project.json", project)
+            atomic(self.root / "projects" / project["id"] / "project.json", project)
 
     def call(self, client, call_id, messages, tokens=8192):
         request = {"messages": messages, "max_tokens": tokens}

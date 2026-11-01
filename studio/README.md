@@ -81,6 +81,8 @@ existing private operator access. Pause applies after the current bounded step.
 Manual briefs use the same allowance and do not create a new budget.
 The critic also receives the two latest operator observations on that project,
 so a selection can account for concrete user feedback alongside execution evidence.
+Feedback merges with concurrent worker progress and remains in the lesson memory
+after retention; a late model response cannot erase it or rewind the project.
 
 `focus "a sustained creative brief" --frontier world` switches subsequent automatic
 work to one continuing invention. Each round develops two competing improvements
