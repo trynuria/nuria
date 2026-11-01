@@ -1,0 +1,18 @@
+{
+  "commit-activity": {
+    "function_contract": "Implement task_func(data=None). With no argument load inputs/commits.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Deduplicate commit records by SHA. Return head, unique_commits, committer_days sorted by UTC day, different_author_and_committer_times and evidence=\"captured_git_commit_metadata\". Each committer_days entry has day, commits and merges. Use the committer timestamp (UTC ISO date prefix), not author time, for each day. A merge has more than one parent. Count author/committer timestamp strings that differ exactly.",
+    "profile_id": "commit-activity"
+  },
+  "component-ancestry": {
+    "function_contract": "Implement task_func(data=None). With no argument load inputs/ancestry.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Follow Git parent links from head. Return head, graph_nodes, sorted unobserved_parent_ids, components sorted by component name, direct_service_health=\"unknown\" and evidence=\"observed_git_ancestry_only\". Each component result has component, reported_commit, reachable and minimum_parent_hops. A missing component commit means reachable=None and hops=None. If a commit is reached, reachable=True with the minimum observed parent hops. An unreached commit is False only if the entire reachable graph has no missing parent records; otherwise it is None. A reached parent ID can prove ancestry even if its own record is absent. Git ancestry is not service health.",
+    "profile_id": "component-ancestry"
+  },
+  "pull-requests": {
+    "function_contract": "Implement task_func(data=None). With no argument load inputs/pulls.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Summarize all pull_requests as total and sorted PR-number lists merged, open, closed_unmerged, open_drafts. A non-null merge timestamp means merged. Otherwise use the open/closed state. open_drafts contains only open requests with draft exactly True. Include evidence=\"captured_public_pull_requests\". Do not infer merged status merely from closed state.",
+    "profile_id": "pull-requests"
+  },
+  "reported-ci": {
+    "function_contract": "Implement task_func(data=None). With no argument load inputs/checks.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. For each labelled head choose the latest observed workflow run matching that exact SHA by updated timestamp then numeric run ID. Return heads (mapping labels to head, latest_observed_run_id or None, reported_ci), observed_runs, total_reported_runs, coverage=\"observed_runs_only\", direct_service_health=\"unknown\". reported_ci is passed only for a completed success; failed only for completed failure, timed_out or action_required; all other or missing evidence is unknown. Do not infer a result from a different commit or from records outside this observed snapshot.",
+    "profile_id": "reported-ci"
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "actual_source_counts": {
+    "graph_commits": 142,
+    "pull_requests": 25,
+    "workflow_runs_observed": 30,
+    "workflow_runs_total_reported": 180
+  },
+  "completed_utc": "2026-11-01T06:10:34.427923+00:00",
+  "component_reports": "Retained historical API reports from origin enrollment; no new direct service-health claim.",
+  "conventional_superiority_established": false,
+  "counts": {
+    "independent_conventional_exact_program": 4,
+    "retained_accepted_program": 4,
+    "stale_answer_diagnostic": 0
+  },
+  "identical_replay": [
+    {
+      "delivery_replayed": true,
+      "journal_byte_identical": true,
+      "kind": "pull-requests",
+      "new_executions": 0,
+      "replayed": true
+    },
+    {
+      "delivery_replayed": true,
+      "journal_byte_identical": true,
+      "kind": "commit-activity",
+      "new_executions": 0,
+      "replayed": true
+    },
+    {
+      "delivery_replayed": true,
+      "journal_byte_identical": true,
+      "kind": "component-ancestry",
+      "new_executions": 0,
+      "replayed": true
+    },
+    {
+      "delivery_replayed": true,
+      "journal_byte_identical": true,
+      "kind": "reported-ci",
+      "new_executions": 0,
+      "replayed": true
+    }
+  ],
+  "jobs_per_method": 4,
+  "model_or_neural_superiority_established": false,
+  "new_configured_micro_usd": 0,
+  "new_provider_requests": 0,
+  "observations": [
+    {
+      "observed_utc": "2026-11-01T06:08:44.469055+00:00",
+      "source_url": "https://api.github.com/repos/trynuria/nuria/pulls?state=all&per_page=100"
+    },
+    {
+      "observed_utc": "2026-11-01T06:08:44.557950+00:00",
+      "source_url": "https://api.github.com/repos/trynuria/nuria/commits?sha=4a0b33fec98321c889c1cb28b3aead3674a2c452&per_page=100&page=1"
+    },
+    {
+      "observed_utc": "2026-11-01T06:08:44.418602+00:00",
+      "source_url": "https://api.github.com/repos/trynuria/nuria/commits?sha=4a0b33fec98321c889c1cb28b3aead3674a2c452&per_page=100&page=2"
+    },
+    {
+      "observed_utc": "2026-11-01T06:08:45.262530+00:00",
+      "source_url": "https://api.github.com/repos/trynuria/nuria/actions/runs?per_page=30"
+    },
+    {
+      "observed_utc": "2026-11-01T06:08:44.940152+00:00",
+      "source_url": "https://api.github.com/repos/trynuria/nuria/commits/main"
+    }
+  ],
+  "origin_database_byte_identical": true,
+  "production_activated": false,
+  "rows": [
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.052597332978621125,
+      "kind": "pull-requests",
+      "method": "retained_accepted_program",
+      "model_calls": 0,
+      "program_sha256": "1cba358423cd2980e73ce4bfae6b5f2c1c0492abd3b683c2dd611216b36d3b5b",
+      "result_sha256": "5106cd2f35554acdef1d3934a4a256a2a5ed934d49d9b0aaac42a7f55de34e92"
+    },
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.050838499795645475,
+      "kind": "pull-requests",
+      "method": "independent_conventional_exact_program",
+      "model_calls": 0,
+      "program_sha256": "9459b25d37dafa21ca1f32e8a2b49f8479ab23749f6bd5820a4b1f263177ee1a",
+      "result_sha256": "6d1d6226a61d47f80adee952976feb61723b18526a035fc27cc3f7bad034ec7b"
+    },
+    {
+      "accepted": false,
+      "delivered": 0,
+      "elapsed_seconds": 0.04663824988529086,
+      "kind": "pull-requests",
+      "method": "stale_answer_diagnostic",
+      "model_calls": 0,
+      "program_sha256": "1eb9798c620e540d95a4f3850059d31b92ab62b27e465e1450eddf5463b7e32d",
+      "result_sha256": "abb1e6dbbc70f8eaf1909ffcedac38176ae21add8ce8803167c1be59eaed132a"
+    },
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.049482166999951005,
+      "kind": "commit-activity",
+      "method": "retained_accepted_program",
+      "model_calls": 0,
+      "program_sha256": "65dcf9e356062bdf5744e8354bc6cb942a7b2489ac42c7236dfd3daec19c0af3",
+      "result_sha256": "2f1b79c85f004173fc7c43b896328aa526636303d46e01c9f406b2cc924a61a5"
+    },
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.0864577500615269,
+      "kind": "commit-activity",
+      "method": "independent_conventional_exact_program",
+      "model_calls": 0,
+      "program_sha256": "57c9f0b79ef97b447dbe1f8ffda35133a49556def3578c1e9da06a7d315c8b97",
+      "result_sha256": "f6e350bf98d5af786d8e467b149d39a405046b509cc8f401508dd91a4715276e"
+    },
+    {
+      "accepted": false,
+      "delivered": 0,
+      "elapsed_seconds": 0.049950874876230955,
+      "kind": "commit-activity",
+      "method": "stale_answer_diagnostic",
+      "model_calls": 0,
+      "program_sha256": "907a331b09c24fb2b6b4b0f504078726bef16f4c08ebe219109eb36482d4726c",
+      "result_sha256": "a82d1df72e905a80d0cd7c98b76fef6c0d0b05b3e71e938b0253b50ce837ca48"
+    },
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.05374266696162522,
+      "kind": "component-ancestry",
+      "method": "retained_accepted_program",
+      "model_calls": 0,
+      "program_sha256": "fc28817e084d6707cb83628874c81483f7da62797030c4e86c83d6dad83783eb",
+      "result_sha256": "45cc6aa63b7fd67f19fb53c8d39c4a27dc9d1ac6849ccd7856702162be03fb24"
+    },
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.04920029197819531,
+      "kind": "component-ancestry",
+      "method": "independent_conventional_exact_program",
+      "model_calls": 0,
+      "program_sha256": "7fbd503342a3fe7e607a540c74bd4d817d6a032bdc813e38249fdb021806b175",
+      "result_sha256": "57e72b2ad4788b8e29ec257ab494cb2334c7e6c32839dfb2eae97b04d40c9551"
+    },
+    {
+      "accepted": false,
+      "delivered": 0,
+      "elapsed_seconds": 0.048917749896645546,
+      "kind": "component-ancestry",
+      "method": "stale_answer_diagnostic",
+      "model_calls": 0,
+      "program_sha256": "1aa3578c53c3d5712e9408917fbd513ae9bbfea2fd9262c7fd8b7c31e304bd93",
+      "result_sha256": "1d5e7019da52b8118096127a1cb17107baf1306f20329347a63d226c9d407c48"
+    },
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.05328649980947375,
+      "kind": "reported-ci",
+      "method": "retained_accepted_program",
+      "model_calls": 0,
+      "program_sha256": "72ba93501c1e9b25132c7dad23ee0907b8017a8174c09c2f3b3de6a2208995b7",
+      "result_sha256": "2763a775c78e80ebf1da2b6735c88318bd09ded1f221ab80f37b9e6a54713f8d"
+    },
+    {
+      "accepted": true,
+      "delivered": 1,
+      "elapsed_seconds": 0.08562541613355279,
+      "kind": "reported-ci",
+      "method": "independent_conventional_exact_program",
+      "model_calls": 0,
+      "program_sha256": "b1b0e625556f776f33862ae81f061e33b5cc113fe8996d28ebb95387f5a12dd5",
+      "result_sha256": "a19abe9c4a96bf363333a9b3a47fc0cc1f04ec8c6dac86d167d8be432609699a"
+    },
+    {
+      "accepted": false,
+      "delivered": 0,
+      "elapsed_seconds": 0.048713959055021405,
+      "kind": "reported-ci",
+      "method": "stale_answer_diagnostic",
+      "model_calls": 0,
+      "program_sha256": "81ed9ec88e2b42ee0b1f1fd8587112f80a128d19ad83cbc87e0138877b4e4bbe",
+      "result_sha256": "3d5a95b6932e9e7e0a91fb16e961b7b86178b928e5737aa1f32edb7eaf692e7b"
+    }
+  ]
+}

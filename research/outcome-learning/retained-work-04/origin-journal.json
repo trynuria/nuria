@@ -1,0 +1,301 @@
+{
+  "records": [
+    {
+      "accepted": true,
+      "attempts": [
+        {
+          "proposal": {
+            "checks": "import os\nimport tempfile\n\noriginal_directory = os.getcwd()\nwith tempfile.TemporaryDirectory() as directory:\n    try:\n        os.chdir(directory)\n        first = {\"sha\": \"a\", \"authored_at\": \"2025-01-01T23:00:00Z\", \"committed_at\": \"2025-01-03T00:00:00Z\", \"parent_shas\": [\"b\", \"c\"]}\n        second = {\"sha\": \"b\", \"authored_at\": \"2025-01-02T00:00:00Z\", \"committed_at\": \"2025-01-02T00:00:00Z\", \"parent_shas\": []}\n        data = {\"head\": \"a\", \"commits\": [first, second, dict(first)]}\n        expected = {\n            \"head\": \"a\", \"unique_commits\": 2,\n            \"committer_days\": [\n                {\"day\": \"2025-01-02\", \"commits\": 1, \"merges\": 0},\n                {\"day\": \"2025-01-03\", \"commits\": 1, \"merges\": 1},\n            ],\n            \"different_author_and_committer_times\": 1,\n            \"evidence\": \"captured_git_commit_metadata\",\n        }\n        assert task_func(data) == expected\n        with open(\"report.json\", encoding=\"utf-8\") as handle:\n            assert json.load(handle) == expected\n        os.mkdir(\"inputs\")\n        with open(\"inputs/commits.json\", \"w\", encoding=\"utf-8\") as handle:\n            json.dump({\"head\": \"empty\", \"commits\": []}, handle)\n        empty = task_func()\n        assert empty == {\"head\": \"empty\", \"unique_commits\": 0, \"committer_days\": [], \"different_author_and_committer_times\": 0, \"evidence\": \"captured_git_commit_metadata\"}\n        with open(\"report.json\", encoding=\"utf-8\") as handle:\n            assert json.load(handle) == empty\n    finally:\n        os.chdir(original_directory)\n",
+            "code": "import json\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/commits.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    seen = set()\n    days = {}\n    different_times = 0\n    for commit in data[\"commits\"]:\n        sha = commit[\"sha\"]\n        if sha in seen:\n            continue\n        seen.add(sha)\n\n        day = commit[\"committed_at\"][:10]\n        if day not in days:\n            days[day] = {\"day\": day, \"commits\": 0, \"merges\": 0}\n        days[day][\"commits\"] += 1\n        if len(commit[\"parent_shas\"]) > 1:\n            days[day][\"merges\"] += 1\n        if commit[\"authored_at\"] != commit[\"committed_at\"]:\n            different_times += 1\n\n    report = {\n        \"head\": data[\"head\"],\n        \"unique_commits\": len(seen),\n        \"committer_days\": [days[day] for day in sorted(days)],\n        \"different_author_and_committer_times\": different_times,\n        \"evidence\": \"captured_git_commit_metadata\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+            "lesson": "Deduplicate by the specified identity before aggregating, and keep timestamp-string comparison separate from date grouping."
+          },
+          "response_sha256": "b4006680bdf6b9642a2b6020af17ad634a3a6de940527c881c07ec56211cbc17",
+          "smoke": {
+            "checks_sha256": "630f91c537bffbcd2fa668373894260c7812b9459a0b7e8a26a91e089691ed25",
+            "code_sha256": "65dcf9e356062bdf5744e8354bc6cb942a7b2489ac42c7236dfd3daec19c0af3",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "",
+            "timed_out": false,
+            "wall_seconds": 0.092206
+          },
+          "usage": {
+            "completion_tokens": 881,
+            "prompt_tokens": 1796,
+            "reasoning_tokens": 29,
+            "total_tokens": 2677
+          }
+        }
+      ],
+      "checker": {
+        "checks_sha256": "911a909b8a3fd53ae05767f0a1954b6d3db90606ea631637f959dce95a47b910",
+        "code_sha256": "65dcf9e356062bdf5744e8354bc6cb942a7b2489ac42c7236dfd3daec19c0af3",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.052082
+      },
+      "code": "import json\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/commits.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    seen = set()\n    days = {}\n    different_times = 0\n    for commit in data[\"commits\"]:\n        sha = commit[\"sha\"]\n        if sha in seen:\n            continue\n        seen.add(sha)\n\n        day = commit[\"committed_at\"][:10]\n        if day not in days:\n            days[day] = {\"day\": day, \"commits\": 0, \"merges\": 0}\n        days[day][\"commits\"] += 1\n        if len(commit[\"parent_shas\"]) > 1:\n            days[day][\"merges\"] += 1\n        if commit[\"authored_at\"] != commit[\"committed_at\"]:\n            different_times += 1\n\n    report = {\n        \"head\": data[\"head\"],\n        \"unique_commits\": len(seen),\n        \"committer_days\": [days[day] for day in sorted(days)],\n        \"different_author_and_committer_times\": different_times,\n        \"evidence\": \"captured_git_commit_metadata\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+      "experience_ids": [
+        "grounded-pull-requests"
+      ],
+      "family": "schema-grounded-project-work",
+      "job_id": "grounded-commit-activity",
+      "lesson": "Deduplicate by the specified identity before aggregating, and keep timestamp-string comparison separate from date grouping.",
+      "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+      "prompt": "Implement task_func(data=None). With no argument load inputs/commits.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Deduplicate commit records by SHA. Return head, unique_commits, committer_days sorted by UTC day, different_author_and_committer_times and evidence=\"captured_git_commit_metadata\". Each committer_days entry has day, commits and merges. Use the committer timestamp (UTC ISO date prefix), not author time, for each day. A merge has more than one parent. Count author/committer timestamp strings that differ exactly.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 20874, \"complete\": true, \"format\": \"json\", \"limits_reached\": [], \"name\": \"commits.json\", \"nodes_inspected\": 672, \"paths\": [{\"length_range\": [2, 2], \"occurrences\": 1, \"path\": \"$\", \"types\": [\"object\"]}, {\"length_range\": [109, 109], \"occurrences\": 1, \"path\": \"$/commits\", \"types\": [\"array\"]}, {\"length_range\": [4, 4], \"occurrences\": 109, \"path\": \"$/commits/*\", \"types\": [\"object\"]}, {\"occurrences\": 109, \"path\": \"$/commits/*/authored_at\", \"types\": [\"string\"]}, {\"occurrences\": 109, \"path\": \"$/commits/*/committed_at\", \"types\": [\"string\"]}, {\"length_range\": [0, 2], \"occurrences\": 109, \"path\": \"$/commits/*/parent_shas\", \"types\": [\"array\"]}, {\"occurrences\": 124, \"path\": \"$/commits/*/parent_shas/*\", \"types\": [\"string\"]}, {\"occurrences\": 109, \"path\": \"$/commits/*/sha\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/head\", \"types\": [\"string\"]}], \"sha256\": \"1664ff572fccdcb1829d30074b1e28c5f02463e375c3ba045bb01e36afd229e4\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+      "proposal_error": null,
+      "proposed_code_sha256": "ef98d9d526a08dfab598f60aa5f5181ae40df5fe8556b30744e2ea1603cf095a",
+      "replayed": false,
+      "source_sha256": "ddbee434714780aeb67bae3af7a34ef7c6caacbffe8f186a77da6751b273ebf5",
+      "task_id": "nuria/grounded-commit-activity",
+      "version": "nuria.outcome-worker.v1"
+    },
+    {
+      "accepted": true,
+      "attempts": [
+        {
+          "proposal": {
+            "checks": "data = {\n    \"head\": \"h\",\n    \"commits\": [\n        {\"sha\": \"h\", \"parent_shas\": [\"a\", \"b\"]},\n        {\"sha\": \"a\", \"parent_shas\": [\"b\"]},\n        {\"sha\": \"b\", \"parent_shas\": []},\n        {\"sha\": \"x\", \"parent_shas\": [\"not-observed\"]},\n    ],\n    \"reported_components\": {\"z\": \"x\", \"b\": \"b\", \"a\": None, \"head\": \"h\"},\n}\nreport = task_func(data)\nassert report[\"graph_nodes\"] == 4\nassert report[\"unobserved_parent_ids\"] == []\nassert report[\"components\"] == [\n    {\"component\": \"a\", \"reported_commit\": None, \"reachable\": None, \"minimum_parent_hops\": None},\n    {\"component\": \"b\", \"reported_commit\": \"b\", \"reachable\": True, \"minimum_parent_hops\": 1},\n    {\"component\": \"head\", \"reported_commit\": \"h\", \"reachable\": True, \"minimum_parent_hops\": 0},\n    {\"component\": \"z\", \"reported_commit\": \"x\", \"reachable\": False, \"minimum_parent_hops\": None},\n]\nassert report[\"direct_service_health\"] == \"unknown\"\nassert report[\"evidence\"] == \"observed_git_ancestry_only\"\nwith open(\"report.json\", encoding=\"utf-8\") as handle:\n    assert json.load(handle) == report\n\ndata[\"commits\"][2][\"parent_shas\"] = [\"missing\"]\ndata[\"reported_components\"][\"boundary\"] = \"missing\"\nreport = task_func(data)\nassert report[\"unobserved_parent_ids\"] == [\"missing\"]\nby_name = {entry[\"component\"]: entry for entry in report[\"components\"]}\nassert by_name[\"boundary\"][\"reachable\"] is True\nassert by_name[\"boundary\"][\"minimum_parent_hops\"] == 2\nassert by_name[\"z\"][\"reachable\"] is None\nwith open(\"report.json\", encoding=\"utf-8\") as handle:\n    assert json.load(handle) == report\n",
+            "code": "import json\nfrom collections import deque\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/ancestry.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    graph = {commit[\"sha\"]: commit[\"parent_shas\"] for commit in data[\"commits\"]}\n    head = data[\"head\"]\n    distances = {head: 0}\n    queue = deque([head])\n    unobserved = set()\n\n    while queue:\n        sha = queue.popleft()\n        if sha not in graph:\n            unobserved.add(sha)\n            continue\n        for parent in graph[sha]:\n            if parent not in distances:\n                distances[parent] = distances[sha] + 1\n                queue.append(parent)\n\n    components = []\n    for component, commit in sorted(data[\"reported_components\"].items()):\n        if commit is None:\n            reachable = None\n            hops = None\n        elif commit in distances:\n            reachable = True\n            hops = distances[commit]\n        else:\n            reachable = None if unobserved else False\n            hops = None\n        components.append({\n            \"component\": component,\n            \"reported_commit\": commit,\n            \"reachable\": reachable,\n            \"minimum_parent_hops\": hops,\n        })\n\n    report = {\n        \"head\": head,\n        \"graph_nodes\": len(graph),\n        \"unobserved_parent_ids\": sorted(unobserved),\n        \"components\": components,\n        \"direct_service_health\": \"unknown\",\n        \"evidence\": \"observed_git_ancestry_only\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+            "lesson": "Use breadth-first traversal for minimum ancestry distances, and distinguish a reached identifier from an observed record when reasoning about incomplete graphs."
+          },
+          "response_sha256": "fd619d9ad7627408da7cc1a7e634873ab55d185696e619290d6aea07d6900d73",
+          "smoke": {
+            "checks_sha256": "8f35b8a54f7daf34dfe8b104bb6a1f8e6cf945d02fe7fd8c51472a0ce773372e",
+            "code_sha256": "fc28817e084d6707cb83628874c81483f7da62797030c4e86c83d6dad83783eb",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "",
+            "timed_out": false,
+            "wall_seconds": 0.075375
+          },
+          "usage": {
+            "completion_tokens": 1025,
+            "prompt_tokens": 3277,
+            "reasoning_tokens": 40,
+            "total_tokens": 4302
+          }
+        }
+      ],
+      "checker": {
+        "checks_sha256": "296b4db759b366a5cb203f88b25faa46108b5d18ec61c4dc69134f7f24df61a7",
+        "code_sha256": "fc28817e084d6707cb83628874c81483f7da62797030c4e86c83d6dad83783eb",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.061105
+      },
+      "code": "import json\nfrom collections import deque\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/ancestry.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    graph = {commit[\"sha\"]: commit[\"parent_shas\"] for commit in data[\"commits\"]}\n    head = data[\"head\"]\n    distances = {head: 0}\n    queue = deque([head])\n    unobserved = set()\n\n    while queue:\n        sha = queue.popleft()\n        if sha not in graph:\n            unobserved.add(sha)\n            continue\n        for parent in graph[sha]:\n            if parent not in distances:\n                distances[parent] = distances[sha] + 1\n                queue.append(parent)\n\n    components = []\n    for component, commit in sorted(data[\"reported_components\"].items()):\n        if commit is None:\n            reachable = None\n            hops = None\n        elif commit in distances:\n            reachable = True\n            hops = distances[commit]\n        else:\n            reachable = None if unobserved else False\n            hops = None\n        components.append({\n            \"component\": component,\n            \"reported_commit\": commit,\n            \"reachable\": reachable,\n            \"minimum_parent_hops\": hops,\n        })\n\n    report = {\n        \"head\": head,\n        \"graph_nodes\": len(graph),\n        \"unobserved_parent_ids\": sorted(unobserved),\n        \"components\": components,\n        \"direct_service_health\": \"unknown\",\n        \"evidence\": \"observed_git_ancestry_only\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+      "experience_ids": [
+        "grounded-commit-activity",
+        "grounded-pull-requests"
+      ],
+      "family": "schema-grounded-project-work",
+      "job_id": "grounded-component-ancestry",
+      "lesson": "Use breadth-first traversal for minimum ancestry distances, and distinguish a reached identifier from an observed record when reasoning about incomplete graphs.",
+      "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+      "prompt": "Implement task_func(data=None). With no argument load inputs/ancestry.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Follow Git parent links from head. Return head, graph_nodes, sorted unobserved_parent_ids, components sorted by component name, direct_service_health=\"unknown\" and evidence=\"observed_git_ancestry_only\". Each component result has component, reported_commit, reachable and minimum_parent_hops. A missing component commit means reachable=None and hops=None. If a commit is reached, reachable=True with the minimum observed parent hops. An unreached commit is False only if the entire reachable graph has no missing parent records; otherwise it is None. A reached parent ID can prove ancestry even if its own record is absent. Git ancestry is not service health.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 21546, \"complete\": true, \"format\": \"json\", \"limits_reached\": [], \"name\": \"ancestry.json\", \"nodes_inspected\": 685, \"paths\": [{\"length_range\": [3, 3], \"occurrences\": 1, \"path\": \"$\", \"types\": [\"object\"]}, {\"length_range\": [109, 109], \"occurrences\": 1, \"path\": \"$/commits\", \"types\": [\"array\"]}, {\"length_range\": [4, 4], \"occurrences\": 109, \"path\": \"$/commits/*\", \"types\": [\"object\"]}, {\"occurrences\": 109, \"path\": \"$/commits/*/authored_at\", \"types\": [\"string\"]}, {\"occurrences\": 109, \"path\": \"$/commits/*/committed_at\", \"types\": [\"string\"]}, {\"length_range\": [0, 2], \"occurrences\": 109, \"path\": \"$/commits/*/parent_shas\", \"types\": [\"array\"]}, {\"occurrences\": 124, \"path\": \"$/commits/*/parent_shas/*\", \"types\": [\"string\"]}, {\"occurrences\": 109, \"path\": \"$/commits/*/sha\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/head\", \"types\": [\"string\"]}, {\"length_range\": [12, 12], \"occurrences\": 1, \"path\": \"$/reported_components\", \"types\": [\"object\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/api\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/backup\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/cognition\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/commerce\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/commerce_observer\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/custody_signer\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/discovery\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/ingestion\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/observatory\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/original_engine\", \"types\": [\"null\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/receipt_verifier\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/reported_components/treasury_observer\", \"types\": [\"string\"]}], \"sha256\": \"02ea62407192f5e0d643756c3913ce4f640c5c7fc26b677ce15f34966f97117b\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+      "proposal_error": null,
+      "proposed_code_sha256": "e1ae7026db82cccce35785cd4acb96ac24f36b33487a749ceab7c25617d1e128",
+      "replayed": false,
+      "source_sha256": "0d518259ae7ff4ff1c5edc0383c167365a6830cb0b7d62d8f75b29801fba1cef",
+      "task_id": "nuria/grounded-component-ancestry",
+      "version": "nuria.outcome-worker.v1"
+    },
+    {
+      "accepted": true,
+      "attempts": [
+        {
+          "proposal": {
+            "checks": "import os\nimport tempfile\n\noriginal_directory = os.getcwd()\nwith tempfile.TemporaryDirectory() as directory:\n    try:\n        os.chdir(directory)\n        sample = {\"pull_requests\": [\n            {\"number\": 9, \"merged_at\": None, \"state\": \"closed\", \"draft\": False},\n            {\"number\": 7, \"merged_at\": \"2025-01-01T00:00:00Z\", \"state\": \"closed\", \"draft\": True},\n            {\"number\": 5, \"merged_at\": None, \"state\": \"open\", \"draft\": True},\n            {\"number\": 2, \"merged_at\": None, \"state\": \"open\", \"draft\": False},\n        ]}\n        expected = {\"total\": 4, \"merged\": [7], \"open\": [2, 5], \"closed_unmerged\": [9], \"open_drafts\": [5], \"evidence\": \"captured_public_pull_requests\"}\n        assert task_func(sample) == expected\n        with open(\"report.json\", encoding=\"utf-8\") as handle:\n            assert json.load(handle) == expected\n\n        os.mkdir(\"inputs\")\n        with open(\"inputs/pulls.json\", \"w\", encoding=\"utf-8\") as handle:\n            json.dump({\"pull_requests\": []}, handle)\n        empty = {\"total\": 0, \"merged\": [], \"open\": [], \"closed_unmerged\": [], \"open_drafts\": [], \"evidence\": \"captured_public_pull_requests\"}\n        assert task_func() == empty\n        with open(\"report.json\", encoding=\"utf-8\") as handle:\n            assert json.load(handle) == empty\n    finally:\n        os.chdir(original_directory)\n",
+            "code": "import json\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/pulls.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    requests = data[\"pull_requests\"]\n    report = {\n        \"total\": len(requests),\n        \"merged\": [],\n        \"open\": [],\n        \"closed_unmerged\": [],\n        \"open_drafts\": [],\n        \"evidence\": \"captured_public_pull_requests\",\n    }\n\n    for request in requests:\n        number = request[\"number\"]\n        if request[\"merged_at\"] is not None:\n            report[\"merged\"].append(number)\n        elif request[\"state\"] == \"open\":\n            report[\"open\"].append(number)\n        elif request[\"state\"] == \"closed\":\n            report[\"closed_unmerged\"].append(number)\n\n        if request[\"state\"] == \"open\" and request[\"draft\"] is True:\n            report[\"open_drafts\"].append(number)\n\n    for key in (\"merged\", \"open\", \"closed_unmerged\", \"open_drafts\"):\n        report[key].sort()\n\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n\n    return report\n",
+            "lesson": "Use explicit null and identity checks when the contract distinguishes a recorded merge timestamp and a draft flag from general truthiness; verify both returned data and persisted output."
+          },
+          "response_sha256": "ecd76d87fa4173341352ed330172c374e58599216dcfe8ce084faab3ef7fc9d1",
+          "smoke": {
+            "checks_sha256": "07737c8e0e711b91e2b735b1b9c0ee350ebf5cf8dbc51748fe447883d2e449d0",
+            "code_sha256": "1cba358423cd2980e73ce4bfae6b5f2c1c0492abd3b683c2dd611216b36d3b5b",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "",
+            "timed_out": false,
+            "wall_seconds": 0.091205
+          },
+          "usage": {
+            "completion_tokens": 809,
+            "prompt_tokens": 727,
+            "reasoning_tokens": 54,
+            "total_tokens": 1536
+          }
+        }
+      ],
+      "checker": {
+        "checks_sha256": "3474204afe5b4135d6e2273eb161856e41719aaca4c34e359a6281cfbc817354",
+        "code_sha256": "1cba358423cd2980e73ce4bfae6b5f2c1c0492abd3b683c2dd611216b36d3b5b",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.048352
+      },
+      "code": "import json\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/pulls.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    requests = data[\"pull_requests\"]\n    report = {\n        \"total\": len(requests),\n        \"merged\": [],\n        \"open\": [],\n        \"closed_unmerged\": [],\n        \"open_drafts\": [],\n        \"evidence\": \"captured_public_pull_requests\",\n    }\n\n    for request in requests:\n        number = request[\"number\"]\n        if request[\"merged_at\"] is not None:\n            report[\"merged\"].append(number)\n        elif request[\"state\"] == \"open\":\n            report[\"open\"].append(number)\n        elif request[\"state\"] == \"closed\":\n            report[\"closed_unmerged\"].append(number)\n\n        if request[\"state\"] == \"open\" and request[\"draft\"] is True:\n            report[\"open_drafts\"].append(number)\n\n    for key in (\"merged\", \"open\", \"closed_unmerged\", \"open_drafts\"):\n        report[key].sort()\n\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n\n    return report\n",
+      "experience_ids": [],
+      "family": "schema-grounded-project-work",
+      "job_id": "grounded-pull-requests",
+      "lesson": "Use explicit null and identity checks when the contract distinguishes a recorded merge timestamp and a draft flag from general truthiness; verify both returned data and persisted output.",
+      "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+      "prompt": "Implement task_func(data=None). With no argument load inputs/pulls.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. Summarize all pull_requests as total and sorted PR-number lists merged, open, closed_unmerged, open_drafts. A non-null merge timestamp means merged. Otherwise use the open/closed state. open_drafts contains only open requests with draft exactly True. Include evidence=\"captured_public_pull_requests\". Do not infer merged status merely from closed state.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 3418, \"complete\": true, \"format\": \"json\", \"limits_reached\": [], \"name\": \"pulls.json\", \"nodes_inspected\": 146, \"paths\": [{\"length_range\": [1, 1], \"occurrences\": 1, \"path\": \"$\", \"types\": [\"object\"]}, {\"length_range\": [24, 24], \"occurrences\": 1, \"path\": \"$/pull_requests\", \"types\": [\"array\"]}, {\"length_range\": [5, 5], \"occurrences\": 24, \"path\": \"$/pull_requests/*\", \"types\": [\"object\"]}, {\"occurrences\": 24, \"path\": \"$/pull_requests/*/draft\", \"types\": [\"boolean\"]}, {\"occurrences\": 24, \"path\": \"$/pull_requests/*/merge_commit_sha\", \"types\": [\"string\"]}, {\"occurrences\": 24, \"path\": \"$/pull_requests/*/merged_at\", \"types\": [\"string\"]}, {\"occurrences\": 24, \"path\": \"$/pull_requests/*/number\", \"types\": [\"integer\"]}, {\"occurrences\": 24, \"path\": \"$/pull_requests/*/state\", \"types\": [\"string\"]}], \"sha256\": \"3f476ea65f271a5273a4fe1d05e5371ab437791a741ecc2b85a80e307701d7ea\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+      "proposal_error": null,
+      "proposed_code_sha256": "333ef5a6c199c2c288dd3e614654132760a5119581509095b8763f0110a12455",
+      "replayed": false,
+      "source_sha256": "ab9e04ee5814a0525bfe15560eac157703b2d2a70f806c23e7f8aad0c3d4eddf",
+      "task_id": "nuria/grounded-pull-requests",
+      "version": "nuria.outcome-worker.v1"
+    },
+    {
+      "accepted": true,
+      "attempts": [
+        {
+          "proposal": {
+            "checks": "sample = {\n    \"heads\": {\"main\": \"a\", \"proposed\": \"b\", \"unobserved\": \"c\"},\n    \"total_reported_runs\": 100,\n    \"workflow_runs\": [\n        {\"id\": 99, \"head_sha\": \"a\", \"updated_at\": \"2025-01-01T00:00:00Z\", \"status\": \"completed\", \"conclusion\": \"failure\"},\n        {\"id\": 9, \"head_sha\": \"a\", \"updated_at\": \"2025-01-02T00:00:00Z\", \"status\": \"completed\", \"conclusion\": \"failure\"},\n        {\"id\": 10, \"head_sha\": \"a\", \"updated_at\": \"2025-01-02T01:00:00+01:00\", \"status\": \"completed\", \"conclusion\": \"success\"},\n        {\"id\": 11, \"head_sha\": \"b\", \"updated_at\": \"2025-01-02T00:00:00Z\", \"status\": \"in_progress\", \"conclusion\": \"success\"}\n    ]\n}\nreport = task_func(sample)\nassert report[\"heads\"][\"main\"] == {\"head\": \"a\", \"latest_observed_run_id\": 10, \"reported_ci\": \"passed\"}\nassert report[\"heads\"][\"proposed\"][\"reported_ci\"] == \"unknown\"\nassert report[\"heads\"][\"unobserved\"] == {\"head\": \"c\", \"latest_observed_run_id\": None, \"reported_ci\": \"unknown\"}\nassert report[\"observed_runs\"] == 4\nassert report[\"total_reported_runs\"] == 100\nwith open(\"report.json\", encoding=\"utf-8\") as handle:\n    assert json.load(handle) == report\nfor conclusion in (\"failure\", \"timed_out\", \"action_required\", \"cancelled\", None):\n    sample[\"workflow_runs\"][-1].update(status=\"completed\", conclusion=conclusion)\n    assert task_func(sample)[\"heads\"][\"proposed\"][\"reported_ci\"] == (\"failed\" if conclusion in (\"failure\", \"timed_out\", \"action_required\") else \"unknown\")\nempty = task_func({\"heads\": {\"main\": \"a\"}, \"workflow_runs\": [], \"total_reported_runs\": 20})\nassert empty[\"heads\"][\"main\"][\"latest_observed_run_id\"] is None\nassert empty[\"heads\"][\"main\"][\"reported_ci\"] == \"unknown\"\nassert empty[\"observed_runs\"] == 0\nassert empty[\"coverage\"] == \"observed_runs_only\"\nassert empty[\"direct_service_health\"] == \"unknown\"\nwith open(\"report.json\", encoding=\"utf-8\") as handle:\n    assert json.load(handle) == empty",
+            "code": "import json\nfrom datetime import datetime\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/checks.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    runs = data[\"workflow_runs\"]\n    latest = {}\n    latest_keys = {}\n    for run in runs:\n        sha = run[\"head_sha\"]\n        key = (datetime.fromisoformat(run[\"updated_at\"]), int(run[\"id\"]))\n        if sha not in latest_keys or key > latest_keys[sha]:\n            latest[sha] = run\n            latest_keys[sha] = key\n\n    heads = {}\n    for label, sha in data[\"heads\"].items():\n        run = latest.get(sha)\n        reported_ci = \"unknown\"\n        if run is not None and run[\"status\"] == \"completed\":\n            conclusion = run.get(\"conclusion\")\n            if conclusion == \"success\":\n                reported_ci = \"passed\"\n            elif conclusion in (\"failure\", \"timed_out\", \"action_required\"):\n                reported_ci = \"failed\"\n        heads[label] = {\n            \"head\": sha,\n            \"latest_observed_run_id\": run[\"id\"] if run is not None else None,\n            \"reported_ci\": reported_ci,\n        }\n\n    report = {\n        \"heads\": heads,\n        \"observed_runs\": len(runs),\n        \"total_reported_runs\": data[\"total_reported_runs\"],\n        \"coverage\": \"observed_runs_only\",\n        \"direct_service_health\": \"unknown\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+            "lesson": "Select evidence by exact identity and chronological timestamp with a numeric tie-breaker before interpreting its outcome; keep absent or incomplete evidence unknown."
+          },
+          "response_sha256": "f354265645f21348efdf1a9a9ed33b67e8d2caa1a0fd58be5b0d64dbc4a19bcf",
+          "smoke": {
+            "checks_sha256": "37de620bde27f7804a7db84015daa65bc34eebb2f2e7079680757d35943d58f1",
+            "code_sha256": "72ba93501c1e9b25132c7dad23ee0907b8017a8174c09c2f3b3de6a2208995b7",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "",
+            "timed_out": false,
+            "wall_seconds": 0.048988
+          },
+          "usage": {
+            "completion_tokens": 1140,
+            "prompt_tokens": 2458,
+            "reasoning_tokens": 35,
+            "total_tokens": 3598
+          }
+        }
+      ],
+      "checker": {
+        "checks_sha256": "2180df65f03f7c24db13607ca2a048cc83e8896fc91985870f6586417ddd78d4",
+        "code_sha256": "72ba93501c1e9b25132c7dad23ee0907b8017a8174c09c2f3b3de6a2208995b7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.080362
+      },
+      "code": "import json\nfrom datetime import datetime\n\n\ndef task_func(data=None):\n    if data is None:\n        with open(\"inputs/checks.json\", \"r\", encoding=\"utf-8\") as handle:\n            data = json.load(handle)\n\n    runs = data[\"workflow_runs\"]\n    latest = {}\n    latest_keys = {}\n    for run in runs:\n        sha = run[\"head_sha\"]\n        key = (datetime.fromisoformat(run[\"updated_at\"]), int(run[\"id\"]))\n        if sha not in latest_keys or key > latest_keys[sha]:\n            latest[sha] = run\n            latest_keys[sha] = key\n\n    heads = {}\n    for label, sha in data[\"heads\"].items():\n        run = latest.get(sha)\n        reported_ci = \"unknown\"\n        if run is not None and run[\"status\"] == \"completed\":\n            conclusion = run.get(\"conclusion\")\n            if conclusion == \"success\":\n                reported_ci = \"passed\"\n            elif conclusion in (\"failure\", \"timed_out\", \"action_required\"):\n                reported_ci = \"failed\"\n        heads[label] = {\n            \"head\": sha,\n            \"latest_observed_run_id\": run[\"id\"] if run is not None else None,\n            \"reported_ci\": reported_ci,\n        }\n\n    report = {\n        \"heads\": heads,\n        \"observed_runs\": len(runs),\n        \"total_reported_runs\": data[\"total_reported_runs\"],\n        \"coverage\": \"observed_runs_only\",\n        \"direct_service_health\": \"unknown\",\n    }\n    with open(\"report.json\", \"w\", encoding=\"utf-8\") as handle:\n        json.dump(report, handle)\n    return report\n",
+      "experience_ids": [
+        "grounded-component-ancestry"
+      ],
+      "family": "schema-grounded-project-work",
+      "job_id": "grounded-reported-ci",
+      "lesson": "Select evidence by exact identity and chronological timestamp with a numeric tie-breaker before interpreting its outcome; keep absent or incomplete evidence unknown.",
+      "policy_sha256": "04aa8eb0e693773d09f2c1f90a6c598b55eda71bce4a7baba9f207e9dfc16e56",
+      "prompt": "Implement task_func(data=None). With no argument load inputs/checks.json; otherwise process the supplied mapping. Return the specified report and write the same object to report.json on every call. It must work on another withheld actual source projection as well. For each labelled head choose the latest observed workflow run matching that exact SHA by updated timestamp then numeric run ID. Return heads (mapping labels to head, latest_observed_run_id or None, reported_ci), observed_runs, total_reported_runs, coverage=\"observed_runs_only\", direct_service_health=\"unknown\". reported_ci is passed only for a completed success; failed only for completed failure, timed_out or action_required; all other or missing evidence is unknown. Do not infer a result from a different commit or from records outside this observed snapshot.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 5259, \"complete\": true, \"format\": \"json\", \"limits_reached\": [], \"name\": \"checks.json\", \"nodes_inspected\": 216, \"paths\": [{\"length_range\": [3, 3], \"occurrences\": 1, \"path\": \"$\", \"types\": [\"object\"]}, {\"length_range\": [2, 2], \"occurrences\": 1, \"path\": \"$/heads\", \"types\": [\"object\"]}, {\"occurrences\": 1, \"path\": \"$/heads/main\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/heads/proposed\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/total_reported_runs\", \"types\": [\"integer\"]}, {\"length_range\": [30, 30], \"occurrences\": 1, \"path\": \"$/workflow_runs\", \"types\": [\"array\"]}, {\"length_range\": [6, 6], \"occurrences\": 30, \"path\": \"$/workflow_runs/*\", \"types\": [\"object\"]}, {\"occurrences\": 30, \"path\": \"$/workflow_runs/*/conclusion\", \"types\": [\"string\"]}, {\"occurrences\": 30, \"path\": \"$/workflow_runs/*/head_sha\", \"types\": [\"string\"]}, {\"occurrences\": 30, \"path\": \"$/workflow_runs/*/id\", \"types\": [\"integer\"]}, {\"occurrences\": 30, \"path\": \"$/workflow_runs/*/name\", \"types\": [\"string\"]}, {\"occurrences\": 30, \"path\": \"$/workflow_runs/*/status\", \"types\": [\"string\"]}, {\"occurrences\": 30, \"path\": \"$/workflow_runs/*/updated_at\", \"types\": [\"string\"]}], \"sha256\": \"22d582943bfc3277059681380b210715b363c5224c866ccd12af408bc9fc5527\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+      "proposal_error": null,
+      "proposed_code_sha256": "48785361c1bd4de64b5a7c77835938be87f274ad498c18d2a9924181b6f53a4e",
+      "replayed": false,
+      "source_sha256": "e6451e197166aa49978969ea553a6209f0ed6d0dad174d915cbfc13ce5a1c88e",
+      "task_id": "nuria/grounded-reported-ci",
+      "version": "nuria.outcome-worker.v1"
+    }
+  ],
+  "journal": [
+    {
+      "seq": 1,
+      "previous": "0000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "fa9984704865b382ab0bb0fa5f7a19f79d2d99dfc8675739631fef2ebf2d7844",
+      "event": {
+        "contract_sha256": "b4ec2de0d3d34e764c700b678529a8e0da4792e948945e3d4d940b3fbda3b677",
+        "event": "begin",
+        "job": "grounded-pull-requests"
+      }
+    },
+    {
+      "seq": 2,
+      "previous": "fa9984704865b382ab0bb0fa5f7a19f79d2d99dfc8675739631fef2ebf2d7844",
+      "sha256": "439b236fe9c4f79c4e0d9d9fc63b40412b9619cd6caa431e7757a07b940ceb31",
+      "event": {
+        "event": "outcome",
+        "job": "grounded-pull-requests",
+        "result_sha256": "939f577b009044a64f210b9456e879aaa7ed1a40d1df101d7a0acf099da2de01"
+      }
+    },
+    {
+      "seq": 3,
+      "previous": "439b236fe9c4f79c4e0d9d9fc63b40412b9619cd6caa431e7757a07b940ceb31",
+      "sha256": "86c2c394647061885b51c1e107f3361ac120afdbfdbf53ca2df23752fe503bf3",
+      "event": {
+        "contract_sha256": "f41c8f3b010870e19cf972da6458d32ede8b8373347995bf9d41f0f94cad0abe",
+        "event": "begin",
+        "job": "grounded-commit-activity"
+      }
+    },
+    {
+      "seq": 4,
+      "previous": "86c2c394647061885b51c1e107f3361ac120afdbfdbf53ca2df23752fe503bf3",
+      "sha256": "f77112672d2fdb79cb6a9805442f940be1ad124792b3458b40926e14d9c948b9",
+      "event": {
+        "event": "outcome",
+        "job": "grounded-commit-activity",
+        "result_sha256": "cf501428e53c7b01af30dbc50b4d4f8bc5acf18e9719efe94121e762fd777fde"
+      }
+    },
+    {
+      "seq": 5,
+      "previous": "f77112672d2fdb79cb6a9805442f940be1ad124792b3458b40926e14d9c948b9",
+      "sha256": "95eebab9341c1d9a3fedb93cc38a132d7f0174504716bb6e36b4ae02cdab0a61",
+      "event": {
+        "contract_sha256": "d4a0b19da3acc398a0f2d429e7413c030dee3e44c9e686ea7ca44a095e4b4def",
+        "event": "begin",
+        "job": "grounded-component-ancestry"
+      }
+    },
+    {
+      "seq": 6,
+      "previous": "95eebab9341c1d9a3fedb93cc38a132d7f0174504716bb6e36b4ae02cdab0a61",
+      "sha256": "058db9585e3dbd018a532b7db0dbd0b638a567f616ab20dffd0e7118180f3e00",
+      "event": {
+        "event": "outcome",
+        "job": "grounded-component-ancestry",
+        "result_sha256": "3c1b89f566e82790466b41f06ab9608d4dbf66d9d4f5c1e3f39d7dbad6ad5ac1"
+      }
+    },
+    {
+      "seq": 7,
+      "previous": "058db9585e3dbd018a532b7db0dbd0b638a567f616ab20dffd0e7118180f3e00",
+      "sha256": "59f64e6354450eb5bead62741904c0bfacb3f7da69dbb9dd9ddb82796b381036",
+      "event": {
+        "contract_sha256": "5a18bbed59589f1d149a7d9cb8303455ca027e9ff560df395b49b5550cb563de",
+        "event": "begin",
+        "job": "grounded-reported-ci"
+      }
+    },
+    {
+      "seq": 8,
+      "previous": "59f64e6354450eb5bead62741904c0bfacb3f7da69dbb9dd9ddb82796b381036",
+      "sha256": "16d317a0fc1275084d5126480c7ff2fe4bee6fb2c205c931c74bb132cce35773",
+      "event": {
+        "event": "outcome",
+        "job": "grounded-reported-ci",
+        "result_sha256": "7f43e5857ccde0a02ca4d8afae24d7713ec4fe8381e683c651f23b8368f74b00"
+      }
+    }
+  ]
+}
