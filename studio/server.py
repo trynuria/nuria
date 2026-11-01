@@ -2,12 +2,58 @@
 
 import argparse
 import gzip
+import hashlib
 import mimetypes
+import re
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
 
 ARTIFACT_CSP = "sandbox allow-scripts allow-downloads; default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'self'"
+
+
+def version_assets(raw, path, route):
+    """Fresh HTML must not reuse a CDN's earlier script or stylesheet revision."""
+
+    def replace(match):
+        value = match[3].decode("utf-8")
+        try:
+            url = urlsplit(value)
+        except ValueError:
+            return match[0]
+        if url.scheme or url.netloc:
+            return match[0]
+        name = url.path
+        prefix = route.rsplit("/", 1)[0] + "/"
+        if name.startswith(prefix):
+            name = name[len(prefix) :]
+        if name.startswith("./"):
+            name = name[2:]
+        if name not in {
+            "app.js",
+            "engine.js",
+            "style.css",
+            "toolkit.js",
+            "toolkit-bridge.js",
+            "studio.js",
+            "studio.css",
+        }:
+            return match[0]
+        asset = path.parent / name
+        if asset.is_symlink() or not asset.is_file():
+            return match[0]
+        version = hashlib.sha256(asset.read_bytes()).hexdigest()
+        # Generated files remain byte-for-byte intact in the source archive.
+        # Existing query/fragment values have no role in these static assets.
+        value = (url.path + "?v=" + version).encode()
+        return match[1] + match[2] + value + match[2]
+
+    return re.sub(
+        rb"""(<(?:script|link)\b[^>]*?\b(?:src|href)\s*=\s*)(["'])([^"']+)\2""",
+        replace,
+        raw,
+        flags=re.IGNORECASE,
+    )
 
 
 def handler(public, web):
@@ -32,8 +78,6 @@ def handler(public, web):
             elif route.startswith("/creations/"):
                 creation = True
                 pieces = route.strip("/").split("/")
-                import re
-
                 if (
                     len(pieces) != 4
                     or not re.fullmatch(r"invention-[0-9]{3}", pieces[1])
@@ -72,6 +116,10 @@ def handler(public, web):
                     return self.send_error(503)
             except OSError:
                 return self.send_error(404)
+            if path.suffix == ".html":
+                raw = version_assets(
+                    raw, path, route if creation else "/studio/index.html"
+                )
             self.send_response(200)
             if route == "/api/studio":
                 self.send_header("Vary", "Accept-Encoding")
@@ -85,7 +133,7 @@ def handler(public, web):
             self.send_header("Content-Length", str(len(raw)))
             self.send_header(
                 "Cache-Control",
-                "no-cache" if route == "/api/studio" else "public, max-age=30",
+                "no-store" if creation else "no-cache",
             )
             self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header("Referrer-Policy", "no-referrer")

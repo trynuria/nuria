@@ -1,5 +1,6 @@
 """Real persistence and public boundary checks for the invention runner."""
 
+import hashlib
 import json
 import shutil
 import sqlite3
@@ -174,7 +175,10 @@ class StudioTests(unittest.TestCase):
         (public / "status.json").write_text('{"phase":"creating"}')
         artifact = public / "creations/invention-001/a"
         artifact.mkdir(parents=True)
-        (artifact / "index.html").write_text("<title>World</title>")
+        original = '<title>World</title><script src="./app.js"></script><link href="style.css" rel="stylesheet">'
+        (artifact / "index.html").write_text(original)
+        (artifact / "app.js").write_text("original")
+        (artifact / "style.css").write_text("body{}")
         (self.root / "private.json").write_text("private")
         server = ThreadingHTTPServer(("127.0.0.1", 0), handler(public, web))
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -190,6 +194,25 @@ class StudioTests(unittest.TestCase):
                     "sandbox allow-scripts", result.headers["Content-Security-Policy"]
                 )
                 self.assertEqual(result.headers["X-Frame-Options"], "SAMEORIGIN")
+                self.assertEqual(result.headers["Cache-Control"], "no-store")
+                body = result.read().decode()
+                self.assertIn(
+                    "./app.js?v=" + hashlib.sha256(b"original").hexdigest(), body
+                )
+            # A repair must change the dependency URL, even when a CDN retains
+            # the old canonical app.js for hours. Source evidence stays intact.
+            (artifact / "app.js").write_text("repaired")
+            with urllib.request.urlopen(
+                base + "/creations/invention-001/a/index.html"
+            ) as result:
+                body = result.read().decode()
+                version = hashlib.sha256(b"repaired").hexdigest()
+                self.assertIn("./app.js?v=" + version, body)
+            with urllib.request.urlopen(
+                base + "/creations/invention-001/a/app.js?v=" + version
+            ) as result:
+                self.assertEqual(result.read(), b"repaired")
+            self.assertEqual((artifact / "index.html").read_text(), original)
             for route in (
                 "/private.json",
                 "/creations/../../private.json",

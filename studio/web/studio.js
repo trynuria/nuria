@@ -251,7 +251,11 @@
         variants.append(element("span", "variant-button", "PROTOTYPES / PENDING"));
     }
     const candidate = candidates.find((item) => item.id === state.candidate);
-    const url = artifactUrl(candidate?.artifact_url);
+    const path = artifactUrl(candidate?.artifact_url);
+    const version = ["index.html", "style.css", "app.js", "engine.js"]
+      .map((name) => text(candidate?.manifest?.[name]).slice(0, 16))
+      .join("");
+    const url = path && /^[a-f0-9]{64}$/.test(version) ? `${path}?v=${version}` : path;
     setFrame(
       url,
       `${text(candidate?.title, text(project.title, "Nuria"))} — interactive creation`,

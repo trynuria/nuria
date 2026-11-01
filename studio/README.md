@@ -194,3 +194,8 @@ Run `python -m unittest tests.test_studio tests.test_studio_frontiers tests.test
 The real Linux namespace check is additionally required on the intended host.
 Both the worker and inference service must be enabled at boot. Keep the gateway
 private; expose only the read-only public projection through the website proxy.
+
+Public HTML references local scripts and styles by content hash so a CDN cannot
+mix a repaired creation with an earlier cached engine. Creation responses use
+`no-store`; Studio switches an embedded creation only when its published source
+manifest changes. Archived files and their evidence hashes remain unchanged.
