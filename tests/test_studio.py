@@ -146,6 +146,40 @@ class StudioTests(unittest.TestCase):
         campaign.retain(project)
         self.assertIn(owner_lesson, campaign.store.get("meta", "taste")["lessons"])
 
+    @unittest.skipUnless(shutil.which("node"), "Node required")
+    def test_real_work_followed_by_reset_is_not_an_inert_journey(self):
+        checker = Path(__file__).resolve().parents[1] / "studio/check_invention.cjs"
+        (self.root / "inputs.json").write_text("{}")
+        (self.root / "engine.js").write_text(
+            "globalThis.NuriaEngine={create:()=>({value:0}),"
+            "act(s,a){if(a.type==='set')s.value=a.value;if(a.type==='reset')s.value=0;return s},"
+            "metrics:s=>({value:s.value}),runTests:()=>({passed:true,results:"
+            "[1,2,3].map(n=>({name:'Fixture '+n,pass:true}))})};"
+        )
+        for actions, passed in (
+            ([{"type": "set", "value": 7}, {"type": "reset"}], True),
+            ([{"type": "reset"}, {"type": "noop"}], False),
+        ):
+            (self.root / "contract.json").write_text(
+                json.dumps(
+                    {
+                        "engine_actions": actions,
+                        "alternate_actions": [{"type": "set", "value": 3}],
+                    }
+                )
+            )
+            result = subprocess.run(
+                [shutil.which("node"), str(checker)],
+                cwd=self.root,
+                text=True,
+                capture_output=True,
+                timeout=8,
+            )
+            report = json.loads(result.stdout)
+            self.assertEqual(report["passed"], passed)
+            if not passed:
+                self.assertIn("no effect", report["details"][0])
+
     def test_rejected_model_write_is_feedback_instead_of_restart_loop(self):
         campaign = Campaign(self.root, Client(), "/usr/bin/node")
         self.addCleanup(campaign.store.db.close)

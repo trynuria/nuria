@@ -45,15 +45,16 @@ function run(seed, actions) {
   c.input = input;
   c.actions = JSON.parse(JSON.stringify(actions));
   vm.runInContext(
-    "state=NuriaEngine.create(seed,input); before=JSON.stringify(state); for(const action of actions) state=NuriaEngine.act(state,action); measures=NuriaEngine.metrics(state)",
+    "state=NuriaEngine.create(seed,input); changed=false; for(const action of actions) { const before=JSON.stringify(state); state=NuriaEngine.act(state,action); if(JSON.stringify(state)!==before) changed=true; } measures=NuriaEngine.metrics(state)",
     c,
     { timeout: 2000 },
   );
   const serialized = JSON.stringify(c.state);
   if (!serialized || serialized.length > 1000000)
     throw Error("State is missing or exceeds 1 MB");
-  if (serialized === c.before)
-    throw Error("Declared interaction has no effect on state");
+  // Reset can legitimately return to the initial state after useful work.
+  // Reject a wholly inert journey, not a journey with a reversible outcome.
+  if (!c.changed) throw Error("Declared interaction has no effect on state");
   const values = Object.values(c.measures ?? {});
   if (
     !values.length ||
