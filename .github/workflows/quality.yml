@@ -130,7 +130,7 @@ jobs:
           tests.test_navigation_export tests.test_program_delivery
           tests.test_delivered_course tests.test_input_observations
           tests.test_retained_work tests.test_recovery_options
-          tests.test_reasoner_transfer -v
+          tests.test_reasoner_transfer tests.test_reasoner_evidence -v
       - name: Reconstruct and independently execute held-out work
         run: |
           python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"
@@ -146,3 +146,5 @@ jobs:
           python research/outcome-learning/retained-work-04/replay.py --workspace "$RUNNER_TEMP/nuria-retained-replay" --output "$RUNNER_TEMP/nuria-retained.json"
       - name: Reproduce every failed-report recovery configuration
         run: python -m scripts.verify_recovery_options research/outcome-learning/recovery-05 "$RUNNER_TEMP/nuria-recovery-replay"
+      - name: Verify actual reasoning requests and replay every fresh program
+        run: python -m scripts.verify_reasoner_transfer verify research/outcome-learning/reasoner-transfer-06 --workspace "$RUNNER_TEMP/nuria-reasoner-transfer"
