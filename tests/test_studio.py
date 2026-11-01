@@ -99,6 +99,34 @@ class StudioTests(unittest.TestCase):
         write_files(self.root / "work", {"engine.js": "const a=1;"})
         self.assertTrue((self.root / "work/engine.js").exists())
 
+    def test_rejected_model_write_is_feedback_instead_of_restart_loop(self):
+        campaign = Campaign(self.root, Client(), "/usr/bin/node")
+        self.addCleanup(campaign.store.db.close)
+        with patch("studio.worker.capture", return_value={}):
+            project = campaign.project("Build a small instrument")
+        candidate = {
+            "id": "a",
+            "title": "First idea",
+            "status": "building",
+            "attempt": 0,
+            "revision": 0,
+        }
+        project.update(
+            status="building", concepts=[{"id": "a"}], candidates=[candidate]
+        )
+        campaign.directory(project, "a").mkdir(parents=True)
+        with patch.object(
+            campaign,
+            "ask",
+            return_value={"files": {"toolkit.js": "forbidden replacement"}},
+        ):
+            campaign.build(project, candidate)
+        saved = campaign.store.get("projects", project["id"])["candidates"][0]
+        self.assertEqual(saved["attempt"], 1)
+        self.assertFalse(saved["checks"]["passed"])
+        self.assertIn("Write only", saved["note"])
+        self.assertFalse((campaign.directory(project, "a") / "toolkit.js").exists())
+
     def test_public_server_exposes_only_public_projection(self):
         public, web = self.root / "public", self.root / "web"
         public.mkdir()
@@ -348,6 +376,39 @@ class StudioTests(unittest.TestCase):
         ):
             with self.assertRaises(ValueError):
                 parse(text)
+
+    @unittest.skipUnless(
+        shutil.which("node"), "Node is required for executable tool composition"
+    )
+    def test_engine_checker_executes_project_tests_and_preserves_tool_api(self):
+        directory = self.root / "candidate"
+        directory.mkdir()
+        (directory / "inputs.json").write_text("{}")
+        (directory / "toolkit.js").write_text(
+            "globalThis.NuriaEngine={create(seed){return {t:0,v:seed}},step(s,dt,p){s.t+=dt;s.v+=p.energy+p.curiosity+1;return s},metrics(s){return {time:s.t,value:s.v}},answer(){return 42}};"
+        )
+        checker = Path(__file__).resolve().parents[1] / "studio/check_engine.cjs"
+        for expected in (True, False):
+            body = "NuriaToolkit.answer()===42" if expected else "false"
+            (directory / "engine.js").write_text(
+                "globalThis.NuriaEngine={create:NuriaToolkit.create,step:NuriaToolkit.step,metrics:NuriaToolkit.metrics,runTests(){return {passed:true,results:[{name:'extended tool API',pass:"
+                + body
+                + "}]}}};"
+            )
+            result = subprocess.run(
+                [shutil.which("node"), str(checker)],
+                cwd=directory,
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=10,
+            )
+            report = json.loads(result.stdout)
+            self.assertEqual(report["passed"], expected)
+            self.assertTrue(report["project_tests"]["executed"])
+            self.assertEqual(
+                report["project_tests"]["report"]["results"][0]["pass"], expected
+            )
 
     @unittest.skipUnless(
         shutil.which("node"), "Node is required for executable tool composition"

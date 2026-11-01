@@ -17,12 +17,14 @@ function load() {
     if (!original) throw Error("Retained tool has no engine");
     const toolkit = Object.freeze(
       Object.fromEntries(
-        ["create", "step", "metrics"].map((name) => [
+        Object.entries(original).map(([name, value]) => [
           name,
-          (...args) => {
-            reused++;
-            return original[name](...args);
-          },
+          typeof value === "function"
+            ? (...args) => {
+                if (["create", "step", "metrics"].includes(name)) reused++;
+                return original[name](...args);
+              }
+            : value,
         ]),
       ),
     );
@@ -63,6 +65,36 @@ function simulate(seed, energy, curiosity, steps = 120) {
     throw Error("State grows beyond the artifact limit");
   return { hash: result, metrics: JSON.parse(JSON.stringify(c.metrics)) };
 }
+function projectTests() {
+  const context = load();
+  if (typeof context.NuriaEngine.runTests !== "function") return { executed: false };
+  try {
+    vm.runInContext("testReport = NuriaEngine.runTests()", context, { timeout: 4000 });
+    const raw = JSON.stringify(context.testReport);
+    if (!raw || raw.length > 48000) throw Error("Project test report must fit 48 KB");
+    const report = JSON.parse(raw);
+    const results = report?.results;
+    if (
+      !Array.isArray(results) ||
+      !results.length ||
+      results.some((r) => typeof r?.pass !== "boolean")
+    )
+      throw Error(
+        "Project tests must return nonempty results with name and boolean pass",
+      );
+    const passed =
+      results.every((r) => r.pass) &&
+      (report.passed === true ||
+        (report.passed === results.length && report.failed === 0));
+    return { executed: true, passed, report };
+  } catch (error) {
+    return {
+      executed: true,
+      passed: false,
+      error: String(error.message).slice(0, 1000),
+    };
+  }
+}
 try {
   for (const name of fs.readdirSync(".").filter((x) => x.endsWith(".js")))
     new vm.Script(fs.readFileSync(name, "utf8"));
@@ -75,9 +107,10 @@ try {
     throw Error("Energy and curiosity controls have no causal effect");
   const probes = [1, 104729].map((seed) => simulate(seed, 0.5, 0.5));
   const sustained = simulate(17, 0.6, 0.6, 1800);
+  const project_tests = projectTests();
   console.log(
     JSON.stringify({
-      passed: true,
+      passed: !project_tests.executed || project_tests.passed,
       details: [
         "JavaScript compiles",
         "Deterministic replay",
@@ -85,10 +118,18 @@ try {
         "Control intervention changes the state",
         "Finite measured outputs",
         "30-second simulation remains finite with bounded state",
+        ...(project_tests.executed
+          ? [
+              project_tests.passed
+                ? "Project-defined engine tests passed"
+                : "Project-defined engine tests failed; see project_tests",
+            ]
+          : []),
       ],
       metrics: a.metrics,
       probes: probes.map((x) => x.metrics),
       sustained_metrics: sustained.metrics,
+      project_tests,
       reused_calls: reused,
     }),
   );

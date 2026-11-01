@@ -70,6 +70,13 @@ Path traversal and changes to those supplied files are rejected. The engine
 exports `create`, `step` and `metrics`; the host checks deterministic replay,
 finite outputs, evolution on several seeds, causal effects of controls and a
 30-second simulation with bounded state.
+When an engine exposes `runTests()`, the same sandbox also executes those
+project-defined logic tests with a four-second limit. The returned per-test
+results and measured outputs feed subsequent builds and critique; a reported
+failure blocks promotion. These are model-authored tests, not independent proof
+of the invention's intended behavior. Browser-only tests still require browser
+inspection. The critic receives the delivered file manifest and enrolled source
+snapshot so that omitted code excerpts are not mistaken for missing files.
 Tests run in an offline bubblewrap namespace with a read-only candidate mount,
 small resource bounds, and no credentials or private host files.
 

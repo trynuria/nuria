@@ -47,6 +47,12 @@ The engine receives the enrolled source object, which can be embedded as a
 literal in app.js; no fetch is allowed in artifacts.
 The host also runs a 30-second simulation and checks bounded state and finite
 measurements. Explain the natural timescale of the mechanism you want tested.
+Put project-specific logic tests in NuriaEngine.runTests(), with no DOM. Return
+{passed:boolean, results:[{name,pass:boolean,...measured outputs}]} or
+{passed:passing count,failed:failing count,results:[{name,pass,...}]}.
+The host actually invokes this function in the same offline sandbox with a
+four-second execution limit; any reported failure prevents promotion. Browser-only
+tests are not executed by this runner. Do not just ask the host to click a button.
 If you offer exports, provide an attached download link and a visible selectable
 text fallback so visitors can keep their work even when a browser blocks downloads.
 If a toolkit is supplied, load toolkit.js and toolkit-bridge.js before engine.js.
@@ -380,6 +386,9 @@ class Campaign:
             "files": files,
             "latest_host_check": c.get("checks"),
             "prior_lesson": c.get("note"),
+            "recent_lessons": (self.store.get("meta", "taste") or {}).get(
+                "lessons", []
+            )[-4:],
             "remaining_steps": 6 - c["attempt"],
             "request": 'Build or improve this concept. The workspace persists. Return {action:"write"|"test"|"finish", files:{filename:complete replacement text only for changed files}, note:short rationale}. Write the full usable creation first. Host checks run after each write. Fix concrete failures before calling it finished. You may refine aesthetics after checks pass. A finish action is only accepted after the current files pass.',
         }
@@ -403,6 +412,7 @@ class Campaign:
             )[:1500]
         except ValueError as error:
             c["checks"] = {"passed": False, "details": [str(error)]}
+            c["note"] = str(error)[:1500]
         if c["checks"]["passed"] and (
             value.get("action") == "finish" or c["attempt"] >= 3
         ):
@@ -435,9 +445,11 @@ class Campaign:
                 {
                     "concept": next(x for x in p["concepts"] if x["id"] == c["id"]),
                     "checks": c["checks"],
+                    "delivered_files": c["manifest"],
+                    "host_evidence": "These checks ran on this workspace before publication. engine_sha256 binds the checked engine to delivered_files. The manifest includes host-supplied dependencies; a file absent from the code excerpt is not absent from the artifact.",
                     "code": {
                         name: (d / name).read_text()
-                        for name in ("index.html", "app.js", "engine.js")
+                        for name in ("index.html", "style.css", "app.js", "engine.js")
                     },
                 }
             )
@@ -452,6 +464,7 @@ class Campaign:
                 "content": json.dumps(
                     {
                         "brief": p["brief"],
+                        "source_snapshot": p["source"],
                         "candidates": evidence,
                         "request": "Select one candidate. Return {selected: candidate ID, reason, strengths:[strings], limitations:[strings], lesson, tool_name, tool_description, next_brief, interests:[three themes]}. The next brief should address a concrete weakness or explore a different kind of interactive invention. Reuse or combine acquired engines where useful; a new foundation is allowed. It must remain an offline browser artifact. Be critical and specific; explain actual tradeoffs and use the longer-horizon results.",
                     }
