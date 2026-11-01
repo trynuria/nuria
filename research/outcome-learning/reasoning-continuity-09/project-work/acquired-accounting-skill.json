@@ -1,0 +1,46 @@
+{
+  "schema": "nuria.retained-program.v1",
+  "profile": {
+    "profile_id": "mixed-price-cost-audit-v1",
+    "function_contract": "audit_budget(data) computes the declared mixed-price ledger report and writes budget-report.json from inputs/source.json; no inference, invoice attestation or financial transaction."
+  },
+  "origin": {
+    "job_id": "accounting",
+    "result_sha256": "c9d75fe52b85476b6b7e941d1cfb05f2a481ce4530f3adfcefbe8e48736ea653",
+    "task_sha256": "dc62b9d280a693bc6e483edfc8e2564204d520c648bb14977be87e602a726c84",
+    "source_sha256": "fb01ac8bde698cfe65cc0bcd84beeeac913d55ec4eabe3e598ea18caee9e85d8",
+    "program_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+    "checker_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+    "journal_head_at_acquisition": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+  },
+  "origin_delivery": {
+    "binding": {
+      "enrollment_sha256": "51e3bce07d35f4f45c89467409de59549ee79b606852bf834e653deb4c5dd46c",
+      "result_sha256": "c9d75fe52b85476b6b7e941d1cfb05f2a481ce4530f3adfcefbe8e48736ea653",
+      "task_sha256": "dc62b9d280a693bc6e483edfc8e2564204d520c648bb14977be87e602a726c84"
+    },
+    "checker_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+    "files": [
+      {
+        "bytes": 464,
+        "name": "budget-report.json",
+        "semantic_sha256": "c55c600d2e3f5ba8b86274916bf0b09915cab61e5e814afc95822d69ef362bc4",
+        "sha256": "cafc8e0515210360badb13e2b6779d66b0065bb54ff8fcad948a194ddd50ba58"
+      }
+    ],
+    "financial_activity": false,
+    "job_id": "accounting",
+    "journal_at_collection": {
+      "events": 4,
+      "tail_sha256": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+    },
+    "model_calls": 0,
+    "program_executions": 0,
+    "program_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+    "receipt_sha256": "cc3b0c955f765169a677d66d5b5fd399c99209dd06641082a5e03724d58d5bac",
+    "schema": "nuria.program-delivery.v1",
+    "source_sha256": "fb01ac8bde698cfe65cc0bcd84beeeac913d55ec4eabe3e598ea18caee9e85d8"
+  },
+  "code": "import json\nfrom fractions import Fraction\nfrom pathlib import Path\n\n\ndef audit_budget(data: dict) -> dict:\n    rows = data[\"requests\"]\n    charged = 0\n    unresolved = 0\n    known = 0\n    recomputed = 0\n    mismatches = []\n    blocked = False\n    models = set()\n\n    for row in rows:\n        pricing = row[\"pricing\"]\n        models.add(pricing[\"model\"])\n        charge = row[\"charged_micro_usd\"]\n        if charge is None:\n            blocked = True\n            unresolved += row[\"reserved_micro_usd\"]\n        else:\n            charged += charge\n\n        usage = row[\"usage\"]\n        if usage is not None:\n            known += 1\n            prompt = usage[\"prompt_tokens\"]\n            completion = usage[\"completion_tokens\"]\n            input_rate = Fraction(str(pricing[\"input_micro_usd_per_million_tokens\"]))\n            output_rate = Fraction(str(pricing[\"output_micro_usd_per_million_tokens\"]))\n            if (\"long_context_threshold\" in pricing\n                    and prompt > pricing[\"long_context_threshold\"]):\n                input_rate *= Fraction(str(pricing[\"long_context_input_multiplier\"]))\n                output_rate *= Fraction(str(pricing[\"long_context_output_multiplier\"]))\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\n            cost = -(-amount.numerator // amount.denominator)\n            recomputed += cost\n            if charge is not None and charge != cost:\n                mismatches.append(row[\"request_sha256\"])\n\n    accounted = charged + unresolved\n    return {\n        \"schema\": \"nuria.cost-audit-report.v1\",\n        \"scope\": \"Configured conservative ledger accounting; not a provider invoice.\",\n        \"requests\": len(rows),\n        \"known_usage\": known,\n        \"unknown_usage\": len(rows) - known,\n        \"charged_micro_usd\": charged,\n        \"unresolved_reserve_micro_usd\": unresolved,\n        \"accounted_micro_usd\": accounted,\n        \"remaining_micro_usd\": data[\"cap_micro_usd\"] - accounted,\n        \"blocked\": blocked,\n        \"recomputed_known_usage_micro_usd\": recomputed,\n        \"cost_mismatch_requests\": sorted(mismatches),\n        \"models\": sorted(models),\n    }\n\n\ndef main() -> None:\n    data = json.loads(Path(\"inputs/source.json\").read_text(encoding=\"utf-8\"))\n    report = audit_budget(data)\n    Path(\"budget-report.json\").write_text(\n        json.dumps(report, indent=2) + \"\\n\", encoding=\"utf-8\"\n    )\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "skill_sha256": "b4546b05eac34fe4f52f7211ed6d694cc07f898c1e2764efd9af4a256ad43b0b"
+}

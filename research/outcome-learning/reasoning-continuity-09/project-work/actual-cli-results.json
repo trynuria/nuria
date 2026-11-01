@@ -1,0 +1,1002 @@
+{
+  "origin": {
+    "summary": {
+      "accepted": 2,
+      "delivered": 2,
+      "replayed": 0
+    },
+    "course": {
+      "delivery": {
+        "deliveries": [
+          {
+            "binding": {
+              "enrollment_sha256": "7fe7344a52947afa97c8fbfb8ba67ef2daf1a5cf4db22f833ac51008b8354b29",
+              "result_sha256": "76975f91eb833ed2353e1784d72c3ba15d44224488f7611f0a61eed8ba237cfa",
+              "task_sha256": "1fa1b0c6fc0226c51f3ded21303a10a88e5d36e0015ab416b51b5185973fcc5a"
+            },
+            "checker_sha256": "daa94671980635426e4a6e91bdfe0baca1b74f0b1ad61100190f6920b1c8d32c",
+            "files": [
+              {
+                "bytes": 337,
+                "name": "repair-report.json",
+                "semantic_sha256": "37563cba96e9615655110def0debeda22a359bb7c92385004185ecb827bde749",
+                "sha256": "4c6fa578ddfbe477baa01d53534eee670ab49b06aea06158d024c4b3d3a7feb5"
+              }
+            ],
+            "financial_activity": false,
+            "job_id": "repair",
+            "journal_at_collection": {
+              "events": 4,
+              "tail_sha256": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+            },
+            "model_calls": 0,
+            "program_executions": 0,
+            "program_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+            "receipt_sha256": "9347debcc070b0585cb918877f9c255c38b3663f2f27ce3a82cfb0af31dc5d00",
+            "replayed": false,
+            "schema": "nuria.program-delivery.v1",
+            "source_sha256": "a8acb848c25b5a0493bf4f8f2dd1a846c59967f5c1fe7d42e67b3143c274c057"
+          },
+          {
+            "binding": {
+              "enrollment_sha256": "51e3bce07d35f4f45c89467409de59549ee79b606852bf834e653deb4c5dd46c",
+              "result_sha256": "c9d75fe52b85476b6b7e941d1cfb05f2a481ce4530f3adfcefbe8e48736ea653",
+              "task_sha256": "dc62b9d280a693bc6e483edfc8e2564204d520c648bb14977be87e602a726c84"
+            },
+            "checker_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+            "files": [
+              {
+                "bytes": 464,
+                "name": "budget-report.json",
+                "semantic_sha256": "c55c600d2e3f5ba8b86274916bf0b09915cab61e5e814afc95822d69ef362bc4",
+                "sha256": "cafc8e0515210360badb13e2b6779d66b0065bb54ff8fcad948a194ddd50ba58"
+              }
+            ],
+            "financial_activity": false,
+            "job_id": "accounting",
+            "journal_at_collection": {
+              "events": 4,
+              "tail_sha256": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+            },
+            "model_calls": 0,
+            "program_executions": 0,
+            "program_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+            "receipt_sha256": "cc3b0c955f765169a677d66d5b5fd399c99209dd06641082a5e03724d58d5bac",
+            "replayed": false,
+            "schema": "nuria.program-delivery.v1",
+            "source_sha256": "fb01ac8bde698cfe65cc0bcd84beeeac913d55ec4eabe3e598ea18caee9e85d8"
+          }
+        ],
+        "replayed": 0
+      },
+      "input_observations": {
+        "accounting": {
+          "files": [
+            {
+              "bytes": 29208,
+              "complete": true,
+              "format": "json",
+              "limits_reached": [],
+              "name": "source.json",
+              "nodes_inspected": 1060,
+              "paths": [
+                {
+                  "length_range": [
+                    4,
+                    4
+                  ],
+                  "occurrences": 1,
+                  "path": "$",
+                  "types": [
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 1,
+                  "path": "$/cap_micro_usd",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "length_range": [
+                    72,
+                    72
+                  ],
+                  "occurrences": 1,
+                  "path": "$/requests",
+                  "types": [
+                    "array"
+                  ]
+                },
+                {
+                  "length_range": [
+                    6,
+                    6
+                  ],
+                  "occurrences": 72,
+                  "path": "$/requests/*",
+                  "types": [
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/charged_micro_usd",
+                  "types": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                {
+                  "length_range": [
+                    3,
+                    6
+                  ],
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing",
+                  "types": [
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing/input_micro_usd_per_million_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 17,
+                  "path": "$/requests/*/pricing/long_context_input_multiplier",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 17,
+                  "path": "$/requests/*/pricing/long_context_output_multiplier",
+                  "types": [
+                    "number"
+                  ]
+                },
+                {
+                  "occurrences": 17,
+                  "path": "$/requests/*/pricing/long_context_threshold",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing/model",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing/output_micro_usd_per_million_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/request_sha256",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/reserved_micro_usd",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/state",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "length_range": [
+                    4,
+                    4
+                  ],
+                  "occurrences": 72,
+                  "path": "$/requests/*/usage",
+                  "types": [
+                    "null",
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/completion_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/prompt_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/reasoning_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/total_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 1,
+                  "path": "$/schema",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "occurrences": 1,
+                  "path": "$/scope",
+                  "types": [
+                    "string"
+                  ]
+                }
+              ],
+              "sha256": "26465504e8c32d4319dc3e5c67fa8a9328422cc79d90d6469a5a9a88ec70b488"
+            }
+          ],
+          "scalar_values_disclosed": false,
+          "schema": "nuria.input-observation.v1"
+        },
+        "repair": {
+          "files": [
+            {
+              "bytes": 3632,
+              "complete": false,
+              "format": "uninspected",
+              "limits_reached": [
+                "invalid_or_unsupported_json"
+              ],
+              "name": "archived_contracts.txt",
+              "paths": [],
+              "sha256": "1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638"
+            }
+          ],
+          "scalar_values_disclosed": false,
+          "schema": "nuria.input-observation.v1"
+        }
+      },
+      "original_enrollment_sha256": "e0d31b8d2742c874bc10aa4c0ea88647823ba7fb85602020fd9cd42749562da7",
+      "prepared_enrollment_sha256": "fc7d4d915d9c317fd215b1011e9cc166e67e9fdeb4709e8711363a5e201bb9a2",
+      "rejected_jobs": [],
+      "unknown_jobs": [],
+      "version": "nuria.delivered-course.v1",
+      "work": {
+        "accepted": 2,
+        "jobs": [
+          {
+            "accepted": true,
+            "attempts": [
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import hashlib\\nimport json\\nfrom pathlib import Path\\n\\n\\ndef repair_contracts(source: str) -> str:\\n    old = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\n    new = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\n    repaired = source.replace(old, new, 1)\\n    report = {\\n        \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n        \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n    }\\n    Path(\\\"repair-report.json\\\").write_text(json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\")\\n    return repaired\\n\",\"checks\":\"from pathlib import Path\\n\\narchive = Path(\\\"inputs/archived_contracts.txt\\\")\\noriginal_bytes = archive.read_bytes()\\nsource = original_bytes.decode(\\\"utf-8\\\")\\nprint(source)\\nprint(\\\"Original SHA-256:\\\", hashlib.sha256(original_bytes).hexdigest())\\nprint(\\\"Replacement occurrences:\\\", source.count('sum(row.get(\\\"accepted\\\") is None for row in outcomes)'))\\n\",\"lesson\":\"Inspect the archived source before executing a narrowly scoped textual repair; preserve all text outside the supplied replacement.\",\"done\":false}",
+                "probe": {
+                  "checks_sha256": "d7b3a99bf2d4bea380d033b838fe9c176ce77cbe683a7e2ac617bccf09997b34",
+                  "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "\"\"\"Independent, explicit delivery expectations for real project data.\n\nRecorded organoid activity is a data source, not live tissue or evidence about\nNuria's consciousness. Episodes here mean consecutive nonempty population bins.\nThese host expectations are never supplied to the model or its tool workspace.\n\"\"\"\n\nimport hashlib\nimport math\nfrom collections import Counter\n\n\ndef neural_report(data):\n    rows, units = data[\"counts\"], data[\"unit_ids\"]\n    population = [sum(row) for row in rows]\n    totals = [sum(row[i] for row in rows) for i in range(len(units))]\n    episodes = []\n    active = []\n    for index, total in enumerate(population + [0]):\n        if total:\n            active.append(index)\n        elif active:\n            begin, end = active[0], active[-1] + 1\n            episodes.append(\n                {\n                    \"start_bin\": begin,\n                    \"stop_bin\": end,\n                    \"spikes\": sum(population[begin:end]),\n                    \"active_units\": sum(\n                        any(rows[j][i] for j in range(begin, end))\n                        for i in range(len(units))\n                    ),\n                }\n            )\n            active = []\n    return {\n        \"schema\": \"nuria.recording-report.v1\",\n        \"bins\": len(rows),\n        \"units\": len(units),\n        \"bin_microseconds\": round(data[\"bin_seconds\"] * 1_000_000),\n        \"total_spikes\": sum(population),\n        \"population_by_bin\": population,\n        \"unit_totals\": [\n            {\"unit_id\": unit, \"spikes\": total} for unit, total in zip(units, totals)\n        ],\n        \"active_units\": [unit for unit, total in zip(units, totals) if total > 0],\n        \"episodes\": episodes,\n        \"recording_id\": data[\"nwb_identifier\"],\n        \"interpretation\": \"Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.\",\n    }\n\n\ndef inference_report(data):\n    calls, outcomes = data[\"calls\"], data[\"outcomes\"]\n    uses = [row.get(\"usage\") or {} for row in calls]\n    rates = data[\"rates\"]\n    cost = sum(\n        math.ceil(\n            (\n                use.get(\"prompt_tokens\", 0)\n                * rates[\"input_micro_usd_per_million_tokens\"]\n                + use.get(\"completion_tokens\", 0)\n                * rates[\"output_micro_usd_per_million_tokens\"]\n            )\n            / 1_000_000\n        )\n        for use in uses\n    )\n    hashes = Counter(\n        row.get(\"response_sha256\") for row in calls if row.get(\"response_sha256\")\n    )\n    return {\n        \"schema\": \"nuria.inference-report.v1\",\n        \"calls\": len(calls),\n        \"completed_calls\": sum(row[\"state\"] == \"completed\" for row in calls),\n        \"failed_calls\": sum(row[\"state\"] == \"failed\" for row in calls),\n        \"usage_unknown_calls\": sum(row.get(\"usage\") is None for row in calls),\n        \"prompt_tokens\": sum(use.get(\"prompt_tokens\", 0) for use in uses),\n        \"completion_tokens\": sum(use.get(\"completion_tokens\", 0) for use in uses),\n        \"configured_micro_usd\": cost,\n        \"cost_scope\": \"Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.\",\n        \"repeated_response_hashes\": sorted(\n            key for key, count in hashes.items() if count > 1\n        ),\n        \"outcomes\": len(outcomes),\n        \"accepted\": sum(row.get(\"accepted\") is True for row in outcomes),\n        \"rejected\": sum(row.get(\"accepted\") is False for row in outcomes),\n        \"unknown\": sum(row.get(\"accepted\") is None for row in outcomes),\n        \"tasks\": sorted(row[\"task_id\"] for row in outcomes),\n    }\n\n\ndef bytes_hash(raw):\n    return hashlib.sha256(raw).hexdigest()\n\nOriginal SHA-256: 1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638\nReplacement occurrences: 1\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.085171
+                },
+                "response_sha256": "6927ac8fc7e8d2f9d3eb5bd8a40dbc179195ade4c168145cfe7945d96afd383b",
+                "stage": "interactive",
+                "submitted": false,
+                "usage": {
+                  "completion_tokens": 376,
+                  "prompt_tokens": 812,
+                  "reasoning_tokens": 41,
+                  "total_tokens": 1188
+                }
+              },
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import hashlib\\nimport json\\nfrom pathlib import Path\\n\\n\\ndef repair_contracts(source: str) -> str:\\n    old = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\n    new = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\n    repaired = source.replace(old, new, 1)\\n    report = {\\n        \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n        \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n    }\\n    Path(\\\"repair-report.json\\\").write_text(json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\")\\n    return repaired\\n\",\"checks\":\"archive = Path(\\\"inputs/archived_contracts.txt\\\")\\noriginal_bytes = archive.read_bytes()\\nsource = original_bytes.decode(\\\"utf-8\\\")\\nold = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\nnew = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\nassert source.count(old) == 1\\nrepaired = repair_contracts(source)\\nprefix, suffix = source.split(old)\\nassert repaired == prefix + new + suffix\\nassert archive.read_bytes() == original_bytes\\nreport = json.loads(Path(\\\"repair-report.json\\\").read_text(encoding=\\\"utf-8\\\"))\\nassert report == {\\n    \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n    \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n}\\noriginal_module = {\\\"__name__\\\": \\\"original_contracts\\\"}\\nrepaired_module = {\\\"__name__\\\": \\\"repaired_contracts\\\"}\\nexec(compile(source, str(archive), \\\"exec\\\"), original_module)\\nexec(compile(repaired, \\\"<repaired_contracts>\\\", \\\"exec\\\"), repaired_module)\\ndata = {\\n    \\\"calls\\\": [\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": {\\\"prompt_tokens\\\": 12, \\\"completion_tokens\\\": 3}, \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"failed\\\", \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": None},\\n    ],\\n    \\\"rates\\\": {\\\"input_micro_usd_per_million_tokens\\\": 1000000, \\\"output_micro_usd_per_million_tokens\\\": 2000000},\\n    \\\"outcomes\\\": [\\n        {\\\"task_id\\\": str(i), \\\"accepted\\\": value}\\n        for i, value in enumerate([True, False, None, 0, 1, -1, \\\"true\\\", \\\"false\\\", \\\"\\\", [], {}, 0.0])\\n    ] + [{\\\"task_id\\\": \\\"absent\\\"}],\\n}\\nbefore = original_module[\\\"inference_report\\\"](data)\\nafter = repaired_module[\\\"inference_report\\\"](data)\\nassert (after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"]) == (1, 1, 11)\\nassert sum(after[key] for key in (\\\"accepted\\\", \\\"rejected\\\", \\\"unknown\\\")) == after[\\\"outcomes\\\"]\\nassert {key: value for key, value in before.items() if key != \\\"unknown\\\"} == {key: value for key, value in after.items() if key != \\\"unknown\\\"}\\nempty = {\\\"calls\\\": [], \\\"outcomes\\\": [], \\\"rates\\\": data[\\\"rates\\\"]}\\nempty_report = repaired_module[\\\"inference_report\\\"](empty)\\nassert empty_report == original_module[\\\"inference_report\\\"](empty)\\nassert (empty_report[\\\"accepted\\\"], empty_report[\\\"rejected\\\"], empty_report[\\\"unknown\\\"]) == (0, 0, 0)\\nrecording = {\\\"counts\\\": [[0, 0], [1, 2], [0, 0]], \\\"unit_ids\\\": [\\\"a\\\", \\\"b\\\"], \\\"bin_seconds\\\": 0.001, \\\"nwb_identifier\\\": \\\"smoke\\\"}\\nassert repaired_module[\\\"neural_report\\\"](recording) == original_module[\\\"neural_report\\\"](recording)\\nassert repaired_module[\\\"bytes_hash\\\"](b\\\"smoke\\\") == original_module[\\\"bytes_hash\\\"](b\\\"smoke\\\")\\nprint(\\\"Mixed labels:\\\", after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"])\\nprint(\\\"Exact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\\\")\\n\",\"lesson\":\"For a supplied narrow repair, verify the exact textual delta and exercise non-boolean labels explicitly; equality with booleans is not exact boolean identity.\",\"done\":false}",
+                "probe": {
+                  "checks_sha256": "73e2f115ce7db16553ba4e54c2c467b8754b811ffd0879d850cb54ee2fac74a5",
+                  "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Mixed labels: 1 1 11\nExact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.07713
+                },
+                "response_sha256": "e8ac81c6e92418cfcfd03754bb47dfbf92a6c7da7b567ad26e6755b727e76948",
+                "stage": "interactive",
+                "submitted": false,
+                "usage": {
+                  "completion_tokens": 1180,
+                  "prompt_tokens": 2410,
+                  "reasoning_tokens": 34,
+                  "total_tokens": 3590
+                }
+              },
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import hashlib\\nimport json\\nfrom pathlib import Path\\n\\n\\ndef repair_contracts(source: str) -> str:\\n    old = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\n    new = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\n    repaired = source.replace(old, new, 1)\\n    report = {\\n        \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n        \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n    }\\n    Path(\\\"repair-report.json\\\").write_text(json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\")\\n    return repaired\\n\",\"checks\":\"archive = Path(\\\"inputs/archived_contracts.txt\\\")\\noriginal_bytes = archive.read_bytes()\\nsource = original_bytes.decode(\\\"utf-8\\\")\\nold = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\nnew = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\nassert source.count(old) == 1\\nrepaired = repair_contracts(source)\\nprefix, suffix = source.split(old)\\nassert repaired == prefix + new + suffix\\nassert archive.read_bytes() == original_bytes\\nreport = json.loads(Path(\\\"repair-report.json\\\").read_text(encoding=\\\"utf-8\\\"))\\nassert report == {\\n    \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n    \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n}\\noriginal_module = {\\\"__name__\\\": \\\"original_contracts\\\"}\\nrepaired_module = {\\\"__name__\\\": \\\"repaired_contracts\\\"}\\nexec(compile(source, str(archive), \\\"exec\\\"), original_module)\\nexec(compile(repaired, \\\"<repaired_contracts>\\\", \\\"exec\\\"), repaired_module)\\ndata = {\\n    \\\"calls\\\": [\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": {\\\"prompt_tokens\\\": 12, \\\"completion_tokens\\\": 3}, \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"failed\\\", \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": None},\\n    ],\\n    \\\"rates\\\": {\\\"input_micro_usd_per_million_tokens\\\": 1000000, \\\"output_micro_usd_per_million_tokens\\\": 2000000},\\n    \\\"outcomes\\\": [\\n        {\\\"task_id\\\": str(i), \\\"accepted\\\": value}\\n        for i, value in enumerate([True, False, None, 0, 1, -1, \\\"true\\\", \\\"false\\\", \\\"\\\", [], {}, 0.0])\\n    ] + [{\\\"task_id\\\": \\\"absent\\\"}],\\n}\\nbefore = original_module[\\\"inference_report\\\"](data)\\nafter = repaired_module[\\\"inference_report\\\"](data)\\nassert (after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"]) == (1, 1, 11)\\nassert sum(after[key] for key in (\\\"accepted\\\", \\\"rejected\\\", \\\"unknown\\\")) == after[\\\"outcomes\\\"]\\nassert {key: value for key, value in before.items() if key != \\\"unknown\\\"} == {key: value for key, value in after.items() if key != \\\"unknown\\\"}\\nempty = {\\\"calls\\\": [], \\\"outcomes\\\": [], \\\"rates\\\": data[\\\"rates\\\"]}\\nempty_report = repaired_module[\\\"inference_report\\\"](empty)\\nassert empty_report == original_module[\\\"inference_report\\\"](empty)\\nassert (empty_report[\\\"accepted\\\"], empty_report[\\\"rejected\\\"], empty_report[\\\"unknown\\\"]) == (0, 0, 0)\\nrecording = {\\\"counts\\\": [[0, 0], [1, 2], [0, 0]], \\\"unit_ids\\\": [\\\"a\\\", \\\"b\\\"], \\\"bin_seconds\\\": 0.001, \\\"nwb_identifier\\\": \\\"smoke\\\"}\\nassert repaired_module[\\\"neural_report\\\"](recording) == original_module[\\\"neural_report\\\"](recording)\\nassert repaired_module[\\\"bytes_hash\\\"](b\\\"smoke\\\") == original_module[\\\"bytes_hash\\\"](b\\\"smoke\\\")\\nprint(\\\"Mixed labels:\\\", after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"])\\nprint(\\\"Exact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\\\")\\n\",\"lesson\":\"For a supplied narrow repair, verify the exact textual delta and exercise non-boolean labels explicitly; equality with booleans is not exact boolean identity.\",\"done\":true}",
+                "probe": {
+                  "checks_sha256": "73e2f115ce7db16553ba4e54c2c467b8754b811ffd0879d850cb54ee2fac74a5",
+                  "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Mixed labels: 1 1 11\nExact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.078368
+                },
+                "response_sha256": "bc2507b370f4059b8b81315bac6e3f24d80a373395de29eab55120d42f1336c2",
+                "stage": "interactive",
+                "submitted": true,
+                "usage": {
+                  "completion_tokens": 1144,
+                  "prompt_tokens": 3802,
+                  "reasoning_tokens": 0,
+                  "total_tokens": 4946
+                }
+              }
+            ],
+            "checked_correction": null,
+            "checker": {
+              "checks_sha256": "daa94671980635426e4a6e91bdfe0baca1b74f0b1ad61100190f6920b1c8d32c",
+              "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "",
+              "stdout": "Archived module repair and strict-boolean boundaries passed\n",
+              "timed_out": false,
+              "wall_seconds": 0.089769
+            },
+            "code": "import hashlib\nimport json\nfrom pathlib import Path\n\n\ndef repair_contracts(source: str) -> str:\n    old = 'sum(row.get(\"accepted\") is None for row in outcomes)'\n    new = 'sum(type(row.get(\"accepted\")) is not bool for row in outcomes)'\n    repaired = source.replace(old, new, 1)\n    report = {\n        \"schema\": \"nuria.reporter-repair.v1\",\n        \"original_source_sha256\": hashlib.sha256(source.encode(\"utf-8\")).hexdigest(),\n        \"repaired_source_sha256\": hashlib.sha256(repaired.encode(\"utf-8\")).hexdigest(),\n        \"behavior\": \"Unknown labels are every value other than exact bool; other report fields unchanged.\",\n    }\n    Path(\"repair-report.json\").write_text(json.dumps(report, indent=2) + \"\\n\", encoding=\"utf-8\")\n    return repaired\n",
+            "completion_tokens_used": 2700,
+            "execution_route": "nuria.interactive-work.v1",
+            "experience_ids": [],
+            "experience_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "family": "project_maintenance",
+            "implementation_sha256": "61bcb1e4880a4f46331c5fb49729e97110d843009be4d201c4075e0083633eb9",
+            "issued_completion_limits": [
+              2400,
+              2400,
+              2400
+            ],
+            "job_id": "repair",
+            "lesson": "For a supplied narrow repair, verify the exact textual delta and exercise non-boolean labels explicitly; equality with booleans is not exact boolean identity.",
+            "maximum_completion_tokens": 7200,
+            "policy_sha256": "d5a601aec82572e749ea7e67bf29508dae131d8b95e82f7b308c4aff7f0c98e0",
+            "prompt": "Implement repair_contracts(source: str) -> str for the actual archived module in inputs/archived_contracts.txt. Fix only inference_report's unknown count: accepted exact True counts accepted, exact False counts rejected, EVERY other value counts unknown (including absent, null, integers and strings). Preserve every other function and output behavior. Return a new module string, leave the archive untouched. For this archived module, replacing the unique unknown count expression is sufficient; do not change formatting beyond that expression. Also write repair-report.json with exactly these fields: schema \"nuria.reporter-repair.v1\"; original_source_sha256 and repaired_source_sha256 from UTF-8 strings; behavior \"Unknown labels are every value other than exact bool; other report fields unchanged.\" Read and inspect the actual source, execute your new module and test the fix. This is a known-defect repair, not discovery of a new bug.\nUse this exact known replacement, preserving every other byte: replace sum(row.get(\"accepted\") is None for row in outcomes) with sum(type(row.get(\"accepted\")) is not bool for row in outcomes). The repair is supplied; success demonstrates safe execution and delivery, not discovering it.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 3632, \"complete\": false, \"format\": \"uninspected\", \"limits_reached\": [\"invalid_or_unsupported_json\"], \"name\": \"archived_contracts.txt\", \"paths\": [], \"sha256\": \"1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+            "proposal_error": null,
+            "proposed_code_sha256": "23bbb9d0d1fe0e66bbb24d7704d7074a5acf4e75bbdeedf25d92ed9aedd07854",
+            "replayed": false,
+            "source_sha256": "a8acb848c25b5a0493bf4f8f2dd1a846c59967f5c1fe7d42e67b3143c274c057",
+            "stop_reason": "submitted",
+            "task_id": "NuriaProject/repair",
+            "version": "nuria.outcome-worker.v1"
+          },
+          {
+            "accepted": true,
+            "attempts": [
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import json\\nfrom fractions import Fraction\\nfrom pathlib import Path\\n\\n\\ndef audit_budget(data: dict) -> dict:\\n    rows = data[\\\"requests\\\"]\\n    charged = 0\\n    unresolved = 0\\n    known = 0\\n    recomputed = 0\\n    mismatches = []\\n    blocked = False\\n    models = set()\\n    for row in rows:\\n        pricing = row[\\\"pricing\\\"]\\n        models.add(pricing[\\\"model\\\"])\\n        charge = row[\\\"charged_micro_usd\\\"]\\n        if charge is None:\\n            blocked = True\\n            unresolved += row[\\\"reserved_micro_usd\\\"]\\n        else:\\n            charged += charge\\n        usage = row[\\\"usage\\\"]\\n        if usage is not None:\\n            known += 1\\n            prompt = usage[\\\"prompt_tokens\\\"]\\n            completion = usage[\\\"completion_tokens\\\"]\\n            input_rate = Fraction(str(pricing[\\\"input_micro_usd_per_million_tokens\\\"]))\\n            output_rate = Fraction(str(pricing[\\\"output_micro_usd_per_million_tokens\\\"]))\\n            if (\\\"long_context_threshold\\\" in pricing\\n                    and prompt > pricing[\\\"long_context_threshold\\\"]):\\n                input_rate *= Fraction(str(pricing[\\\"long_context_input_multiplier\\\"]))\\n                output_rate *= Fraction(str(pricing[\\\"long_context_output_multiplier\\\"]))\\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\\n            cost = -(-amount.numerator // amount.denominator)\\n            recomputed += cost\\n            if charge is not None and charge != cost:\\n                mismatches.append(row[\\\"request_sha256\\\"])\\n    accounted = charged + unresolved\\n    return {\\n        \\\"schema\\\": \\\"nuria.cost-audit-report.v1\\\",\\n        \\\"scope\\\": \\\"Configured conservative ledger accounting; not a provider invoice.\\\",\\n        \\\"requests\\\": len(rows),\\n        \\\"known_usage\\\": known,\\n        \\\"unknown_usage\\\": len(rows) - known,\\n        \\\"charged_micro_usd\\\": charged,\\n        \\\"unresolved_reserve_micro_usd\\\": unresolved,\\n        \\\"accounted_micro_usd\\\": accounted,\\n        \\\"remaining_micro_usd\\\": data[\\\"cap_micro_usd\\\"] - accounted,\\n        \\\"blocked\\\": blocked,\\n        \\\"recomputed_known_usage_micro_usd\\\": recomputed,\\n        \\\"cost_mismatch_requests\\\": sorted(mismatches),\\n        \\\"models\\\": sorted(models),\\n    }\\n\\n\\ndef main() -> None:\\n    data = json.loads(Path(\\\"inputs/source.json\\\").read_text(encoding=\\\"utf-8\\\"))\\n    report = audit_budget(data)\\n    Path(\\\"budget-report.json\\\").write_text(\\n        json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\"\\n    )\\n\\n\\nif __name__ == \\\"__main__\\\":\\n    main()\\n\",\"checks\":\"data = json.loads(Path('inputs/source.json').read_text(encoding='utf-8'))\\nprint('Input schema and scope:', data['schema'], data['scope'])\\nprint('Distinct pricing:', sorted({json.dumps(r['pricing'], sort_keys=True) for r in data['requests']}))\\nprint('Unknown usage rows:', [r for r in data['requests'] if r['usage'] is None])\\nprint('Null-charge count:', sum(r['charged_micro_usd'] is None for r in data['requests']))\\nreport = audit_budget(data)\\nprint('Report:', json.dumps(report, indent=2))\\nmain()\\nassert json.loads(Path('budget-report.json').read_text()) == report\\npricing = {'model': 'edge', 'input_micro_usd_per_million_tokens': 100000, 'output_micro_usd_per_million_tokens': 200000, 'long_context_threshold': 10, 'long_context_input_multiplier': 2, 'long_context_output_multiplier': 1.5}\\ndef row(prompt, completion, charge, reserve, name='duplicate'):\\n    return {'pricing': pricing, 'usage': {'prompt_tokens': prompt, 'completion_tokens': completion}, 'charged_micro_usd': charge, 'reserved_micro_usd': reserve, 'request_sha256': name}\\na = row(10, 0, 0, 999)\\nb = row(11, 1, 0, 999)\\nc = row(1, 0, None, 7)\\nd = dict(row(1, 0, None, 5), usage=None, pricing=dict(pricing, model='unknown-only'))\\ne = dict(row(1, 0, 4, 999), usage=None)\\nedge = audit_budget({'cap_micro_usd': 10, 'requests': [a,b,c,d,e]})\\nassert edge['recomputed_known_usage_micro_usd'] == 5\\nassert edge['cost_mismatch_requests'] == ['duplicate', 'duplicate']\\nassert edge['charged_micro_usd'] == 4\\nassert edge['unresolved_reserve_micro_usd'] == 12\\nassert edge['remaining_micro_usd'] == -6\\nassert edge['known_usage'] == 3 and edge['unknown_usage'] == 2\\nassert edge['models'] == ['edge', 'unknown-only'] and edge['blocked'] is True\\nempty = audit_budget({'cap_micro_usd': 0, 'requests': []})\\nassert empty['requests'] == 0 and empty['blocked'] is False\\nassert empty['models'] == [] and empty['remaining_micro_usd'] == 0\\nprint('Boundary checks passed')\",\"lesson\":\"Keep charge/reserve accounting independent from usage availability, and use exact rational arithmetic for per-row ceiling with fractional multipliers.\",\"done\":false}",
+                "probe": {
+                  "checks_sha256": "556a67994f0595845fdadde91d44585cfc9a6d765f35d252ab67b88de2242b33",
+                  "code_sha256": "66d68f350863bd9dfeb0448fb19e6f69f1baa90d9f716e638557b98b0413561c",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Input schema and scope: nuria.cost-audit-input.v1 Nuria-only configured conservative ledger accounting, not a provider invoice.\nDistinct pricing: ['{\"input_micro_usd_per_million_tokens\": 2000000, \"model\": \"gpt-6.1-sol\", \"output_micro_usd_per_million_tokens\": 10000000}', '{\"input_micro_usd_per_million_tokens\": 2500000, \"long_context_input_multiplier\": 2, \"long_context_output_multiplier\": 1.5, \"long_context_threshold\": 272000, \"model\": \"gpt-6.1-sol\", \"output_micro_usd_per_million_tokens\": 10000000}']\nUnknown usage rows: [{'charged_micro_usd': None, 'pricing': {'input_micro_usd_per_million_tokens': 2500000, 'long_context_input_multiplier': 2, 'long_context_output_multiplier': 1.5, 'long_context_threshold': 272000, 'model': 'gpt-6.1-sol', 'output_micro_usd_per_million_tokens': 10000000}, 'request_sha256': '28e49428d0fb0aaca381e410d82e470060bdbd3705caaa08b10ee65ce7ba9862', 'reserved_micro_usd': 4646000, 'state': 'reserved', 'usage': None}]\nNull-charge count: 1\nReport: {\n  \"schema\": \"nuria.cost-audit-report.v1\",\n  \"scope\": \"Configured conservative ledger accounting; not a provider invoice.\",\n  \"requests\": 72,\n  \"known_usage\": 71,\n  \"unknown_usage\": 1,\n  \"charged_micro_usd\": 936011,\n  \"unresolved_reserve_micro_usd\": 4646000,\n  \"accounted_micro_usd\": 5582011,\n  \"remaining_micro_usd\": 14417989,\n  \"blocked\": true,\n  \"recomputed_known_usage_micro_usd\": 936011,\n  \"cost_mismatch_requests\": [],\n  \"models\": [\n    \"gpt-6.1-sol\"\n  ]\n}\nBoundary checks passed\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.085518
+                },
+                "response_sha256": "3c873de0e17758d23e8d40ef946239211c59fffd78f9bceefc3fb906f405b853",
+                "stage": "interactive",
+                "submitted": false,
+                "usage": {
+                  "completion_tokens": 1317,
+                  "prompt_tokens": 2319,
+                  "reasoning_tokens": 63,
+                  "total_tokens": 3636
+                }
+              },
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import json\\nfrom fractions import Fraction\\nfrom pathlib import Path\\n\\n\\ndef audit_budget(data: dict) -> dict:\\n    rows = data[\\\"requests\\\"]\\n    charged = 0\\n    unresolved = 0\\n    known = 0\\n    recomputed = 0\\n    mismatches = []\\n    blocked = False\\n    models = set()\\n\\n    for row in rows:\\n        pricing = row[\\\"pricing\\\"]\\n        models.add(pricing[\\\"model\\\"])\\n        charge = row[\\\"charged_micro_usd\\\"]\\n        if charge is None:\\n            blocked = True\\n            unresolved += row[\\\"reserved_micro_usd\\\"]\\n        else:\\n            charged += charge\\n\\n        usage = row[\\\"usage\\\"]\\n        if usage is not None:\\n            known += 1\\n            prompt = usage[\\\"prompt_tokens\\\"]\\n            completion = usage[\\\"completion_tokens\\\"]\\n            input_rate = Fraction(str(pricing[\\\"input_micro_usd_per_million_tokens\\\"]))\\n            output_rate = Fraction(str(pricing[\\\"output_micro_usd_per_million_tokens\\\"]))\\n            if (\\\"long_context_threshold\\\" in pricing\\n                    and prompt > pricing[\\\"long_context_threshold\\\"]):\\n                input_rate *= Fraction(str(pricing[\\\"long_context_input_multiplier\\\"]))\\n                output_rate *= Fraction(str(pricing[\\\"long_context_output_multiplier\\\"]))\\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\\n            cost = -(-amount.numerator // amount.denominator)\\n            recomputed += cost\\n            if charge is not None and charge != cost:\\n                mismatches.append(row[\\\"request_sha256\\\"])\\n\\n    accounted = charged + unresolved\\n    return {\\n        \\\"schema\\\": \\\"nuria.cost-audit-report.v1\\\",\\n        \\\"scope\\\": \\\"Configured conservative ledger accounting; not a provider invoice.\\\",\\n        \\\"requests\\\": len(rows),\\n        \\\"known_usage\\\": known,\\n        \\\"unknown_usage\\\": len(rows) - known,\\n        \\\"charged_micro_usd\\\": charged,\\n        \\\"unresolved_reserve_micro_usd\\\": unresolved,\\n        \\\"accounted_micro_usd\\\": accounted,\\n        \\\"remaining_micro_usd\\\": data[\\\"cap_micro_usd\\\"] - accounted,\\n        \\\"blocked\\\": blocked,\\n        \\\"recomputed_known_usage_micro_usd\\\": recomputed,\\n        \\\"cost_mismatch_requests\\\": sorted(mismatches),\\n        \\\"models\\\": sorted(models),\\n    }\\n\\n\\ndef main() -> None:\\n    data = json.loads(Path(\\\"inputs/source.json\\\").read_text(encoding=\\\"utf-8\\\"))\\n    report = audit_budget(data)\\n    Path(\\\"budget-report.json\\\").write_text(\\n        json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\"\\n    )\\n\\n\\nif __name__ == \\\"__main__\\\":\\n    main()\\n\",\"checks\":\"data = json.loads(Path('inputs/source.json').read_text(encoding='utf-8'))\\nreport = audit_budget(data)\\nassert report == {\\n    'schema': 'nuria.cost-audit-report.v1',\\n    'scope': 'Configured conservative ledger accounting; not a provider invoice.',\\n    'requests': 72,\\n    'known_usage': 71,\\n    'unknown_usage': 1,\\n    'charged_micro_usd': 936011,\\n    'unresolved_reserve_micro_usd': 4646000,\\n    'accounted_micro_usd': 5582011,\\n    'remaining_micro_usd': 14417989,\\n    'blocked': True,\\n    'recomputed_known_usage_micro_usd': 936011,\\n    'cost_mismatch_requests': [],\\n    'models': ['gpt-6.1-sol'],\\n}\\nmain()\\nassert json.loads(Path('budget-report.json').read_text(encoding='utf-8')) == report\\n\\npricing = {'model': 'edge', 'input_micro_usd_per_million_tokens': 100000, 'output_micro_usd_per_million_tokens': 200000, 'long_context_threshold': 10, 'long_context_input_multiplier': 2, 'long_context_output_multiplier': 1.5}\\ndef row(prompt, completion, charge, reserve, name='duplicate'):\\n    return {'pricing': pricing, 'usage': {'prompt_tokens': prompt, 'completion_tokens': completion}, 'charged_micro_usd': charge, 'reserved_micro_usd': reserve, 'request_sha256': name}\\na = row(10, 0, 0, 999)\\nb = row(11, 1, 0, 999)\\nc = row(1, 0, None, 7)\\nd = dict(row(1, 0, None, 5), usage=None, pricing=dict(pricing, model='unknown-only'))\\ne = dict(row(1, 0, 4, 999), usage=None)\\nedge = audit_budget({'cap_micro_usd': 10, 'requests': [a, b, c, d, e]})\\nassert edge['recomputed_known_usage_micro_usd'] == 5\\nassert edge['cost_mismatch_requests'] == ['duplicate', 'duplicate']\\nassert edge['charged_micro_usd'] == 4\\nassert edge['unresolved_reserve_micro_usd'] == 12\\nassert edge['remaining_micro_usd'] == -6\\nassert edge['known_usage'] == 3 and edge['unknown_usage'] == 2\\nassert edge['models'] == ['edge', 'unknown-only'] and edge['blocked'] is True\\nempty = audit_budget({'cap_micro_usd': 0, 'requests': []})\\nassert empty['requests'] == 0 and empty['blocked'] is False\\nassert empty['models'] == [] and empty['remaining_micro_usd'] == 0\\nprint('Snapshot and boundary checks passed')\",\"lesson\":\"Keep charge/reserve accounting independent from usage availability, and use exact rational arithmetic for per-row ceiling with fractional multipliers.\",\"done\":true}",
+                "probe": {
+                  "checks_sha256": "7004e6fa82c81e19af6247e6c257168d6b7438c113393a11dc5f35ac1ee9db58",
+                  "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Snapshot and boundary checks passed\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.091663
+                },
+                "response_sha256": "a9739405cace22b6f69a465e052739eeafbf3a7325dc7fb96733b9dff522a455",
+                "stage": "interactive",
+                "submitted": true,
+                "usage": {
+                  "completion_tokens": 1328,
+                  "prompt_tokens": 4298,
+                  "reasoning_tokens": 0,
+                  "total_tokens": 5626
+                }
+              }
+            ],
+            "checked_correction": null,
+            "checker": {
+              "checks_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+              "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "",
+              "stdout": "Actual mixed-pricing snapshot and authored accounting boundaries passed\n",
+              "timed_out": false,
+              "wall_seconds": 0.05773
+            },
+            "code": "import json\nfrom fractions import Fraction\nfrom pathlib import Path\n\n\ndef audit_budget(data: dict) -> dict:\n    rows = data[\"requests\"]\n    charged = 0\n    unresolved = 0\n    known = 0\n    recomputed = 0\n    mismatches = []\n    blocked = False\n    models = set()\n\n    for row in rows:\n        pricing = row[\"pricing\"]\n        models.add(pricing[\"model\"])\n        charge = row[\"charged_micro_usd\"]\n        if charge is None:\n            blocked = True\n            unresolved += row[\"reserved_micro_usd\"]\n        else:\n            charged += charge\n\n        usage = row[\"usage\"]\n        if usage is not None:\n            known += 1\n            prompt = usage[\"prompt_tokens\"]\n            completion = usage[\"completion_tokens\"]\n            input_rate = Fraction(str(pricing[\"input_micro_usd_per_million_tokens\"]))\n            output_rate = Fraction(str(pricing[\"output_micro_usd_per_million_tokens\"]))\n            if (\"long_context_threshold\" in pricing\n                    and prompt > pricing[\"long_context_threshold\"]):\n                input_rate *= Fraction(str(pricing[\"long_context_input_multiplier\"]))\n                output_rate *= Fraction(str(pricing[\"long_context_output_multiplier\"]))\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\n            cost = -(-amount.numerator // amount.denominator)\n            recomputed += cost\n            if charge is not None and charge != cost:\n                mismatches.append(row[\"request_sha256\"])\n\n    accounted = charged + unresolved\n    return {\n        \"schema\": \"nuria.cost-audit-report.v1\",\n        \"scope\": \"Configured conservative ledger accounting; not a provider invoice.\",\n        \"requests\": len(rows),\n        \"known_usage\": known,\n        \"unknown_usage\": len(rows) - known,\n        \"charged_micro_usd\": charged,\n        \"unresolved_reserve_micro_usd\": unresolved,\n        \"accounted_micro_usd\": accounted,\n        \"remaining_micro_usd\": data[\"cap_micro_usd\"] - accounted,\n        \"blocked\": blocked,\n        \"recomputed_known_usage_micro_usd\": recomputed,\n        \"cost_mismatch_requests\": sorted(mismatches),\n        \"models\": sorted(models),\n    }\n\n\ndef main() -> None:\n    data = json.loads(Path(\"inputs/source.json\").read_text(encoding=\"utf-8\"))\n    report = audit_budget(data)\n    Path(\"budget-report.json\").write_text(\n        json.dumps(report, indent=2) + \"\\n\", encoding=\"utf-8\"\n    )\n\n\nif __name__ == \"__main__\":\n    main()\n",
+            "completion_tokens_used": 2645,
+            "execution_route": "nuria.interactive-work.v1",
+            "experience_ids": [
+              "repair"
+            ],
+            "experience_sha256": "24fc8bd6c62fa35a58f347af7ba9ab7a6b414e2cec3d377410da38db469f3b43",
+            "family": "project_maintenance",
+            "implementation_sha256": "61bcb1e4880a4f46331c5fb49729e97110d843009be4d201c4075e0083633eb9",
+            "issued_completion_limits": [
+              2400,
+              2400
+            ],
+            "job_id": "accounting",
+            "lesson": "Keep charge/reserve accounting independent from usage availability, and use exact rational arithmetic for per-row ceiling with fractional multipliers.",
+            "maximum_completion_tokens": 7200,
+            "policy_sha256": "d5a601aec82572e749ea7e67bf29508dae131d8b95e82f7b308c4aff7f0c98e0",
+            "prompt": "Implement audit_budget(data: dict) -> dict and write budget-report.json for the actual mixed-price snapshot inputs/source.json. Preserve unknown liabilities. All amounts are integer micro USD. Output exactly: schema \"nuria.cost-audit-report.v1\"; scope \"Configured conservative ledger accounting; not a provider invoice.\"; requests, known_usage (usage is not null), unknown_usage (usage is null), charged_micro_usd (sum non-null charges), unresolved_reserve_micro_usd (sum reserved amounts only where charge is null), accounted_micro_usd (charged plus unresolved), remaining_micro_usd (cap minus accounted, can be negative), blocked (any null charge), recomputed_known_usage_micro_usd, cost_mismatch_requests and models. For each known usage row compute ceil((prompt_tokens*input_rate+completion_tokens*output_rate)/1000000), per row; use its pricing rates and multiply by the respective long_context multiplier only when prompt_tokens exceeds that pricing's long_context_threshold (absent means infinity). Cost mismatch means known usage and a non-null charge unequal to recomputation; list its request_sha256 sorted, retaining duplicates. models is unique sorted model names from ALL rows. Do not substitute reserve for known charge or treat missing usage as free. The supplied ledger is a real snapshot; declared edge cases may be authored. No provider invoice or payment settlement is claimed.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 29208, \"complete\": true, \"format\": \"json\", \"limits_reached\": [], \"name\": \"source.json\", \"nodes_inspected\": 1060, \"paths\": [{\"length_range\": [4, 4], \"occurrences\": 1, \"path\": \"$\", \"types\": [\"object\"]}, {\"occurrences\": 1, \"path\": \"$/cap_micro_usd\", \"types\": [\"integer\"]}, {\"length_range\": [72, 72], \"occurrences\": 1, \"path\": \"$/requests\", \"types\": [\"array\"]}, {\"length_range\": [6, 6], \"occurrences\": 72, \"path\": \"$/requests/*\", \"types\": [\"object\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/charged_micro_usd\", \"types\": [\"integer\", \"null\"]}, {\"length_range\": [3, 6], \"occurrences\": 72, \"path\": \"$/requests/*/pricing\", \"types\": [\"object\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/pricing/input_micro_usd_per_million_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 17, \"path\": \"$/requests/*/pricing/long_context_input_multiplier\", \"types\": [\"integer\"]}, {\"occurrences\": 17, \"path\": \"$/requests/*/pricing/long_context_output_multiplier\", \"types\": [\"number\"]}, {\"occurrences\": 17, \"path\": \"$/requests/*/pricing/long_context_threshold\", \"types\": [\"integer\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/pricing/model\", \"types\": [\"string\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/pricing/output_micro_usd_per_million_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/request_sha256\", \"types\": [\"string\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/reserved_micro_usd\", \"types\": [\"integer\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/state\", \"types\": [\"string\"]}, {\"length_range\": [4, 4], \"occurrences\": 72, \"path\": \"$/requests/*/usage\", \"types\": [\"null\", \"object\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/completion_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/prompt_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/reasoning_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/total_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 1, \"path\": \"$/schema\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/scope\", \"types\": [\"string\"]}], \"sha256\": \"26465504e8c32d4319dc3e5c67fa8a9328422cc79d90d6469a5a9a88ec70b488\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+            "proposal_error": null,
+            "proposed_code_sha256": "7df7703ed054059479f9acc7ee691911104f19773276f04081a4556979ec5583",
+            "replayed": false,
+            "source_sha256": "fb01ac8bde698cfe65cc0bcd84beeeac913d55ec4eabe3e598ea18caee9e85d8",
+            "stop_reason": "submitted",
+            "task_id": "NuriaProject/accounting",
+            "version": "nuria.outcome-worker.v1"
+          }
+        ],
+        "journal": {
+          "events": 4,
+          "tail_sha256": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+        },
+        "replayed": 0,
+        "version": "nuria.interactive-course.v1"
+      }
+    }
+  },
+  "identical-replay": {
+    "summary": {
+      "accepted": 2,
+      "delivered": 2,
+      "replayed": 2
+    },
+    "course": {
+      "delivery": {
+        "deliveries": [
+          {
+            "binding": {
+              "enrollment_sha256": "7fe7344a52947afa97c8fbfb8ba67ef2daf1a5cf4db22f833ac51008b8354b29",
+              "result_sha256": "76975f91eb833ed2353e1784d72c3ba15d44224488f7611f0a61eed8ba237cfa",
+              "task_sha256": "1fa1b0c6fc0226c51f3ded21303a10a88e5d36e0015ab416b51b5185973fcc5a"
+            },
+            "checker_sha256": "daa94671980635426e4a6e91bdfe0baca1b74f0b1ad61100190f6920b1c8d32c",
+            "files": [
+              {
+                "bytes": 337,
+                "name": "repair-report.json",
+                "semantic_sha256": "37563cba96e9615655110def0debeda22a359bb7c92385004185ecb827bde749",
+                "sha256": "4c6fa578ddfbe477baa01d53534eee670ab49b06aea06158d024c4b3d3a7feb5"
+              }
+            ],
+            "financial_activity": false,
+            "job_id": "repair",
+            "journal_at_collection": {
+              "events": 4,
+              "tail_sha256": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+            },
+            "model_calls": 0,
+            "program_executions": 0,
+            "program_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+            "receipt_sha256": "9347debcc070b0585cb918877f9c255c38b3663f2f27ce3a82cfb0af31dc5d00",
+            "replayed": true,
+            "schema": "nuria.program-delivery.v1",
+            "source_sha256": "a8acb848c25b5a0493bf4f8f2dd1a846c59967f5c1fe7d42e67b3143c274c057"
+          },
+          {
+            "binding": {
+              "enrollment_sha256": "51e3bce07d35f4f45c89467409de59549ee79b606852bf834e653deb4c5dd46c",
+              "result_sha256": "c9d75fe52b85476b6b7e941d1cfb05f2a481ce4530f3adfcefbe8e48736ea653",
+              "task_sha256": "dc62b9d280a693bc6e483edfc8e2564204d520c648bb14977be87e602a726c84"
+            },
+            "checker_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+            "files": [
+              {
+                "bytes": 464,
+                "name": "budget-report.json",
+                "semantic_sha256": "c55c600d2e3f5ba8b86274916bf0b09915cab61e5e814afc95822d69ef362bc4",
+                "sha256": "cafc8e0515210360badb13e2b6779d66b0065bb54ff8fcad948a194ddd50ba58"
+              }
+            ],
+            "financial_activity": false,
+            "job_id": "accounting",
+            "journal_at_collection": {
+              "events": 4,
+              "tail_sha256": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+            },
+            "model_calls": 0,
+            "program_executions": 0,
+            "program_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+            "receipt_sha256": "cc3b0c955f765169a677d66d5b5fd399c99209dd06641082a5e03724d58d5bac",
+            "replayed": true,
+            "schema": "nuria.program-delivery.v1",
+            "source_sha256": "fb01ac8bde698cfe65cc0bcd84beeeac913d55ec4eabe3e598ea18caee9e85d8"
+          }
+        ],
+        "replayed": 2
+      },
+      "input_observations": {
+        "accounting": {
+          "files": [
+            {
+              "bytes": 29208,
+              "complete": true,
+              "format": "json",
+              "limits_reached": [],
+              "name": "source.json",
+              "nodes_inspected": 1060,
+              "paths": [
+                {
+                  "length_range": [
+                    4,
+                    4
+                  ],
+                  "occurrences": 1,
+                  "path": "$",
+                  "types": [
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 1,
+                  "path": "$/cap_micro_usd",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "length_range": [
+                    72,
+                    72
+                  ],
+                  "occurrences": 1,
+                  "path": "$/requests",
+                  "types": [
+                    "array"
+                  ]
+                },
+                {
+                  "length_range": [
+                    6,
+                    6
+                  ],
+                  "occurrences": 72,
+                  "path": "$/requests/*",
+                  "types": [
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/charged_micro_usd",
+                  "types": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                {
+                  "length_range": [
+                    3,
+                    6
+                  ],
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing",
+                  "types": [
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing/input_micro_usd_per_million_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 17,
+                  "path": "$/requests/*/pricing/long_context_input_multiplier",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 17,
+                  "path": "$/requests/*/pricing/long_context_output_multiplier",
+                  "types": [
+                    "number"
+                  ]
+                },
+                {
+                  "occurrences": 17,
+                  "path": "$/requests/*/pricing/long_context_threshold",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing/model",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/pricing/output_micro_usd_per_million_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/request_sha256",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/reserved_micro_usd",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 72,
+                  "path": "$/requests/*/state",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "length_range": [
+                    4,
+                    4
+                  ],
+                  "occurrences": 72,
+                  "path": "$/requests/*/usage",
+                  "types": [
+                    "null",
+                    "object"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/completion_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/prompt_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/reasoning_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 71,
+                  "path": "$/requests/*/usage/total_tokens",
+                  "types": [
+                    "integer"
+                  ]
+                },
+                {
+                  "occurrences": 1,
+                  "path": "$/schema",
+                  "types": [
+                    "string"
+                  ]
+                },
+                {
+                  "occurrences": 1,
+                  "path": "$/scope",
+                  "types": [
+                    "string"
+                  ]
+                }
+              ],
+              "sha256": "26465504e8c32d4319dc3e5c67fa8a9328422cc79d90d6469a5a9a88ec70b488"
+            }
+          ],
+          "scalar_values_disclosed": false,
+          "schema": "nuria.input-observation.v1"
+        },
+        "repair": {
+          "files": [
+            {
+              "bytes": 3632,
+              "complete": false,
+              "format": "uninspected",
+              "limits_reached": [
+                "invalid_or_unsupported_json"
+              ],
+              "name": "archived_contracts.txt",
+              "paths": [],
+              "sha256": "1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638"
+            }
+          ],
+          "scalar_values_disclosed": false,
+          "schema": "nuria.input-observation.v1"
+        }
+      },
+      "original_enrollment_sha256": "e0d31b8d2742c874bc10aa4c0ea88647823ba7fb85602020fd9cd42749562da7",
+      "prepared_enrollment_sha256": "fc7d4d915d9c317fd215b1011e9cc166e67e9fdeb4709e8711363a5e201bb9a2",
+      "rejected_jobs": [],
+      "unknown_jobs": [],
+      "version": "nuria.delivered-course.v1",
+      "work": {
+        "accepted": 2,
+        "jobs": [
+          {
+            "accepted": true,
+            "attempts": [
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import hashlib\\nimport json\\nfrom pathlib import Path\\n\\n\\ndef repair_contracts(source: str) -> str:\\n    old = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\n    new = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\n    repaired = source.replace(old, new, 1)\\n    report = {\\n        \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n        \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n    }\\n    Path(\\\"repair-report.json\\\").write_text(json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\")\\n    return repaired\\n\",\"checks\":\"from pathlib import Path\\n\\narchive = Path(\\\"inputs/archived_contracts.txt\\\")\\noriginal_bytes = archive.read_bytes()\\nsource = original_bytes.decode(\\\"utf-8\\\")\\nprint(source)\\nprint(\\\"Original SHA-256:\\\", hashlib.sha256(original_bytes).hexdigest())\\nprint(\\\"Replacement occurrences:\\\", source.count('sum(row.get(\\\"accepted\\\") is None for row in outcomes)'))\\n\",\"lesson\":\"Inspect the archived source before executing a narrowly scoped textual repair; preserve all text outside the supplied replacement.\",\"done\":false}",
+                "probe": {
+                  "checks_sha256": "d7b3a99bf2d4bea380d033b838fe9c176ce77cbe683a7e2ac617bccf09997b34",
+                  "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "\"\"\"Independent, explicit delivery expectations for real project data.\n\nRecorded organoid activity is a data source, not live tissue or evidence about\nNuria's consciousness. Episodes here mean consecutive nonempty population bins.\nThese host expectations are never supplied to the model or its tool workspace.\n\"\"\"\n\nimport hashlib\nimport math\nfrom collections import Counter\n\n\ndef neural_report(data):\n    rows, units = data[\"counts\"], data[\"unit_ids\"]\n    population = [sum(row) for row in rows]\n    totals = [sum(row[i] for row in rows) for i in range(len(units))]\n    episodes = []\n    active = []\n    for index, total in enumerate(population + [0]):\n        if total:\n            active.append(index)\n        elif active:\n            begin, end = active[0], active[-1] + 1\n            episodes.append(\n                {\n                    \"start_bin\": begin,\n                    \"stop_bin\": end,\n                    \"spikes\": sum(population[begin:end]),\n                    \"active_units\": sum(\n                        any(rows[j][i] for j in range(begin, end))\n                        for i in range(len(units))\n                    ),\n                }\n            )\n            active = []\n    return {\n        \"schema\": \"nuria.recording-report.v1\",\n        \"bins\": len(rows),\n        \"units\": len(units),\n        \"bin_microseconds\": round(data[\"bin_seconds\"] * 1_000_000),\n        \"total_spikes\": sum(population),\n        \"population_by_bin\": population,\n        \"unit_totals\": [\n            {\"unit_id\": unit, \"spikes\": total} for unit, total in zip(units, totals)\n        ],\n        \"active_units\": [unit for unit, total in zip(units, totals) if total > 0],\n        \"episodes\": episodes,\n        \"recording_id\": data[\"nwb_identifier\"],\n        \"interpretation\": \"Recorded organoid activity; nonempty-bin episodes, not consciousness or live tissue.\",\n    }\n\n\ndef inference_report(data):\n    calls, outcomes = data[\"calls\"], data[\"outcomes\"]\n    uses = [row.get(\"usage\") or {} for row in calls]\n    rates = data[\"rates\"]\n    cost = sum(\n        math.ceil(\n            (\n                use.get(\"prompt_tokens\", 0)\n                * rates[\"input_micro_usd_per_million_tokens\"]\n                + use.get(\"completion_tokens\", 0)\n                * rates[\"output_micro_usd_per_million_tokens\"]\n            )\n            / 1_000_000\n        )\n        for use in uses\n    )\n    hashes = Counter(\n        row.get(\"response_sha256\") for row in calls if row.get(\"response_sha256\")\n    )\n    return {\n        \"schema\": \"nuria.inference-report.v1\",\n        \"calls\": len(calls),\n        \"completed_calls\": sum(row[\"state\"] == \"completed\" for row in calls),\n        \"failed_calls\": sum(row[\"state\"] == \"failed\" for row in calls),\n        \"usage_unknown_calls\": sum(row.get(\"usage\") is None for row in calls),\n        \"prompt_tokens\": sum(use.get(\"prompt_tokens\", 0) for use in uses),\n        \"completion_tokens\": sum(use.get(\"completion_tokens\", 0) for use in uses),\n        \"configured_micro_usd\": cost,\n        \"cost_scope\": \"Configured uncached token rates for known usage; not a provider invoice or settlement of missing usage.\",\n        \"repeated_response_hashes\": sorted(\n            key for key, count in hashes.items() if count > 1\n        ),\n        \"outcomes\": len(outcomes),\n        \"accepted\": sum(row.get(\"accepted\") is True for row in outcomes),\n        \"rejected\": sum(row.get(\"accepted\") is False for row in outcomes),\n        \"unknown\": sum(row.get(\"accepted\") is None for row in outcomes),\n        \"tasks\": sorted(row[\"task_id\"] for row in outcomes),\n    }\n\n\ndef bytes_hash(raw):\n    return hashlib.sha256(raw).hexdigest()\n\nOriginal SHA-256: 1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638\nReplacement occurrences: 1\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.085171
+                },
+                "response_sha256": "6927ac8fc7e8d2f9d3eb5bd8a40dbc179195ade4c168145cfe7945d96afd383b",
+                "stage": "interactive",
+                "submitted": false,
+                "usage": {
+                  "completion_tokens": 376,
+                  "prompt_tokens": 812,
+                  "reasoning_tokens": 41,
+                  "total_tokens": 1188
+                }
+              },
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import hashlib\\nimport json\\nfrom pathlib import Path\\n\\n\\ndef repair_contracts(source: str) -> str:\\n    old = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\n    new = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\n    repaired = source.replace(old, new, 1)\\n    report = {\\n        \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n        \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n    }\\n    Path(\\\"repair-report.json\\\").write_text(json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\")\\n    return repaired\\n\",\"checks\":\"archive = Path(\\\"inputs/archived_contracts.txt\\\")\\noriginal_bytes = archive.read_bytes()\\nsource = original_bytes.decode(\\\"utf-8\\\")\\nold = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\nnew = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\nassert source.count(old) == 1\\nrepaired = repair_contracts(source)\\nprefix, suffix = source.split(old)\\nassert repaired == prefix + new + suffix\\nassert archive.read_bytes() == original_bytes\\nreport = json.loads(Path(\\\"repair-report.json\\\").read_text(encoding=\\\"utf-8\\\"))\\nassert report == {\\n    \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n    \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n}\\noriginal_module = {\\\"__name__\\\": \\\"original_contracts\\\"}\\nrepaired_module = {\\\"__name__\\\": \\\"repaired_contracts\\\"}\\nexec(compile(source, str(archive), \\\"exec\\\"), original_module)\\nexec(compile(repaired, \\\"<repaired_contracts>\\\", \\\"exec\\\"), repaired_module)\\ndata = {\\n    \\\"calls\\\": [\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": {\\\"prompt_tokens\\\": 12, \\\"completion_tokens\\\": 3}, \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"failed\\\", \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": None},\\n    ],\\n    \\\"rates\\\": {\\\"input_micro_usd_per_million_tokens\\\": 1000000, \\\"output_micro_usd_per_million_tokens\\\": 2000000},\\n    \\\"outcomes\\\": [\\n        {\\\"task_id\\\": str(i), \\\"accepted\\\": value}\\n        for i, value in enumerate([True, False, None, 0, 1, -1, \\\"true\\\", \\\"false\\\", \\\"\\\", [], {}, 0.0])\\n    ] + [{\\\"task_id\\\": \\\"absent\\\"}],\\n}\\nbefore = original_module[\\\"inference_report\\\"](data)\\nafter = repaired_module[\\\"inference_report\\\"](data)\\nassert (after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"]) == (1, 1, 11)\\nassert sum(after[key] for key in (\\\"accepted\\\", \\\"rejected\\\", \\\"unknown\\\")) == after[\\\"outcomes\\\"]\\nassert {key: value for key, value in before.items() if key != \\\"unknown\\\"} == {key: value for key, value in after.items() if key != \\\"unknown\\\"}\\nempty = {\\\"calls\\\": [], \\\"outcomes\\\": [], \\\"rates\\\": data[\\\"rates\\\"]}\\nempty_report = repaired_module[\\\"inference_report\\\"](empty)\\nassert empty_report == original_module[\\\"inference_report\\\"](empty)\\nassert (empty_report[\\\"accepted\\\"], empty_report[\\\"rejected\\\"], empty_report[\\\"unknown\\\"]) == (0, 0, 0)\\nrecording = {\\\"counts\\\": [[0, 0], [1, 2], [0, 0]], \\\"unit_ids\\\": [\\\"a\\\", \\\"b\\\"], \\\"bin_seconds\\\": 0.001, \\\"nwb_identifier\\\": \\\"smoke\\\"}\\nassert repaired_module[\\\"neural_report\\\"](recording) == original_module[\\\"neural_report\\\"](recording)\\nassert repaired_module[\\\"bytes_hash\\\"](b\\\"smoke\\\") == original_module[\\\"bytes_hash\\\"](b\\\"smoke\\\")\\nprint(\\\"Mixed labels:\\\", after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"])\\nprint(\\\"Exact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\\\")\\n\",\"lesson\":\"For a supplied narrow repair, verify the exact textual delta and exercise non-boolean labels explicitly; equality with booleans is not exact boolean identity.\",\"done\":false}",
+                "probe": {
+                  "checks_sha256": "73e2f115ce7db16553ba4e54c2c467b8754b811ffd0879d850cb54ee2fac74a5",
+                  "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Mixed labels: 1 1 11\nExact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.07713
+                },
+                "response_sha256": "e8ac81c6e92418cfcfd03754bb47dfbf92a6c7da7b567ad26e6755b727e76948",
+                "stage": "interactive",
+                "submitted": false,
+                "usage": {
+                  "completion_tokens": 1180,
+                  "prompt_tokens": 2410,
+                  "reasoning_tokens": 34,
+                  "total_tokens": 3590
+                }
+              },
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import hashlib\\nimport json\\nfrom pathlib import Path\\n\\n\\ndef repair_contracts(source: str) -> str:\\n    old = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\n    new = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\n    repaired = source.replace(old, new, 1)\\n    report = {\\n        \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n        \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n        \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n    }\\n    Path(\\\"repair-report.json\\\").write_text(json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\")\\n    return repaired\\n\",\"checks\":\"archive = Path(\\\"inputs/archived_contracts.txt\\\")\\noriginal_bytes = archive.read_bytes()\\nsource = original_bytes.decode(\\\"utf-8\\\")\\nold = 'sum(row.get(\\\"accepted\\\") is None for row in outcomes)'\\nnew = 'sum(type(row.get(\\\"accepted\\\")) is not bool for row in outcomes)'\\nassert source.count(old) == 1\\nrepaired = repair_contracts(source)\\nprefix, suffix = source.split(old)\\nassert repaired == prefix + new + suffix\\nassert archive.read_bytes() == original_bytes\\nreport = json.loads(Path(\\\"repair-report.json\\\").read_text(encoding=\\\"utf-8\\\"))\\nassert report == {\\n    \\\"schema\\\": \\\"nuria.reporter-repair.v1\\\",\\n    \\\"original_source_sha256\\\": hashlib.sha256(source.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"repaired_source_sha256\\\": hashlib.sha256(repaired.encode(\\\"utf-8\\\")).hexdigest(),\\n    \\\"behavior\\\": \\\"Unknown labels are every value other than exact bool; other report fields unchanged.\\\",\\n}\\noriginal_module = {\\\"__name__\\\": \\\"original_contracts\\\"}\\nrepaired_module = {\\\"__name__\\\": \\\"repaired_contracts\\\"}\\nexec(compile(source, str(archive), \\\"exec\\\"), original_module)\\nexec(compile(repaired, \\\"<repaired_contracts>\\\", \\\"exec\\\"), repaired_module)\\ndata = {\\n    \\\"calls\\\": [\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": {\\\"prompt_tokens\\\": 12, \\\"completion_tokens\\\": 3}, \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"failed\\\", \\\"response_sha256\\\": \\\"same\\\"},\\n        {\\\"state\\\": \\\"completed\\\", \\\"usage\\\": None},\\n    ],\\n    \\\"rates\\\": {\\\"input_micro_usd_per_million_tokens\\\": 1000000, \\\"output_micro_usd_per_million_tokens\\\": 2000000},\\n    \\\"outcomes\\\": [\\n        {\\\"task_id\\\": str(i), \\\"accepted\\\": value}\\n        for i, value in enumerate([True, False, None, 0, 1, -1, \\\"true\\\", \\\"false\\\", \\\"\\\", [], {}, 0.0])\\n    ] + [{\\\"task_id\\\": \\\"absent\\\"}],\\n}\\nbefore = original_module[\\\"inference_report\\\"](data)\\nafter = repaired_module[\\\"inference_report\\\"](data)\\nassert (after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"]) == (1, 1, 11)\\nassert sum(after[key] for key in (\\\"accepted\\\", \\\"rejected\\\", \\\"unknown\\\")) == after[\\\"outcomes\\\"]\\nassert {key: value for key, value in before.items() if key != \\\"unknown\\\"} == {key: value for key, value in after.items() if key != \\\"unknown\\\"}\\nempty = {\\\"calls\\\": [], \\\"outcomes\\\": [], \\\"rates\\\": data[\\\"rates\\\"]}\\nempty_report = repaired_module[\\\"inference_report\\\"](empty)\\nassert empty_report == original_module[\\\"inference_report\\\"](empty)\\nassert (empty_report[\\\"accepted\\\"], empty_report[\\\"rejected\\\"], empty_report[\\\"unknown\\\"]) == (0, 0, 0)\\nrecording = {\\\"counts\\\": [[0, 0], [1, 2], [0, 0]], \\\"unit_ids\\\": [\\\"a\\\", \\\"b\\\"], \\\"bin_seconds\\\": 0.001, \\\"nwb_identifier\\\": \\\"smoke\\\"}\\nassert repaired_module[\\\"neural_report\\\"](recording) == original_module[\\\"neural_report\\\"](recording)\\nassert repaired_module[\\\"bytes_hash\\\"](b\\\"smoke\\\") == original_module[\\\"bytes_hash\\\"](b\\\"smoke\\\")\\nprint(\\\"Mixed labels:\\\", after[\\\"accepted\\\"], after[\\\"rejected\\\"], after[\\\"unknown\\\"])\\nprint(\\\"Exact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\\\")\\n\",\"lesson\":\"For a supplied narrow repair, verify the exact textual delta and exercise non-boolean labels explicitly; equality with booleans is not exact boolean identity.\",\"done\":true}",
+                "probe": {
+                  "checks_sha256": "73e2f115ce7db16553ba4e54c2c467b8754b811ffd0879d850cb54ee2fac74a5",
+                  "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Mixed labels: 1 1 11\nExact replacement, report hashes, unchanged archive, other outputs, and empty outcomes checked.\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.078368
+                },
+                "response_sha256": "bc2507b370f4059b8b81315bac6e3f24d80a373395de29eab55120d42f1336c2",
+                "stage": "interactive",
+                "submitted": true,
+                "usage": {
+                  "completion_tokens": 1144,
+                  "prompt_tokens": 3802,
+                  "reasoning_tokens": 0,
+                  "total_tokens": 4946
+                }
+              }
+            ],
+            "checked_correction": null,
+            "checker": {
+              "checks_sha256": "daa94671980635426e4a6e91bdfe0baca1b74f0b1ad61100190f6920b1c8d32c",
+              "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "",
+              "stdout": "Archived module repair and strict-boolean boundaries passed\n",
+              "timed_out": false,
+              "wall_seconds": 0.089769
+            },
+            "code": "import hashlib\nimport json\nfrom pathlib import Path\n\n\ndef repair_contracts(source: str) -> str:\n    old = 'sum(row.get(\"accepted\") is None for row in outcomes)'\n    new = 'sum(type(row.get(\"accepted\")) is not bool for row in outcomes)'\n    repaired = source.replace(old, new, 1)\n    report = {\n        \"schema\": \"nuria.reporter-repair.v1\",\n        \"original_source_sha256\": hashlib.sha256(source.encode(\"utf-8\")).hexdigest(),\n        \"repaired_source_sha256\": hashlib.sha256(repaired.encode(\"utf-8\")).hexdigest(),\n        \"behavior\": \"Unknown labels are every value other than exact bool; other report fields unchanged.\",\n    }\n    Path(\"repair-report.json\").write_text(json.dumps(report, indent=2) + \"\\n\", encoding=\"utf-8\")\n    return repaired\n",
+            "completion_tokens_used": 2700,
+            "execution_route": "nuria.interactive-work.v1",
+            "experience_ids": [],
+            "experience_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "family": "project_maintenance",
+            "implementation_sha256": "61bcb1e4880a4f46331c5fb49729e97110d843009be4d201c4075e0083633eb9",
+            "issued_completion_limits": [
+              2400,
+              2400,
+              2400
+            ],
+            "job_id": "repair",
+            "lesson": "For a supplied narrow repair, verify the exact textual delta and exercise non-boolean labels explicitly; equality with booleans is not exact boolean identity.",
+            "maximum_completion_tokens": 7200,
+            "policy_sha256": "d5a601aec82572e749ea7e67bf29508dae131d8b95e82f7b308c4aff7f0c98e0",
+            "prompt": "Implement repair_contracts(source: str) -> str for the actual archived module in inputs/archived_contracts.txt. Fix only inference_report's unknown count: accepted exact True counts accepted, exact False counts rejected, EVERY other value counts unknown (including absent, null, integers and strings). Preserve every other function and output behavior. Return a new module string, leave the archive untouched. For this archived module, replacing the unique unknown count expression is sufficient; do not change formatting beyond that expression. Also write repair-report.json with exactly these fields: schema \"nuria.reporter-repair.v1\"; original_source_sha256 and repaired_source_sha256 from UTF-8 strings; behavior \"Unknown labels are every value other than exact bool; other report fields unchanged.\" Read and inspect the actual source, execute your new module and test the fix. This is a known-defect repair, not discovery of a new bug.\nUse this exact known replacement, preserving every other byte: replace sum(row.get(\"accepted\") is None for row in outcomes) with sum(type(row.get(\"accepted\")) is not bool for row in outcomes). The repair is supplied; success demonstrates safe execution and delivery, not discovering it.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 3632, \"complete\": false, \"format\": \"uninspected\", \"limits_reached\": [\"invalid_or_unsupported_json\"], \"name\": \"archived_contracts.txt\", \"paths\": [], \"sha256\": \"1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+            "proposal_error": null,
+            "proposed_code_sha256": "23bbb9d0d1fe0e66bbb24d7704d7074a5acf4e75bbdeedf25d92ed9aedd07854",
+            "replayed": true,
+            "source_sha256": "a8acb848c25b5a0493bf4f8f2dd1a846c59967f5c1fe7d42e67b3143c274c057",
+            "stop_reason": "submitted",
+            "task_id": "NuriaProject/repair",
+            "version": "nuria.outcome-worker.v1"
+          },
+          {
+            "accepted": true,
+            "attempts": [
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import json\\nfrom fractions import Fraction\\nfrom pathlib import Path\\n\\n\\ndef audit_budget(data: dict) -> dict:\\n    rows = data[\\\"requests\\\"]\\n    charged = 0\\n    unresolved = 0\\n    known = 0\\n    recomputed = 0\\n    mismatches = []\\n    blocked = False\\n    models = set()\\n    for row in rows:\\n        pricing = row[\\\"pricing\\\"]\\n        models.add(pricing[\\\"model\\\"])\\n        charge = row[\\\"charged_micro_usd\\\"]\\n        if charge is None:\\n            blocked = True\\n            unresolved += row[\\\"reserved_micro_usd\\\"]\\n        else:\\n            charged += charge\\n        usage = row[\\\"usage\\\"]\\n        if usage is not None:\\n            known += 1\\n            prompt = usage[\\\"prompt_tokens\\\"]\\n            completion = usage[\\\"completion_tokens\\\"]\\n            input_rate = Fraction(str(pricing[\\\"input_micro_usd_per_million_tokens\\\"]))\\n            output_rate = Fraction(str(pricing[\\\"output_micro_usd_per_million_tokens\\\"]))\\n            if (\\\"long_context_threshold\\\" in pricing\\n                    and prompt > pricing[\\\"long_context_threshold\\\"]):\\n                input_rate *= Fraction(str(pricing[\\\"long_context_input_multiplier\\\"]))\\n                output_rate *= Fraction(str(pricing[\\\"long_context_output_multiplier\\\"]))\\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\\n            cost = -(-amount.numerator // amount.denominator)\\n            recomputed += cost\\n            if charge is not None and charge != cost:\\n                mismatches.append(row[\\\"request_sha256\\\"])\\n    accounted = charged + unresolved\\n    return {\\n        \\\"schema\\\": \\\"nuria.cost-audit-report.v1\\\",\\n        \\\"scope\\\": \\\"Configured conservative ledger accounting; not a provider invoice.\\\",\\n        \\\"requests\\\": len(rows),\\n        \\\"known_usage\\\": known,\\n        \\\"unknown_usage\\\": len(rows) - known,\\n        \\\"charged_micro_usd\\\": charged,\\n        \\\"unresolved_reserve_micro_usd\\\": unresolved,\\n        \\\"accounted_micro_usd\\\": accounted,\\n        \\\"remaining_micro_usd\\\": data[\\\"cap_micro_usd\\\"] - accounted,\\n        \\\"blocked\\\": blocked,\\n        \\\"recomputed_known_usage_micro_usd\\\": recomputed,\\n        \\\"cost_mismatch_requests\\\": sorted(mismatches),\\n        \\\"models\\\": sorted(models),\\n    }\\n\\n\\ndef main() -> None:\\n    data = json.loads(Path(\\\"inputs/source.json\\\").read_text(encoding=\\\"utf-8\\\"))\\n    report = audit_budget(data)\\n    Path(\\\"budget-report.json\\\").write_text(\\n        json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\"\\n    )\\n\\n\\nif __name__ == \\\"__main__\\\":\\n    main()\\n\",\"checks\":\"data = json.loads(Path('inputs/source.json').read_text(encoding='utf-8'))\\nprint('Input schema and scope:', data['schema'], data['scope'])\\nprint('Distinct pricing:', sorted({json.dumps(r['pricing'], sort_keys=True) for r in data['requests']}))\\nprint('Unknown usage rows:', [r for r in data['requests'] if r['usage'] is None])\\nprint('Null-charge count:', sum(r['charged_micro_usd'] is None for r in data['requests']))\\nreport = audit_budget(data)\\nprint('Report:', json.dumps(report, indent=2))\\nmain()\\nassert json.loads(Path('budget-report.json').read_text()) == report\\npricing = {'model': 'edge', 'input_micro_usd_per_million_tokens': 100000, 'output_micro_usd_per_million_tokens': 200000, 'long_context_threshold': 10, 'long_context_input_multiplier': 2, 'long_context_output_multiplier': 1.5}\\ndef row(prompt, completion, charge, reserve, name='duplicate'):\\n    return {'pricing': pricing, 'usage': {'prompt_tokens': prompt, 'completion_tokens': completion}, 'charged_micro_usd': charge, 'reserved_micro_usd': reserve, 'request_sha256': name}\\na = row(10, 0, 0, 999)\\nb = row(11, 1, 0, 999)\\nc = row(1, 0, None, 7)\\nd = dict(row(1, 0, None, 5), usage=None, pricing=dict(pricing, model='unknown-only'))\\ne = dict(row(1, 0, 4, 999), usage=None)\\nedge = audit_budget({'cap_micro_usd': 10, 'requests': [a,b,c,d,e]})\\nassert edge['recomputed_known_usage_micro_usd'] == 5\\nassert edge['cost_mismatch_requests'] == ['duplicate', 'duplicate']\\nassert edge['charged_micro_usd'] == 4\\nassert edge['unresolved_reserve_micro_usd'] == 12\\nassert edge['remaining_micro_usd'] == -6\\nassert edge['known_usage'] == 3 and edge['unknown_usage'] == 2\\nassert edge['models'] == ['edge', 'unknown-only'] and edge['blocked'] is True\\nempty = audit_budget({'cap_micro_usd': 0, 'requests': []})\\nassert empty['requests'] == 0 and empty['blocked'] is False\\nassert empty['models'] == [] and empty['remaining_micro_usd'] == 0\\nprint('Boundary checks passed')\",\"lesson\":\"Keep charge/reserve accounting independent from usage availability, and use exact rational arithmetic for per-row ceiling with fractional multipliers.\",\"done\":false}",
+                "probe": {
+                  "checks_sha256": "556a67994f0595845fdadde91d44585cfc9a6d765f35d252ab67b88de2242b33",
+                  "code_sha256": "66d68f350863bd9dfeb0448fb19e6f69f1baa90d9f716e638557b98b0413561c",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Input schema and scope: nuria.cost-audit-input.v1 Nuria-only configured conservative ledger accounting, not a provider invoice.\nDistinct pricing: ['{\"input_micro_usd_per_million_tokens\": 2000000, \"model\": \"gpt-6.1-sol\", \"output_micro_usd_per_million_tokens\": 10000000}', '{\"input_micro_usd_per_million_tokens\": 2500000, \"long_context_input_multiplier\": 2, \"long_context_output_multiplier\": 1.5, \"long_context_threshold\": 272000, \"model\": \"gpt-6.1-sol\", \"output_micro_usd_per_million_tokens\": 10000000}']\nUnknown usage rows: [{'charged_micro_usd': None, 'pricing': {'input_micro_usd_per_million_tokens': 2500000, 'long_context_input_multiplier': 2, 'long_context_output_multiplier': 1.5, 'long_context_threshold': 272000, 'model': 'gpt-6.1-sol', 'output_micro_usd_per_million_tokens': 10000000}, 'request_sha256': '28e49428d0fb0aaca381e410d82e470060bdbd3705caaa08b10ee65ce7ba9862', 'reserved_micro_usd': 4646000, 'state': 'reserved', 'usage': None}]\nNull-charge count: 1\nReport: {\n  \"schema\": \"nuria.cost-audit-report.v1\",\n  \"scope\": \"Configured conservative ledger accounting; not a provider invoice.\",\n  \"requests\": 72,\n  \"known_usage\": 71,\n  \"unknown_usage\": 1,\n  \"charged_micro_usd\": 936011,\n  \"unresolved_reserve_micro_usd\": 4646000,\n  \"accounted_micro_usd\": 5582011,\n  \"remaining_micro_usd\": 14417989,\n  \"blocked\": true,\n  \"recomputed_known_usage_micro_usd\": 936011,\n  \"cost_mismatch_requests\": [],\n  \"models\": [\n    \"gpt-6.1-sol\"\n  ]\n}\nBoundary checks passed\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.085518
+                },
+                "response_sha256": "3c873de0e17758d23e8d40ef946239211c59fffd78f9bceefc3fb906f405b853",
+                "stage": "interactive",
+                "submitted": false,
+                "usage": {
+                  "completion_tokens": 1317,
+                  "prompt_tokens": 2319,
+                  "reasoning_tokens": 63,
+                  "total_tokens": 3636
+                }
+              },
+              {
+                "completion_limit": 2400,
+                "content": "{\"code\":\"import json\\nfrom fractions import Fraction\\nfrom pathlib import Path\\n\\n\\ndef audit_budget(data: dict) -> dict:\\n    rows = data[\\\"requests\\\"]\\n    charged = 0\\n    unresolved = 0\\n    known = 0\\n    recomputed = 0\\n    mismatches = []\\n    blocked = False\\n    models = set()\\n\\n    for row in rows:\\n        pricing = row[\\\"pricing\\\"]\\n        models.add(pricing[\\\"model\\\"])\\n        charge = row[\\\"charged_micro_usd\\\"]\\n        if charge is None:\\n            blocked = True\\n            unresolved += row[\\\"reserved_micro_usd\\\"]\\n        else:\\n            charged += charge\\n\\n        usage = row[\\\"usage\\\"]\\n        if usage is not None:\\n            known += 1\\n            prompt = usage[\\\"prompt_tokens\\\"]\\n            completion = usage[\\\"completion_tokens\\\"]\\n            input_rate = Fraction(str(pricing[\\\"input_micro_usd_per_million_tokens\\\"]))\\n            output_rate = Fraction(str(pricing[\\\"output_micro_usd_per_million_tokens\\\"]))\\n            if (\\\"long_context_threshold\\\" in pricing\\n                    and prompt > pricing[\\\"long_context_threshold\\\"]):\\n                input_rate *= Fraction(str(pricing[\\\"long_context_input_multiplier\\\"]))\\n                output_rate *= Fraction(str(pricing[\\\"long_context_output_multiplier\\\"]))\\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\\n            cost = -(-amount.numerator // amount.denominator)\\n            recomputed += cost\\n            if charge is not None and charge != cost:\\n                mismatches.append(row[\\\"request_sha256\\\"])\\n\\n    accounted = charged + unresolved\\n    return {\\n        \\\"schema\\\": \\\"nuria.cost-audit-report.v1\\\",\\n        \\\"scope\\\": \\\"Configured conservative ledger accounting; not a provider invoice.\\\",\\n        \\\"requests\\\": len(rows),\\n        \\\"known_usage\\\": known,\\n        \\\"unknown_usage\\\": len(rows) - known,\\n        \\\"charged_micro_usd\\\": charged,\\n        \\\"unresolved_reserve_micro_usd\\\": unresolved,\\n        \\\"accounted_micro_usd\\\": accounted,\\n        \\\"remaining_micro_usd\\\": data[\\\"cap_micro_usd\\\"] - accounted,\\n        \\\"blocked\\\": blocked,\\n        \\\"recomputed_known_usage_micro_usd\\\": recomputed,\\n        \\\"cost_mismatch_requests\\\": sorted(mismatches),\\n        \\\"models\\\": sorted(models),\\n    }\\n\\n\\ndef main() -> None:\\n    data = json.loads(Path(\\\"inputs/source.json\\\").read_text(encoding=\\\"utf-8\\\"))\\n    report = audit_budget(data)\\n    Path(\\\"budget-report.json\\\").write_text(\\n        json.dumps(report, indent=2) + \\\"\\\\n\\\", encoding=\\\"utf-8\\\"\\n    )\\n\\n\\nif __name__ == \\\"__main__\\\":\\n    main()\\n\",\"checks\":\"data = json.loads(Path('inputs/source.json').read_text(encoding='utf-8'))\\nreport = audit_budget(data)\\nassert report == {\\n    'schema': 'nuria.cost-audit-report.v1',\\n    'scope': 'Configured conservative ledger accounting; not a provider invoice.',\\n    'requests': 72,\\n    'known_usage': 71,\\n    'unknown_usage': 1,\\n    'charged_micro_usd': 936011,\\n    'unresolved_reserve_micro_usd': 4646000,\\n    'accounted_micro_usd': 5582011,\\n    'remaining_micro_usd': 14417989,\\n    'blocked': True,\\n    'recomputed_known_usage_micro_usd': 936011,\\n    'cost_mismatch_requests': [],\\n    'models': ['gpt-6.1-sol'],\\n}\\nmain()\\nassert json.loads(Path('budget-report.json').read_text(encoding='utf-8')) == report\\n\\npricing = {'model': 'edge', 'input_micro_usd_per_million_tokens': 100000, 'output_micro_usd_per_million_tokens': 200000, 'long_context_threshold': 10, 'long_context_input_multiplier': 2, 'long_context_output_multiplier': 1.5}\\ndef row(prompt, completion, charge, reserve, name='duplicate'):\\n    return {'pricing': pricing, 'usage': {'prompt_tokens': prompt, 'completion_tokens': completion}, 'charged_micro_usd': charge, 'reserved_micro_usd': reserve, 'request_sha256': name}\\na = row(10, 0, 0, 999)\\nb = row(11, 1, 0, 999)\\nc = row(1, 0, None, 7)\\nd = dict(row(1, 0, None, 5), usage=None, pricing=dict(pricing, model='unknown-only'))\\ne = dict(row(1, 0, 4, 999), usage=None)\\nedge = audit_budget({'cap_micro_usd': 10, 'requests': [a, b, c, d, e]})\\nassert edge['recomputed_known_usage_micro_usd'] == 5\\nassert edge['cost_mismatch_requests'] == ['duplicate', 'duplicate']\\nassert edge['charged_micro_usd'] == 4\\nassert edge['unresolved_reserve_micro_usd'] == 12\\nassert edge['remaining_micro_usd'] == -6\\nassert edge['known_usage'] == 3 and edge['unknown_usage'] == 2\\nassert edge['models'] == ['edge', 'unknown-only'] and edge['blocked'] is True\\nempty = audit_budget({'cap_micro_usd': 0, 'requests': []})\\nassert empty['requests'] == 0 and empty['blocked'] is False\\nassert empty['models'] == [] and empty['remaining_micro_usd'] == 0\\nprint('Snapshot and boundary checks passed')\",\"lesson\":\"Keep charge/reserve accounting independent from usage availability, and use exact rational arithmetic for per-row ceiling with fractional multipliers.\",\"done\":true}",
+                "probe": {
+                  "checks_sha256": "7004e6fa82c81e19af6247e6c257168d6b7438c113393a11dc5f35ac1ee9db58",
+                  "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+                  "exit_code": 0,
+                  "passed": true,
+                  "stderr": "",
+                  "stdout": "Snapshot and boundary checks passed\n",
+                  "timed_out": false,
+                  "wall_seconds": 0.091663
+                },
+                "response_sha256": "a9739405cace22b6f69a465e052739eeafbf3a7325dc7fb96733b9dff522a455",
+                "stage": "interactive",
+                "submitted": true,
+                "usage": {
+                  "completion_tokens": 1328,
+                  "prompt_tokens": 4298,
+                  "reasoning_tokens": 0,
+                  "total_tokens": 5626
+                }
+              }
+            ],
+            "checked_correction": null,
+            "checker": {
+              "checks_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+              "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+              "exit_code": 0,
+              "passed": true,
+              "stderr": "",
+              "stdout": "Actual mixed-pricing snapshot and authored accounting boundaries passed\n",
+              "timed_out": false,
+              "wall_seconds": 0.05773
+            },
+            "code": "import json\nfrom fractions import Fraction\nfrom pathlib import Path\n\n\ndef audit_budget(data: dict) -> dict:\n    rows = data[\"requests\"]\n    charged = 0\n    unresolved = 0\n    known = 0\n    recomputed = 0\n    mismatches = []\n    blocked = False\n    models = set()\n\n    for row in rows:\n        pricing = row[\"pricing\"]\n        models.add(pricing[\"model\"])\n        charge = row[\"charged_micro_usd\"]\n        if charge is None:\n            blocked = True\n            unresolved += row[\"reserved_micro_usd\"]\n        else:\n            charged += charge\n\n        usage = row[\"usage\"]\n        if usage is not None:\n            known += 1\n            prompt = usage[\"prompt_tokens\"]\n            completion = usage[\"completion_tokens\"]\n            input_rate = Fraction(str(pricing[\"input_micro_usd_per_million_tokens\"]))\n            output_rate = Fraction(str(pricing[\"output_micro_usd_per_million_tokens\"]))\n            if (\"long_context_threshold\" in pricing\n                    and prompt > pricing[\"long_context_threshold\"]):\n                input_rate *= Fraction(str(pricing[\"long_context_input_multiplier\"]))\n                output_rate *= Fraction(str(pricing[\"long_context_output_multiplier\"]))\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\n            cost = -(-amount.numerator // amount.denominator)\n            recomputed += cost\n            if charge is not None and charge != cost:\n                mismatches.append(row[\"request_sha256\"])\n\n    accounted = charged + unresolved\n    return {\n        \"schema\": \"nuria.cost-audit-report.v1\",\n        \"scope\": \"Configured conservative ledger accounting; not a provider invoice.\",\n        \"requests\": len(rows),\n        \"known_usage\": known,\n        \"unknown_usage\": len(rows) - known,\n        \"charged_micro_usd\": charged,\n        \"unresolved_reserve_micro_usd\": unresolved,\n        \"accounted_micro_usd\": accounted,\n        \"remaining_micro_usd\": data[\"cap_micro_usd\"] - accounted,\n        \"blocked\": blocked,\n        \"recomputed_known_usage_micro_usd\": recomputed,\n        \"cost_mismatch_requests\": sorted(mismatches),\n        \"models\": sorted(models),\n    }\n\n\ndef main() -> None:\n    data = json.loads(Path(\"inputs/source.json\").read_text(encoding=\"utf-8\"))\n    report = audit_budget(data)\n    Path(\"budget-report.json\").write_text(\n        json.dumps(report, indent=2) + \"\\n\", encoding=\"utf-8\"\n    )\n\n\nif __name__ == \"__main__\":\n    main()\n",
+            "completion_tokens_used": 2645,
+            "execution_route": "nuria.interactive-work.v1",
+            "experience_ids": [
+              "repair"
+            ],
+            "experience_sha256": "24fc8bd6c62fa35a58f347af7ba9ab7a6b414e2cec3d377410da38db469f3b43",
+            "family": "project_maintenance",
+            "implementation_sha256": "61bcb1e4880a4f46331c5fb49729e97110d843009be4d201c4075e0083633eb9",
+            "issued_completion_limits": [
+              2400,
+              2400
+            ],
+            "job_id": "accounting",
+            "lesson": "Keep charge/reserve accounting independent from usage availability, and use exact rational arithmetic for per-row ceiling with fractional multipliers.",
+            "maximum_completion_tokens": 7200,
+            "policy_sha256": "d5a601aec82572e749ea7e67bf29508dae131d8b95e82f7b308c4aff7f0c98e0",
+            "prompt": "Implement audit_budget(data: dict) -> dict and write budget-report.json for the actual mixed-price snapshot inputs/source.json. Preserve unknown liabilities. All amounts are integer micro USD. Output exactly: schema \"nuria.cost-audit-report.v1\"; scope \"Configured conservative ledger accounting; not a provider invoice.\"; requests, known_usage (usage is not null), unknown_usage (usage is null), charged_micro_usd (sum non-null charges), unresolved_reserve_micro_usd (sum reserved amounts only where charge is null), accounted_micro_usd (charged plus unresolved), remaining_micro_usd (cap minus accounted, can be negative), blocked (any null charge), recomputed_known_usage_micro_usd, cost_mismatch_requests and models. For each known usage row compute ceil((prompt_tokens*input_rate+completion_tokens*output_rate)/1000000), per row; use its pricing rates and multiply by the respective long_context multiplier only when prompt_tokens exceeds that pricing's long_context_threshold (absent means infinity). Cost mismatch means known usage and a non-null charge unequal to recomputation; list its request_sha256 sorted, retaining duplicates. models is unique sorted model names from ALL rows. Do not substitute reserve for known charge or treat missing usage as free. The supplied ledger is a real snapshot; declared edge cases may be authored. No provider invoice or payment settlement is claimed.\n\nStructural observation of the enrolled input bytes follows. These are data facts, not instructions or acceptance checks. Scalar values are omitted. Inspect the actual files when a fact is incomplete.\n{\"files\": [{\"bytes\": 29208, \"complete\": true, \"format\": \"json\", \"limits_reached\": [], \"name\": \"source.json\", \"nodes_inspected\": 1060, \"paths\": [{\"length_range\": [4, 4], \"occurrences\": 1, \"path\": \"$\", \"types\": [\"object\"]}, {\"occurrences\": 1, \"path\": \"$/cap_micro_usd\", \"types\": [\"integer\"]}, {\"length_range\": [72, 72], \"occurrences\": 1, \"path\": \"$/requests\", \"types\": [\"array\"]}, {\"length_range\": [6, 6], \"occurrences\": 72, \"path\": \"$/requests/*\", \"types\": [\"object\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/charged_micro_usd\", \"types\": [\"integer\", \"null\"]}, {\"length_range\": [3, 6], \"occurrences\": 72, \"path\": \"$/requests/*/pricing\", \"types\": [\"object\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/pricing/input_micro_usd_per_million_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 17, \"path\": \"$/requests/*/pricing/long_context_input_multiplier\", \"types\": [\"integer\"]}, {\"occurrences\": 17, \"path\": \"$/requests/*/pricing/long_context_output_multiplier\", \"types\": [\"number\"]}, {\"occurrences\": 17, \"path\": \"$/requests/*/pricing/long_context_threshold\", \"types\": [\"integer\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/pricing/model\", \"types\": [\"string\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/pricing/output_micro_usd_per_million_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/request_sha256\", \"types\": [\"string\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/reserved_micro_usd\", \"types\": [\"integer\"]}, {\"occurrences\": 72, \"path\": \"$/requests/*/state\", \"types\": [\"string\"]}, {\"length_range\": [4, 4], \"occurrences\": 72, \"path\": \"$/requests/*/usage\", \"types\": [\"null\", \"object\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/completion_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/prompt_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/reasoning_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 71, \"path\": \"$/requests/*/usage/total_tokens\", \"types\": [\"integer\"]}, {\"occurrences\": 1, \"path\": \"$/schema\", \"types\": [\"string\"]}, {\"occurrences\": 1, \"path\": \"$/scope\", \"types\": [\"string\"]}], \"sha256\": \"26465504e8c32d4319dc3e5c67fa8a9328422cc79d90d6469a5a9a88ec70b488\"}], \"scalar_values_disclosed\": false, \"schema\": \"nuria.input-observation.v1\"}",
+            "proposal_error": null,
+            "proposed_code_sha256": "7df7703ed054059479f9acc7ee691911104f19773276f04081a4556979ec5583",
+            "replayed": true,
+            "source_sha256": "fb01ac8bde698cfe65cc0bcd84beeeac913d55ec4eabe3e598ea18caee9e85d8",
+            "stop_reason": "submitted",
+            "task_id": "NuriaProject/accounting",
+            "version": "nuria.outcome-worker.v1"
+          }
+        ],
+        "journal": {
+          "events": 4,
+          "tail_sha256": "281826aa05a24ea4d068f6600cdc90f8c01476d9b8ebe7df943f52189f7528bd"
+        },
+        "replayed": 2,
+        "version": "nuria.interactive-course.v1"
+      }
+    }
+  },
+  "replay-proof": {
+    "new_model_calls": 0,
+    "new_executions": 0,
+    "journal_unchanged": true
+  },
+  "new_requests": 5,
+  "new_configured_micro_usd": 87553,
+  "same_shared_allowance": true
+}
