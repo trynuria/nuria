@@ -62,7 +62,7 @@ class IsolatedPython:
     already installed bubblewrap with working namespace isolation.
     """
 
-    def __init__(self, root, *, dependency_roots=(), wall_seconds=12, cpu_seconds=8):
+    def __init__(self, root, *, dependency_roots=(), wall_seconds=12):
         self.backend = "seatbelt" if sys.platform == "darwin" else "bubblewrap"
         self.bubblewrap = shutil.which("bwrap") if sys.platform == "linux" else None
         if not (
@@ -76,9 +76,6 @@ class IsolatedPython:
         self.wall = int(wall_seconds)
         if not 1 <= self.wall <= 60:
             raise ValueError("Execution needs a finite wall-time bound")
-        self.cpu = int(cpu_seconds)
-        if not 1 <= self.cpu <= 60:
-            raise ValueError("Execution needs a finite CPU-time bound")
         self.python = str(Path(sys.executable).resolve())
 
     def _command(self, work, driver):
@@ -184,7 +181,7 @@ class IsolatedPython:
         # semantics, not an adversarially secure correctness proof.
         driver = (
             "import sys,os,resource,json,traceback\n"
-            f"resource.setrlimit(resource.RLIMIT_CPU,({self.cpu},{self.cpu}))\n"
+            "resource.setrlimit(resource.RLIMIT_CPU,(8,8))\n"
             "resource.setrlimit(resource.RLIMIT_FSIZE,(8388608,8388608))\n"
             "resource.setrlimit(resource.RLIMIT_NOFILE,(96,96))\n"
             "sys.path[:0]=" + repr([str(work), *self.dependencies]) + "\n"

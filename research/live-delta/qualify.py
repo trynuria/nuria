@@ -11,8 +11,8 @@ import json
 from pathlib import Path
 
 from evaluate import CHECKS, audit
+from runtime import ComparisonPython
 
-from cognition.outcome_worker import IsolatedPython
 from studio.store import atomic
 
 METHODS = ("candidate", "jsonpatch", "jsonpatch_compact", "jsondiff", "full_gzip")
@@ -32,11 +32,10 @@ def qualify(root):
         "sha256"
     ]
     assert hashlib.sha256((corpus / "cases.json").read_bytes()).hexdigest() == expected
-    executor = IsolatedPython(
+    executor = ComparisonPython(
         root / "executions",
         dependency_roots=("/opt/nuria/research-deps", str(corpus)),
         wall_seconds=60,
-        cpu_seconds=55,
     )
     rows = []
     for index, case in enumerate(cases):

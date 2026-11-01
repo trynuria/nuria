@@ -15,8 +15,8 @@ import sys
 from pathlib import Path
 
 from evaluate import CHECKS, audit
+from runtime import ComparisonPython
 
-from cognition.outcome_worker import IsolatedPython
 from studio.store import Store, atomic, now
 from studio.worker import Client
 
@@ -42,11 +42,10 @@ def evaluate(root, code, group, name, seed):
         "SEED", str(seed)
     )
     checks = checks.replace("'jsonpatch_compact','jsondiff'", "'jsonpatch_compact'")
-    executor = IsolatedPython(
+    executor = ComparisonPython(
         root / "executions",
         dependency_roots=("/opt/nuria/research-deps", str(corpus)),
         wall_seconds=60,
-        cpu_seconds=55,
     )
     label = name
     recovery = 0

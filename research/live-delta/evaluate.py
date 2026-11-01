@@ -6,7 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from cognition.outcome_worker import IsolatedPython
+from runtime import ComparisonPython
 
 FORBIDDEN = {
     "open",
@@ -127,11 +127,10 @@ def evaluate(root, code_path, group, label):
     checks = CHECKS.replace("CASE_PATH", repr(str(corpus / "cases.json"))).replace(
         "SEED", "7021" if group == "development" else "919843"
     )
-    executor = IsolatedPython(
+    executor = ComparisonPython(
         Path(root) / "executions",
         dependency_roots=("/opt/nuria/research-deps", str(corpus)),
         wall_seconds=60,
-        cpu_seconds=55,
     )
     result = executor.run(code, checks, label=label)
     report_path = Path(root) / "executions" / label / "report.json"
