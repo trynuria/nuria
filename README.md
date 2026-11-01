@@ -57,6 +57,26 @@ All 336 physical outcomes reproduced in an independent native replay. A
 three checked Nuria audits and repeated them with zero new model requests or
 executions. This optional worker is not enrolled in production.
 
+The next [108-task checked-experience comparison](research/outcome-learning/course-03)
+returned 87 accepted programs for both targeted navigation and static retrieval,
+versus 83 without memory. The superiority gate failed. All 324 outcomes matched
+independent native replay, and every proposal was publicly committed before
+terminal grading. Targeted retrieval changed most programs without improving
+their checked outcomes; actual work therefore uses the simpler retrieval route.
+The [delivered-work command](docs/program-delivery.md) binds required artifacts
+into host acceptance before inference, retains failed deliveries as rejected
+experience and reuses complete work and artifact receipts on identical replay.
+
+The [input-grounded work adapter](docs/input-grounded-work.md) fixes a practical
+failure in that interface: generated programs now receive bounded, source-bound
+input structure instead of guessing field names and types. In a prospectively
+frozen four-report qualification, the direct route and challenged route each
+passed all default and withheld actual-source checks and delivered four artifact
+bundles. The direct route used four model calls versus twelve; identical replay
+required no new calls or executions. This is a useful work capability, not a
+demonstration of general or neural superiority. Both results and the earlier
+failed reports remain in the [project-work record](research/outcome-learning/).
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the
