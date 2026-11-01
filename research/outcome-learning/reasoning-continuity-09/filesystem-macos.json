@@ -1,0 +1,395 @@
+{
+  "characterization": {
+    "all_other_native_verdicts_match": true,
+    "controls": [
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "111cd340c908e74207a510a4eb46b83132087041bceffb6c1eeafdec9efb7016",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.005s\n\nOK\n",
+          "stdout": "An error occurred: [Errno 1] Operation not permitted: '/non'\n",
+          "timed_out": false,
+          "wall_seconds": 0.074021
+        },
+        "program": "reference",
+        "round": 0
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "6efa20be0ab254f9d277967ac96492394db392831ef07d971b0208981dff007f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.073653
+        },
+        "program": "continuity",
+        "round": 0
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "c18b515e668de167d0841392a994614f65f7d4945d455fe7d096576a27b40225",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.075381
+        },
+        "program": "visible",
+        "round": 0
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "c18b515e668de167d0841392a994614f65f7d4945d455fe7d096576a27b40225",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.074417
+        },
+        "program": "visible",
+        "round": 1
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "111cd340c908e74207a510a4eb46b83132087041bceffb6c1eeafdec9efb7016",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "An error occurred: [Errno 1] Operation not permitted: '/non'\n",
+          "timed_out": false,
+          "wall_seconds": 0.075288
+        },
+        "program": "reference",
+        "round": 1
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "6efa20be0ab254f9d277967ac96492394db392831ef07d971b0208981dff007f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.073457
+        },
+        "program": "continuity",
+        "round": 1
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "6efa20be0ab254f9d277967ac96492394db392831ef07d971b0208981dff007f",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.077802
+        },
+        "program": "continuity",
+        "round": 2
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "c18b515e668de167d0841392a994614f65f7d4945d455fe7d096576a27b40225",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "",
+          "timed_out": false,
+          "wall_seconds": 0.074197
+        },
+        "program": "visible",
+        "round": 2
+      },
+      {
+        "checker": {
+          "checks_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+          "code_sha256": "111cd340c908e74207a510a4eb46b83132087041bceffb6c1eeafdec9efb7016",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+          "stdout": "An error occurred: [Errno 1] Operation not permitted: '/non'\n",
+          "timed_out": false,
+          "wall_seconds": 0.076171
+        },
+        "program": "reference",
+        "round": 2
+      }
+    ],
+    "exact_reproduction_supported": true,
+    "native_accepted": {
+      "continuity": 50,
+      "visible": 50
+    },
+    "negative_conclusion_robust_to_all_case_labels": true,
+    "original_grades_changed": false,
+    "post_hoc": true,
+    "scope": "The unchanged reference and both programs share filesystem-sensitive behavior. Every native verdict remains reported; this qualifies the negative conclusion, not a new accuracy gain.",
+    "sensitivity": [
+      {
+        "labels": [
+          false,
+          false
+        ],
+        "result": {
+          "accepted": {
+            "continuity": 49,
+            "visible": 49
+          },
+          "comparison": {
+            "accuracy_delta": 0.0,
+            "losses": 0,
+            "one_sided_exact_p": 1.0,
+            "wins": 0
+          },
+          "families": {
+            "files-archives": {
+              "continuity": 6,
+              "visible": 6
+            },
+            "numerical": {
+              "continuity": 3,
+              "visible": 3
+            },
+            "structured-data": {
+              "continuity": 6,
+              "visible": 6
+            },
+            "tabular": {
+              "continuity": 25,
+              "visible": 25
+            },
+            "visualization": {
+              "continuity": 9,
+              "visible": 9
+            }
+          },
+          "neural_advantage_established": false,
+          "runtime_promoted": false,
+          "superiority_supported": false,
+          "tasks": 70,
+          "usage": {
+            "continuity": {
+              "calls": 152,
+              "completion_tokens": 82709,
+              "configured_conservative_micro_usd": 2140305,
+              "prompt_tokens": 525270,
+              "reasoning_tokens": 7796
+            },
+            "visible": {
+              "calls": 146,
+              "completion_tokens": 79158,
+              "configured_conservative_micro_usd": 2013094,
+              "prompt_tokens": 488593,
+              "reasoning_tokens": 8413
+            }
+          }
+        }
+      },
+      {
+        "labels": [
+          false,
+          true
+        ],
+        "result": {
+          "accepted": {
+            "continuity": 49,
+            "visible": 50
+          },
+          "comparison": {
+            "accuracy_delta": -0.014285714285714285,
+            "losses": 1,
+            "one_sided_exact_p": 1.0,
+            "wins": 0
+          },
+          "families": {
+            "files-archives": {
+              "continuity": 6,
+              "visible": 7
+            },
+            "numerical": {
+              "continuity": 3,
+              "visible": 3
+            },
+            "structured-data": {
+              "continuity": 6,
+              "visible": 6
+            },
+            "tabular": {
+              "continuity": 25,
+              "visible": 25
+            },
+            "visualization": {
+              "continuity": 9,
+              "visible": 9
+            }
+          },
+          "neural_advantage_established": false,
+          "runtime_promoted": false,
+          "superiority_supported": false,
+          "tasks": 70,
+          "usage": {
+            "continuity": {
+              "calls": 152,
+              "completion_tokens": 82709,
+              "configured_conservative_micro_usd": 2140305,
+              "prompt_tokens": 525270,
+              "reasoning_tokens": 7796
+            },
+            "visible": {
+              "calls": 146,
+              "completion_tokens": 79158,
+              "configured_conservative_micro_usd": 2013094,
+              "prompt_tokens": 488593,
+              "reasoning_tokens": 8413
+            }
+          }
+        }
+      },
+      {
+        "labels": [
+          true,
+          false
+        ],
+        "result": {
+          "accepted": {
+            "continuity": 50,
+            "visible": 49
+          },
+          "comparison": {
+            "accuracy_delta": 0.014285714285714285,
+            "losses": 0,
+            "one_sided_exact_p": 0.5,
+            "wins": 1
+          },
+          "families": {
+            "files-archives": {
+              "continuity": 7,
+              "visible": 6
+            },
+            "numerical": {
+              "continuity": 3,
+              "visible": 3
+            },
+            "structured-data": {
+              "continuity": 6,
+              "visible": 6
+            },
+            "tabular": {
+              "continuity": 25,
+              "visible": 25
+            },
+            "visualization": {
+              "continuity": 9,
+              "visible": 9
+            }
+          },
+          "neural_advantage_established": false,
+          "runtime_promoted": false,
+          "superiority_supported": false,
+          "tasks": 70,
+          "usage": {
+            "continuity": {
+              "calls": 152,
+              "completion_tokens": 82709,
+              "configured_conservative_micro_usd": 2140305,
+              "prompt_tokens": 525270,
+              "reasoning_tokens": 7796
+            },
+            "visible": {
+              "calls": 146,
+              "completion_tokens": 79158,
+              "configured_conservative_micro_usd": 2013094,
+              "prompt_tokens": 488593,
+              "reasoning_tokens": 8413
+            }
+          }
+        }
+      },
+      {
+        "labels": [
+          true,
+          true
+        ],
+        "result": {
+          "accepted": {
+            "continuity": 50,
+            "visible": 50
+          },
+          "comparison": {
+            "accuracy_delta": 0.0,
+            "losses": 0,
+            "one_sided_exact_p": 1.0,
+            "wins": 0
+          },
+          "families": {
+            "files-archives": {
+              "continuity": 7,
+              "visible": 7
+            },
+            "numerical": {
+              "continuity": 3,
+              "visible": 3
+            },
+            "structured-data": {
+              "continuity": 6,
+              "visible": 6
+            },
+            "tabular": {
+              "continuity": 25,
+              "visible": 25
+            },
+            "visualization": {
+              "continuity": 9,
+              "visible": 9
+            }
+          },
+          "neural_advantage_established": false,
+          "runtime_promoted": false,
+          "superiority_supported": false,
+          "tasks": 70,
+          "usage": {
+            "continuity": {
+              "calls": 152,
+              "completion_tokens": 82709,
+              "configured_conservative_micro_usd": 2140305,
+              "prompt_tokens": 525270,
+              "reasoning_tokens": 7796
+            },
+            "visible": {
+              "calls": 146,
+              "completion_tokens": 79158,
+              "configured_conservative_micro_usd": 2013094,
+              "prompt_tokens": 488593,
+              "reasoning_tokens": 8413
+            }
+          }
+        }
+      }
+    ],
+    "task_id": "BigCodeBench/832"
+  },
+  "complete_native_replay_reused": "independent-replay.json.gz",
+  "full_native_replay_not_repeated": true,
+  "model_calls": 0,
+  "platform": "macOS",
+  "source_freeze": {
+    "before_fixed_characterization": true,
+    "commit": "d9b4fc5859f433756a4807d0b114cb1ad83e6e3b",
+    "observed_utc": "2026-11-01T14:29:52.537461+00:00",
+    "tree": "923f06730e12a62abf9891f4ccb79f455017b895"
+  }
+}

@@ -131,7 +131,14 @@ jobs:
           tests.test_delivered_course tests.test_input_observations
           tests.test_retained_work tests.test_recovery_options
           tests.test_reasoner_transfer tests.test_reasoner_evidence tests.test_timing_qualification tests.test_outcome_consistency
-          tests.test_interactive_work -v
+          tests.test_interactive_work tests.test_reasoning_continuity
+          tests.test_continuity_delivery tests.test_cached_replay tests.test_filesystem_qualification -v
+      - name: Reproduce the complete reasoning-continuity comparison
+        run: |
+          MPLCONFIGDIR="$RUNNER_TEMP/nuria-font-cache" python -c 'import matplotlib.font_manager'
+          python research/outcome-learning/reasoning-continuity-09/replay-cached.py "$RUNNER_TEMP/nuria-continuity-replay" --font-cache "$RUNNER_TEMP/nuria-font-cache" --qualify-filesystem
+      - name: Reproduce checked maintenance and acquired-program transfer
+        run: python research/outcome-learning/reasoning-continuity-09/project-work/replay.py "$RUNNER_TEMP/nuria-maintenance-replay"
       - name: Reconstruct and independently execute held-out work
         run: |
           python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"

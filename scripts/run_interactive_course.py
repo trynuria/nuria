@@ -9,6 +9,7 @@ from cognition.input_observations import inspect_enrollment
 from cognition.interactive_work import run_interactive_work
 from cognition.outcome_consistency import ConsistentOutcomeStore
 from cognition.outcome_worker import IsolatedPython
+from cognition.reasoning_continuity import ContinuitySession, ContinuityTransport
 from scripts.ask_hosted_analyst import load_reasoner
 from scripts.evaluate_outcome_loop import BoundedClient
 from scripts.run_delivered_course import run_delivered
@@ -20,7 +21,14 @@ def runner(
     if resource_root is None:
         raise ValueError("Interactive inference requires its shared resource authority")
     workspace = Path(workspace)
-    client = BoundedClient(load_reasoner(config), resource_root)
+    provider = load_reasoner(config)
+    if method not in (None, "navigation", "continuity"):
+        raise ValueError("Use the existing visible route or explicit continuity")
+    if method == "continuity":
+        provider = ContinuityTransport(provider)
+    client = BoundedClient(provider, resource_root)
+    if method == "continuity":
+        client = ContinuitySession(client, keep_reasoning=True)
     store = ConsistentOutcomeStore(workspace / "outcomes.sqlite")
     executor = IsolatedPython(workspace / "executions", dependency_roots=dependencies)
     results = [
@@ -43,6 +51,11 @@ def main():
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--resource-root", required=True, type=Path)
     parser.add_argument("--dependency-root", action="append", default=[])
+    parser.add_argument(
+        "--reasoning-continuity",
+        action="store_true",
+        help="Preserve opaque provider state within each bounded work job",
+    )
     args = parser.parse_args()
     observed = inspect_enrollment(json.loads(args.enrollment.read_text()))
     result = run_delivered(
@@ -52,6 +65,7 @@ def main():
         dependencies=args.dependency_root,
         resource_root=args.resource_root,
         runner=runner,
+        method="continuity" if args.reasoning_continuity else None,
     )
     result["input_observations"] = {
         job["job_id"]: job["input_observation"] for job in observed["jobs"]

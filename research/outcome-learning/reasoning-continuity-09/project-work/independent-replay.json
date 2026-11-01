@@ -1,0 +1,61 @@
+{
+  "accepted": 4,
+  "expected": 4,
+  "model_calls": 0,
+  "original_histories_changed": false,
+  "programs": [
+    {
+      "checker": {
+        "checks_sha256": "daa94671980635426e4a6e91bdfe0baca1b74f0b1ad61100190f6920b1c8d32c",
+        "code_sha256": "6c4be2b7d3c4b7317210a49a0563d6980c0e4f3168daa34e66f338419c04efde",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Archived module repair and strict-boolean boundaries passed\n",
+        "timed_out": false,
+        "wall_seconds": 0.04829
+      },
+      "job_id": "repair"
+    },
+    {
+      "checker": {
+        "checks_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+        "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Actual mixed-pricing snapshot and authored accounting boundaries passed\n",
+        "timed_out": false,
+        "wall_seconds": 0.056717
+      },
+      "job_id": "accounting"
+    },
+    {
+      "checker": {
+        "checks_sha256": "3747226239b4b95388069a6ed9d6cb9573129b726d3df5e60e79f3b472268ec9",
+        "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Fresh ledger report and delivered JSON passed\n",
+        "timed_out": false,
+        "wall_seconds": 0.047925
+      },
+      "job_id": "later-actual"
+    },
+    {
+      "checker": {
+        "checks_sha256": "51123168f9a616c71eb392dfe2f6eba051d8aa26a6c059dc2ff68ecccee72283",
+        "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Fresh ledger report and delivered JSON passed\n",
+        "timed_out": false,
+        "wall_seconds": 0.090108
+      },
+      "job_id": "later-price-sensitivity"
+    }
+  ],
+  "scope": "Two actual origin deliveries, one later actual ledger and one authored price-sensitivity scenario; no model or neural superiority claim."
+}

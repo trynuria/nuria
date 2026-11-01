@@ -1,0 +1,154 @@
+{
+  "outcomes": [
+    {
+      "accepted": true,
+      "attempts": [],
+      "checker": {
+        "checks_sha256": "3747226239b4b95388069a6ed9d6cb9573129b726d3df5e60e79f3b472268ec9",
+        "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Fresh ledger report and delivered JSON passed\n",
+        "timed_out": false,
+        "wall_seconds": 0.048258
+      },
+      "code": "import json\nfrom fractions import Fraction\nfrom pathlib import Path\n\n\ndef audit_budget(data: dict) -> dict:\n    rows = data[\"requests\"]\n    charged = 0\n    unresolved = 0\n    known = 0\n    recomputed = 0\n    mismatches = []\n    blocked = False\n    models = set()\n\n    for row in rows:\n        pricing = row[\"pricing\"]\n        models.add(pricing[\"model\"])\n        charge = row[\"charged_micro_usd\"]\n        if charge is None:\n            blocked = True\n            unresolved += row[\"reserved_micro_usd\"]\n        else:\n            charged += charge\n\n        usage = row[\"usage\"]\n        if usage is not None:\n            known += 1\n            prompt = usage[\"prompt_tokens\"]\n            completion = usage[\"completion_tokens\"]\n            input_rate = Fraction(str(pricing[\"input_micro_usd_per_million_tokens\"]))\n            output_rate = Fraction(str(pricing[\"output_micro_usd_per_million_tokens\"]))\n            if (\"long_context_threshold\" in pricing\n                    and prompt > pricing[\"long_context_threshold\"]):\n                input_rate *= Fraction(str(pricing[\"long_context_input_multiplier\"]))\n                output_rate *= Fraction(str(pricing[\"long_context_output_multiplier\"]))\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\n            cost = -(-amount.numerator // amount.denominator)\n            recomputed += cost\n            if charge is not None and charge != cost:\n                mismatches.append(row[\"request_sha256\"])\n\n    accounted = charged + unresolved\n    return {\n        \"schema\": \"nuria.cost-audit-report.v1\",\n        \"scope\": \"Configured conservative ledger accounting; not a provider invoice.\",\n        \"requests\": len(rows),\n        \"known_usage\": known,\n        \"unknown_usage\": len(rows) - known,\n        \"charged_micro_usd\": charged,\n        \"unresolved_reserve_micro_usd\": unresolved,\n        \"accounted_micro_usd\": accounted,\n        \"remaining_micro_usd\": data[\"cap_micro_usd\"] - accounted,\n        \"blocked\": blocked,\n        \"recomputed_known_usage_micro_usd\": recomputed,\n        \"cost_mismatch_requests\": sorted(mismatches),\n        \"models\": sorted(models),\n    }\n\n\ndef main() -> None:\n    data = json.loads(Path(\"inputs/source.json\").read_text(encoding=\"utf-8\"))\n    report = audit_budget(data)\n    Path(\"budget-report.json\").write_text(\n        json.dumps(report, indent=2) + \"\\n\", encoding=\"utf-8\"\n    )\n\n\nif __name__ == \"__main__\":\n    main()\n",
+      "execution_route": "nuria.retained-program.v1",
+      "experience_ids": [
+        "accounting"
+      ],
+      "family": "project_maintenance",
+      "job_id": "later-actual",
+      "lesson": "Exact retained program; acceptance is limited to this host contract.",
+      "model_calls": 0,
+      "origin_result_sha256": "c9d75fe52b85476b6b7e941d1cfb05f2a481ce4530f3adfcefbe8e48736ea653",
+      "policy_sha256": "26af6a8388120f00559b521016bdf0a0c406d126511d57ebacacc8555f67ead1",
+      "program_executions": 1,
+      "prompt": "Execute the enrolled mixed-price cost auditor on inputs/source.json and write budget-report.json, preserving the declared function contract.",
+      "proposal_error": null,
+      "proposed_code_sha256": "7df7703ed054059479f9acc7ee691911104f19773276f04081a4556979ec5583",
+      "replayed": false,
+      "skill_sha256": "b4546b05eac34fe4f52f7211ed6d694cc07f898c1e2764efd9af4a256ad43b0b",
+      "source_sha256": "bf77b48081346e3445f20201ed2438864c6d687ea75c99acfd8d2f192bc74e0b",
+      "task_id": "NuriaLedgerTransfer/actual",
+      "version": "nuria.outcome-worker.v1"
+    },
+    {
+      "accepted": true,
+      "attempts": [],
+      "checker": {
+        "checks_sha256": "51123168f9a616c71eb392dfe2f6eba051d8aa26a6c059dc2ff68ecccee72283",
+        "code_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Fresh ledger report and delivered JSON passed\n",
+        "timed_out": false,
+        "wall_seconds": 0.090133
+      },
+      "code": "import json\nfrom fractions import Fraction\nfrom pathlib import Path\n\n\ndef audit_budget(data: dict) -> dict:\n    rows = data[\"requests\"]\n    charged = 0\n    unresolved = 0\n    known = 0\n    recomputed = 0\n    mismatches = []\n    blocked = False\n    models = set()\n\n    for row in rows:\n        pricing = row[\"pricing\"]\n        models.add(pricing[\"model\"])\n        charge = row[\"charged_micro_usd\"]\n        if charge is None:\n            blocked = True\n            unresolved += row[\"reserved_micro_usd\"]\n        else:\n            charged += charge\n\n        usage = row[\"usage\"]\n        if usage is not None:\n            known += 1\n            prompt = usage[\"prompt_tokens\"]\n            completion = usage[\"completion_tokens\"]\n            input_rate = Fraction(str(pricing[\"input_micro_usd_per_million_tokens\"]))\n            output_rate = Fraction(str(pricing[\"output_micro_usd_per_million_tokens\"]))\n            if (\"long_context_threshold\" in pricing\n                    and prompt > pricing[\"long_context_threshold\"]):\n                input_rate *= Fraction(str(pricing[\"long_context_input_multiplier\"]))\n                output_rate *= Fraction(str(pricing[\"long_context_output_multiplier\"]))\n            amount = (prompt * input_rate + completion * output_rate) / 1_000_000\n            cost = -(-amount.numerator // amount.denominator)\n            recomputed += cost\n            if charge is not None and charge != cost:\n                mismatches.append(row[\"request_sha256\"])\n\n    accounted = charged + unresolved\n    return {\n        \"schema\": \"nuria.cost-audit-report.v1\",\n        \"scope\": \"Configured conservative ledger accounting; not a provider invoice.\",\n        \"requests\": len(rows),\n        \"known_usage\": known,\n        \"unknown_usage\": len(rows) - known,\n        \"charged_micro_usd\": charged,\n        \"unresolved_reserve_micro_usd\": unresolved,\n        \"accounted_micro_usd\": accounted,\n        \"remaining_micro_usd\": data[\"cap_micro_usd\"] - accounted,\n        \"blocked\": blocked,\n        \"recomputed_known_usage_micro_usd\": recomputed,\n        \"cost_mismatch_requests\": sorted(mismatches),\n        \"models\": sorted(models),\n    }\n\n\ndef main() -> None:\n    data = json.loads(Path(\"inputs/source.json\").read_text(encoding=\"utf-8\"))\n    report = audit_budget(data)\n    Path(\"budget-report.json\").write_text(\n        json.dumps(report, indent=2) + \"\\n\", encoding=\"utf-8\"\n    )\n\n\nif __name__ == \"__main__\":\n    main()\n",
+      "execution_route": "nuria.retained-program.v1",
+      "experience_ids": [
+        "accounting"
+      ],
+      "family": "project_maintenance",
+      "job_id": "later-price-sensitivity",
+      "lesson": "Exact retained program; acceptance is limited to this host contract.",
+      "model_calls": 0,
+      "origin_result_sha256": "c9d75fe52b85476b6b7e941d1cfb05f2a481ce4530f3adfcefbe8e48736ea653",
+      "policy_sha256": "26af6a8388120f00559b521016bdf0a0c406d126511d57ebacacc8555f67ead1",
+      "program_executions": 1,
+      "prompt": "Execute the enrolled mixed-price cost auditor on inputs/source.json and write budget-report.json, preserving the declared function contract.",
+      "proposal_error": null,
+      "proposed_code_sha256": "7df7703ed054059479f9acc7ee691911104f19773276f04081a4556979ec5583",
+      "replayed": false,
+      "skill_sha256": "b4546b05eac34fe4f52f7211ed6d694cc07f898c1e2764efd9af4a256ad43b0b",
+      "source_sha256": "5e421140e8ba23fccd9de96268c97fab87559d040f17be72c7212c851b3ac4e9",
+      "task_id": "NuriaLedgerTransfer/price-sensitivity",
+      "version": "nuria.outcome-worker.v1"
+    }
+  ],
+  "delivery": {
+    "deliveries": [
+      {
+        "schema": "nuria.program-delivery.v1",
+        "job_id": "later-actual",
+        "source_sha256": "bf77b48081346e3445f20201ed2438864c6d687ea75c99acfd8d2f192bc74e0b",
+        "binding": {
+          "enrollment_sha256": "61aba724e5d5087b6eb9a0b67e3fa30f2eff0fbafa97875100a34becfb7e42d5",
+          "task_sha256": "6ec182a8432deb2267e32806e192b907b2361d2fb10e0645900e56aa03cbb9af",
+          "result_sha256": "bc1067358dbf1efeac08ed62f1c87e4ea7683e3608956b9ca81e9dde9a6d31c6"
+        },
+        "program_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+        "checker_sha256": "3747226239b4b95388069a6ed9d6cb9573129b726d3df5e60e79f3b472268ec9",
+        "journal_at_collection": {
+          "events": 8,
+          "tail_sha256": "2df77cac6735b731760b4797ade1324aa5abb220a72aa38bc7454411b155b61c"
+        },
+        "files": [
+          {
+            "name": "budget-report.json",
+            "semantic_sha256": "7166b204e50a8ea55b085c3d7fede8d81aae91537181aa7a20df5fbd2fb91ae3",
+            "sha256": "558fdce04e320c62e12c015097810ebf46668cad64e15f3246069359e824bba9",
+            "bytes": 463
+          }
+        ],
+        "model_calls": 0,
+        "program_executions": 0,
+        "financial_activity": false,
+        "receipt_sha256": "cee95af50dc247536d11c3be5be3ee50728e261fe02072fb8316bb6a450081d9",
+        "replayed": false
+      },
+      {
+        "schema": "nuria.program-delivery.v1",
+        "job_id": "later-price-sensitivity",
+        "source_sha256": "5e421140e8ba23fccd9de96268c97fab87559d040f17be72c7212c851b3ac4e9",
+        "binding": {
+          "enrollment_sha256": "74edb5440f4230490020b8c32c8cc7506e36e1104aba751919ac6817a7619d17",
+          "task_sha256": "748fc1ba67b7323cc6eaa69fee5089a9ccda22cebd2890927b48857838aa8051",
+          "result_sha256": "60f4703c7d7636dc01ad188699aea9a802531f309420a3f88680c81835ebecd3"
+        },
+        "program_sha256": "2e9f39262184b6facf3e55c799ebfdec56c6fb6ca6f574e674985870cd2b3bd5",
+        "checker_sha256": "51123168f9a616c71eb392dfe2f6eba051d8aa26a6c059dc2ff68ecccee72283",
+        "journal_at_collection": {
+          "events": 8,
+          "tail_sha256": "2df77cac6735b731760b4797ade1324aa5abb220a72aa38bc7454411b155b61c"
+        },
+        "files": [
+          {
+            "name": "budget-report.json",
+            "semantic_sha256": "410f0558ef56cd72b530917780ddeb2b6b656354d4d1f115a4b914a2fd36110e",
+            "sha256": "f024862de409e8dce0d252df936aa24c202306f6b332788edfc540adea34856a",
+            "bytes": 4425
+          }
+        ],
+        "model_calls": 0,
+        "program_executions": 0,
+        "financial_activity": false,
+        "receipt_sha256": "7305000497a747e4500a2f24daf8c8ff63e046aead196aecc92db1fcf4a846b0",
+        "replayed": false
+      }
+    ]
+  },
+  "accepted": 2,
+  "actual_later_source_rows": 362,
+  "one_actual_snapshot_and_one_authored_price_sensitivity": true,
+  "new_model_calls": 0,
+  "duplicate_replay_new_executions": 0,
+  "duplicate_replay_journal_unchanged": true,
+  "shared_operational_history": {
+    "raw_jobs": 4,
+    "eligible_jobs": 4,
+    "withheld": []
+  },
+  "original_model_records_unchanged": true,
+  "initial_collection_recovery": {
+    "error": "FileNotFoundError",
+    "cause": "The collector wrapper used the originating execution root instead of the retained-work execution root.",
+    "corrected_by": "Existing collect API receives the actual retained-work execution root.",
+    "programs_reexecuted": 0,
+    "new_model_calls": 0,
+    "original_failed_attempt_preserved": true
+  }
+}

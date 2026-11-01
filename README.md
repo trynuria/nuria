@@ -107,6 +107,20 @@ This improves feedback handling; fresh-task accuracy improvement is unproved.
 
 The optional [interactive program worker](docs/interactive-work.md) chooses its next probe from actual execution output, then independently checks and delivers the final artifact. A publicly committed actual-data course delivered two reports for both the adaptive and retrieved routes, then reused both sets of programs successfully on three later-data jobs without another model call. All corrected native and boundary checks pass; the original oracle error and negative development results remain in the [complete record](research/outcome-learning/interactive-work-08). This adds a usable execution route, without establishing a reasoning or neural accuracy advantage.
 
+The [reasoning-continuity adapter](docs/reasoning-continuity.md) carries the
+provider's opaque working state between execution steps, instead of retaining
+assistant text alone. It is available through the same checked artifact runner
+with an explicit option. The frozen [70-task comparison](research/outcome-learning/reasoning-continuity-09)
+ties at 50/70 for both routes, with the same failures and 140 matching macOS
+replay verdicts. Linux returns 49/70 for both; one upstream filesystem-dependent
+case is explicitly qualified without changing the original scores. The visible
+route remains the default. A separate
+[maintenance course](research/outcome-learning/reasoning-continuity-09/project-work/RESULTS.md)
+delivers two checked artifacts and reuses its accountant on a later actual ledger
+without model calls. Four eligible outcomes share one operational journal.
+These are finite work and reuse capabilities; an intelligence or neural
+accuracy advantage remains unestablished.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the

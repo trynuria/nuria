@@ -1,0 +1,25 @@
+{
+  "repair": {
+    "schema": "nuria.reporter-repair.v1",
+    "original_source_sha256": "1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638",
+    "repaired_source_sha256": "b3a3d5db4c87b95894d68922540566d071b43b11402447922faf7a57127584c1",
+    "behavior": "Unknown labels are every value other than exact bool; other report fields unchanged."
+  },
+  "accounting": {
+    "schema": "nuria.cost-audit-report.v1",
+    "scope": "Configured conservative ledger accounting; not a provider invoice.",
+    "requests": 72,
+    "known_usage": 71,
+    "unknown_usage": 1,
+    "charged_micro_usd": 936011,
+    "unresolved_reserve_micro_usd": 4646000,
+    "accounted_micro_usd": 5582011,
+    "remaining_micro_usd": 14417989,
+    "blocked": true,
+    "recomputed_known_usage_micro_usd": 936011,
+    "cost_mismatch_requests": [],
+    "models": [
+      "gpt-6.1-sol"
+    ]
+  }
+}

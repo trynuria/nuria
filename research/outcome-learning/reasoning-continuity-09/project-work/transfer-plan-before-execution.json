@@ -1,0 +1,20 @@
+{
+  "version": "nuria.post-acquisition-cost-audit.v1",
+  "recorded_utc": "2026-11-01T13:28:39.337387+00:00",
+  "origin_skill_sha256": "b4546b05eac34fe4f52f7211ed6d694cc07f898c1e2764efd9af4a256ad43b0b",
+  "source_rows": 362,
+  "later_actual_snapshot_complete": true,
+  "no_model_calls_for_transfer": true,
+  "jobs": {
+    "actual": "Complete later actual ledger, no sampling or model queries.",
+    "price-sensitivity": "Explicit authored upper-rate sensitivity; actual usage/charges unchanged. Not a second observed provider invoice."
+  },
+  "before_any_transfer_execution": true,
+  "expected_files": {
+    "acquired-accounting-skill.json": "6376fab9dd1d5de836976436b6e4844027300b7a3005614709ba0566bd516fc4",
+    "later-enrollment-before-execution.json": "7ce47c5e5c090672b9d5348a70716a9f3dc3b1e3fd19adf40d2316f85924a78d",
+    "later-expected.json": "a1d0bcbba8e83a692cfc7d5237d8bcaa6baf0909f98153e1ad30f6eaf3af9094",
+    "later-profile.json": "f314bbb3885bc9e939cc78635895c35f260487608e54559ddbce5b2bfd36d2f4"
+  },
+  "originals_unchanged": true
+}

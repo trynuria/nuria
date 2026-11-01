@@ -1,0 +1,55 @@
+{
+  "version": "filesystem-characterization-1",
+  "task_id": "BigCodeBench/832",
+  "post_hoc": true,
+  "discovered_after_primary_results": true,
+  "initial_linux_replay": "https://github.com/trynuria/nuria/actions/runs/41315440857/job/124874365261",
+  "initial_mismatches": [
+    {
+      "condition": "continuity",
+      "recorded": true,
+      "actual": false
+    },
+    {
+      "condition": "visible",
+      "recorded": true,
+      "actual": false
+    }
+  ],
+  "reason": "The unchanged upstream checker expects writing /non/existent/path to fail, although the prompt requires creating missing parent directories. macOS rejects that absolute path; a fresh Linux namespace has different filesystem permissions. These are environment-sensitive labels, not evidence of a method advantage.",
+  "program_sha256": {
+    "continuity": "6efa20be0ab254f9d277967ac96492394db392831ef07d971b0208981dff007f",
+    "visible": "c18b515e668de167d0841392a994614f65f7d4945d455fe7d096576a27b40225",
+    "reference": "111cd340c908e74207a510a4eb46b83132087041bceffb6c1eeafdec9efb7016"
+  },
+  "checker_sha256": "8c109765f1880614d5d3054264842686b13cf8fd88f921cf13dba12a8dc6ae6a",
+  "qualification_source_sha256": "56a94f5b22a5076020d994793e157c606841fb682a372f57768eb0dc9011cf76",
+  "rounds": [
+    [
+      "reference",
+      "continuity",
+      "visible"
+    ],
+    [
+      "visible",
+      "reference",
+      "continuity"
+    ],
+    [
+      "continuity",
+      "visible",
+      "reference"
+    ]
+  ],
+  "rules": [
+    "Run all 140 unchanged programs and original checkers.",
+    "Permit no changed native verdict outside the single exposed filesystem-sensitive task.",
+    "Require all nine fixed reference and candidate observations to agree on this host, and require the full replay case to agree with them.",
+    "Preserve every original label, enrollment, gate, source and native mismatch.",
+    "Enumerate all four possible assignments for this case; the original no-promotion decision must hold for every one.",
+    "Make no exact-reproduction claim when any native verdict differs. No model requests."
+  ],
+  "model_calls": 0,
+  "before_fixed_characterization": true,
+  "same_pattern_as_existing_timing_qualification": "scripts/characterize_timing_contract.py"
+}
