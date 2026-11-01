@@ -1,0 +1,28 @@
+[Unit]
+Description=Nuria persistent autonomous software research within the original allowance
+After=network-online.target nuria-inference.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=nuria-studio
+Group=nuria-studio
+WorkingDirectory=/opt/nuria/agency-code
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PYTHONPATH=/opt/nuria/agency-code:/opt/nuria/studio-releases/live-delta-v1
+Environment=MSWEA_SILENT_STARTUP=1
+Environment=MSWEA_GLOBAL_CONFIG_DIR=/var/lib/nuria-studio/agency/config
+ExecStart=/opt/nuria/agency-runtime/bin/python -m agency.runner --root /var/lib/nuria-studio/agency --studio-root /var/lib/nuria-studio --source /opt/nuria/agency-source --token-file /etc/nuria-studio/bridge.token
+TimeoutStartSec=infinity
+TimeoutStopSec=280
+KillMode=control-group
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/nuria-studio
+MemoryMax=1G
+CPUQuota=100%
+TasksMax=64
+Nice=10
+UMask=0027
+

@@ -485,8 +485,14 @@
       completed: "Current work complete",
       budget_exhausted: "Inference allowance exhausted",
       waiting_for_reasoner: "Reasoning connection paused",
-      researching: "Testing a useful improvement",
-      research_waiting: "LiveDelta deployed · next trial scheduled",
+      researching:
+        data.research?.mode === "agency"
+          ? "Working on a self-selected goal"
+          : "Testing a useful improvement",
+      research_waiting:
+        data.research?.mode === "agency"
+          ? "Work saved · Cherry continues automatically"
+          : "LiveDelta deployed · next trial scheduled",
     };
     byId("worker-status").textContent = stale
       ? "Worker update delayed"
@@ -500,6 +506,35 @@
       `${data.campaign?.mode === "autonomous" ? "Autonomous · " : ""}Updated ${date(data.updated_at, true)}`;
     byId("research-status").hidden = !data.research;
     byId("research-summary").textContent = text(data.research?.summary).slice(0, 500);
+    const agency = data.research?.mode === "agency";
+    byId("research-title").textContent = text(
+      data.research?.title,
+      data.research?.name || "Testing a useful improvement",
+    );
+    const activity = array(data.research?.activity);
+    if (changed("research-activity", activity)) {
+      byId("research-activity").replaceChildren(
+        ...activity.map((event) =>
+          element(
+            "li",
+            "",
+            `${label(event.kind)} · ${text(event.reason).slice(0, 200)}${event.error ? " · needs repair" : ""}`,
+          ),
+        ),
+      );
+    }
+    byId("research-activity").hidden = !activity.length;
+    const download = byId("research-download");
+    download.href = agency ? "/studio/agency-artifact.zip" : "/studio/live-delta.py";
+    download.textContent = agency
+      ? "Download the latest checked tool"
+      : "Get the encoder";
+    download.hidden = agency && !data.research?.artifact_available;
+    const evidence = byId("research-evidence");
+    evidence.href = agency
+      ? "/studio/agency-results.json"
+      : "/studio/live-delta-results.json";
+    evidence.textContent = agency ? "Goals, checks and outcomes" : "Measured results";
   }
   async function refresh() {
     if (state.fetching) return;

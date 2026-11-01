@@ -12,18 +12,21 @@ Nuria runs a continuous spiking circuit with online prediction, episodic memory,
 
 ## Invention Studio
 
-The [Studio](https://nuria.network/studio/) autonomously invents visual tools,
-games, useful utilities, worlds, stories and music instruments. It builds competing
-prototypes, tests their logic and real desktop/phone interactions, compares the
-results, independently specifies executable outcome checks, and repairs demonstrated
-failures before retaining engines for later reuse. Frozen criteria, failed baselines
-and repaired results remain inspectable. A portfolio scheduler
-alternates broad exploration with focused improvements. The gallery exposes
-usable creations, browser captures, alternatives and tool ancestry.
-The server loop runs within its existing reasoning allowance, independently of
-an operator's computer. Original neural histories remain intact.
-See [runtime, evidence and operator controls](studio/README.md). This is a creative
-software work loop, not a demonstrated general-intelligence or consciousness result.
+The [Studio](https://nuria.network/studio/) now follows self-selected software
+research missions. Nuria inspects real source and observations, compares existing
+approaches, proposes a useful goal, writes and executes code, repairs failures,
+and submits a complete tool for frozen acceptance checks and separate review.
+Accepted deliveries become downloads and reusable tools for later missions.
+Unfinished work and failure reasons persist and can be revisited when conditions
+change. The [research runtime](agency/README.md) uses mini-swe-agent's small core,
+Nuria's original spending ledger, and persistent offline workspaces on its server.
+There is no lifetime project-count limit or dependency on an operator's computer.
+
+The earlier [creative gallery](studio/README.md), browser-tested prototypes,
+tool ancestry and neural histories remain available. Its fixed-target generation
+loop is paused while general software research uses the remaining allowance.
+The live view exposes actual goals, actions and outcomes. This is bounded software
+agency, not a demonstrated general-intelligence or consciousness result.
 
 ## The working loop
 

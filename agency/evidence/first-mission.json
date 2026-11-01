@@ -1,0 +1,575 @@
+{
+  "schema": 1,
+  "source_baseline_commit": "f786ac483fef6706694fdd559975f8c5c146f30b",
+  "mission": {
+    "id": "mission-0001",
+    "status": "accepted",
+    "started_at": "2026-11-01T22:25:53.187123+00:00",
+    "events": [
+      {
+        "at": "2026-11-01T22:25:57.408376+00:00",
+        "kind": "invalid",
+        "reason": "Return one complete JSON action",
+        "action_id": "act-000-cc6b06d2b800",
+        "exit_code": null,
+        "accepted": null,
+        "error": "Use one of exec, fetch, goal, submit or abandon with the required fields"
+      },
+      {
+        "at": "2026-11-01T22:25:59.412914+00:00",
+        "kind": "exec",
+        "reason": "Inspect prior outcomes and available evidence.",
+        "action_id": "act-001-88c73f8f82f5",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:26:01.044605+00:00",
+        "kind": "exec",
+        "reason": "exec",
+        "action_id": "act-002-9b93c3d3d02e",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:26:03.185561+00:00",
+        "kind": "exec",
+        "reason": "Identify backup safety gaps and existing baseline.",
+        "action_id": "act-003-ffcea89d94e2",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:26:05.395641+00:00",
+        "kind": "exec",
+        "reason": "exec",
+        "action_id": "act-004-252647216db5",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:27:37.649440+00:00",
+        "kind": "goal",
+        "reason": "Authenticated offline Nuria backup recovery",
+        "action_id": "act-005-929538d6c519",
+        "exit_code": null,
+        "accepted": true,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:27:48.159550+00:00",
+        "kind": "exec",
+        "reason": "Implement streaming authenticated recovery with atomic no-clobber publication and producer compatibility tests.",
+        "action_id": "act-006-fd78a66e0cd6",
+        "exit_code": 127,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:27:58.222792+00:00",
+        "kind": "exec",
+        "reason": "exec",
+        "action_id": "act-007-4868f9b63494",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:28:01.818715+00:00",
+        "kind": "submit",
+        "reason": "submit",
+        "action_id": "act-008-251d76e37f82",
+        "exit_code": null,
+        "accepted": false,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:28:04.038494+00:00",
+        "kind": "exec",
+        "reason": "Determine whether frozen failure reached implementation; inspect file-size allowance without modifying controls.",
+        "action_id": "act-009-39790a2ff52d",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:29:12.471041+00:00",
+        "kind": "submit",
+        "reason": "submit",
+        "action_id": "act-010-f8ea49f58c52",
+        "exit_code": null,
+        "accepted": false,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:29:15.770720+00:00",
+        "kind": "abandon",
+        "reason": "Delivery remains unverified: frozen acceptance twice fails during its own fixture creation with OSError Errno 27 (File too large), before invoking recovery. The observed file-size allowance is 8192 blocks, while acceptance requires a 96 MiB incompressible fixture. Local producer compatibility and negative tests pass, and artifacts remain in /work, but these are not independent acceptance. Completion requires an authorized verification environment supporting the frozen fixture size; changing budg",
+        "action_id": "act-011-e108fd6243fc",
+        "exit_code": null,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:32:45.563401+00:00",
+        "kind": "exec",
+        "reason": "Inspect retained implementation and prior fixture failure against current runtime before resubmitting unchanged frozen checks.",
+        "action_id": "act-012-8868adda38ea",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:32:48.177979+00:00",
+        "kind": "exec",
+        "reason": "Revalidate saved producer integration tests before independent checks with the newly adequate checker fixture allowance.",
+        "action_id": "act-013-07afb954052b",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:33:02.458897+00:00",
+        "kind": "submit",
+        "reason": "submit",
+        "action_id": "act-014-9fde2a4e90a3",
+        "exit_code": null,
+        "accepted": null,
+        "error": null
+      }
+    ],
+    "updated_at": "2026-11-01T22:33:02.458904+00:00",
+    "goal": {
+      "title": "Authenticated offline Nuria backup recovery",
+      "problem": "The repository can encrypt backups in a custom envelope but supplies no inverse recovery CLI; backup receipts explicitly leave restore_test Pending. Operators need to recover archive bytes without publishing unauthenticated plaintext.",
+      "evidence": [
+        "/repo/backup_crypto.py",
+        "/repo/backup.py:234",
+        "/observations/act-004-252647216db5-stdout.txt"
+      ],
+      "baseline": "Compare with the actual seal_archive producer. Generic tar cannot decrypt the RSA-OAEP/AES-GCM envelope; existing seal_archive is the compatibility baseline. Deliver archive recovery only, not database restoration.",
+      "success": "Recover byte-identical tar contents from seal_archive using an RSA private PEM; reject wrong key, tampered header/ciphertext/tag and truncation without creating output; refuse existing output; bounded-memory streaming; document subsequent manual restore limitations.",
+      "deliverables": [
+        "recover_backup.py",
+        "test_recover_backup.py",
+        "README.md"
+      ],
+      "interface": "python /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ; exits 0 on authenticated recovery, nonzero on failure. Python API recover(source: Path, key_path: Path, destination: Path) -> dict returns sha256 and bytes."
+    },
+    "criteria": [
+      "Recover archives produced by the unchanged /repo/backup_crypto.py seal_archive, returning byte-identical authenticated compressed archive bytes and correct API sha256/bytes metadata.",
+      "Use existing cryptographic primitives with the producer's RSA-OAEP SHA-256 and AES-GCM parameters, authenticating the original header bytes.",
+      "Reject wrong keys, modified headers, ciphertext or tags, malformed framing and truncated inputs without publishing a destination or leaving plaintext temporary files after failure.",
+      "Refuse existing destinations, including dangling symlinks, without modifying their contents or targets. Preserve inputs and private keys.",
+      "Recover a 96 MiB incompressible archive under a 160 MiB process address-space limit, demonstrating bounded-memory operation rather than whole-archive buffering.",
+      "Deliver the specified CLI, callable API, tests and documentation. Explain secure key handling and that archive recovery is not extraction, database restoration, or a completed production restore test."
+    ],
+    "reason": "Delivery remains unverified: frozen acceptance twice fails during its own fixture creation with OSError Errno 27 (File too large), before invoking recovery. The observed file-size allowance is 8192 blocks, while acceptance requires a 96 MiB incompressible fixture. Local producer compatibility and negative tests pass, and artifacts remain in /work, but these are not independent acceptance. Completion requires an authorized verification environment supporting the frozen fixture size; changing budget controls or the checker is not permitted.",
+    "resumptions": [
+      {
+        "at": "2026-11-01T22:32:42.657614+00:00",
+        "from": "mission-0002",
+        "prior_status": "abandoned",
+        "prior_reason": "Delivery remains unverified: frozen acceptance twice fails during its own fixture creation with OSError Errno 27 (File too large), before invoking recovery. The observed file-size allowance is 8192 blocks, while acceptance requires a 96 MiB incompressible fixture. Local producer compatibility and negative tests pass, and artifacts remain in /work, but these are not independent acceptance. Completion requires an authorized verification environment supporting the frozen fixture size; changing budget controls or the checker is not permitted."
+      }
+    ],
+    "delivery": {
+      "id": "mission-0001",
+      "goal": {
+        "title": "Authenticated offline Nuria backup recovery",
+        "problem": "The repository can encrypt backups in a custom envelope but supplies no inverse recovery CLI; backup receipts explicitly leave restore_test Pending. Operators need to recover archive bytes without publishing unauthenticated plaintext.",
+        "evidence": [
+          "/repo/backup_crypto.py",
+          "/repo/backup.py:234",
+          "/observations/act-004-252647216db5-stdout.txt"
+        ],
+        "baseline": "Compare with the actual seal_archive producer. Generic tar cannot decrypt the RSA-OAEP/AES-GCM envelope; existing seal_archive is the compatibility baseline. Deliver archive recovery only, not database restoration.",
+        "success": "Recover byte-identical tar contents from seal_archive using an RSA private PEM; reject wrong key, tampered header/ciphertext/tag and truncation without creating output; refuse existing output; bounded-memory streaming; document subsequent manual restore limitations.",
+        "deliverables": [
+          "recover_backup.py",
+          "test_recover_backup.py",
+          "README.md"
+        ],
+        "interface": "python /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ; exits 0 on authenticated recovery, nonzero on failure. Python API recover(source: Path, key_path: Path, destination: Path) -> dict returns sha256 and bytes."
+      },
+      "criteria": [
+        "Recover archives produced by the unchanged /repo/backup_crypto.py seal_archive, returning byte-identical authenticated compressed archive bytes and correct API sha256/bytes metadata.",
+        "Use existing cryptographic primitives with the producer's RSA-OAEP SHA-256 and AES-GCM parameters, authenticating the original header bytes.",
+        "Reject wrong keys, modified headers, ciphertext or tags, malformed framing and truncated inputs without publishing a destination or leaving plaintext temporary files after failure.",
+        "Refuse existing destinations, including dangling symlinks, without modifying their contents or targets. Preserve inputs and private keys.",
+        "Recover a 96 MiB incompressible archive under a 160 MiB process address-space limit, demonstrating bounded-memory operation rather than whole-archive buffering.",
+        "Deliver the specified CLI, callable API, tests and documentation. Explain secure key handling and that archive recovery is not extraction, database restoration, or a completed production restore test."
+      ],
+      "usage": "python3 /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ",
+      "claims": [
+        "Retained implementation passes producer integration tests after resume.",
+        "Streams authenticated recovery with original header AAD and atomic no-clobber publication.",
+        "Prior independent checks stopped at fixture creation; the reported checker allowance is now 128 MiB, permitting rerun of the unchanged 96 MiB criterion.",
+        "No production restore or large-file acceptance success claimed in advance."
+      ],
+      "review": {
+        "approved": true,
+        "reason": "The complete source implements genuine streaming recovery using RSA-OAEP SHA-256 and AES-GCM with the original header as authenticated data. Plaintext is published only after authentication through atomic no-clobber linking. The supplied successful acceptance receipt demonstrates byte-identical recovery of three producer-generated archives, correct API metadata, rejection of ten corrupted inputs and a wrong key, preservation of existing destinations and inputs, and recovery of 100,694,277 bytes under a 160 MiB address-space limit. No hardcoded fixture results, simulated recovery, or unsafe external effects appear in the implementation.",
+        "limitations": [
+          "Unauthenticated plaintext temporarily exists in a mode-0600 file; forced termination or power loss can leave it behind. Recovery requires a trusted private directory and appropriate storage protection.",
+          "Inputs must be seekable and not concurrently modified; destination storage must support hard links.",
+          "Only unencrypted RSA private PEM keys are supported.",
+          "Archive recovery does not perform extraction, database restoration, or a production restore rehearsal.",
+          "Successful envelope authentication does not establish sender identity: a holder of the public encryption key can construct an authenticated envelope."
+        ],
+        "lesson": "Verify compatibility against the actual producer and independently compare recovered bytes, while testing authentication failures, no-clobber publication, cleanup, and constrained-memory operation. Keep archive recovery evidence separate from claims of completed operational restoration."
+      },
+      "before": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seconds": 0.033968,
+        "stdout": "",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_truncated": false,
+        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"<frozen-acceptance>\", line 3, in <module>\nAssertionError: missing deliverables\n",
+        "stderr_sha256": "8483e29dbab58661ec46a2483db6eb01758c121568d8525e829880e48ecf1fab",
+        "stderr_truncated": false,
+        "full_output": "/observations/act-005-929538d6c519-before-stdout.txt"
+      },
+      "after": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seconds": 3.372809,
+        "stdout": "{\"passed\": true, \"producer_compatible_archives\": 3, \"corrupt_inputs_rejected\": 10, \"wrong_key_rejected\": true, \"existing_destination_cases\": 3, \"large_plaintext_bytes\": 100694277, \"address_space_limit_mib\": 160, \"baseline_tar_can_read_envelope\": false}\n",
+        "stdout_sha256": "2f10081281a1f8b2f335b178df48cf28ca3d74c90b81d83ffb383157ba3ebaef",
+        "stdout_truncated": false,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_truncated": false,
+        "full_output": "/observations/act-014-9fde2a4e90a3-after-stdout.txt"
+      },
+      "acceptance_sha256": "0d29d20e7c5a949286e35df58a8485f31eb40a0d197358327429cf27cb75828d",
+      "artifacts": {
+        "README.md": "15112e3cbe6518e5b573a28714647db43fddd1714c24c843f1ecf8e393eb80ea",
+        "recover_backup.py": "d0e78ecc514a96464093599d9c1c1ec424c94167d00787aba5cd85e50a019e8b",
+        "test_recover_backup.py": "98787a128d5c0cff09c97149ebb10c78bcbda644b2cb4470621c48e64e52653d"
+      },
+      "accepted_at": "2026-11-01T22:33:02.456898+00:00"
+    }
+  },
+  "frozen_acceptance": {
+    "checks": "import subprocess, sys, tempfile, pathlib, json, hashlib, os, time, resource\nP=pathlib.Path\nassert all((P('/work')/n).is_file() for n in ['recover_backup.py','test_recover_backup.py','README.md']), 'missing deliverables'\nroot=P(tempfile.mkdtemp(prefix='recovery-check-',dir='/tmp'))\nfixture=r'''\nimport sys, os, json, hashlib, base64\nfrom pathlib import Path\nsys.path.insert(0,'/repo')\nfrom backup_crypto import seal_archive\nfrom cryptography.hazmat.primitives.asymmetric import rsa,padding\nfrom cryptography.hazmat.primitives import serialization,hashes\nfrom cryptography.hazmat.primitives.ciphers import Cipher,algorithms,modes\nr=Path(sys.argv[1])\nk=rsa.generate_private_key(public_exponent=65537,key_size=2048)\nfor name,key in [('key',k),('wrong',rsa.generate_private_key(public_exponent=65537,key_size=2048))]:\n (r/name).write_bytes(key.private_bytes(serialization.Encoding.PEM,serialization.PrivateFormat.PKCS8,serialization.NoEncryption()))\ns=r/'source'; s.mkdir()\n(s/'binary').write_bytes(bytes(range(256))*31+b'\\x00final\\xff')\n(s/'empty').write_bytes(b'')\n(s/'unicode name').write_text('recovery \\u2603\\n')\nseal_archive([(s,'snapshot')],k.public_key(),r/'small.enc')\nseal_archive([],k.public_key(),r/'empty.enc')\nwith (s/'large').open('wb') as f:\n for i in range(96): f.write(os.urandom(1024*1024))\nseal_archive([(s/'large','large')],k.public_key(),r/'large.enc')\nmeta={}\nfor name in ['small','empty','large']:\n with (r/(name+'.enc')).open('rb') as f:\n  assert f.readline()==b'NURIABACKUP1\\n'\n  h=f.readline()[:-1]; d=json.loads(h)\n  key=k.decrypt(base64.b64decode(d['wrapped_key']),padding.OAEP(mgf=padding.MGF1(hashes.SHA256()),algorithm=hashes.SHA256(),label=None))\n  start=f.tell(); f.seek(-16,2); end=f.tell(); tag=f.read(16); f.seek(start)\n  dec=Cipher(algorithms.AES(key),modes.GCM(base64.b64decode(d['nonce']),tag)).decryptor(); dec.authenticate_additional_data(h)\n  digest=hashlib.sha256(); count=0\n  out=(r/(name+'.expected')).open('wb') if name!='large' else None\n  left=end-start\n  while left:\n   b=f.read(min(left,1024*1024)); left-=len(b); b=dec.update(b); digest.update(b); count+=len(b)\n   if out: out.write(b)\n  b=dec.finalize(); digest.update(b); count+=len(b)\n  if out: out.write(b); out.close()\n  meta[name]={'sha256':digest.hexdigest(),'bytes':count}\n(r/'expected.json').write_text(json.dumps(meta))\n'''\np=subprocess.run([sys.executable,'-c',fixture,str(root)],capture_output=True,text=True,timeout=120)\nassert p.returncode==0, 'fixture creation failed: '+p.stderr[-2000:]\nexpected=json.loads((root/'expected.json').read_text())\ndef digest(p):\n with p.open('rb') as f: return hashlib.file_digest(f,'sha256').hexdigest()\nprotected={p:digest(p) for p in root.iterdir() if p.is_file()}\n# The standard archive reader cannot consume this envelope directly.\nbaseline=subprocess.run([sys.executable,'-c','import tarfile,sys; tarfile.open(sys.argv[1]).getmembers()',str(root/'small.enc')],capture_output=True)\nassert baseline.returncode!=0, 'baseline unexpectedly reads encrypted envelope'\ndef limit(): resource.setrlimit(resource.RLIMIT_AS,(160*1024**2,160*1024**2))\ndef cli(src,key,out,ok,limited=False):\n cmd=[sys.executable,'/work/recover_backup.py',str(src),'--key',str(key),'--output',str(out)]\n p=subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,preexec_fn=limit if limited else None)\n published=False\n deadline=time.monotonic()+90\n while p.poll() is None:\n  if not ok and os.path.lexists(out): published=True\n  if time.monotonic()>deadline:\n   p.kill(); p.communicate(); raise AssertionError('recovery timed out')\n  time.sleep(.002)\n stdout,stderr=p.communicate()\n assert (p.returncode==0)==ok, 'unexpected recovery status: '+stderr.decode(errors='replace')[-1200:]\n if not ok:\n  assert not published and not os.path.lexists(out), 'failed authentication published output'\n return stdout\nfor name in ['small','empty','large']:\n out=root/(name+'.recovered')\n cli(root/(name+'.enc'),root/'key',out,True,name=='large')\n assert out.stat().st_size==expected[name]['bytes'] and digest(out)==expected[name]['sha256'], 'archive bytes differ'\n# API is exercised in its own interpreter, never imported into this checker.\napi=r'''\nimport sys,json\nfrom pathlib import Path\nsys.path.insert(0,'/work')\nfrom recover_backup import recover\nprint(json.dumps(recover(Path(sys.argv[1]),Path(sys.argv[2]),Path(sys.argv[3]))))\n'''\np=subprocess.run([sys.executable,'-c',api,str(root/'small.enc'),str(root/'key'),str(root/'api.tar.gz')],capture_output=True,text=True,timeout=30)\nassert p.returncode==0, 'API failed: '+p.stderr[-1200:]\nm=json.loads(p.stdout)\nassert m['sha256']==expected['small']['sha256'] and m['bytes']==expected['small']['bytes'], 'incorrect API metadata'\nassert digest(root/'api.tar.gz')==expected['small']['sha256']\nraw=(root/'small.enc').read_bytes(); first=raw.index(b'\\n'); second=raw.index(b'\\n',first+1); body=second+1\nvariants={\n 'magic':b'X'+raw[1:],\n 'header-auth':raw[:second]+b' '+raw[second:],\n 'bad-json':raw[:first+1]+b'{not json}\\n'+raw[body:],\n 'cipher':raw[:body+7]+bytes([raw[body+7]^1])+raw[body+8:],\n 'tag':raw[:-1]+bytes([raw[-1]^1]),\n 'truncated-tag':raw[:-8],\n 'truncated-body':raw[:body+4],\n 'empty-input':b'',\n 'missing-header-newline':raw[:second],\n 'append':raw+b'extra'\n}\nfor name,data in variants.items():\n src=root/(name+'.bad'); src.write_bytes(data)\n folder=root/('fail-'+name); folder.mkdir()\n cli(src,root/'key',folder/'archive',False)\n assert not list(folder.iterdir()), 'failure leaked temporary plaintext: '+name\nfolder=root/'wrong-output'; folder.mkdir()\ncli(root/'small.enc',root/'wrong',folder/'archive',False)\nassert not list(folder.iterdir()), 'wrong-key attempt leaked files'\n# Existing destination checks use a separate call because the destination must remain.\nfor kind in ['file','dangling','link']:\n folder=root/('existing-'+kind); folder.mkdir(); out=folder/'archive'\n target=folder/'target'\n if kind=='file': out.write_bytes(b'KEEP ORIGINAL')\n elif kind=='dangling': out.symlink_to(target)\n else: target.write_bytes(b'KEEP TARGET'); out.symlink_to(target)\n before={str(p): (('link',os.readlink(p)) if p.is_symlink() else ('file',p.read_bytes())) for p in folder.iterdir()}\n p=subprocess.run([sys.executable,'/work/recover_backup.py',str(root/'small.enc'),'--key',str(root/'key'),'--output',str(out)],capture_output=True,timeout=30)\n assert p.returncode!=0, 'existing destination accepted'\n after={str(p): (('link',os.readlink(p)) if p.is_symlink() else ('file',p.read_bytes())) for p in folder.iterdir()}\n assert before==after, 'existing destination changed'\nfor path,h in protected.items(): assert digest(path)==h, 'input/key altered'\nprint(json.dumps({'passed':True,'producer_compatible_archives':3,'corrupt_inputs_rejected':len(variants),'wrong_key_rejected':True,'existing_destination_cases':3,'large_plaintext_bytes':expected['large']['bytes'],'address_space_limit_mib':160,'baseline_tar_can_read_envelope':False}))\n",
+    "sha256": "0d29d20e7c5a949286e35df58a8485f31eb40a0d197358327429cf27cb75828d",
+    "before": {
+      "exit_code": 1,
+      "timed_out": false,
+      "seconds": 0.033968,
+      "stdout": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_truncated": false,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"<frozen-acceptance>\", line 3, in <module>\nAssertionError: missing deliverables\n",
+      "stderr_sha256": "8483e29dbab58661ec46a2483db6eb01758c121568d8525e829880e48ecf1fab",
+      "stderr_truncated": false,
+      "full_output": "/observations/act-005-929538d6c519-before-stdout.txt"
+    }
+  },
+  "submissions": [
+    {
+      "state": "completed",
+      "action": {
+        "kind": "goal",
+        "title": "Authenticated offline Nuria backup recovery",
+        "problem": "The repository can encrypt backups in a custom envelope but supplies no inverse recovery CLI; backup receipts explicitly leave restore_test Pending. Operators need to recover archive bytes without publishing unauthenticated plaintext.",
+        "evidence": [
+          "/repo/backup_crypto.py",
+          "/repo/backup.py:234",
+          "/observations/act-004-252647216db5-stdout.txt"
+        ],
+        "baseline": "Compare with the actual seal_archive producer. Generic tar cannot decrypt the RSA-OAEP/AES-GCM envelope; existing seal_archive is the compatibility baseline. Deliver archive recovery only, not database restoration.",
+        "success": "Recover byte-identical tar contents from seal_archive using an RSA private PEM; reject wrong key, tampered header/ciphertext/tag and truncation without creating output; refuse existing output; bounded-memory streaming; document subsequent manual restore limitations.",
+        "deliverables": [
+          "recover_backup.py",
+          "test_recover_backup.py",
+          "README.md"
+        ],
+        "interface": "python /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ; exits 0 on authenticated recovery, nonzero on failure. Python API recover(source: Path, key_path: Path, destination: Path) -> dict returns sha256 and bytes.",
+        "action_id": "act-005-929538d6c519"
+      },
+      "result": {
+        "accepted": true,
+        "criteria": [
+          "Recover archives produced by the unchanged /repo/backup_crypto.py seal_archive, returning byte-identical authenticated compressed archive bytes and correct API sha256/bytes metadata.",
+          "Use existing cryptographic primitives with the producer's RSA-OAEP SHA-256 and AES-GCM parameters, authenticating the original header bytes.",
+          "Reject wrong keys, modified headers, ciphertext or tags, malformed framing and truncated inputs without publishing a destination or leaving plaintext temporary files after failure.",
+          "Refuse existing destinations, including dangling symlinks, without modifying their contents or targets. Preserve inputs and private keys.",
+          "Recover a 96 MiB incompressible archive under a 160 MiB process address-space limit, demonstrating bounded-memory operation rather than whole-archive buffering.",
+          "Deliver the specified CLI, callable API, tests and documentation. Explain secure key handling and that archive recovery is not extraction, database restoration, or a completed production restore test."
+        ],
+        "reason": "The observed producer uses a custom authenticated envelope and has no demonstrated inverse recovery path. A narrowly scoped offline recovery CLI is useful integration work; it must preserve the producer format and must not claim database restoration or change backup receipts.",
+        "instruction": "Implement the proposed interface in /work; frozen checks will run on submission."
+      },
+      "finished_at": "2026-11-01T22:27:37.649352+00:00"
+    },
+    {
+      "state": "completed",
+      "action": {
+        "kind": "submit",
+        "artifacts": [
+          "recover_backup.py",
+          "test_recover_backup.py",
+          "README.md"
+        ],
+        "usage": "python3 /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ",
+        "claims": [
+          "Streaming recovery compatible with the repository producer using original header AAD, RSA-OAEP SHA-256 and AES-GCM.",
+          "No-clobber authenticated publication and ordinary-error temporary cleanup.",
+          "Producer integration test passed for repository source contents, wrong keys, corruption, truncation and destination collisions; no production restore claimed."
+        ],
+        "lesson": "Archive authentication must finish before publication; private temporary files plus atomic no-clobber linking separate streaming decryption from safe delivery. Database restoration remains a distinct untested operational step.",
+        "action_id": "act-008-251d76e37f82"
+      },
+      "result": {
+        "accepted": false,
+        "reason": "Frozen acceptance checks failed; repair the implementation",
+        "checks": {
+          "exit_code": 1,
+          "timed_out": false,
+          "seconds": 0.370409,
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_truncated": false,
+          "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"<frozen-acceptance>\", line 46, in <module>\nAssertionError: fixture creation failed: Traceback (most recent call last):\n  File \"<string>\", line 20, in <module>\nOSError: [Errno 27] File too large\n\n",
+          "stderr_sha256": "4780f909b62a57ec490d7633aca5aa8b5e108c060b402139c04cd538bc3d7ad5",
+          "stderr_truncated": false,
+          "full_output": "/observations/act-008-251d76e37f82-after-stdout.txt"
+        }
+      },
+      "finished_at": "2026-11-01T22:28:01.817500+00:00"
+    },
+    {
+      "state": "completed",
+      "action": {
+        "kind": "submit",
+        "artifacts": [
+          "recover_backup.py",
+          "test_recover_backup.py",
+          "README.md"
+        ],
+        "usage": "python3 /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ",
+        "claims": [
+          "Local producer compatibility and failure-cleanup tests pass.",
+          "Frozen checks did not reach recovery: fixture creation raised OSError Errno 27 File too large.",
+          "Observed shell file-size limit is 8192 blocks, incompatible with creating the prescribed 96 MiB fixture. No budget controls or acceptance checks were changed.",
+          "Large-file frozen acceptance remains unverified; implementation uses bounded 1 MiB streaming."
+        ],
+        "lesson": "The independent large-file check is blocked by fixture creation under the environment file-size limit, not an observed recovery failure. Verification requires an authorized environment able to create the frozen fixture; no implementation change can legitimately repair that restriction.",
+        "action_id": "act-010-f8ea49f58c52"
+      },
+      "result": {
+        "accepted": false,
+        "reason": "Frozen acceptance checks failed; repair the implementation",
+        "checks": {
+          "exit_code": 1,
+          "timed_out": false,
+          "seconds": 0.316395,
+          "stdout": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_truncated": false,
+          "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"<frozen-acceptance>\", line 46, in <module>\nAssertionError: fixture creation failed: Traceback (most recent call last):\n  File \"<string>\", line 20, in <module>\nOSError: [Errno 27] File too large\n\n",
+          "stderr_sha256": "4780f909b62a57ec490d7633aca5aa8b5e108c060b402139c04cd538bc3d7ad5",
+          "stderr_truncated": false,
+          "full_output": "/observations/act-010-f8ea49f58c52-after-stdout.txt"
+        }
+      },
+      "finished_at": "2026-11-01T22:29:12.470735+00:00"
+    },
+    {
+      "state": "completed",
+      "action": {
+        "kind": "abandon",
+        "reason": "Delivery remains unverified: frozen acceptance twice fails during its own fixture creation with OSError Errno 27 (File too large), before invoking recovery. The observed file-size allowance is 8192 blocks, while acceptance requires a 96 MiB incompressible fixture. Local producer compatibility and negative tests pass, and artifacts remain in /work, but these are not independent acceptance. Completion requires an authorized verification environment supporting the frozen fixture size; changing budget controls or the checker is not permitted.",
+        "action_id": "act-011-e108fd6243fc"
+      },
+      "result": {
+        "terminal": true,
+        "status": "abandoned"
+      },
+      "finished_at": "2026-11-01T22:29:15.770634+00:00"
+    },
+    {
+      "state": "completed",
+      "action": {
+        "kind": "submit",
+        "artifacts": [
+          "recover_backup.py",
+          "test_recover_backup.py",
+          "README.md"
+        ],
+        "usage": "python3 /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ",
+        "claims": [
+          "Retained implementation passes producer integration tests after resume.",
+          "Streams authenticated recovery with original header AAD and atomic no-clobber publication.",
+          "Prior independent checks stopped at fixture creation; the reported checker allowance is now 128 MiB, permitting rerun of the unchanged 96 MiB criterion.",
+          "No production restore or large-file acceptance success claimed in advance."
+        ],
+        "lesson": "The prior failure was an environmental fixture-size restriction, not evidence of successful or failed recovery. Resume preserves implementation and frozen criteria while allowing independent verification under the corrected checker allowance.",
+        "action_id": "act-014-9fde2a4e90a3"
+      },
+      "result": {
+        "terminal": true,
+        "status": "accepted",
+        "delivery": {
+          "id": "mission-0001",
+          "goal": {
+            "title": "Authenticated offline Nuria backup recovery",
+            "problem": "The repository can encrypt backups in a custom envelope but supplies no inverse recovery CLI; backup receipts explicitly leave restore_test Pending. Operators need to recover archive bytes without publishing unauthenticated plaintext.",
+            "evidence": [
+              "/repo/backup_crypto.py",
+              "/repo/backup.py:234",
+              "/observations/act-004-252647216db5-stdout.txt"
+            ],
+            "baseline": "Compare with the actual seal_archive producer. Generic tar cannot decrypt the RSA-OAEP/AES-GCM envelope; existing seal_archive is the compatibility baseline. Deliver archive recovery only, not database restoration.",
+            "success": "Recover byte-identical tar contents from seal_archive using an RSA private PEM; reject wrong key, tampered header/ciphertext/tag and truncation without creating output; refuse existing output; bounded-memory streaming; document subsequent manual restore limitations.",
+            "deliverables": [
+              "recover_backup.py",
+              "test_recover_backup.py",
+              "README.md"
+            ],
+            "interface": "python /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ; exits 0 on authenticated recovery, nonzero on failure. Python API recover(source: Path, key_path: Path, destination: Path) -> dict returns sha256 and bytes."
+          },
+          "criteria": [
+            "Recover archives produced by the unchanged /repo/backup_crypto.py seal_archive, returning byte-identical authenticated compressed archive bytes and correct API sha256/bytes metadata.",
+            "Use existing cryptographic primitives with the producer's RSA-OAEP SHA-256 and AES-GCM parameters, authenticating the original header bytes.",
+            "Reject wrong keys, modified headers, ciphertext or tags, malformed framing and truncated inputs without publishing a destination or leaving plaintext temporary files after failure.",
+            "Refuse existing destinations, including dangling symlinks, without modifying their contents or targets. Preserve inputs and private keys.",
+            "Recover a 96 MiB incompressible archive under a 160 MiB process address-space limit, demonstrating bounded-memory operation rather than whole-archive buffering.",
+            "Deliver the specified CLI, callable API, tests and documentation. Explain secure key handling and that archive recovery is not extraction, database restoration, or a completed production restore test."
+          ],
+          "usage": "python3 /work/recover_backup.py INPUT --key PRIVATE_PEM --output OUTPUT_TAR_GZ",
+          "claims": [
+            "Retained implementation passes producer integration tests after resume.",
+            "Streams authenticated recovery with original header AAD and atomic no-clobber publication.",
+            "Prior independent checks stopped at fixture creation; the reported checker allowance is now 128 MiB, permitting rerun of the unchanged 96 MiB criterion.",
+            "No production restore or large-file acceptance success claimed in advance."
+          ],
+          "review": {
+            "approved": true,
+            "reason": "The complete source implements genuine streaming recovery using RSA-OAEP SHA-256 and AES-GCM with the original header as authenticated data. Plaintext is published only after authentication through atomic no-clobber linking. The supplied successful acceptance receipt demonstrates byte-identical recovery of three producer-generated archives, correct API metadata, rejection of ten corrupted inputs and a wrong key, preservation of existing destinations and inputs, and recovery of 100,694,277 bytes under a 160 MiB address-space limit. No hardcoded fixture results, simulated recovery, or unsafe external effects appear in the implementation.",
+            "limitations": [
+              "Unauthenticated plaintext temporarily exists in a mode-0600 file; forced termination or power loss can leave it behind. Recovery requires a trusted private directory and appropriate storage protection.",
+              "Inputs must be seekable and not concurrently modified; destination storage must support hard links.",
+              "Only unencrypted RSA private PEM keys are supported.",
+              "Archive recovery does not perform extraction, database restoration, or a production restore rehearsal.",
+              "Successful envelope authentication does not establish sender identity: a holder of the public encryption key can construct an authenticated envelope."
+            ],
+            "lesson": "Verify compatibility against the actual producer and independently compare recovered bytes, while testing authentication failures, no-clobber publication, cleanup, and constrained-memory operation. Keep archive recovery evidence separate from claims of completed operational restoration."
+          },
+          "before": {
+            "exit_code": 1,
+            "timed_out": false,
+            "seconds": 0.033968,
+            "stdout": "",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_truncated": false,
+            "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"<frozen-acceptance>\", line 3, in <module>\nAssertionError: missing deliverables\n",
+            "stderr_sha256": "8483e29dbab58661ec46a2483db6eb01758c121568d8525e829880e48ecf1fab",
+            "stderr_truncated": false,
+            "full_output": "/observations/act-005-929538d6c519-before-stdout.txt"
+          },
+          "after": {
+            "exit_code": 0,
+            "timed_out": false,
+            "seconds": 3.372809,
+            "stdout": "{\"passed\": true, \"producer_compatible_archives\": 3, \"corrupt_inputs_rejected\": 10, \"wrong_key_rejected\": true, \"existing_destination_cases\": 3, \"large_plaintext_bytes\": 100694277, \"address_space_limit_mib\": 160, \"baseline_tar_can_read_envelope\": false}\n",
+            "stdout_sha256": "2f10081281a1f8b2f335b178df48cf28ca3d74c90b81d83ffb383157ba3ebaef",
+            "stdout_truncated": false,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_truncated": false,
+            "full_output": "/observations/act-014-9fde2a4e90a3-after-stdout.txt"
+          },
+          "acceptance_sha256": "0d29d20e7c5a949286e35df58a8485f31eb40a0d197358327429cf27cb75828d",
+          "artifacts": {
+            "README.md": "15112e3cbe6518e5b573a28714647db43fddd1714c24c843f1ecf8e393eb80ea",
+            "recover_backup.py": "d0e78ecc514a96464093599d9c1c1ec424c94167d00787aba5cd85e50a019e8b",
+            "test_recover_backup.py": "98787a128d5c0cff09c97149ebb10c78bcbda644b2cb4470621c48e64e52653d"
+          },
+          "accepted_at": "2026-11-01T22:33:02.456898+00:00"
+        }
+      },
+      "finished_at": "2026-11-01T22:33:02.458615+00:00"
+    }
+  ],
+  "resumption_decision": {
+    "id": "mission-0002",
+    "status": "revisit",
+    "started_at": "2026-11-01T22:30:20.182228+00:00",
+    "events": [
+      {
+        "at": "2026-11-01T22:30:23.563781+00:00",
+        "kind": "invalid",
+        "reason": "Return one complete JSON action",
+        "action_id": "act-000-cc6b06d2b800",
+        "exit_code": null,
+        "accepted": null,
+        "error": "Use one of exec, fetch, goal, submit or abandon with the required fields"
+      },
+      {
+        "at": "2026-11-01T22:30:25.138730+00:00",
+        "kind": "exec",
+        "reason": "Inspect prior outcomes and source before choosing work.",
+        "action_id": "act-001-5d9e5df155bd",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:30:27.730836+00:00",
+        "kind": "exec",
+        "reason": "Read outcome memory and inspect recovery-adjacent missing capabilities and existing implementations.",
+        "action_id": "act-002-cf6aed079489",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:30:30.321701+00:00",
+        "kind": "exec",
+        "reason": "Identify a tractable backup integrity intervention distinct from the previously blocked decryption task.",
+        "action_id": "act-003-f6ab933a3373",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:30:33.769578+00:00",
+        "kind": "exec",
+        "reason": "Determine archive layout and baseline tools for a safe pre-restore inventory.",
+        "action_id": "act-004-3d525a45c13a",
+        "exit_code": 0,
+        "accepted": null,
+        "error": null
+      },
+      {
+        "at": "2026-11-01T22:31:41.285585+00:00",
+        "kind": "resume",
+        "reason": "The prior failure occurred solely in checker fixture creation at 96 MiB. The newly authorized separate 128 MiB checker allowance addresses that concrete blocker; reopen the retained recovery implementation and unchanged acceptance rather than duplicate work.",
+        "action_id": "act-005-bd05e695d263",
+        "exit_code": null,
+        "accepted": null,
+        "error": null
+      }
+    ],
+    "updated_at": "2026-11-01T22:31:41.285590+00:00",
+    "reason": "The prior failure occurred solely in checker fixture creation at 96 MiB. The newly authorized separate 128 MiB checker allowance addresses that concrete blocker; reopen the retained recovery implementation and unchanged acceptance rather than duplicate work.",
+    "resume_mission": "mission-0001"
+  },
+  "sources": {
+    "README.md": "# Offline Nuria backup archive recovery\n\nRequires Python 3.12 and `cryptography` (the producer's dependency).\n\n```\npython3 /work/recover_backup.py backup.nuria.enc --key /secure/recovery.pem --output recovered.tar.gz\ncd /work && python3 -m unittest -v test_recover_backup\n```\n\nAPI: `recover_backup.recover(Path(input), Path(private_pem), Path(output))`\nreturns `{\"sha256\": <compressed plaintext digest>, \"bytes\": <plaintext length>}`.\nCLI prints that JSON and exits 0; errors exit nonzero. Output must not exist,\nincluding a dangling symlink. Its parent directory must already exist.\n\nCompatible with the unchanged `/repo/backup_crypto.py` producer: RSA-OAEP\nSHA-256, AES-256-GCM, original serialized header authenticated as AAD. The\ncompressed tar bytes are streamed, not reserialized or extracted. Memory use\nis independent of archive length (1 MiB chunks). Header size is capped at\n64 KiB. Use regular seekable input files that are not concurrently modified.\n\nPrivate PEM must be unencrypted; keep it on a trusted offline recovery machine,\nmode 0600, never in source control. This tool does not log key contents. Use a\nprivate directory on encrypted storage: unauthenticated plaintext is temporarily\nwritten there with mode 0600, and is unlinked on ordinary errors. Power loss or\nforced termination may leave `.nuria-recovery-*` files; remove these securely\naccording to your storage policy. Unlink is not secure erasure. Allow disk space\nfor the full compressed plaintext. Final publication is an atomic hard link,\nrefusing concurrent destination creation; the destination filesystem must\nsupport hard links. Output mode is 0600.\n\nThis recovers an authenticated archive, not a database. Inspect archive paths\nand contents before any manual extraction; do not blindly extract as root.\nAuthentication proves possession of the producer encryption key material, not\nthat archive contents are safe. PostgreSQL restore, SQLite integrity, checkpoint\nalignment, service configuration and disaster recovery rehearsal remain operator\nresponsibilities. This is not a completed production restore test and does not\nchange any backup receipt's `restore_test` status.\n\nEvidence and comparison: `/repo/backup.py` records restore testing as Pending;\n`backup_crypto.py` supplies only encryption. Generic tar handles the recovered\narchive but cannot decode the custom envelope. Tests use that actual producer,\nreal repository source content, corruption, truncation, wrong keys and output\ncollisions. No production private key or backup was available.\n",
+    "recover_backup.py": "\"\"\"Recover authenticated Nuria encrypted backups without extracting them.\"\"\"\nimport argparse\nimport base64\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport tempfile\n\nfrom cryptography.hazmat.primitives import hashes, serialization\nfrom cryptography.hazmat.primitives.asymmetric import padding, rsa\nfrom cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes\n\n\ndef recover(source: Path, key_path: Path, destination: Path) -> dict:\n    source, key_path, destination = map(Path, (source, key_path, destination))\n    if os.path.lexists(destination):\n        raise FileExistsError(str(destination))\n    temporary = None\n    try:\n        with source.open('rb') as src:\n            if src.readline(32) != b'NURIABACKUP1\\n':\n                raise ValueError('Invalid backup magic')\n            line = src.readline(65537)\n            if len(line) > 65536 or not line.endswith(b'\\n'):\n                raise ValueError('Invalid or oversized header')\n            header = line[:-1]\n            obj = json.loads(header)\n            if type(obj.get('schema')) is not int or obj['schema'] != 1:\n                raise ValueError('Unsupported schema')\n            nonce = base64.b64decode(obj['nonce'], validate=True)\n            wrapped = base64.b64decode(obj['wrapped_key'], validate=True)\n            if len(nonce) != 12:\n                raise ValueError('Invalid nonce')\n            key = serialization.load_pem_private_key(key_path.read_bytes(), password=None)\n            if not isinstance(key, rsa.RSAPrivateKey):\n                raise ValueError('RSA private key required')\n            secret = key.decrypt(wrapped, padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))\n            if len(secret) != 32:\n                raise ValueError('Invalid AES key')\n            start = src.tell()\n            end = src.seek(0, 2)\n            if end - start < 16:\n                raise ValueError('Truncated authentication tag')\n            src.seek(end - 16)\n            tag = src.read(16)\n            src.seek(start)\n            decryptor = Cipher(algorithms.AES(secret), modes.GCM(nonce, tag)).decryptor()\n            decryptor.authenticate_additional_data(header)\n            digest = hashlib.sha256()\n            size = 0\n            with tempfile.NamedTemporaryFile(prefix='.nuria-recovery-', dir=destination.parent, delete=False) as out:\n                temporary = Path(out.name)\n                remaining = end - start - 16\n                while remaining:\n                    chunk = src.read(min(1024 * 1024, remaining))\n                    if not chunk:\n                        raise ValueError('Truncated ciphertext')\n                    remaining -= len(chunk)\n                    plain = decryptor.update(chunk)\n                    out.write(plain)\n                    digest.update(plain)\n                    size += len(plain)\n                plain = decryptor.finalize()\n                out.write(plain)\n                digest.update(plain)\n                size += len(plain)\n                out.flush()\n                os.fsync(out.fileno())\n            # Atomic no-clobber publication, including concurrent symlink creation.\n            os.link(temporary, destination)\n            return {'sha256': digest.hexdigest(), 'bytes': size}\n    finally:\n        if temporary is not None:\n            temporary.unlink(missing_ok=True)\n\n\ndef main():\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument('input', type=Path)\n    parser.add_argument('--key', required=True, type=Path)\n    parser.add_argument('--output', required=True, type=Path)\n    args = parser.parse_args()\n    try:\n        result = recover(args.input, args.key, args.output)\n    except Exception as exc:\n        parser.exit(1, f'Recovery failed: {type(exc).__name__}: {exc}\\n')\n    print(json.dumps(result, sort_keys=True))\n\n\nif __name__ == '__main__':\n    main()\n",
+    "test_recover_backup.py": "import hashlib\nimport io\nfrom pathlib import Path\nimport sys\nimport tarfile\nimport tempfile\nimport unittest\n\nsys.path.insert(0, '/repo')\nfrom backup_crypto import seal_archive\nfrom cryptography.hazmat.primitives import serialization\nfrom cryptography.hazmat.primitives.asymmetric import rsa\nfrom recover_backup import recover\n\n\nclass RecoveryTest(unittest.TestCase):\n    def test_producer_and_failures(self):\n        with tempfile.TemporaryDirectory() as td:\n            p = Path(td)\n            key = rsa.generate_private_key(public_exponent=65537, key_size=2048)\n            pem = p / 'key'\n            pem.write_bytes(key.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption()))\n            data = p / 'data'\n            data.write_bytes(Path('/repo/backup_crypto.py').read_bytes())\n            encrypted = p / 'backup'\n            seal_archive([(data, 'data')], key.public_key(), encrypted)\n            out = p / 'out'\n            result = recover(encrypted, pem, out)\n            self.assertEqual(result, {'bytes': out.stat().st_size, 'sha256': hashlib.sha256(out.read_bytes()).hexdigest()})\n            with tarfile.open(out) as archive:\n                self.assertEqual(archive.extractfile('data').read(), data.read_bytes())\n            with self.assertRaises(FileExistsError):\n                recover(encrypted, pem, out)\n            out.unlink()\n            out.symlink_to(p / 'absent')\n            with self.assertRaises(FileExistsError):\n                recover(encrypted, pem, out)\n            out.unlink()\n            original = encrypted.read_bytes()\n            for raw in (original[:-1], original[:20], original[:-20] + bytes([original[-20] ^ 1]) + original[-19:], original[:-1] + bytes([original[-1] ^ 1]), original.replace(b'\"schema\":1', b'\"schema\":2')):\n                encrypted.write_bytes(raw)\n                with self.assertRaises(Exception):\n                    recover(encrypted, pem, out)\n                self.assertFalse(out.exists())\n                self.assertEqual(list(p.glob('.nuria-recovery-*')), [])\n            encrypted.write_bytes(original)\n            other = rsa.generate_private_key(public_exponent=65537, key_size=2048)\n            pem.write_bytes(other.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption()))\n            with self.assertRaises(Exception):\n                recover(encrypted, pem, out)\n            self.assertFalse(out.exists())\n\nif __name__ == '__main__':\n    unittest.main()\n"
+  },
+  "download": "https://nuria.network/studio/deliveries/mission-0001.zip",
+  "download_sha256": "9c1b01d967e7a121d1d37bd7567856ff44fdd51ad5fdfce566c79733d25e72a3",
+  "operator_intervention": "The host initially limited every checker temporary file to 8 MiB. Its separately generated frozen check required a 96 MiB streaming fixture. The host corrected only the checker temporary-file allowance to 128 MiB and exposed current resource limits. Nuria then independently chose to reopen the unchanged mission. Original failures, checks and generated code were preserved.",
+  "scope": "Agent-selected software integration, with a host harness repair. Not AGI, novel cryptography, a production restore, or superiority to established backup systems."
+}

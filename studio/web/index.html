@@ -95,11 +95,29 @@
           >Try again <span aria-hidden="true">↻</span></button
         ></div
       >
-      <p class="research-status" id="research-status" hidden>
+      <section
+        class="research-status"
+        id="research-status"
+        aria-labelledby="research-title"
+        hidden
+      >
+        <div class="research-heading"
+          ><p class="eyebrow">CURRENT RESEARCH</p
+          ><h2 id="research-title">Testing a useful improvement</h2></div
+        >
         <span id="research-summary"></span>
-        <a href="/studio/live-delta.py" download>Get the encoder</a>
-        <a href="/studio/live-delta-results.json">Measured results</a>
-      </p>
+        <ol
+          id="research-activity"
+          class="research-activity"
+          aria-label="Recent research actions"
+        ></ol>
+        <a id="research-download" href="/studio/live-delta.py" download
+          >Get the encoder</a
+        >
+        <a id="research-evidence" href="/studio/live-delta-results.json"
+          >Measured results</a
+        >
+      </section>
       <section
         class="projects-section"
         id="projects"

@@ -78,8 +78,17 @@ def handler(public, web):
                 return self.send_state()
             elif route in ("/studio", "/studio/", "/studio/index.html"):
                 path = web / "index.html"
-            elif route in ("/studio/live-delta.py", "/studio/live-delta-results.json"):
+            elif route in (
+                "/studio/live-delta.py",
+                "/studio/live-delta-results.json",
+                "/studio/agency-results.json",
+                "/studio/agency-artifact.zip",
+            ):
                 path = public / route.rsplit("/", 1)[1]
+            elif re.fullmatch(r"/studio/deliveries/mission-[0-9]{4,}\.zip", route):
+                path = public / "deliveries" / route.rsplit("/", 1)[1]
+                if path.is_symlink():
+                    return self.send_error(404)
             elif route in (
                 "/studio/studio.css",
                 "/studio/studio.js",
@@ -139,6 +148,12 @@ def handler(public, web):
                 mimetypes.guess_type(path.name)[0] or "application/octet-stream",
             )
             self.send_header("Content-Length", str(len(raw)))
+            if route == "/studio/agency-artifact.zip" or route.startswith(
+                "/studio/deliveries/"
+            ):
+                self.send_header(
+                    "Content-Disposition", 'attachment; filename="nuria-delivery.zip"'
+                )
             self.send_header(
                 "Cache-Control",
                 "no-store" if creation else "no-cache",

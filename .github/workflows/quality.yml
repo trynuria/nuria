@@ -23,6 +23,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install --yes bubblewrap
           python -m pip install -r requirements.txt ruff==0.16.10
+          python -m pip install --no-deps -r agency/requirements-core.txt
           npm ci
       - name: Check Python
         run: |
