@@ -1,0 +1,29 @@
+{
+  "tasks": 108,
+  "different_targeted_memory_selections": 106,
+  "same_final_programs": 12,
+  "same_terminal_outcomes": 108,
+  "jobs_shown_a_checked_correction": 16,
+  "usage": {
+    "navigation": {
+      "requests": 324,
+      "input_tokens": 985208,
+      "completion_tokens": 165605,
+      "configured_cost_micro_usd": 3626466
+    },
+    "retrieval": {
+      "requests": 324,
+      "input_tokens": 934807,
+      "completion_tokens": 169120,
+      "configured_cost_micro_usd": 3560814
+    },
+    "no_memory": {
+      "requests": 324,
+      "input_tokens": 216765,
+      "completion_tokens": 173461,
+      "configured_cost_micro_usd": 2168140
+    }
+  },
+  "cost_basis": "Configured uncached token rates USD2/M input and USD10/M output, not an invoice",
+  "conclusion": "Navigation changed source selection and most programs, but provided no terminal-outcome gain over static retrieval on this cohort."
+}
