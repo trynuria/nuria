@@ -24,7 +24,6 @@ jobs:
           sudo apt-get install --yes bubblewrap
           python -m pip install -r requirements.txt ruff==0.16.10
           python -m pip install --no-deps -r agency/requirements-core.txt
-          python -m pip install -r requirements-concepts.txt
           npm ci
       - name: Check Python
         run: |
@@ -79,6 +78,13 @@ jobs:
           npm ci --ignore-scripts
           node --check privy.mjs
           node --test custody-policy.test.mjs request-input.test.mjs
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Check CPU concept learning on the deployed Python version
+        run: |
+          python -m pip install --only-binary=:all: -r requirements-concepts.txt
+          python -m unittest tests.test_concept_learning -v
   multiscale:
     runs-on: ubuntu-latest
     timeout-minutes: 10
