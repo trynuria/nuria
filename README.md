@@ -111,8 +111,10 @@ The [reasoning-continuity adapter](docs/reasoning-continuity.md) carries the
 provider's opaque working state between execution steps, instead of retaining
 assistant text alone. It is available through the same checked artifact runner
 with an explicit option. The frozen [70-task comparison](research/outcome-learning/reasoning-continuity-09)
-ties at 50/70 for both routes, with the same failures and 140 matching native
-replay verdicts. The visible route remains the default. A separate
+ties at 50/70 for both routes, with the same failures and 140 matching macOS
+replay verdicts. Linux returns 49/70 for both; one upstream filesystem-dependent
+case is explicitly qualified without changing the original scores. The visible
+route remains the default. A separate
 [maintenance course](research/outcome-learning/reasoning-continuity-09/project-work/RESULTS.md)
 delivers two checked artifacts and reuses its accountant on a later actual ledger
 without model calls. Four eligible outcomes share one operational journal.
