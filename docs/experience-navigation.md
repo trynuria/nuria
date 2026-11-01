@@ -70,3 +70,7 @@ The implementation provides a persistent work interface. It does not activate
 a production service, confer financial authority or demonstrate consciousness.
 Transfer claims require the separate comparisons in
 [the complete research record](../research/outcome-learning).
+
+For subsequent automatic memory that withholds contradictory host observations,
+use the optional [consistent-work entry point](consistent-outcomes.md). The
+original course command above remains unchanged for historical reproduction.
