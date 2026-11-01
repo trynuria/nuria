@@ -98,6 +98,13 @@ every label assignment for that timing-sensitive case. The [methods, costs and
 complete evidence](docs/reasoning-options.md) distinguish this bounded negative
 comparison from exact reproduction, neural superiority or general intelligence.
 
+The optional [consistent feedback view](docs/consistent-outcomes.md) withholds
+jobs whose actual host observations contradict each other from future automatic
+experience. A complete recorded-evidence integration retains all 156 original
+grades, admits 168 additional observations and withholds the two uncertain jobs.
+Duplicate observations add no events, and the raw-record hash stays unchanged.
+This improves feedback handling; fresh-task accuracy improvement is unproved.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the
