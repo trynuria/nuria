@@ -86,12 +86,17 @@ passed 4/4; reusing the previous answer passed 0/4. The complete
 preserve all outcomes, source identities and immutable receipt replay.
 
 The reasoning-configuration study repaired two actual rejected reports under three
-frozen configurations, with all six programs independently accepted and delivered.
-Sol-low remains the cheaper qualified route for those two profiles. A separate
-78-task fresh comparison against Astra-medium is enrolled and generation is
-pending; no broader reasoning or neural gain is claimed. The [methods, costs and
-complete recovery programs](docs/reasoning-options.md) retain the original failures
-and distinguish revealed recovery from fresh evaluation.
+frozen configurations and acquired both accepted programs as finite tools. Its
+separate fresh comparison returned 56/78 original unit-check passes for both
+Sol-low and Astra-medium, with 2 wins and 2 losses. The improvement gate failed;
+Astra cost $15.499610 versus $2.659978. All 156 programs were publicly committed
+before grading and all 468 provider responses were audited. Independent native
+replay differed once on a real-time sleep measurement; the unchanged reference
+also failed one of nine fixed physical repetitions. The original labels and
+all observations remain published. The failed promotion decision is robust to
+every label assignment for that timing-sensitive case. The [methods, costs and
+complete evidence](docs/reasoning-options.md) distinguish this bounded negative
+comparison from exact reproduction, neural superiority or general intelligence.
 
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
