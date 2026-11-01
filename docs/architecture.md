@@ -21,6 +21,16 @@ buyer checks determine success, and the resulting receipt returns to the
 originating neural decision. Program retention is conventional software learning;
 its measured efficiency is separate from any claim about the neural selector.
 
+The optional [interactive work runner](interactive-work.md) executes bounded
+Python probes against enrolled read-only inputs, observes their actual output
+and commits a complete program for independent acceptance. Accepted artifacts
+and a consistency-filtered outcome history support subsequent work. Its
+[reasoning-continuity option](reasoning-continuity.md) also preserves opaque
+provider state within a job. Provider state, retained programs and Brian2
+checkpoints have separate identities and lifetimes. Activating this standalone
+runner requires explicit private provider and resource authority; its comparison
+does not activate a production cognitive worker.
+
 The separate [software-intervention runner](../research/intervention-memory/README.md)
 uses the existing circuit and journal machinery to execute allowlisted SQLite
 actions. Its own history binds source code, dataset and runtime. Origin contexts,

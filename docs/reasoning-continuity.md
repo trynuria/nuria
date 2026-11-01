@@ -31,9 +31,13 @@ must commit publicly before independent terminal grading.
 
 Four real transport calls establish that state is carried only in the intended
 condition and that actual execution feedback reaches the next step. These
-calls are wiring evidence, not an intelligence result. The comparison determines
-whether continuity improves useful decisions. This adapter is not activated in
-production, and it establishes no neural or consciousness advantage by itself.
+calls are wiring evidence. The frozen comparison completed 70 valid task pairs:
+both conditions accepted 50, with the same 20 failures. The exact paired p-value
+is 1.0. Continuity used 152 calls and 2.140305 configured conservative USD; the
+visible control used 146 calls and 2.013094 USD. The superiority gate failed.
+All 140 independent native verdicts match the original observations. The visible
+route remains the default, and the optional adapter is not production activated.
+No neural or consciousness advantage is established.
 
 ## Checked work
 
@@ -47,3 +51,12 @@ instead of making another model request or execution.
 The option uses the model effort in the operator's private configuration. It
 does not select a larger budget or enable a production worker. A finite private
 resource authority and the existing durable spending allowance remain required.
+
+Two actual maintenance jobs passed through this CLI and delivered checked
+artifacts. Their acquired accountant subsequently passed a later complete ledger
+and a declared price-sensitivity scenario without another model call. The four
+checked outcomes share one persistent operational journal. The
+[complete work record](../research/outcome-learning/reasoning-continuity-09/project-work/RESULTS.md)
+distinguishes actual data, authored scenarios, the supplied repair and the
+collector recovery. These outcomes establish usable finite work and program
+reuse; the separate accuracy comparison remains tied.
