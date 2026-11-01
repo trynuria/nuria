@@ -1,0 +1,64 @@
+{
+  "mismatches": [],
+  "model_calls": 0,
+  "original_grades_changed": false,
+  "original_replay_source_sha256": "3985d00385bd70da88110976689f96c217620f4404b16fe9e02124371f344d85",
+  "original_result": {
+    "accepted": {
+      "continuity": 50,
+      "visible": 50
+    },
+    "comparison": {
+      "accuracy_delta": 0.0,
+      "losses": 0,
+      "one_sided_exact_p": 1.0,
+      "wins": 0
+    },
+    "families": {
+      "files-archives": {
+        "continuity": 7,
+        "visible": 7
+      },
+      "numerical": {
+        "continuity": 3,
+        "visible": 3
+      },
+      "structured-data": {
+        "continuity": 6,
+        "visible": 6
+      },
+      "tabular": {
+        "continuity": 25,
+        "visible": 25
+      },
+      "visualization": {
+        "continuity": 9,
+        "visible": 9
+      }
+    },
+    "neural_advantage_established": false,
+    "runtime_promoted": false,
+    "superiority_supported": false,
+    "tasks": 70,
+    "usage": {
+      "continuity": {
+        "calls": 152,
+        "completion_tokens": 82709,
+        "configured_conservative_micro_usd": 2140305,
+        "prompt_tokens": 525270,
+        "reasoning_tokens": 7796
+      },
+      "visible": {
+        "calls": 146,
+        "completion_tokens": 79158,
+        "configured_conservative_micro_usd": 2013094,
+        "prompt_tokens": 488593,
+        "reasoning_tokens": 8413
+      }
+    }
+  },
+  "programs_and_checkers_changed": false,
+  "read_only_font_cache_sha256": "7dba2c53c554409dff617bb6d21269bf634a4badbbec79ef48c42805782a2300",
+  "replayed_programs": 140,
+  "full_observations_sha256": "95abc945cee0a6112841e64a761cf1865f004979fae038606e1d6a9ff9428e2d"
+}

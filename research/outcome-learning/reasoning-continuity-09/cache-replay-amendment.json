@@ -1,0 +1,34 @@
+{
+  "recorded_utc": "2026-11-01T13:41:38.839083+00:00",
+  "reason": "Per-job Matplotlib font indices duplicate about 287 KB. A read-only shared cache avoids that repeated data without deleting retained files.",
+  "original_replay_source_sha256": "3985d00385bd70da88110976689f96c217620f4404b16fe9e02124371f344d85",
+  "cache_wrapper_source_sha256": "0da964dbfe113e5ac0badddb8a581f2026023d499089c1793903ef907341e6d4",
+  "cache_sha256": "7dba2c53c554409dff617bb6d21269bf634a4badbbec79ef48c42805782a2300",
+  "cache_mutation_denied": true,
+  "render_controls": [
+    {
+      "passed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.326711,
+      "code_sha256": "da231e3650a1ed703e12fe883bca04d67a3699185a05d7e4a0a3fb93e2c60a50",
+      "checks_sha256": "79f24b898b2d6ceb2aea0a01a810d4746aafdbc77f2998faa7f5e4caf8a3f834",
+      "stdout": "Read-only cache render succeeded\n",
+      "stderr": ""
+    },
+    {
+      "passed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.314553,
+      "code_sha256": "da231e3650a1ed703e12fe883bca04d67a3699185a05d7e4a0a3fb93e2c60a50",
+      "checks_sha256": "79f24b898b2d6ceb2aea0a01a810d4746aafdbc77f2998faa7f5e4caf8a3f834",
+      "stdout": "Read-only cache render succeeded\n",
+      "stderr": ""
+    }
+  ],
+  "programs_checkers_and_gates_changed": false,
+  "cache_shared_read_only_only": true,
+  "before_first_complete_independent_replay": true,
+  "source_privacy": "Runtime font paths are private and not published."
+}

@@ -44,3 +44,55 @@ Its price envelope is limited to
 long-context/cache-write upper rates. No new model, framework, hosting or
 server-managed agent session is required. Neither a successful wiring test nor
 this source publication establishes consciousness, neural superiority or AGI.
+
+## Results
+
+| Condition         | Accepted | Calls | Configured conservative USD |
+| ----------------- | -------: | ----: | --------------------------: |
+| Opaque continuity |    50/70 |   152 |                    2.140305 |
+| Visible history   |    50/70 |   146 |                    2.013094 |
+
+The two conditions have the same 20 failures: zero paired wins, zero losses,
+accuracy delta zero and exact paired p-value 1.0. The preregistered superiority
+gate failed. Continuity remains optional; the visible route remains the default.
+Neither route is promoted to production by this result.
+
+All 140 programs were independently replayed once. Every native verdict agrees
+with the original observation. Programs, source checkers and original grades
+remain unchanged. The request audit verifies 70 equal first-request pairs and
+82 subsequent continuity transitions; no opaque contents are published.
+
+A separate [actual maintenance course](project-work/RESULTS.md) delivered both
+required artifacts. Its accountant was reused on later data without a model
+request. That demonstrates useful checked work and finite program retention,
+while the accuracy and neural-superiority conclusions stay unchanged.
+
+## Provider-free replay
+
+```sh
+python research/outcome-learning/reasoning-continuity-09/replay.py
+```
+
+This validates commitments, source identities, the outcome journal and complete
+paired results without executing programs or calling a provider. Supply a new
+workspace to perform native execution. A storage-only cache wrapper can reuse a
+read-only Matplotlib font index instead of writing an identical index per job:
+
+```sh
+MPLCONFIGDIR=/new/font-cache python -c 'import matplotlib.font_manager'
+python research/outcome-learning/reasoning-continuity-09/replay-cached.py \
+  /new/native-workspace --font-cache /new/font-cache
+```
+
+[The cache amendment](cache-replay-amendment.json) preserves the original replay
+source and records successful render controls and denied shared-cache mutation
+before the complete replay. The runtime-specific font data stays private. Each
+job owns its writable folder; only the read-only index is shared. No original
+files are deleted. Native verdicts, rather than byte-identical timing logs,
+are the reproducibility claim.
+
+[Complete results](results.json), [transport audit](request-audit.json),
+[native replay summary](native-replay-summary.json) and
+[all native observations](independent-replay.json.gz) retain the negative result
+and its supporting evidence. Provider usage and transport records are host
+observations, not independent provider invoices or remote attestations.
