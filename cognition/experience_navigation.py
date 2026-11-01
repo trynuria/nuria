@@ -10,12 +10,19 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+from collections import defaultdict
 from pathlib import Path
 
+from cognition.checked_repairs import (
+    expanded_experience,
+    observe_own_correction,
+    observed_catalog,
+    validate_corrections,
+)
 from cognition.outcome_worker import BASE_POLICY, _proposal, identity
 from cognition.reasoner_client import ReasonerError
 
-VERSION = "nuria.experience-navigation.v1"
+VERSION = "nuria.experience-navigation.v3"
 METHODS = ("navigation", "retrieval", "no_memory")
 
 
@@ -35,28 +42,45 @@ def _clip(text, maximum):
 class ExperienceIndex:
     """A disposable FTS index over an immutable, explicitly supplied corpus."""
 
-    def __init__(self, records):
+    def __init__(self, records, *, corrections=None):
         self.records = {}
+        self.groups = defaultdict(list)
+        self.catalog = observed_catalog(records) if corrections is None else corrections
+        self.corrections = validate_corrections(self.catalog, records)
         self.db = sqlite3.connect(":memory:")
         self.db.execute(
             "CREATE VIRTUAL TABLE experience USING fts5("
             "job UNINDEXED,prompt,program,failure,lesson,tokenize='porter unicode61')"
         )
-        for record in records:
+        for record in expanded_experience(records):
             job = record["job_id"]
             if job in self.records or type(record.get("accepted")) is not bool:
                 raise ValueError("Experience needs unique IDs and checked outcomes")
             if record.get("checker") is None:
                 raise ValueError("Unchecked proposals cannot become experience")
+            if record["checker"].get("passed") is not record["accepted"]:
+                raise ValueError("An experience label differs from its host outcome")
             self.records[job] = record
+            self.groups[(record["task_id"], record["source_sha256"])].append(record)
+        self.variants = {}
+        for _, variants in sorted(self.groups.items()):
+            # Repeated attempts at one source must not crowd out other tasks.
+            # Prefer a checked accepted example, with deterministic ID ties.
+            representative = min(
+                variants, key=lambda r: (not r["accepted"], r["job_id"])
+            )
+            job = representative["job_id"]
+            self.variants[job] = variants
             self.db.execute(
                 "INSERT INTO experience VALUES(?,?,?,?,?)",
                 (
                     job,
-                    record["prompt"],
-                    record["code"],
-                    json.dumps(record["checker"], sort_keys=True),
-                    record.get("lesson", ""),
+                    representative["prompt"],
+                    "\n".join(sorted({r["code"] for r in variants})),
+                    "\n".join(
+                        sorted({r["checker"].get("stderr", "") for r in variants})
+                    ),
+                    "\n".join(sorted({r.get("lesson", "") for r in variants})),
                 ),
             )
 
@@ -103,11 +127,13 @@ class ExperienceIndex:
             for job, _ in sorted(scores.items(), key=lambda x: (-x[1], x[0]))[:limit]
         ]
 
-    def view(self, ids, *, index_only=False, maximum_bytes=12000):
+    def view(
+        self, ids, *, index_only=False, maximum_bytes=12000, include_corrections=False
+    ):
         if len(ids) > 12 or not 1024 <= maximum_bytes <= 24000:
             raise ValueError("Experience view exceeds its context allowance")
         output = []
-        per_record = (maximum_bytes - 512) // max(1, len(ids))
+        per_record = (maximum_bytes - 128) // max(1, len(ids))
         for job in ids:
             record = self.records[job]
             value = {
@@ -117,19 +143,59 @@ class ExperienceIndex:
                 "record_sha256": identity(record),
                 "source_sha256": record["source_sha256"],
             }
+            variants = self.groups[(record["task_id"], record["source_sha256"])]
+            value["variant_outcomes"] = {
+                "accepted": sum(r["accepted"] for r in variants),
+                "rejected": sum(not r["accepted"] for r in variants),
+            }
+            value["lesson_scope"] = (
+                "Proposed by the model; general validity is unverified"
+            )
+            correction = (
+                self.corrections.get((record["task_id"], record["source_sha256"]))
+                if include_corrections
+                else None
+            )
+            if correction:
+                value["checked_correction"] = {
+                    "before_job_id": correction["before_job_id"],
+                    "after_job_id": correction["after_job_id"],
+                    "catalog_sha256": self.catalog["artifact_sha256"],
+                    "scope": "Same source replay; transfer unverified",
+                }
             fields = {"prompt": record["prompt"]}
             if not index_only:
                 fields.update(
                     code=record["code"],
                     failure=record["checker"].get("stderr", ""),
-                    lesson=record.get("lesson", ""),
+                    proposed_lesson=record.get("lesson", ""),
                 )
+                if correction:
+                    fields["failure"] = correction["before_check"].get("stderr", "")
+                    fields["correction"] = correction["diff"]
             available = max(64, per_record - len(json.dumps(value).encode()) - 128)
-            weights = {"prompt": 0.30, "code": 0.40, "failure": 0.25, "lesson": 0.05}
+            weights = {
+                "prompt": 0.30,
+                "code": 0.40,
+                "failure": 0.25,
+                "proposed_lesson": 0.05,
+            }
+            if correction:
+                weights = {
+                    "prompt": 0.25,
+                    "code": 0.25,
+                    "failure": 0.10,
+                    "proposed_lesson": 0.05,
+                    "correction": 0.35,
+                }
             value["truncated_fields"] = []
             for name, text in fields.items():
                 size = available if index_only else int(available * weights[name])
-                value[name], truncated = _clip(text, size)
+                if name == "failure":
+                    excerpt, truncated = _clip(text[::-1], size)
+                    value[name] = excerpt[::-1]
+                else:
+                    value[name], truncated = _clip(text, size)
                 if truncated:
                     value["truncated_fields"].append(name)
             output.append(value)
@@ -167,6 +233,7 @@ def run_navigation_work(
     experience=None,
     grade=True,
     max_tokens=2400,
+    corrections=None,
 ):
     """Propose, challenge without seeing the proposal, then revise and check.
 
@@ -200,7 +267,11 @@ def run_navigation_work(
         "grade": grade,
         "max_tokens": max_tokens,
         "max_calls": 3,
+        "correction_catalog": corrections["artifact_sha256"]
+        if corrections is not None
+        else "automatic-checked-prior-receipts",
     }
+    store.verify()
     replay = store.begin(job_id, contract)
     if replay is not None:
         return {**replay, "replayed": True}
@@ -208,15 +279,15 @@ def run_navigation_work(
         experience = [x for x in store.experiences() if type(x.get("accepted")) is bool]
     # The ablation's receipt still binds the same enrolled corpus. It cannot
     # access that corpus in any model request or search stage.
-    memory = ExperienceIndex([] if method == "no_memory" else experience)
+    memory = ExperienceIndex(
+        [] if method == "no_memory" else experience,
+        corrections=corrections if method == "navigation" else None,
+    )
     attempts, navigation, proposal, challenge = [], {}, None, None
     source_ids = memory.search([task["prompt"]], limit=12)
     static_ids = source_ids[:3]
-    initial = (
-        memory.view(source_ids, index_only=True, maximum_bytes=12000)
-        if method == "navigation"
-        else memory.view(static_ids)
-    )
+    # Both memory-enabled arms start from the exact same raw evidence view.
+    initial = memory.view(static_ids)
 
     def call(stage, system, body):
         try:
@@ -273,13 +344,14 @@ def run_navigation_work(
                 {"passed": False},
                 type(error).__name__,
             )
+        initial_code = proposal["code"] if proposal else ""
         selected = (
             memory.search(queries, limit=3) if method == "navigation" else static_ids
         )
-        evidence = memory.view(selected)
+        evidence = memory.view(selected, include_corrections=method == "navigation")
         navigation = {
             "queries": queries if method == "navigation" else [],
-            "initial_ids": source_ids if method == "navigation" else static_ids,
+            "initial_ids": static_ids,
             "selected_ids": selected,
             "view": evidence,
         }
@@ -287,7 +359,7 @@ def run_navigation_work(
         # but none of this job's proposed code, self-checks or execution output.
         text = call(
             "blind_challenge",
-            "Design executable Python acceptance probes from the supplied specification. The implementation is deliberately withheld. Return JSON with exactly checks, evidence_ids, hypotheses. checks must call the required function and assert only behavior justified by the specification. Never add requirements, inspect a grader, replace a framework or use network/shell tools. Prior failures are clues from DIFFERENT tasks, not expected answers for this task. evidence_ids cites only supplied prior jobs, or an empty list. hypotheses is a short list of concrete risks addressed. Do not use unittest or pytest; write direct assertions. Do not claim these probes are ground truth.",
+            "Design executable Python acceptance probes from the supplied specification. The implementation is deliberately withheld. Return JSON with exactly checks, evidence_ids, hypotheses. checks must call the required function and assert only behavior justified by the specification. Never add requirements, inspect a grader, replace a framework or use network/shell tools. Prior failures are clues from DIFFERENT tasks, not expected answers for this task. evidence_ids must contain exact job_id strings from supplied experience, not task_id strings; use [] when none supports the probes. hypotheses is a short list of concrete risks addressed. Do not use unittest or pytest; write direct assertions. Do not claim these probes are ground truth.",
             {"task": task["prompt"], "experience": evidence},
         )
         try:
@@ -297,10 +369,20 @@ def run_navigation_work(
                 or len(challenge["checks"].encode()) > 16384
             ):
                 raise ValueError("Challenge text exceeds its contract")
-            if type(challenge["evidence_ids"]) is not list or not set(
-                challenge["evidence_ids"]
-            ) <= set(selected):
-                raise ValueError("Challenge cited unenrolled experience")
+            if type(challenge["evidence_ids"]) is not list or any(
+                type(item) is not str for item in challenge["evidence_ids"]
+            ):
+                raise ValueError("Challenge citations must be text identifiers")
+            # A bad citation is rejected visibly; it does not turn a fallible
+            # model probe into ground truth or suppress otherwise valid checks.
+            rejected = [
+                item for item in challenge["evidence_ids"] if item not in selected
+            ]
+            challenge["evidence_ids"] = [
+                item for item in challenge["evidence_ids"] if item in selected
+            ]
+            if rejected:
+                challenge["rejected_evidence_ids"] = rejected
             if (
                 type(challenge["hypotheses"]) is not list
                 or len(json.dumps(challenge["hypotheses"]).encode()) > 4000
@@ -384,6 +466,19 @@ def run_navigation_work(
             "proposed_code_sha256": identity(proposal["code"] if proposal else ""),
             "proposal_error": stage_error,
             "checker": checker,
+            "checked_correction": observe_own_correction(
+                task,
+                initial_code,
+                proposal["code"],
+                checker,
+                executor,
+                label=job_id + "-initial-host",
+            )
+            if grade and proposal
+            else None,
+            "correction_catalog_sha256": memory.catalog["artifact_sha256"]
+            if method == "navigation"
+            else None,
             "accepted": bool(checker["passed"]) if checker else None,
             "replayed": False,
         }
