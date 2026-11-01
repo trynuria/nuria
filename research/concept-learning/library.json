@@ -1,0 +1,1196 @@
+{
+  "compression": {
+    "compression_ratio": 1.316214100788729,
+    "final_cost": 16609,
+    "original_cost": 21861
+  },
+  "concepts": [
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a2d312c226f70223a22746f6b656e222c227061747465726e223a227570706572227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_0"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a302c226f70223a22746f6b656e222c227061747465726e223a22616c6e756d227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_1"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a302c226f70223a22746f6b656e222c227061747465726e223a227570706572227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_2"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a302c226f70223a22746f6b656e222c227061747465726e223a22646967697473227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_3"
+    },
+    {
+      "arity": 2,
+      "body": "(p5b7b226f70223a22636f6e636174227d2c5b5b227061727473222c335d5d5d #1 p5b7b226f70223a22636f6e7374616e74222c2276616c7565223a2220227d2c5b5d5d #0)",
+      "name": "fn_4"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a2d312c226f70223a22746f6b656e222c227061747465726e223a22616c6e756d227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_5"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a312c226f70223a22746f6b656e222c227061747465726e223a22616c6e756d227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_6"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a2d312c226f70223a22746f6b656e222c227061747465726e223a22616c6e756d227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a312c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_7"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b226f70223a226c6f776572227d2c5b5b22617267222c315d5d5d fn_2)",
+      "name": "fn_8"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b226f70223a226c6f776572227d2c5b5b22617267222c315d5d5d fn_0)",
+      "name": "fn_9"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a2d312c226f70223a22746f6b656e222c227061747465726e223a22646967697473227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_10"
+    },
+    {
+      "arity": 0,
+      "body": "(p5b7b22696e646578223a312c226f70223a2273706c6974222c22736570617261746f72223a222c227d2c5b5b22617267222c315d5d5d p5b7b22696e646578223a302c226f70223a226669656c64227d2c5b5d5d)",
+      "name": "fn_11"
+    }
+  ],
+  "learning_cpu_seconds": 0.003999323000000388,
+  "programs": [
+    {
+      "expr": {
+        "arg": {
+          "arg": {
+            "index": 0,
+            "op": "field"
+          },
+          "index": 1,
+          "op": "split",
+          "separator": ","
+        },
+        "op": "compact"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "end": 2,
+        "op": "slice",
+        "start": 0
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "end": 3,
+        "op": "slice",
+        "start": 0
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "split",
+        "separator": "$"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "split",
+        "separator": "-"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "split",
+        "separator": "\\"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "token",
+        "pattern": "alnum"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "token",
+        "pattern": "alpha"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "token",
+        "pattern": "nonspace"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "token",
+        "pattern": "upper"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -2,
+        "op": "split",
+        "separator": ","
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -2,
+        "op": "token",
+        "pattern": "alnum"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -2,
+        "op": "token",
+        "pattern": "alpha"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -3,
+        "op": "split",
+        "separator": ","
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": -3,
+        "op": "token",
+        "pattern": "alnum"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 0,
+        "op": "split",
+        "separator": "\n"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 0,
+        "op": "token",
+        "pattern": "alnum"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 0,
+        "op": "token",
+        "pattern": "alpha"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 0,
+        "op": "token",
+        "pattern": "nonspace"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 0,
+        "op": "token",
+        "pattern": "upper"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 1,
+        "op": "split",
+        "separator": ","
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 1,
+        "op": "split",
+        "separator": "\n"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 1,
+        "op": "token",
+        "pattern": "alnum"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "index": 2,
+        "op": "token",
+        "pattern": "alnum"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "op": "number",
+        "places": null,
+        "scale": "0.01"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "op": "number",
+        "places": null,
+        "scale": "1000"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 0,
+          "op": "field"
+        },
+        "op": "upper"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "arg": {
+          "index": 1,
+          "op": "field"
+        },
+        "index": -1,
+        "op": "token",
+        "pattern": "alnum"
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": 0,
+              "op": "token",
+              "pattern": "alnum"
+            },
+            "op": "lower"
+          },
+          {
+            "op": "constant",
+            "value": "."
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "upper"
+          },
+          {
+            "op": "constant",
+            "value": "@"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": 0,
+              "op": "token",
+              "pattern": "alnum"
+            },
+            "op": "lower"
+          },
+          {
+            "op": "constant",
+            "value": "@"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": 0,
+              "op": "token",
+              "pattern": "upper"
+            },
+            "op": "lower"
+          },
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": -1,
+              "op": "token",
+              "pattern": "upper"
+            },
+            "op": "lower"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": 0,
+              "op": "token",
+              "pattern": "upper"
+            },
+            "op": "lower"
+          },
+          {
+            "op": "constant",
+            "value": " "
+          },
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": -1,
+              "op": "token",
+              "pattern": "upper"
+            },
+            "op": "lower"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": 0,
+              "op": "token",
+              "pattern": "upper"
+            },
+            "op": "lower"
+          },
+          {
+            "op": "constant",
+            "value": "."
+          },
+          {
+            "arg": {
+              "arg": {
+                "index": 0,
+                "op": "field"
+              },
+              "index": -1,
+              "op": "token",
+              "pattern": "upper"
+            },
+            "op": "lower"
+          },
+          {
+            "op": "constant",
+            "value": "."
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "end": -2,
+            "op": "slice",
+            "start": 0
+          },
+          {
+            "op": "constant",
+            "value": "."
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "end": null,
+            "op": "slice",
+            "start": 2
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": ", "
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "alnum"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": " "
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "upper"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": "\\"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 1,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": "\\"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "digits"
+          },
+          {
+            "op": "constant",
+            "value": " "
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 1,
+            "op": "token",
+            "pattern": "digits"
+          },
+          {
+            "op": "constant",
+            "value": "th Lane"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "digits"
+          },
+          {
+            "op": "constant",
+            "value": "->"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "digits"
+          },
+          {
+            "op": "constant",
+            "value": "      "
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "digits"
+          },
+          {
+            "op": "constant",
+            "value": "->"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "digits"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "upper"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "end": -6,
+            "op": "slice",
+            "start": 6
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "upper"
+          },
+          {
+            "op": "constant",
+            "value": " "
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "upper"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 1,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": " "
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 3,
+            "op": "token",
+            "pattern": "alnum"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 1,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": "-"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 2,
+            "op": "token",
+            "pattern": "alnum"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "index": 0,
+            "op": "field"
+          },
+          {
+            "index": 1,
+            "op": "field"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "index": 0,
+            "op": "field"
+          },
+          {
+            "op": "constant",
+            "value": " "
+          },
+          {
+            "index": 1,
+            "op": "field"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "index": 0,
+            "op": "field"
+          },
+          {
+            "op": "constant",
+            "value": " = "
+          },
+          {
+            "arg": {
+              "index": 1,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "alnum"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "index": 0,
+            "op": "field"
+          },
+          {
+            "op": "constant",
+            "value": "]"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "op": "constant",
+            "value": "      "
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "digits"
+          },
+          {
+            "op": "constant",
+            "value": "->"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "digits"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "op": "constant",
+            "value": "000-"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "end": -4,
+            "op": "slice",
+            "start": 3
+          },
+          {
+            "op": "constant",
+            "value": "-"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "end": null,
+            "op": "slice",
+            "start": 5
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "op": "constant",
+            "value": "0x"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "end": -7,
+            "op": "slice",
+            "start": 0
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "op": "constant",
+            "value": "425-"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": "-"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "alnum"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "op": "constant",
+            "value": "Mr. "
+          },
+          {
+            "arg": {
+              "index": 1,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "alnum"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "op": "constant",
+            "value": "[CPT-"
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": 0,
+            "op": "token",
+            "pattern": "digits"
+          },
+          {
+            "op": "constant",
+            "value": "]"
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "concat",
+        "parts": [
+          {
+            "op": "constant",
+            "value": "\""
+          },
+          {
+            "arg": {
+              "index": 0,
+              "op": "field"
+            },
+            "index": -1,
+            "op": "token",
+            "pattern": "alnum"
+          },
+          {
+            "op": "constant",
+            "value": "\""
+          }
+        ]
+      },
+      "version": "safe-text-v1"
+    },
+    {
+      "expr": {
+        "op": "constant",
+        "value": "0.00"
+      },
+      "version": "safe-text-v1"
+    }
+  ],
+  "training_sha256": "e80e9e1bfefc5a0df11ee2a24966bea33c9b32534eded09a0c3e0b2a6b732f51",
+  "version": "stitch-text-concepts-v1"
+}

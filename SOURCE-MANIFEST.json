@@ -87,7 +87,8 @@
     "Project selection considers explicit operator observations alongside frozen goals and executed artifact evidence",
     "Nuria-authored sparse JSON updates pass frozen real-data comparisons; lossless Studio polling, pinned independent decoder, cached full-response recovery, and original-budget Cherry improvement trials with retained failures and downloadable validated artifacts.",
     "Preserve the historical executor byte identity; scope the longer comparison CPU allowance to the new research adapter only.",
-    "Persistent mini-swe-agent software research with self-selected goals, durable tool recovery, frozen independent checks, reviewed downloadable tools, retained outcomes and unfinished-work resumption on the dedicated server. Original inference allowance, histories and production code boundaries remain enforced; no AGI claim."
+    "Persistent mini-swe-agent software research with self-selected goals, durable tool recovery, frozen independent checks, reviewed downloadable tools, retained outcomes and unfinished-work resumption on the dedicated server. Original inference allowance, histories and production code boundaries remain enforced; no AGI claim.",
+    "Optional CPU-only Stitch library learning and compositional text synthesis; family-separated reanalysis improves exact tasks from 80 to 83 of 167 at higher work, with 38 wrong proposals retained. Offline learn/save/reload/solve verified on Cherry; no AGI claim, model spend, or production interpreter change."
   ],
   "deployment_identity": "Live API reports component commits, deployment time and source hashes; the original circuit retains its historical startup identity",
   "files": [
@@ -97,7 +98,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "published_sha256": "fddd76c16efb9c86e982f0dd5a4026343e509a4fd8f61715e5c90a93f3daa0d6"
+      "published_sha256": "6ca161d46a4bb8b3e64e6d3f7f28b4d571c9f66271aebb7d9d24ab4eb33c012a"
     },
     {
       "path": ".gitignore",
@@ -105,7 +106,7 @@
     },
     {
       "path": ".prettierignore",
-      "published_sha256": "8b94726126ae841483a93489bd2ead1514248d9f1bfd433336066d927d52714d"
+      "published_sha256": "5ea72dc575fe0c61a43caeeb2036c84252804105e45c4e6d77c7aae41b8a39ea"
     },
     {
       "path": ".prettierrc.json",
@@ -330,6 +331,10 @@
     {
       "path": "cognition/composed_skills.py",
       "published_sha256": "b5be031d1052c175b5b49a264c26934471076d0900371501d39371d89b955d2a"
+    },
+    {
+      "path": "cognition/concept_learning.py",
+      "published_sha256": "a991434ed6239f94ede31942974ec1f4f5d876bdf59e495e0f83c84ad999637c"
     },
     {
       "path": "cognition/digit_service.py",
@@ -940,6 +945,10 @@
       "published_sha256": "0df2d2662d3d1ed5ae842bc2b05647f73bb746c7fe6e37f17937182a4c7c2c96"
     },
     {
+      "path": "docs/concept-learning.md",
+      "published_sha256": "cdc1aefc0113c3433a91c68e599fbd05d891e8819e55eb627487c26e5ea75f80"
+    },
+    {
       "path": "docs/consistent-outcomes.md",
       "published_sha256": "146e9a720e7d0ebead8b422cb3b276720889090d1e8b43cd81df175de92c803d"
     },
@@ -1210,6 +1219,10 @@
     {
       "path": "receipt_verifier.py",
       "published_sha256": "312ee1939289fa45afcbc424dbdc210929986581f4238ff594f93f6aaae9557c"
+    },
+    {
+      "path": "requirements-concepts.txt",
+      "published_sha256": "a4fa8fcded46f7ffb711cef7d7a2dbaf704f6f817715282e5e62d8db9b541b30"
     },
     {
       "path": "requirements.lock.txt",
@@ -1954,6 +1967,30 @@
     {
       "path": "research/biology/synthetic-protocol-01.json",
       "published_sha256": "10f146396144e551ea6cefc769aeef8aec908ee592670e6929f4eff97f05591c"
+    },
+    {
+      "path": "research/concept-learning/first-attempt.json.gz",
+      "published_sha256": "7476836f7f3732b2a0fe5f2d312825a24b7d9998bfe9f7fb48b35de39a4e7384"
+    },
+    {
+      "path": "research/concept-learning/library.json",
+      "published_sha256": "e6fe06c8169425258390663b8640867805e89c0e31ebcbc582351c860993ccb3"
+    },
+    {
+      "path": "research/concept-learning/results.json.gz",
+      "published_sha256": "6be0a56e6c7a837286384e554b074f8b8a9d175588a49f4f019d45a034ab9cf5"
+    },
+    {
+      "path": "research/concept-learning/sandbox-check.json",
+      "published_sha256": "fe7470d38057a2a466160880b5ed390027a2dd9f2e060a717b2465fad3f6cacc"
+    },
+    {
+      "path": "research/concept-learning/started.json",
+      "published_sha256": "8c28bcc6ee6bb1deb06d37bab1f65181c549c3a835628ba8baf6f1a270b6d71f"
+    },
+    {
+      "path": "research/concept-learning/summary.json",
+      "published_sha256": "8ecbee1ece91881302d108840629be28a17cc9006f8fe374f60be2f2cd109f48"
     },
     {
       "path": "research/guarded-skills/README.md",
@@ -7152,6 +7189,10 @@
       "published_sha256": "37ed81b7a1d798648ec93e562b7727ecc10992cb49a2afb1cbc735474604c33b"
     },
     {
+      "path": "scripts/evaluate_concepts.py",
+      "published_sha256": "fc8bb179145e86870d863855ef141ec0a95b4c75c687a86225c618eaeb1612c6"
+    },
+    {
       "path": "scripts/evaluate_discovery.py",
       "published_sha256": "1fa24909e57117aa74a43e67008284a459da50410c6c82624d34f1c65353953c"
     },
@@ -7786,6 +7827,10 @@
     {
       "path": "tests/test_composed_skills.py",
       "published_sha256": "416bf2a5538d7a6f49290130ec2c580fbef6d271d92936a9815729ca2c62d2fd"
+    },
+    {
+      "path": "tests/test_concept_learning.py",
+      "published_sha256": "524fd3c13fccc8f05bb00f7a48c2ff118c72fab9eb380f58f46a14bd4abcc08c"
     },
     {
       "path": "tests/test_continuity_delivery.py",
