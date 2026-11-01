@@ -1,0 +1,51 @@
+{
+  "schema": "nuria.recovery-options.v1",
+  "created_utc": "2026-11-01T07:07:05.418258+00:00",
+  "scope": "Development recovery of two revealed actual project failures; not fresh superiority evaluation.",
+  "conditions": [
+    {
+      "name": "sol-low",
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "standard_input_usd_per_million": 2,
+      "standard_output_usd_per_million": 10
+    },
+    {
+      "name": "sol-medium",
+      "model": "gpt-6.1-sol",
+      "effort": "medium",
+      "standard_input_usd_per_million": 2,
+      "standard_output_usd_per_million": 10
+    },
+    {
+      "name": "astra-medium",
+      "model": "gpt-6-astra",
+      "effort": "medium",
+      "standard_input_usd_per_million": 10,
+      "standard_output_usd_per_million": 50
+    }
+  ],
+  "same_information": "Original specifications,input bytes,independent checks,rejected program and factual structural observations. No host answers or grader code in model context. No cross-job or cross-condition adaptive history.",
+  "calls_per_job_maximum": 2,
+  "completion_tokens_per_call_maximum": 2400,
+  "completion_tokens_per_job_maximum": 4800,
+  "qualification_calls_maximum": 12,
+  "qualification_additional_cost_and_liability_ceiling_usd": 4,
+  "shared_cumulative_ceiling_usd": 50,
+  "per_call_timeout_seconds": 90,
+  "input_bytes_maximum": 32768,
+  "wall_seconds_maximum": 1200,
+  "selection": "For these report profiles,require2/2acceptance and actual artifactdelivery;preferlower configuredcost then fewerrequests. Do not select a general default or claim superiority from two revealed cases.",
+  "incomplete_outputs": "Retain as outcomes with billed usage. Do not raise token caps or silently retry.",
+  "original_checks_sha256": {
+    "fresh-reported-components": "16e597e0ae7652445a8574d57b52e520813bb1ff59cc04873c4c12b7b5673c3c",
+    "fresh-reported-delivery-audit": "f3aceb581846d5fedd0ac3b53bc7cf71aa4c0b24668588fc0726f4a9439bca94"
+  },
+  "sources": [
+    "https://developers.openai.com/api/docs/guides/reasoning",
+    "https://developers.openai.com/api/docs/guides/model-selection",
+    "https://developers.openai.com/api/docs/models/gpt-6-astra",
+    "https://developers.openai.com/api/docs/pricing"
+  ],
+  "capacity_limit": "Official guidance warns that reasoning and visible output share max_output_tokens. The existing2400-token ceiling remains unchanged; results measure this bounded configuration."
+}
