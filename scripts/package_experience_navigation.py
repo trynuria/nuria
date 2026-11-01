@@ -21,8 +21,9 @@ from cognition.outcome_worker import identity
 from scripts.evaluate_experience_navigation import read_rows
 from scripts.verify_experience_navigation import verify
 
+PRIVATE_USER_PREFIX = "/" + "Users/"
 PRIVATE_TEXT = re.compile(
-    r"/Users/[^/\s]+|sk-proj-[A-Za-z0-9_-]{20,}|"
+    re.escape(PRIVATE_USER_PREFIX) + r"[^/\s]+|sk-proj-[A-Za-z0-9_-]{20,}|"
     r"privy_app_secret_[A-Za-z0-9_-]{20,}|wallet-auth:[A-Za-z0-9+/=]{20,}|"
     r"(?:api[_-]?key|authorization|password)\s*[=:]\s*[\"']?[A-Za-z0-9_./+:-]{24,}",
     re.IGNORECASE,
@@ -201,7 +202,9 @@ def redact_terminal_paths(records):
     for original, row in zip(records, public, strict=True):
         checker = row.get("checker") or {}
         text = checker.get("stderr", "")
-        changed, count = re.subn(r"/Users/[^\s\"'<>]+", "<private-path>", text)
+        changed, count = re.subn(
+            re.escape(PRIVATE_USER_PREFIX) + r"[^\s\"'<>]+", "<private-path>", text
+        )
         if count:
             checker["stderr"] = changed
             checker["stderr_original_sha256"] = hashlib.sha256(
