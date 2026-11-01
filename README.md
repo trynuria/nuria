@@ -77,6 +77,14 @@ required no new calls or executions. This is a useful work capability, not a
 demonstration of general or neural superiority. Both results and the earlier
 failed reports remain in the [project-work record](research/outcome-learning/).
 
+The [retained-program adapter](docs/retained-program-work.md) then acquired those
+accepted programs as finite tools and executed their exact code on later actual
+repository observations. All four new reports were independently accepted and
+delivered without another model request. Conventional exact implementations also
+passed 4/4; reusing the previous answer passed 0/4. The complete
+[transfer record and provider-free replay](research/outcome-learning/retained-work-04/)
+preserve all outcomes, source identities and immutable receipt replay.
+
 The optional [semantic input path](docs/semantic-neural.md) supplies the question's
 pretrained language representation to that separate circuit, replacing identity
 texture. A [runnable command](docs/semantic-neural.md#run-one-question) retains the
