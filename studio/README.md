@@ -102,6 +102,9 @@ bounded code excerpts. It does **not** receive screenshot vision. These checks
 exercise declared journeys, not every possible input or a human usability study.
 Generated code sees no host network, credentials or private files. Only candidate
 files, the installed browser/runtime and a bounded result directory are mounted.
+Chromium has a 32 MB per-file ceiling for its disposable profile; exports remain
+limited to 2 MB. A 4 MB ceiling caused reproducible SIGXFSZ startup failures on
+an SVG world even though the same artifact passed under the bounded 32 MB ceiling.
 
 ## Outcome acceptance and repair
 

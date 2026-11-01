@@ -161,7 +161,11 @@ def check(directory, node, *, acceptance=False):
 
 def browser_limits():
     resource.setrlimit(resource.RLIMIT_CPU, (25, 25))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (4 * 1024 * 1024,) * 2)
+    # Chromium's temporary profile files can exceed 4 MB on an SVG scene,
+    # which otherwise kills the browser with SIGXFSZ before navigation.
+    # This remains inside the private namespace; exported files are capped
+    # separately at 2 MB and the worker has its existing memory/task limits.
+    resource.setrlimit(resource.RLIMIT_FSIZE, (32 * 1024 * 1024,) * 2)
     resource.setrlimit(resource.RLIMIT_NOFILE, (512, 512))
 
 
