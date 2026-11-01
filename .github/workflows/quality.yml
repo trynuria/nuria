@@ -119,7 +119,12 @@ jobs:
           sudo apt-get install --yes bubblewrap
           python -m pip install -r research/outcome-learning/requirements.txt
       - name: Check outcome learning, isolation and recovery
-        run: python -m unittest tests.test_outcome_worker tests.test_outcome_learning -v
+        run: >-
+          python -m unittest
+          tests.test_outcome_worker tests.test_outcome_learning
+          tests.test_experience_navigation tests.test_checked_repairs
+          tests.test_navigation_export tests.test_program_delivery
+          tests.test_delivered_course -v
       - name: Reconstruct and independently execute held-out work
         run: |
           python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"
