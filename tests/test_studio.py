@@ -127,6 +127,46 @@ class StudioTests(unittest.TestCase):
         self.assertIn("Write only", saved["note"])
         self.assertFalse((campaign.directory(project, "a") / "toolkit.js").exists())
 
+    def test_redundant_helper_does_not_discard_allowed_source(self):
+        campaign = Campaign(self.root, Client(), "/usr/bin/node")
+        self.addCleanup(campaign.store.db.close)
+        with patch("studio.worker.capture", return_value={}):
+            project = campaign.project("Build a small instrument")
+        candidate = {
+            "id": "a",
+            "title": "First idea",
+            "status": "building",
+            "attempt": 0,
+            "revision": 0,
+        }
+        project.update(
+            status="building", concepts=[{"id": "a"}], candidates=[candidate]
+        )
+        directory = campaign.directory(project, "a")
+        directory.mkdir(parents=True)
+        (directory / "toolkit.js").write_text("preserved tool")
+        with (
+            patch.object(
+                campaign,
+                "ask",
+                return_value={
+                    "files": {
+                        "toolkit.js": "forbidden replacement",
+                        "engine.js": "allowed source",
+                    }
+                },
+            ),
+            patch(
+                "studio.worker.check",
+                return_value={"passed": False, "details": ["More files needed"]},
+            ),
+        ):
+            campaign.build(project, candidate)
+        self.assertEqual((directory / "engine.js").read_text(), "allowed source")
+        self.assertEqual((directory / "toolkit.js").read_text(), "preserved tool")
+        saved = campaign.store.get("projects", project["id"])["candidates"][0]
+        self.assertEqual(saved["checks"]["rejected_writes"], ["toolkit.js"])
+
     def test_public_server_exposes_only_public_projection(self):
         public, web = self.root / "public", self.root / "web"
         public.mkdir()

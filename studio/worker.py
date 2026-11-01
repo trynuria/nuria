@@ -11,7 +11,14 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-from studio.executor import BRIDGE, check, publish, retained_engine, write_files
+from studio.executor import (
+    ALLOWED,
+    BRIDGE,
+    check,
+    publish,
+    retained_engine,
+    write_files,
+)
 from studio.store import Store, atomic, now
 
 SYSTEM = """You are Nuria, a persistent experimental inventor. Make memorable, useful,
@@ -403,13 +410,30 @@ class Campaign:
         )
         c["attempt"] += 1
         try:
+            refused = []
             if value.get("files"):
-                write_files(directory, value["files"])
+                changes = value["files"]
+                if type(changes) is not dict:
+                    raise ValueError("Files must be a filename-to-source object")
+                refused = sorted(set(changes) - ALLOWED)
+                # Keep usable edits without granting write access to supplied
+                # dependencies. A model's redundant helper file should not
+                # discard its otherwise valid creation and buy a full rewrite.
+                write_files(
+                    directory, {k: v for k, v in changes.items() if k in ALLOWED}
+                )
                 c["revision"] += 1
             c["checks"] = check(directory, self.node)
             c["note"] = str(
                 value.get("note", value.get("error", "Execution feedback received."))
             )[:1500]
+            if refused:
+                c["checks"]["rejected_writes"] = refused
+                c["note"] += (
+                    " Rejected writes to "
+                    + ", ".join(refused)
+                    + "; supplied dependencies remain unchanged. Put executable logic tests in engine.js runTests()."
+                )
         except ValueError as error:
             c["checks"] = {"passed": False, "details": [str(error)]}
             c["note"] = str(error)[:1500]
