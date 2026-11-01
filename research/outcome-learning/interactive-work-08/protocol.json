@@ -1,0 +1,73 @@
+{
+  "conditions": {
+    "interactive": {
+      "accounting": "configured_uncached_token_rates;not_provider_invoice",
+      "budget_cap_micro_usd": 20000000,
+      "budget_maximum_requests": 800,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "input_envelope": "request_utf8_bytes+1024+128_per_message;text_only",
+      "input_micro_usd_per_million_tokens": 2000000,
+      "max_input_bytes": 120000,
+      "max_output_tokens": 32768,
+      "max_response_bytes": 1048576,
+      "model": "gpt-6.1-sol",
+      "output_micro_usd_per_million_tokens": 10000000,
+      "reasoning_effort": "low",
+      "seed_supported": false,
+      "service_tier": "default",
+      "store": false,
+      "timeout_seconds": 90,
+      "version": "nuria.hosted-reasoner.v2"
+    },
+    "retrieval": {
+      "accounting": "configured_uncached_token_rates;not_provider_invoice",
+      "budget_cap_micro_usd": 20000000,
+      "budget_maximum_requests": 800,
+      "endpoint": "https://api.openai.com/v1/responses",
+      "input_envelope": "request_utf8_bytes+1024+128_per_message;text_only",
+      "input_micro_usd_per_million_tokens": 2000000,
+      "max_input_bytes": 120000,
+      "max_output_tokens": 32768,
+      "max_response_bytes": 1048576,
+      "model": "gpt-6.1-sol",
+      "output_micro_usd_per_million_tokens": 10000000,
+      "reasoning_effort": "low",
+      "seed_supported": false,
+      "service_tier": "default",
+      "store": false,
+      "timeout_seconds": 90,
+      "version": "nuria.hosted-reasoner.v2"
+    }
+  },
+  "files": {
+    "cognition/checked_repairs.py": "6b37db262c5b2e6ed4d86f2f197cca5c535eac73cade579d0afa48e9a650f498",
+    "cognition/experience_navigation.py": "73fb0ab13a0569f009079c08069963e0a2fa4ce1103a44d2a148eb9cf9348083",
+    "cognition/input_observations.py": "44b94ea93f0df08162fd05e60c40ee7b6c9f47b3c3bccae10aace31d27d5099e",
+    "cognition/interactive_work.py": "b700eeaec77382ae04cf53ab09032a67e6e356329414a79955e62cc2e0fd1f13",
+    "cognition/outcome_worker.py": "b7e54a44aa3b16517ef071ffa510726556175103362586cbbe68a0c2f59b04b5",
+    "cognition/program_delivery.py": "fcbf87d38cf62231fe18dcc9159756941d8fbe30b8e54a0c41dc642e84892756",
+    "contracts.py": "1c05aa93e811361a05cd14acf3446c93e38de2a1bc61da5388d08c479c85e638",
+    "enrollment.json": "c35bb972e3805f514af1f3c13683dfe03b6701bf5e4bc1cf0a4c0de93bd61589",
+    "expected.json": "48e56270affd68d7a3383ae3491c7eb31c86b9dc936398cbb934f5a7f7abd35b",
+    "experience.json": "a4f0a2af3b515af273271dd4876604794b72120a29e6c04471dac9b29b1c26d8",
+    "preflight.json": "d15da3d6f533e94cd74af4eebd562debb5ed29d1c2a4d0c732e121c93289aea3",
+    "prepared-enrollment.json": "b17b1b4f6f35fbd2d7e9bb8f66f92ac8e09fe80ce348e3565f05f79c32f51b34",
+    "scripts/evaluate_interactive_work.py": "254262716f02a8d7441f75b547ce7360bf073f0b6125d3184b959aad1bc775de",
+    "scripts/run_delivered_course.py": "9a622075548f5ba4dacfb83d70c0a720a459ba3218ad9806539958a2ab32001d",
+    "scripts/run_interactive_course.py": "fd96fc794ca735d4c9597961f401c8bc6ac6b2d144b5b11ff87c9324cd3e7dee",
+    "tasks.jsonl.gz": "dbe6b8a15af6c546a544d0bcd4a8284c52f19f045681319801f22233e300673c"
+  },
+  "limits": {
+    "additional_micro_usd": 2000000,
+    "calls": 20,
+    "wall_seconds": 1200
+  },
+  "planned_transfer": "After independent acceptance, retain both candidate and control programs, run exact code on later actual recording windows and a later real provider-log snapshot, grade each independently; no modelcalls during transfer.",
+  "scope": "Two real project work products with explicit independent delivery contracts. This is a capability and reuse test, not the70task general superiority gate. All initial information/history matches; adaptive max5calls and7200outputtokens; retrieved control max3calls and7200outputtokens. No neural or consciousness advantage claimed.",
+  "source_dataset": "DANDI001603 version0.260923.0623; actual inference receipts from the complete21task development run; no altered or fabricated activity.",
+  "valid_task_ids": [
+    "Nuria/recording",
+    "Nuria/inference"
+  ],
+  "version": "nuria.real-interactive-work.v1"
+}
