@@ -131,7 +131,8 @@ jobs:
           tests.test_delivered_course tests.test_input_observations
           tests.test_retained_work tests.test_recovery_options
           tests.test_reasoner_transfer tests.test_reasoner_evidence tests.test_timing_qualification tests.test_outcome_consistency
-          tests.test_interactive_work -v
+          tests.test_interactive_work tests.test_reasoning_continuity
+          tests.test_continuity_delivery -v
       - name: Reconstruct and independently execute held-out work
         run: |
           python -m scripts.verify_outcome_course research/outcome-learning/course-02 --workspace "$RUNNER_TEMP/nuria-outcome-replay" --output "$RUNNER_TEMP/nuria-outcomes.json"
