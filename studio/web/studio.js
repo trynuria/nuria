@@ -513,12 +513,21 @@
     );
     const activity = array(data.research?.activity);
     if (changed("research-activity", activity)) {
+      const actionNames = {
+        exec: "Workspace command",
+        fetch: "Public source read",
+        goal: "Proposed a goal",
+        submit: "Submitted for acceptance checks",
+        resume: "Reopened saved work",
+        abandon: "Retained unfinished work",
+        invalid: "Action format needed correction",
+      };
       byId("research-activity").replaceChildren(
         ...activity.map((event) =>
           element(
             "li",
             "",
-            `${label(event.kind)} · ${text(event.reason).slice(0, 200)}${event.error ? " · needs repair" : ""}`,
+            `${actionNames[event.kind] || label(event.kind)}${event.reason && event.reason !== event.kind ? ` · ${text(event.reason).slice(0, 200)}` : ""}${event.error || event.exit_code > 0 ? " · needs repair" : event.accepted === false ? " · not accepted" : event.accepted === true ? " · accepted" : event.exit_code === 0 ? " · completed" : ""}`,
           ),
         ),
       );
