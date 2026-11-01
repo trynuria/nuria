@@ -1,0 +1,77 @@
+{
+  "identical_replay": [
+    {
+      "condition": "sol-low",
+      "deliveries_replayed": 2,
+      "jobs_replayed": 2,
+      "new_model_calls": 0,
+      "original_journal_unchanged": true
+    },
+    {
+      "condition": "sol-medium",
+      "deliveries_replayed": 2,
+      "jobs_replayed": 2,
+      "new_model_calls": 0,
+      "original_journal_unchanged": true
+    },
+    {
+      "condition": "astra-medium",
+      "deliveries_replayed": 2,
+      "jobs_replayed": 2,
+      "new_model_calls": 0,
+      "original_journal_unchanged": true
+    }
+  ],
+  "mismatches": [],
+  "programs": 6,
+  "rows": [
+    {
+      "checks_sha256": "54834dc7401ba85d77617c4966bcb97c2ec9ff810becd9571bf3745d5861a364",
+      "code_sha256": "20fa294800ca3a2d6ab344375358cac002e409bf36f3e7d32f2916ec80e2d68e",
+      "condition": "sol-low",
+      "job_id": "recovery-fresh-reported-components",
+      "published_accepted": true,
+      "replayed_accepted": true
+    },
+    {
+      "checks_sha256": "78c4168be8ffb307eeba0b61c52850f1c49da35eff195307f18f830f19fda7c8",
+      "code_sha256": "d71a92ec8e2bb90e5ffd91fc97b40e8071e89f0123d6c88cca361f80f78c11ae",
+      "condition": "sol-low",
+      "job_id": "recovery-fresh-reported-delivery-audit",
+      "published_accepted": true,
+      "replayed_accepted": true
+    },
+    {
+      "checks_sha256": "54834dc7401ba85d77617c4966bcb97c2ec9ff810becd9571bf3745d5861a364",
+      "code_sha256": "d8039ddb3901ea99d8719abdf238d984ba5f3f3be49fa968d4d73c15476c8333",
+      "condition": "sol-medium",
+      "job_id": "recovery-fresh-reported-components",
+      "published_accepted": true,
+      "replayed_accepted": true
+    },
+    {
+      "checks_sha256": "78c4168be8ffb307eeba0b61c52850f1c49da35eff195307f18f830f19fda7c8",
+      "code_sha256": "d71a92ec8e2bb90e5ffd91fc97b40e8071e89f0123d6c88cca361f80f78c11ae",
+      "condition": "sol-medium",
+      "job_id": "recovery-fresh-reported-delivery-audit",
+      "published_accepted": true,
+      "replayed_accepted": true
+    },
+    {
+      "checks_sha256": "54834dc7401ba85d77617c4966bcb97c2ec9ff810becd9571bf3745d5861a364",
+      "code_sha256": "7937e3709d70d27152f835e2e6e8bc82f6b104bc4b99c48d16a701ee5a616d86",
+      "condition": "astra-medium",
+      "job_id": "recovery-fresh-reported-components",
+      "published_accepted": true,
+      "replayed_accepted": true
+    },
+    {
+      "checks_sha256": "78c4168be8ffb307eeba0b61c52850f1c49da35eff195307f18f830f19fda7c8",
+      "code_sha256": "d71a92ec8e2bb90e5ffd91fc97b40e8071e89f0123d6c88cca361f80f78c11ae",
+      "condition": "astra-medium",
+      "job_id": "recovery-fresh-reported-delivery-audit",
+      "published_accepted": true,
+      "replayed_accepted": true
+    }
+  ]
+}

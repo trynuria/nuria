@@ -1,0 +1,94 @@
+{
+  "recovery-fresh-reported-components": {
+    "code": "import json\nfrom pathlib import Path\n\n\ndef _compare_commits(component_commit, comparison_commit):\n    if component_commit is None or component_commit == \"\":\n        return \"unknown\"\n    if comparison_commit is None or comparison_commit == \"\":\n        return \"unknown\"\n    return \"same\" if component_commit == comparison_commit else \"different\"\n\n\ndef task_func():\n    with Path(\"inputs/components.json\").open(encoding=\"utf-8\") as source:\n        data = json.load(source)\n\n    published_main = data.get(\"published_main\")\n    proposed_branch = data.get(\"proposed_branch\")\n    components = []\n    for name, component in sorted(data[\"reported_components\"].items()):\n        commit = component.get(\"commit\")\n        components.append({\n            \"name\": name,\n            \"reported_commit\": commit,\n            \"reported_deployed_utc\": component.get(\"deployed_utc\"),\n            \"versus_published_main\": _compare_commits(commit, published_main),\n            \"versus_proposed_branch\": _compare_commits(commit, proposed_branch),\n        })\n\n    report = {\n        \"reported_phase\": data.get(\"reported_phase\"),\n        \"reported_error\": data.get(\"reported_error\"),\n        \"direct_service_health\": \"unknown\",\n        \"evidence\": \"public_endpoint_report_only\",\n        \"components\": components,\n    }\n    with Path(\"report.json\").open(\"w\", encoding=\"utf-8\") as destination:\n        json.dump(report, destination, indent=2)\n        destination.write(\"\\n\")\n    return report\n",
+    "origin": {
+      "checker_sha256": "54834dc7401ba85d77617c4966bcb97c2ec9ff810becd9571bf3745d5861a364",
+      "job_id": "recovery-fresh-reported-components",
+      "journal_head_at_acquisition": "ed70325bb4670dd7ed79eec4302873f19b3041de4930d22d050ca93f493a8b84",
+      "program_sha256": "20fa294800ca3a2d6ab344375358cac002e409bf36f3e7d32f2916ec80e2d68e",
+      "result_sha256": "fa557d8242a457d2fe28723046517120d09c6fc83207745a9788f09ae3f49688",
+      "source_sha256": "54bac8fc77744a301bae8d2f464f2ae127066b0a3bfc66ad4cdf2960b5d38174",
+      "task_sha256": "863637dc56827672231507be66863dc8ad6aa6fe7d545734934fd5877d3df9cd"
+    },
+    "origin_delivery": {
+      "binding": {
+        "enrollment_sha256": "6fce9e07f895d1dd09352c3278ea6be76b598a68812790ab24d282721f419744",
+        "result_sha256": "fa557d8242a457d2fe28723046517120d09c6fc83207745a9788f09ae3f49688",
+        "task_sha256": "863637dc56827672231507be66863dc8ad6aa6fe7d545734934fd5877d3df9cd"
+      },
+      "checker_sha256": "54834dc7401ba85d77617c4966bcb97c2ec9ff810becd9571bf3745d5861a364",
+      "files": [
+        {
+          "bytes": 3287,
+          "name": "report.json",
+          "semantic_sha256": "194b1f3667a55a5b368789f1ea5ee7dda0a642cf57a52014ca432fcaa05948c6",
+          "sha256": "c33283e4dd889bf4faf3e3ef584b09b18b97eda84540507c43377252c38c0d47"
+        }
+      ],
+      "financial_activity": false,
+      "job_id": "recovery-fresh-reported-components",
+      "journal_at_collection": {
+        "events": 4,
+        "tail_sha256": "ed70325bb4670dd7ed79eec4302873f19b3041de4930d22d050ca93f493a8b84"
+      },
+      "model_calls": 0,
+      "program_executions": 0,
+      "program_sha256": "20fa294800ca3a2d6ab344375358cac002e409bf36f3e7d32f2916ec80e2d68e",
+      "receipt_sha256": "f9b0b91e14733c5b5577dc133180bf20a619c100606288f71b22df3ac2eb19f8",
+      "schema": "nuria.program-delivery.v1",
+      "source_sha256": "54bac8fc77744a301bae8d2f464f2ae127066b0a3bfc66ad4cdf2960b5d38174"
+    },
+    "profile": {
+      "function_contract": "task_func() reads inputs/components.json, writes and returns report.json; comparison commits are optional strings, reported_components maps names to reported commit/deployment fields. Missing evidence remains unknown; public reports do not establish direct health.",
+      "profile_id": "reported-component-commits-v1"
+    },
+    "schema": "nuria.retained-program.v1",
+    "skill_sha256": "3a9b3524072237e87682a49e1d6d76c9cc3bac58849971d7ef4ec43b1066a9ee"
+  },
+  "recovery-fresh-reported-delivery-audit": {
+    "code": "import json\nfrom pathlib import Path\n\n\ndef task_func():\n    with Path('inputs/actions.json').open('r', encoding='utf-8') as source:\n        data = json.load(source)\n\n    providers = {}\n    for row in data['action_tasks']:\n        provider = row['provider']\n        if provider not in providers:\n            providers[provider] = {\n                'accepted': 0,\n                'failed': 0,\n                'unknown_acceptance': 0,\n                'known_reported_micro_usd': 0,\n                'unknown_costs': 0,\n                'positive_utility': 0,\n                'unknown_utility': 0,\n            }\n        counts = providers[provider]\n\n        acceptance = row.get('acceptance_passed')\n        if acceptance is True:\n            counts['accepted'] += 1\n        elif acceptance is False:\n            counts['failed'] += 1\n        else:\n            counts['unknown_acceptance'] += 1\n\n        cost = row.get('settled_micro_usd')\n        if type(cost) is int:\n            counts['known_reported_micro_usd'] += cost\n        else:\n            counts['unknown_costs'] += 1\n\n        utility = row.get('outcome_utility')\n        if type(utility) in (int, float):\n            if utility > 0:\n                counts['positive_utility'] += 1\n        else:\n            counts['unknown_utility'] += 1\n\n    report = {\n        'reported_actions': len(data['action_tasks']),\n        'financial_execution': data['financial_execution'],\n        'payment_attestation': 'unknown',\n        'evidence': 'reported_public_projection_only',\n        'providers': providers,\n    }\n    with Path('report.json').open('w', encoding='utf-8') as destination:\n        json.dump(report, destination, indent=2)\n        destination.write('\\n')\n    return report\n",
+    "origin": {
+      "checker_sha256": "78c4168be8ffb307eeba0b61c52850f1c49da35eff195307f18f830f19fda7c8",
+      "job_id": "recovery-fresh-reported-delivery-audit",
+      "journal_head_at_acquisition": "ed70325bb4670dd7ed79eec4302873f19b3041de4930d22d050ca93f493a8b84",
+      "program_sha256": "d71a92ec8e2bb90e5ffd91fc97b40e8071e89f0123d6c88cca361f80f78c11ae",
+      "result_sha256": "fb1259d5f4fd769913aed6b104ffcd13d836d9130ffee7567fac0ffa0efccacc",
+      "source_sha256": "0227bc9c9d68d4290f6756313435f76efa4dda2aef711240fb5963e58267bafd",
+      "task_sha256": "88ca7bdb1a3d476ce9f76d86dd04b1a9c433f3356e1e05f131194c5246977f0a"
+    },
+    "origin_delivery": {
+      "binding": {
+        "enrollment_sha256": "17194b0e693db2a85c2b5e4c486ae2f37a4065e4b9bda652f44903f85f1ab0f2",
+        "result_sha256": "fb1259d5f4fd769913aed6b104ffcd13d836d9130ffee7567fac0ffa0efccacc",
+        "task_sha256": "88ca7bdb1a3d476ce9f76d86dd04b1a9c433f3356e1e05f131194c5246977f0a"
+      },
+      "checker_sha256": "78c4168be8ffb307eeba0b61c52850f1c49da35eff195307f18f830f19fda7c8",
+      "files": [
+        {
+          "bytes": 631,
+          "name": "report.json",
+          "semantic_sha256": "e30ad796552b63719399b3da0917d36f296c33c1876afafef150870bcabcecf5",
+          "sha256": "8ec1847e55bc913f5f8f9120f92e3a603c1b93856de8b35d885a54d3ecca61cf"
+        }
+      ],
+      "financial_activity": false,
+      "job_id": "recovery-fresh-reported-delivery-audit",
+      "journal_at_collection": {
+        "events": 4,
+        "tail_sha256": "ed70325bb4670dd7ed79eec4302873f19b3041de4930d22d050ca93f493a8b84"
+      },
+      "model_calls": 0,
+      "program_executions": 0,
+      "program_sha256": "d71a92ec8e2bb90e5ffd91fc97b40e8071e89f0123d6c88cca361f80f78c11ae",
+      "receipt_sha256": "e00fc6af3b42f0d2831a754342aebc68526caaab92b270405134af1146d07e98",
+      "schema": "nuria.program-delivery.v1",
+      "source_sha256": "0227bc9c9d68d4290f6756313435f76efa4dda2aef711240fb5963e58267bafd"
+    },
+    "profile": {
+      "function_contract": "task_func() reads inputs/actions.json, writes and returns report.json; group every action_tasks row by provider, classify exact acceptance booleans, exact integer reported costs and numeric outcome_utility excluding booleans. Payment attestation stays unknown.",
+      "profile_id": "reported-provider-outcomes-v1"
+    },
+    "schema": "nuria.retained-program.v1",
+    "skill_sha256": "e9967441e383da94a2ae3cc5be60862a311cada36cbd5285cd9d464a0a54541e"
+  }
+}
