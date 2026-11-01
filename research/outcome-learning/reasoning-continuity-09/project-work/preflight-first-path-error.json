@@ -1,0 +1,28 @@
+[
+  {
+    "job_id": "repair",
+    "checker": {
+      "passed": false,
+      "exit_code": 1,
+      "timed_out": false,
+      "wall_seconds": 0.086596,
+      "code_sha256": "0cc0931f2794f0e0c6f4ded722001edad3ebe680f14b5d87e67aae1f626276c6",
+      "checks_sha256": "cb6b29ae512c051afeba02a6a4733338f09ea5650fdc46362bfbb56ec1c542fe",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 12, in <module>\n    exec(compile(open('program.py').read(),'program.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"program.py\", line 52, in <module>\n    _original=Path('archived_contracts.txt').read_text()\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py\", line 787, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py\", line 771, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'archived_contracts.txt'\n"
+    }
+  },
+  {
+    "job_id": "accounting",
+    "checker": {
+      "passed": false,
+      "exit_code": 1,
+      "timed_out": false,
+      "wall_seconds": 0.049157,
+      "code_sha256": "e7c3cde370f74d29cba2f66745b3ecc582684cfd79cc3542bfb3ccbba1cacfa0",
+      "checks_sha256": "6ca8db25179886640500f6452444665ed7034754170bc5753fae1bfed9a0a040",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 12, in <module>\n    exec(compile(open('program.py').read(),'program.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"program.py\", line 52, in <module>\n    Path('budget-report.json').write_text(json.dumps(audit_budget(json.loads(Path('source.json').read_text()))))\n                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py\", line 787, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py\", line 771, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'source.json'\n"
+    }
+  }
+]

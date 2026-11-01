@@ -1,0 +1,127 @@
+{
+  "ledger_cases": [
+    {
+      "cap_micro_usd": 20000000,
+      "requests": []
+    },
+    {
+      "cap_micro_usd": 20000000,
+      "requests": [
+        {
+          "request_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "state": "reserved",
+          "reserved_micro_usd": 4646000,
+          "charged_micro_usd": null,
+          "usage": null,
+          "pricing": {
+            "model": "gpt-6.1-sol",
+            "input_micro_usd_per_million_tokens": 2500000,
+            "output_micro_usd_per_million_tokens": 10000000,
+            "long_context_threshold": 272000,
+            "long_context_input_multiplier": 2,
+            "long_context_output_multiplier": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "cap_micro_usd": 20000000,
+      "requests": [
+        {
+          "request_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "state": "settled",
+          "reserved_micro_usd": 4646000,
+          "charged_micro_usd": 100,
+          "usage": null,
+          "pricing": {
+            "model": "gpt-6.1-sol",
+            "input_micro_usd_per_million_tokens": 2500000,
+            "output_micro_usd_per_million_tokens": 10000000,
+            "long_context_threshold": 272000,
+            "long_context_input_multiplier": 2,
+            "long_context_output_multiplier": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "cap_micro_usd": 20000000,
+      "requests": [
+        {
+          "request_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "state": "settled",
+          "reserved_micro_usd": 4646000,
+          "charged_micro_usd": 680010,
+          "usage": {
+            "prompt_tokens": 272000,
+            "completion_tokens": 1
+          },
+          "pricing": {
+            "model": "gpt-6.1-sol",
+            "input_micro_usd_per_million_tokens": 2500000,
+            "output_micro_usd_per_million_tokens": 10000000,
+            "long_context_threshold": 272000,
+            "long_context_input_multiplier": 2,
+            "long_context_output_multiplier": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "cap_micro_usd": 20000000,
+      "requests": [
+        {
+          "request_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "state": "settled",
+          "reserved_micro_usd": 4646000,
+          "charged_micro_usd": 1360050,
+          "usage": {
+            "prompt_tokens": 272001,
+            "completion_tokens": 3
+          },
+          "pricing": {
+            "model": "gpt-6.1-sol",
+            "input_micro_usd_per_million_tokens": 2500000,
+            "output_micro_usd_per_million_tokens": 10000000,
+            "long_context_threshold": 272000,
+            "long_context_input_multiplier": 2,
+            "long_context_output_multiplier": 1.5
+          }
+        }
+      ]
+    }
+  ],
+  "unknown_label_cases": [
+    [],
+    [
+      {
+        "accepted": true,
+        "task_id": "boundary/a"
+      },
+      {
+        "accepted": false,
+        "task_id": "boundary/b"
+      },
+      {
+        "accepted": null,
+        "task_id": "boundary/c"
+      },
+      {
+        "accepted": 1,
+        "task_id": "boundary/d"
+      },
+      {
+        "accepted": 0,
+        "task_id": "boundary/e"
+      },
+      {
+        "accepted": "false",
+        "task_id": "boundary/f"
+      },
+      {
+        "task_id": "boundary/g"
+      }
+    ]
+  ],
+  "scope": "Authored boundary qualifications; not real activity or model intelligence."
+}
