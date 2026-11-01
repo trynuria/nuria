@@ -2,7 +2,9 @@
 
 Studio invents interactive tools, games, worlds, stories and instruments. It
 proposes two mechanisms, builds them, executes their logic and browser journeys,
-critiques the delivered results, and retains useful engines for later work.
+critiques the delivered results, challenges selected outcomes with separate
+executable criteria, repairs demonstrated failures, and retains qualified engines
+for later work.
 A portfolio scheduler explores the least-visited creative direction; every fourth
 project improves a completed work. One critic's next brief cannot take over every
 subsequent project. Old prototypes and failures remain in the archive.
@@ -92,6 +94,54 @@ exercise declared journeys, not every possible input or a human usability study.
 Generated code sees no host network, credentials or private files. Only candidate
 files, the installed browser/runtime and a bounded result directory are mounted.
 
+## Outcome acceptance and repair
+
+A selected browser-tested prototype now enters a separate examination before its
+project can complete or its engine can enter the reusable repertoire. The examiner
+receives the actual engine, the visitor promise and specific critique. It authors
+2–6 declarative outcome criteria in a fresh model context; it does not reuse the
+builder's `runTests()`. The same provider model is used, so these are independently
+specified checks, not independent human judgment or a different-model consensus.
+
+The host executes fixed action cases or a bounded breadth-first state search.
+Reports contain measured values, concrete witnesses/counterexamples, source hashes
+and whether a search closed the entire reachable space under its declared actions.
+Depth/capacity exhaustion is explicitly different from proving an outcome
+unreachable. Criteria are frozen before repair. The builder can change only the
+four artifact files; it cannot edit acceptance criteria or original contracts.
+An optional extra browser journey checks expected visible text on desktop and phone.
+
+A valid failing check sends the same creation into up to three repair attempts.
+The original version and browser evidence are archived before editing. Every repair
+must pass the original engine checks, the unchanged outcome criteria and browser
+journeys. Unchanged repair source stops further model retries. Durable request replay
+also covers a crash after writing a repair, so recovery does not buy another call.
+Passing repairs supersede the previous engine in future tool selection while keeping
+its code and lineage in history. Actual repair lessons feed subsequent projects.
+Invalid examiner specifications get at most one correction; unexecutable criteria
+are recorded as examination failures, not automatically blamed on the invention.
+
+Browser-tested alternatives can remain visible as prototypes before acceptance.
+Their displayed check status is distinct from verified outcomes. Unresolved repairs
+remain in the notebook; the campaign continues within its original limits. Older
+completed work is not retroactively labeled outcome-verified. Selected historical
+work can be enrolled through the private `acceptance_queue` state.
+
+The initial [story repair](https://nuria.network/studio/#invention-021) used explicit
+operator-supplied acceptance criteria: the original hard-loaf ending was absent
+from all ten reachable allocations of three nights. The same frozen criteria then
+accepted a repair that preserved the fresh-bread, empty-handed and reset outcomes.
+Criteria origin is recorded separately from the host's execution evidence.
+Creation folders expose `challenge.json`, `outcome-baseline.json` and
+`outcome-result.json`; the manifest binds these to the delivered source.
+
+This uses the established idea of testing command sequences and properties from
+[model-based testing](https://fast-check.dev/docs/advanced/model-based-testing/).
+The existing discrete engine interface and tiny finite worlds make a bounded
+checker sufficient here; no new agent framework or hosted evaluation service is
+needed. [Portable evaluation criteria](https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo#what-changes-when-you-move-to-promptfoo)
+remain separate from inference transport and the unchanged allowance ledger.
+
 Novelty, usefulness and craft scores are model judgments, used to choose among
 completed work. They are not objective benchmarks. The small portfolio scheduler
 adopts the idea of keeping different kinds of promising solutions from
@@ -121,7 +171,7 @@ and run `python -m playwright install --with-deps chromium --only-shell`, using
 work. Keep the sandbox launcher and browser installation read-only to the worker.
 The runtime uses outer bubblewrap isolation instead of Chromium's inner sandbox.
 
-Run `python -m unittest tests.test_studio tests.test_studio_frontiers -v` and `node --check studio/web/studio.js`.
+Run `python -m unittest tests.test_studio tests.test_studio_frontiers tests.test_studio_outcomes -v` and `node --check studio/web/studio.js`.
 The real Linux namespace check is additionally required on the intended host.
 Both the worker and inference service must be enabled at boot. Keep the gateway
 private; expose only the read-only public projection through the website proxy.

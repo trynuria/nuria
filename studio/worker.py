@@ -11,6 +11,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from studio.acceptance import examine, repair
 from studio.executor import (
     ALLOWED,
     BRIDGE,
@@ -225,6 +226,7 @@ class Campaign:
             "planning_attempt": 0,
             "runtime_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "contract_version": 2 if direction else 1,
+            "acceptance_required": bool(direction and self.browser_runtime),
         }
         if direction:
             project["frontier"] = {k: direction[0][k] for k in ("id", "name")}
@@ -271,7 +273,7 @@ class Campaign:
                     "maximum_projects": self.max_projects or None,
                     "mode": "autonomous" if not self.max_projects else "finite",
                     "inference": "budgeted server-local service",
-                    "creative_policy": "diverse portfolio with browser-tested outcomes"
+                    "creative_policy": "diverse portfolio, frozen outcome checks and bounded repairs"
                     if self.browser_runtime
                     else "legacy engine exploration",
                     "learning_scope": "Executable tools, project memory and critique; foundation-model weights are unchanged.",
@@ -309,6 +311,7 @@ class Campaign:
             for s in self.store.all("skills")
             if len(s["code"].encode()) <= 32000
             and (not modern or s.get("contract_version") == 2)
+            and not s.get("superseded_by")
         ]
         # Retain the whole archive; present a bounded working set that can fit
         # alongside two prototype sources inside the existing provider envelope.
@@ -616,6 +619,19 @@ class Campaign:
             str(result.get("reason", "Selected from tested alternatives.")),
             result,
         )
+        if p.get("acceptance_required"):
+            p["status"] = "challenging"
+            self.store.save(
+                p,
+                "selected_for_acceptance",
+                "A prototype was selected for separate outcome checks before retention.",
+            )
+            return
+        self.retain(p)
+
+    def retain(self, p):
+        result = p["review"]
+        valid = [x for x in p["candidates"] if x["status"] == "tested"]
         winner = next(c for c in valid if c["id"] == p["selected"])
         for key in ("novelty", "usefulness", "craft"):
             try:
@@ -650,7 +666,16 @@ class Campaign:
                 "frontier": p.get("frontier"),
             }
             self.store.put("skills", sid, skill)
-            p["skills_created"] = [{"id": sid, "name": skill["name"]}]
+        skill = existing or skill
+        if not any(s["id"] == sid for s in p.get("skills_created", [])):
+            p.setdefault("skills_created", []).append(
+                {"id": sid, "name": skill["name"]}
+            )
+        if p.get("verification", {}).get("repair_attempts", 0):
+            for old in self.store.all("skills"):
+                if old["project_id"] == p["id"] and old["id"] != sid:
+                    old["superseded_by"] = sid
+                    self.store.put("skills", old["id"], old)
         for item in p["skills_used"]:
             skill = self.store.get("skills", item["id"])
             if winner["checks"].get("reused_calls", 0) > 0:
@@ -668,9 +693,17 @@ class Campaign:
             "causality",
             "play",
         ]
+        lesson = str(result.get("lesson", ""))[:1500]
+        if p.get("verification", {}).get("repair_attempts", 0):
+            lesson = (
+                "Verified repair: "
+                + winner.get("note", "")
+                + " Outcome: "
+                + p["verification"]["summary"]
+            )[:1500]
         memory["lessons"] = (
-            memory["lessons"]
-            + [{"project": p["id"], "lesson": str(result.get("lesson", ""))[:1500]}]
+            [x for x in memory["lessons"] if x["project"] != p["id"]]
+            + [{"project": p["id"], "lesson": lesson}]
         )[-12:]
         self.store.put("meta", "taste", memory)
         p["status"] = "complete"
@@ -699,6 +732,21 @@ class Campaign:
             (p for p in projects if p["status"] not in ("complete", "stopped")), None
         )
         if not active:
+            pending = self.store.get("meta", "acceptance_queue") or []
+            if pending:
+                pid = pending.pop(0)
+                self.store.put("meta", "acceptance_queue", pending)
+                target = self.store.get("projects", pid)
+                if target and target.get("selected") and not target.get("verification"):
+                    target["acceptance_required"] = True
+                    target["status"] = "challenging"
+                    self.store.save(
+                        target,
+                        "acceptance_enrolled",
+                        "Reopened the selected invention for separate outcome checks; the previous public version and history remain available until a verified replacement is ready.",
+                    )
+                self.export()
+                return True
             queue = self.store.get("meta", "queue") or []
             if queue:
                 direction = next_direction(projects) if self.browser_runtime else None
@@ -759,6 +807,14 @@ class Campaign:
             )
         elif active["status"] == "reviewing":
             self.review(active)
+        elif active["status"] == "challenging":
+            self.status = "checking_outcomes"
+            examine(self, active)
+        elif active["status"] == "repairing":
+            self.status = "repairing"
+            repair(self, active)
+        elif active["status"] == "retaining":
+            self.retain(active)
         self.export()
         return True
 

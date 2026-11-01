@@ -55,7 +55,7 @@ def limits():
     resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))
 
 
-def check(directory, node):
+def check(directory, node, *, acceptance=False):
     directory = Path(directory).resolve()
     missing = ALLOWED - {p.name for p in directory.iterdir() if p.is_file()}
     if missing:
@@ -103,7 +103,13 @@ def check(directory, node):
     )
     checker = (
         Path(__file__)
-        .with_name("check_invention.cjs" if version == 2 else "check_engine.cjs")
+        .with_name(
+            "check_outcomes.cjs"
+            if acceptance
+            else "check_invention.cjs"
+            if version == 2
+            else "check_engine.cjs"
+        )
         .resolve()
     )
     command += [
@@ -273,7 +279,16 @@ def publish(directory, destination):
         folder.chmod(0o755)
     manifest = {}
     for name in sorted(
-        ALLOWED | {"toolkit.js", "toolkit-bridge.js", "inputs.json", "contract.json"}
+        ALLOWED
+        | {
+            "toolkit.js",
+            "toolkit-bridge.js",
+            "inputs.json",
+            "contract.json",
+            "challenge.json",
+            "outcome-baseline.json",
+            "outcome-result.json",
+        }
     ):
         path = directory / name
         if path.is_file() and not path.is_symlink():

@@ -261,16 +261,24 @@
     byId("candidate-description").textContent = candidate
       ? `${text(candidate.title, "Interactive creation")}${candidate.revision ? ` · revision ${candidate.revision}` : ""}`
       : "Waiting for a first prototype";
-    byId("candidate-checks").textContent = checked
-      ? checks.passed
-        ? checks.browser_passed
-          ? "Desktop + phone interactions passed"
-          : "Engine checks passed"
-        : "Execution checks need attention"
-      : candidate
-        ? "Checks pending"
-        : "";
-    byId("candidate-checks").classList.toggle("failed", checked && !checks.passed);
+    byId("candidate-checks").textContent =
+      checks?.outcomes_passed === false
+        ? "Outcome checks need repair"
+        : checked
+          ? checks.passed
+            ? checks.outcomes_passed
+              ? "Outcome checks + desktop/phone passed"
+              : checks.browser_passed
+                ? "Desktop + phone interactions passed"
+                : "Engine checks passed"
+            : "Execution checks need attention"
+          : candidate
+            ? "Checks pending"
+            : "";
+    byId("candidate-checks").classList.toggle(
+      "failed",
+      (checked && !checks.passed) || checks?.outcomes_passed === false,
+    );
     if (candidate?.artifact_url && !url) {
       byId("experience-heading").textContent = "This artifact cannot be opened.";
       byId("experience-message").textContent =
@@ -304,6 +312,11 @@
       text(project.review?.rationale) ||
       text(project.review?.summary) ||
       "The alternatives are still being explored. A recorded selection will appear here.";
+    const verification = project.verification;
+    byId("verification-note").hidden = !verification;
+    byId("verification-summary").textContent = verification
+      ? `${label(verification.status)}${verification.passed_claims ? ` · ${verification.passed_claims} outcome checks` : ""}${verification.repair_attempts ? ` · ${verification.repair_attempts} repair attempts` : ""}. ${text(verification.summary)}`
+      : "";
     renderCandidate(project);
     if (changed("concepts", [project.id, project.concepts, project.selected])) {
       const node = byId("concepts");
@@ -455,6 +468,8 @@
       thinking: "Developing an idea",
       exploring: "Exploring possibilities",
       reviewing: "Reviewing the work",
+      checking_outcomes: "Challenging claimed outcomes",
+      repairing: "Repairing a measured failure",
       idle: "Between projects",
       ready: "Ready for a new question",
       paused: "Work paused",

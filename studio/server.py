@@ -52,6 +52,9 @@ def handler(public, web):
                         "preview.jpg",
                         "mobile.jpg",
                         "browser.json",
+                        "challenge.json",
+                        "outcome-baseline.json",
+                        "outcome-result.json",
                     )
                 ):
                     return self.send_error(404)

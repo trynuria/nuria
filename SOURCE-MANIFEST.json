@@ -79,7 +79,8 @@
     "Persistent invention Studio with competing browser prototypes, isolated engine execution, critique, transitive executable tool reuse and an existing-ledger inference bridge; original neural histories and financial authority preserved",
     "Move autonomous Studio inference and the unchanged accounting history onto its dedicated server, retire the former budget writer, remove the default project-count stop, recover from stopped projects and retain bounded tool selection. Enforce original money/request limits and durable replay; extend offline engine checks to thirty simulated seconds. Original neural histories and financial authority remain unchanged.",
     "Repair a rejected-write restart loop, expose delivered manifests and source snapshots to critique, and execute project-defined engine tests in the existing offline sandbox while preserving retained tool APIs. Original budgets and histories remain unchanged.",
-    "Diverse autonomous invention portfolio with six creative directions, action-based engines, frozen browser journeys, offline desktop/phone Chromium checks and exports, screenshot galleries, bounded local browser recovery and measured tool reuse. Original provider allowance, neural histories and financial authority remain unchanged."
+    "Diverse autonomous invention portfolio with six creative directions, action-based engines, frozen browser journeys, offline desktop/phone Chromium checks and exports, screenshot galleries, bounded local browser recovery and measured tool reuse. Original provider allowance, neural histories and financial authority remain unchanged.",
+    "Require separately specified, frozen executable outcome criteria before completed invention retention; bounded state-space search produces witnesses and counterexamples, failed checks trigger same-artifact repairs, and verified engines supersede faulty versions without deleting history. Preserve existing budget/request caps and durable replay, publish failed baselines and repair evidence, and verify additional browser outcomes."
   ],
   "deployment_identity": "Live API reports component commits, deployment time and source hashes; the original circuit retains its historical startup identity",
   "files": [
@@ -109,7 +110,7 @@
     },
     {
       "path": "README.md",
-      "published_sha256": "b55842e1cacef92209857e1428d04ced1bfc9a07172e28176aa92a19a891a568"
+      "published_sha256": "d42b8db06175a1fb3affb7aaba7fb6ff9d6012fd35d526a00fb6fc4c93919211"
     },
     {
       "path": "api.py",
@@ -7333,15 +7334,19 @@
     },
     {
       "path": "studio/README.md",
-      "published_sha256": "7fb7ad8e77cee7d0f5ce31453f4d96c935a02f8dea30a4ab26584c7d97a6caa1"
+      "published_sha256": "9cc22cadc4dda80221a2df7212d553bd57d5f3d5f620395eccae82428783fa78"
     },
     {
       "path": "studio/__init__.py",
       "published_sha256": "a03681918d50bb563f71ef7c6681c9f1e42d36168ac15c102866cdad4e90b7df"
     },
     {
+      "path": "studio/acceptance.py",
+      "published_sha256": "5240857aaac954e11152a705f63be1ac502596eb72037573cdc1ce35ad4eee17"
+    },
+    {
       "path": "studio/browser_check.py",
-      "published_sha256": "392f7c3b406e1cd9ac71dd9789bf8f322ccebb08976969062015d3b6ec742b1d"
+      "published_sha256": "b984ae79a97928e79c6283995dc573a248de7144e96be0e020b8b98e32e12f80"
     },
     {
       "path": "studio/check_engine.cjs",
@@ -7352,12 +7357,16 @@
       "published_sha256": "ce524ba42b00b861ce8ba9164a0926e622bf46109b917a77f040765a16573225"
     },
     {
+      "path": "studio/check_outcomes.cjs",
+      "published_sha256": "a8fc95b494d64d96adf67b563569ca0c1cfc72cd3c535fb208d9ea9e4586fe36"
+    },
+    {
       "path": "studio/cli.py",
       "published_sha256": "b7e162b4a1fb662f48892dc111a7f1a4ee472bd44a6e62eafcd6386c3e980925"
     },
     {
       "path": "studio/executor.py",
-      "published_sha256": "c7b5ce46e7e89bc628607eeee21fddbe97a8671d86283423337c69796211e149"
+      "published_sha256": "734aabc870fdc277e05ef67a8c8628a698383398906678a94ef95a9742528f5e"
     },
     {
       "path": "studio/frontiers.py",
@@ -7366,6 +7375,10 @@
     {
       "path": "studio/gateway.py",
       "published_sha256": "f1507669d9cf4d48141bd777eb65aa8f355821eccf9c4e2e6007ce7f8de21606"
+    },
+    {
+      "path": "studio/outcomes.py",
+      "published_sha256": "66b7077caeeba5d746ef81df25a4f320a02b83f26c3f24517f35ad62ac752af2"
     },
     {
       "path": "studio/provider.py",
@@ -7377,7 +7390,7 @@
     },
     {
       "path": "studio/server.py",
-      "published_sha256": "9fc416efe6855b80854be0d826c095259e5db16f181bace1e6b14cf6c6cb2e63"
+      "published_sha256": "a3abb74b4086d88c8b99933a1a8bcdf439fa5fd9982cfd38e0605f5441512917"
     },
     {
       "path": "studio/store.py",
@@ -7385,7 +7398,7 @@
     },
     {
       "path": "studio/web/index.html",
-      "published_sha256": "1b52deab52ddd248512371c43f10267d0328f76dffcc40b5eef9650d699ccc7a"
+      "published_sha256": "5eb3a81e2dca3bb6eeb4ce24326e7d3214b580da3c116faeeef8345dc106266f"
     },
     {
       "path": "studio/web/studio.css",
@@ -7393,11 +7406,11 @@
     },
     {
       "path": "studio/web/studio.js",
-      "published_sha256": "83c29c89b5279bd5afec2db184fa507bd9404a5f93601a11fcba0db007b9fc8b"
+      "published_sha256": "d5a97e4dbf638c7641f38fc14c9fa3c4fceb8298faefd4c0d53446befbeaf448"
     },
     {
       "path": "studio/worker.py",
-      "published_sha256": "bd2de46374ce0a2d3a71cd63650ba6323f87cc6178b32c65c3b603cf432c5d7b"
+      "published_sha256": "80a99f97ea815d0edb411516a388e52a0c15b196fc97d852a61eff1540aaf148"
     },
     {
       "path": "tests/commerce-view.test.cjs",
@@ -7950,6 +7963,10 @@
     {
       "path": "tests/test_studio_frontiers.py",
       "published_sha256": "dffe7bf8b9a7db573a412749e00c5d66369172ce299dd275cfda069f5963e3a4"
+    },
+    {
+      "path": "tests/test_studio_outcomes.py",
+      "published_sha256": "cfaaacf0d981f825ff9dc8093ea1b563a6dffbbe4b91b81bea97a56768acbc9e"
     },
     {
       "path": "tests/test_task_feedback_recovery.py",

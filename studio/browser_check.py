@@ -21,6 +21,7 @@ FILES = {
     "toolkit-bridge.js",
     "inputs.json",
     "contract.json",
+    "challenge.json",
 }
 CSP = "sandbox allow-scripts allow-downloads; default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'"
 
@@ -38,7 +39,12 @@ def observation(page, selector):
 
 def main():
     contract = json.loads(Path("/workspace/contract.json").read_text())
-    journey = contract["journey"]
+    journeys = [("declared", contract["journey"])]
+    challenge_path = Path("/workspace/challenge.json")
+    if challenge_path.is_file():
+        extra = json.loads(challenge_path.read_text()).get("journey")
+        if extra:
+            journeys.append(("acceptance", extra))
     output = Path("/results")
     base = "http://nuria.invalid"
     report = {
@@ -61,7 +67,15 @@ def main():
                     "--no-zygote",
                 ],
             )
-            for label, width, height in (("desktop", 1280, 800), ("mobile", 390, 844)):
+            cases = [
+                (name, journey, label, width, height)
+                for name, journey in journeys
+                for label, width, height in (
+                    ("desktop", 1280, 800),
+                    ("mobile", 390, 844),
+                )
+            ]
+            for name, journey, label, width, height in cases:
                 context = browser.new_context(
                     viewport={"width": width, "height": height},
                     device_scale_factor=1,
@@ -135,6 +149,10 @@ def main():
                     )
                 after = observation(page, journey["result"])
                 changed = before != after
+                expected = journey.get("contains")
+                matched = expected is None or " ".join(
+                    expected.casefold().split()
+                ) in " ".join(after["text"].casefold().split())
                 layout = page.evaluate(
                     """() => ({width:innerWidth,documentWidth:document.documentElement.scrollWidth,text:document.body.innerText.slice(0,7000),controls:document.querySelectorAll('button,input,select,textarea').length,title:document.title})"""
                 )
@@ -155,11 +173,20 @@ def main():
                         }
                     )
                 screenshot = "preview.jpg" if label == "desktop" else "mobile.jpg"
-                page.screenshot(path=str(output / screenshot), type="jpeg", quality=72)
+                if name == "declared":
+                    page.screenshot(
+                        path=str(output / screenshot), type="jpeg", quality=72
+                    )
                 report["views"].append(
                     {
                         "viewport": label,
-                        "passed": changed and not overflow and layout["controls"] >= 1,
+                        "journey": name,
+                        "passed": (changed if name == "declared" else matched)
+                        and matched
+                        and not overflow
+                        and layout["controls"] >= 1,
+                        "expected_visible_text": expected,
+                        "expected_result_matched": matched,
                         "interaction_changed_result": changed,
                         "horizontal_overflow": overflow,
                         "actions": actions,
@@ -172,7 +199,7 @@ def main():
                 context.close()
             browser.close()
         report["passed"] = (
-            len(report["views"]) == 2
+            len(report["views"]) == len(journeys) * 2
             and all(v["passed"] for v in report["views"])
             and not report["errors"]
             and not report["blocked_requests"]

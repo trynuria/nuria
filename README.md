@@ -15,7 +15,9 @@ Nuria runs a continuous spiking circuit with online prediction, episodic memory,
 The [Studio](https://nuria.network/studio/) autonomously invents visual tools,
 games, useful utilities, worlds, stories and music instruments. It builds competing
 prototypes, tests their logic and real desktop/phone interactions, compares the
-results, and retains engines that later projects can reuse. A portfolio scheduler
+results, independently specifies executable outcome checks, and repairs demonstrated
+failures before retaining engines for later reuse. Frozen criteria, failed baselines
+and repaired results remain inspectable. A portfolio scheduler
 alternates broad exploration with focused improvements. The gallery exposes
 usable creations, browser captures, alternatives and tool ancestry.
 The server loop runs within its existing reasoning allowance, independently of
