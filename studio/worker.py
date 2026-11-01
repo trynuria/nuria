@@ -280,6 +280,7 @@ class Campaign:
                 "interests": memory["interests"],
                 "lessons": memory.get("lessons", []),
                 "portfolio": portfolio(projects),
+                "research": self.store.get("meta", "research"),
                 "campaign": {
                     "maximum_projects": self.max_projects or None,
                     "mode": "autonomous" if not self.max_projects else "finite",

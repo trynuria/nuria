@@ -1,0 +1,88 @@
+{
+  "datasets": {
+    "development": {
+      "sha256": "b98b8e9c4fe718003811db37a36789ee7a539fc0645b2ea2112cb12fadeb98e8",
+      "case_count": 6,
+      "cases": [
+        {
+          "id": "invention-020-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-021-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-027-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-029-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-030-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "observed-old-api-unchanged",
+          "origin": "Real archived public API, unchanged poll"
+        }
+      ]
+    },
+    "holdout": {
+      "sha256": "e092d1a22557fc4b930224d1954b6dfba19d34679be7c93ebf807523dfdbab1c",
+      "case_count": 9,
+      "cases": [
+        {
+          "id": "invention-031-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-032-a",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-033-a",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-034-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-035-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-038-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "invention-039-b",
+          "origin": "Unmodified archived before/after acceptance reports"
+        },
+        {
+          "id": "observed-api-growth",
+          "origin": "Two real public API captures, 5 and 41 projects"
+        },
+        {
+          "id": "observed-api-idle",
+          "origin": "Two real public API captures during operator pause"
+        }
+      ]
+    }
+  },
+  "baselines": {
+    "jsonpatch": "1.39",
+    "jsondiff": "2.2.1",
+    "gzip": "stdlib level 3 + unchanged 304 shortcut",
+    "jsonpatch_compact": "1.39 with identical tuple transport; native envelope for move/copy"
+  },
+  "selection": "Development cases only; freeze selected code before one blind holdout run. No holdout case contents or feedback sent to model.",
+  "primary_gate": "Exact reconstruction on all real and adversarial cases; sum server encoding time at most 70% of fastest delta baseline; compressed bytes at most 110% of smallest delta baseline, with identical unchanged-response shortcut. Report client reconstruction and full-response comparison separately.",
+  "claim_scope": "Nuria public state and outcome reports. No claim of new JSON Patch algorithm or universal superiority.",
+  "revision": 2,
+  "amendment": "Development-only results revealed JSON Patch object syntax overhead. Pack operations into [opcode,path,value] tuples for BOTH the candidate and a new jsonpatch_compact baseline, retaining native jsonpatch and jsondiff baselines too. Thresholds, datasets, correctness and blind selection remain unchanged. No holdout evaluation occurred before this amendment.",
+  "transport": "0=add, 1=remove, 2=replace; expansion to RFC 6902 and existing decoder included in client timing"
+}

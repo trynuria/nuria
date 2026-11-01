@@ -1,0 +1,11 @@
+{
+  "name": "Nuria: typed sparse JSON Patch",
+  "hypothesis": "Direct scalar comparisons and a single mapping traversal avoid repeated JSON encoding on mostly unchanged snapshots. Prefix/suffix trimming handles common list appends and deletions. A bounded size check replaces operation-heavy subtrees when replacement is substantially smaller. This could reduce encoding time, but the timing and compressed-size targets require measurement. The reported correctness failure is fixed by distinguishing integers from floats; signed floating-point zero is also preserved.",
+  "tradeoffs": [
+    "Produces only RFC 6902 add/remove/replace operations, escapes pointer tokens, and never mutates either snapshot.",
+    "Fallback performs at most four subtree-size comparisons. Its raw-size heuristic does not guarantee smaller gzip output or bound the cost of generating the initial patch.",
+    "No move detection or general list alignment: multiple interior insertions and reordering can produce larger patches.",
+    "Recursive traversal is subject to Python's recursion limit. Operation values reference the immutable new snapshot.",
+    "Validate strict reconstruction and measure server encoding, gzip bytes, and client application against both baselines; no performance result is claimed here."
+  ]
+}

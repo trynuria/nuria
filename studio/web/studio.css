@@ -1215,3 +1215,24 @@ footer > div {
     transition: none !important;
   }
 }
+
+.research-status {
+  margin: 0 0 2rem;
+  padding: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1.5rem;
+  color: var(--muted, #a9b5ac);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.research-status[hidden] {
+  display: none;
+}
+.research-status span {
+  flex: 1 1 32rem;
+}
+.research-status a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}

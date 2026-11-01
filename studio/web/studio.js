@@ -4,6 +4,7 @@
   const byId = (id) => document.getElementById(id);
   const state = {
     data: null,
+    version: null,
     project: null,
     candidate: null,
     frameUrl: null,
@@ -447,7 +448,7 @@
   }
   function renderStatus() {
     const data = state.data;
-    const phase = text(data.phase, "ready");
+    const phase = text(data.research?.phase ?? data.phase, "ready");
     const active = [
       "running",
       "creating",
@@ -456,8 +457,11 @@
       "thinking",
       "exploring",
       "reviewing",
+      "researching",
     ].includes(phase);
-    const heartbeat = new Date(data.heartbeat ?? data.updated_at).getTime();
+    const heartbeat = new Date(
+      data.research?.updated_at ?? data.heartbeat ?? data.updated_at,
+    ).getTime();
     const stale =
       active && Number.isFinite(heartbeat) && Date.now() - heartbeat > 180000;
     const phaseNames = {
@@ -481,6 +485,8 @@
       completed: "Current work complete",
       budget_exhausted: "Inference allowance exhausted",
       waiting_for_reasoner: "Reasoning connection paused",
+      researching: "Testing a useful improvement",
+      research_waiting: "LiveDelta deployed · next trial scheduled",
     };
     byId("worker-status").textContent = stale
       ? "Worker update delayed"
@@ -492,6 +498,8 @@
       `${projects} ${projects === 1 ? "project" : "projects"} / ${skills} retained ${skills === 1 ? "technique" : "techniques"}`;
     byId("updated").textContent =
       `${data.campaign?.mode === "autonomous" ? "Autonomous · " : ""}Updated ${date(data.updated_at, true)}`;
+    byId("research-status").hidden = !data.research;
+    byId("research-summary").textContent = text(data.research?.summary).slice(0, 500);
   }
   async function refresh() {
     if (state.fetching) return;
@@ -500,14 +508,11 @@
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12000);
     try {
-      const response = await fetch("/api/studio", {
-        signal: controller.signal,
-        cache: "no-store",
-        credentials: "omit",
-        headers: { Accept: "application/json" },
-      });
-      if (!response.ok) throw new Error(`Studio response ${response.status}`);
-      const data = await response.json();
+      const { data, version } = await globalThis.NuriaLiveState.read(
+        state.data,
+        state.version,
+        controller.signal,
+      );
       if (
         !data ||
         typeof data !== "object" ||
@@ -516,6 +521,7 @@
       )
         throw new Error("Invalid studio response");
       state.data = data;
+      state.version = version;
       if (!data.projects.some((project) => project.id === state.project)) {
         let hash = null;
         try {

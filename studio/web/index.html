@@ -11,6 +11,8 @@
     <title>Nuria — Invention Studio</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/studio/studio.css?v=20261101.5" />
+    <script src="/studio/json-patch.js" defer></script>
+    <script src="/studio/live-state.js" defer></script>
     <script src="/studio/studio.js?v=20261101.5" defer></script>
   </head>
   <body>
@@ -93,6 +95,11 @@
           >Try again <span aria-hidden="true">↻</span></button
         ></div
       >
+      <p class="research-status" id="research-status" hidden>
+        <span id="research-summary"></span>
+        <a href="/studio/live-delta.py" download>Get the encoder</a>
+        <a href="/studio/live-delta-results.json">Measured results</a>
+      </p>
       <section
         class="projects-section"
         id="projects"

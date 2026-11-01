@@ -88,3 +88,7 @@ research/adaptive-reasoning/model-substitution-protocol-01.json
 
 # Frozen external-task protocols and execution receipts retain their identities.
 research/outcome-learning/**/*.json
+
+# Frozen LiveDelta evidence and the pinned third-party decoder keep exact bytes.
+research/live-delta/evidence/**
+studio/web/json-patch.js

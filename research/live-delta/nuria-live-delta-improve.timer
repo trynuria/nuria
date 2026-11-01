@@ -1,0 +1,11 @@
+[Unit]
+Description=Continue Nuria's measured encoder improvements on Cherry
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=5min
+AccuracySec=10s
+Unit=nuria-live-delta-improve.service
+
+[Install]
+WantedBy=timers.target

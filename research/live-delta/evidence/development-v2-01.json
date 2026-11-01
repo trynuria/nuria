@@ -1,0 +1,278 @@
+{
+  "correct": true,
+  "real_cases": 6,
+  "adversarial_cases": 266,
+  "rows": [
+    {
+      "id": "invention-020-b",
+      "unchanged": false,
+      "old_bytes": 4116,
+      "new_bytes": 4108,
+      "methods": {
+        "candidate": {
+          "encode_ms": 0.0846605,
+          "decode_ms": 0.19879249999999998,
+          "end_to_end_cpu_ms": 0.284773,
+          "wire_bytes": 207
+        },
+        "jsonpatch": {
+          "encode_ms": 0.456775,
+          "decode_ms": 0.2375185,
+          "end_to_end_cpu_ms": 0.7101785,
+          "wire_bytes": 241
+        },
+        "jsonpatch_compact": {
+          "encode_ms": 0.44149550000000004,
+          "decode_ms": 0.18844699999999998,
+          "end_to_end_cpu_ms": 0.6260665,
+          "wire_bytes": 207
+        },
+        "jsondiff": {
+          "encode_ms": 3.267121,
+          "decode_ms": 0.040471,
+          "end_to_end_cpu_ms": 3.3062614999999997,
+          "wire_bytes": 185
+        },
+        "full_gzip": {
+          "encode_ms": 0.058231000000000005,
+          "decode_ms": 0.041835,
+          "end_to_end_cpu_ms": 0.100066,
+          "wire_bytes": 1031
+        }
+      }
+    },
+    {
+      "id": "invention-021-b",
+      "unchanged": false,
+      "old_bytes": 2175,
+      "new_bytes": 2199,
+      "methods": {
+        "candidate": {
+          "encode_ms": 0.052211,
+          "decode_ms": 0.1086265,
+          "end_to_end_cpu_ms": 0.160987,
+          "wire_bytes": 331
+        },
+        "jsonpatch": {
+          "encode_ms": 0.218787,
+          "decode_ms": 0.1140365,
+          "end_to_end_cpu_ms": 0.3337135,
+          "wire_bytes": 364
+        },
+        "jsonpatch_compact": {
+          "encode_ms": 0.21368199999999998,
+          "decode_ms": 0.110491,
+          "end_to_end_cpu_ms": 0.32456850000000004,
+          "wire_bytes": 331
+        },
+        "jsondiff": {
+          "encode_ms": 0.5807105,
+          "decode_ms": 0.034780000000000005,
+          "end_to_end_cpu_ms": 0.6155809999999999,
+          "wire_bytes": 317
+        },
+        "full_gzip": {
+          "encode_ms": 0.035526,
+          "decode_ms": 0.0234,
+          "end_to_end_cpu_ms": 0.0592855,
+          "wire_bytes": 684
+        }
+      }
+    },
+    {
+      "id": "invention-027-b",
+      "unchanged": true,
+      "old_bytes": 4599,
+      "new_bytes": 4599,
+      "methods": {
+        "candidate": {
+          "encode_ms": 6.45e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 7.05e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.000155,
+          "wire_bytes": 0
+        },
+        "jsonpatch_compact": {
+          "encode_ms": 7.1e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.000145,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 7.05e-05,
+          "decode_ms": 6.5e-05,
+          "end_to_end_cpu_ms": 0.000131,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 6e-05,
+          "decode_ms": 6.9e-05,
+          "end_to_end_cpu_ms": 0.0001295,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "invention-029-b",
+      "unchanged": true,
+      "old_bytes": 3422,
+      "new_bytes": 3422,
+      "methods": {
+        "candidate": {
+          "encode_ms": 6.5e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00013499999999999997,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 6.5e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00014,
+          "wire_bytes": 0
+        },
+        "jsonpatch_compact": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.55e-05,
+          "end_to_end_cpu_ms": 0.0001305,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 6.5e-05,
+          "decode_ms": 6.95e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 6.5e-05,
+          "decode_ms": 7.500000000000001e-05,
+          "end_to_end_cpu_ms": 0.00014,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "invention-030-b",
+      "unchanged": true,
+      "old_bytes": 2832,
+      "new_bytes": 2832,
+      "methods": {
+        "candidate": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.9e-05,
+          "end_to_end_cpu_ms": 0.00013499999999999997,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 7.05e-05,
+          "decode_ms": 7.500000000000001e-05,
+          "end_to_end_cpu_ms": 0.00015000000000000001,
+          "wire_bytes": 0
+        },
+        "jsonpatch_compact": {
+          "encode_ms": 7e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 6e-05,
+          "decode_ms": 7.05e-05,
+          "end_to_end_cpu_ms": 0.00013499999999999997,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 7e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.0001355,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "observed-old-api-unchanged",
+      "unchanged": true,
+      "old_bytes": 101523,
+      "new_bytes": 101523,
+      "methods": {
+        "candidate": {
+          "encode_ms": 8.999999999999999e-05,
+          "decode_ms": 0.000105,
+          "end_to_end_cpu_ms": 0.000185,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 9.55e-05,
+          "decode_ms": 8.950000000000001e-05,
+          "end_to_end_cpu_ms": 0.00019,
+          "wire_bytes": 0
+        },
+        "jsonpatch_compact": {
+          "encode_ms": 8.9e-05,
+          "decode_ms": 0.00011,
+          "end_to_end_cpu_ms": 0.000195,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 9e-05,
+          "decode_ms": 9e-05,
+          "end_to_end_cpu_ms": 0.00019,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 8.5e-05,
+          "decode_ms": 8e-05,
+          "end_to_end_cpu_ms": 0.00017050000000000002,
+          "wire_bytes": 0
+        }
+      }
+    }
+  ],
+  "totals": {
+    "candidate": {
+      "encode_ms": 0.137161,
+      "decode_ms": 0.307733,
+      "end_to_end_cpu_ms": 0.446345,
+      "wire_bytes": 538
+    },
+    "jsonpatch": {
+      "encode_ms": 0.6758635,
+      "decode_ms": 0.3518595,
+      "end_to_end_cpu_ms": 1.044527,
+      "wire_bytes": 605
+    },
+    "jsonpatch_compact": {
+      "encode_ms": 0.6554775,
+      "decode_ms": 0.2992535,
+      "end_to_end_cpu_ms": 0.9512355,
+      "wire_bytes": 538
+    },
+    "jsondiff": {
+      "encode_ms": 3.848117,
+      "decode_ms": 0.075546,
+      "end_to_end_cpu_ms": 3.9224284999999997,
+      "wire_bytes": 502
+    },
+    "full_gzip": {
+      "encode_ms": 0.09403700000000001,
+      "decode_ms": 0.065529,
+      "end_to_end_cpu_ms": 0.159927,
+      "wire_bytes": 1715
+    }
+  },
+  "encode_ratio_to_fastest_delta": 0.20925355942805055,
+  "wire_ratio_to_smallest_delta": 1.0717131474103585,
+  "gate_passed": true,
+  "scope": "Real archived reports and observed snapshots; CPU is measured in one process with alternating order and includes encoding, gzip, decoding and patch application. Common input parsing and HTTP/network transport are excluded from this algorithm comparison and must be measured in deployment.",
+  "versions": {
+    "jsonpatch": "1.39",
+    "jsondiff": "2.2.1"
+  },
+  "code_sha256": "70dbc312b44008370621de367f82f5c840b391abc67aaf0acd56b5a2c135d988",
+  "checks_sha256": "f8d2c5378effb3fcd36dab32b07958231035b9a316fe04f0969ba64da38d653b",
+  "group": "development"
+}

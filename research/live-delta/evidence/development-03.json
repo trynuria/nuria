@@ -1,0 +1,236 @@
+{
+  "correct": true,
+  "real_cases": 6,
+  "adversarial_cases": 266,
+  "rows": [
+    {
+      "id": "invention-020-b",
+      "unchanged": false,
+      "old_bytes": 4116,
+      "new_bytes": 4108,
+      "methods": {
+        "candidate": {
+          "encode_ms": 0.13293149999999998,
+          "decode_ms": 0.13423649999999998,
+          "end_to_end_cpu_ms": 0.264803,
+          "wire_bytes": 304
+        },
+        "jsonpatch": {
+          "encode_ms": 0.45462,
+          "decode_ms": 0.1863575,
+          "end_to_end_cpu_ms": 0.6368225000000001,
+          "wire_bytes": 241
+        },
+        "jsondiff": {
+          "encode_ms": 3.129385,
+          "decode_ms": 0.036206,
+          "end_to_end_cpu_ms": 3.1646505,
+          "wire_bytes": 185
+        },
+        "full_gzip": {
+          "encode_ms": 0.054760500000000004,
+          "decode_ms": 0.036501,
+          "end_to_end_cpu_ms": 0.0912615,
+          "wire_bytes": 1031
+        }
+      }
+    },
+    {
+      "id": "invention-021-b",
+      "unchanged": false,
+      "old_bytes": 2175,
+      "new_bytes": 2199,
+      "methods": {
+        "candidate": {
+          "encode_ms": 0.0661215,
+          "decode_ms": 0.0811705,
+          "end_to_end_cpu_ms": 0.145222,
+          "wire_bytes": 362
+        },
+        "jsonpatch": {
+          "encode_ms": 0.22421750000000001,
+          "decode_ms": 0.1117715,
+          "end_to_end_cpu_ms": 0.33493850000000003,
+          "wire_bytes": 364
+        },
+        "jsondiff": {
+          "encode_ms": 0.5687165000000001,
+          "decode_ms": 0.0330795,
+          "end_to_end_cpu_ms": 0.6020015000000001,
+          "wire_bytes": 317
+        },
+        "full_gzip": {
+          "encode_ms": 0.033545,
+          "decode_ms": 0.021885,
+          "end_to_end_cpu_ms": 0.05543,
+          "wire_bytes": 684
+        }
+      }
+    },
+    {
+      "id": "invention-027-b",
+      "unchanged": true,
+      "old_bytes": 4599,
+      "new_bytes": 4599,
+      "methods": {
+        "candidate": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.95e-05,
+          "end_to_end_cpu_ms": 0.0001445,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 7.55e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00014,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 7.500000000000001e-05,
+          "decode_ms": 7.500000000000001e-05,
+          "end_to_end_cpu_ms": 0.0001445,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 6.5e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.0001355,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "invention-029-b",
+      "unchanged": true,
+      "old_bytes": 3422,
+      "new_bytes": 3422,
+      "methods": {
+        "candidate": {
+          "encode_ms": 7.55e-05,
+          "decode_ms": 6e-05,
+          "end_to_end_cpu_ms": 0.00013550000000000001,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.5e-05,
+          "end_to_end_cpu_ms": 0.00014,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 7e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00014,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "invention-030-b",
+      "unchanged": true,
+      "old_bytes": 2832,
+      "new_bytes": 2832,
+      "methods": {
+        "candidate": {
+          "encode_ms": 7.55e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00014,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.5e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.5e-05,
+          "end_to_end_cpu_ms": 0.0001305,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "observed-old-api-unchanged",
+      "unchanged": true,
+      "old_bytes": 101523,
+      "new_bytes": 101523,
+      "methods": {
+        "candidate": {
+          "encode_ms": 0.00011,
+          "decode_ms": 8.950000000000001e-05,
+          "end_to_end_cpu_ms": 0.00019999999999999998,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 9.5e-05,
+          "decode_ms": 8e-05,
+          "end_to_end_cpu_ms": 0.000175,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 9e-05,
+          "decode_ms": 8e-05,
+          "end_to_end_cpu_ms": 0.00017,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 8.5e-05,
+          "decode_ms": 8e-05,
+          "end_to_end_cpu_ms": 0.000165,
+          "wire_bytes": 0
+        }
+      }
+    }
+  ],
+  "totals": {
+    "candidate": {
+      "encode_ms": 0.19938399999999998,
+      "decode_ms": 0.215696,
+      "end_to_end_cpu_ms": 0.410645,
+      "wire_bytes": 666
+    },
+    "jsonpatch": {
+      "encode_ms": 0.6791480000000001,
+      "decode_ms": 0.298404,
+      "end_to_end_cpu_ms": 0.972346,
+      "wire_bytes": 605
+    },
+    "jsondiff": {
+      "encode_ms": 3.6984065000000004,
+      "decode_ms": 0.0695755,
+      "end_to_end_cpu_ms": 3.7672365,
+      "wire_bytes": 502
+    },
+    "full_gzip": {
+      "encode_ms": 0.08859550000000001,
+      "decode_ms": 0.058661,
+      "end_to_end_cpu_ms": 0.1472525,
+      "wire_bytes": 1715
+    }
+  },
+  "encode_ratio_to_fastest_delta": 0.29357960267865024,
+  "wire_ratio_to_smallest_delta": 1.3266932270916334,
+  "gate_passed": false,
+  "scope": "Real archived reports and observed snapshots; CPU is measured in one process with alternating order and includes encoding, gzip, decoding and patch application. Common input parsing and HTTP/network transport are excluded from this algorithm comparison and must be measured in deployment.",
+  "versions": {
+    "jsonpatch": "1.39",
+    "jsondiff": "2.2.1"
+  },
+  "code_sha256": "33a3471535f6780cd2236e284e59e34b950b28d738f9cbf9c9408832f155bfd0",
+  "checks_sha256": "1a2d8690a079c74f79e8a937adc307322ca40b2b57994414d4a1162de5bc7650",
+  "group": "development"
+}

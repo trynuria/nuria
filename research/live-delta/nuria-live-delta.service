@@ -1,0 +1,28 @@
+[Unit]
+Description=Nuria useful invention experiment with the original inference allowance
+After=network-online.target nuria-inference.service
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+[Service]
+Type=oneshot
+User=nuria-studio
+Group=nuria-studio
+Environment=PYTHONPATH=/opt/nuria/studio-releases/focus-v4:/opt/nuria/live-delta-runtime
+Environment=PATH=/opt/nuria/studio-bin:/usr/bin:/bin
+ExecStart=/usr/bin/python3 /opt/nuria/live-delta-runtime/research/live-delta/run.py --root /var/lib/nuria-studio/research/live-delta --token-file /etc/nuria-studio/bridge.token
+Restart=on-failure
+RestartSec=60
+TimeoutStartSec=infinity
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/nuria-studio
+MemoryMax=1G
+CPUQuota=100%
+Nice=10
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

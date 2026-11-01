@@ -1,0 +1,236 @@
+{
+  "correct": true,
+  "real_cases": 6,
+  "adversarial_cases": 266,
+  "rows": [
+    {
+      "id": "invention-020-b",
+      "unchanged": false,
+      "old_bytes": 4116,
+      "new_bytes": 4108,
+      "methods": {
+        "candidate": {
+          "encode_ms": 0.081266,
+          "decode_ms": 0.18700299999999997,
+          "end_to_end_cpu_ms": 0.2701785,
+          "wire_bytes": 241
+        },
+        "jsonpatch": {
+          "encode_ms": 0.440025,
+          "decode_ms": 0.1839265,
+          "end_to_end_cpu_ms": 0.6300414999999999,
+          "wire_bytes": 241
+        },
+        "jsondiff": {
+          "encode_ms": 3.2083505,
+          "decode_ms": 0.040014999999999995,
+          "end_to_end_cpu_ms": 3.247496,
+          "wire_bytes": 185
+        },
+        "full_gzip": {
+          "encode_ms": 0.056131,
+          "decode_ms": 0.036235500000000004,
+          "end_to_end_cpu_ms": 0.09246599999999999,
+          "wire_bytes": 1031
+        }
+      }
+    },
+    {
+      "id": "invention-021-b",
+      "unchanged": false,
+      "old_bytes": 2175,
+      "new_bytes": 2199,
+      "methods": {
+        "candidate": {
+          "encode_ms": 0.052359,
+          "decode_ms": 0.11397650000000001,
+          "end_to_end_cpu_ms": 0.16731649999999998,
+          "wire_bytes": 364
+        },
+        "jsonpatch": {
+          "encode_ms": 0.226393,
+          "decode_ms": 0.112201,
+          "end_to_end_cpu_ms": 0.33859399999999995,
+          "wire_bytes": 364
+        },
+        "jsondiff": {
+          "encode_ms": 0.5822005,
+          "decode_ms": 0.034700999999999996,
+          "end_to_end_cpu_ms": 0.6176619999999999,
+          "wire_bytes": 317
+        },
+        "full_gzip": {
+          "encode_ms": 0.033961,
+          "decode_ms": 0.02187,
+          "end_to_end_cpu_ms": 0.055896,
+          "wire_bytes": 684
+        }
+      }
+    },
+    {
+      "id": "invention-027-b",
+      "unchanged": true,
+      "old_bytes": 4599,
+      "new_bytes": 4599,
+      "methods": {
+        "candidate": {
+          "encode_ms": 8e-05,
+          "decode_ms": 7.500000000000001e-05,
+          "end_to_end_cpu_ms": 0.00015000000000000001,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 7.1e-05,
+          "decode_ms": 6.95e-05,
+          "end_to_end_cpu_ms": 0.0001355,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 7.05e-05,
+          "decode_ms": 6.5e-05,
+          "end_to_end_cpu_ms": 0.0001405,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 7e-05,
+          "decode_ms": 7.05e-05,
+          "end_to_end_cpu_ms": 0.0001355,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "invention-029-b",
+      "unchanged": true,
+      "old_bytes": 3422,
+      "new_bytes": 3422,
+      "methods": {
+        "candidate": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.5e-05,
+          "end_to_end_cpu_ms": 0.00013499999999999997,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.45e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 6e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.45e-05,
+          "end_to_end_cpu_ms": 0.00013499999999999997,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "invention-030-b",
+      "unchanged": true,
+      "old_bytes": 2832,
+      "new_bytes": 2832,
+      "methods": {
+        "candidate": {
+          "encode_ms": 6.5e-05,
+          "decode_ms": 6.95e-05,
+          "end_to_end_cpu_ms": 0.00013,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 6.5e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.0001355,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 7e-05,
+          "decode_ms": 7e-05,
+          "end_to_end_cpu_ms": 0.00013499999999999997,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 7e-05,
+          "decode_ms": 6.5e-05,
+          "end_to_end_cpu_ms": 0.00013499999999999997,
+          "wire_bytes": 0
+        }
+      }
+    },
+    {
+      "id": "observed-old-api-unchanged",
+      "unchanged": true,
+      "old_bytes": 101523,
+      "new_bytes": 101523,
+      "methods": {
+        "candidate": {
+          "encode_ms": 8e-05,
+          "decode_ms": 9e-05,
+          "end_to_end_cpu_ms": 0.00017,
+          "wire_bytes": 0
+        },
+        "jsonpatch": {
+          "encode_ms": 8e-05,
+          "decode_ms": 9e-05,
+          "end_to_end_cpu_ms": 0.00017,
+          "wire_bytes": 0
+        },
+        "jsondiff": {
+          "encode_ms": 8e-05,
+          "decode_ms": 0.00011,
+          "end_to_end_cpu_ms": 0.0001855,
+          "wire_bytes": 0
+        },
+        "full_gzip": {
+          "encode_ms": 8e-05,
+          "decode_ms": 9e-05,
+          "end_to_end_cpu_ms": 0.00017,
+          "wire_bytes": 0
+        }
+      }
+    }
+  ],
+  "totals": {
+    "candidate": {
+      "encode_ms": 0.13392,
+      "decode_ms": 0.30127899999999996,
+      "end_to_end_cpu_ms": 0.43807999999999997,
+      "wire_bytes": 605
+    },
+    "jsonpatch": {
+      "encode_ms": 0.666704,
+      "decode_ms": 0.2964215,
+      "end_to_end_cpu_ms": 0.9692064999999999,
+      "wire_bytes": 605
+    },
+    "jsondiff": {
+      "encode_ms": 3.7908315,
+      "decode_ms": 0.07503099999999999,
+      "end_to_end_cpu_ms": 3.8657489999999997,
+      "wire_bytes": 502
+    },
+    "full_gzip": {
+      "encode_ms": 0.090382,
+      "decode_ms": 0.0583955,
+      "end_to_end_cpu_ms": 0.1489375,
+      "wire_bytes": 1715
+    }
+  },
+  "encode_ratio_to_fastest_delta": 0.20086875134992443,
+  "wire_ratio_to_smallest_delta": 1.205179282868526,
+  "gate_passed": false,
+  "scope": "Real archived reports and observed snapshots; CPU is measured in one process with alternating order and includes encoding, gzip, decoding and patch application. Common input parsing and HTTP/network transport are excluded from this algorithm comparison and must be measured in deployment.",
+  "versions": {
+    "jsonpatch": "1.39",
+    "jsondiff": "2.2.1"
+  },
+  "code_sha256": "70dbc312b44008370621de367f82f5c840b391abc67aaf0acd56b5a2c135d988",
+  "checks_sha256": "1a2d8690a079c74f79e8a937adc307322ca40b2b57994414d4a1162de5bc7650",
+  "group": "development"
+}

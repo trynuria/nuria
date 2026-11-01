@@ -1,0 +1,131 @@
+{
+  "scope": "Actual changing public state over loopback HTTP, equal server cache and gzip-3 for both paths. Timing includes receive, decompression, parsing and patch application, excludes rendering and internet latency. Every compared response has the same target version. Initial parsing/compression is paid by the first request and included separately.",
+  "initial": {
+    "status": 200,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.3",
+      "Date": "Sun, 01 Nov 2026 21:47:47 GMT",
+      "X-Studio-Version": "fd12bcda865de73fca4b6aa170a59396c53539ee1b11fe9fa27ea5693a41d817",
+      "X-Studio-Update": "full",
+      "Content-Type": "application/json",
+      "ETag": "W/\"fd12bcda865de73fca4b6aa170a59396c53539ee1b11fe9fa27ea5693a41d817\"",
+      "Content-Encoding": "gzip",
+      "Content-Length": "497350",
+      "Cache-Control": "no-cache",
+      "Vary": "Accept-Encoding",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "no-referrer",
+      "X-Frame-Options": "DENY",
+      "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'"
+    },
+    "wire_bytes": 497350,
+    "http_ms": 36.4235,
+    "parse_ms": 13.10798
+  },
+  "conditional_status": 304,
+  "stale_base_recovery": true,
+  "rows": [
+    {
+      "base": "fd12bcda865de73fca4b6aa170a59396c53539ee1b11fe9fa27ea5693a41d817",
+      "version": "800b17033cd70ef563eebb3a910ae808e12d3e2088115293ff0c975ea962d95a",
+      "exact": true,
+      "delta": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.12.3",
+          "Date": "Sun, 01 Nov 2026 21:48:08 GMT",
+          "X-Studio-Version": "800b17033cd70ef563eebb3a910ae808e12d3e2088115293ff0c975ea962d95a",
+          "X-Studio-Update": "patch-v1",
+          "Content-Type": "application/vnd.nuria.patch+json",
+          "ETag": "W/\"8c25132c26b4acce39d57eb64f7714d98eec2e6d3d5ea3a5ecf6aae18ed1084b\"",
+          "X-Studio-Base": "fd12bcda865de73fca4b6aa170a59396c53539ee1b11fe9fa27ea5693a41d817",
+          "Content-Encoding": "gzip",
+          "Content-Length": "91",
+          "Cache-Control": "no-store",
+          "Vary": "Accept-Encoding",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "X-Frame-Options": "DENY",
+          "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'"
+        },
+        "wire_bytes": 91,
+        "http_ms": 52.894484,
+        "parse_ms": 0.072281,
+        "apply_ms": 14.828667
+      },
+      "cached_full": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.12.3",
+          "Date": "Sun, 01 Nov 2026 21:48:08 GMT",
+          "X-Studio-Version": "800b17033cd70ef563eebb3a910ae808e12d3e2088115293ff0c975ea962d95a",
+          "X-Studio-Update": "full",
+          "Content-Type": "application/json",
+          "ETag": "W/\"800b17033cd70ef563eebb3a910ae808e12d3e2088115293ff0c975ea962d95a\"",
+          "Content-Encoding": "gzip",
+          "Content-Length": "497351",
+          "Cache-Control": "no-cache",
+          "Vary": "Accept-Encoding",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "X-Frame-Options": "DENY",
+          "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'"
+        },
+        "wire_bytes": 497351,
+        "http_ms": 0.774218,
+        "parse_ms": 11.959608
+      }
+    },
+    {
+      "base": "800b17033cd70ef563eebb3a910ae808e12d3e2088115293ff0c975ea962d95a",
+      "version": "6f537a22939a1aaaba3256bd699c55357012eea887d9478a3a1913424c94c288",
+      "exact": true,
+      "delta": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.12.3",
+          "Date": "Sun, 01 Nov 2026 21:48:38 GMT",
+          "X-Studio-Version": "6f537a22939a1aaaba3256bd699c55357012eea887d9478a3a1913424c94c288",
+          "X-Studio-Update": "patch-v1",
+          "Content-Type": "application/vnd.nuria.patch+json",
+          "ETag": "W/\"ef7cd44d5b725296f6611bc94aae3be8bd020fc53b696f3505b5703953374a69\"",
+          "X-Studio-Base": "800b17033cd70ef563eebb3a910ae808e12d3e2088115293ff0c975ea962d95a",
+          "Content-Encoding": "gzip",
+          "Content-Length": "90",
+          "Cache-Control": "no-store",
+          "Vary": "Accept-Encoding",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "X-Frame-Options": "DENY",
+          "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'"
+        },
+        "wire_bytes": 90,
+        "http_ms": 29.756556,
+        "parse_ms": 0.057871,
+        "apply_ms": 15.675546
+      },
+      "cached_full": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.12.3",
+          "Date": "Sun, 01 Nov 2026 21:48:38 GMT",
+          "X-Studio-Version": "6f537a22939a1aaaba3256bd699c55357012eea887d9478a3a1913424c94c288",
+          "X-Studio-Update": "full",
+          "Content-Type": "application/json",
+          "ETag": "W/\"6f537a22939a1aaaba3256bd699c55357012eea887d9478a3a1913424c94c288\"",
+          "Content-Encoding": "gzip",
+          "Content-Length": "497344",
+          "Cache-Control": "no-cache",
+          "Vary": "Accept-Encoding",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "X-Frame-Options": "DENY",
+          "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'"
+        },
+        "wire_bytes": 497344,
+        "http_ms": 0.876789,
+        "parse_ms": 11.911628
+      }
+    }
+  ]
+}
