@@ -81,3 +81,32 @@ Model and API choices follow the official [reasoning guide](https://developers.o
 [Sol reference](https://developers.openai.com/api/docs/models/gpt-6.1-sol) and
 [pricing](https://developers.openai.com/api/docs/pricing). Documented capability
 is not a measured outcome in this experiment.
+
+## Independent comparison verification
+
+The comparison verifier reconstructs each job's original model configuration,
+source, common experience, three-call limit and hidden-grading contract from its
+append-only journal. It checks the complete pre-grading program commitment,
+unchanged provider output hashes and exact paired outcomes. Deterministic test
+fixtures check these integrity boundaries; they are not intelligence results.
+
+Host-retained provider transcripts also identify the configured and reported
+model, actual token usage and request interface. The audit checks that initial
+proposals and blind challenges receive identical information in both conditions.
+Known provider errors without retained response transcripts remain explicit
+evidence gaps; missing information is not reported as verified equality.
+
+After the complete result package is published, its programs can be replayed
+without a provider credential:
+
+```sh
+python -m scripts.verify_reasoner_transfer verify \
+  research/outcome-learning/reasoner-transfer-06 \
+  --workspace .test-state/reasoner-transfer-replay
+```
+
+Replay requires a new retained workspace. It executes every committed program
+against the original independent checker and reports all mismatches. Configured
+token costs are reconstructed for both complete conditions; they remain separate
+from independently verified provider invoices. Native diagnostic path redactions,
+when needed, retain their original hashes and do not change programs or outcomes.
