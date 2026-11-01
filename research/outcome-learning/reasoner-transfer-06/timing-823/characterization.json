@@ -1,0 +1,240 @@
+{
+  "model_calls": 0,
+  "original_grades_changed": false,
+  "protocol": {
+    "characterization_source_sha256": "b4b3a7d2cfe72dd9c1ebc415136f996cc6b1300d23ad76daf5e369ab8c3799d1",
+    "checker_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+    "controlled_checker": "import math\nfrom unittest.mock import patch\n\nfor samples, delay, jitter in [(3, 0.1, [0.0, 0.0, 0.0]), (3, 0.1, [0.0, 0.02, 0.1]), (1, 0.0, [0.0]), (2, 0.2, [0.06, 0.0])]:\n    state = {'now': 0.0, 'requests': []}\n    def clock():\n        return state['now']\n    def sleep(requested):\n        index = len(state['requests'])\n        state['requests'].append(requested)\n        state['now'] += requested + jitter[index]\n    with patch('time.time', clock), patch('time.sleep', sleep):\n        actual_mean, actual_std = task_func(samples=samples, delay=delay)\n    durations = [delay + item for item in jitter]\n    expected_mean = math.fsum(durations) / samples\n    expected_std = math.sqrt(math.fsum((item - expected_mean)**2 for item in durations) / samples)\n    assert state['requests'] == [delay] * samples, 'Every sample must request its delay'\n    assert abs(actual_mean - expected_mean) < 1e-9, (actual_mean, expected_mean)\n    assert abs(actual_std - expected_std) < 1e-9, (actual_std, expected_std)\nprint('Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound')\n",
+    "created_utc": "2026-11-01T09:05:41.762206+00:00",
+    "executor_wall_limit_seconds": 12,
+    "limited_ci_claim": "All original programs/checkers run. Only this hash-bound wall-clock case can remain uncertain; every other native outcome must match. Both algorithms must pass fixed independent clock calculations, the constant-answer control must fail, and the no-promotion conclusion must hold under ALL four timing-label assignments. This does not claim exact binary reproduction.",
+    "max_executions": 13,
+    "negative_control_code": "def task_func(samples=10, delay=0.1):\n    return delay, 0.0\n",
+    "new_provider_calls": 0,
+    "original_grades_unchanged": true,
+    "physical_rounds": [
+      [
+        "reference",
+        "sol-low",
+        "astra-medium"
+      ],
+      [
+        "sol-low",
+        "astra-medium",
+        "reference"
+      ],
+      [
+        "astra-medium",
+        "reference",
+        "sol-low"
+      ]
+    ],
+    "program_sha256": {
+      "astra-medium": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+      "constant-control": "cdd799d33458cbfb03a1236a11e775b21454a5c12eed1c45e91a758022adef73",
+      "reference": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+      "sol-low": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1"
+    },
+    "rule": "Run every predeclared physical observation, regardless of prior outcomes; no retries or seed selection. Controlled-clock fixtures validate calculation separately. Original model scores remain 56/78 each.",
+    "sources": [
+      "https://docs.python.org/3.14/library/time.html#time.sleep",
+      "https://docs.python.org/3.14/library/unittest.mock.html#patch"
+    ],
+    "task_id": "BigCodeBench/823",
+    "version": "nuria.timing-characterization.v1"
+  },
+  "rows": [
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.552s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.659666
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "reference",
+      "round": 0
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.655s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.748983
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "sol-low",
+      "round": 0
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.635s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.737299
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "astra-medium",
+      "round": 0
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.626s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.730514
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "sol-low",
+      "round": 1
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.578s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.730136
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "astra-medium",
+      "round": 1
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "..F..\n======================================================================\nFAIL: test_case_3 (__main__.TestCases.test_case_3)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"host_check.py\", line 25, in test_case_3\nAssertionError: np.False_ is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 7.592s\n\nFAILED (failures=1)\nTraceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 45, in <module>\nAssertionError: Independent checks failed\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.70264
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "reference",
+      "round": 1
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.529s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.672935
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "astra-medium",
+      "round": 2
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.665s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.793239
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "reference",
+      "round": 2
+    },
+    {
+      "checker": {
+        "checks_sha256": "d6c02504767c3ff5d703d8fc730821ed1f38fa8c2f5bef8e7514a2d7a1659ea3",
+        "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 7.586s\n\nOK\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 7.69654
+      },
+      "kind": "unchanged_wall_clock",
+      "program": "sol-low",
+      "round": 2
+    },
+    {
+      "checker": {
+        "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+        "code_sha256": "e8206155aeaf1fdc2f3822c0eadf62843b53b06917654337566f57fcbe2212e7",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound\n",
+        "timed_out": false,
+        "wall_seconds": 0.149869
+      },
+      "kind": "scripted_clock_calculation",
+      "program": "astra-medium"
+    },
+    {
+      "checker": {
+        "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+        "code_sha256": "e53923138b7f32e624b6b2efcba0ec43756309299eb5186b2fdedaf5590720c1",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound\n",
+        "timed_out": false,
+        "wall_seconds": 0.090361
+      },
+      "kind": "scripted_clock_calculation",
+      "program": "sol-low"
+    },
+    {
+      "checker": {
+        "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+        "code_sha256": "5fa54b666bde7d35f19bf16c5af27f69cee7eb7cb5a177cf5d265c4b401e0485",
+        "exit_code": 0,
+        "passed": true,
+        "stderr": "",
+        "stdout": "Four fixed clock traces verified, including legal oversleep beyond the benchmark mean bound\n",
+        "timed_out": false,
+        "wall_seconds": 0.090401
+      },
+      "kind": "scripted_clock_calculation",
+      "program": "reference"
+    },
+    {
+      "checker": {
+        "checks_sha256": "b475bf20d889d60f79266d1a9043fff6352d6abdf2a5e811e52fe33794b9623e",
+        "code_sha256": "cdd799d33458cbfb03a1236a11e775b21454a5c12eed1c45e91a758022adef73",
+        "exit_code": 1,
+        "passed": false,
+        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n    exec(compile(checks,'host_check.py','exec'),ns)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"host_check.py\", line 17, in <module>\nAssertionError: Every sample must request its delay\n",
+        "stdout": "",
+        "timed_out": false,
+        "wall_seconds": 0.090292
+      },
+      "kind": "scripted_clock_calculation",
+      "program": "constant-control"
+    }
+  ],
+  "scope": "Physical repeatability plus supplemental scripted-clock semantics; no model or neural advantage claim"
+}
