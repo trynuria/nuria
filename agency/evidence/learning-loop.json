@@ -1,0 +1,114 @@
+{
+  "schema": "nuria.real-task-learning-live.v1",
+  "phase": "budget_paused",
+  "mission": "mission-0004",
+  "mission_status": "building",
+  "budget_before_micro_usd": 74830,
+  "budget_after_micro_usd": 45108,
+  "settled_calls": [
+    {
+      "id": "agency-mission-0004-act-019-real-task-learning-v1",
+      "request_sha256": "2ccc6914b491fad9e73ea074f6ed52925166f6325b472ce3b762e6a251d14189",
+      "response_sha256": "89c5017f76fdf4b134a3a3b54ddb0fef11edb7e8f978560d38eab6b7a6432265",
+      "usage": {
+        "prompt_tokens": 3295,
+        "completion_tokens": 55,
+        "total_tokens": 3350,
+        "reasoning_tokens": 0
+      },
+      "error": null
+    },
+    {
+      "id": "agency-mission-0004-act-020-real-task-learning-v1",
+      "request_sha256": "57baaff1154facc842326ca8d1e713467d123e62827cbb8bbbc0771cebb2780e",
+      "response_sha256": "56ff887c301c25b367a2701bbab956be280364bcae838d6d2816b92688339859",
+      "usage": {
+        "prompt_tokens": 3287,
+        "completion_tokens": 83,
+        "total_tokens": 3370,
+        "reasoning_tokens": 14
+      },
+      "error": null
+    },
+    {
+      "id": "agency-mission-0004-act-021-real-task-learning-v1",
+      "request_sha256": "aa44bf36b8a3f9580c1bb7b734fd2a7c698e637c58042ab96de9e26600f98ee2",
+      "response_sha256": "b9d7e4756c356f74bb5381e292bf1a06a7e591823688c7981dd3a2a52640ba60",
+      "usage": {
+        "prompt_tokens": 3343,
+        "completion_tokens": 171,
+        "total_tokens": 3514,
+        "reasoning_tokens": 32
+      },
+      "error": null
+    },
+    {
+      "id": "agency-mission-0004-act-022-real-task-learning-v1-compact",
+      "request_sha256": "16abd458805ac1ea4bfd377cff43ef2875787d516a43e6d188d4555c98ae94bf",
+      "response_sha256": "ec23cbe326ba9b7a6dcf160184cd3d2ce8493a3857cdc05a9af7eacba86f686c",
+      "usage": {
+        "prompt_tokens": 3041,
+        "completion_tokens": 70,
+        "total_tokens": 3111,
+        "reasoning_tokens": 0
+      },
+      "error": null
+    }
+  ],
+  "memory_counts": {
+    "accepted_method": 2,
+    "review_observation": 1
+  },
+  "declared_applications": 0,
+  "reviewed_transfer_records": 0,
+  "newly_accepted_deliveries": 0,
+  "first_trial_events": [
+    {
+      "at": "2026-11-02T00:45:15.963369+00:00",
+      "kind": "exec",
+      "reason": "Inspect spike commitment rules and existing tests before repairing the reviewed gap.",
+      "action_id": "act-019-aa744b36269c",
+      "exit_code": 0,
+      "accepted": null,
+      "error": null
+    },
+    {
+      "at": "2026-11-02T00:45:18.389407+00:00",
+      "kind": "exec",
+      "reason": "exec",
+      "action_id": "act-020-a4c3b2c807fa",
+      "exit_code": 0,
+      "accepted": null,
+      "error": null
+    },
+    {
+      "at": "2026-11-02T00:45:22.298572+00:00",
+      "kind": "invalid",
+      "reason": "Return one complete JSON action",
+      "action_id": "act-021-cc6b06d2b800",
+      "exit_code": null,
+      "accepted": null,
+      "error": "Use exec, fetch, goal, submit, abandon, resume, recall or learn with the required fields"
+    },
+    {
+      "at": "2026-11-02T00:45:24.198376+00:00",
+      "kind": "exec",
+      "reason": "Inspect implementation and genuine spike commitment rules to fix the reviewed bypass.",
+      "action_id": "act-022-e577a26c42c2",
+      "exit_code": 0,
+      "accepted": null,
+      "error": null
+    }
+  ],
+  "deployed_source": {
+    "version": "real-task-learning-v1",
+    "source_hashes": {
+      "learning.py": "fdec2da1abf461e423476cd88c904fbfc201e176cf88bf12eb1bd36b434eb4e0",
+      "model.py": "f4909cc376c336120196b360fbb692a89de177053f6a2b4cb50cfffe5bf3eb5b",
+      "policy.py": "7b859c9c1a2e43b8d1d2e1f6f3e3f84b29c0baec6f9a02a5d2afa2a4cc9c1276",
+      "runner.py": "3f5e1a7124d9230daf51c31efaf8ca0a310dd23d829a1d7b728466fe12ca34ca"
+    },
+    "checks": "20 targeted tests passed on Cherry including real namespace isolation"
+  },
+  "limits": "Mechanisms deployed and tested. First live continuation exposed observation truncation and action serialization failures, then hit the original allowance. Those defects were corrected without weakening acceptance. No new real-task success or cross-task transfer is established by this record."
+}

@@ -5,8 +5,40 @@ from pathlib import Path
 
 from minisweagent.agents.default import DefaultAgent
 
+from agency.learning import VERSION as LEARNING_VERSION
+from agency.learning import task_frame
 from studio.store import atomic, digest
 from studio.worker import BudgetExhausted, parse
+
+
+def parse_action(content):
+    """Recover harmless serialization duplication, never choose between actions."""
+    try:
+        return parse(content)
+    except ValueError:
+        remaining, actions = content.strip(), []
+        decoder = json.JSONDecoder()
+        while remaining:
+            if remaining.startswith("\\n"):
+                remaining = remaining[2:].lstrip()
+                continue
+            try:
+                value, end = decoder.raw_decode(remaining)
+            except json.JSONDecodeError as error:
+                raise ValueError("Incomplete or ambiguous action output") from error
+            if type(value) is not dict or len(actions) >= 4:
+                raise ValueError("Action output must contain one unambiguous decision")
+            actions.append(value)
+            remaining = remaining[end:].lstrip()
+        if (
+            not actions
+            or len(
+                {digest({k: v for k, v in a.items() if k != "reason"}) for a in actions}
+            )
+            != 1
+        ):
+            raise ValueError("Multiple different decisions cannot be executed")
+        return actions[-1]
 
 
 def working_context(messages, maximum=36000):
@@ -50,7 +82,7 @@ class Gateway:
             request = {"messages": messages, "tokens": tokens}
             atomic(path, request)
         denied = path.with_name(path.stem + "-not-issued.json")
-        if denied.exists():
+        if denied.exists() and request["tokens"] > 1024:
             return self.ask(name + "-compact", request["messages"], 1024)
         try:
             result = self.store.call(
@@ -60,8 +92,6 @@ class Gateway:
                 request["tokens"],
             )
         except BudgetExhausted:
-            if request["tokens"] <= 1024:
-                raise
             # The enrolled gateway returns HTTP 402 BEFORE inserting a pending
             # call or contacting the provider. Retain that known-unissued request
             # and try the identical evidence with a smaller response allowance.
@@ -75,6 +105,8 @@ class Gateway:
                     "retry_max_tokens": 1024,
                 },
             )
+            if request["tokens"] <= 1024:
+                raise
             return self.ask(name + "-compact", request["messages"], 1024)
         except OSError as error:
             # A transport failure is not a tool failure. Keep this exact request
@@ -105,15 +137,49 @@ class Gateway:
 
 
 class BridgeModel:
-    def __init__(self, gateway):
+    def __init__(self, gateway, mission=None, memory=None):
         self.gateway = gateway
+        self.mission, self.memory = mission, memory
 
     def query(self, messages, **kwargs):
         number = sum(m["role"] == "assistant" for m in messages)
-        result = self.gateway.ask(f"act-{number:03d}", working_context(messages))
+        name = f"act-{number:03d}"
+        if self.memory is None:
+            result = self.gateway.ask(name, working_context(messages))
+        else:
+            # An older outstanding request must settle or be explicitly denied
+            # before a new context version can acquire another request identity.
+            legacy = self.gateway.root / "requests" / (name + ".json")
+            result = None
+            if legacy.exists():
+                try:
+                    result = self.gateway.ask(name, working_context(messages))
+                except BudgetExhausted:
+                    pass  # HTTP 402 is a known pre-dispatch rejection only.
+            if result is None:
+                from agency.policy import SYSTEM
+
+                frame = task_frame(self.mission, self.memory, messages)
+                atomic(self.gateway.root / "observations" / "task-frame.json", frame)
+                result = self.gateway.ask(
+                    name + "-" + LEARNING_VERSION,
+                    [
+                        {"role": "system", "content": SYSTEM},
+                        {
+                            "role": "user",
+                            "content": json.dumps(frame, ensure_ascii=False),
+                        },
+                    ],
+                    4096,
+                )
+        if result.get("error"):
+            raise RuntimeError(
+                "Settled inference did not produce a complete action: "
+                + str(result["error"])
+            )
         content = result.get("content", "")
         try:
-            action = parse(content)
+            action = parse_action(content)
         except ValueError:
             action = {"kind": "invalid", "reason": "Return one complete JSON action"}
         action["action_id"] = f"act-{number:03d}-{digest(action)[:12]}"

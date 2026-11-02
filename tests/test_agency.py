@@ -1,5 +1,6 @@
 """Recovery, immutable acceptance, and the real offline execution boundary."""
 
+import hashlib
 import json
 import os
 import shutil
@@ -13,7 +14,7 @@ from agency.model import BridgeModel, Gateway, PersistentAgent
 from agency.policy import SYSTEM
 from agency.runner import Mission, run
 from agency.sandbox import ShellWorkspace, files_under, public_url
-from studio.store import Store, atomic
+from studio.store import Store, atomic, digest
 from studio.worker import BudgetExhausted
 
 
@@ -73,6 +74,68 @@ class AgencyTests(unittest.TestCase):
         action = agent.messages[-1]["extra"]["actions"][0]
         self.mission.execute(action)
         self.assertEqual(self.shell.execute.call_count, 1)
+
+    def test_delivery_review_receives_real_execution_on_exact_submitted_sources(self):
+        source = self.shell.work / "tool.py"
+        source.write_text("print('real implementation')\n")
+        self.mission.data.update(
+            status="building", goal={"title": "Useful tool"}, criteria=[]
+        )
+        self.shell.execute = Mock(
+            return_value={
+                "exit_code": 0,
+                "timed_out": False,
+                "stdout": "three actual cases passed",
+                "stderr": "",
+                "stdout_truncated": False,
+                "stderr_truncated": False,
+            }
+        )
+        self.mission.execute(
+            {
+                "kind": "exec",
+                "action_id": "act-001-123456abcdef",
+                "command": "python3 test_tool.py",
+            }
+        )
+        checks = "assert True"
+        atomic(
+            self.root / "acceptance.json",
+            {
+                "checks": checks,
+                "sha256": hashlib.sha256(checks.encode()).hexdigest(),
+                "before": {"exit_code": 1},
+            },
+        )
+        self.gateway.decision = Mock(
+            return_value={"approved": False, "reason": "Test capture only"}
+        )
+        self.mission.submit(
+            {"action_id": "act-002-123456abcdef", "artifacts": ["tool.py"]}
+        )
+        evidence = self.gateway.decision.call_args.args[2]["execution_evidence"]
+        self.assertEqual(evidence["matching_receipts"], 1)
+        receipt = evidence["receipts"][0]
+        self.assertEqual(receipt["command"], "python3 test_tool.py")
+        self.assertEqual(receipt["result"]["stdout"], "three actual cases passed")
+        self.assertEqual(
+            evidence["workspace_sha256"],
+            digest({"tool.py": hashlib.sha256(source.read_bytes()).hexdigest()}),
+        )
+
+    def test_execution_on_older_source_cannot_verify_modified_delivery(self):
+        source = self.shell.work / "tool.py"
+        source.write_text("old bytes")
+        self.mission.data["status"] = "building"
+        self.shell.execute = Mock(return_value={"exit_code": 0, "stdout": "passed"})
+        self.mission.execute(
+            {"kind": "exec", "action_id": "act-001-123456abcdef", "command": "test old"}
+        )
+        source.write_text("different bytes")
+        evidence = self.mission.execution_evidence(
+            {"tool.py": hashlib.sha256(source.read_bytes()).hexdigest()}
+        )
+        self.assertEqual(evidence["receipts"], [])
 
     def test_unobserved_settled_response_replays_original_request(self):
         first = self.gateway.ask(

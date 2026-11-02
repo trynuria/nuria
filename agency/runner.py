@@ -8,13 +8,16 @@ import os
 import re
 import shutil
 import zipfile
+from contextlib import ExitStack, closing
 from pathlib import Path
 
+from agency.learning import VERSION as LEARNING_VERSION
+from agency.learning import ExperienceMemory, bounded, procedure
 from agency.model import BridgeModel, Gateway, PersistentAgent, working_context
 from agency.policy import JUDGE, REVIEW, SYSTEM
 from agency.sandbox import ShellWorkspace, fetch_public, files_under
 from scripts.check_publication import RULES
-from studio.store import Store, atomic, now
+from studio.store import Store, atomic, digest, now
 from studio.worker import BudgetExhausted, Client
 
 
@@ -31,9 +34,10 @@ def public_text(text):
 
 
 class Mission:
-    def __init__(self, root, shell, gateway, public, library):
+    def __init__(self, root, shell, gateway, public, library, memory=None):
         self.root, self.shell, self.gateway = Path(root), shell, gateway
         self.public, self.library = Path(public), Path(library)
+        self.memory = memory
         self.path = self.root / "mission.json"
         self.data = read(
             self.path,
@@ -68,6 +72,40 @@ class Mission:
                 )
             )
         return self.shell.execute(code, label, checker=True)
+
+    def execution_evidence(self, artifacts):
+        """Give the reviewer actual receipts bound to the submitted file bytes."""
+        identity = digest(artifacts)
+        matches = []
+        for path in sorted((self.root / "actions").glob("*.json")):
+            action = read(path)
+            result = action.get("result", {})
+            if (
+                action.get("state") == "completed"
+                and action.get("action", {}).get("kind") == "exec"
+                and result.get("workspace_sha256") == identity
+            ):
+                matches.append(
+                    {
+                        "action_id": action["action"]["action_id"],
+                        "command": action["action"].get("command"),
+                        "result": result,
+                    }
+                )
+        receipts, size = [], 0
+        for record in reversed(matches):
+            encoded = len(json.dumps(record).encode())
+            if size + encoded > 12000 or len(receipts) >= 4:
+                continue
+            receipts.insert(0, record)
+            size += encoded
+        return {
+            "workspace_sha256": identity,
+            "receipts": receipts,
+            "matching_receipts": len(matches),
+            "omitted_receipts": len(matches) - len(receipts),
+            "scope": "Recorded commands and outputs on these exact workspace bytes. Agent-authored tests remain distinct from frozen independent acceptance. Older or different-source receipts confer no verification credit.",
+        }
 
     def goal(self, action):
         if self.data.get("goal"):
@@ -166,6 +204,9 @@ class Mission:
             raise ValueError("List the existing normal workspace files to deliver")
         # Review every workspace source: no unreviewed helper can influence checks.
         sources = {n: public_text(p.read_text()) for n, p in found.items()}
+        artifacts = {
+            n: hashlib.sha256(p.read_bytes()).hexdigest() for n, p in found.items()
+        }
         if len(json.dumps(sources)) > 60000:
             raise ValueError(
                 "Complete review input exceeds 60 KB; remove generated data/caches and keep this delivery focused"
@@ -194,10 +235,25 @@ class Mission:
                     "sources": sources,
                     "acceptance": acceptance,
                     "after": result,
+                    "execution_evidence": self.execution_evidence(artifacts),
+                    "learning_draft": self.data.get("learning_draft"),
+                    "lesson_applications": self.memory.applications(self.root.name)
+                    if self.memory
+                    else [],
+                    "applied_lessons": [
+                        self.memory.get(ident)
+                        for ident in dict.fromkeys(
+                            u["id"] for u in self.memory.applications(self.root.name)
+                        )
+                    ]
+                    if self.memory
+                    else [],
                 },
                 2200,
             )
             atomic(review_path, review)
+        if self.memory:
+            self.memory.ingest(self.root)
         if review.get("approved") is not True:
             return {"accepted": False, "review": review}
         # Deliver the exact complete reviewed workspace; exclude nothing used by tests.
@@ -211,9 +267,7 @@ class Mission:
             "before": acceptance["before"],
             "after": result,
             "acceptance_sha256": acceptance["sha256"],
-            "artifacts": {
-                n: hashlib.sha256(p.read_bytes()).hexdigest() for n, p in found.items()
-            },
+            "artifacts": artifacts,
             "accepted_at": now(),
             "download": f"/studio/deliveries/{self.root.name}.zip",
         }
@@ -243,6 +297,8 @@ class Mission:
         archive.chmod(0o644)
         self.data.update(status="accepted", delivery=record)
         self.save()
+        if self.memory:
+            self.memory.ingest(self.root)
         return {"terminal": True, "status": "accepted", "delivery": record}
 
     def execute(self, action, cwd=""):
@@ -262,11 +318,47 @@ class Mission:
         else:
             atomic(path, {"state": "running", "action": action, "started_at": now()})
             try:
+                if "working_state" in action:
+                    state = action["working_state"]
+                    if (
+                        not isinstance(state, dict)
+                        or len(json.dumps(state).encode()) > 3500
+                    ):
+                        raise ValueError(
+                            "Working state must be a bounded structured plan"
+                        )
+                    if set(state) - {"facts", "steps", "open_questions", "next_test"}:
+                        raise ValueError("Unknown working-state field")
+                    self.data["working_state"] = state
+                    atomic(self.root / "observations" / "working-state.json", state)
+                    atomic(self.root / "plans" / (identifier + ".json"), state)
+                    self.save()
+                if "procedure" in action and kind == "submit" and self.memory:
+                    draft = procedure(action["procedure"])
+                    if (
+                        draft.get("revises")
+                        and self.memory.get(draft["revises"]) is None
+                    ):
+                        raise ValueError("Revision must reference a retained lesson")
+                    self.data["learning_draft"] = draft
+                    atomic(
+                        self.root / "learning-drafts" / (identifier + ".json"),
+                        self.data["learning_draft"],
+                    )
+                    self.save()
+                if self.memory and action.get("uses"):
+                    self.memory.declare_use(self.root.name, identifier, action["uses"])
                 if kind == "exec":
                     result = self.shell.execute(
                         action.get("command"),
                         identifier,
                         writable=self.data.get("status") == "building",
+                    )
+                    result["workspace_sha256"] = digest(
+                        {
+                            name: hashlib.sha256(path.read_bytes()).hexdigest()
+                            for name, path in files_under(self.shell.work).items()
+                        }
                     )
                 elif kind == "fetch":
                     full = fetch_public(action.get("url"))
@@ -280,6 +372,32 @@ class Mission:
                     result = self.goal(action)
                 elif kind == "submit":
                     result = self.submit(action)
+                elif kind == "recall" and self.memory:
+                    result = {
+                        "lessons": self.memory.search(
+                            bounded(action.get("query"), 5000)
+                        )
+                    }
+                    atomic(
+                        self.root / "observations" / (identifier + "-memory.json"),
+                        result,
+                    )
+                elif kind == "learn" and self.memory:
+                    draft = procedure(action.get("procedure"))
+                    if (
+                        draft.get("revises")
+                        and self.memory.get(draft["revises"]) is None
+                    ):
+                        raise ValueError("Revision must reference a retained lesson")
+                    self.data["learning_draft"] = draft
+                    atomic(
+                        self.root / "learning-drafts" / (identifier + ".json"), draft
+                    )
+                    result = {
+                        "saved": True,
+                        "status": "provisional",
+                        "instruction": "Independent delivery review must approve this method before retention",
+                    }
                 elif kind == "abandon":
                     self.data.update(
                         status="abandoned",
@@ -318,7 +436,7 @@ class Mission:
                     }
                 else:
                     result = {
-                        "error": "Use one of exec, fetch, goal, submit, abandon or resume with the required fields"
+                        "error": "Use exec, fetch, goal, submit, abandon, resume, recall or learn with the required fields"
                     }
             except (ValueError, OSError, UnicodeError) as error:
                 result = {"error": type(error).__name__ + ": " + str(error)[:500]}
@@ -349,7 +467,7 @@ class Mission:
 def run(args):
     root = Path(args.root)
     root.mkdir(parents=True, exist_ok=True)
-    with (root / "runner.lock").open("w") as lock:
+    with (root / "runner.lock").open("w") as lock, ExitStack() as resources:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
@@ -357,10 +475,20 @@ def run(args):
         store, client = Store(args.studio_root), Client(args.gateway, args.token_file)
         public, library = Path(args.studio_root) / "public", root / "library"
         library.mkdir(exist_ok=True)
+        memory = resources.enter_context(
+            closing(ExperienceMemory(library / "learning"))
+        )
+        for prior in sorted((root / "missions").glob("mission-*")):
+            memory.ingest(prior)
         state = read(root / "state.json", {"next_mission": 1, "active": None})
 
         def publish(phase, mission=None, detail=None):
-            state.update(phase=phase, updated_at=now(), budget=client.budget())
+            state.update(
+                phase=phase,
+                updated_at=now(),
+                budget=client.budget(),
+                learning_version=LEARNING_VERSION,
+            )
             atomic(root / "state.json", state)
             data = (
                 mission.data
@@ -398,6 +526,7 @@ def run(args):
                 "state": state,
                 "current": data,
                 "history": read(library / "memory.json", []),
+                "learning": memory.export(),
                 "scope": "Autonomous software work inside a bounded tool environment. Model-written checks and reviews can be wrong; no AGI, scientific novelty or general superiority claim. Accepted artifacts are downloads and sandbox-reusable tools, not automatic production code changes.",
             }
             atomic(public / "agency-results.json", report)
@@ -415,9 +544,12 @@ def run(args):
             )
 
         budget = client.budget()
-        if state.get("phase") == "budget_paused" and budget[
-            "remaining_micro_usd"
-        ] <= state.get("budget", {}).get("remaining_micro_usd", 0):
+        if (
+            state.get("phase") == "budget_paused"
+            and state.get("learning_version") == LEARNING_VERSION
+            and budget["remaining_micro_usd"]
+            <= state.get("budget", {}).get("remaining_micro_usd", 0)
+        ):
             publish(
                 "budget_paused",
                 detail="Checkpoint retained at the original allowance; no new inference requested",
@@ -450,10 +582,10 @@ def run(args):
             node=args.node,
         )
         gateway = Gateway(store, client, work)
-        mission = Mission(work, shell, gateway, public, library)
+        mission = Mission(work, shell, gateway, public, library, memory=memory)
         mission.save()
         agent = PersistentAgent(
-            BridgeModel(gateway),
+            BridgeModel(gateway, mission, memory),
             mission,
             system_template=SYSTEM,
             instance_template="{{ task }}",
@@ -540,7 +672,8 @@ def run(args):
                     )
                 agent.resume_step()
                 if agent.messages[-1]["role"] == "exit":
-                    memory = read(library / "memory.json", [])
+                    memory.ingest(work)
+                    outcomes = read(library / "memory.json", [])
                     outcome = {
                         "id": mission.data["id"],
                         "status": mission.data["status"],
@@ -550,8 +683,10 @@ def run(args):
                         .get("lesson", mission.data.get("reason", "Unresolved")),
                         "delivery": mission.data.get("delivery"),
                     }
-                    memory = [m for m in memory if m["id"] != outcome["id"]] + [outcome]
-                    atomic(library / "memory.json", memory)
+                    outcomes = [m for m in outcomes if m["id"] != outcome["id"]] + [
+                        outcome
+                    ]
+                    atomic(library / "memory.json", outcomes)
                     state["last_mission"] = mission.data["id"]
                     state["active"] = mission.data.get("resume_mission")
                     if state["active"]:

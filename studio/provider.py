@@ -6,10 +6,10 @@ import sqlite3
 from pathlib import Path
 
 from cognition.hosted_reasoner import (
-    OpenAIReasoner,
     SharedReasoningBudget,
     _private_file,
 )
+from studio.responses import StudioReasoner
 
 
 def load_reasoner(path, *, require_existing_budget=False):
@@ -51,7 +51,7 @@ def load_reasoner(path, *, require_existing_budget=False):
         max_cost_micro_usd=config["max_cost_micro_usd"],
         max_requests=config["max_requests"],
     )
-    return OpenAIReasoner(
+    return StudioReasoner(
         config["key_file"],
         config["model"],
         reasoning_effort=config["reasoning_effort"],

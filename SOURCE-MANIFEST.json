@@ -88,7 +88,8 @@
     "Nuria-authored sparse JSON updates pass frozen real-data comparisons; lossless Studio polling, pinned independent decoder, cached full-response recovery, and original-budget Cherry improvement trials with retained failures and downloadable validated artifacts.",
     "Preserve the historical executor byte identity; scope the longer comparison CPU allowance to the new research adapter only.",
     "Persistent mini-swe-agent software research with self-selected goals, durable tool recovery, frozen independent checks, reviewed downloadable tools, retained outcomes and unfinished-work resumption on the dedicated server. Original inference allowance, histories and production code boundaries remain enforced; no AGI claim.",
-    "Optional CPU-only Stitch library learning and compositional text synthesis; family-separated reanalysis improves exact tasks from 80 to 83 of 167 at higher work, with 38 wrong proposals retained. Offline learn/save/reload/solve verified on Cherry; no AGI claim, model spend, or production interpreter change."
+    "Optional CPU-only Stitch library learning and compositional text synthesis; family-separated reanalysis improves exact tasks from 80 to 83 of 167 at higher work, with 38 wrong proposals retained. Offline learn/save/reload/solve verified on Cherry; no AGI claim, model spend, or production interpreter change.",
+    "Persistent real-task experience and procedure memory, complete recent context, exact current outcome selection, and execution-receipt delivery review. Live Responses final-phase handling preserves frozen hosted-study sources and original accounting. Publish independently accepted archive-audit and Git-index tools with retained failures, exact sources and downloaded CLI checks; cross-task transfer remains unproven."
   ],
   "deployment_identity": "Live API reports component commits, deployment time and source hashes; the original circuit retains its historical startup identity",
   "files": [
@@ -122,7 +123,7 @@
     },
     {
       "path": "agency/README.md",
-      "published_sha256": "549b9f352906998c22376045f2a41cc43b43e1dc46048f539d644e0256d0c884"
+      "published_sha256": "415435343febb2ed2231bcfcb0f25bdb622aa581da5d92ca22016a196ad432af"
     },
     {
       "path": "agency/__init__.py",
@@ -133,8 +134,20 @@
       "published_sha256": "2a66dcbdc5bc64cdb0661175fd3b98b0dd0fff9279379e05336253cd67b731df"
     },
     {
+      "path": "agency/evidence/learning-continuation.json",
+      "published_sha256": "da742b238f1a3d7e1e8068e219df349d69c717dbc6136f046010080b08b3e00c"
+    },
+    {
+      "path": "agency/evidence/learning-loop.json",
+      "published_sha256": "0b1cfaac02c710f3d331688db4bdde2467a0a139e935aad76bf3c27283c54599"
+    },
+    {
+      "path": "agency/learning.py",
+      "published_sha256": "45b4306a88a47ced1b9460dcccb107d04db6cbea5bd451f0c0e327c8225596df"
+    },
+    {
       "path": "agency/model.py",
-      "published_sha256": "6822157631160dd3c6a3c44e8ad96f0c2093c6c1f6c8d075c54d8a516f768340"
+      "published_sha256": "f4909cc376c336120196b360fbb692a89de177053f6a2b4cb50cfffe5bf3eb5b"
     },
     {
       "path": "agency/nuria-agency.service",
@@ -146,7 +159,7 @@
     },
     {
       "path": "agency/policy.py",
-      "published_sha256": "dcc28b580022f9c18a218cb5525a6484fa9bbf3aa2daa162f12247a4631a3c08"
+      "published_sha256": "4db9bbee9fe15bfb8a36774dc8d942242cb2cf8f1fc8761723de856eafa50c92"
     },
     {
       "path": "agency/requirements-core.txt",
@@ -154,7 +167,7 @@
     },
     {
       "path": "agency/runner.py",
-      "published_sha256": "ab3c2c0a2718e1d785526813d71fd8bcb98ee1bd8cf355762785ed049a46b6ec"
+      "published_sha256": "c869b67f8716c2297dc007bce7eed76743ca2aebd4ae94e6cfc9b85a8df6c22f"
     },
     {
       "path": "agency/sandbox.py",
@@ -7586,11 +7599,15 @@
     },
     {
       "path": "studio/provider.py",
-      "published_sha256": "a4d71f218b88ee7a000447edc9588b504fac8060fdcfeedefd3c9c5acf2b81c5"
+      "published_sha256": "490d18c14338f70690d5a726392496c9af24c2c0a8345827c83830bbdf1b619d"
     },
     {
       "path": "studio/requirements-browser.txt",
       "published_sha256": "adeb8976dfd2edb0e44e74da84319fae6d821478330c93e39829516c01d5fe25"
+    },
+    {
+      "path": "studio/responses.py",
+      "published_sha256": "b2078a4eecfde74f4ae84e9fb29c38c002da49271f4055c98d33581b6444179f"
     },
     {
       "path": "studio/server.py",
@@ -7714,11 +7731,15 @@
     },
     {
       "path": "tests/test_agency.py",
-      "published_sha256": "d34adb515298fdedf24c8e16b6fca6a30bea5637b8858fcfeaaf99bb49a77b86"
+      "published_sha256": "039131710f15c3bd34fd81e7c465c4be86862c4a57b32d8e1808782b431f0029"
     },
     {
       "path": "tests/test_agency_capabilities.py",
       "published_sha256": "0a711c35abb3fdb8acaf82ee175df1885f9f956aa2f0bc93d0e1528eb838c98c"
+    },
+    {
+      "path": "tests/test_agency_learning.py",
+      "published_sha256": "b40c5ab85be34921a0ed98dea926d3dd48e84d147bbf29193c99e76264b3a9cd"
     },
     {
       "path": "tests/test_agency_receipts.py",
@@ -8199,6 +8220,10 @@
     {
       "path": "tests/test_studio_outcomes.py",
       "published_sha256": "17ec92280495b1a8ee0f721b532d9814f77fc3b63a8a19ce4c0916a1d561b77e"
+    },
+    {
+      "path": "tests/test_studio_responses.py",
+      "published_sha256": "819fa42c38ba4167142edefd5b2e034af425a21f7204ea7b84ec7c46399b0244"
     },
     {
       "path": "tests/test_task_feedback_recovery.py",
