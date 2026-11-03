@@ -10,12 +10,12 @@ The project publishes implementations alongside evaluation methods, comparison r
 
 ## What we are building
 
-| Area | Implemented work | Explore |
-| --- | --- | --- |
-| Persistent neural state | Spiking circuits, episodic memory, outcome feedback, atomic journals and recoverable checkpoints | [Architecture](docs/architecture.md), [cognition source](cognition/) |
-| Software research agents | Source inspection, executable missions, failure repair, artifact acceptance checks and retained tools | [Research runtime](agency/README.md), [program delivery](docs/program-delivery.md) |
-| Reusable software skills | Accepted programs applied to later observations, bounded synthesis and checked composition | [Program reuse](research/outcome-learning/retained-work-04/), [skill synthesis](research/guarded-skills/) |
-| Model repair | Direct weight editing with matched benchmark comparisons and verified checkpoint identities | [Weight editing evidence](https://github.com/scryintel/nuria-weight-space-proof) |
+| Area                     | Implemented work                                                                                      | Explore                                                                                                   |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Persistent neural state  | Spiking circuits, episodic memory, outcome feedback, atomic journals and recoverable checkpoints      | [Architecture](docs/architecture.md), [cognition source](cognition/)                                      |
+| Software research agents | Source inspection, executable missions, failure repair, artifact acceptance checks and retained tools | [Research runtime](agency/README.md), [program delivery](docs/program-delivery.md)                        |
+| Reusable software skills | Accepted programs applied to later observations, bounded synthesis and checked composition            | [Program reuse](research/outcome-learning/retained-work-04/), [skill synthesis](research/guarded-skills/) |
+| Model repair             | Direct weight editing with matched benchmark comparisons and verified checkpoint identities           | [Weight editing evidence](https://github.com/scryintel/nuria-weight-space-proof)                          |
 
 ## Weight editing research
 
