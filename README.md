@@ -2,7 +2,7 @@
 
 **Persistent agents, learning systems and verifiable model research.**
 
-[Project](https://nuria.network/) · [Documentation](https://nuria.network/?page=docs) · [Research](research/) · [Weight editing results](https://github.com/scryintel/nuria-weight-space-proof) · [Capability map](docs/capability-map.md)
+[Project](https://nuria.network/) · [Documentation](https://nuria.network/?page=docs) · [Research](research/) · [Weight editing results](https://github.com/trynuria/nuria-weight-space-proof) · [Capability map](docs/capability-map.md)
 
 Nuria builds systems that carry state across time, learn from measured outcomes, and turn successful work into reusable capabilities. The codebase brings together persistent neural circuits, memory, software research agents, checked program execution and direct model-repair experiments.
 
@@ -15,13 +15,13 @@ The project publishes implementations alongside evaluation methods, comparison r
 | Persistent neural state  | Spiking circuits, episodic memory, outcome feedback, atomic journals and recoverable checkpoints      | [Architecture](docs/architecture.md), [cognition source](cognition/)                                      |
 | Software research agents | Source inspection, executable missions, failure repair, artifact acceptance checks and retained tools | [Research runtime](agency/README.md), [program delivery](docs/program-delivery.md)                        |
 | Reusable software skills | Accepted programs applied to later observations, bounded synthesis and checked composition            | [Program reuse](research/outcome-learning/retained-work-04/), [skill synthesis](research/guarded-skills/) |
-| Model repair             | Direct weight editing with matched benchmark comparisons and verified checkpoint identities           | [Weight editing evidence](https://github.com/scryintel/nuria-weight-space-proof)                          |
+| Model repair             | Direct weight editing with matched benchmark comparisons and verified checkpoint identities           | [Weight editing evidence](https://github.com/trynuria/nuria-weight-space-proof)                          |
 
 ## Weight editing research
 
 Nuria independently reproduced Takehi and collaborators’ published edit on Qwen3.5-0.8B. Changing **130,188 stored weight values—roughly 0.016% of the model—with no gradient training** raised MATH-500 from **42/500 to 251/500 correct answers** in our matched research run.
 
-The same edit improved fixed GSM8K and IFEval subsets. Combined math output tokens fell **39.6%**. The [public evidence package](https://github.com/scryintel/nuria-weight-space-proof) includes the exact model identities, paired outcomes, scoring receipts, attribution and methodology. Results use one sampled answer per question and apply to the evaluated research checkpoint.
+The same edit improved fixed GSM8K and IFEval subsets. Combined math output tokens fell **39.6%**. The [public evidence package](https://github.com/trynuria/nuria-weight-space-proof) includes the exact model identities, paired outcomes, scoring receipts, attribution and methodology. Results use one sampled answer per question and apply to the evaluated research checkpoint.
 
 ## Research you can inspect
 
